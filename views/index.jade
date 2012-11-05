@@ -1,0 +1,58 @@
+extends ./layout
+block footer
+  script(src='/assets/js/Markdown.Converter.js')
+  script(src='/assets/js/Markdown.Sanitizer.js')
+  script(src='/assets/js/jquery-1.8.2.min.js')
+  script(src='/assets/js/showdown/src/showdown.js')
+  script(src='/assets/js/index.js')
+block content
+  include nav
+
+  div(class='hero-unit offset1')
+    h1 okdoki.com
+    p Turn plain text into share-able lists.
+
+  div(class='row-fluid', id="exs")
+
+    div(class='span3 offset1', id='markdown_ex')
+      p(id='markdown_ex_content')
+        | This is my list of things I hate.
+        br
+        | ====================
+        br
+        | * women
+        br
+        | * men
+        br
+        | * animals
+        br
+        br
+        | When people read this list, they say:
+        br
+        | > Are you a self-hating human?
+
+
+    div(class='span5 offset1', id='html_ex')
+      a(href='http://www.heroku.com/') Hiya
+
+  div(class='row-fluid', id='do_something')
+    div(class='span3 offset1')
+      p Create a new account
+      form
+        fieldset
+          username
+        fieldset
+          password
+        fieldset
+          confirm password
+        fieldset
+          submit
+
+    div(class='span3 offset1')
+      p 
+        | okdoki.com uses markdown formatting.
+        | Learn it here: 
+        a(href="http://designshack.net/articles/html/mastering-markdown-30-resources-apps-and-tutorials-to-get-you-started/") Tutorial
+
+
+

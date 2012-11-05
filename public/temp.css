@@ -1,0 +1,42 @@
+
+body {
+  padding-top: 20px;
+}
+
+#exs div.span3, #exs div.span5 {
+  padding: 8px 2px 10px 8px;
+}
+
+div.hero-unit {
+  padding-top: 30px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+}
+
+#markdown_ex {
+  background: #FD6C08;
+}
+
+#html_ex {
+  background: #F85D95;
+}
+
+div.hero-unit h1 {
+  color: #F85D95;
+  font-size: 30px;
+}
+
+div.span5, div.span6, div.span7 {
+}
+
+#do_something {
+  margin-top: 20px;
+}
+
+#do_something div.span3 {
+  background: #EEE;
+}
+
+#do_something div.span3 p {
+  padding: 10px;
+}
