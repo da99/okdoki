@@ -7,6 +7,7 @@ body {
   padding: 0;
   color: #FD6C08;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 #nav_bar div.main {
@@ -30,40 +31,41 @@ a:hover {
   color: #FD6C08;
 }
 
-#exs div.span3, #exs div.span5 {
-  padding: 8px 2px 10px 8px;
+
+div.span7, div.span8, div.span6, div.span3, div.span4, div.span5 {
 }
 
-div.hero-unit {
-  padding-top: 30px;
-  padding-bottom: 8px;
-  padding-left: 20px;
+div.chatroom-row {
+  margin-bottom: 10px;
 }
 
-#markdown_ex {
-  background: #FD6C08;
+div.chatroom-text-row {
 }
 
-#html_ex {
-  background: #F85D95;
+div.chatroom-text-row div.span8 {
+  /* border: 1px dashed #161616; */
+  /* border-width: 1px 1px 1px 0; */
 }
 
-div.hero-unit h1 {
-  color: #F85D95;
-  font-size: 30px;
+div.chatroom-text-row textarea {
+  width: 95%;
 }
 
-div.span5, div.span6, div.span7 {
-}
-
-#do_something {
-  margin-top: 20px;
-}
-
-#do_something div.span3 {
-  background: #EEE;
-}
-
-#do_something div.span3 p {
+div.chatroom-text-row div.main {
   padding: 10px;
 }
+
+div.chatroom, div.chatroom-users {
+  background: #FCFCFC;
+  border: 1px dashed #161616;
+  padding: 3px;
+}
+
+div.chatroom {
+  border-width: 1px 1px 1px 0;
+}
+
+div.chatroom-users {
+  border-width: 1px 0 1px 1px;
+}
+

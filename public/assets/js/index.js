@@ -1,5 +1,4 @@
 
-
 $(function() {
 
 
@@ -16,5 +15,19 @@ $(function() {
 
   var converter = new Showdown.converter();
   $preview.html(converter.makeHtml(text));
+
+  var socket = io.connect('http://localhost:4567');
+  socket.on('entering', function (data) {
+    $('#chatroom').html($('#chatroom').html() + data.html);
+    socket.emit('latest', {});
+  });
+
+  socket.on('latest-response', function (data) {
+    $('#chatroom').html($('#chatroom').html() + data.html);
+  });
+
+  socket.on('response-response', function (data) {
+    alert("Response: " + data.html);
+  });
 
 });
