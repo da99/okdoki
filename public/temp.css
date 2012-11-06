@@ -1,6 +1,33 @@
 
 body {
-  padding-top: 20px;
+}
+
+#nav_bar {
+  background: #161616;
+  padding: 0;
+  color: #FD6C08;
+  font-weight: bold;
+}
+
+#nav_bar div.main {
+  padding: 4px 0 4px 10px;
+}
+
+#nav_bar span.divider {
+  padding: 0 3px;
+}
+
+a:link {
+  color: #F85D95;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #A3E452;
+}
+
+a:hover {
+  color: #FD6C08;
 }
 
 #exs div.span3, #exs div.span5 {
