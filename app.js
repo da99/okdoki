@@ -28,20 +28,20 @@ app.use(function (err, req, res, next) {
 });
 
 // app.listen(port);
-io.configure(function () {
-  io.set('transports', ['xhr-polling']);
-  io.set('polling duration', 10);
-});
+// io.configure(function () {
+  // io.set('transports', ['xhr-polling']);
+  // io.set('polling duration', 10);
+// });
 
-io.sockets.on('connection', function (socket) {
-  socket.emit('entering', { html: '<p>Success!</p>' });
-  socket.on('latest', function (data) {
-    socket.emit('latest-response', {html: 'today on...'});
-  });
-  socket.on('repeat', function (data) {
-    socket.emit('repeat-response', {html: '<p>You said: ' + data.msg });
-  });
-});
+// io.sockets.on('connection', function (socket) {
+  // socket.emit('entering', { html: '<p>Success!</p>' });
+  // socket.on('latest', function (data) {
+    // socket.emit('latest-response', {html: 'today on...'});
+  // });
+  // socket.on('repeat', function (data) {
+    // socket.emit('repeat-response', {html: '<p>You said: ' + data.msg });
+  // });
+// });
 
 console.log('Listening on port: ' + port);
 
