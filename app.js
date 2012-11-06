@@ -5,7 +5,7 @@ app         = express(),
 server      = require('http').createServer(app),
 io          = require('socket.io').listen(server);
 
-var port = 4567;
+var port = process.env.PORT || 4567;
 server.listen(port);
 
 app.use(app.router);
