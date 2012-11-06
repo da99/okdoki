@@ -28,6 +28,11 @@ app.use(function (err, req, res, next) {
 });
 
 // app.listen(port);
+io.configure(function () {
+  io.set('transports', ['xhr-polling']);
+  io.set('polling duration', 10);
+});
+
 io.sockets.on('connection', function (socket) {
   socket.emit('entering', { html: '<p>Success!</p>' });
   socket.on('latest', function (data) {
