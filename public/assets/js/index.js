@@ -9,11 +9,12 @@ $(function() {
   var err_count     = 0;
   var msg_limit     = 250;
   var err_limit     = 25;
+  var is_local      = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 ;
+  var ignore_text   = ';-)~ Type here.';
 
-  var testing = true;
-  if(testing) {
-    var msg_limit     = 3;
-    var err_limit     = 3;
+  if(is_local) {
+    var msg_limit   = 3;
+    var err_limit   = 3;
   };
 
 
@@ -121,7 +122,7 @@ $(function() {
   function call_ajax() {
     $.ajax({
       type     : 'POST',
-      url      : "http://localhost:5000/ask",
+      url      : window.location.origin + "/ask",
       cache    : false,
       data     : {'request_type':'latest msgs', '_csrf': $('#csrf_token').val()},
       dataType : 'json',
@@ -136,10 +137,25 @@ $(function() {
   };
 
   var create_msg = $('#create_msg');
-  create_msg.children('button.submit').click(function() {
-    run_command($('#create_msg').children('textarea').val());
-  });
-  call_ajax();
+  var textarea   = create_msg.children('textarea');
 
+  textarea.click(function() {
+    if(textarea.val() == ignore_text) {
+      textarea.val('');
+    };
+    textarea.removeClass('blur_ed');
+  });
+
+  textarea.blur(function () {
+    textarea.addClass('blur_ed');
+    if( $.trim(textarea.val()) == '' )
+      textarea.val(ignore_text);
+  });
+
+  create_msg.children('button.submit').click(function() {
+    run_command(textarea.val());
+  });
+
+  call_ajax();
 
 });

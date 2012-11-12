@@ -16,15 +16,15 @@ block content
     div(id='input')
 
       div(id='create_msg')
-        textarea(rows='4') type
+        textarea.blur_ed(rows='4') ;-)~ Type here.
         input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
         button.submit Send
 
       div(id='bots')
         div(id='bots-o')
-          p Active
+          div Active
         div(id='bots-x')
-          p Non-Active
+          div Non-Active
 
 
       include nav

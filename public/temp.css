@@ -11,6 +11,10 @@ html, body {
   overflow : hidden;
 }
 
+body {
+  background-color: #F2F2F2;
+}
+
 a:link {
   color: #F85D95;
   text-decoration: underline;
@@ -45,9 +49,10 @@ a:hover {
     }
 
       #messages p, #messages div.msg {
-        background : #F4F1B0;
-        padding    : 20px;
+        background : #F8BA4D;
+        padding    : 5px 10px;
         margin     : 5px;
+        border-radius: 4px;
       }
 
   #input {
@@ -65,12 +70,27 @@ a:hover {
 
       #create_msg textarea {
         width: 260px;
+        color: #000;
       }
+
+      #create_msg textarea.blur_ed {
+        color: #BFBFBF;
+        font-weight: bold;
+        font-style: italic;
+      }
+
 
     #bots {
     }
+
+      #bots-o, #bots-x {
+        border-radius: 4px;
+        padding: 4px 4px 4px 8px;
+        margin: 0 4px 5px 0;
+      }
+
       #bots-o {
-        background: #EDEDED;
+        background: #FD8E3C;
       }
 
       #bots-x {
