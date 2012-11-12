@@ -15,16 +15,6 @@ $(function() {
   var is_local      = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 ;
   var ignore_text   = ';-)~ Type here.';
 
-  if(is_local) {
-    var msg_limit   = 6;
-    var err_limit   = 2;
-    setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
-  };
-
-
-  var last_time = (new Date()).getTime();
-  var dom_target = $('#messages');
-
   function log(msg) {
     if(console && console.log) {
       console.log( msg );
@@ -34,7 +24,19 @@ $(function() {
     return false;
   };
 
+  if(is_local) {
+    console.log('Using local/dev values.');
+    var msg_limit   = 6;
+    var err_limit   = 2;
+    setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
+  };
+
+
+  var last_time = (new Date()).getTime();
+  var dom_target = $('#messages');
+
   function ajax_success (msg, stat) {
+
     var data = msg.msg;
 
     if(msg.success) {
@@ -51,7 +53,7 @@ $(function() {
           log('Updating token.');
         } else {
           if (++errors_403 > err_limit) {
-            publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", true );
+            publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", "disconnected" );
             log(msg.msg);
             errors_403 = 0;
           };
@@ -82,10 +84,6 @@ $(function() {
     setTimeout(call_ajax, (5 * 1000));
   };
 
-  function append_publish_msg() {
-    dom_target.html( dom_target.html() + "<div class='msg'>" + _.escape(msg) + '</div>' );
-  };
-
   function remove_old_msg(raw_num) {
     if(!raw_num)
       var num = 1;
@@ -109,7 +107,9 @@ $(function() {
       css = " " + css;
     else
       css = '';
-    return $("div." + msg_css_class + css).append(document.createTextNode(_.escape(msg)));
+    var ele = $("<div></div>" , { 'class' : msg_css_class + css } );
+    ele.append(document.createTextNode(msg));
+    return ele;
   };
 
   function append_msg(msg, css) {

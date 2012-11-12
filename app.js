@@ -1,6 +1,9 @@
 var express = require('express');
 var app     = express();
 var port    = process.env.PORT || 4567;
+var secret  = process.env.SESSION_SECRET;
+if(!secret)
+  throw new Error('No session secret set.');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -10,7 +13,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.locals.pretty = true;
 app.use(express.cookieParser());
-app.use(express.session({ secret: 'avc' }));
+app.use(express.session({ secret: secret }));
 app.use(express.csrf());
 
 app.get('/', function(req, resp) {
@@ -18,9 +21,9 @@ app.get('/', function(req, resp) {
 });
 
 app.post('/ask', function(req, resp) {
-  if(!req.session.name) {
+  if(!req.session.name)
     req.session.name = (new Date()).getSeconds();
-  };
+
   resp.writeHead(200, { "Content-Type": "application/json" });
   var msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getTime();
   resp.end(JSON.stringify({ msg: msg, success: true}));

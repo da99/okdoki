@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+# 
+
+SESSION_SECRET=my_local_secret39343 PORT=5000 foreman start
