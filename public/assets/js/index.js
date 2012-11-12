@@ -16,8 +16,8 @@ $(function() {
   var ignore_text   = ';-)~ Type here.';
 
   if(is_local) {
-    var msg_limit   = 3;
-    var err_limit   = 3;
+    var msg_limit   = 6;
+    var err_limit   = 2;
     setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
   };
 
@@ -69,7 +69,7 @@ $(function() {
 
   function ajax_error (xhr, textStatus, errorThrown) {
     if (++err_count > err_limit) {
-      publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", true);
+      publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", "disconnected");
       err_count = 0;
     };
 
@@ -95,11 +95,11 @@ $(function() {
     if(msg_count > msg_limit) {
       if(msg_count == (msg_limit + 1)) {
         dom_target.children('div').remove('div:last-child');
-        append_msg("1 old message deleted", status_msg_css_class);
+        append_msg("1 old message deleted.", status_msg_css_class);
       } else {
         dom_target.children('div').remove('div:last-child');
         dom_target.children('div').remove('div:last-child');
-        append_msg( (msg_count - msg_limit ) + " old messages deleted", status_msg_css_class);
+        append_msg( (msg_count - msg_limit ) + " old messages deleted.", status_msg_css_class);
       };
     };
   }; // === remove_old_msg
@@ -124,16 +124,21 @@ $(function() {
 
   function publish_msg(msg, err_msg) {
     if(err_msg) {
-      if(err_showing == msg)
+      if(err_showing == msg) {
         return false;
+      };
+
       err_showing = msg;
+
     } else {
+
       err_showing = false;
+      dom_target.children('div.disconnected' ).remove();
     };
 
     ++msg_count;
     remove_old_msg();
-    prepend_msg(msg, (err_msg ? error_msg_css_class : null));
+    prepend_msg(msg, (err_msg === true ? error_msg_css_class : (err_msg ? error_msg_css_class + ' ' + err_msg: null)));
   };
 
   function flash(target) {
