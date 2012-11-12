@@ -56,7 +56,7 @@ code {
     top        : 0;
     left       : 0;
     height     : 100%;
-    margin-right: 300px;
+    margin-right: 305px;
     overflow   : auto;
   }
 
@@ -67,7 +67,7 @@ code {
       #messages div.msg {
         background : #FFCD66;
         padding    : 5px 10px;
-        margin     : 5px 15px 10px 0;
+        margin     : 5px 10px 10px 0;
         border-radius: 0 4px 4px 0;
       }
 
@@ -91,7 +91,7 @@ code {
   }
 
     #create_msg {
-      padding: 4px 0 10px 4px;
+      padding: 4px 0 10px 0;
     }
 
       #create_msg textarea {
@@ -111,37 +111,55 @@ code {
 
       #bots h2 {
         color: #2D2D2D;
+        padding: 3px 0 5px 8px;
+        border-radius: 4px 0 0 0;
+        font-size: 80%;
+        font-style: italic;
       }
 
       #bots ul {
         list-style: none;
         margin: 0;
-        padding: 0 0 6px 0;
+        padding: 0;
       }
 
         #bots li {
           border-bottom: 1px solid #313131;
-          padding: 4px 0 2px 6px;
+          padding: 4px 0 4px 6px;
           border-radius: 4px 0 0  4px;
         }
 
       #bots-o, #bots-x {
         border-radius: 4px 0 0 4px;
-        padding: 4px 0 8px 8px;
         margin: 0 0 10px 0;
       }
 
       #bots-o {
-        background: #FFAC20;
+        padding-left: 0;
+        border: 1px solid #000;
+        border-width: 1px 0 0 1px;
       }
+
+        #bots-o h2 {
+          background: #161616;
+          color: #A3E452;
+        }
 
       #bots-x {
         background: #161616;
-        color: #FD6C08;
       }
 
         #bots-x h2 {
-          color: #fff;
+          color: #FD6C08;
+          padding-top: 6px;
+          padding-bottom: 0;
+        }
+
+        #bots-x li {
+          color: #909EB4;
+          font-style: italic;
+          padding-bottom: 6px;
+          padding-top: 4px;
         }
 
 #nav_bar {

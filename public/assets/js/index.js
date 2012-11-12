@@ -26,7 +26,7 @@ $(function() {
 
   if(is_local) {
     console.log('Using local/dev values.');
-    var msg_limit   = 6;
+    // var msg_limit   = 6;
     var err_limit   = 2;
     setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
   };
