@@ -13,11 +13,11 @@ gets sent a FORM params. Your web app (ie bot) returns mime-type:
 
     application/json
 
-Content of HTTP response is valid JSON
+Content of HTTP response is valid JSON:
 
     JSON.stringify({ msg: "....", success: true });
 
-Set "success" to false for failures:
+Set `success` to `false` for failures:
 
     JSON.stringify({ msg: "Dude?! No idea what you saying... check spelling...", success: false });
 
@@ -26,4 +26,5 @@ To ask to have robot listed, send the following command. Your request will be pu
     @okdoki Please publish: HTTP_ADDRESS Contact: EMAIL_or_TWITTER
 
 To check status of your bot listing request:
+
     @okdoki Status for: HTTP_ADDRESS
