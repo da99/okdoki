@@ -1,28 +1,31 @@
 extends ./layout
 
 block footer
+  script(src='http://underscorejs.org/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
-  script(src='/socket.io/socket.io.js')
   script(src='/assets/js/index.js')
 
 block content
-  include nav
 
-  div(class='row-fluid chatroom-row')
-    div(class='span8 chatroom', id='chatroom')
-      p This is text
+  div(id='chatroom')
 
-    div(class='span4 chatroom-users')
-      p This is text
+    div(id='output')
+
+      div(id='messages')
+
+    div(id='input')
+
+      div(id='create_msg')
+        textarea(rows='4') type
+        input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
+        button.submit Send
+
+      div(id='bots')
+        div(id='bots-o')
+          p Active
+        div(id='bots-x')
+          p Non-Active
 
 
-  div(class='row-fluid chatroom-text-row')
-    div(class='span8')
-      div(class='main')
-        form
-          fieldset
-            textarea type
-          fieldset
-            button.submit Send
-
+      include nav
 

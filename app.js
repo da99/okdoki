@@ -1,53 +1,49 @@
-
-var express = require('express'),
-pub         = __dirname + '/public',
-app         = express(),
-server      = require('http').createServer(app),
-io          = require('socket.io').listen(server);
-
-var port = process.env.PORT || 4567;
-server.listen(port);
-
-app.use(app.router);
-app.use(express.static(pub));
-app.use(express.errorHandler());
+var express = require('express');
+var app     = express();
+var port    = process.env.PORT || 4567;
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.get( '/', function (req, res) {
-  res.send('Not done. Come back in 72 hours.');
+// app.use(express.errorHandler());
+app.use(express.static(__dirname + '/public'));
+app.use(express.bodyParser());
+app.locals.pretty = true;
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'avc' }));
+app.use(express.csrf());
+
+app.get('/', function(req, resp) {
+  resp.send('Not done. Come back in 72 hours.');
 });
 
-app.get( '/dev', function (req, res) {
-  res.render('index', {title: 'Done :p'});
+app.post('/ask', function(req, resp) {
+  if(!req.session.name) {
+    req.session.name = (new Date()).getSeconds();
+  };
+  resp.writeHead(200, { "Content-Type": "text/plain" });
+  resp.end('Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, ' + req.session.name + '! ' + (new Date()).getTime());
+});
+
+app.get( '/dev', function (req, resp) {
+  resp.render('index', {title: 'Done :p', token: req.session._csrf});
 });
 
 app.use(function (err, req, res, next) {
-  res.send(500, "Something broke. Try later.");
+  if(req.param('request_type', undefined)) {
+    resp.writeHead(200, { "Content-Type": "text/plain" });
+    resp.end(req.session._csrf);
+    return true;
+  };
+
+  console.log(err);
+  next()
+  // res.send(500, "Something broke. Try later.");
 });
 
-// app.listen(port);
-// io.configure(function () {
-  // io.set('transports', ['xhr-polling']);
-  // io.set('polling duration', 10);
-// });
 
-// io.sockets.on('connection', function (socket) {
-  // socket.emit('entering', { html: '<p>Success!</p>' });
-  // socket.on('latest', function (data) {
-    // socket.emit('latest-response', {html: 'today on...'});
-  // });
-  // socket.on('repeat', function (data) {
-    // socket.emit('repeat-response', {html: '<p>You said: ' + data.msg });
-  // });
-// });
-
-console.log('Listening on port: ' + port);
-
-
-
-
+app.listen(port);
+console.log('Listening on: ' + port);
 
 
 
