@@ -1,4 +1,5 @@
-
+/* Palettes used: */
+/* http://www.colourlovers.com/palette/2524852/FRUITY */
 
 /* Spanning the height of the browser window: */
 /* http://www.webmasterworld.com/forum83/200.htm */
@@ -25,7 +26,7 @@ a:visited {
 }
 
 a:hover {
-  color: #FD6C08;
+  color: #E42323;
 }
 
 #chatroom {
@@ -49,10 +50,14 @@ a:hover {
     }
 
       #messages p, #messages div.msg {
-        background : #F8BA4D;
+        background : #FFCD66;
         padding    : 5px 10px;
         margin     : 5px;
         border-radius: 4px;
+      }
+
+      #messages div.status_msg {
+        background: #FFF175;
       }
 
   #input {
@@ -85,20 +90,32 @@ a:hover {
 
       #bots h2 {
         font-size: 1.0em;
-        line-height: 2em;
+        line-height: 1.5em;
         color: #2D2D2D;
         padding: 0;
         margin: 0;
       }
 
+      #bots ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+        #bots li {
+          border-bottom: 1px solid #313131;
+          padding: 4px 0 2px 2px;
+          border-radius: 4px 0 0  4px;
+        }
+
       #bots-o, #bots-x {
         border-radius: 4px 0 0 4px;
-        padding: 4px 4px 4px 8px;
+        padding: 4px 0 8px 8px;
         margin: 0 0 10px 0;
       }
 
       #bots-o {
-        background: #FD8E3C;
+        background: #FFAC20;
       }
 
       #bots-x {

@@ -5,6 +5,7 @@ $(function() {
   var page          = 'http://localhost:80/';
   var msg_count     = 0;
   var msg_css_class = 'msg';
+  var status_msg_css_class = 'status_msg';
   var errors_403    = 0;
   var err_count     = 0;
   var err_showing   = true;
@@ -16,6 +17,7 @@ $(function() {
   if(is_local) {
     var msg_limit   = 3;
     var err_limit   = 3;
+    setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
   };
 
 
@@ -92,26 +94,31 @@ $(function() {
     if(msg_count > msg_limit) {
       if(msg_count == (msg_limit + 1)) {
         dom_target.children('div').remove('div:last-child');
-        append_msg("1 old message deleted", "append");
+        append_msg("1 old message deleted", status_msg_css_class);
       } else {
         dom_target.children('div').remove('div:last-child');
         dom_target.children('div').remove('div:last-child');
-        append_msg( (msg_count - msg_limit ) + " old messages deleted", "append");
+        append_msg( (msg_count - msg_limit ) + " old messages deleted", status_msg_css_class);
       };
     };
   }; // === remove_old_msg
 
-  function create_msg_ele(msg) {
-    var new_ele = "<div class='" + msg_css_class + "'>" + _.escape(msg) + '</div>';
+  function create_msg_ele(msg, css) {
+    if(css)
+      css = " " + css;
+    else
+      css = '';
+
+    var new_ele = "<div class='" + msg_css_class +  css + "'>" + _.escape(msg) + '</div>';
     return new_ele;
   };
 
-  function append_msg(msg) {
-    dom_target.html( dom_target.html() + create_msg_ele(msg) );
+  function append_msg(msg, css) {
+    dom_target.html( dom_target.html() + create_msg_ele(msg, css) );
   };
 
-  function prepend_msg(msg) {
-    dom_target.html( create_msg_ele(msg) + dom_target.html() );
+  function prepend_msg(msg, css) {
+    dom_target.html( create_msg_ele(msg, css) + dom_target.html() );
   };
 
   function publish_msg(msg, err_msg) {
@@ -126,6 +133,10 @@ $(function() {
     ++msg_count;
     remove_old_msg();
     prepend_msg(msg);
+  };
+
+  function flash(target) {
+    target.effect('highlight', {}, 3000);
   };
 
   function call_ajax() {

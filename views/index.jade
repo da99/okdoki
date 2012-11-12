@@ -3,6 +3,7 @@ extends ./layout
 block footer
   script(src='http://underscorejs.org/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
+  script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
   script(src='/assets/js/index.js')
 
 block content
@@ -21,10 +22,18 @@ block content
         button.submit Send
 
       div(id='bots')
+
         div(id='bots-o')
           h2 Active
+          ul 
+            li "Mises Bot"
+            li "Horton The Bot"
+
         div(id='bots-x')
           h2 Non-Active
+          ul 
+            li "Dear Leader Bot"
+            li "Tokyo Mania"
 
 
       include nav
