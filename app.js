@@ -21,18 +21,19 @@ app.post('/ask', function(req, resp) {
   if(!req.session.name) {
     req.session.name = (new Date()).getSeconds();
   };
-  resp.writeHead(200, { "Content-Type": "text/plain" });
-  resp.end('Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, Hiya, ' + req.session.name + '! ' + (new Date()).getTime());
+  resp.writeHead(200, { "Content-Type": "application/json" });
+  var msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getTime();
+  resp.end(JSON.stringify({ msg: msg, success: true}));
 });
 
 app.get( '/dev', function (req, resp) {
   resp.render('index', {title: 'Done :p', token: req.session._csrf});
 });
 
-app.use(function (err, req, res, next) {
-  if(req.param('request_type', undefined)) {
-    resp.writeHead(200, { "Content-Type": "text/plain" });
-    resp.end(req.session._csrf);
+app.use(function (err, req, resp, next) {
+  if(req.param('request_type', undefined) == 'latest msgs') {
+    resp.writeHead(200, { "Content-Type": "application/json" });
+    resp.end(JSON.stringify({ _csrf: req.session._csrf, success: false, msg: err.toString() }));
     return true;
   };
 

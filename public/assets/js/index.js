@@ -1,24 +1,79 @@
 
 $(function() {
 
-  var socket = ('http://okdoki-disk-drive-shopper.herokuapp.com:80/');
-  var page = 'http://localhost:80/';
-  var msg_count = 0;
-  var msg_limit = 3;
+  var socket        = ('http://okdoki-disk-drive-shopper.herokuapp.com:80/');
+  var page          = 'http://localhost:80/';
+  var msg_count     = 0;
   var msg_css_class = 'msg';
+  var errors_403    = 0;
+  var err_count     = 0;
+  var msg_limit     = 250;
+  var err_limit     = 25;
+
+  var testing = true;
+  if(testing) {
+    var msg_limit     = 3;
+    var err_limit     = 3;
+  };
 
 
   var last_time = (new Date()).getTime();
   var dom_target = $('#messages');
 
-  function ajax_success (data, stat) {
-    publish_msg( data + ' - ' + ( (parseInt( data.split(' ').pop() ) - last_time) / 1000 ) );
-    last_time = (new Date()).getTime();
-    setTimeout(call_ajax, (1.5 * 1000));
+  function log(msg) {
+    if(console && console.log) {
+      console.log( msg );
+      return true;
+    };
+
+    return false;
   };
 
+  function ajax_success (msg, stat) {
+    var data = msg.msg;
+
+    if(msg.success) {
+
+      errors_403 = 0;
+      err_count  = 0;
+      publish_msg( data );
+
+    } else {
+
+      if(data == 'Error: Forbidden') {
+        if(msg._csrf) {
+          $('#csrf_token').val(msg._csrf);
+          log('Updating token.');
+        } else {
+          if (++errors_403 > err_limit) {
+            publish_msg( "Unknown error. Trying 'Refresh'-ing this page." );
+            log(msg.msg);
+            errors_403 = 0;
+          };
+        };
+      } else {
+        log( "Error: " + data );
+      };
+
+    };
+
+    last_time = (new Date()).getTime();
+    setTimeout(call_ajax, (1.5 * 1000));
+
+  }; // === func ajax_success
+
   function ajax_error (xhr, textStatus, errorThrown) {
-    publish_msg( "Retrying in 5 seconds. Error: " + textStatus + " " + errorThrown);
+    if (++err_count > err_limit) {
+      publish_msg( "Unknown error. Trying 'Refresh'-ing this page." );
+      err_count = 0;
+    };
+
+    if(textStatus == 'error' && !errorThrown) {
+      log( "Retrying in 5 seconds. Website appears to be down for a moment.");
+    } else {
+      log( "Retrying in 5 seconds. Error msg: " + textStatus + " Error: " + errorThrown);
+    };
+
     setTimeout(call_ajax, (5 * 1000));
   };
 
@@ -69,7 +124,7 @@ $(function() {
       url      : "http://localhost:5000/ask",
       cache    : false,
       data     : {'request_type':'latest msgs', '_csrf': $('#csrf_token').val()},
-      dataType : 'text',
+      dataType : 'json',
       success  : ajax_success,
       error    : ajax_error
     });
