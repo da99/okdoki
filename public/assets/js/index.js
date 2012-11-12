@@ -109,17 +109,15 @@ $(function() {
       css = " " + css;
     else
       css = '';
-
-    var new_ele = "<div class='" + msg_css_class +  css + "'>" + _.escape(msg) + '</div>';
-    return new_ele;
+    return $("div." + msg_css_class + css).append(document.createTextNode(_.escape(msg)));
   };
 
   function append_msg(msg, css) {
-    dom_target.html( dom_target.html() + create_msg_ele(msg, css) );
+    dom_target.append( create_msg_ele(msg, css) );
   };
 
   function prepend_msg(msg, css) {
-    dom_target.html( create_msg_ele(msg, css) + dom_target.html() );
+    dom_target.prepend( create_msg_ele(msg, css) );
   };
 
   function publish_msg(msg, err_msg) {

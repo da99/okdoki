@@ -1,9 +1,4 @@
 
-Intro
------
-The node/express version of okdoki.com.
-
-
 
 How to Make a Bot
 -----------------
