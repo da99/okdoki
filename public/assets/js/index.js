@@ -6,6 +6,7 @@ $(function() {
   var msg_count     = 0;
   var msg_css_class = 'msg';
   var status_msg_css_class = 'status_msg';
+  var error_msg_css_class = 'error_msg';
   var errors_403    = 0;
   var err_count     = 0;
   var err_showing   = true;
@@ -132,7 +133,7 @@ $(function() {
 
     ++msg_count;
     remove_old_msg();
-    prepend_msg(msg);
+    prepend_msg(msg, (err_msg ? error_msg_css_class : null));
   };
 
   function flash(target) {

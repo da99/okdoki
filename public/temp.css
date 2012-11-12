@@ -29,6 +29,20 @@ a:hover {
   color: #E42323;
 }
 
+h2 {
+  font-size: 1.0em;
+  line-height: 1.5em;
+  padding: 0;
+  margin: 0;
+}
+
+code {
+  display: block;
+  margin: 0;
+  padding: 4px 2px 4px 5px;
+  border-radius: 4px 0 0 4px;
+}
+
 #chatroom {
   position : relative;
   margin   : 0 auto;
@@ -60,6 +74,12 @@ a:hover {
         background: #FFF175;
       }
 
+      #messages div.error_msg {
+        background: #E22714;
+        font-weight: bold;
+        color: #FFFDE0;
+      }
+
   #input {
     position     : absolute;
     top          : 0;
@@ -89,11 +109,7 @@ a:hover {
     }
 
       #bots h2 {
-        font-size: 1.0em;
-        line-height: 1.5em;
         color: #2D2D2D;
-        padding: 0;
-        margin: 0;
       }
 
       #bots ul {
@@ -124,12 +140,14 @@ a:hover {
 
 #nav_bar {
   background    : #161616;
-  padding       : 0;
-  color         : #FD6C08;
-  font-weight   : bold;
+  padding       : 0 0 20px 0;
   margin-bottom : 20px;
   border-radius: 4px 0 0 4px;
 }
+
+  #nav_bar h2 {
+    color         : #FD6C08;
+  }
 
   #nav_bar div.main {
     padding: 4px 0 4px 10px;
@@ -138,3 +156,22 @@ a:hover {
   #nav_bar span.divider {
     padding: 0 3px;
   }
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  #nav_bar code {
+    margin-bottom: 10px;
+  }
+
+  #about {
+    padding: 5px 0 20px 10px;
+    color: #fff;
+  }
+
+
+
+
+
