@@ -166,10 +166,14 @@ code {
     margin-bottom: 10px;
   }
 
-  #about {
-    padding: 5px 0 20px 10px;
+  #about, #help {
+    padding: 5px 0px 8px 10px;
     color: #fff;
   }
+
+    #about p, #help p {
+      padding-right: 8px;
+    }
 
 
 
