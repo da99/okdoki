@@ -7,6 +7,7 @@ $(function() {
   var msg_css_class = 'msg';
   var errors_403    = 0;
   var err_count     = 0;
+  var err_showing   = true;
   var msg_limit     = 250;
   var err_limit     = 25;
   var is_local      = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 ;
@@ -47,7 +48,7 @@ $(function() {
           log('Updating token.');
         } else {
           if (++errors_403 > err_limit) {
-            publish_msg( "Unknown error. Trying 'Refresh'-ing this page." );
+            publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", true );
             log(msg.msg);
             errors_403 = 0;
           };
@@ -65,7 +66,7 @@ $(function() {
 
   function ajax_error (xhr, textStatus, errorThrown) {
     if (++err_count > err_limit) {
-      publish_msg( "Unknown error. Trying 'Refresh'-ing this page." );
+      publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", true);
       err_count = 0;
     };
 
@@ -113,7 +114,15 @@ $(function() {
     dom_target.html( create_msg_ele(msg) + dom_target.html() );
   };
 
-  function publish_msg(msg, append) {
+  function publish_msg(msg, err_msg) {
+    if(err_msg) {
+      if(err_showing == msg)
+        return false;
+      err_showing = msg;
+    } else {
+      err_showing = false;
+    };
+
     ++msg_count;
     remove_old_msg();
     prepend_msg(msg);
