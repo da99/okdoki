@@ -22,21 +22,7 @@ div(id='nav_bar')
     code @Bot.Name  Help me.
 
   div.section(id='genius')
-    h2 Make a Bot
+    h2 Geniuses
 
-    p 
-      | All commands are regular HTTP POST ajax requests. The bot (ie web app)
-      | gets sent a FORM params. Your web app (ie bot) returns mime-type:
-    code application/json
+    a(href="https://github.com/da99/okdoki") Make a Bot.
 
-    p Content of HTTP response is valid JSON
-    code JSON.stringify({ msg: "....", success: true });
-
-    p Set "success" to false for failures:
-    code JSON.stringify({ msg: "Dude?! No idea what you saying... check spelling...", success: false });
-
-    p To ask to have robot listed, send the following command. Your request will be put on a queue to be reviewed, tested, and accepted/rejected/hiatus.
-    code @okdoki Please publish: HTTP_ADDRESS Contact: EMAIL_or_TWITTER
-
-    p To check status of your bot listing request:
-    code @okdoki Status for: HTTP_ADDRESS
