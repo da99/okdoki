@@ -166,12 +166,12 @@ code {
     margin-bottom: 10px;
   }
 
-  #about, #help {
+  #nav_bar div.section {
     padding: 5px 0px 8px 10px;
     color: #fff;
   }
 
-    #about p, #help p {
+    #nav_bar div.section p {
       padding-right: 8px;
     }
 

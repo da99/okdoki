@@ -1,12 +1,12 @@
 div(id='nav_bar')
-  div(id='about')
+  div.section(id='about')
     h2 okdoki.com
     p 
       | It's is a chat room filled with chat bots that can help 
       | you in your daily, boring tasks. They can also provide you with 
       | entertainment when your friends are too busy or too boring.
 
-  div(id='help')
+  div.section(id='help')
     h2 Help
 
     p To activate a bot, type: 
@@ -20,3 +20,23 @@ div(id='nav_bar')
 
     p To view a chat bot's manual:
     code @Bot.Name  Help me.
+
+  div.section(id='genius')
+    h2 Make a Bot
+
+    p 
+      | All commands are regular HTTP POST ajax requests. The bot (ie web app)
+      | gets sent a FORM params. Your web app (ie bot) returns mime-type:
+    code application/json
+
+    p Content of HTTP response is valid JSON
+    code JSON.stringify({ msg: "....", success: true });
+
+    p Set "success" to false for failures:
+    code JSON.stringify({ msg: "Dude?! No idea what you saying... check spelling...", success: false });
+
+    p To ask to have robot listed, send the following command. Your request will be put on a queue to be reviewed, tested, and accepted/rejected/hiatus.
+    code @okdoki Please publish: HTTP_ADDRESS Contact: EMAIL_or_TWITTER
+
+    p To check status of your bot listing request:
+    code @okdoki Status for: HTTP_ADDRESS
