@@ -83,10 +83,18 @@ a:hover {
     #bots {
     }
 
+      #bots h2 {
+        font-size: 1.0em;
+        line-height: 2em;
+        color: #2D2D2D;
+        padding: 0;
+        margin: 0;
+      }
+
       #bots-o, #bots-x {
-        border-radius: 4px;
+        border-radius: 4px 0 0 4px;
         padding: 4px 4px 4px 8px;
-        margin: 0 4px 5px 0;
+        margin: 0 0 10px 0;
       }
 
       #bots-o {
@@ -103,6 +111,7 @@ a:hover {
   color         : #FD6C08;
   font-weight   : bold;
   margin-bottom : 20px;
+  border-radius: 4px 0 0 4px;
 }
 
   #nav_bar div.main {
