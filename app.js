@@ -24,20 +24,21 @@ app.post('/ask', function(req, resp) {
   resp.writeHead(200, { "Content-Type": "application/json" });
   var req_type = req.param('request_type', null);
   var msg = null;
+  var refresh = 1.5;
 
   switch (req_type) {
     case 'latest msgs':
-
-      if (req.param('is_dev', false)) {
+      if (req.param('is_dev') === 'true' || req.param('is_dev') === true) {
         msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getSeconds() ;
       } else {
         if (!req.session.nums) {
-          req.session.nums = 1201;
+          req.session.nums = 72;
         }
         msg = "Not ready. Come back in " + (--req.session.nums) + " hours.";
+        refresh = 60 * 60;
       }
 
-      resp.end(JSON.stringify({ msg: msg, success: true, refresh: 60}));
+      resp.end(JSON.stringify({ msg: msg, success: true, refresh: refresh}));
       break;
 
     case 'bots list':

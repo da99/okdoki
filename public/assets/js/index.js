@@ -79,8 +79,15 @@ function ajax_success(resp, stat) {
 
   }
 
+  var refresh = 1.5;
+  if (resp.refresh)
+    refresh = parseFloat(resp.refresh);
+  if (refresh < 1.5)
+    refresh = 1.5;
+
   last_time = (new Date()).getTime();
-  setTimeout(call_ajax, (1.5 * 1000));
+  setTimeout(call_ajax, ( refresh * 1000));
+  log("Refreshing in: " + refresh + " seconds.");
 
 } // === func ajax_success
 
