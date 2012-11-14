@@ -26,8 +26,45 @@ app.post('/ask', function(req, resp) {
     req.session.name = (new Date()).getSeconds();
 
   resp.writeHead(200, { "Content-Type": "application/json" });
-  var msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getTime();
-  resp.end(JSON.stringify({ msg: msg, success: true}));
+  var req_type = req.param('request_type', null);
+  switch(req_type) {
+    case 'latest msgs':
+      var msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getTime();
+      resp.end(JSON.stringify({ msg: msg, success: true}));
+      break;
+
+    case 'bots list':
+      var bots_list = {
+        'okdoki'              : {subscribed: true, url: 'http://www.okdoki.com/ask' },
+        'Clock.Bot'           : {subscribed: true, url: 'http://okdoki-clock-bot.heroku.com/ask' },
+        'Obama.Miracles'      : {subscribed: true, url: 'http://okdoki-obama-miracles.heroku.com/ask'},
+        'Mr.Liberty'          : {subscribed: true, url: 'http://okdoki-mr-liberty.heroku.com/ask'},
+        'Tech.Toys'           : {subscribed: true, url: 'http://okdoki-tech-toys.heroku.com/ask'},
+        'Hearts.Club'         : {subscribed: true, url: 'http://okdoki-hearts-club.heroku.com/ask'},
+        'Gossip.News.Network' : {subscribed: true, url: 'http://okdoki-gossip-news-network.heroku.com/ask'},
+        'My.Astro.Future'     : {subscribed: true, url: 'http://okdoki-my-astro-future.heroku.com/ask'},
+        'Good.News'           : {subscribed: true, url: 'http://okdoki-good-news.heroku.com/ask'},
+        'Bad.News'            : {subscribed: true, url: 'http://okdoki-bad-news.heroku.com/ask'},
+        'American.Sports'     : {subscribed: true, url: 'http://okdoki-american-sports.heroku.com/ask'},
+        'Biz.Rumors'          : {subscribed: true, url: 'http://okdoki-biz-rumors.heroku.com/ask'},
+        'Global.War'          : {subscribed: true, url: 'http://okdoki-global-war.heroku.com/ask'},
+        'Men.Of.Action'       : {subscribed: true, url: 'http://okdoki-men-of-action.heroku.com/ask'},
+        'Beauty.Gene'         : {subscribed: true, url: 'http://okdoki-beauty-gene.heroku.com/ask'},
+
+        'Mr.Sci.Tech'         : {subscribed: false, url: 'http://okdoki-mr-sci-tech.heroku.com/ask'},
+        'history-bot'         : {subscribed: false, url: 'http://okdoki-history-bot.heroku.com/ask'},
+        'Econo.Liberty'       : {subscribed: false, url: 'http://okdoki-econo-liberty.heroku.com/ask'},
+        'Kuala.Lumpur'        : {subscribed: false, url: 'http://okdoki-kuala-lumpur.heroku.com/ask'},
+        'Tokyo.Mania'         : {subscribed: false, url: 'http://okdoki-tokyo-mania.heroku.com/ask'},
+        'Osaka.Jonny'         : {subscribed: false, url: 'http://okdoki-osaka-jonny.heroku.com/ask'}
+      };
+
+      break;
+
+    default:
+      resp.end(JSON.stringify({ success: false, msg: 'Unknown request type.' }));
+  }
+
 });
 
 app.get( '/dev', function (req, resp) {
