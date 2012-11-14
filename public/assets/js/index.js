@@ -93,7 +93,7 @@ function ajax_success(resp, stat) {
 
 function ajax_error(xhr, textStatus, errorThrown) {
 
-  var retry_in = 30;
+  var retry_in = (is_dev ? 1.5 : 30);
 
   if (textStatus === 'error' && !errorThrown) {
     log("Retrying in " + retry_in + " seconds. Website appears to be down for a moment. Time: " + (new Date()).getSeconds());
