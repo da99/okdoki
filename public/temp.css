@@ -246,4 +246,8 @@ code {
 
 
 
+/* Temp. Delet when published to the public. */
 
+  #sign_in ul, #sign_in span.status {
+    display: none;
+  }
