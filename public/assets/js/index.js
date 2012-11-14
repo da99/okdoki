@@ -12,17 +12,15 @@ var errors_403  = 0;
 var err_count   = 0;
 var err_showing = true;
 var msg_limit   = 250;
-var err_limit   = 25;
-var is_local    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1;
+var is_dev    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1;
 var ignore_text = ';-)~ Type here.';
 var last_time   = (new Date()).getTime();
 
 $(function () {
 
-  if (is_local) {
-    console.log('Using local/dev values.');
-    // msg_limit   = 6;
-    err_limit   = 2;
+  if (is_dev) {
+    log('Using dev values.');
+    msg_limit   = 6;
     setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
   }
 
@@ -142,6 +140,7 @@ function remove_old_msg(raw_num) {
   dom_target.children('div.' + css).remove();
 
   if (msg_count > msg_limit) {
+    dom_target.children('div.' + MSG).remove('div:last-child');
     if (msg_count === (msg_limit + 1)) {
       append_msg("1 old message deleted.", full_css);
     } else {
