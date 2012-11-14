@@ -1,7 +1,10 @@
 "use strict";
 // http://okdoki-disk-drive-shopper.herokuapp.com:80/
 
-var dom_target           = $('#messages');
+var ALL_MSGS = $('#messages');
+var MSGS     = $('#messages #msgs');
+var NOTIFYS  = $('#messages #notifys');
+
 var MSG        = 'msg';
 var STATUS_MSG = 'status_msg';
 var ERROR_MSG  = 'error_msg';
@@ -46,7 +49,7 @@ $(function () {
     run_command(textarea.val());
   });
 
-  publish_msg('Loading...', 'remove ' + STATUS_MSG);
+  publish_notify('Loading...', 'loading ' + STATUS_MSG);
   load_or_reload_bots();
   setTimeout(call_ajax, 1000);
 
@@ -62,7 +65,10 @@ function ajax_success(resp, stat) {
 
     errors_403 = 0;
     err_count  = 0;
-    publish_msg(resp.msg);
+    if (resp.notify)
+      publish_notify(resp.msg);
+    else
+      publish_msg(resp.msg);
 
   } else {
 
@@ -109,7 +115,7 @@ function default_ajax_options(request_type, succ, err) {
     type     : 'POST',
     url      : window.location.origin + "/ask",
     cache    : false,
-    data     : {is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
+    data     : {is_dev : false, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
     dataType : 'json',
     success  : (succ || ajax_success),
     error    : (err  || ajax_error)
@@ -133,21 +139,21 @@ function create_msg_ele(msg, css) {
 }
 
 function append_msg(msg, css) {
-  dom_target.append(create_msg_ele(msg, css));
+  MSGS.append(create_msg_ele(msg, css));
 }
 
 function prepend_msg(msg, css) {
-  dom_target.prepend(create_msg_ele(msg, css));
+  MSGS.prepend(create_msg_ele(msg, css));
 }
 
 function remove_old_msg(raw_num) {
   var num = (!raw_num) ? 1 : raw_num;
   var css = "old_msg_deleted";
   var full_css = css + " " + STATUS_MSG;
-  dom_target.children('div.' + css).remove();
+  MSGS.children('div.' + css).remove();
 
   if (msg_count > msg_limit) {
-    dom_target.children('div.' + MSG).remove('div:last-child');
+    MSGS.children('div.' + MSG).remove('div:last-child');
     if (msg_count === (msg_limit + 1)) {
       append_msg("1 old message deleted.", full_css);
     } else {
@@ -157,13 +163,25 @@ function remove_old_msg(raw_num) {
 } // === remove_old_msg
 
 function publish_msg(msg, css) {
-  dom_target.children('div.remove').remove();
-
+  remove_old_notifys();
   ++msg_count;
   remove_old_msg();
   prepend_msg(msg, css);
 } // === function
 
+
+// ====================================================================
+// ================== NOTIFYS =========================================
+// ====================================================================
+
+function remove_old_notifys() {
+  NOTIFYS.children('div.loading').remove();
+}
+
+function publish_notify(msg, css) {
+  remove_old_notifys();
+  NOTIFYS.prepend(create_msg_ele(msg, css));
+} // === function
 
 
 // ====================================================================

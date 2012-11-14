@@ -25,6 +25,7 @@ app.post('/ask', function(req, resp) {
   var req_type = req.param('request_type', null);
   var msg = null;
   var refresh = 1.5;
+  var is_notify = false;
 
   switch (req_type) {
     case 'latest msgs':
@@ -34,11 +35,12 @@ app.post('/ask', function(req, resp) {
         if (!req.session.nums) {
           req.session.nums = 72;
         }
-        msg = "Not ready. Come back in " + (--req.session.nums) + " hours.";
-        refresh = 60 * 60;
+        msg       = "Not ready. Come back in " + (--req.session.nums) + " hours.";
+        refresh   = 60 * 60;
+        is_notify = true;
       }
 
-      resp.end(JSON.stringify({ msg: msg, success: true, refresh: refresh}));
+      resp.end(JSON.stringify({ msg: msg, success: true, refresh: refresh, notify: is_notify}));
       break;
 
     case 'bots list':
