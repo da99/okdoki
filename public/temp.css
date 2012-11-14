@@ -51,6 +51,50 @@ code {
   clear    : both;
 }
 
+  #sign_in {
+    background: #161616;
+    margin: 0 10px;
+    padding: 4px 3px 4px 10px;
+    border-radius: 0 0 5px 5px;
+    font-size: 90%;
+  }
+    #sign_in h2 {
+      padding: 0 5px 0 0;
+      margin: 0;
+      display: inline-block;
+      color: #FD6C08;
+    }
+
+    #sign_in ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 10px 0 0;
+      display: inline-block;
+      border-right: 1px dotted #77B12F;
+    }
+
+      #sign_in li {
+        display: inline-block;
+        padding: 0 10px;
+        margin: 0;
+        border: 1px dotted #77B12F;
+        border-width: 0 0 0 1px;
+      }
+
+      #sign_in a:link, #sign_in a:visited, #sign_in a:hover {
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+
+    #sign_in span.intro {
+      color: #ECECEC;
+    }
+
+    #sign_in span.username {
+      color: #A3E452;
+    }
+
   #output {
     position   : relative;
     top        : 0;
@@ -61,14 +105,14 @@ code {
   }
 
     #messages {
-      padding: 20px 0 0 0;
+      padding: 10px 0 0 0;
     }
 
       #messages div.msg {
         background : #FFCD66;
         padding    : 5px 10px;
         margin     : 5px 10px 10px 0;
-        border-radius: 0 4px 4px 0;
+        border-radius: 0 5px 5px 0;
       }
 
       #messages div.status_msg {
