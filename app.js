@@ -78,7 +78,7 @@ app.post('/ask', function(req, resp) {
 
 app.get( '/', function (req, resp) {
   // resp.send('Not done. Come back in 15 mins.');
-  resp.render('index', {title: 'Done :p', token: req.session._csrf});
+  resp.render('index', {title: 'OkDoki.com', token: req.session._csrf});
 });
 
 app.use(function (err, req, resp, next) {
