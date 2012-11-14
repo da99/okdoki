@@ -115,7 +115,7 @@ function default_ajax_options(request_type, succ, err) {
     type     : 'POST',
     url      : window.location.origin + "/ask",
     cache    : false,
-    data     : {is_dev : false, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
+    data     : {is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
     dataType : 'json',
     success  : (succ || ajax_success),
     error    : (err  || ajax_error)
