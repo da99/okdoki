@@ -2,8 +2,9 @@ var express = require('express');
 var app     = express();
 var port    = process.env.PORT || 4567;
 var secret  = process.env.SESSION_SECRET;
-if(!secret)
+if (!secret) {
   throw new Error('No session secret set.');
+};
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -16,8 +17,8 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: secret }));
 app.use(express.csrf());
 
-app.get('/', function(req, resp) {
-  resp.send('Not done. Come back in 72 hours.');
+app.get('/', function (req, resp) {
+    resp.send('Not done. Come back in 72 hours.');
 });
 
 app.post('/ask', function(req, resp) {
@@ -34,7 +35,7 @@ app.get( '/dev', function (req, resp) {
 });
 
 app.use(function (err, req, resp, next) {
-  if(req.param('request_type', undefined) == 'latest msgs') {
+  if (req.param('request_type', undefined) == 'latest msgs') {
     resp.writeHead(200, { "Content-Type": "application/json" });
     resp.end(JSON.stringify({ _csrf: req.session._csrf, success: false, msg: err.toString() }));
     return true;

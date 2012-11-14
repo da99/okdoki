@@ -1,185 +1,260 @@
+"use strict";
+// http://okdoki-disk-drive-shopper.herokuapp.com:80/
 
-$(function() {
+var dom_target           = $('#messages');
+var MSG        = 'msg';
+var STATUS_MSG = 'status_msg';
+var ERROR_MSG  = 'error_msg';
 
-  var socket        = ('http://okdoki-disk-drive-shopper.herokuapp.com:80/');
-  var page          = 'http://localhost:80/';
-  var msg_count     = 0;
-  var msg_css_class = 'msg';
-  var status_msg_css_class = 'status_msg';
-  var error_msg_css_class = 'error_msg';
-  var errors_403    = 0;
-  var err_count     = 0;
-  var err_showing   = true;
-  var msg_limit     = 250;
-  var err_limit     = 25;
-  var is_local      = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 ;
-  var ignore_text   = ';-)~ Type here.';
+var page        = 'http://localhost:80/';
+var msg_count   = 0;
+var errors_403  = 0;
+var err_count   = 0;
+var err_showing = true;
+var msg_limit   = 250;
+var err_limit   = 25;
+var is_local    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1;
+var ignore_text = ';-)~ Type here.';
+var last_time   = (new Date()).getTime();
 
-  function log(msg) {
-    if(console && console.log) {
-      console.log( msg );
-      return true;
-    };
+$(function () {
 
-    return false;
-  };
-
-  if(is_local) {
+  if (is_local) {
     console.log('Using local/dev values.');
-    // var msg_limit   = 6;
-    var err_limit   = 2;
+    // msg_limit   = 6;
+    err_limit   = 2;
     setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
-  };
+  }
 
-
-  var last_time = (new Date()).getTime();
-  var dom_target = $('#messages');
-
-  function ajax_success (msg, stat) {
-
-    var data = msg.msg;
-
-    if(msg.success) {
-
-      errors_403 = 0;
-      err_count  = 0;
-      publish_msg( data );
-
-    } else {
-
-      if(data == 'Error: Forbidden') {
-        if(msg._csrf) {
-          $('#csrf_token').val(msg._csrf);
-          log('Updating token.');
-        } else {
-          if (++errors_403 > err_limit) {
-            publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", "disconnected" );
-            log(msg.msg);
-            errors_403 = 0;
-          };
-        };
-      } else {
-        log( "Error: " + data );
-      };
-
-    };
-
-    last_time = (new Date()).getTime();
-    setTimeout(call_ajax, (1.5 * 1000));
-
-  }; // === func ajax_success
-
-  function ajax_error (xhr, textStatus, errorThrown) {
-    if (++err_count > err_limit) {
-      publish_msg( "Unknown error. Trying 'Refresh'-ing this page.", "disconnected");
-      err_count = 0;
-    };
-
-    if(textStatus == 'error' && !errorThrown) {
-      log( "Retrying in 5 seconds. Website appears to be down for a moment.");
-    } else {
-      log( "Retrying in 5 seconds. Error msg: " + textStatus + " Error: " + errorThrown);
-    };
-
-    setTimeout(call_ajax, (5 * 1000));
-  };
-
-  function remove_old_msg(raw_num) {
-    if(!raw_num)
-      var num = 1;
-    else
-      var num = raw_num;
-
-    if(msg_count > msg_limit) {
-      if(msg_count == (msg_limit + 1)) {
-        dom_target.children('div').remove('div:last-child');
-        append_msg("1 old message deleted.", status_msg_css_class);
-      } else {
-        dom_target.children('div').remove('div:last-child');
-        dom_target.children('div').remove('div:last-child');
-        append_msg( (msg_count - msg_limit ) + " old messages deleted.", status_msg_css_class);
-      };
-    };
-  }; // === remove_old_msg
-
-  function create_msg_ele(msg, css) {
-    if(css)
-      css = " " + css;
-    else
-      css = '';
-    var ele = $("<div></div>" , { 'class' : msg_css_class + css } );
-    ele.append(document.createTextNode(msg));
-    return ele;
-  };
-
-  function append_msg(msg, css) {
-    dom_target.append( create_msg_ele(msg, css) );
-  };
-
-  function prepend_msg(msg, css) {
-    dom_target.prepend( create_msg_ele(msg, css) );
-  };
-
-  function publish_msg(msg, err_msg) {
-    if(err_msg) {
-      if(err_showing == msg) {
-        return false;
-      };
-
-      err_showing = msg;
-
-    } else {
-
-      err_showing = false;
-      dom_target.children('div.disconnected' ).remove();
-    };
-
-    ++msg_count;
-    remove_old_msg();
-    prepend_msg(msg, (err_msg === true ? error_msg_css_class : (err_msg ? error_msg_css_class + ' ' + err_msg: null)));
-  };
-
-  function flash(target) {
-    target.effect('highlight', {}, 3000);
-  };
-
-  function call_ajax() {
-    $.ajax({
-      type     : 'POST',
-      url      : window.location.origin + "/ask",
-      cache    : false,
-      data     : {'request_type':'latest msgs', '_csrf': $('#csrf_token').val()},
-      dataType : 'json',
-      success  : ajax_success,
-      error    : ajax_error
-    });
-  };
-
-  function run_command(txt) {
-    alert(txt);
-    return true;
-  };
 
   var create_msg = $('#create_msg');
   var textarea   = create_msg.children('textarea');
 
-  textarea.click(function() {
-    if(textarea.val() == ignore_text) {
+  textarea.click(function () {
+    if (textarea.val() === ignore_text) {
       textarea.val('');
-    };
+    }
     textarea.removeClass('blur_ed');
   });
 
   textarea.blur(function () {
     textarea.addClass('blur_ed');
-    if( $.trim(textarea.val()) == '' )
+    if ($.trim(textarea.val()) === '') {
       textarea.val(ignore_text);
+    }
   });
 
-  create_msg.children('button.submit').click(function() {
+  create_msg.children('button.submit').click(function () {
     run_command(textarea.val());
   });
 
-  call_ajax();
+  publish_msg('Loading...', 'remove ' + STATUS_MSG);
+  load_or_reload_bots();
+  setTimeout(call_ajax, 3000);
 
 });
+
+// ======================================================================
+// ======================================================================
+// ======================================================================
+
+function ajax_success(resp, stat) {
+
+  if (resp.success) {
+
+    errors_403 = 0;
+    err_count  = 0;
+    publish_msg(resp.msg);
+
+  } else {
+
+    if (resp.msg === 'Error: Forbidden') {
+      if (resp._csrf) {
+        $('#csrf_token').val(resp._csrf);
+        log('Updating token.');
+      } else {
+        log(this, resp);
+      }
+    } else {
+      log(this, resp);
+    }
+
+  }
+
+  last_time = (new Date()).getTime();
+  setTimeout(call_ajax, (1.5 * 1000));
+
+} // === func ajax_success
+
+function ajax_error(xhr, textStatus, errorThrown) {
+
+  var retry_in = 30;
+
+  if (textStatus === 'error' && !errorThrown) {
+    log("Retrying in " + retry_in + " seconds. Website appears to be down for a moment.");
+  } else {
+    log("Retrying in " + retry_in + " seconds. Error msg: " + textStatus + " Error: " + errorThrown);
+  }
+
+  setTimeout(call_ajax, (retry_in * 1000));
+}
+
+function default_ajax_options(request_type, succ, err) {
+  return {
+    type     : 'POST',
+    url      : window.location.origin + "/ask",
+    cache    : false,
+    data     : {'request_type': request_type, '_csrf': $('#csrf_token').val()},
+    dataType : 'json',
+    success  : (succ || ajax_success),
+    error    : (err  || ajax_error)
+  };
+}
+
+
+
+function call_ajax() {
+  $.ajax(default_ajax_options('latest msgs'));
+}
+
+function create_msg_ele(msg, css) {
+  if (css) {
+    css = " " + css;
+  } else
+    css = '';
+  var ele = $("<div></div>", { 'class' : MSG + css });
+  ele.html(_.escape(msg));
+  return ele;
+}
+
+function append_msg(msg, css) {
+  dom_target.append(create_msg_ele(msg, css));
+}
+
+function prepend_msg(msg, css) {
+  dom_target.prepend(create_msg_ele(msg, css));
+}
+
+function remove_old_msg(raw_num) {
+  var num = (!raw_num) ? 1 : raw_num;
+  var css = "old_msg_deleted";
+  var full_css = css + " " + STATUS_MSG;
+  dom_target.children('div.' + css).remove();
+
+  if (msg_count > msg_limit) {
+    if (msg_count === (msg_limit + 1)) {
+      append_msg("1 old message deleted.", full_css);
+    } else {
+      append_msg((msg_count - msg_limit) + " old messages deleted.", full_css);
+    }
+  }
+} // === remove_old_msg
+
+function publish_msg(msg, css) {
+  dom_target.children('div.remove').remove();
+
+  ++msg_count;
+  remove_old_msg();
+  prepend_msg(msg, css);
+} // === function
+
+
+
+// ====================================================================
+
+function log() {
+  if (console && console.log) {
+    $.each(_.toArray(arguments), function (i, msg) {
+      console.log(msg);
+    });
+    return true;
+  }
+
+  return false;
+}
+
+
+function flash(target) {
+  target.effect('highlight', {}, 3000);
+}
+
+
+function load_or_reload_bots() {
+  $.ajax(default_ajax_options('bots list', ajax_success_bots_list, function () { log("bots list err"); }));
+}
+
+function ajax_success_bots_list(msg, stat, opts) {
+  if (!msg.success) {
+    log("Error in getting bots list:", msg, stat, opts);
+    return false;
+  }
+
+  log("loaded bots list", msg);
+  return true;
+
+  var list = _.clone(msg.list);
+  var already_added = {};
+  var name = null;
+  var new_li = null;
+
+  var dom = $('#bots-o ul li, #bots-x ul li');
+  dom.each(function (ele, i) {
+    name = $(ele).text();
+    if (!list[name]) {
+      $(ele).remove();
+    } else {
+      already_added[name] = true;
+    }
+  });
+
+  $.each(list, function (ind, val) {
+
+    if (already_added[ind]) {
+      return true;
+    }
+
+    new_li = $('<li></li>');
+    new_li.html(_.escape(ind));
+    $('#bots-x ul').prepend(new_li);
+
+  });
+
+}
+
+function run_command(txt) {
+  alert(txt);
+  return true;
+}
+
+// =========================================================
+
+function turn_on_bot() { }
+function turn_off_bot() {}
+function nap_time_for_bot() { }
+function info_on_bot() {}
+
+var cmds = {
+
+  'RELOAD BOTS LIST' : {
+    'func'    : load_or_reload_bots
+  },
+
+  '@ YOU MAY LIVE':  {
+    'func'    : turn_on_bot
+  },
+
+  '@ DROP DEAD' : {
+    'func'    : turn_off_bot
+  },
+
+  '@ TAKE A NAP' : {
+    'func'    : nap_time_for_bot
+  },
+
+  '@ I NEED HELP' : {
+    'aliases' : [],
+    'func'    : info_on_bot
+  }
+
+};
+
