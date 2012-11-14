@@ -48,7 +48,7 @@ $(function () {
 
   publish_msg('Loading...', 'remove ' + STATUS_MSG);
   load_or_reload_bots();
-  setTimeout(call_ajax, 3000);
+  setTimeout(call_ajax, 1000);
 
 });
 
@@ -89,7 +89,7 @@ function ajax_error(xhr, textStatus, errorThrown) {
   var retry_in = 30;
 
   if (textStatus === 'error' && !errorThrown) {
-    log("Retrying in " + retry_in + " seconds. Website appears to be down for a moment.");
+    log("Retrying in " + retry_in + " seconds. Website appears to be down for a moment. Time: " + (new Date()).getSeconds());
   } else {
     log("Retrying in " + retry_in + " seconds. Error msg: " + textStatus + " Error: " + errorThrown);
   }
@@ -102,7 +102,7 @@ function default_ajax_options(request_type, succ, err) {
     type     : 'POST',
     url      : window.location.origin + "/ask",
     cache    : false,
-    data     : {'request_type': request_type, '_csrf': $('#csrf_token').val()},
+    data     : {is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
     dataType : 'json',
     success  : (succ || ajax_success),
     error    : (err  || ajax_error)

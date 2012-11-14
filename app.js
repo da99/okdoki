@@ -17,20 +17,27 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: secret }));
 app.use(express.csrf());
 
-app.get('/', function (req, resp) {
-    resp.send('Not done. Come back in 72 hours.');
-});
-
 app.post('/ask', function(req, resp) {
   if(!req.session.name)
-    req.session.name = (new Date()).getSeconds();
+    req.session.name = "Stranger #" + (new Date()).getSeconds();
 
   resp.writeHead(200, { "Content-Type": "application/json" });
   var req_type = req.param('request_type', null);
-  switch(req_type) {
+  var msg = null;
+
+  switch (req_type) {
     case 'latest msgs':
-      var msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getTime();
-      resp.end(JSON.stringify({ msg: msg, success: true}));
+
+      if (req.param('is_dev', false)) {
+        msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getSeconds() ;
+      } else {
+        if (!req.session.nums) {
+          req.session.nums = 1201;
+        }
+        msg = "Not ready. Come back in " + (--req.session.nums) + " hours.";
+      }
+
+      resp.end(JSON.stringify({ msg: msg, success: true, refresh: 60}));
       break;
 
     case 'bots list':
@@ -67,7 +74,9 @@ app.post('/ask', function(req, resp) {
 
 });
 
-app.get( '/dev', function (req, resp) {
+
+app.get( '/', function (req, resp) {
+  // resp.send('Not done. Come back in 15 mins.');
   resp.render('index', {title: 'Done :p', token: req.session._csrf});
 });
 
