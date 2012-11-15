@@ -1,10 +1,11 @@
 "use strict";
 // http://okdoki-disk-drive-shopper.herokuapp.com:80/
 
-var ALL_MSGS = $('#messages');
-var MSGS     = $('#messages #msgs');
-var NOTIFYS  = $('#messages #notifys');
-var OKDOKI   = "@okdoki";
+var ALL_MSGS  = $('#messages');
+var MSGS      = $('#messages #msgs');
+var NOTIFYS   = $('#messages #notifys');
+var OKDOKI    = "@okdoki";
+var to_okdoki = 0;
 
 var MSG        = 'msg';
 var STATUS_MSG = 'status_msg';
@@ -39,15 +40,18 @@ $(function () {
     textarea.removeClass('blur_ed');
   });
 
-  textarea.blur(function () {
-    textarea.addClass('blur_ed');
-    if ($.trim(textarea.val()) === '') {
-      textarea.val(ignore_text);
-    }
-  });
+  // textarea.blur(function () {
+    // textarea.addClass('blur_ed');
+    // if ($.trim(textarea.val()) === '') {
+      // textarea.val(ignore_text);
+    // }
+  // });
 
   create_msg.children('button.submit').click(function () {
-    run_command(textarea.val());
+    var cmd = textarea.val();
+    create_msg.children('textarea').val("");
+    // create_msg.children('textarea').blur();
+    run_command(cmd);
   });
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
@@ -247,7 +251,20 @@ function ajax_success_bots_list(msg, stat, opts) {
 }
 
 function run_command(txt) {
-  alert(txt);
+  publish_msg(txt);
+
+  if($.trim(txt).indexOf(OKDOKI) === 0) {
+    ++to_okdoki;
+    setTimeout( function () {
+      if (to_okdoki < 2 )
+        publish_msg(OKDOKI + " Unfortunately, I am not fully developed. I have no idea what you just said.");
+      else if (to_okdoki < 5)
+        publish_msg(OKDOKI + " Again... no idea what you just said.");
+      else
+        publish_msg(OKDOKI + " What part of, \"no idea what you just said\", don't you understand?!");
+    }, 1000);
+  }
+
   return true;
 }
 
