@@ -2,4 +2,4 @@
 # -*- bash -*-
 #
 
-echo "pushing to github" && echo "" && git push && echo "" && echo "pushing to heroku" && echo "" && git push heroku master
+echo "Pushing to github..." && echo "" && git push && echo "" && echo "Pushing to heroku..." && echo "" && git push heroku master
