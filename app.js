@@ -35,7 +35,7 @@ app.post('/ask', function(req, resp) {
         if (!req.session.nums) {
           req.session.nums = 72;
         }
-        msg       = "Not ready. Come back in " + (--req.session.nums) + " hours.";
+        msg       = "@okdoki Not ready. Come back in " + (--req.session.nums) + " hours.";
         refresh   = 60 * 60;
         is_notify = true;
       }

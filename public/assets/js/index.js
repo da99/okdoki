@@ -4,6 +4,7 @@
 var ALL_MSGS = $('#messages');
 var MSGS     = $('#messages #msgs');
 var NOTIFYS  = $('#messages #notifys');
+var OKDOKI   = "@okdoki";
 
 var MSG        = 'msg';
 var STATUS_MSG = 'status_msg';
@@ -49,7 +50,7 @@ $(function () {
     run_command(textarea.val());
   });
 
-  publish_notify('Loading...', 'loading ' + STATUS_MSG);
+  publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
   load_or_reload_bots();
   setTimeout(call_ajax, 1000);
 
@@ -155,9 +156,9 @@ function remove_old_msg(raw_num) {
   if (msg_count > msg_limit) {
     MSGS.children('div.' + MSG).remove('div:last-child');
     if (msg_count === (msg_limit + 1)) {
-      append_msg("1 old message deleted.", full_css);
+      append_msg(OKDOKI + " I deleted 1 old message.", full_css);
     } else {
-      append_msg((msg_count - msg_limit) + " old messages deleted.", full_css);
+      append_msg(OKDOKI + " I deleted " + (msg_count - msg_limit) + " old messages deleted.", full_css);
     }
   }
 } // === remove_old_msg
