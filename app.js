@@ -37,7 +37,6 @@ app.post('/ask', function(req, resp) {
         }
         msg       = "@okdoki Not ready. Come back in " + (--req.session.nums) + " hours.";
         refresh   = 60 * 60;
-        is_notify = true;
       }
 
       resp.end(JSON.stringify({ msg: msg, success: true, refresh: refresh, notify: is_notify}));
