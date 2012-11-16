@@ -1,3 +1,4 @@
+var tell = function () { console.log(' ---- '); };
 var express = require('express');
 var app     = express();
 var port    = process.env.PORT || 4567;
@@ -6,6 +7,10 @@ if (!secret) {
   throw new Error('No session secret set.');
 };
 
+var pg = require('pg');
+var pg_client = new pg.Client(process.env.DATABASE_URL);
+pg_client.connect();
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
@@ -13,8 +18,9 @@ app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.locals.pretty = true;
+// app.use(express.session({ secret: secret }));
 app.use(express.cookieParser());
-app.use(express.session({ secret: secret }));
+app.use(express.cookieSession({secret: secret + secret}));
 app.use(express.csrf());
 
 app.post('/ask', function(req, resp) {
@@ -82,6 +88,17 @@ app.get( '/', function (req, resp) {
   resp.render('index', {title: 'OkDoki.com', token: req.session._csrf});
 });
 
+
+app.get('/now', function (req, resp) {
+
+  var query = pg_client.query("SELECT NOW() as when");
+  query.on('row', function(result) {
+    resp.writeHead(200, { "Content-Type": "text/plain" });
+    resp.end("" + result.when);
+  });
+
+});
+
 app.use(function (err, req, resp, next) {
   if (req.param('request_type', undefined) == 'latest msgs') {
     resp.writeHead(200, { "Content-Type": "application/json" });
@@ -95,8 +112,14 @@ app.use(function (err, req, resp, next) {
 });
 
 
-app.listen(port);
+// app.listen(port);
 console.log('Listening on: ' + port);
 
+
+var http = require('http');
+var s = http.createServer(app);
+s.listen(port);
+s.on('close', tell);
+process.on('exit', tell);
 
 
