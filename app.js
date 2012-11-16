@@ -112,14 +112,14 @@ app.use(function (err, req, resp, next) {
 });
 
 
-// app.listen(port);
+app.listen(port);
 console.log('Listening on: ' + port);
 
 
-var http = require('http');
-var s = http.createServer(app);
-s.listen(port);
-s.on('close', tell);
-process.on('exit', tell);
+// var http = require('http');
+// var s = http.createServer(app);
+// s.listen(port);
+// s.on('close', tell);
+// process.on('exit', tell);
 
 
