@@ -8,7 +8,7 @@ if (!secret) {
 };
 
 var pg = require('pg');
-var pg_client = new pg.Client(process.env.DATABASE_URL);
+var pg_client = new pg.Client(process.env.HEROKU_POSTGRESQL_BLACK_URL);
 pg_client.connect();
 
 app.set('views', __dirname + '/views');
@@ -112,14 +112,14 @@ app.use(function (err, req, resp, next) {
 });
 
 
-app.listen(port);
+// app.listen(port);
 console.log('Listening on: ' + port);
 
 
-// var http = require('http');
-// var s = http.createServer(app);
-// s.listen(port);
-// s.on('close', tell);
-// process.on('exit', tell);
+var http = require('http');
+var s = http.createServer(app);
+s.listen(port);
+s.on('close', tell);
+process.on('exit', tell);
 
 
