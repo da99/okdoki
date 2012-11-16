@@ -35,6 +35,7 @@ app.use(express.cookieSession({secret: secret + secret}));
 app.use(express.csrf());
 
 app.post('/ask', function(req, resp) {
+  var is_dev = req.param('is_dev') === 'true' || req.param('is_dev') === true;
   if(!req.session.name)
     req.session.name = "Stranger #" + (new Date()).getSeconds();
 
@@ -46,7 +47,7 @@ app.post('/ask', function(req, resp) {
 
   switch (req_type) {
     case 'latest msgs':
-      if (req.param('is_dev') === 'true' || req.param('is_dev') === true) {
+      if (is_dev) {
         msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getSeconds() ;
       } else {
         if (!req.session.nums) {
@@ -59,6 +60,22 @@ app.post('/ask', function(req, resp) {
       resp.end(JSON.stringify({ msg: msg, success: true, refresh: refresh, notify: is_notify}));
       break;
 
+    case 'save msg':
+      if (req.ip === ip_addr || (is_dev && req.ip === '127.0.0.1')) {
+        var text = 'INSERT INTO bot_chat(date, msg, author) VALUES($1, $2, $3)';
+        var vals = [ (new Date).getTime(), req.param('msg'), req.param('author') ];
+        client.query( text, vals).on('row', function (row) {
+          if (row.author === req.param('author')) {
+            resp.end(JSON.stringify({ msg: id, success: true, refresh: 6 }));
+          } else {
+            resp.end(JSON.stringify({ msg: "Failed.", success: false, refresh: 6 }));
+          }
+        });
+      } else  {
+        resp.end(JSON.stringify({ msg: "inserted", success: true, refresh: 600000 }));
+      }
+
+      break;
     case 'bots list':
       var bots_list = {
         'okdoki'              : {subscribed: true, url: 'http://www.okdoki.com/ask' },
