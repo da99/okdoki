@@ -3,12 +3,23 @@ var express = require('express');
 var app     = express();
 var port    = process.env.PORT || 4567;
 var secret  = process.env.SESSION_SECRET;
+var db_conn = process.env.HEROKU_POSTGRESQL_BLACK_URL;
+var ip_addr = process.env.NODE_IP_FOR_AUTH;
+
 if (!secret) {
   throw new Error('No session secret set.');
-};
+}
+
+if (!db_conn) {
+  throw new Error('No db conn string set.');
+}
+
+if (!ip_addr) {
+  throw new Error('No ip auth set.');
+}
 
 var pg = require('pg');
-var pg_client = new pg.Client(process.env.HEROKU_POSTGRESQL_BLACK_URL);
+var pg_client = new pg.Client(db_conn);
 pg_client.connect();
 
 app.set('views', __dirname + '/views');
@@ -121,5 +132,8 @@ var s = http.createServer(app);
 s.listen(port);
 s.on('close', tell);
 process.on('exit', tell);
+process.on('INT', tell);
+process.on('TERM', tell);
+process.on('SIGTERM', tell);
 
 
