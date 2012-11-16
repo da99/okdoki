@@ -128,7 +128,6 @@ function default_ajax_options(request_type, succ, err) {
 }
 
 
-
 function call_ajax() {
   $.ajax(default_ajax_options('latest msgs'));
 }
@@ -171,7 +170,20 @@ function publish_msg(msg, css) {
   remove_old_notifys();
   ++msg_count;
   remove_old_msg();
-  prepend_msg(msg, css);
+
+  if (msg.pop) {
+    if (msg.length == 0) {
+      log("No new messages.");
+    } else {
+      var msgs = resp.msgs.slice();
+      while(msgs.length) {
+        publish_msg(msgs[0].msg);
+        msgs.shift();
+      }
+    }
+  } else {
+    prepend_msg(msg, css);
+  }
 } // === function
 
 

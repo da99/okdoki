@@ -47,24 +47,19 @@ app.post('/ask', function(req, resp) {
 
   switch (req_type) {
     case 'latest msgs':
-      if (is_dev) {
-        msg = 'Hiya, ' + req.session.name + '! ' + (new Date()).getSeconds() ;
-      } else {
-        if (!req.session.nums) {
-          req.session.nums = 72;
-        }
-        msg       = "@okdoki Not ready. Come back in " + (--req.session.nums) + " hours.";
-        refresh   = 60 * 60;
-      }
-
-      resp.end(JSON.stringify({ msg: msg, success: true, refresh: refresh, notify: is_notify}));
+      pg_client.query("SELECT * FROM bot_chat", function (result) {
+        if (result)
+          resp.end(JSON.stringify({ msg: result, success: true, refresh: result.length * 2 }));
+        else
+          resp.end(JSON.stringify({ msg: [], success: true, refresh: 10 }));
+      });
       break;
 
     case 'save msg':
       if (req.ip === ip_addr || (is_dev && req.ip === '127.0.0.1')) {
         var text = 'INSERT INTO bot_chat(date, msg, author) VALUES($1, $2, $3)';
         var vals = [ (new Date).getTime(), req.param('msg'), req.param('author') ];
-        client.query( text, vals).on('row', function (row) {
+        pg_client.query( text, vals).on('row', function (row) {
           if (row.author === req.param('author')) {
             resp.end(JSON.stringify({ msg: id, success: true, refresh: 6 }));
           } else {
