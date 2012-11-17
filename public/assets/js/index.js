@@ -195,7 +195,7 @@ function remove_old_msg() {
     if (deleted_msgs === 1) {
       append_msg(OKDOKI + " I deleted 1 old message.", full_css);
     } else {
-      append_msg(OKDOKI + " I deleted " + (deleted_msgs) + " old messages deleted.", full_css);
+      append_msg(OKDOKI + " I deleted " + (deleted_msgs) + " old messages.", full_css);
     }
   }
 } // === remove_old_msg
