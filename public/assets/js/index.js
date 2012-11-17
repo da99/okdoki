@@ -12,7 +12,6 @@ var STATUS_MSG = 'status_msg';
 var ERROR_MSG  = 'error_msg';
 
 var page        = 'http://localhost:80/';
-var msg_count   = 0;
 var errors_403  = 0;
 var err_count   = 0;
 var err_showing = true;
@@ -176,15 +175,14 @@ function remove_old_msg() {
   var css = "old_msg_deleted";
   var full_css = css + " " + STATUS_MSG;
   MSGS.children('div.' + css).remove();
+  var msg_count = MSGS.children('div.' + MSG).length;
 
   if (msg_count > msg_limit) {
-    MSGS.children('div.' + MSG).remove('div:last-child');
     if (msg_count === (msg_limit + 1)) {
       append_msg(OKDOKI + " I deleted 1 old message.", full_css);
     } else {
       append_msg(OKDOKI + " I deleted " + (msg_count - msg_limit) + " old messages deleted.", full_css);
     }
-    --msg_count;
   }
 } // === remove_old_msg
 
@@ -203,7 +201,6 @@ function publish_msg(msg, css) {
       }
     }
   } else {
-    ++msg_count;
     prepend_msg(msg, css);
   }
 } // === function
