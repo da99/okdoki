@@ -27,8 +27,10 @@ function add_timer(func, time) {
   if (timers.length === 0) {
     timers.push(1);
     return setTimeout(func, time);
-  } else
+  } else {
+    log('Timer already set: ' + timers[0]);
     return false;
+  }
 }
 
 $(function () {
@@ -124,7 +126,10 @@ function ajax_error(xhr, textStatus, errorThrown) {
     log("Retrying in " + retry_in + " seconds. Error msg: " + textStatus + " Error: " + errorThrown);
   }
 
-  add_timer(call_ajax, (retry_in * 1000));
+  if (this.data.indexOf('latest+msgs') > 0) {
+    timers.pop();
+    add_timer(call_ajax, (retry_in * 1000));
+  }
 }
 
 function default_ajax_options(request_type, succ, err) {
