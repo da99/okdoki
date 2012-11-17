@@ -35,7 +35,7 @@ app.use(express.cookieSession({secret: secret + secret}));
 app.use(express.csrf());
 
 function get_latest_msg(req, resp) {
-  pg_client.query("SELECT * FROM bot_chat WHERE date > $1", [req.param('date')], function (err, meta) {
+  pg_client.query("SELECT * FROM bot_chat WHERE date > $1", [req.body.date], function (err, meta) {
     var result = meta.rows;
     if (meta.rowCount > 0)
       resp.end(JSON.stringify({ msg: result, success: true, refresh: 10 }));
@@ -45,12 +45,13 @@ function get_latest_msg(req, resp) {
 }
 
 app.post('/ask', function(req, resp) {
-  var is_dev = req.param('is_dev') === 'true' || req.param('is_dev') === true;
+  var data = req.body;
+  var is_dev = data.is_dev === true;
   if(!req.session.name)
     req.session.name = "Stranger #" + (new Date()).getSeconds();
 
   resp.writeHead(200, { "Content-Type": "application/json" });
-  var req_type = req.param('request_type', null);
+  var req_type = data.request_type;
   var msg = null;
   var refresh = 1.5;
   var is_notify = false;
@@ -63,7 +64,7 @@ app.post('/ask', function(req, resp) {
     case 'save msg':
       if (req.ip === ip_addr || (is_dev && req.ip === '127.0.0.1')) {
         var text = 'INSERT INTO bot_chat(date, msg, author) VALUES($1, $2, $3) RETURNING id';
-        var vals = [ (new Date).getTime(), req.param('msg'), req.param('author') ];
+        var vals = [ (new Date).getTime(), data.msg, data.author ];
         pg_client.query( text, vals, function (err, meta) {
 
           if (meta.rowCount) {
@@ -130,7 +131,7 @@ app.get('/now', function (req, resp) {
 });
 
 app.use(function (err, req, resp, next) {
-  if (req.param('request_type', undefined) == 'latest msgs') {
+  if (req.body && req.body.request_type == 'latest msgs') {
     resp.writeHead(200, { "Content-Type": "application/json" });
     resp.end(JSON.stringify({ _csrf: req.session._csrf, success: false, msg: err.toString() }));
     return true;

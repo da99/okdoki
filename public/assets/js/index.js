@@ -22,6 +22,7 @@ var last_time   = (new Date()).getTime();
 var max_msg_date = (new Date).getTime() - (1000 * 10);
 var deleted_msgs = 0;
 var timers      = [];
+var no_new_msgs = 0;
 
 function add_timer(func, time) {
   if (timers.length === 0) {
@@ -89,15 +90,11 @@ function ajax_success(resp, stat) {
 
   } else {
 
-    if (resp.msg === 'Error: Forbidden') {
-      if (resp._csrf) {
-        $('#csrf_token').val(resp._csrf);
-        log('Updating token.');
-      } else {
-        log(this, resp);
-      }
+    if (resp.msg === 'Error: Forbidden' && resp._csrf) {
+      $('#csrf_token').val(resp._csrf);
+      log('Updating token.');
     } else {
-      log(this, resp);
+      log("Response back was success=false: ", this, resp);
     }
 
   }
@@ -108,7 +105,7 @@ function ajax_success(resp, stat) {
   if (refresh < 1.5)
     refresh = 1.5;
 
-  if (this.data.indexOf('latest+msgs') > 0 ) {
+  if (this.as_json().request_type === 'latest msgs') {
     timers.pop();
     if ( add_timer(call_ajax, ( refresh * 1000)) )
       log("Refreshing in: " + refresh + " seconds.");
@@ -126,22 +123,28 @@ function ajax_error(xhr, textStatus, errorThrown) {
     log("Retrying in " + retry_in + " seconds. Error msg: " + textStatus + " Error: " + errorThrown);
   }
 
-  if (this.data.indexOf('latest+msgs') > 0) {
+  if (this.as_json().request_type === 'latest msgs') {
     timers.pop();
     add_timer(call_ajax, (retry_in * 1000));
   }
 }
 
 function default_ajax_options(request_type, succ, err) {
-  return {
-    type     : 'POST',
-    url      : window.location.origin + "/ask",
-    cache    : false,
-    data     : {date: (max_msg_date || (new Date).getTime() ), is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
-    dataType : 'json',
-    success  : (succ || ajax_success),
-    error    : (err  || ajax_error)
+  var o = {
+    type        : 'POST',
+    url         : window.location.origin + "/ask",
+    cache       : false,
+    contentType : 'application/json',
+    data        : JSON.stringify({date: (max_msg_date || (new Date).getTime() ), is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()}),
+    dataType    : 'json',
+    success     : (succ || ajax_success),
+    error       : (err  || ajax_error)
   };
+
+  o.as_json = function () {
+    return $.parseJSON(this.data);
+  };
+  return o;
 }
 
 
@@ -209,8 +212,15 @@ function publish_msg(msg, css) {
 
   if (msg.pop) {
     if (msg.length == 0) {
+
+      ++no_new_msgs;
       log("No new messages.");
+      if (no_new_msgs > 4) {
+        no_new_msgs = 0;
+        publish_msg("No new messages.");
+      }
       return false;
+
     } else {
       var msgs = msg.slice();
       while(msgs.length) {
@@ -222,6 +232,7 @@ function publish_msg(msg, css) {
     prepend_msg(msg, css);
   };
 
+  no_new_msgs = 0;
   remove_old_notifys();
   remove_old_msg();
 } // === function
