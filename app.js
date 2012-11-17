@@ -47,9 +47,10 @@ app.post('/ask', function(req, resp) {
 
   switch (req_type) {
     case 'latest msgs':
-      pg_client.query("SELECT * FROM bot_chat", function (result) {
-        if (result)
-          resp.end(JSON.stringify({ msg: result, success: true, refresh: result.length * 2 }));
+      pg_client.query("SELECT * FROM bot_chat", function (err, meta) {
+        var result = meta.rows;
+        if (meta.rowCount > 0)
+          resp.end(JSON.stringify({ msg: result, success: true, refresh: 10 }));
         else
           resp.end(JSON.stringify({ msg: [], success: true, refresh: 10 }));
       });
@@ -57,11 +58,12 @@ app.post('/ask', function(req, resp) {
 
     case 'save msg':
       if (req.ip === ip_addr || (is_dev && req.ip === '127.0.0.1')) {
-        var text = 'INSERT INTO bot_chat(date, msg, author) VALUES($1, $2, $3)';
+        var text = 'INSERT INTO bot_chat(date, msg, author) VALUES($1, $2, $3) RETURNING id';
         var vals = [ (new Date).getTime(), req.param('msg'), req.param('author') ];
-        pg_client.query( text, vals).on('row', function (row) {
-          if (row.author === req.param('author')) {
-            resp.end(JSON.stringify({ msg: id, success: true, refresh: 6 }));
+        pg_client.query( text, vals, function (err, meta) {
+
+          if (meta.rowCount) {
+            resp.end(JSON.stringify({ msg: { msg: req.param('msg'), id: meta.rows[0].id, author: req.param('author') }, success: true, refresh: 6 }));
           } else {
             resp.end(JSON.stringify({ msg: "Failed.", success: false, refresh: 6 }));
           }

@@ -55,7 +55,7 @@ $(function () {
   });
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
-  load_or_reload_bots();
+  // load_or_reload_bots();
   setTimeout(call_ajax, 1000);
 
 });
@@ -132,26 +132,44 @@ function call_ajax() {
   $.ajax(default_ajax_options('latest msgs'));
 }
 
-function create_msg_ele(msg, css) {
+function create_msg_ele(raw_msg, css) {
+  var id, msg;
+
+  if (raw_msg.substr) {
+    msg = raw_msg;
+  } else {
+    msg = raw_msg.msg;
+    id  = "msg" + (raw_msg.id || (new Date).getTime());
+  }
+
   if (css) {
     css = " " + css;
   } else
     css = '';
-  var ele = $("<div></div>", { 'class' : MSG + css });
+  var ele = $("<div></div>", { 'class': MSG + ' '  + css, id: id});
   ele.html(_.escape(msg));
   return ele;
 }
 
+function attach_msg(func, ele) {
+  log($('#' + ele.attr('id')).length);
+  if (ele.attr('id') && $('#' + ele.attr('id')).length > 0 ) {
+    console.log('Skipping: ' + '#' + ele.attr('id'));
+    return false;
+  } else {
+    MSGS[func](ele);
+  }
+}
+
 function append_msg(msg, css) {
-  MSGS.append(create_msg_ele(msg, css));
+  attach_msg('append', create_msg_ele(msg, css));
 }
 
 function prepend_msg(msg, css) {
-  MSGS.prepend(create_msg_ele(msg, css));
+  attach_msg('prepend', create_msg_ele(msg, css));
 }
 
-function remove_old_msg(raw_num) {
-  var num = (!raw_num) ? 1 : raw_num;
+function remove_old_msg() {
   var css = "old_msg_deleted";
   var full_css = css + " " + STATUS_MSG;
   MSGS.children('div.' + css).remove();
@@ -163,25 +181,26 @@ function remove_old_msg(raw_num) {
     } else {
       append_msg(OKDOKI + " I deleted " + (msg_count - msg_limit) + " old messages deleted.", full_css);
     }
+    --msg_count;
   }
 } // === remove_old_msg
 
 function publish_msg(msg, css) {
   remove_old_notifys();
-  ++msg_count;
   remove_old_msg();
 
   if (msg.pop) {
     if (msg.length == 0) {
       log("No new messages.");
     } else {
-      var msgs = resp.msgs.slice();
+      var msgs = msg.slice();
       while(msgs.length) {
-        publish_msg(msgs[0].msg);
+        publish_msg(msgs[0]);
         msgs.shift();
       }
     }
   } else {
+    ++msg_count;
     prepend_msg(msg, css);
   }
 } // === function
@@ -263,18 +282,33 @@ function ajax_success_bots_list(msg, stat, opts) {
 }
 
 function run_command(txt) {
-  publish_msg(txt);
 
-  if($.trim(txt).indexOf(OKDOKI) === 0) {
-    ++to_okdoki;
-    setTimeout( function () {
-      if (to_okdoki < 2 )
-        publish_msg(OKDOKI + " Unfortunately, I am not fully developed. I have no idea what you just said.");
-      else if (to_okdoki < 5)
-        publish_msg(OKDOKI + " Again... no idea what you just said.");
-      else
-        publish_msg(OKDOKI + " What part of, \"no idea what you just said\", don't you understand?!");
-    }, 1000);
+  if($.trim(txt).indexOf("As @") === 0) {
+    txt = txt.replace("As @", "");
+    var author = txt.substr(0, txt.indexOf(" ") );
+    txt = $.trim(txt.replace(author, ""));
+    var opts = default_ajax_options("save msg");
+    opts.data.msg = txt;
+    opts.data.author = author;
+    $.ajax(opts);
+    return true;
+
+  } else {
+
+    publish_msg(txt);
+
+    if($.trim(txt).indexOf(OKDOKI) === 0) {
+      ++to_okdoki;
+      setTimeout( function () {
+        if (to_okdoki < 2 )
+          publish_msg(OKDOKI + " Unfortunately, I am not fully developed. I have no idea what you just said.");
+        else if (to_okdoki < 5)
+          publish_msg(OKDOKI + " Again... no idea what you just said.");
+        else
+          publish_msg(OKDOKI + " What part of, \"no idea what you just said\", don't you understand?!");
+      }, 1000);
+    }
+
   }
 
   return true;
