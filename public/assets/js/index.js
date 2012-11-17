@@ -20,6 +20,15 @@ var is_dev    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -
 var ignore_text = ';-)~ Type here.';
 var last_time   = (new Date()).getTime();
 var max_msg_date = (new Date).getTime() - (1000 * 10);
+var timers      = [];
+
+function add_timer(func, time) {
+  if (timers.length === 0) {
+    timers.push(1);
+    return setTimeout(func, time);
+  } else
+    return false;
+}
 
 $(function () {
 
@@ -56,7 +65,7 @@ $(function () {
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
   // load_or_reload_bots();
-  setTimeout(call_ajax, 1000);
+  add_timer(call_ajax, 1000);
 
 });
 
@@ -96,9 +105,11 @@ function ajax_success(resp, stat) {
   if (refresh < 1.5)
     refresh = 1.5;
 
-  last_time = (new Date()).getTime();
-  setTimeout(call_ajax, ( refresh * 1000));
-  log("Refreshing in: " + refresh + " seconds.");
+  if (this.data.indexOf('latest+msgs') > 0 ) {
+    timers.pop();
+    if ( add_timer(call_ajax, ( refresh * 1000)) )
+      log("Refreshing in: " + refresh + " seconds.");
+  }
 
 } // === func ajax_success
 
@@ -112,7 +123,7 @@ function ajax_error(xhr, textStatus, errorThrown) {
     log("Retrying in " + retry_in + " seconds. Error msg: " + textStatus + " Error: " + errorThrown);
   }
 
-  setTimeout(call_ajax, (retry_in * 1000));
+  add_timer(call_ajax, (retry_in * 1000));
 }
 
 function default_ajax_options(request_type, succ, err) {

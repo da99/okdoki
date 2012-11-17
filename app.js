@@ -35,7 +35,7 @@ app.use(express.cookieSession({secret: secret + secret}));
 app.use(express.csrf());
 
 function get_latest_msg(req, resp) {
-  pg_client.query("SELECT * FROM bot_chat WHERE date >= $1", [req.param('date')], function (err, meta) {
+  pg_client.query("SELECT * FROM bot_chat WHERE date > $1", [req.param('date')], function (err, meta) {
     var result = meta.rows;
     if (meta.rowCount > 0)
       resp.end(JSON.stringify({ msg: result, success: true, refresh: 10 }));
