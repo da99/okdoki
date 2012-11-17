@@ -20,6 +20,7 @@ var is_dev    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -
 var ignore_text = ';-)~ Type here.';
 var last_time   = (new Date()).getTime();
 var max_msg_date = (new Date).getTime() - (1000 * 10);
+var deleted_msgs = 0;
 var timers      = [];
 
 function add_timer(func, time) {
@@ -185,25 +186,26 @@ function prepend_msg(msg, css) {
 function remove_old_msg() {
   var css = "old_msg_deleted";
   var full_css = css + " " + STATUS_MSG;
-  MSGS.children('div.' + css).remove();
   var msg_count = MSGS.children('div.' + MSG).length;
 
   if (msg_count > msg_limit) {
-    if (msg_count === (msg_limit + 1)) {
+    MSGS.children('div.' + css).remove();
+    MSGS.children('div.' + MSG).remove('div:last-child');
+    ++deleted_msgs;
+    if (deleted_msgs === 1) {
       append_msg(OKDOKI + " I deleted 1 old message.", full_css);
     } else {
-      append_msg(OKDOKI + " I deleted " + (msg_count - msg_limit) + " old messages deleted.", full_css);
+      append_msg(OKDOKI + " I deleted " + (deleted_msgs) + " old messages deleted.", full_css);
     }
   }
 } // === remove_old_msg
 
 function publish_msg(msg, css) {
-  remove_old_notifys();
-  remove_old_msg();
 
   if (msg.pop) {
     if (msg.length == 0) {
       log("No new messages.");
+      return false;
     } else {
       var msgs = msg.slice();
       while(msgs.length) {
@@ -213,7 +215,10 @@ function publish_msg(msg, css) {
     }
   } else {
     prepend_msg(msg, css);
-  }
+  };
+
+  remove_old_notifys();
+  remove_old_msg();
 } // === function
 
 
