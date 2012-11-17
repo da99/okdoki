@@ -20,6 +20,7 @@ var msg_limit   = 250;
 var is_dev    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1;
 var ignore_text = ';-)~ Type here.';
 var last_time   = (new Date()).getTime();
+var max_msg_date = (new Date).getTime() - (1000 * 10);
 
 $(function () {
 
@@ -120,7 +121,7 @@ function default_ajax_options(request_type, succ, err) {
     type     : 'POST',
     url      : window.location.origin + "/ask",
     cache    : false,
-    data     : {is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
+    data     : {date: (max_msg_date || (new Date).getTime() ), is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()},
     dataType : 'json',
     success  : (succ || ajax_success),
     error    : (err  || ajax_error)
@@ -140,6 +141,10 @@ function create_msg_ele(raw_msg, css) {
   } else {
     msg = raw_msg.msg;
     id  = "msg" + (raw_msg.id || (new Date).getTime());
+    if ( raw_msg.date ) {
+      if (!max_msg_date || max_msg_date < raw_msg.date)
+        max_msg_date = raw_msg.date
+    }
   }
 
   if (css) {
@@ -152,9 +157,7 @@ function create_msg_ele(raw_msg, css) {
 }
 
 function attach_msg(func, ele) {
-  log($('#' + ele.attr('id')).length);
   if (ele.attr('id') && $('#' + ele.attr('id')).length > 0 ) {
-    console.log('Skipping: ' + '#' + ele.attr('id'));
     return false;
   } else {
     MSGS[func](ele);

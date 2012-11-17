@@ -34,6 +34,16 @@ app.use(express.cookieParser());
 app.use(express.cookieSession({secret: secret + secret}));
 app.use(express.csrf());
 
+function get_latest_msg(req, resp) {
+  pg_client.query("SELECT * FROM bot_chat WHERE date >= $1", [req.param('date')], function (err, meta) {
+    var result = meta.rows;
+    if (meta.rowCount > 0)
+      resp.end(JSON.stringify({ msg: result, success: true, refresh: 10 }));
+    else
+      resp.end(JSON.stringify({ msg: [], success: true, refresh: 10 }));
+  });
+}
+
 app.post('/ask', function(req, resp) {
   var is_dev = req.param('is_dev') === 'true' || req.param('is_dev') === true;
   if(!req.session.name)
@@ -47,13 +57,7 @@ app.post('/ask', function(req, resp) {
 
   switch (req_type) {
     case 'latest msgs':
-      pg_client.query("SELECT * FROM bot_chat", function (err, meta) {
-        var result = meta.rows;
-        if (meta.rowCount > 0)
-          resp.end(JSON.stringify({ msg: result, success: true, refresh: 10 }));
-        else
-          resp.end(JSON.stringify({ msg: [], success: true, refresh: 10 }));
-      });
+      get_latest_msg(req, resp);
       break;
 
     case 'save msg':
@@ -63,7 +67,8 @@ app.post('/ask', function(req, resp) {
         pg_client.query( text, vals, function (err, meta) {
 
           if (meta.rowCount) {
-            resp.end(JSON.stringify({ msg: { msg: req.param('msg'), id: meta.rows[0].id, author: req.param('author') }, success: true, refresh: 6 }));
+            get_latest_msg(req, resp)
+            // resp.end(JSON.stringify({ msg: { msg: req.param('msg'), id: meta.rows[0].id, author: req.param('author') }, success: true, refresh: 6 }));
           } else {
             resp.end(JSON.stringify({ msg: "Failed.", success: false, refresh: 6 }));
           }
