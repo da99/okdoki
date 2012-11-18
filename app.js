@@ -1,4 +1,25 @@
 var tell = function () { console.log(' ---- '); };
+
+var password_hash = require('password-hash');
+
+var shortid = require('shortid');
+var passport      = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    console.log("Not ready: " + username);
+    done(null, false, {message: "Not ready."});
+  }
+));
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+passport.deserializeUser(function (id, done) {
+  done(null, {username: "bob", id: "1"});
+});
+
+
 var express = require('express');
 var app     = express();
 var port    = process.env.PORT || 4567;
@@ -22,17 +43,32 @@ var pg = require('pg');
 var pg_client = new pg.Client(db_conn);
 pg_client.connect();
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-
 // app.use(express.errorHandler());
+if (process.env.DEV) {
+  app.use(express.logger('dev'));
+}
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.locals.pretty = true;
-// app.use(express.session({ secret: secret }));
 app.use(express.cookieParser());
 app.use(express.cookieSession({secret: secret + secret}));
 app.use(express.csrf());
+
+app.use(passport.initialize());
+// Must go after session middleware.
+app.use(passport.session());
+
+
+app.configure( function () {
+  app.set('view engine', 'jade');
+  app.set('views', __dirname + '/views');
+});
+
+function write_plain(r, txt) {
+  resp.writeHead(404, { "Content-Type": "text/plain" });
+  resp.end(txt);
+}
 
 function get_latest_msg(req, resp) {
   pg_client.query("SELECT * FROM bot_chat WHERE date > $1", [req.body.date], function (err, meta) {
@@ -44,6 +80,7 @@ function get_latest_msg(req, resp) {
   });
 }
 
+app.use(app.router)
 app.post('/ask', function(req, resp) {
   var data = req.body;
   var is_dev = data.is_dev === true;
@@ -119,6 +156,10 @@ app.get( '/', function (req, resp) {
   resp.render('index', {title: 'OkDoki.com', token: req.session._csrf});
 });
 
+app.get( '/login', function (req, resp) {
+  resp.render('login', {title: 'Login', token: req.session._csrf});
+});
+
 
 app.get('/now', function (req, resp) {
 
@@ -130,30 +171,82 @@ app.get('/now', function (req, resp) {
 
 });
 
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}), function (req, resp) {
+  write_plain(resp, "authetincaed");
+});
+
+app.post('/register', function (req, resp) {
+
+  var mask_id            = shortid.seed((req.ip + (new Date).getTime()).replace( /[^0-9]/g, '')).generate();
+  var consumer_id        = shortid.seed((req.ip + (new Date).getTime()).replace( /[^0-9]/g, '')).generate();
+  var now                = (new Date).getUTCMilliseconds() ;
+  var data               = req.body;
+  var passphrase         = data.passphrase.trim();
+  var confirm_passphrase = data.confirm_passphrase.trim();
+
+
+  var text = '\
+    BEGIN                                                                      \
+     INSERT INTO masks(id, consumer_id, created_at, name) VALUES($1, $2, $3, $4) \
+     INSERT INTO consumers(id, created_at, contact_info, passphrase_hash) VALUES( $5, $6, $7, $10)   \
+    COMMIT;                                                                    \
+  ';
+
+  if (passphrase !== confirm_passphrase) {
+    resp.end(JSON.stringify({ msg: "Passwords do not match.", success: false }));
+    return false;
+  };
+
+  var vals = [
+    mask_id, consumer_id, now, data.username,
+    consumer_id, now, data.contact_info, password_hash.generate(data.passphrase)
+  ];
+
+  pg_client.query( text, vals, function (err, meta) {
+
+    if (err || meta.rowCount === 0) {
+      console.log(err);
+      resp.end(JSON.stringify({ msg: "Unknown error. Contact website owner to fix this.", success: false }));
+    } else {
+      resp.end(JSON.stringify({ msg: "Account created. Login with your username/passphrase.", success: true }));
+    }
+
+  });
+
+
+});
+
+app.use(function (req, resp, next) {
+  resp.writeHead(404, { "Content-Type": "text/plain" });
+  resp.end("Missing url. Check the address.");
+});
+
 app.use(function (err, req, resp, next) {
+
+  console.log(err);
+
   if (req.body && req.body.request_type == 'latest msgs') {
     resp.writeHead(200, { "Content-Type": "application/json" });
     resp.end(JSON.stringify({ _csrf: req.session._csrf, success: false, msg: err.toString() }));
     return true;
   };
 
-  console.log(err);
   next()
   // res.send(500, "Something broke. Try later.");
 });
 
 
-// app.listen(port);
+app.listen(port);
 console.log('Listening on: ' + port);
 
 
-var http = require('http');
-var s = http.createServer(app);
-s.listen(port);
-s.on('close', tell);
-process.on('exit', tell);
-process.on('INT', tell);
-process.on('TERM', tell);
-process.on('SIGTERM', tell);
+// var http = require('http');
+// var s = http.createServer(app);
+// s.listen(port);
+// s.on('close', tell);
+// process.on('exit', tell);
+// process.on('INT', tell);
+// process.on('TERM', tell);
+// process.on('SIGTERM', tell);
 
 

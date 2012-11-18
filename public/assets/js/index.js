@@ -45,6 +45,22 @@ $(function () {
 
   var create_msg = $('#create_msg');
   var textarea   = create_msg.children('textarea');
+  var consumer_form = null;
+  var consumer_link = null;
+
+  $('#nav_bar li.sign-in, #nav_bar li.create-account').click( function (e) {
+    e.preventDefault();
+    if ( $(e.target) === consumer_link )
+      return false;
+    if (consumer_form) {
+      consumer_link.removeClass('selected');
+      consumer_form.hide();
+    }
+    consumer_form = $($(e.target).attr('href'));
+    consumer_form.show();
+    consumer_link = $(e.target);
+    consumer_link.addClass('selected');
+  });
 
   textarea.click(function () {
     if (textarea.val() === ignore_text) {
