@@ -37,6 +37,7 @@ block content
             input.field(type='password', name="passphrase", value="")
           div.submit
             button.submit Sign-In
+            a.cancel(href="#cancel") Cancel
 
       div.form(id='create_account')
         h2 Create Account
@@ -52,6 +53,8 @@ block content
             input.field(type='password', name="confirm-passphrase", value="")
           div.submit
             button.submit Create Account
+            a.cancel(href="#cancel") Cancel
+
       div(id='messages')
         div(id='notifys')
         div(id='msgs')

@@ -62,6 +62,19 @@ $(function () {
     consumer_link.addClass('selected');
   });
 
+  $('div.form div.submit a.cancel').click( function (e) {
+    e.preventDefault();
+
+    if (consumer_form) {
+      consumer_form.hide();
+      consumer_form = null;
+
+      consumer_link.removeClass('selected');
+      consumer_link = null;
+    }
+
+  });
+
   textarea.click(function () {
     if (textarea.val() === ignore_text) {
       textarea.val('');
