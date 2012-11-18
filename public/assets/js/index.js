@@ -34,17 +34,31 @@ function add_timer(func, time) {
   }
 }
 
+function enable_form(form) {
+  $(form).find('div.submit').css('visibility', 'visible');
+}
+
+function disable_form(form) {
+  $(form).find('div.submit').css('visibility', 'hidden');
+}
+
+function report_form_error(form, msg) {
+  var status = $(form).find("div.status");
+  var content = $(form).find("div.content");
+  content.text(msg);
+  status.show();
+}
+
 $(function () {
 
   if (is_dev) {
     log('Using dev values.');
     msg_limit   = 6;
-    setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
+    // setTimeout(function () { flash($('#bots-o ul li:first-child')); }, 1500);
   }
 
-
-  var create_msg = $('#create_msg');
-  var textarea   = create_msg.children('textarea');
+  var create_msg    = $('#create_msg');
+  var textarea      = create_msg.children('textarea');
   var consumer_form = null;
   var consumer_link = null;
 
@@ -60,6 +74,58 @@ $(function () {
     consumer_form.show();
     consumer_link = $(e.target);
     consumer_link.addClass('selected');
+  });
+
+  $('div.form div.submit button.submit').click( function (e) {
+    e.preventDefault();
+    var form = $($(e.target).parents('form')[0]);
+    var obj = {};
+
+    $.each(form.serializeArray(), function (i, ele) {
+      obj[ele.name] = ele.value;
+    });
+
+    report_form_error(form, 'Sending info...');
+    obj.is_dev = is_dev;
+    obj._csrf  = $('#csrf_token').val();
+    disable_form(form);
+
+    var o = {
+      type        : 'POST',
+      url         : window.location.origin + $(form).attr('action'),
+      cache       : false,
+      contentType : 'application/json',
+      data        : JSON.stringify(obj),
+      dataType    : 'json',
+      success     : function (resp, stat) {
+
+        enable_form(form);
+
+        if (resp.success)
+          $(form).reset();
+
+        switch (form.attr('action')) {
+          case '/sign-in':
+            report_form_error(form, resp.msg);
+            break;
+          case '/create-account':
+            report_form_error(form, resp.msg);
+            break;
+          default:
+        }
+
+        report_form_erro(form, "");
+      },
+      error       : function (xhr, textStatus, errThrown) {
+        enable_form(form);
+        log(textStatus, errThrown);
+        report_form_erro(form, "Programmer error. Try again later or contact website help.");
+      }
+    };
+
+    return false;
+    $.ajax(obj);
+
   });
 
   $('div.form div.submit a.cancel').click( function (e) {

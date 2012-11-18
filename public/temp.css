@@ -124,6 +124,11 @@ code {
       color: #FD6C08;
     }
 
+      div.status {
+        display: none;
+        font-style: italic;
+      }
+
       div.form h2 {
         font-size: 120%;
       }
