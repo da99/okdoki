@@ -134,6 +134,13 @@ code {
 
       div.form input.field {
         width: 95%;
+        font-size: 150%;
+        font-family: monospace;
+      }
+
+      div.form div.passphrase input.field,
+      div.form div.confirm-passphrase input.field {
+        font-size: 180%;
       }
 
       div.form div.submit button {
