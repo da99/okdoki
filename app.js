@@ -66,9 +66,15 @@ app.configure( function () {
 });
 
 function write_plain(r, txt) {
-  resp.writeHead(404, { "Content-Type": "text/plain" });
+  resp.writeHead(200, { "Content-Type": "text/plain" });
   resp.end(txt);
 }
+
+function write_json(resp, o) {
+  resp.writeHead(200, { "Content-Type": "application/json" });
+  resp.end(JSON.stringify(o));
+}
+
 
 function get_latest_msg(req, resp) {
   pg_client.query("SELECT * FROM bot_chat WHERE date > $1", [req.body.date], function (err, meta) {
@@ -156,9 +162,9 @@ app.get( '/', function (req, resp) {
   resp.render('index', {title: 'OkDoki.com', token: req.session._csrf});
 });
 
-app.get( '/login', function (req, resp) {
-  resp.render('login', {title: 'Login', token: req.session._csrf});
-});
+// app.get( '/login', function (req, resp) {
+  // resp.render('login', {title: 'Login', token: req.session._csrf});
+// });
 
 
 app.get('/now', function (req, resp) {
@@ -171,11 +177,12 @@ app.get('/now', function (req, resp) {
 
 });
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}), function (req, resp) {
-  write_plain(resp, "authetincaed");
+app.post('/sign-in', function (req, resp) {
+  // passport.authenticate('local'),
+  write_json(resp, { msg: "Not ready.", success: false });
 });
 
-app.post('/register', function (req, resp) {
+app.post('/create-account', function (req, resp) {
 
   var mask_id            = shortid.seed((req.ip + (new Date).getTime()).replace( /[^0-9]/g, '')).generate();
   var consumer_id        = shortid.seed((req.ip + (new Date).getTime()).replace( /[^0-9]/g, '')).generate();
@@ -231,8 +238,8 @@ app.use(function (err, req, resp, next) {
     return true;
   };
 
-  next()
-  // res.send(500, "Something broke. Try later.");
+  // next()
+  resp.send(500, "Something broke. Try later.");
 });
 
 

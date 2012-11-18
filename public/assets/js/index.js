@@ -119,12 +119,11 @@ $(function () {
       error       : function (xhr, textStatus, errThrown) {
         enable_form(form);
         log(textStatus, errThrown);
-        report_form_erro(form, "Programmer error. Try again later or contact website help.");
+        report_form_error(form, "Programmer error. Try again later or contact website help.");
       }
     };
 
-    return false;
-    $.ajax(obj);
+    $.ajax(o);
 
   });
 
