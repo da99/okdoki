@@ -1,0 +1,107 @@
+#!/usr/bin/env node
+
+var ups = [], downs = [];
+
+downs.push('DROP TABLE IF EXISTS bot_chat');
+downs.push('DROP TABLE IF EXISTS consumers');
+downs.push('DROP TABLE IF EXISTS masks');
+
+ups.push(' \
+   CREATE TABLE IF NOT EXISTS bot_chat ( \
+    id serial,   \
+    date bigint, \
+    msg text,    \
+    author varchar(20) \
+)');
+
+ups.push(' \
+ CREATE TABLE IF NOT EXISTS consumers ( \
+   id varchar(15), \
+   created_at integer,  \
+   trashed_at integer,  \
+   contact_info text,   \
+   passphrase_hash varchar(50)    \
+)');
+
+ups.push( ' \
+ CREATE TABLE IF NOT EXISTS masks ( \
+   id varchar(15) UNIQUE,   \
+   consumer_id varchar(15), \
+   created_at integer,  \
+   trashed_at integer,  \
+   name varchar(10) NOT NULL UNIQUE \
+)');
+
+
+// ==========================================================================================
+
+var cmd   = (process.argv[2] || 'nothing')
+, do_up   = (cmd === 'up' || cmd === 'reset')
+, do_down = (cmd === 'down' || cmd === 'reset')
+, pg = require('pg')
+, pg_closed
+, query;
+if (!do_up && !do_down) {
+  console.log('Unknown cmd: ' + process.argv[2]);
+  process.exit(1);
+}
+
+
+pg.connect(process.env.DATABASE_URL, function (err, client) {
+
+  if (err) {
+    console.log('Connection error: ' + err);
+    close_db();
+    return false;
+  }
+
+  var qs = [];
+
+  if (do_down) {
+    qs = qs.concat(downs);
+  } // === do_down
+
+  if (do_up) {
+    qs = qs.concat(ups);
+  } // === do_up
+
+  function run_qs() {
+
+    if (qs.length === 0) {
+      close_db();
+      return false;
+    }
+
+    client.query(qs.shift(), function(err, result) {
+      show_db_results(err, result);
+      run_qs();
+    });
+
+  }
+
+  run_qs();
+
+});
+
+function show_db_results(err, result) {
+  if (err)
+    console.log('SQL Error: ', err);
+
+  console.log('SQL result: ', result);
+
+  if (err)
+    process.exit(1);
+
+  return true;
+}
+
+function close_db() {
+  if (!pg_closed) {
+    console.log('Closing connections.');
+    pg && pg.end();
+    pg_closed = true;
+  }
+}
+
+
+console.log('Process id: ' + process.pid);
