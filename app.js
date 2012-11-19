@@ -22,6 +22,7 @@ passport.deserializeUser(function (id, done) {
 
 var express = require('express');
 var app     = express();
+var server  = null;
 var port    = process.env.PORT || 4567;
 var secret  = process.env.SESSION_SECRET;
 var db_conn = process.env.HEROKU_POSTGRESQL_BLACK_URL;
@@ -243,17 +244,26 @@ app.use(function (err, req, resp, next) {
 });
 
 
-app.listen(port);
+server = app.listen(port);
 console.log('Listening on: ' + port);
 
 
-// var http = require('http');
-// var s = http.createServer(app);
-// s.listen(port);
-// s.on('close', tell);
-// process.on('exit', tell);
-// process.on('INT', tell);
-// process.on('TERM', tell);
-// process.on('SIGTERM', tell);
+function cleanup() {
+  server.close( function () {
+    console.log('Closing db connections.');
+    pg_client.end();
+  });
+}
 
+function force_cleanup() {
+  cleanup();
+
+  setTimeout( function () {
+    console.error("Could not close connections in time, forcefully shutting down");
+    process.exit(1);
+  }, 30*1000);
+}
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', force_cleanup);
 
