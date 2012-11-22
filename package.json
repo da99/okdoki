@@ -15,7 +15,6 @@
     "shortid" : "1.x.x"
   },
   "devDependencies": {
-    "supertest": "0.4.x"
   },
   "engines": {
     "node": "0.8.x",

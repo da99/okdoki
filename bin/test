@@ -8,5 +8,5 @@ bin/migrate reset
 
 echo ""
 echo "Running tests..."
-mocha --colors "$@"
+NODE_ENV=production mocha --colors "$@"
 

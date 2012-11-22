@@ -2,4 +2,4 @@
 # -*- bash -*-
 #
 
-USE_LOGGER=true PORT=5000 foreman start
+NODE_ENV=production USE_LOGGER=true PORT=5000 foreman start
