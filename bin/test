@@ -2,6 +2,7 @@
 # -*- bash -*-
 #
 
+PORT=5001
 echo ""
 echo "Reseting db..."
 bin/migrate reset
@@ -9,4 +10,21 @@ bin/migrate reset
 echo ""
 echo "Running tests..."
 NODE_ENV=production mocha --colors "$@"
+
+echo ""
+echo "Starting server on $PORT..."
+PORT=$PORT bin/start &
+
+echo ""
+echo "Running phantomjs/casperjs tests..."
+PORT=$PORT casperjs test/casper.js $PORT
+
+
+echo ""
+echo "Sending SIGTERM to server..."
+pkill -f "lib/app.js $PORT"
+
+echo ""
+
+
 
