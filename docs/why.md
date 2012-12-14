@@ -3,11 +3,11 @@ Why use Okdoki?
 ---------------
 
 * MMaj + Early adapters:
-  * bots + friends: chain letters, etc.
-  * bots + user:    solitary games, word games, etc.
-  * bots + user:    basic lookups, weather, traffic.
-  * bots + user:    content, suggestions, new features/manual
-  * bots + user:    suggestions, personalization, etc.
+  * pets + friends: chain letters, etc.
+  * pets + user:    solitary games, word games, etc.
+  * pets + user:    basic lookups, weather, traffic.
+  * pets + user:    content, suggestions, new features/manual
+  * pets + user:    suggestions, personalization, etc.
   * Fam-Spam control.
 
 * MMaj:
@@ -15,8 +15,8 @@ Why use Okdoki?
   * Homepages.
 
 * Paid features:
-  * APIs: bot creation, homepage customization, apps, etc.
-  * bots AS command line UI
-  * bots: notifications/alerts for personals, freelances, scores, etc.
+  * APIs: pet creation, homepage customization, apps, etc.
+  * pets AS command line UI
+  * pets: notifications/alerts for personals, freelances, scores, etc.
   * Customization: fiat, precious metals, barter.
 
