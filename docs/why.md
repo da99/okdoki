@@ -6,15 +6,21 @@ Features vs. Topic:
 * Focus on: consumers , orgs, pets
   * They provide the topics, you provide the tools/features.
   * It becomes automatic.
-
+  * Limits: mail, etc.
+    * Biz packs: unlimited receipts, etc.
+    * Scarcity leads to more use.
+    * Feedback lets people come up with alternatives.
 
 Signups:
+* chat pets + homepages lifes/orgs + mail + events + trading
+* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 * barter/bargain for extra features
 * pets, lifes, homepages, friend tribute pages
   * games, learn/test prep, productivity, content/suggestions
 * basic club/biz/org + Events
 * API: activities, games, etc.
   * solitary + friendship + conversation starters/games
+* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 Spam  Control
 * Subscribe:
