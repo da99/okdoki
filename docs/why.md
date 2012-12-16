@@ -4,8 +4,16 @@ Why use Okdoki?
 
 Signups:
 * barter/bargain for extra features
-* pets, lifes, homepages, tribute pages
+* pets, lifes, homepages, friend tribute pages
   * games, learn/test prep, productivity, content/suggestions
+* basic club/biz/org + Events
+* API: activities, games, etc.
+  * solitary + friendship + conversation starters/games
+
+Spam  Control
+* Subscribe:
+  * 1) Important Stuff
+  * 2) Unimportant + Important Stuff
 
 MMaj + Early adapters:
   * pets + friends: chain letters, etc.
@@ -18,6 +26,7 @@ MMaj + Early adapters:
 MMaj:
   * Multiple lifes.
   * Homepages.
+  * Events
 
 Paid features:
   * APIs: pet creation, homepage customization, apps, etc.
@@ -25,6 +34,8 @@ Paid features:
   * pets: notifications/alerts for personals, freelances, scores, etc.
   * Customization: fiat, precious metals, barter.
   * pets: trade-able, sell-able, etc.
+  * limits: subscribers, randoms, photos, etc.
+  * biz packs
 
 
 
