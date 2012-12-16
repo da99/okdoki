@@ -2,9 +2,9 @@
 Why use Okdoki?
 ---------------
 
-Technology vs. Topic:
+Features vs. Topic:
 * Focus on: consumers , orgs, pets
-  * They provide the topics, you provide the tech.
+  * They provide the topics, you provide the tools/features.
   * It becomes automatic.
 
 
