@@ -2,6 +2,12 @@
 Why use Okdoki?
 ---------------
 
+Technology vs. Topic:
+* Focus on: consumers , orgs, pets
+  * They provide the topics, you provide the tech.
+  * It becomes automatic.
+
+
 Signups:
 * barter/bargain for extra features
 * pets, lifes, homepages, friend tribute pages
