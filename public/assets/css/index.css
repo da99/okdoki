@@ -46,6 +46,9 @@ body {
 div.form {
   margin: 0 10px;
 }
+  div.form h2 {
+    color: #185DAD;
+  }
   div.form a.cancel {
     margin-left: 10px;
   }
@@ -65,8 +68,7 @@ div.form {
   padding: 10px 0;
   font-style: italic;
   font-family: serif;
-  font-weight: bold;
-  color: #185DAD;
+  color: #65758A;
 }
 
 #create_account {
