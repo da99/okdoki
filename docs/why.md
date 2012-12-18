@@ -37,9 +37,26 @@ MMaj + Early adapters:
   * Fam-Spam control.
 
 MMaj:
-  * Multiple lifes.
-  * Homepages.
-  * Events
+* reputation voters
+* wishlist
+* payments
+  - make stuff that makes people drool
+  - friendship stuff
+* guinea pigs/reviews
+  - travel Q&A
+* Ads to most vocal
+  - opt-ins
+* protect smarties from MMaj.
+* aff links.
+* vanity stuff
+  - keywords
+  - urls
+  - usernames/yr
+  - customized homepage
+  - limits: users/mess/etc.
+
+
+
 
 Chat Room Activities replace Flash-based games:
 * word/timer guessing
@@ -59,6 +76,13 @@ Chat Room Activities replace Flash-based games:
 * Pet Store: Gift, Trading, etc.
 * Control a person's feed: for 5 posts.
 * Topic chat
+* Picky about giving out scarced badges: cool/meh/smarty
+* Games:
+  - timers
+  - half-screen
+  - mess.
+  - chess, go, board, etc.
+  - API to developers.
 
 
 
