@@ -1,53 +1,3 @@
-/* Palettes used: */
-/* http://www.colourlovers.com/palette/2524852/FRUITY */
-
-/* Spanning the height of the browser window: */
-/* http://www.webmasterworld.com/forum83/200.htm */
-
-
-html, body {
-  margin   : 0;
-  padding  : 0;
-  height   : 100%;
-  overflow : hidden;
-}
-
-body {
-  background-color: #F2F2F2;
-}
-
-form {
-  padding: 0;
-  margin: 0;
-}
-
-a:link {
-  color: #F85D95;
-  text-decoration: underline;
-}
-
-a:visited {
-  color: #A3E452;
-}
-
-a:hover {
-  color: #E42323;
-}
-
-h2 {
-  font-size: 1.0em;
-  line-height: 1.5em;
-  padding: 0;
-  margin: 0;
-}
-
-code {
-  display: block;
-  margin: 0;
-  padding: 4px 2px 4px 5px;
-  border-radius: 4px 0 0 4px;
-}
-
 #chatroom {
   position : relative;
   margin   : 0 auto;
@@ -290,6 +240,7 @@ code {
     #about_bar div.section p {
       padding-right: 8px;
     }
+
 
 
 
