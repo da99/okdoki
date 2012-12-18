@@ -16,13 +16,12 @@ block content
       | <strong>chat</strong>, <strong>chat pets</strong>,
       | <strong>lifes</strong>, and <strong>homepages</strong>.
     
-
   div(id='forms')
     p(id='show_sign_in')
-      a(href="#sign_in") Sign-In
+      a(href="#sign_in") Log-In
 
     div.form(id='sign_in')
-      h2 Sign-in
+      h2 Log-in
       form(action='/sign-in', method='post')
         div.username
           label(for="mask_name") Username
@@ -55,9 +54,12 @@ block content
           div.content
         div.submit
           button.submit Create Account
-          a.cancel(href="#cancel") Cancel
 
-
+  div(id='footer')
+    p 
+      | (c) 2012-2013 Okdoki.com. Some rights reserved.
+    p
+      | All other copyrights belong to their respective owners.
 
 
 
