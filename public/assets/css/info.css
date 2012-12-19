@@ -3,7 +3,7 @@ body {
   background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
 }
 
-#intro, #about {
+#intro, div.user_submitted {
   margin: 0 20px 0 290px;
 }
 
@@ -24,8 +24,8 @@ body {
   }
 
   #control {
-    border-radius: 0 0 5px 5px;
-    background: #000;
+    border-radius: 0 0 6px 0;
+    background: #191922;
     padding: 10px;
   }
 
@@ -48,9 +48,25 @@ body {
     padding: 0 20px 5px 20px;
   }
 
-#about {
-  background: grey;
-  padding: 20px;
-  border-radius: 3px;
+div.user_submitted {
+  background: #fff;
+  border-radius: 0 0 3px 3px;
+  padding-bottom: 10px;
 }
+  div.user_submitted h2 {
+    padding: 0;
+    background: #185DAD;
+    color: #fff;
+    padding: 3px 10px;
+    font-weight: normal;
+    font-size: 75%;
+    text-transform: uppercase;
+  }
+
+  div.user_submitted div.body {
+    padding: 10px;
+    border: 1px solid #185DAD;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 0 6px;
+  }
 
