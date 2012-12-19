@@ -1,0 +1,30 @@
+extends ./layout
+
+block footer
+  script(src='/assets/js/underscore-min.js')
+  script(src='/assets/js/jquery-1.8.2.min.js')
+  script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
+  script(src='/assets/js/index.js')
+
+block content
+
+  div(id='sidebar')
+    div.img
+      | Profile picture goes here.
+    div(id='control')
+      ul 
+        li 
+          a(href="#Block") Block
+        li
+          a(href="#Subscribe") Subscribe
+      
+
+  div(id='intro')
+    h2 #{username}
+    p 
+      | Human.
+
+  div(id='about')
+    p 
+      | Stuff about you goes here.
+

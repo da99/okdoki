@@ -11,8 +11,7 @@ block content
   div(id='intro') 
     h2 What is okdoki.com?
     p 
-      | It gives you a bunch of stuff to help
-      | make your friends smile more:
+      | It helps you make your friends smile more:
       | <strong>chat</strong>, <strong>chat pets</strong>,
       | <strong>lifes</strong>, and <strong>homepages</strong>.
     
@@ -38,6 +37,7 @@ block content
 
     p(id='or_create_account')
       | ~ or ~
+
     div.form(id='create_account')
       h2 Create Account
       form(action='/create-account', method='post')
@@ -50,6 +50,9 @@ block content
         div.confirm-passphrase
           label(for="confirm-passphrase") Confirm Passphrase
           input.field(type='password', name="confirm-passphrase", value="")
+        div.email
+          label(for="email") Email (in case you forget your password):
+          input.field(type='text', name="email", value="")
         div.status 
           div.content
         div.submit
