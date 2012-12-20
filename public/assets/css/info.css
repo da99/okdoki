@@ -1,38 +1,16 @@
 
 body {
   background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
+  padding: 10px 0 0 170px;
 }
 
-#intro, div.user_submitted {
-  margin: 0 20px 0 290px;
-}
-
-#sidebar {
-  width: 250px;
-  float: left;
-  margin:  0 0 0 20px;
-  padding: 10px 0;
-}
-
-  #sidebar div.img {
-    border: 1px dashed red;
-    height: 100px;
-    text-align: center;
-    padding-top: 60px;
-    margin-bottom: 10px;
-    background: orange;
-  }
-
-  #control {
-    border-radius: 0 0 6px 0;
-    background: #191922;
-    padding: 10px;
-  }
 
 #intro {
   background: #000;
-  border-radius: 0 0 5px 5px;
   color: #E1EEFF;
+  padding: 6px 0 6px 170px;
+  margin-bottom: 10px;
+  margin-left: -170px;
 }
 
   #intro h2 {
@@ -41,17 +19,20 @@ body {
     font-style: italic;
     font-weight: normal;
     color: #FF721A;
-    padding: 0 20px 0 20px;
+    padding: 0;
+    margin: 0;
   }
 
   #intro p {
-    padding: 0 20px 5px 20px;
+    padding: 0;
+    margin: 0;
   }
 
 div.user_submitted {
   background: #fff;
   border-radius: 0 0 3px 3px;
-  padding-bottom: 10px;
+  padding: 0 0 10px 0;
+  margin: 0 10px 0 0;
 }
   div.user_submitted h2 {
     padding: 0;
@@ -59,7 +40,7 @@ div.user_submitted {
     color: #fff;
     padding: 3px 10px;
     font-weight: normal;
-    font-size: 75%;
+    font-size: 70%;
     text-transform: uppercase;
   }
 
@@ -69,4 +50,28 @@ div.user_submitted {
     border-width: 0 1px 1px 1px;
     border-radius: 0 0 0 6px;
   }
+
+#sidebar {
+  width: 120px;
+  padding: 10px 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  /* background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif') repeat -30px 0; */
+  background: #fff;
+  border: 1px dashed red;
+  border-width: 0 1px 1px 1px;
+  border-radius: 0 0 5px 5px;
+  font-size: 80%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+  #sidebar ul {
+  }
+
+  #sidebar ul li {
+    padding: 0 0 10px 0;
+  }
+
+
 

@@ -9,28 +9,42 @@ block footer
 block content
 
   div(id='sidebar')
-    div.img
-      | Profile picture goes here.
     div(id='control')
       ul 
         li 
           a(href="#Block") Block
         li
-          a(href="#Subscribe") Subscribe
-      
+          a(href="#Subscribe") Subscribe (Everything)
+        li
+          a(href="#Subscribe_No_Spam") Subscribe (Important News Only)
+        li
+          a(href="#ask") Ask
+        li
+          a(href="#Cheer") Cheer
+        li
+          a(href="#Boo") Boo
 
   div(id='intro')
     h2 #{username}
     p 
-      | Human.
+      | Real Name
 
   div.user_submitted(id='about')
-    h2 Contact
+    h2 About Me
     div.body
-      | No contact info. (I'm shy.)
+      | Nothing yet. I'm a very private person.
 
+  div.user_submitted(id='qa')
+    h2 Q&A
+    div.body
+      | Nothing yet.
+
+  div.user_submitted(id='boos')
+    h2 Cheers & BOOs
+    div.body
+      | Nothing yet.
 
   div.user_submitted(id='latest')
     h2 Latest
     div.body
-      | Nothing yet. I'm a very private person.
+      | Nothing yet.
