@@ -109,5 +109,8 @@ div.form {
   #keyword input {
     font-family: monospace;
     font-weight: bold;
-    font-size: 125%;
+    margin: 0px;
+  }
+
+  #keyword button {
   }
