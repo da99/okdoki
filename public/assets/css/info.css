@@ -23,9 +23,15 @@ body {
     margin: 0;
   }
 
-  #intro p {
+  #intro span {
+    color: #fff;
+  }
+
+  #intro span.label {
+    background: transparent;
+    color: #B7D850;
+    font-weight: bold;
     padding: 0;
-    margin: 0;
   }
 
 div.user_submitted {

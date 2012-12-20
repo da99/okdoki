@@ -2,7 +2,7 @@ body {
   background: #fff url("http://megauni.s3.amazonaws.com/bg.gif");
 }
 
-#intro {
+#intro, #keyword {
   margin: 40px 0 0 0;
   padding: 20px 350px 0 20px;
   background: #000;
@@ -12,7 +12,7 @@ body {
 
   #intro h2 {
     font-family: serif;
-    font-size: 180%;
+    font-size: 250%;
     font-style: italic;
     font-weight: normal;
     color: #FF721A;
@@ -79,7 +79,7 @@ div.form {
 #footer {
   background: #000;
   margin: 0;
-  padding: 10px 350px 20px 20px;
+  padding: 5px 350px 10px 20px;
   font-size: 75%;
   color: #92999C;
   text-align: center;
@@ -90,4 +90,24 @@ div.form {
     line-height: 16px;
   }
 
+#keyword {
+  /* background: #fff; */
+  /* border: 2px dotted red; */
+  /* border-width: 2px 0; */
+  /* margin-top: 20px; */
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+  #keyword div.label {
+    background: transparent;
+    color: #B7D850;
+    font-weight: bold;
+    padding: 0;
+  }
 
+  #keyword input {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 125%;
+  }
