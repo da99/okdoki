@@ -78,7 +78,7 @@ block content
             option(value='the_world', selected='selected') The World.
             option(value='choose_recip') Let me specify recipients:
           div(id='enter_recip')
-            input(name='recips', id='recips', type='text', value="@")
+            input(name='recips', id='recips', type='text', value="")
             div
               span.label Example:&nbsp;
               span.value @okdoki @okdoki-bot
@@ -102,7 +102,7 @@ block content
 
         div(id='bots-o')
           h2 Address Book
-          ul
+          div.contacts(id='contacts_list')
 
 
       //

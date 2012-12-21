@@ -173,6 +173,9 @@ $(function () {
   // load_or_reload_bots();
   add_timer(call_ajax, 1000);
 
+  add_contact('okdoki');
+  add_contact('okdoki-bot');
+  $('#contact-okdoki-bot').addClass('chatty');
 });
 
 // ======================================================================
@@ -480,3 +483,11 @@ var cmds = {
 
 };
 
+function add_contact(name) {
+  var list = $('#contacts_list');
+  var html = "<div id=\"contact-" + name + "\" class=\"contact\">";
+  html += name;
+  html += "</div>";
+
+  list.append($(html));
+};

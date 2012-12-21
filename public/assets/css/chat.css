@@ -158,11 +158,10 @@ body {
     }
 
       #bots h2 {
-        color: #2D2D2D;
-        padding: 3px 0 5px 8px;
         border-radius: 4px 0 0 0;
+        color: #2D2D2D;
+        padding: 3px 0 3px 8px;
         font-size: 80%;
-        font-style: italic;
       }
 
       #bots ul {
@@ -178,19 +177,35 @@ body {
         }
 
       #bots-o, #bots-x {
-        border-radius: 4px 0 0 4px;
+        border-radius: 4px 0 0 0;
         margin: 0 0 10px 0;
+      }
+
+      #bots div.contact {
+        border: 1px solid #000;
+        border-width: 0 1px 1px 1px;
+        border-width: 0;
+        padding: 2px 2px 2px 5px;
+        font-style: italic;
+        font-weight: bold;
+        background: #fff;
+        color: #A0A0A0;
+        font-size: 85%;
+      }
+
+      #bots div.chatty {
+        /* background: #FFF175; */
+        font-style: normal;
+        color: #185DAD;
       }
 
       #bots-o {
         padding-left: 0;
-        border: 1px solid #000;
-        border-width: 1px 0 0 1px;
       }
 
         #bots-o h2 {
-          background: #232323;
-          color: #A3E452;
+          background: #185DAD;
+          color: #fff;
         }
 
       #bots-x {
