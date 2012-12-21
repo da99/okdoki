@@ -19,6 +19,10 @@ form {
   margin: 0;
 }
 
+input[type="text"] {
+  margin: 0;
+}
+
 a:link {
   color: #F85D95;
   text-decoration: underline;

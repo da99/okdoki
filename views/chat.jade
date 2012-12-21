@@ -78,7 +78,7 @@ block content
             option(value='the_world', selected='selected') The World.
             option(value='choose_recip') Let me specify recipients:
           div(id='enter_recip')
-            input(name='recips', id='recips', type='text', value="@") 
+            input(name='recips', id='recips', type='text', value="@")
             div
               span.label Example:&nbsp;
               span.value @okdoki @okdoki-bot
@@ -86,14 +86,22 @@ block content
         div.buttons
           button.submit Send
 
+      div(id='create_contact')
+        div.label Add Person to Address Book
+        input(id='add_contact', name='add_contact', type='text')
+        button.submit Add
+
+      div(id='sort_contacts')
+        div.label Sort Address Book
+        select
+          option Available to Chat
+          option A to Z
+
+
       div(id='bots')
 
         div(id='bots-o')
-          h2 :-p
-          ul
-
-        div(id='bots-x')
-          h2 :-x
+          h2 Address Book
           ul
 
 
