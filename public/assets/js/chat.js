@@ -58,7 +58,7 @@ $(function () {
   }
 
   var create_msg    = $('#create_msg');
-  var textarea      = create_msg.children('textarea');
+  var textarea      = $('#the_msg');
   var consumer_form = null;
   var consumer_link = null;
 
@@ -159,6 +159,14 @@ $(function () {
     create_msg.children('textarea').val("");
     // create_msg.children('textarea').blur();
     run_command(cmd);
+  });
+
+  $('#to').change(function () {
+    if ($('#to').val() === 'choose_recip') {
+      $('#enter_recip').show();
+    } else {
+      $('#enter_recip').hide();
+    };
   });
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);

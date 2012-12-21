@@ -4,27 +4,13 @@ block footer
   script(src='/assets/js/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
-  script(src='/assets/js/index.js')
+  script(src='/assets/js/#{view_name}.js')
 
 block content
 
   div(id='chatroom')
 
     div(id='output')
-
-      div(id='nav_bar')
-        h2 OkDoKi.com
-        ul 
-          li.sign-in
-            a(href="#sign_in") Sign-In
-          li.create-account
-            a(href="#create_account") Create Account
-          li.log-out
-            a(href="#log_out") Log-out
-
-        span.status
-          span.intro You are not:
-          span.screen_name  signed in.
 
       div.form(id='sign_in')
         h2 Sign-in
@@ -35,7 +21,7 @@ block content
           div.passphrase
             label(for="passphrase") Passphrase:
             input.field(type='password', name="passphrase", value="")
-          div.status 
+          div.status
             div.content
           div.submit
             button.submit Sign-In
@@ -53,7 +39,7 @@ block content
           div.confirm-passphrase
             label(for="confirm-passphrase") Passphrase
             input.field(type='password', name="confirm-passphrase", value="")
-          div.status 
+          div.status
             div.content
           div.submit
             button.submit Create Account
@@ -66,48 +52,78 @@ block content
 
     div(id='input')
 
+      div(id='nav_bar')
+        span.status
+          span.intro You are:
+          span.screen_name  signed in.&nbsp;
+        a(href="#log_out") Log-out
+
+
       div(id='create_msg')
-        textarea.blur_ed(rows='4') ;-)~ Type here.
-        input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
-        button.submit Send
+        div
+          textarea.blur_ed(id='the_msg', rows='4') ;-)~ Type here.
+          input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
+        div.fieldset
+          if lifes.length === 1
+            span.label From:&nbsp;
+            span.value #{lifes[0]}
+          else
+            div.label From:
+            select(name='from', id='from')
+              option(value='#{screen_name}', selected='selected') #{screen_name}
+              option(id="choose_life", value='#{screen_name}', disabled='disabled') No other lifes created.
+        div.fieldset
+          span.label To:
+          select(name='to', id='to')
+            option(value='the_world', selected='selected') The World.
+            option(value='choose_recip') Let me specify recipients:
+          div(id='enter_recip')
+            input(name='recips', id='recips', type='text', value="@") 
+            div
+              span.label Example:&nbsp;
+              span.value @okdoki @okdoki-bot
+
+        div.buttons
+          button.submit Send
 
       div(id='bots')
 
         div(id='bots-o')
           h2 :-p
-          ul 
+          ul
 
         div(id='bots-x')
           h2 :-x
-          ul 
+          ul
 
 
-      div(id='about_bar')
-        div.section(id='about')
-          h2 About this page:
-          p 
-            | It's is a chat room filled with chat bots that can help 
-            | you in your daily, boring tasks. They can also provide you with 
-            | entertainment when your friends are too busy or too boring.
+      //
+        div(id='about_bar')
+          div.section(id='about')
+            h2 About this page:
+            p
+              | It's is a chat room filled with chat bots that can help
+              | you in your daily, boring tasks. They can also provide you with
+              | entertainment when your friends are too busy or too boring.
 
-        div.section(id='help')
-          h2 Help
+          div.section(id='help')
+            h2 Help
 
-          p To activate a bot, type: 
-          code @Bot.Name You may live.
+            p To activate a bot, type:
+            code @Bot.Name You may live.
 
-          p To de-activate a bot, type: 
-          code @Bot.Name Drop dead.
+            p To de-activate a bot, type:
+            code @Bot.Name Drop dead.
 
-          p To temporarily quiet a talkative bot for 30 minutes: 
-          code @Bot.Name Take a nap.
+            p To temporarily quiet a talkative bot for 30 minutes:
+            code @Bot.Name Take a nap.
 
-          p To view a chat bot's manual:
-          code @Bot.Name I need help.
+            p To view a chat bot's manual:
+            code @Bot.Name I need help.
 
-        div.section(id='genius')
-          h2 Geniuses
+          div.section(id='genius')
+            h2 Geniuses
 
-          a(href="https://github.com/da99/okdoki") Make a Bot.
+            a(href="https://github.com/da99/okdoki") Make a Bot.
 
 

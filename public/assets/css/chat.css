@@ -1,16 +1,12 @@
 html, body {
-  margin   : 0;
-  padding  : 0;
-  height   : 100%;
-  overflow : hidden;
+
+}
+
+body {
+  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
 }
 
 #chatroom {
-  position : relative;
-  margin   : 0 auto;
-  width    : 100%;
-  height   : 100%;
-  clear    : both;
 }
 
   #output {
@@ -24,10 +20,9 @@ html, body {
 
     #nav_bar {
       background: #161616;
-      margin: 0 10px;
-      padding: 4px 3px 4px 10px;
-      border-radius: 0 0 5px 5px;
-      font-size: 90%;
+      font-size: 80%;
+      padding-right: 5px;
+      text-align: right;
     }
 
       #nav_bar h2 {
@@ -63,6 +58,10 @@ html, body {
           font-size: 0.8em;
           font-weight: bold;
         }
+
+      #nav_bar span.status {
+        display: none;
+      }
 
       #nav_bar span.intro {
         color: #ECECEC;
@@ -144,7 +143,7 @@ html, body {
     }
 
       #create_msg textarea {
-        width: 260px;
+        width: 94%;
         color: #000;
       }
 
@@ -210,6 +209,25 @@ html, body {
           padding-bottom: 6px;
           padding-top: 4px;
         }
+
+    div.fieldset {
+      padding: 0 0 4px 0;
+    }
+      div.label, span.label {
+        background: transparent;
+        color: #185DAD;
+        padding: 0;
+        margin: 0;
+      }
+
+    div.buttons {
+      text-align: right;
+      padding: 0 5px 0 0;
+    }
+
+    #enter_recip {
+      display: none;
+    }
 
 #about_bar {
   background    : #161616;
