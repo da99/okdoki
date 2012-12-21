@@ -1,13 +1,67 @@
 body {
-  background: #fff url("http://megauni.s3.amazonaws.com/bg.gif");
+  background: #fff url("http://megauni.s3.amazonaws.com/bg.gif") repeat -125px 0;
 }
 
-#intro, #keyword {
-  margin: 40px 0 0 0;
-  padding: 20px 350px 0 20px;
+#forms {
+  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif') repeat -37px 0;
+  width: 200px;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  text-align: center;
+  padding: 10px 0 30px 0;
+  border-radius:  0 0 10px 5px;
+  border: 2px dotted red;
+  border-top: 0;
+}
+
+  #forms input {
+    width: 90%;
+  }
+
+  div.form {
+    margin: 0 10px;
+  }
+    div.form h2 {
+      color: #185DAD;
+    }
+    div.form a.cancel {
+      margin-left: 10px;
+    }
+
+  #show_sign_in {
+    padding: 0;
+    margin: 0;
+  }
+
+  #sign_in {
+    padding: 0;
+    display: none;
+  }
+
+  #or_create_account {
+    margin: 0;
+    padding: 10px 0;
+    font-style: italic;
+    font-family: serif;
+    color: #65758A;
+  }
+
+  #create_account {
+    padding-top: 0;
+  }
+
+#intro, #keyword, #footer {
+  margin: 0;
+  padding: 0 0 0 240px ;
   background: #000;
   color: #E1EEFF;
   text-align: center;
+}
+
+#intro {
+  margin-top: 40px;
+  padding-top: 15px;
 }
 
   #intro h2 {
@@ -16,10 +70,14 @@ body {
     font-style: italic;
     font-weight: normal;
     color: #FF721A;
+    padding: 0;
+    margin: 0;
+    line-height: 1.3em;
   }
 
   #intro p {
     margin: 0;
+    padding: 0;
   }
 
   #intro strong {
@@ -30,59 +88,11 @@ body {
     font-weight: normal;
   }
 
-#forms {
-  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
-  width: 270px;
-  position: absolute;
-  top: 0;
-  right: 40px;
-  text-align: center;
-  padding: 10px 0 30px 0;
-  border-radius:  0 0 10px 5px;
-  border: 2px dotted red;
-  border-top: 0;
-}
-
-div.form {
-  margin: 0 10px;
-}
-  div.form h2 {
-    color: #185DAD;
-  }
-  div.form a.cancel {
-    margin-left: 10px;
-  }
-
-#show_sign_in {
-  padding: 0;
-  margin: 0;
-}
-
-#sign_in {
-  padding: 0;
-  display: none;
-}
-
-#or_create_account {
-  margin: 0;
-  padding: 10px 0;
-  font-style: italic;
-  font-family: serif;
-  color: #65758A;
-}
-
-#create_account {
-  padding-top: 0;
-}
-
 
 #footer {
-  background: #000;
-  margin: 0;
-  padding: 5px 350px 10px 20px;
+  padding-top: 8px;
   font-size: 75%;
   color: #92999C;
-  text-align: center;
 }
   #footer p {
     margin: 0;
@@ -91,13 +101,9 @@ div.form {
   }
 
 #keyword {
-  /* background: #fff; */
-  /* border: 2px dotted red; */
-  /* border-width: 2px 0; */
-  /* margin-top: 20px; */
   margin-top: 0;
-  padding-top: 0;
-  padding-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
   #keyword div.label {
     background: transparent;
