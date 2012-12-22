@@ -170,6 +170,11 @@ $(function () {
     };
   });
 
+  var sort_contacts_menu = $('#sort_contacts_menu');
+  sort_contacts_menu.change(function () {
+    sort_contacts(sort_contacts_menu.val());
+  });
+
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
   // load_or_reload_bots();
   add_timer(call_ajax, 1000);
@@ -501,10 +506,11 @@ function add_contact(name) {
 
 
 function sort_contacts(a_to_z) {
-  var list = $("contacts_list");
+  var list = $("#contacts_list");
+  list.empty();
+
   switch (a_to_z) {
     case "chatty":
-      list.empty();
       var chatty = [];
       var quiet  = [];
       $.each(contacts, function (name, stat) {
@@ -524,7 +530,6 @@ function sort_contacts(a_to_z) {
       break;
 
     default:
-      list.empty();
       var names = [];
       $.each(contacts, function (name, stat) {
         names.push(name);
