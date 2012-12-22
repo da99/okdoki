@@ -138,6 +138,10 @@ body {
     overflow     : auto;
   }
 
+    #input input.field {
+      width: 93%;
+    }
+
     #create_msg {
       padding: 4px 0 10px 0;
     }
