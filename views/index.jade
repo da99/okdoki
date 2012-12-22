@@ -8,69 +8,82 @@ block footer
 
 block content
 
-  div(id='forms')
-    p(id='show_sign_in')
-      a(href="#sign_in") Log-In
+  if !screen_name
+    div(id='forms')
+      p(id='show_sign_in')
+        a(href="#sign_in") Log-In
 
-    div.form(id='sign_in')
-      h2 Log-in
-      form(action='/sign-in', method='post')
-        div.screen_name
-          label(for="mask_name") Screen name:
-          input.field(type='text', name="mask_name", value="")
-        div.passphrase
-          label(for="passphrase") Passphrase
-          input.field(type='password', name="passphrase", value="")
-        div.status 
-          div.content
-        div.submit
-          button.submit Log-In
+      div.form(id='sign_in')
+        h2 Log-in
+        form(action='/sign-in', method='post')
+          div.screen_name
+            label(for="mask_name") Screen name:
+            input.field(type='text', name="mask_name", value="")
+          div.passphrase
+            label(for="passphrase") Passphrase
+            input.field(type='password', name="passphrase", value="")
+          div.status 
+            div.content
+          div.submit
+            button.submit Log-In
           a.cancel(href="#cancel") Cancel
 
 
-    p(id='or_create_account')
-      | ~ or ~
+      p(id='or_create_account')
+        | ~ or ~
 
-    div.form(id='create_account')
-      h2 Create Account
-      form(action='/create-account', method='post')
-        div.screen_name
-          label(for="mask_name") Screen name:
-          input.field(type='text', name="mask_name", value="")
-        div.passphrase
-          label(for="passphrase") Passphrase
-          input.field(type='password', name="passphrase", value="")
-        div.confirm-passphrase
-          label(for="confirm-passphrase") Confirm Passphrase
-          input.field(type='password', name="confirm-passphrase", value="")
-        div.email
-          label(for="email") Email (in case you forget your password):
-          input.field(type='text', name="email", value="")
-        div.status 
-          div.content
-        div.submit
-          button.submit Create Account
+      div.form(id='create_account')
+        h2 Create Account
+        form(action='/create-account', method='post')
+          div.screen_name
+            label(for="mask_name") Screen name:
+            input.field(type='text', name="mask_name", value="")
+          div.passphrase
+            label(for="passphrase") Passphrase
+            input.field(type='password', name="passphrase", value="")
+          div.confirm-passphrase
+            label(for="confirm-passphrase") Confirm Passphrase
+            input.field(type='password', name="confirm-passphrase", value="")
+          div.email
+            label(for="email") Email (in case you forget your password):
+            input.field(type='text', name="email", value="")
+          div.status 
+            div.content
+          div.submit
+            button.submit Create Account
 
-  div(id='intro') 
-    h2 What is OKdoki.com?
-    p 
-      | Entertain your friends with:
-      | <br />
-      | <strong>chat</strong>, <strong>chat pets</strong>,
-      | <strong>lifes</strong>, and <strong>homepages</strong>.
+  if screen_name
+    - var logged = 'logged_in'
+  else
+    - var logged = ''
+
+
+  div(id='intro', class='#{logged}') 
+    if screen_name
+      h2 Welcome, #{screen_name}.
+      p 
+        | See your <a href="/info/#{screen_name}">homepage</a>
+        | or go into <a href="/chat">chat</a>.
+    else
+      h2 What is OKdoki.com?
+      p 
+        | Entertain your friends with:
+        | <br />
+        | <strong>chat</strong>, <strong>chat pets</strong>,
+        | <strong>lifes</strong>, and <strong>homepages</strong>.
     
 
-  div(id='footer')
-    p 
-      | (c) 2012-2013 OKdoki.com. Some rights reserved.
-    p
-      | All other copyrights belong to their respective owners.
+    div(id='footer')
+      p 
+        | (c) 2012-2013 OKdoki.com. Some rights reserved.
+      p
+        | All other copyrights belong to their respective owners.
 
-  div(id='keyword')
-    div.label
-      | OKdoki keyword or screen-name:
-    div
-      input(type='text', value='', name='keyword')
-      button Go
+    div(id='keyword')
+      div.label
+        | OKdoki keyword or screen-name:
+      div
+        input(type='text', value='', name='keyword')
+        button Go
 
 

@@ -15,6 +15,11 @@ body {
   border-top: 0;
 }
 
+  #forms ul.nav_bar {
+    text-align: left;
+    padding-top: 100px;
+  }
+
   #forms input {
     width: 90%;
   }
@@ -51,18 +56,18 @@ body {
     padding-top: 0;
   }
 
-#intro, #keyword, #footer {
-  margin: 0;
+#intro {
+  margin: 40px 0 0 0;
   padding: 0 0 0 240px ;
   background: #000;
   color: #E1EEFF;
   text-align: center;
-}
-
-#intro {
-  margin-top: 40px;
   padding-top: 15px;
 }
+
+  #intro.logged_in {
+    padding-left: 0;
+  }
 
   #intro h2 {
     font-family: serif;
