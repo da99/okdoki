@@ -23,7 +23,7 @@ var max_msg_date = (new Date).getTime() - (1000 * 10);
 var deleted_msgs = 0;
 var timers      = [];
 var no_new_msgs = 0;
-var contacts = {};
+var chatters = [];
 
 function add_timer(func, time) {
   if (timers.length === 0) {
@@ -170,22 +170,13 @@ $(function () {
     };
   });
 
-  var sort_contacts_menu = $('#sort_contacts_menu');
-  sort_contacts_menu.change(function () {
-    sort_contacts(sort_contacts_menu.val());
-  });
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
   // load_or_reload_bots();
   add_timer(call_ajax, 1000);
 
-  contacts['zebra'] = true;
-  contacts['mike_rogers'] = null;
-  contacts['okdoki'] = null;
-  contacts['jeff_tucker'] = true;
-  contacts['Lew_Rock'] = true;
-
-  sort_contacts('chatty');
+  chatters = ['zebra', 'mike_rogers', 'okdoki', 'jeff_tucker', 'Lew_Rock', 'Lew_Rock'];
+  sort_contacts();
 });
 
 // ======================================================================
@@ -505,40 +496,11 @@ function add_contact(name) {
 };
 
 
-function sort_contacts(a_to_z) {
-  var list = $("#contacts_list");
-  list.empty();
+function sort_contacts() {
+  chatters = _.uniq(chatters).sort();
+  $("#contacts_list").empty();
 
-  switch (a_to_z) {
-    case "chatty":
-      var chatty = [];
-      var quiet  = [];
-      $.each(contacts, function (name, stat) {
-        if (stat)
-          chatty.push(name);
-        else
-          quiet.push(name);
-      });
-      chatty = chatty.sort();
-      quiet  = quiet.sort();
-      $.each(chatty, function (i, val) {
-        $('#' + add_contact(val) ).addClass('chatty');
-      });
-      $.each(quiet, function (i, val) {
-        add_contact(val);
-      });
-      break;
-
-    default:
-      var names = [];
-      $.each(contacts, function (name, stat) {
-        names.push(name);
-      });
-      names = names.sort();
-      $.each(names, function (i, val) {
-        var id = add_contact(val);
-        if (contacts[val])
-          $('#' + id).addClass('chatty');
-      });
-  };
+  $.each(chatters.sort(), function (i, val) {
+    $('#' + add_contact(val)).addClass('chatty');
+  });
 };
