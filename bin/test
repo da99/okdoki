@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+set -u
+set -e
 
 PORT=5001
 echo ""

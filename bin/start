@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+set -u
+set -e
 
 if [ -z "$NODE_ENV" ];
 then DEF_ENV="production";

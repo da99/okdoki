@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u
+set -e
+
+sortE="public/assets/js/jquery.sortElements.js"
+if [ -f "$sortE" ];
+then rm "$sortE";
+fi
+
+wget -O "$sortE" https://github.com/padolsey/jQuery-Plugins/blob/master/sortElements/jquery.sortElements.js
+
