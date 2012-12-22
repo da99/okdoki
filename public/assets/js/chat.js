@@ -23,6 +23,7 @@ var max_msg_date = (new Date).getTime() - (1000 * 10);
 var deleted_msgs = 0;
 var timers      = [];
 var no_new_msgs = 0;
+var contacts = {};
 
 function add_timer(func, time) {
   if (timers.length === 0) {
@@ -173,9 +174,13 @@ $(function () {
   // load_or_reload_bots();
   add_timer(call_ajax, 1000);
 
-  add_contact('okdoki');
-  add_contact('mike_rogers');
-  $('#contact-mike_rogers').addClass('chatty');
+  contacts['zebra'] = true;
+  contacts['mike_rogers'] = null;
+  contacts['okdoki'] = null;
+  contacts['jeff_tucker'] = true;
+  contacts['Lew_Rock'] = true;
+
+  sort_contacts('chatty');
 });
 
 // ======================================================================
@@ -485,9 +490,50 @@ var cmds = {
 
 function add_contact(name) {
   var list = $('#contacts_list');
-  var html = "<div id=\"contact-" + name + "\" class=\"contact\">";
+  var id = "contact-" + name;
+  var html = "<div id=\"" + id + "\" class=\"contact\">";
   html += name;
   html += "</div>";
 
   list.append($(html));
+  return id;
+};
+
+
+function sort_contacts(a_to_z) {
+  var list = $("contacts_list");
+  switch (a_to_z) {
+    case "chatty":
+      list.empty();
+      var chatty = [];
+      var quiet  = [];
+      $.each(contacts, function (name, stat) {
+        if (stat)
+          chatty.push(name);
+        else
+          quiet.push(name);
+      });
+      chatty = chatty.sort();
+      quiet  = quiet.sort();
+      $.each(chatty, function (i, val) {
+        $('#' + add_contact(val) ).addClass('chatty');
+      });
+      $.each(quiet, function (i, val) {
+        add_contact(val);
+      });
+      break;
+
+    default:
+      list.empty();
+      var names = [];
+      $.each(contacts, function (name, stat) {
+        names.push(name);
+      });
+      names = names.sort();
+      $.each(names, function (i, val) {
+        var id = add_contact(val);
+        if (contacts[val])
+          $('#' + id).addClass('chatty');
+      });
+  };
 };
