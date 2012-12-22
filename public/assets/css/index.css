@@ -110,6 +110,9 @@ body {
     color: #B7D850;
     font-weight: bold;
     padding: 0;
+    display: block;
+    padding-right: 25px;
+    padding-bottom: 4px;
   }
 
   #keyword input {
