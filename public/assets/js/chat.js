@@ -174,8 +174,8 @@ $(function () {
   add_timer(call_ajax, 1000);
 
   add_contact('okdoki');
-  add_contact('okdoki-bot');
-  $('#contact-okdoki-bot').addClass('chatty');
+  add_contact('mike_rogers');
+  $('#contact-mike_rogers').addClass('chatty');
 });
 
 // ======================================================================
