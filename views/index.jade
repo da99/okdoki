@@ -4,13 +4,12 @@ block footer
   script(src='/assets/js/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
-  script(src='/assets/js/jquery.sortElements.js')
   script(src='/assets/js/index.js')
 
 
 block content
 
-  if !screen_name
+  if !logged_in
     div(id='forms')
       p(id='show_sign_in')
         a(href="#sign_in") Log-In
@@ -54,17 +53,17 @@ block content
           div.submit
             button.submit Create Account
 
-  if screen_name
-    - var logged = 'logged_in'
+  if logged_in
+    - var css_logged = 'logged_in'
   else
-    - var logged = ''
+    - var css_logged = ''
 
 
-  div(id='intro', class='#{logged}') 
-    if screen_name
-      h2 Welcome, #{screen_name}.
+  div(id='intro', class='#{css_logged}') 
+    if logged_in
+      h2 Welcome, #{screen_names.list.join(', ')}.
       p 
-        | See your <a href="/info/#{screen_name}">homepage</a>
+        | See your <a href="/info/#{screen_names.first}">homepage</a>
         | or go into <a href="/chat">chat</a>.
     else
       h2 What is OKdoki.com?
@@ -73,13 +72,12 @@ block content
         | <br />
         | <strong>chat</strong>, <strong>chat pets</strong>,
         | <strong>lifes</strong>, and <strong>homepages</strong>.
+      div(id='footer')
+        p 
+          | (c) 2012-2013 OKdoki.com. Some rights reserved.
+        p
+          | All other copyrights belong to their respective owners.
     
-
-    div(id='footer')
-      p 
-        | (c) 2012-2013 OKdoki.com. Some rights reserved.
-      p
-        | All other copyrights belong to their respective owners.
 
     div(id='keyword')
       div.label
