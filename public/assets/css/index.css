@@ -126,9 +126,10 @@ body {
   }
 
 body.logged_in {
-  padding: 10px 0 0 310px;
+  padding: 0 0 0 310px;
   background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
 }
+
 
   body.logged_in #intro {
     background: transparent url('http://megauni.s3.amazonaws.com/bg.gif') repeat-y -305px 300px;
