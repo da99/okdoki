@@ -110,3 +110,17 @@ div.block {
   color: #E1EEFF;
   padding: 0;
 }
+
+textarea, select, option {
+  color: #000;
+}
+
+  textarea.blurred {
+    font-style: italic;
+    color: #AFAFAF;
+    font-weight: bold;
+  }
+
+
+
+

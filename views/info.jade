@@ -4,7 +4,7 @@ block footer
   script(src='/assets/js/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
-  script(src='/assets/js/index.js')
+  script(src='/assets/js/info.js')
 
 block content
 
@@ -17,25 +17,26 @@ block content
           div.name
             span.label As:
             span.value &nbsp;#{x}
-          div.add_to_address_book
-            input(type='checkbox', value='add_to_address_book')
-            span Add To Address Book
-          div.sub_e
-            input(type='checkbox', value='sub_e')
-            span Subscribe (Everything)
-          div.sub_i
-            input(type='checkbox', value='sub_i')
-            span  Subscribe (Important News Only)
-          div.hate
-            input(type='checkbox', value='hate')
-            span Block!
+          div.options
+            div.add_to_address_book
+              input(type='checkbox', value='add_to_address_book')
+              span Add To Address Book
+            div.sub_e
+              input(type='checkbox', value='sub_e')
+              span Subscribe (Everything)
+            div.sub_i
+              input(type='checkbox', value='sub_i')
+              span  Subscribe (Important News Only)
+            div.hate
+              input(type='checkbox', value='hate')
+              span Block!
 
   div(id='intro')
     h2 #{life_name}
     div
       span.label Name:&nbsp;
       span Go 99
-      
+
     div
       span.label OKdoki screen-name:&nbsp;
       span #{life_name}
@@ -52,7 +53,8 @@ block content
       | Nothing yet.
       if logged_in
         div.fieldset
-          textarea
+          textarea.blurred Type your question here.
+        div.buttons
           button Ask
 
   div.block(id='boos')
@@ -62,11 +64,11 @@ block content
       if logged_in
         div.fieldset
           select
-            option Boo!
-            option Yay!
+            option Boo this person:
+            option Cheer this person:
         div.fieldset
-          textarea
-        div.fieldset
+          textarea.blurred Type your reason here.
+        div.buttons
           button Save
 
   div.block(id='latest')

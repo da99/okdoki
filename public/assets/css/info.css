@@ -87,5 +87,22 @@ div.block {
     padding: 0 0 10px 0;
   }
 
+  #sidebar div.loading {
+    background: transparent url("/assets/img/med_loading.gif") no-repeat center center;
+  }
+
+    #sidebar div.loading div {
+      visibility: hidden;
+    }
+
+div.block {
+}
+  div.block div.fieldset {
+    text-align: right;
+  }
+
+  div.block div.buttons {
+    text-align: right;
+  }
 
 
