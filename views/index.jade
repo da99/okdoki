@@ -8,72 +8,67 @@ block footer
 
 block content
 
-  if logged_in
-    - var css_logged = 'logged_in'
-  else
-    - var css_logged = ''
+  if !logged_in
+    div(id='forms')
+      p(id='show_sign_in')
+        a(href="#sign_in") Log-In
 
-  div(class='#{css_logged}')
-    if !logged_in
-      div(id='forms')
-        p(id='show_sign_in')
-          a(href="#sign_in") Log-In
-
-        div.form(id='sign_in')
-          h2 Log-in
-          form(action='/sign-in', method='post')
-            div.screen_name
-              label(for="mask_name") Screen name:
-              input.field(type='text', name="mask_name", value="")
-            div.passphrase
-              label(for="passphrase") Passphrase
-              input.field(type='password', name="passphrase", value="")
-            div.status 
-              div.content
-            div.submit
-              button.submit Log-In
-            a.cancel(href="#cancel") Cancel
+      div.form(id='sign_in')
+        h2 Log-in
+        form(action='/sign-in', method='post')
+          div.screen_name
+            label(for="mask_name") Screen name:
+            input.field(type='text', name="mask_name", value="")
+          div.passphrase
+            label(for="passphrase") Passphrase
+            input.field(type='password', name="passphrase", value="")
+          div.status 
+            div.content
+          div.submit
+            button.submit Log-In
+          a.cancel(href="#cancel") Cancel
 
 
-        p(id='or_create_account')
-          | ~ or ~
+      p(id='or_create_account')
+        | ~ or ~
 
-        div.form(id='create_account')
-          h2 Create Account
-          form(action='/create-account', method='post')
-            div.screen_name
-              label(for="mask_name") Screen name:
-              input.field(type='text', name="mask_name", value="")
-            div.passphrase
-              label(for="passphrase") Passphrase
-              input.field(type='password', name="passphrase", value="")
-            div.confirm-passphrase
-              label(for="confirm-passphrase") Confirm Passphrase
-              input.field(type='password', name="confirm-passphrase", value="")
-            div.email
-              label(for="email") Email (in case you forget your password):
-              input.field(type='text', name="email", value="")
-            div.status 
-              div.content
-            div.submit
-              button.submit Create Account
+      div.form(id='create_account')
+        h2 Create Account
+        form(action='/create-account', method='post')
+          div.screen_name
+            label(for="mask_name") Screen name:
+            input.field(type='text', name="mask_name", value="")
+          div.passphrase
+            label(for="passphrase") Passphrase
+            input.field(type='password', name="passphrase", value="")
+          div.confirm-passphrase
+            label(for="confirm-passphrase") Confirm Passphrase
+            input.field(type='password', name="confirm-passphrase", value="")
+          div.email
+            label(for="email") Email (in case you forget your password):
+            input.field(type='text', name="email", value="")
+          div.status 
+            div.content
+          div.submit
+            button.submit Create Account
 
 
-    div(id='intro', class='#{css_logged}') 
-      if !logged_in
-        h2 What is OKdoki.com?
+    div(id='intro') 
+      h2 What is OKdoki.com?
+      p 
+        | Entertain your friends with:
+        | <br />
+        | <strong>chat</strong>, <strong>chat pets</strong>,
+        | <strong>lifes</strong>, and <strong>homepages</strong>.
+      div(id='footer')
         p 
-          | Entertain your friends with:
-          | <br />
-          | <strong>chat</strong>, <strong>chat pets</strong>,
-          | <strong>lifes</strong>, and <strong>homepages</strong>.
-        div(id='footer')
-          p 
-            | (c) 2012-2013 OKdoki.com. Some rights reserved.
-          p
-            | All other copyrights belong to their respective owners.
-      
+          | (c) 2012-2013 OKdoki.com. Some rights reserved.
+        p
+          | All other copyrights belong to their respective owners.
+    
 
+  else
+    div(id='intro')
       div(id='keyword')
         div.label
           | OKdoki keyword or screen-name:
@@ -81,14 +76,13 @@ block content
           input(type='text', value='', name='keyword')
           button Go
 
-      if logged_in
-        h2 Welcome, #{screen_names.list.join(', ')}.
+      h2 Welcome, #{screen_names.list.join(', ')}.
 
-  if logged_in
     div.block(id='what_you_can_do_now')
       h2 What you can do now:
       div.body 
-        You can go into chat.
+        | You can go into chat:&nbsp;
+        a(href="/chat") okdoki.com/chat
 
     div.block(id='homepages')
       h2 Your homepages:

@@ -65,10 +65,6 @@ body {
   padding-top: 15px;
 }
 
-  #intro.logged_in {
-    padding-left: 0;
-  }
-
   #intro h2 {
     font-family: serif;
     font-size: 250%;
@@ -129,25 +125,37 @@ body {
   #keyword button {
   }
 
-div.logged_in {
+body.logged_in {
+  padding: 10px 0 0 310px;
+  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
 }
-  div.logged_in #intro {
-    padding: 10px 15px 10px 10px;
-    margin: 5px 5px 0 0;
-    float: left;
-    border-radius: 0 5px 5px 0;
+
+  body.logged_in #intro {
+    background: transparent url('http://megauni.s3.amazonaws.com/bg.gif') repeat-y -305px 300px;
+    height: 100%;
+    width: 300px;
+    padding: 60px 0 0 0;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
-  div.logged_in #intro h2 {
-    font-size: 180%;
-  }
-
-  div.logged_in #intro p {
+  body.logged_in #intro p {
     padding: 0;
   }
 
-  div.logged_in #keyword {
+  body.logged_in #keyword {
+    border-radius: 0 ;
+    padding: 10px 0 5px 0;
+    background: #000;
+  }
+
+  body.logged_in #intro h2 {
+    font-size: 180%;
     padding: 0 0 10px 0;
+    background: #000;
+    border-radius: 0 0 7px 0;
   }
 
 #blocks {
@@ -159,7 +167,7 @@ div.logged_in {
   div.block {
     float: left;
     width: 300px;
-    margin:  5px 5px 0 5px;
+    margin: 5px 5px 10px 5px;
   }
 
     #create_screen_name {
