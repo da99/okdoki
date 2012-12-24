@@ -8,6 +8,8 @@ block footer
 
 block content
 
+  include _log_out
+
   if !logged_in
     div(id='forms')
       p(id='show_sign_in')
@@ -68,8 +70,6 @@ block content
     
 
   else
-    div(id='log_out')
-      a(href='/log-out') Log-out
     div(id='intro')
       div(id='keyword')
         div.label

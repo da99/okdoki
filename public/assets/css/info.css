@@ -36,22 +36,9 @@ body {
     padding: 0;
   }
 
-div.user_submitted {
-  background: #fff;
-  border-radius: 0 0 3px 3px;
-  padding: 0 0 10px 0;
-  margin: 0 10px 0 0;
+div.block {
+  margin: 0 10px 10px 0;
 }
-  div.user_submitted h2 {
-    padding: 0;
-    background: #185DAD;
-    color: #fff;
-    padding: 3px 10px;
-    font-weight: normal;
-    font-size: 70%;
-    text-transform: uppercase;
-  }
-
   div.user_submitted div.body {
     padding: 10px;
     border: 1px solid #185DAD;
