@@ -60,10 +60,10 @@ code {
 
 #log_out {
   background: #000;
-  font-size: 70%;
+  font-size: 0.6em;
   font-weight: bold;
   text-transform: uppercase;
-  padding: 4px 8px ;
+  padding: 2px 8px ;
   float: right;
   margin: 0 8px 7px 0;
   clear: both;
@@ -90,7 +90,7 @@ div.block {
     background: #fff;
     padding: 10px;
     border: 1px solid #008EED;
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 5px;
     border-width: 0 1px 1px 1px;
   }
 
@@ -104,3 +104,9 @@ div.block {
     div.block button {
       margin-top: 5px;
     }
+
+#intro {
+  background: #000;
+  color: #E1EEFF;
+  padding: 0;
+}

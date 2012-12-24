@@ -8,6 +8,10 @@ block footer
 
 block content
 
+  if logged_in
+    div(id='log_out')
+      a(href='/log-out') Log-out
+
   div(id='sidebar')
     div(id='control')
       ul 
@@ -27,14 +31,14 @@ block content
           a(href="#Boo") Boo
 
   div(id='intro')
-    h2 #{screen_name}
+    h2 #{life_name}
     div
       span.label Name:&nbsp;
       span Go 99
       
     div
       span.label OKdoki screen-name:&nbsp;
-      span #{screen_name}
+      span #{life_name}
 
 
   div.user_submitted(id='about')
