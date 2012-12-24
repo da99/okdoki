@@ -12,21 +12,23 @@ block content
 
   div(id='sidebar')
     div(id='control')
-      ul 
-        li 
-          a(href="#Contact") Add to Address Book
-        li 
-          a(href="#Block") Block!
-        li
-          a(href="#Subscribe") Subscribe (Everything)
-        li
-          a(href="#Subscribe_No_Spam") Subscribe (Important News Only)
-        li
-          a(href="#ask") Ask
-        li
-          a(href="#Cheer") Cheer
-        li
-          a(href="#Boo") Boo
+      - for x in screen_names.list
+        div.screen_name
+          div.name
+            span.label As:
+            span.value &nbsp;#{x}
+          div.add_to_address_book
+            input(type='checkbox', value='add_to_address_book')
+            span Add To Address Book
+          div.sub_e
+            input(type='checkbox', value='sub_e')
+            span Subscribe (Everything)
+          div.sub_i
+            input(type='checkbox', value='sub_i')
+            span  Subscribe (Important News Only)
+          div.hate
+            input(type='checkbox', value='hate')
+            span Block!
 
   div(id='intro')
     h2 #{life_name}
@@ -48,11 +50,24 @@ block content
     h2 Q&A:
     div.body
       | Nothing yet.
+      if logged_in
+        div.fieldset
+          textarea
+          button Ask
 
   div.block(id='boos')
     h2 Cheers & BOOs:
     div.body
       | Nothing yet.
+      if logged_in
+        div.fieldset
+          select
+            option Boo!
+            option Yay!
+        div.fieldset
+          textarea
+        div.fieldset
+          button Save
 
   div.block(id='latest')
     h2 Latest:
