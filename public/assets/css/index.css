@@ -128,3 +128,47 @@ body {
 
   #keyword button {
   }
+
+div.logged_in {
+}
+  div.logged_in #intro {
+    padding: 10px 15px 10px 10px;
+    margin: 5px 5px 0 0;
+    float: left;
+    border-radius: 0 5px 5px 0;
+  }
+
+  div.logged_in #intro h2 {
+    font-size: 180%;
+  }
+
+  div.logged_in #intro p {
+    padding: 0;
+  }
+
+  div.logged_in #keyword {
+    padding: 0 0 10px 0;
+  }
+
+#blocks {
+  overflow: auto;
+  padding: 0;
+  float: left;
+}
+
+  div.block {
+    float: left;
+    width: 300px;
+    margin:  5px 5px 0 5px;
+  }
+
+    #create_screen_name {
+    }
+
+      #create_screen_name input[type='text'] {
+        width: 250px;
+      }
+
+
+
+

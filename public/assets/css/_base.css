@@ -14,6 +14,11 @@ body {
   background-color: #F2F2F2;
 }
 
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 form {
   padding: 0;
   margin: 0;
@@ -21,6 +26,9 @@ form {
 
 input[type="text"] {
   margin: 0;
+  font-family: monospace;
+  font-size: 110%;
+  font-weight: bold;
 }
 
 a:link {
@@ -50,3 +58,37 @@ code {
   border-radius: 4px 0 0 4px;
 }
 
+div.label, span.label {
+  background: #008EED;
+  color: #fff;
+  border-radius: 0;
+}
+
+div.block {
+}
+
+  div.block h2 {
+    background: #008EED;
+    color: #fff;
+    padding: 2px 10px 2px 6px;
+    font-size: 80%;
+  }
+
+  div.block div.body {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #008EED;
+    border-radius: 0 0 3px 3px;
+    border-width: 0 1px 1px 1px;
+  }
+
+  div.block div.fieldset {
+    text-align: right;
+  }
+    div.block input[type='text'] {
+      width: 90%;
+      text-align: left;
+    }
+    div.block button {
+      margin-top: 5px;
+    }
