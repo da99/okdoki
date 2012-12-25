@@ -18,18 +18,23 @@ block content
             span.label As:
             span.value &nbsp;#{x}
           div.options
-            div.add_to_address_book
+            div.opt.add_to_address_book
               input(type='checkbox', value='add_to_address_book')
               span Add To Address Book
-            div.sub_e
+            div.opt.sub_e
               input(type='checkbox', value='sub_e')
               span Subscribe (Everything)
-            div.sub_i
+            div.opt.sub_i
               input(type='checkbox', value='sub_i')
               span  Subscribe (Important News Only)
-            div.hate
+            div.opt.hate
               input(type='checkbox', value='hate')
               span Block!
+            div.opt.labels
+              span.value Labels:
+              textarea(rows='3')
+              div.buttons 
+                button Save
 
   div(id='intro')
     h2 #{life_name}

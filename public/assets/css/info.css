@@ -58,21 +58,40 @@ div.block {
   border-radius: 0 0 5px 5px;
   font-size: 80%;
 }
+
+  #sidebar button {
+    font-size: 90%;
+    text-transform: uppercase;
+  }
+
+  #sidebar div.opt {
+    padding: 0 5px 0 4px;
+  }
+
+  #sidebar div.opt:hover {
+    background: #FFFCD2;
+  }
+
+    #sidebar div.labels div.buttons {
+      text-align: right;
+    }
+
+
   #sidebar div.screen_name {
-    padding: 10px 5px 0 8px;
+    padding: 10px 0 0 0;
   }
 
   #sidebar div.screen_name div.name {
     text-align: center;
   }
 
-    #sidebar div.screen_name div.name span.label {
+    #sidebar span.label {
       text-transform: lowercase;
       font-size: x-small;
       padding: 1px 4px;
     }
 
-    #sidebar div.screen_name div.name span.value {
+    #sidebar span.value {
       color: #008EED;
       font-weight: bold;
     }
@@ -83,12 +102,17 @@ div.block {
     margin-right: 4px;
   }
 
+  #sidebar textarea {
+    width: 90%;
+    font-family: monospace;
+  }
+
   #sidebar ul li {
     padding: 0 0 10px 0;
   }
 
   #sidebar div.loading {
-    background: transparent url("/assets/img/med_loading.gif") no-repeat center center;
+    background: transparent url("/assets/img/med_loading.gif") no-repeat center top;
   }
 
     #sidebar div.loading div {
