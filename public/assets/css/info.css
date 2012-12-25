@@ -47,8 +47,8 @@ div.block {
   }
 
 #sidebar {
-  width: 140px;
-  padding: 0 0 10px 0;
+  width: 150px;
+  padding: 10px 0 0 0;
   position: absolute;
   top: 0;
   left: 10px;
@@ -59,6 +59,14 @@ div.block {
   font-size: 80%;
 }
 
+  #control_priv_specify {
+    display: none;
+  }
+
+  #sidebar div.options {
+    padding-bottom: 15px;
+  }
+
   #sidebar button {
     font-size: 90%;
     text-transform: uppercase;
@@ -68,17 +76,23 @@ div.block {
     padding: 0 5px 0 4px;
   }
 
-  #sidebar div.opt:hover {
+    #sidebar div.privacy {
+    }
+
+    #sidebar div.trash div.buttons {
+      text-align: center;
+    }
+
+  #sidebar div.screen_name div.opt:hover {
     background: #FFFCD2;
   }
 
-    #sidebar div.labels div.buttons {
+    #sidebar div.buttons {
       text-align: right;
     }
 
 
   #sidebar div.screen_name {
-    padding: 10px 0 0 0;
   }
 
   #sidebar div.screen_name div.name {
@@ -86,7 +100,6 @@ div.block {
   }
 
     #sidebar span.label {
-      text-transform: lowercase;
       font-size: x-small;
       padding: 1px 4px;
     }
@@ -95,6 +108,10 @@ div.block {
       color: #008EED;
       font-weight: bold;
     }
+
+  #sidebar div.intro {
+    text-align: center;
+  }
 
   #sidebar input[type='checkbox'] {
     margin: 0;
@@ -105,6 +122,12 @@ div.block {
   #sidebar textarea {
     width: 90%;
     font-family: monospace;
+  }
+
+  #sidebar select {
+    width: 94%;
+    margin: 0;
+    padding: 0;
   }
 
   #sidebar ul li {

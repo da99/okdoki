@@ -10,31 +10,59 @@ block content
 
   include _log_out
 
-  div(id='sidebar')
-    div(id='control')
-      - for x in screen_names.list
-        div.screen_name
-          div.name
-            span.label As:
-            span.value &nbsp;#{x}
-          div.options
-            div.opt.add_to_address_book
-              input(type='checkbox', value='add_to_address_book')
-              span Add To Address Book
-            div.opt.sub_e
-              input(type='checkbox', value='sub_e')
-              span Subscribe (Everything)
-            div.opt.sub_i
-              input(type='checkbox', value='sub_i')
-              span  Subscribe (Important News Only)
-            div.opt.hate
-              input(type='checkbox', value='hate')
-              span Block!
-            div.opt.labels
-              span.value Labels:
+  if logged_in
+    div(id='sidebar')
+      if homepage_belongs_to_viewer
+
+        div.intro
+          span.label Delete Screen-name
+        div.options
+          div.opt.trash
+            span
+              | You have 48 hours to change
+              | your mind.
+            div.buttons
+              button Delete
+
+        div.intro
+          span.label Edit Your Homepage
+        div.options
+          div.opt.privacy
+            span.value Who can see it?
+            select(id='control_priv')
+              option(value='the_world') The World
+              option(value='no_one') No one, but me.
+              option(value='specify') Let me specify:
+            div.specify(id='control_priv_specify')
               textarea(rows='3')
-              div.buttons 
+              div.buttons
                 button Save
+
+
+      else
+        - for x in screen_names.list
+          div.screen_name
+            div.name
+              span.label As:
+              span.value &nbsp;#{x}
+            div.options
+              div.opt.add_to_address_book
+                input(type='checkbox', value='add_to_address_book')
+                span Add To Address Book
+              div.opt.sub_e
+                input(type='checkbox', value='sub_e')
+                span Subscribe (Everything)
+              div.opt.sub_i
+                input(type='checkbox', value='sub_i')
+                span  Subscribe (Important News Only)
+              div.opt.hate
+                input(type='checkbox', value='hate')
+                span Block!
+              div.opt.labels
+                span.value Labels:
+                textarea(rows='3')
+                div.buttons 
+                  button Save
 
   div(id='intro')
     h2 #{life_name}
@@ -58,7 +86,7 @@ block content
       | Nothing yet.
       if logged_in
         div.fieldset
-          textarea.blurred Type your question here.
+          textarea.blurred(rows='3') Type your question here.
         div.buttons
           button Ask
 
@@ -66,13 +94,13 @@ block content
     h2 Cheers & BOOs:
     div.body
       | Nothing yet.
-      if logged_in
+      if logged_in && !homepage_belongs_to_viewer
         div.fieldset
           select
             option Boo this person:
             option Cheer this person:
         div.fieldset
-          textarea.blurred Type your reason here.
+          textarea.blurred(rows='3') Type your reason here.
         div.buttons
           button Save
 
