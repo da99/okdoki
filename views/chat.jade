@@ -52,11 +52,7 @@ block content
 
     div(id='input')
 
-      div(id='nav_bar')
-        span.status
-          span.intro You are:
-          span.screen_name  signed in.&nbsp;
-        a(href="#log_out") Log-out
+      include _log_out
 
 
       div(id='create_msg')
@@ -81,7 +77,7 @@ block content
             input.field(name='recips', id='recips', type='text', value="")
             div
               span.label Example:&nbsp;
-              span.value @okdoki @okdoki-bot
+              span.value friends family @okdoki @okdoki-pet
 
         div.buttons
           button.submit Send

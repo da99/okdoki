@@ -154,7 +154,7 @@ body.logged_in {
 
   body.logged_in #intro h2 {
     font-size: 180%;
-    padding: 0 0 10px 0;
+    padding: 0 4px 10px 4px;
     background: #000;
     border-radius: 0 0 7px 0;
   }
@@ -171,6 +171,10 @@ body.logged_in {
     margin: 5px 5px 10px 5px;
   }
 
+    #latest div.body {
+      padding-top: 0;
+    }
+
     #create_screen_name {
     }
 
@@ -178,6 +182,48 @@ body.logged_in {
         width: 250px;
       }
 
+#trash_e {
+}
+  #trash_e div.buttons {
+    text-align: center;
+  }
 
+#contacts {
+}
+  #contacts span.value {
+    font-size: 90%;
+  }
 
+div.item {
+  padding: 9px 0 4px 0;
+  border: 1px dashed red;
+  border-width: 0 0 1px 0;
+}
+  div.item span.time {
+    font-size: 70%;
+    font-style: italic;
+    color: #5F7483;
+    line-height: 15px;
+  }
+  div.item span.value {
+    display: block;
+  }
+  div.item span.label {
+    text-transform: lowercase;
+    font-size: 70%;
+    font-weight: normal;
+  }
+  div.item span.by {
+    font-size: 70%;
+    font-style: italic;
+    color: #5F7483;
+    line-height: 15px;
+  }
 
+a.author, a.read_more {
+  font-size: 80%;
+}
+
+a.author {
+  text-transform: none;
+}

@@ -200,7 +200,7 @@ body {
       #bots div.chatty {
         /* background: #FFF175; */
         font-style: normal;
-        color: #185DAD;
+        color: #0081D7;
       }
 
       #bots-o {
@@ -208,7 +208,7 @@ body {
       }
 
         #bots-o h2 {
-          background: #185DAD;
+          background: #008EED;
           color: #fff;
         }
 
@@ -247,6 +247,9 @@ body {
     #enter_recip {
       display: none;
     }
+      #enter_recip span.value {
+        font-size: 90%;
+      }
 
 #about_bar {
   background    : #161616;

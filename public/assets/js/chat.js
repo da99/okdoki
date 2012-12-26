@@ -361,7 +361,7 @@ function publish_notify(msg, css) {
 // ====================================================================
 
 function log() {
-  if (console && console.log) {
+  if (console && console.log && window.location.host.indexOf('localhost') > -1) {
     $.each(_.toArray(arguments), function (i, msg) {
       console.log(msg);
     });

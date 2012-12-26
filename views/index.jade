@@ -109,3 +109,78 @@ block content
             input(type='text', name='new_screen_name')
             button Create 
 
+    div.block(id='trash_e')
+      h2 Delete Account:
+      div.body
+        p
+          | All your 
+          span.label screen-names
+          |  and posts will be deleted within 48 hours.
+          | You have this time to change your mind.
+          | After 48 hours, it will be as if you never existed
+          | on OKdoki.com.
+        div.buttons
+          button Delete Account Forever
+
+    div.block(id='contacts')
+      h2 Contacts List:
+      div.body 
+        - for x in screen_names.list
+          div.contact 
+            a(href="/info/#{x}") @#{x}
+            span.value  #{x}
+
+    div.block(id='latest')
+      h2 News Feed:
+      div.body 
+
+        div.item.no_news
+          | No news so far.
+
+        div.item.news
+          span.time 15 mins ago...
+          span.value  SOmething Really Bad Happend
+          a.read_more(href='/link/1') Link to this...
+          | &nbsp;
+          span.label News
+          span.by      by 
+          a.author(href='/info/okdoki') @okdoki
+
+        div.item.random
+          span.time 12 hours ago...
+          span.value  I just got demoted.
+          a.read_more(href='/link/1') Link to this...
+          | &nbsp;
+          span.label Random Thought
+          span.by      by 
+          a.author(href='/info/okdoki') @okdoki
+
+        div.item.magazine
+          span.time 1 day ago...
+          span.value  My boss is in a bad mood.
+          a.read_more(href='/link/1') Link to this...
+          | &nbsp;
+          span.label Article
+          span.by      by 
+          a.author(href='/info/okdoki') @okdoki
+
+        div.item.joke
+          span.time 2 days ago...
+          span.value  My kids are wieners.
+          a.read_more(href='/link/1') Link to this...
+          | &nbsp;
+          span.label Joke
+          span.by      by 
+          a.author(href='/info/okdoki') @okdoki
+
+        div.item.important
+          span.time 5 days ago...
+          span.value  My spouse is trying to kill me.
+          a.read_more(href='/link/1') Link to this...
+          | &nbsp;
+          span.label Important News
+          span.by      by 
+          a.author(href='/info/okdoki') @okdoki
+
+
+
