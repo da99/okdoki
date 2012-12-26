@@ -58,8 +58,9 @@ block content
               div.opt.hate
                 input(type='checkbox', value='hate')
                 span Block!
-              div.opt.labels
-                span.value Labels:
+              div.opt.keywords
+                span.value Keywords:
+                span.value  (optional. Ex: friend family classmate)
                 textarea(rows='3')
                 div.buttons 
                   button Save
@@ -74,6 +75,39 @@ block content
       span.label OKdoki screen-name:&nbsp;
       span #{life_name}
 
+
+  if logged_in && homepage_belongs_to_viewer
+    div.block(id='create_content')
+      h2 Post/Write Something:
+      div.body
+        p.intro
+          | You can write and post content to your homepage.
+        button(id='show_form_create_content') Start Writing
+        form(id='form_create_content', action="/post")
+          div.fieldset.title
+            div
+              span.label Title:
+            input(name="title", type="text", value="")
+          div.fieldset
+            div
+              span.label Body:
+            textarea(rows='5')
+          div.fieldset
+            div
+              span.label Main Keyword:
+            select
+              option my-life
+              option joke
+              option event
+              option emergency
+          div.fieldset
+            div
+              span.label Other Keywords:
+              span.value (optional)
+            input(name="keywords", type="text", value="")
+
+          div.buttons
+            button Save and Post
 
   div.block(id='about')
     h2 About Me:

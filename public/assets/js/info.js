@@ -38,4 +38,10 @@ $(function () {
     };
   });
 
+  $('#show_form_create_content').click(function (e) {
+    e.preventDefault();
+    $(this).hide();
+    $('#form_create_content').show();
+  });
+
 });

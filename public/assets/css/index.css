@@ -190,6 +190,11 @@ body.logged_in {
 
 #contacts {
 }
+
+  #contacts div.contact {
+    padding: 0 0 5px 0;
+  }
+
   #contacts span.value {
     font-size: 90%;
   }
