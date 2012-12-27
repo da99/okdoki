@@ -1,0 +1,24 @@
+extends ./layout
+
+block footer
+  script(src='/assets/js/underscore-min.js')
+  script(src='/assets/js/jquery-1.8.2.min.js')
+  script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
+  script(src='/assets/js/article.js')
+
+block content
+
+  include _log_out
+
+  div(id='intro')
+    h2 #{keywords}
+
+  div.block(id='results')
+    h2 Results:
+    div.body
+      p.not_found No results found.
+      - for x in results
+        div.result
+          div.link 
+            a(href='#{x.href}') #{x.title}
+          div.abstract #{x.abstract}

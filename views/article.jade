@@ -11,8 +11,13 @@ block content
   include _log_out
   div(id='sidebar')
     div.intro
+      span.label Type:
+      span.value  #{article.post_type}
+
+    div.intro
       span.label Published on:
-      span.value #{article.created_at}
+      span.value  5 mins ago
+
     if logged_in && homepage_belongs_to_viewer
       div.intro
         span.label Delete Article
