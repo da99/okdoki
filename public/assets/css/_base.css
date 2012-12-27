@@ -58,16 +58,22 @@ code {
   border-radius: 4px 0 0 4px;
 }
 
-#log_out {
+
+body.logged_in #okdoki_nav_bar a.home {
+  margin-right: 10px;
+}
+
+#okdoki_nav_bar, #log_out {
   background: #000;
   font-size: 0.6em;
   font-weight: bold;
   text-transform: uppercase;
   padding: 2px 8px ;
-  float: right;
   margin: 0 8px 7px 0;
-  clear: both;
   border-radius: 0 0 3px 3px;
+  position: absolute;
+  top: 0;
+  right: 10px;
 }
 
 div.label, span.label {

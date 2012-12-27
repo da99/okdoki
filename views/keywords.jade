@@ -8,10 +8,17 @@ block footer
 
 block content
 
-  include _log_out
+  include _nav_bar
 
   div(id='intro')
     h2 #{keywords}
+
+  div.block(id='try_again')
+    h2
+      | Try again:
+    div.body
+      input(type='text', value='', name='keyword')
+      button Go
 
   div.block(id='results')
     h2 Results:
@@ -22,3 +29,4 @@ block content
           div.link 
             a(href='#{x.href}') #{x.title}
           div.abstract #{x.abstract}
+

@@ -71,12 +71,7 @@ block content
 
   else
     div(id='intro')
-      div(id='keyword')
-        div.label
-          | OKdoki keyword or screen-name:
-        div
-          input(type='text', value='', name='keyword')
-          button Go
+      include _keywords
 
       h2 Welcome, #{screen_names.list.join(', ')}.
 
