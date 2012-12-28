@@ -105,6 +105,12 @@ div.block {
   padding: 0;
 }
 
+div.intro {
+  background: #000;
+  color: #E1EEFF;
+  padding: 0;
+}
+
 textarea, select, option {
   color: #000;
 }
