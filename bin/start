@@ -4,10 +4,12 @@
 set -u
 set -e
 
+set +u
 if [ -z "$NODE_ENV" ];
 then DEF_ENV="production";
 else DEF_ENV="$NODE_ENV";
 fi
+set -u
 
 set +u
 if [ -z "$PORT" ];

@@ -4,6 +4,7 @@ block footer
   script(src='/assets/js/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
+  script(src='/assets/js/_base.js')
   script(src='/assets/js/Forms.js')
   script(src='/assets/js/index.js')
 
@@ -28,7 +29,8 @@ block content
               div
                 span.label Passphrase
               input.field(type='password', name="passphrase", value="")
-            div.buttons
+            div.field.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
               button.submit(id='submit_form_sign_in') Log-In
               a.cancel(href="#cancel") Cancel
 
@@ -58,6 +60,7 @@ block content
                 span.value  (in case you forget your password)
               input.field(type='text', name="email", value="")
             div.field.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
               button.submit(id='submit_form_create_account') Create Account
 
 

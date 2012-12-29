@@ -10,7 +10,7 @@ var opts = {
 var casper = require('casper').create(opts);
 var base_url = 'http://localhost:' + casper.cli.args[0];
 var phrase = 'Hoppe gives us hope';
-var contact = "Read my mind."
+var contact = ""
 
 // === Creating an account
 casper.start(base_url + '/', function () {
@@ -18,12 +18,12 @@ casper.start(base_url + '/', function () {
 });
 
 casper.then(function () {
-  var form = 'form#create-account';
+  var form = 'form#form_create_account';
   this.fill(form, {
     'mask_name': 'larry',
     'passphrase': phrase,
-    'confirm_passphrase': phrase,
-    'contact_info': contact
+    'confirm-passphrase': phrase,
+    'email': contact
   }, false);
   // this.click(form, )
 });

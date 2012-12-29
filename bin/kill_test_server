@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+
+pkill -f "lib/app.js 5001"

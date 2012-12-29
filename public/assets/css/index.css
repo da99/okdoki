@@ -58,11 +58,10 @@ body {
 
 #intro, div.intro {
   margin: 40px 0 0 0;
-  padding: 0 0 0 240px ;
+  padding: 15px 0 15px 240px ;
   background: #000;
   color: #E1EEFF;
   text-align: center;
-  padding-top: 15px;
 }
 
   #intro h2 {
@@ -91,7 +90,6 @@ body {
 
 div.intro {
   text-align: center;
-  padding-bottom: 20px;
 }
   div.intro p {
     max-width: 400px;

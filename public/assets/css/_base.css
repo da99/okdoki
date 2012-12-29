@@ -153,5 +153,25 @@ form {
     display: block;
   }
 
+  form div.errors {
+    background: #CB0818;
+    color: #fff;
+  }
 
+  form div.success {
+    border: 1px dashed #D60600;
+    border-width: 1px 0;
+    font-style: italic;
+    font-family: serif;
+    font-size: 120%;
+    padding: 4px;
+    border-radius: 0 0 3px 3px;
+    color: #072700;
+  }
+
+#sidebar {
+}
+  #sidebar div.intro {
+    background: transparent;
+  }
 

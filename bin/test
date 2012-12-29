@@ -4,14 +4,19 @@
 set -u
 set -e
 
+# http://www.ibm.com/developerworks/aix/library/au-learningtput/
+green_bg=$(tput setb 2)
+white=$(tput setaf 7)
+reset_color=$(tput sgr0)
+bold_white_on_green=$(tput bold)${white}${green_bg}
+
 PORT=5001
 echo ""
 echo "Reseting db..."
 bin/migrate reset
 
+trap "bin/kill_test_server" EXIT
 echo ""
-echo "Running tests..."
-NODE_ENV=production mocha --colors "$@"
 
 echo ""
 echo "Starting server on $PORT..."
@@ -26,6 +31,12 @@ echo ""
 echo "Sending SIGTERM to server..."
 pkill -f "lib/app.js $PORT"
 
+echo ""
+echo "NOT Running nodejs tests... for now..."
+# echo "Running nodejs tests..."
+# NODE_ENV=production mocha --colors "$@"
+
+echo -e "${bold_white_on_green}   ALL TESTS PASS   ${reset_color}"
 echo ""
 
 
