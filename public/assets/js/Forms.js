@@ -78,10 +78,10 @@ Forms.Default_Ajax_Options = function (raw_form) {
     contentType: 'application/json',
     data : JSON.stringify(obj),
     dataType: 'json',
-    success: function (resp, stat) { 
+    success: function (resp, stat) {
       Forms.Success(form, resp, stat);
     },
-    error: function (xhr, textStatus, errThrown) { 
+    error: function (xhr, textStatus, errThrown) {
       Forms.Errors(form, textStatus + ': ' + errThrown + "<b>t</b>");
     }
   };
