@@ -82,7 +82,7 @@ Forms.Default_Ajax_Options = function (raw_form) {
       Forms.Success(form, resp, stat);
     },
     error: function (xhr, textStatus, errThrown) {
-      Forms.Errors(form, textStatus + ': ' + errThrown + "<b>t</b>");
+      Forms.Errors(form, textStatus + ': ' + (errThrown || "Check internet connection. Either that or OKdoki.com is down.") );
     }
   };
 };

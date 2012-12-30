@@ -2,6 +2,7 @@
 # -*- bash -*-
 #
 set -u
+bin/kill_test_server
 set -e
 
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
@@ -16,21 +17,23 @@ echo ""
 echo "NOT Reseting db..."
 # bin/migrate reset
 
-trap "bin/kill_test_server" EXIT
-echo ""
-
 echo ""
 echo "Starting server on $PORT..."
 PORT=$PORT bin/start &
 
 echo ""
 echo "Running phantomjs/casperjs tests..."
-PORT=$PORT casperjs test/casper.js $PORT
+PORT=$PORT casperjs test/01-casper.js $PORT
+(sleep 2 && bin/kill_test_server) &
+PORT=$PORT casperjs test/02-casper.js $PORT
 
 echo ""
 echo "NOT Running nodejs tests... for now..."
 # echo "Running nodejs tests..."
 # NODE_ENV=production mocha --colors "$@"
+# trap "bin/kill_test_server" EXIT
+# echo ""
+
 
 echo ""
 echo ""
