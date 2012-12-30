@@ -34,7 +34,7 @@ echo "NOT Running nodejs tests... for now..."
 
 echo ""
 echo ""
-echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
+# echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
 echo ""
 
 
