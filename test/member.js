@@ -12,13 +12,20 @@ describe( 'Member.new', function () {
 
   it( 'checks max length of mask_name', function () {
     var mem = new Member();
-    mem.new({ mask_name: "0123456789012", password: 'something for real'});
+    mem.new({ mask_name: "123456789012345678", password: 'something for real'});
     assert.equal(mem.errors[0].indexOf("Name must be"), 0);
+  });
+
+
+  it( 'requires an ip address', function () {
+    var mem = new Member();
+    mem.new({ mask_name: "0123456789012", password: 'something for real'});
+    assert.equal(mem.errors[0].indexOf("IP address is required"), 0);
   });
 
   it( 'allows a valid mask_name', function () {
     var mem = new Member();
-    mem.new({ mask_name: "0123456", password: 'something for real'});
+    mem.new({ mask_name: "0123456", password: 'something for real', ip: '000.000.000'});
     assert.equal(mem.errors, 0);
   });
 
@@ -30,7 +37,7 @@ describe( 'Member.new create', function () {
   it( 'saves member to db', function (done) {
     var mem = new Member();
     var mask_name = 'mem1';
-    mem.new({mask_name: mask_name, password: 'something for security'});
+    mem.new({mask_name: mask_name, password: 'something for security', ip: '000.00.000'});
     mem.create(function () {
       var read = new Member();
       read.read(mem.customer_id, function (rec, meta) {
