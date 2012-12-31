@@ -17,7 +17,7 @@ temp.push(' \
 
 ups.push(" \
  CREATE TABLE IF NOT EXISTS customers ( \
-   id varchar(15), \
+   id varchar(15) unique, \
    created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
    trashed_at timestamp default null,   \
    email text,                 \

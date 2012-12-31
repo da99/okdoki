@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-set -u
+
 set -e
+
+if [ -z "$NO_DB_RESET" ];
+then bin/migrate reset;
+else echo "Skipping db reset";
+fi
+
+set -u
+echo ""
 
 NODE_ENV=production mocha --colors test/member.js

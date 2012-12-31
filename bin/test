@@ -13,9 +13,6 @@ bold_white_on_green=$(tput bold)${white}${green_bg}
 bold_white=$(tput bold)${white}
 
 PORT=5001
-echo ""
-echo "Reseting db..."
-bin/migrate reset
 
 echo ""
 echo "Starting server on $PORT..."
@@ -23,6 +20,7 @@ PORT=$PORT bin/start &
 
 echo ""
 echo "Running phantomjs/casperjs tests..."
+bin/migrate reset
 PORT=$PORT casperjs test/01-casper.js $PORT
 (sleep 2 && bin/kill_test_server) &
 PORT=$PORT casperjs test/02-casper.js $PORT

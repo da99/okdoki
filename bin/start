@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-set -u
 set -e
 
-set +u
 if [ -z "$NODE_ENV" ];
 then DEF_ENV="production";
 else DEF_ENV="$NODE_ENV";
 fi
-set -u
 
-set +u
 if [ -z "$PORT" ];
 then DEF_PORT="5000";
 else DEF_PORT="$PORT";
 fi
+
 set -u
 
 NODE_ENV=$DEF_ENV USE_LOGGER=true PORT=$DEF_PORT node lib/app.js $DEF_PORT
