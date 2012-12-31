@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u
+set -e
+
+NODE_ENV=production mocha --colors test/member.js

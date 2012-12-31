@@ -14,8 +14,8 @@ bold_white=$(tput bold)${white}
 
 PORT=5001
 echo ""
-echo "NOT Reseting db..."
-# bin/migrate reset
+echo "Reseting db..."
+bin/migrate reset
 
 echo ""
 echo "Starting server on $PORT..."
@@ -28,17 +28,11 @@ PORT=$PORT casperjs test/01-casper.js $PORT
 PORT=$PORT casperjs test/02-casper.js $PORT
 
 echo ""
-echo "NOT Running nodejs tests... for now..."
-# echo "Running nodejs tests..."
-# NODE_ENV=production mocha --colors "$@"
-# trap "bin/kill_test_server" EXIT
-# echo ""
+echo "Running nodejs/mocha tests..."
+bin/mocha
 
-
-echo ""
-echo ""
+trap "bin/kill_test_server" EXIT
 # echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
-echo ""
 
 
 
