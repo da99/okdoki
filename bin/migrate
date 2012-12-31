@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
-var ups = [], downs = [];
+var ups = [], downs = [], temp = [];
 
 downs.push('DROP TABLE IF EXISTS bot_chat');
+downs.push('DROP TABLE IF EXISTS customers');
 downs.push('DROP TABLE IF EXISTS consumers');
 downs.push('DROP TABLE IF EXISTS masks');
 
-ups.push(' \
+temp.push(' \
    CREATE TABLE IF NOT EXISTS bot_chat ( \
     id serial,   \
     date bigint, \
@@ -14,16 +15,16 @@ ups.push(' \
     author varchar(20) \
 )');
 
-ups.push(' \
- CREATE TABLE IF NOT EXISTS consumers ( \
+ups.push(" \
+ CREATE TABLE IF NOT EXISTS customers ( \
    id varchar(15), \
-   created_at integer,  \
-   trashed_at integer,  \
-   contact_info text,   \
-   passphrase_hash varchar(50)    \
-)');
+   created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
+   trashed_at timestamp default null,   \
+   email text,                 \
+   passphrase_hash varchar(50) not null \
+)");
 
-ups.push( ' \
+temp.push( ' \
  CREATE TABLE IF NOT EXISTS masks ( \
    id varchar(15) UNIQUE,   \
    consumer_id varchar(15), \
@@ -68,6 +69,7 @@ pg.connect(process.env.DATABASE_URL, function (err, client) {
   function run_qs() {
 
     if (qs.length === 0) {
+      console.log('Finished running all queries.');
       close_db();
       return false;
     }
@@ -84,13 +86,10 @@ pg.connect(process.env.DATABASE_URL, function (err, client) {
 });
 
 function show_db_results(err, result) {
-  if (err)
+  if (err) {
     console.log('SQL Error: ', err);
-
-  console.log('SQL result: ', result);
-
-  if (err)
     process.exit(1);
+  };
 
   return true;
 }
