@@ -46,7 +46,7 @@ describe( 'Member.new create', function () {
         assert.equal(mem.customer_id, read.customer_id);
         done();
       });
-    });
+    }, done);
   });
 
   it( 'saves member life to db', function (done) {
@@ -59,7 +59,7 @@ describe( 'Member.new create', function () {
         assert.deepEqual([mask_name], read.screen_names);
         done();
       });
-    });
+    }, done);
   });
 
   it( 'creates a database just for the new Customer', function (done) {
@@ -71,7 +71,7 @@ describe( 'Member.new create', function () {
         assert.equal(_.last(_.pluck(meta.rows, 'name')), 'customer-' + mem.customer_id);
         done();
       });
-    });
+    }, done);
   });
 
 }); // === describe

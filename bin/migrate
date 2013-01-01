@@ -46,7 +46,7 @@ if (!do_up && !do_down) {
 }
 
 var db             = require('okdoki/lib/DB');
-var pg_client      = db.pg_client;
+var pg_client      = db.new_pg_client();
 var show_databases = db.show_databases;
 var _ = require('underscore');
 
@@ -75,7 +75,7 @@ show_databases(function (meta) {
   function run_qs() {
 
     if (count === 0) {
-      console.log('Finished running all queries.');
+      console.log('Finished migrating the db.');
       pg_client.end();
       return false;
     }
