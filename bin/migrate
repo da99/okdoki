@@ -39,23 +39,26 @@ ups.push( " \
 
 var cmd   = (process.argv[2] || 'nothing')
 , do_up   = (cmd === 'up' || cmd === 'reset')
-, do_down = (cmd === 'down' || cmd === 'reset')
-, pg = require('pg')
-, pg_closed
-, query;
+, do_down = (cmd === 'down' || cmd === 'reset');
 if (!do_up && !do_down) {
   console.log('Unknown cmd: ' + process.argv[2]);
   process.exit(1);
 }
 
+var db             = require('okdoki/lib/DB');
+var pg_client      = db.pg_client;
+var show_databases = db.show_databases;
+var _ = require('underscore');
 
-pg.connect(process.env.DATABASE_URL, function (err, client) {
+show_databases(function (meta) {
 
-  if (err) {
-    console.log('Connection error: ' + err);
-    close_db();
-    return false;
-  }
+  var i = -1, l = meta.rows.length, names = _.pluck(meta.rows, 'name');
+  while( ++i < l ) {
+    if (names[i].indexOf('customer-') === 0 || names[i].indexOf('customer_') === 0) {
+      downs.push('DROP DATABASE "' + names[i] + '"' );
+    };
+  };
+
 
   var qs = [];
 
@@ -67,16 +70,19 @@ pg.connect(process.env.DATABASE_URL, function (err, client) {
     qs = qs.concat(ups);
   } // === do_up
 
+
+  var count = qs.length;
   function run_qs() {
 
-    if (qs.length === 0) {
+    if (count === 0) {
       console.log('Finished running all queries.');
-      close_db();
+      pg_client.end();
       return false;
     }
 
-    client.query(qs.shift(), function(err, result) {
+    pg_client.query(qs.shift(), function(err, result) {
       show_db_results(err, result);
+      --count;
       run_qs();
     });
 
@@ -84,7 +90,8 @@ pg.connect(process.env.DATABASE_URL, function (err, client) {
 
   run_qs();
 
-});
+}); // === show_databases
+
 
 function show_db_results(err, result) {
   if (err) {
@@ -94,14 +101,5 @@ function show_db_results(err, result) {
 
   return true;
 }
-
-function close_db() {
-  if (!pg_closed) {
-    console.log('Closing connections.');
-    pg && pg.end();
-    pg_closed = true;
-  }
-}
-
 
 console.log('Process id: ' + process.pid);

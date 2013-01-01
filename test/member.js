@@ -2,6 +2,7 @@
 var _ = require('underscore');
 var assert = require('assert');
 var Member = require('okdoki/lib/Member').Member;
+var show_databases = require('okdoki/lib/DB').show_databases;
 
 describe( 'Member.new', function () {
 
@@ -66,7 +67,7 @@ describe( 'Member.new create', function () {
     var mask_name = 'mem3';
     mem.new({mask_name: mask_name, password: 'something for security', ip: '000.00.00'});
     mem.create(function () {
-      pg_client.query('SELECT datname AS name FROM pg_database WHERE datistemplate = false;', [], function (err, meta) {
+      show_databases(function (meta) {
         assert.equal(_.last(_.pluck(meta.rows, 'name')), 'customer-' + mem.customer_id);
         done();
       });
