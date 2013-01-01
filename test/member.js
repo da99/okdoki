@@ -1,4 +1,5 @@
 
+var _ = require('underscore');
 var assert = require('assert');
 var Member = require('okdoki/lib/Member').Member;
 
@@ -55,6 +56,18 @@ describe( 'Member.new create', function () {
       var read = new Member();
       read.read(mem.customer_id, function () {
         assert.deepEqual([mask_name], read.screen_names);
+        done();
+      });
+    });
+  });
+
+  it( 'creates a database just for the new Customer', function (done) {
+    var mem = new Member();
+    var mask_name = 'mem3';
+    mem.new({mask_name: mask_name, password: 'something for security', ip: '000.00.00'});
+    mem.create(function () {
+      pg_client.query('SELECT datname AS name FROM pg_database WHERE datistemplate = false;', [], function (err, meta) {
+        assert.equal(_.last(_.pluck(meta.rows, 'name')), 'customer-' + mem.customer_id);
         done();
       });
     });
