@@ -1,105 +1,79 @@
 #!/usr/bin/env node
 
-var ups = [], downs = [], temp = [];
 
-downs.push('DROP TABLE IF EXISTS bot_chat');
-downs.push('DROP TABLE IF EXISTS customers');
-downs.push('DROP TABLE IF EXISTS screen_names');
-downs.push('DROP TABLE IF EXISTS consumers');
-downs.push('DROP TABLE IF EXISTS masks');
+var db             = require('okdoki/lib/POSTGRESQL');
+var show_databases = db.show_databases;
+var _              = require('underscore');
+var cmd            = (process.argv[2] || 'nothing');
+var is_reset       = cmd === 'reset';
+var is_up          = is_reset || cmd === 'up';
+var is_down        = is_reset || cmd === 'down';
+var is_list        = cmd === 'list';
 
-temp.push(' \
-   CREATE TABLE IF NOT EXISTS bot_chat ( \
-    id serial,   \
-    date bigint, \
-    msg text,    \
-    author varchar(20) \
-)');
-
-ups.push(" \
- CREATE TABLE IF NOT EXISTS customers ( \
-   id varchar(15) NOT NULL UNIQUE, \
-   created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
-   trashed_at timestamp default null,   \
-   email text,                 \
-   passphrase_hash varchar(100) NOT NULL \
-)");
-
-ups.push( " \
- CREATE TABLE IF NOT EXISTS screen_names ( \
-   id varchar(15) NOT NULL UNIQUE,   \
-   customer_id varchar(15) NOT NULL, \
-   created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
-   trashed_at timestamp default null,   \
-   screen_name varchar(15) NOT NULL UNIQUE \
-)");
-
-
-// ==========================================================================================
-
-var cmd   = (process.argv[2] || 'nothing')
-, do_up   = (cmd === 'up' || cmd === 'reset')
-, do_down = (cmd === 'down' || cmd === 'reset');
-if (!do_up && !do_down) {
+if (!is_up && !is_down && !is_list) {
   console.log('Unknown cmd: ' + process.argv[2]);
   process.exit(1);
 }
 
-var db             = require('okdoki/lib/DB');
-var pg_client      = db.new_pg_client();
-var show_databases = db.show_databases;
-var _ = require('underscore');
+show_databases(function (names) {
 
-show_databases(function (meta) {
-
-  var i = -1, l = meta.rows.length, names = _.pluck(meta.rows, 'name');
-  while( ++i < l ) {
-    if (names[i].indexOf('customer-') === 0 || names[i].indexOf('customer_') === 0) {
-      downs.push('DROP DATABASE "' + names[i] + '"' );
-    };
-  };
-
-
-  var qs = [];
-
-  if (do_down) {
-    qs = qs.concat(downs);
-  } // === do_down
-
-  if (do_up) {
-    qs = qs.concat(ups);
-  } // === do_up
-
-
-  var count = qs.length;
-  function run_qs() {
-
-    if (count === 0) {
-      console.log('Finished migrating the db.');
-      pg_client.end();
-      return false;
-    }
-
-    pg_client.query(qs.shift(), function(err, result) {
-      show_db_results(err, result);
-      --count;
-      run_qs();
-    });
-
+  if (cmd === 'list') {
+    console.log('DBs: ' + names.join(', '));
+    return true;
   }
 
-  run_qs();
+  var query = new db.query();
+
+  query.on_end(function (meta) {
+    console.log('Finished migrating the db.');
+  });
+
+  _.each(names, function (n, i) {
+    if (n.indexOf('customer-') === 0 || n.indexOf('customer_') === 0) {
+      query.q('DROP DATABASE "' + n + '"' );
+    };
+  });
+
+  if (is_down) {
+    query.q('DROP TABLE IF EXISTS bot_chat');
+    query.q('DROP TABLE IF EXISTS customers');
+    query.q('DROP TABLE IF EXISTS screen_names');
+    query.q('DROP TABLE IF EXISTS consumers');
+    query.q('DROP TABLE IF EXISTS masks');
+  }
+
+
+  if (is_up) {
+    query.q(" \
+     CREATE TABLE IF NOT EXISTS customers ( \
+       id varchar(15) NOT NULL UNIQUE, \
+       created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
+       trashed_at timestamp default null,   \
+       email text,                 \
+       passphrase_hash varchar(100) NOT NULL \
+    )");
+
+    query.q( " \
+     CREATE TABLE IF NOT EXISTS screen_names ( \
+       id varchar(15) NOT NULL UNIQUE,   \
+       customer_id varchar(15) NOT NULL, \
+       created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
+       trashed_at timestamp default null,   \
+       screen_name varchar(15) NOT NULL UNIQUE \
+    )");
+  }
+
+  query.run();
 
 }); // === show_databases
 
 
-function show_db_results(err, result) {
-  if (err) {
-    console.log('SQL Error: ', err);
-    process.exit(1);
-  };
 
-  return true;
-}
+// ==========================================================================================
+
 
 console.log('Process id: ' + process.pid);
+
+
+
+
