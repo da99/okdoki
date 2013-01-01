@@ -13,4 +13,4 @@ set -u
 echo ""
 
 NODE_ENV=production mocha --colors test/postgresql.js "$@"
-NODE_ENV=production mocha --colors test/member.js "$@"
+NODE_ENV=production mocha --colors test/customer.js "$@"
