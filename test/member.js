@@ -47,15 +47,18 @@ describe( 'Member.new create', function () {
     });
   });
 
-  // it( 'saves member life to db', function () {
-    // var mem = new Member();
-    // var mask_name = 'mem1';
-    // mem.new({mask_name: mask_name, password: 'something for security'});
-    // mem.create();
-    // var read = new Member();
-    // read.read(mem.okid);
-    // assert.equal([mask_name], read.screen_names);
-  // });
+  it( 'saves member life to db', function (done) {
+    var mem = new Member();
+    var mask_name = 'mem2';
+    mem.new({mask_name: mask_name, password: 'something for security', ip: '000.00.00'});
+    mem.create(function () {
+      var read = new Member();
+      read.read(mem.customer_id, function () {
+        assert.deepEqual([mask_name], read.screen_names);
+        done();
+      });
+    });
+  });
 
 }); // === describe
 

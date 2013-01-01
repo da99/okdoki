@@ -4,6 +4,7 @@ var ups = [], downs = [], temp = [];
 
 downs.push('DROP TABLE IF EXISTS bot_chat');
 downs.push('DROP TABLE IF EXISTS customers');
+downs.push('DROP TABLE IF EXISTS screen_names');
 downs.push('DROP TABLE IF EXISTS consumers');
 downs.push('DROP TABLE IF EXISTS masks');
 
@@ -17,21 +18,21 @@ temp.push(' \
 
 ups.push(" \
  CREATE TABLE IF NOT EXISTS customers ( \
-   id varchar(15) unique, \
+   id varchar(15) NOT NULL UNIQUE, \
    created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
    trashed_at timestamp default null,   \
    email text,                 \
-   passphrase_hash varchar(50) not null \
+   passphrase_hash varchar(100) NOT NULL \
 )");
 
-temp.push( ' \
- CREATE TABLE IF NOT EXISTS masks ( \
-   id varchar(15) UNIQUE,   \
-   consumer_id varchar(15), \
-   created_at integer,  \
-   trashed_at integer,  \
-   name varchar(10) NOT NULL UNIQUE \
-)');
+ups.push( " \
+ CREATE TABLE IF NOT EXISTS screen_names ( \
+   id varchar(15) NOT NULL UNIQUE,   \
+   customer_id varchar(15) NOT NULL, \
+   created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
+   trashed_at timestamp default null,   \
+   screen_name varchar(15) NOT NULL UNIQUE \
+)");
 
 
 // ==========================================================================================
