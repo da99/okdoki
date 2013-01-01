@@ -24,10 +24,6 @@ show_databases(function (names) {
 
   var query = new db.query();
 
-  query.on_end(function (meta) {
-    console.log('Finished migrating the db.');
-  });
-
   _.each(names, function (n, i) {
     if (n.indexOf('customer-') === 0 || n.indexOf('customer_') === 0) {
       query.q('DROP DATABASE "' + n + '"' );
@@ -63,7 +59,9 @@ show_databases(function (names) {
     )");
   }
 
-  query.run();
+  query.run_and_then(function (meta) {
+    console.log('Finished migrating the db.');
+  });
 
 }); // === show_databases
 
