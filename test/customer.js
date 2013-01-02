@@ -24,13 +24,13 @@ describe( 'Customer.new', function () {
   it( 'checks min length of mask_name', function () {
     var mem = new Customer();
     mem.new({ password: 'something for real'});
-    assert.equal(mem.errors[0].indexOf("Name must be"), 0);
+    assert.equal(mem.errors[1].indexOf("Name must be"), 0);
   });
 
   it( 'checks max length of mask_name', function () {
     var mem = new Customer();
     mem.new({ mask_name: "123456789012345678", password: 'something for real'});
-    assert.equal(mem.errors[0].indexOf("Name must be"), 0);
+    assert.equal(mem.errors[1].indexOf("Name must be"), 0);
   });
 
 
