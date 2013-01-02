@@ -95,7 +95,7 @@ describe( 'Customer update', function () {
       mem.update({'email': new_email}, function (meta) {
         var new_mem = new Customer(customer_id, function () {
           new_mem.read(customer_id, function (meta) {
-            assert(new_mem.email, new_email);
+            assert(new_mem.data.email, new_email);
             done();
           });
         });
