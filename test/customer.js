@@ -49,16 +49,16 @@ describe( 'Customer create', function () {
 
   it( 'saves Customer, Customer screen-name, and creates a Customer db', function (done) {
     var mask_name = 'mem1';
-    var read = Customer.read(customer_id, function (meta) {
+    Customer.read(customer_id, function (c, meta) {
       // Has the customer id been saved?
-      assert.equal(customer_id, read.customer_id);
+      assert.equal(customer_id, c.customer_id);
 
       // Has the screen name been saved?
-      assert.deepEqual([mask_name], read.data.screen_names);
+      assert.deepEqual([mask_name], c.data.screen_names);
 
       // Has the Customer's db been created?
       show_databases(function (names) {
-        assert.equal(_.last(names), 'customer-' + read.customer_id);
+        assert.equal(_.last(names), 'customer-' + c.customer_id);
         done();
       });
 
@@ -70,8 +70,8 @@ describe( 'Customer create', function () {
 describe( 'Customer read', function () {
 
   it( 'reads customer from DB', function (done) {
-    var mem = Customer.read(customer_id, function (meta) {
-      assert(mem.customer_id, customer_id);
+    Customer.read(customer_id, function (c, meta) {
+      assert(c.customer_id, customer_id);
       done();
     });
   });
@@ -84,9 +84,9 @@ describe( 'Customer update', function () {
   it( 'updates Customer email', function (done) {
 
     var new_email = 'new-email@i-hate-all.com';
-    var mem = Customer.read(customer_id, function () {
+    Customer.read(customer_id, function (mem) {
       mem.update({'email': new_email}, function (meta) {
-        var new_mem = new Customer(customer_id, function () {
+         Customer.read(customer_id, function (new_mem) {
           new_mem.read(customer_id, function (meta) {
             assert(new_mem.data.email, new_email);
             done();
