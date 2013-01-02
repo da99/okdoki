@@ -13,8 +13,9 @@
     "passport-local": "0.1.x",
     "password-hash": "1.2.x",
     "shortid" : "1.x.x",
-    "validator": "0.4.x", 
-    "underscore": "1.4.x"
+    "validator": "0.4.x",
+    "underscore": "1.4.x",
+    "squel": "1.0.x"
   },
   "devDependencies": {
   },
