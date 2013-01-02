@@ -76,6 +76,13 @@ describe( 'Customer read', function () {
     });
   });
 
+  it( 'executes on_err func', function (done) {
+    Customer.read("no one", function () { throw new Error('err'); },  function (meta) {
+      assert.equal(meta.rowCount, 0);
+      done();
+    });
+  });
+
 }); // === describe
 
 
