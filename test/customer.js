@@ -60,7 +60,7 @@ describe( 'Customer create', function () {
       assert.equal(customer_id, read.customer_id);
 
       // Has the screen name been saved?
-      assert.deepEqual([mask_name], read.screen_names);
+      assert.deepEqual([mask_name], read.data.screen_names);
 
       // Has the Customer's db been created?
       show_databases(function (names) {
