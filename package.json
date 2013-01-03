@@ -15,7 +15,7 @@
     "shortid" : "1.x.x",
     "validator": "0.4.x",
     "underscore": "1.4.x",
-    "squel": "1.0.x"
+    "sql-generator": "0.x.x"
   },
   "devDependencies": {
   },
