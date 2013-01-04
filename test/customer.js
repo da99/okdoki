@@ -70,6 +70,20 @@ describe( 'Customer create', function () {
 
   });
 
+  it( 'creates a homepages table in Customer DB', function (done) {
+    var sql = "SELECT table_schema || '.' || table_name AS table_name\
+         FROM    information_schema.tables         \
+         WHERE   table_type = 'BASE TABLE'         \
+         AND     table_schema NOT IN ('pg_catalog', 'information_schema');";
+    var db = new pg.query('/' + customer.data.db_name);
+    // FROM: http://stackoverflow.com/questions/769683/show-tables-in-postgresql
+    db.q(sql);
+    db.run_and_then(function (meta) {
+      assert.deepEqual([{'table_name':'public.homepages'}], meta.rows);
+      done();
+    });
+  });
+
 }); // === describe
 
 describe( 'Customer read', function () {
