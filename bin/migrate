@@ -31,6 +31,7 @@ show_databases(function (names) {
   });
 
   if (is_down) {
+    query.q('DROP EXTENSION IF EXISTS hstore');
     query.q('DROP TABLE IF EXISTS bot_chat');
     query.q('DROP TABLE IF EXISTS customers');
     query.q('DROP TABLE IF EXISTS screen_names');
@@ -40,6 +41,8 @@ show_databases(function (names) {
 
 
   if (is_up) {
+    query.q("CREATE EXTENSION hstore");
+
     query.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
        id varchar(15) NOT NULL UNIQUE, \
