@@ -13,4 +13,4 @@ set -u
 echo ""
 
 NODE_ENV=production mocha --colors test/postgresql.js "$@"
-NODE_ENV=production mocha --colors test/customer.js "$@"
+NODE_ENV=production mocha --timeout 3000 --colors test/customer.js "$@"

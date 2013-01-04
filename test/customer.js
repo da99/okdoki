@@ -8,6 +8,7 @@ var strftimeUTC    = require('strftime').strftimeUTC;
 var strftime       = require('strftime').strftime;
 var show_databases = pg.show_databases;
 var customer_id    = null;
+var customer       = null;
 var screen_name    = 'mem1';
 
 before(function (done) {
@@ -17,7 +18,12 @@ before(function (done) {
 
   Customer.create(vals, function (mem) {
     customer_id = mem.sanitized_data.id;
-    done();
+    Customer.read(customer_id, function (c) {
+      c.read_screen_names( function (csn) {
+        customer = csn;
+        done();
+      });
+    });
   });
 
 });
@@ -43,29 +49,26 @@ describe( 'Customer create', function () {
     });
   });
 
-  it( 'allows a valid screen_name', function (done) {
-    Customer.read(customer_id, function (c, meta) {
-      assert.deepEqual(c.data.screen_names, [screen_name]);
-      done();
-    });
+  it( 'allows a valid screen_name', function () {
+    assert.deepEqual(customer.data.screen_names, [screen_name]);
   });
 
 
   it( 'saves Customer, Customer screen-name, and creates a Customer db', function (done) {
-    Customer.read(customer_id, function (c, meta) {
-      // Has the customer id been saved?
-      assert.equal(customer_id, c.data.id);
+    var c = customer;
 
-      // Has the screen name been saved?
-      assert.deepEqual([screen_name], c.data.screen_names);
+    // Has the customer id been saved?
+    assert.equal(customer_id, c.data.id);
 
-      // Has the Customer's db been created?
-      show_databases(function (names) {
-        assert.equal(_.last(names), 'customer-' + c.data.id);
-        done();
-      });
+    // Has the screen name been saved?
+    assert.deepEqual([screen_name], c.data.screen_names);
 
+    // Has the Customer's db been created?
+    show_databases(function (names) {
+      assert.equal(_.last(names), 'customer-' + c.data.id);
+      done();
     });
+
   });
 
 }); // === describe
@@ -80,10 +83,8 @@ describe( 'Customer read', function () {
   });
 
   it( 'reads screen-names', function (done) {
-    Customer.read(customer_id, function (c, meta) {
-      assert.deepEqual(c.data.screen_names, [screen_name]);
-      done();
-    });
+    assert.deepEqual(customer.data.screen_names, [screen_name]);
+    done();
   });
 
   it( 'executes on_err func', function (done) {
@@ -101,13 +102,12 @@ describe( 'Customer update', function () {
   it( 'updates Customer email', function (done) {
 
     var new_email = 'new-e\'mail@i-hate-all.com';
-    Customer.read(customer_id, function (mem) {
-      mem.update({'email': new_email}, function (meta) {
-         Customer.read(customer_id, function (new_mem) {
-          new_mem.read(customer_id, function (meta) {
-            assert(new_mem.data.email, new_email);
-            done();
-          });
+    var mem = customer;
+    mem.update({'email': new_email}, function (meta) {
+      Customer.read(customer_id, function (new_mem) {
+        new_mem.read(customer_id, function (meta) {
+          assert(new_mem.data.email, new_email);
+          done();
         });
       });
     });
@@ -115,18 +115,18 @@ describe( 'Customer update', function () {
   }); // it
 
   it( 'updates screen-name', function (done) {
-    Customer.read(customer_id, function (mem) {
-      var old = mem.data.screen_names[0];
-      var n   = 'new-' + old;
-      mem.update({'old_screen_name': old, 'new_screen_name': n}, function (meta) {
-        Customer.read(customer_id, function (c) {
-          assert.equal(c.data.screen_names[0], n);
-          done();
-        });
+
+    var mem = customer;
+    var old = mem.data.screen_names[0];
+    var n   = 'new-' + old;
+    mem.update({'old_screen_name': old, 'new_screen_name': n}, function (meta) {
+      mem.read_screen_names(function (c) {
+        assert.equal(c.data.screen_names[0], n);
+        done();
       });
     });
 
-  });
+  }); // it
 
 }); // === describe
 
@@ -149,23 +149,22 @@ describe( 'Customer trash', function () {
 describe( 'Customer delete', function () {
 
   it( 'it deletes Customer record, Customer db, and all Customer screen-names', function (done) {
+    var mem = customer;
     show_databases(function (old_list) {
-      Customer.read(customer_id, function (mem) {
-        mem.delete(function () {
-          show_databases(function (new_list) {
-            old_list.pop();
-            // Customer db deleted.
-            assert.deepEqual(old_list, new_list);
+      mem.delete(function () {
+        show_databases(function (new_list) {
+          old_list.pop();
+          // Customer db deleted.
+          assert.deepEqual(old_list, new_list);
 
-            // Customer record deleted.
-            Customer.read(customer_id, function () {throw new Error('found');}, function () {
+          // Customer record deleted.
+          Customer.read(customer_id, function () {throw new Error('found');}, function () {
 
-              // Screen names deleted.
-              Screen_names.read(mem, function () {throw new Error('found names');}, function () {
-                done();
-              });
-
+            // Screen names deleted.
+            Screen_names.read(mem, function () {throw new Error('found names');}, function () {
+              done();
             });
+
           });
         });
       });
