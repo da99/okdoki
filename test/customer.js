@@ -161,7 +161,7 @@ describe( 'Customer delete', function () {
           Customer.read(customer_id, function () {throw new Error('found');}, function () {
 
             // Screen names deleted.
-            Screen_names.read(mem, function () {throw new Error('found names');}, function () {
+            mem.read_screen_names(function () {throw new Error('found names');}, function () {
               done();
             });
 
