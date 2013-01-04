@@ -43,9 +43,10 @@ describe( 'Customer create', function () {
     });
   });
 
-  it( 'allows a valid mask_name', function () {
-    Customer.create({ mask_name: "0123456", password: 'something for real', ip: '000.000.000'}, null, function (mem) {
-      assert.equal(mem.errors, 0);
+  it( 'allows a valid mask_name', function (done) {
+    Customer.read(customer_id, function (c, meta) {
+      assert.deepEqual(c.data.screen_names, [mask_name]);
+      done();
     });
   });
 
