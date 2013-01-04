@@ -2,7 +2,6 @@
 var _              = require('underscore');
 var assert         = require('assert');
 var Customer       = require('okdoki/lib/Customer').Customer;
-var Screen_names   = require('okdoki/lib/Screen_names').Screen_names;
 var pg             = require('okdoki/lib/POSTGRESQL');
 var strftimeUTC    = require('strftime').strftimeUTC;
 var strftime       = require('strftime').strftime;
