@@ -2,7 +2,10 @@
 var _              = require('underscore');
 var assert         = require('assert');
 var Customer       = require('okdoki/lib/Customer').Customer;
+var Screen_names   = require('okdoki/lib/Screen_names').Screen_names;
 var pg             = require('okdoki/lib/POSTGRESQL');
+var strftimeUTC    = require('strftime').strftimeUTC;
+var strftime       = require('strftime').strftime;
 var show_databases = pg.show_databases;
 var customer_id    = null;
 var mask_name      = 'mem1';
@@ -129,12 +132,11 @@ describe( 'Customer update', function () {
 describe( 'Customer trash', function () {
 
   it( 'it updates Customer trashed_at date.', function (done) {
+    var f = '%Y-%m-%dT%H:%M';
     Customer.read(customer_id, function (mem) {
       mem.trash(function () {
-        var t = (new Date()).getTime();
-        assert.equal(mem.data.trashed_at, t);
         Customer.read(customer_id, function (c) {
-          assert.equal(mem.data.trashed_at, t);
+          assert.equal(strftimeUTC(f, c.data.trashed_at), strftimeUTC(f, new Date()));
           done();
         });
       });

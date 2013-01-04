@@ -18,6 +18,7 @@
     "sql-generator": "0.x.x"
   },
   "devDependencies": {
+    "strftime" : "x.x.x"
   },
   "engines": {
     "node": "0.8.x",
