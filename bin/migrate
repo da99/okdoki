@@ -45,7 +45,7 @@ show_databases(function (names) {
 
     query.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
-       id varchar(15) PRIMARY KEY NOT NULL UNIQUE, \
+       id varchar(15) NOT NULL UNIQUE, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        email text,                 \
@@ -54,7 +54,7 @@ show_databases(function (names) {
 
     query.q( " \
      CREATE TABLE IF NOT EXISTS screen_names ( \
-       id varchar(15) PRIMARY KEY NOT NULL UNIQUE,   \
+       id varchar(15) NOT NULL UNIQUE,   \
        customer_id varchar(15) NOT NULL, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
