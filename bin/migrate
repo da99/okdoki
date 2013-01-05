@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// Create databases: okdoki, okdoki_comments
 
 var db             = require('okdoki/lib/POSTGRESQL');
 var show_databases = db.show_databases;
@@ -22,28 +23,32 @@ show_databases(function (names) {
     return true;
   }
 
-  var query = new db.query();
+  var ok = new db.query();
+  var ok_c = new db.query('/okdoki_comments');
 
   _.each(names, function (n, i) {
     if (n.indexOf('customer-') === 0 || n.indexOf('customer_') === 0) {
-      query.q('DROP DATABASE "' + n + '"' );
+      ok.q('DROP DATABASE "' + n + '"' );
     };
   });
 
   if (is_down) {
-    query.q('DROP EXTENSION IF EXISTS hstore');
-    query.q('DROP TABLE IF EXISTS bot_chat');
-    query.q('DROP TABLE IF EXISTS customers');
-    query.q('DROP TABLE IF EXISTS screen_names');
-    query.q('DROP TABLE IF EXISTS consumers');
-    query.q('DROP TABLE IF EXISTS masks');
+    ok.q('DROP EXTENSION IF EXISTS hstore');
+    ok.q('DROP TABLE IF EXISTS bot_chat');
+    ok.q('DROP TABLE IF EXISTS customers');
+    ok.q('DROP TABLE IF EXISTS screen_names');
+    ok.q('DROP TABLE IF EXISTS consumers');
+    ok.q('DROP TABLE IF EXISTS masks');
+
+    ok_c.q('DROP EXTENSION IF EXISTS hstore');
+    ok_c.q('DROP TABLE IF EXISTS comments');
   }
 
 
   if (is_up) {
-    query.q("CREATE EXTENSION hstore");
+    ok.q("CREATE EXTENSION hstore");
 
-    query.q(" \
+    ok.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
        id varchar(15) NOT NULL UNIQUE, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
@@ -52,7 +57,7 @@ show_databases(function (names) {
        passphrase_hash varchar(100) NOT NULL \
     )");
 
-    query.q( " \
+    ok.q( " \
      CREATE TABLE IF NOT EXISTS screen_names ( \
        id varchar(15) NOT NULL UNIQUE,   \
        customer_id varchar(15) NOT NULL, \
@@ -60,10 +65,25 @@ show_databases(function (names) {
        trashed_at timestamp default null,   \
        screen_name varchar(15) NOT NULL UNIQUE \
     )");
+
+    ok_c.q("CREATE EXTENSION hstore");
+    ok_c.q(" \
+      CREATE TABLE IF NOT EXISTS comments ( \
+        id                varchar(30) NOT NULL UNIQUE, \
+        screen_name_id    varchar(15) NULL NULL, \
+        conv_id           varchar(30) NOT NULL UNIQUE, \
+        ref_id            varchar(30) NOT NULL UNIQUE, \
+        details           hstore NOT NULL,       \
+        body              text NOT NULL,         \
+        trashed_at        timestamp default null \
+    )");
   }
 
-  query.run_and_then(function (meta) {
-    console.log('Finished migrating the db.');
+  ok.run_and_then(function (meta) {
+    console.log('Finished migrating the main db.');
+    ok_c.run_and_then(function (meta) {
+      console.log('Finished migrating the comments db.');
+    });
   });
 
 }); // === show_databases
