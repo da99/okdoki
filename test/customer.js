@@ -9,6 +9,7 @@ var show_databases = pg.show_databases;
 var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';
+var screen_name_2  = 'go2';
 
 before(function (done) {
 
@@ -32,13 +33,14 @@ describe( 'Customer create', function () {
 
   it( 'checks min length of screen_name', function () {
     Customer.create({ password: 'something for real'}, null, function (mem) {
-      assert.equal(mem.errors[1].indexOf("Name must be"), 0);
+      assert.equal(mem.errors[1].indexOf('Name, "", must be'), 0);
     });
   });
 
   it( 'checks max length of screen_name', function () {
-    Customer.create({ screen_name: "123456789012345678", password: 'something for real'}, null, function (mem) {
-      assert.equal(mem.errors[1].indexOf("Name must be"), 0);
+    var screen_name = "123456789012345678";
+    Customer.create({ screen_name: screen_name, password: 'something for real'}, null, function (mem) {
+      assert.equal(mem.errors[1].indexOf('Name, "' + screen_name + '", must be'), 0);
     });
   });
 
@@ -95,6 +97,23 @@ describe( 'Customer create', function () {
 
 }); // === describe
 
+describe( 'Customer create_screen_name', function () {
+
+  it( 'adds entry to screen_names tables'); // it
+
+  it( 'adds a homepage entry to Customer db', function (done) {
+    customer.create_screen_name(screen_name_2, function () {
+      var db = new pg.query('/' + customer.data.db_name);
+      db.q('SELECT * FROM homepages');
+      db.run_and_then(function (meta) {
+        assert.equal(meta.rows.length, customer.data.screen_names.length + 1);
+        done();
+      });
+    });
+  }); // it
+
+});
+
 describe( 'Customer read', function () {
 
   it( 'reads Customer from DB', function (done) {
@@ -118,20 +137,6 @@ describe( 'Customer read', function () {
 
 }); // === describe
 
-
-describe( 'Customer create_screen_name', function () {
-
-  it( 'adds entry to screen_names tables'); // it
-
-  // it( 'adds a homepage entry to Customer db', function (done) {
-    // var db = new pg.query('/' + customer.data.db_name);
-    // db.q('SELECT * FROM homepages');
-    // db.run_and_then(function (meta) {
-      // assert.deepEqual( _.pluck(customer.data.screen_name_rows, 'id'), _.pluck(meta.rows, 'screen_name_id'));
-    // });
-  // }); // it
-
-});
 
 describe( 'Customer update', function () {
 
@@ -157,7 +162,7 @@ describe( 'Customer update', function () {
     var n   = 'new-' + old;
     mem.update({'old_screen_name': old, 'new_screen_name': n}, function (meta) {
       mem.read_screen_names(function (c) {
-        assert.equal(c.data.screen_names[0], n);
+        assert.deepEqual(c.data.screen_names.sort(), [n, screen_name_2].sort());
         done();
       });
     });
