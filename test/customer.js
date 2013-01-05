@@ -99,16 +99,22 @@ describe( 'Customer create', function () {
 
 describe( 'Customer create_screen_name', function () {
 
-  it( 'adds entry to screen_names tables'); // it
-
-  it( 'adds a homepage entry to Customer db', function (done) {
+  it( 'adds entry to screen_names tables', function (done) {
     customer.create_screen_name(screen_name_2, function () {
-      var db = new pg.query('/' + customer.data.db_name);
-      db.q('SELECT * FROM homepages');
-      db.run_and_then(function (meta) {
-        assert.equal(meta.rows.length, customer.data.screen_names.length + 1);
+      customer.read_screen_names(function (mem) {
+        assert.deepEqual(mem.data.screen_names.sort(), [screen_name, screen_name_2].sort());
+        customer = mem;
         done();
       });
+    });
+  }); // it
+
+  it( 'adds a homepage entry to Customer db', function (done) {
+    var db = new pg.query('/' + customer.data.db_name);
+    db.q('SELECT * FROM homepages');
+    db.run_and_then(function (meta) {
+      assert.deepEqual(_.pluck(meta.rows, 'screen_name_id'), _.pluck(customer.data.screen_name_rows, 'id') );
+      done();
     });
   }); // it
 
@@ -124,7 +130,7 @@ describe( 'Customer read', function () {
   });
 
   it( 'reads screen-names', function (done) {
-    assert.deepEqual(customer.data.screen_names, [screen_name]);
+    assert.deepEqual(customer.data.screen_names.sort(), [screen_name, screen_name_2].sort());
     done();
   });
 
@@ -158,7 +164,7 @@ describe( 'Customer update', function () {
   it( 'updates screen-name', function (done) {
 
     var mem = customer;
-    var old = mem.data.screen_names[0];
+    var old = screen_name;
     var n   = 'new-' + old;
     mem.update({'old_screen_name': old, 'new_screen_name': n}, function (meta) {
       mem.read_screen_names(function (c) {
