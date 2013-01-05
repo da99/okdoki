@@ -181,15 +181,27 @@ describe( 'Customer trash', function () {
 
   it( 'it updates Customer trashed_at date.', function (done) {
     var f = '%Y-%m-%dT%H:%M';
-    Customer.read(customer_id, function (mem) {
-      mem.trash(function () {
-        Customer.read(customer_id, function (c) {
-          assert.equal(strftimeUTC(f, c.data.trashed_at), strftimeUTC(f, new Date()));
-          done();
-        });
+    customer.trash(function () {
+      Customer.read(customer_id, function (c) {
+        assert.equal(c.data.trashed_at.toString(), (new Date()).toString());
+        done();
       });
     });
   }); // it
+
+}); // === describe
+
+describe( 'Customer trash_screen_name', function () {
+
+  it( 'it updates screen-name\'s trashed_at column', function (done) {
+    var f = '%Y-%m-%dT%H:%M';
+    customer.trash_screen_name(screen_name, function (meta) {
+      customer.read_screen_names(function (new_c) {
+        assert.equal(new_c.data.screen_name_rows[0].trashed_at.toString(), (new Date()).toString() );
+        done();
+      });
+    });
+  });
 
 }); // === describe
 

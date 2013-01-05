@@ -40,13 +40,12 @@ show_databases(function (names) {
     ok.q('DROP TABLE IF EXISTS consumers');
     ok.q('DROP TABLE IF EXISTS masks');
 
-    ok_c.q('DROP EXTENSION IF EXISTS hstore');
     ok_c.q('DROP TABLE IF EXISTS comments');
   }
 
 
   if (is_up) {
-    ok.q("CREATE EXTENSION hstore");
+    ok.q("CREATE EXTENSION IF NOT EXISTS hstore");
 
     ok.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
@@ -66,7 +65,7 @@ show_databases(function (names) {
        screen_name varchar(15) NOT NULL UNIQUE \
     )");
 
-    ok_c.q("CREATE EXTENSION hstore");
+    ok_c.q("CREATE EXTENSION IF NOT EXISTS hstore");
     ok_c.q(" \
       CREATE TABLE IF NOT EXISTS comments ( \
         id                varchar(30) NOT NULL UNIQUE, \
