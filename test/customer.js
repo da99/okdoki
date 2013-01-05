@@ -169,6 +169,7 @@ describe( 'Customer update', function () {
     mem.update({'old_screen_name': old, 'new_screen_name': n}, function (meta) {
       mem.read_screen_names(function (c) {
         assert.deepEqual(c.data.screen_names.sort(), [n, screen_name_2].sort());
+        screen_name = n;
         done();
       });
     });
@@ -197,7 +198,8 @@ describe( 'Customer trash_screen_name', function () {
     var f = '%Y-%m-%dT%H:%M';
     customer.trash_screen_name(screen_name, function (meta) {
       customer.read_screen_names(function (new_c) {
-        assert.equal(new_c.data.screen_name_rows[0].trashed_at.toString(), (new Date()).toString() );
+        var r = new_c.screen_name_row(screen_name);
+        assert.equal(r.trashed_at.toString(), (new Date()).toString() );
         done();
       });
     });
