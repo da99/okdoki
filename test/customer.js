@@ -84,6 +84,15 @@ describe( 'Customer create', function () {
     });
   });
 
+  it( 'adds a homepage entry to Customer db', function (done) {
+    var db = new pg.query('/' + customer.data.db_name);
+    db.q('SELECT * FROM homepages');
+    db.run_and_then(function (meta) {
+      assert.deepEqual( _.pluck(customer.data.screen_name_rows, 'id'), _.pluck(meta.rows, 'screen_name_id'));
+      done();
+    });
+  }); // it
+
 }); // === describe
 
 describe( 'Customer read', function () {
@@ -109,6 +118,20 @@ describe( 'Customer read', function () {
 
 }); // === describe
 
+
+describe( 'Customer create_screen_name', function () {
+
+  it( 'adds entry to screen_names tables'); // it
+
+  // it( 'adds a homepage entry to Customer db', function (done) {
+    // var db = new pg.query('/' + customer.data.db_name);
+    // db.q('SELECT * FROM homepages');
+    // db.run_and_then(function (meta) {
+      // assert.deepEqual( _.pluck(customer.data.screen_name_rows, 'id'), _.pluck(meta.rows, 'screen_name_id'));
+    // });
+  // }); // it
+
+});
 
 describe( 'Customer update', function () {
 
