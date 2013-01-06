@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Create databases: okdoki, okdoki_comments, okdoki_follows
+// Create databases: okdoki
 
 var db             = require('okdoki/lib/POSTGRESQL');
 var show_databases = db.show_databases;
@@ -24,8 +24,6 @@ show_databases(function (names) {
   }
 
   var ok = new db.query();
-  var ok_c = new db.query('/okdoki_comments');
-  var ok_f = new db.query('/okdoki_follows');
 
   _.each(names, function (n, i) {
     if (n.indexOf('customer-') === 0 || n.indexOf('customer_') === 0) {
@@ -34,16 +32,13 @@ show_databases(function (names) {
   });
 
   if (is_down) {
-    ok.q('DROP EXTENSION IF EXISTS hstore');
     ok.q('DROP TABLE IF EXISTS bot_chat');
     ok.q('DROP TABLE IF EXISTS customers');
     ok.q('DROP TABLE IF EXISTS screen_names');
     ok.q('DROP TABLE IF EXISTS consumers');
     ok.q('DROP TABLE IF EXISTS masks');
-
-    ok_c.q('DROP TABLE IF EXISTS comments');
-
-    ok_f.q('DROP TABLE IF EXISTS follows');
+    ok.q('DROP TABLE IF EXISTS comments');
+    ok.q('DROP TABLE IF EXISTS follows');
   }
 
 
@@ -68,8 +63,7 @@ show_databases(function (names) {
        screen_name varchar(15) NOT NULL UNIQUE \
     )");
 
-    ok_c.q("CREATE EXTENSION IF NOT EXISTS hstore");
-    ok_c.q(" \
+    ok.q(" \
       CREATE TABLE IF NOT EXISTS comments ( \
         id                varchar(30) NOT NULL UNIQUE, \
         screen_name_id    varchar(15) NULL NULL, \
@@ -83,8 +77,7 @@ show_databases(function (names) {
         trashed_at        timestamp default null  \
     )");
 
-    ok_f.q("CREATE EXTENSION IF NOT EXISTS hstore");
-    ok_f.q(" \
+    ok.q(" \
       CREATE TABLE IF NOT EXISTS follows  ( \
         id                varchar(30) NOT NULL UNIQUE, \
         pub_id            varchar(15) NULL NULL, \
@@ -95,16 +88,54 @@ show_databases(function (names) {
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
     )");
+
+    ok.q(" \
+      CREATE TABLE IF NOT EXISTS contacts ( \
+        id                varchar(30) NOT NULL UNIQUE, \
+        owner_id          varchar(15) NULL NULL, \
+        contact_id        varchar(15) NULL NULL, \
+        settings          hstore NOT NULL,       \
+        details           hstore NOT NULL,       \
+        body              text NOT NULL,         \
+        created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+        trashed_at        timestamp default null \
+    )");
+
+    ok.q(" \
+      CREATE TABLE IF NOT EXISTS labels   ( \
+        id                varchar(30) NOT NULL UNIQUE, \
+        owner_id          varchar(15) NULL NULL, \
+        label             varchar(15) NULL NULL, \
+        settings          hstore NOT NULL,       \
+        details           hstore NOT NULL,       \
+        created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+        trashed_at        timestamp default null \
+        , UNIQUE (owner_id, label) \
+    )");
+
+    ok.q(" \
+      CREATE TABLE IF NOT EXISTS homepages ( \
+       screen_name_id  varchar(15) NOT NULL UNIQUE, \
+       settings        hstore NOT NULL,                 \
+       details         hstore NOT NULL,                 \
+       about           text  \
+    )");
+
+    ok.q(" \
+      CREATE TABLE IF NOT EXISTS posts ( \
+       id              varchar(30) NOT NULL UNIQUE, \
+       pub_id          varchar(15) NOT NULL UNIQUE, \
+       section_id      smallint NOT NULL, \
+       settings        hstore NOT NULL,                 \
+       body            text, \
+       created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
+       updated_at      timestamp default null,  \
+       trashed_at      timestamp default null    \
+    )");
   }
 
   ok.run_and_then(function (meta) {
     console.log('Finished migrating the main db.');
-    ok_c.run_and_then(function (meta) {
-      console.log('Finished migrating the comments db.');
-      ok_f.run_and_then(function (meta) {
-        console.log('Finished migrating the follows db.');
-      });
-    });
   });
 
 }); // === show_databases
