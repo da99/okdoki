@@ -207,6 +207,18 @@ describe( 'Customer trash_screen_name', function () {
 
 }); // === describe
 
+describe( 'Customer delete screen-name', function () {
+
+  it( 'it deletes screen-name record', function (done) {
+    customer.delete_screen_name(screen_name, function (meta) {
+      customer.read_screen_names(function (new_c) {
+        assert.deepEqual(new_c.data.screen_names, [screen_name_2]);
+        done();
+      });
+    });
+  });
+}); // === describe
+
 describe( 'Customer delete', function () {
 
   it( 'it deletes Customer record, Customer db, and all Customer screen-names', function (done) {
@@ -233,5 +245,3 @@ describe( 'Customer delete', function () {
   }); // it
 
 }); // === describe
-
-
