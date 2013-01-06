@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Create databases: okdoki, okdoki_comments
+// Create databases: okdoki, okdoki_comments, okdoki_follows
 
 var db             = require('okdoki/lib/POSTGRESQL');
 var show_databases = db.show_databases;
@@ -25,6 +25,7 @@ show_databases(function (names) {
 
   var ok = new db.query();
   var ok_c = new db.query('/okdoki_comments');
+  var ok_f = new db.query('/okdoki_follows');
 
   _.each(names, function (n, i) {
     if (n.indexOf('customer-') === 0 || n.indexOf('customer_') === 0) {
@@ -41,6 +42,8 @@ show_databases(function (names) {
     ok.q('DROP TABLE IF EXISTS masks');
 
     ok_c.q('DROP TABLE IF EXISTS comments');
+
+    ok_f.q('DROP TABLE IF EXISTS follows');
   }
 
 
@@ -72,8 +75,24 @@ show_databases(function (names) {
         screen_name_id    varchar(15) NULL NULL, \
         conv_id           varchar(30) NOT NULL UNIQUE, \
         ref_id            varchar(30) NOT NULL UNIQUE, \
+        settings          hstore NOT NULL,       \
         details           hstore NOT NULL,       \
         body              text NOT NULL,         \
+        created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+        updated_at        timestamp default null, \
+        trashed_at        timestamp default null  \
+    )");
+
+    ok_f.q("CREATE EXTENSION IF NOT EXISTS hstore");
+    ok_f.q(" \
+      CREATE TABLE IF NOT EXISTS follows  ( \
+        id                varchar(30) NOT NULL UNIQUE, \
+        pub_id            varchar(15) NULL NULL, \
+        screen_name_id    varchar(15) NULL NULL, \
+        settings          hstore NOT NULL,       \
+        details           hstore NOT NULL,       \
+        body              text NOT NULL,         \
+        created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
     )");
   }
@@ -82,6 +101,9 @@ show_databases(function (names) {
     console.log('Finished migrating the main db.');
     ok_c.run_and_then(function (meta) {
       console.log('Finished migrating the comments db.');
+      ok_f.run_and_then(function (meta) {
+        console.log('Finished migrating the follows db.');
+      });
     });
   });
 
