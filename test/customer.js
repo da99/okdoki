@@ -74,9 +74,16 @@ describe( 'Customer create', function () {
 
   it( 'creates a homepages table in Customer DB', function (done) {
     var db = new pg.query('/' + customer.data.db_name);
-    // FROM: http://stackoverflow.com/questions/769683/show-tables-in-postgresql
-    db.show_tables(function (meta) {
+    db.select_table('homepages', function (meta) {
       assert.deepEqual([{'table_name':'public.homepages'}], meta.rows);
+      done();
+    });
+  });
+
+  it( 'creates a posts table in Customer DB', function (done) {
+    var db = new pg.query('/' + customer.data.db_name);
+    db.select_table('posts', function (meta) {
+      assert.deepEqual([{'table_name':'public.posts'}], meta.rows);
       done();
     });
   });
