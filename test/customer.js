@@ -55,7 +55,7 @@ describe( 'Customer create', function () {
   });
 
 
-  it( 'saves Customer, Customer screen-name, and creates a Customer db', function (done) {
+  it( 'saves Customer and Customer screen-name', function (done) {
     var c = customer;
 
     // Has the customer id been saved?
@@ -64,35 +64,14 @@ describe( 'Customer create', function () {
     // Has the screen name been saved?
     assert.deepEqual([screen_name], c.data.screen_names);
 
-    // Has the Customer's db been created?
-    show_databases(function (names) {
-      assert.equal(_.last(names), 'customer-' + c.data.id);
-      done();
-    });
-
+    done();
   });
 
-  it( 'creates a homepages table in Customer DB', function (done) {
-    var db = new pg.query('/' + customer.data.db_name);
-    db.select_table('homepages', function (meta) {
-      assert.deepEqual([{'table_name':'public.homepages'}], meta.rows);
-      done();
-    });
-  });
-
-  it( 'creates a posts table in Customer DB', function (done) {
-    var db = new pg.query('/' + customer.data.db_name);
-    db.select_table('posts', function (meta) {
-      assert.deepEqual([{'table_name':'public.posts'}], meta.rows);
-      done();
-    });
-  });
-
-  it( 'adds a homepage entry to Customer db', function (done) {
-    var db = new pg.query('/' + customer.data.db_name);
-    db.q('SELECT * FROM homepages');
+  it( 'adds a homepage entry', function (done) {
+    var db = new pg.query();
+    db.q('SELECT * FROM homepages;');
     db.run_and_then(function (meta) {
-      assert.deepEqual( _.pluck(customer.data.screen_name_rows, 'id'), _.pluck(meta.rows, 'screen_name_id'));
+      assert.deepEqual(_.pluck(customer.data.screen_name_rows, 'id'), _.pluck(meta.rows, 'screen_name_id'));
       done();
     });
   }); // it
@@ -112,7 +91,7 @@ describe( 'Customer create_screen_name', function () {
   }); // it
 
   it( 'adds a homepage entry to Customer db', function (done) {
-    var db = new pg.query('/' + customer.data.db_name);
+    var db = new pg.query();
     db.q('SELECT * FROM homepages');
     db.run_and_then(function (meta) {
       assert.deepEqual(_.pluck(meta.rows, 'screen_name_id'), _.pluck(customer.data.screen_name_rows, 'id') );
@@ -223,24 +202,18 @@ describe( 'Customer delete screen-name', function () {
 
 describe( 'Customer delete', function () {
 
-  it( 'it deletes Customer record, Customer db, and all Customer screen-names', function (done) {
+  it( 'it deletes Customer record and all Customer screen-names', function (done) {
     var mem = customer;
     show_databases(function (old_list) {
       mem.delete(function () {
-        show_databases(function (new_list) {
-          old_list.pop();
-          // Customer db deleted.
-          assert.deepEqual(old_list, new_list);
+        // Customer record deleted.
+        Customer.read(customer_id, function () {throw new Error('found');}, function () {
 
-          // Customer record deleted.
-          Customer.read(customer_id, function () {throw new Error('found');}, function () {
-
-            // Screen names deleted.
-            mem.read_screen_names(function () {throw new Error('found names');}, function () {
-              done();
-            });
-
+          // Screen names deleted.
+          mem.read_screen_names(function () {throw new Error('found names');}, function () {
+            done();
           });
+
         });
       });
     });

@@ -16,7 +16,10 @@ if (!is_up && !is_down && !is_list) {
   process.exit(1);
 }
 
-show_databases(function (names) {
+var tbls = new db.query();
+tbls.show_tables(function (meta) {
+
+  var names = _.pluck(meta.rows, 'name');
 
   if (cmd === 'list') {
     console.log('DBs: ' + names.join(', '));
@@ -25,20 +28,18 @@ show_databases(function (names) {
 
   var ok = new db.query();
 
-  _.each(names, function (n, i) {
-    if (n.indexOf('customer-') === 0 || n.indexOf('customer_') === 0) {
-      ok.q('DROP DATABASE "' + n + '"' );
-    };
-  });
-
   if (is_down) {
+
+    _.each(names, function (n, i) {
+      if (n.indexOf('public.') === 0 ) {
+        ok.q('DROP TABLE ' + n + '' );
+      };
+    });
+
     ok.q('DROP TABLE IF EXISTS bot_chat');
-    ok.q('DROP TABLE IF EXISTS customers');
-    ok.q('DROP TABLE IF EXISTS screen_names');
     ok.q('DROP TABLE IF EXISTS consumers');
     ok.q('DROP TABLE IF EXISTS masks');
     ok.q('DROP TABLE IF EXISTS comments');
-    ok.q('DROP TABLE IF EXISTS follows');
   }
 
 
