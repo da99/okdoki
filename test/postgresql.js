@@ -32,3 +32,26 @@ describe( '.on_end', function () {
 
   });
 }); // === describe
+
+
+describe( 'sqler', function () {
+
+  it( 'transforms objects into hstore inputs', function () {
+    var actual = pg.sqler("INSERT INTO tbl (settings) VALUES ( ~x );", [{a: 'b'}]);
+    var expected = [
+      "INSERT INTO tbl (settings) VALUES ( hstore(ARRAY[ $1 , $2 ]) );",
+      ['a', 'b']
+    ];
+    assert.deepEqual(actual, expected);
+  });
+
+  it( 'transforms a combination of values and objects into values and hstore inputs', function () {
+    var actual = pg.sqler("VALUES ( ~x, ~x, ~x, ~x );", [1, "str1", {a: 'b', c: 'd'}, "str2"]);
+    var expected = [
+      "VALUES ( $1, $2, hstore(ARRAY[ $3 , $4 , $5 , $6 ]), $7 );",
+      [1, "str1", 'a', 'b', 'c', 'd', "str2"]
+    ];
+    assert.deepEqual(actual, expected);
+  });
+
+}); // === describe

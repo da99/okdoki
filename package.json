@@ -18,6 +18,7 @@
     "underscore"     : "1.4.x",
     "sql-generator"  : "0.x.x",
     "uri-js"         : "1.4.x"
+    , "rel" : "0.x.x"
   },
   "devDependencies": {
     "strftime" : "x.x.x"
