@@ -45,13 +45,23 @@ describe( 'sqler', function () {
     assert.deepEqual(actual, expected);
   });
 
-  it( 'transforms a combination of values and objects into values and hstore inputs', function () {
-    var actual = pg.sqler("VALUES ( ~x, ~x, ~x, ~x );", [1, "str1", {a: 'b', c: 'd'}, "str2"]);
+  it( 'transforms an array into ( $1 , ... )', function () {
+    var actual = pg.sqler("WHERE a in ~x", [[1,2,3]]);
     var expected = [
-      "VALUES ( $1, $2, hstore(ARRAY[ $3 , $4 , $5 , $6 ]), $7 );",
-      [1, "str1", 'a', 'b', 'c', 'd', "str2"]
+      "WHERE a in ( $1 , $2 , $3 )",
+      [ 1, 2, 3]
     ];
     assert.deepEqual(actual, expected);
+  });
+
+  it( 'transforms a combination of values, arrays, and objects into values, arrays, hstore inputs', function () {
+    var actual = pg.sqler("VALUES ( ~x, ~x, ~x, ~x ) WHERE a in ~x;", [1, "str1", {a: 'b', c: 'd'}, "str2", [1,2,3]]);
+    var expected = [
+      "VALUES ( $1, $2, hstore(ARRAY[ $3 , $4 , $5 , $6 ]), $7 ) WHERE a in ( $8 , $9 , $10 );",
+      [1, "str1", 'a', 'b', 'c', 'd', "str2", 1, 2, 3]
+    ];
+    assert.equal(actual[0], expected[0]);
+    assert.deepEqual(actual[1], expected[1]);
   });
 
 }); // === describe
