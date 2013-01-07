@@ -1,29 +1,29 @@
 {
-  "name": "okdoki",
-  "description": "node/express version of unixoxo",
-  "version": "0.0.1",
-  "private": true,
-  "main" : "lib/app.js",
+  "name"        : "okdoki",
+  "description" : "node/express version of okdoki",
+  "version"     : "0.0.1",
+  "private"     : true,
+  "main"        : "lib/app.js",
   "dependencies": {
-    "express": "3.0.1",
-    "jade"   : "0.27.6",
-    "socket.io": "0.9.11",
-    "pg" : "0.8.x",
-    "pg-hstore": "1.0.x",
-    "passport": "0.1.x",
-    "passport-local": "0.1.x",
-    "password-hash": "1.2.x",
-    "shortid" : "1.x.x",
-    "validator": "0.4.x",
-    "underscore": "1.4.x",
-    "sql-generator": "0.x.x",
-    "uri-js": "1.4.x"
+    "express"        : "3.0.1",
+    "jade"           : "0.27.6",
+    "socket.io"      : "0.9.11",
+    "pg"             : "0.8.x",
+    "pg-hstore"      : "1.0.x",
+    "passport"       : "0.1.x",
+    "passport-local" : "0.1.x",
+    "password-hash"  : "1.2.x",
+    "shortid"        : "1.x.x",
+    "validator"      : "0.4.x",
+    "underscore"     : "1.4.x",
+    "sql-generator"  : "0.x.x",
+    "uri-js"         : "1.4.x"
   },
   "devDependencies": {
     "strftime" : "x.x.x"
   },
   "engines": {
-    "node": "0.8.x",
-    "npm": "1.1.x"
+    "node" : "0.8.x",
+    "npm"  : "1.1.x"
   }
 }
