@@ -45,6 +45,16 @@ tbls.show_tables(function (meta) {
 
   if (is_up) {
     ok.q("CREATE EXTENSION IF NOT EXISTS hstore");
+    ok.q("CREATE EXTENSION IF NOT EXISTS plpython3u");
+
+    ok.q(" \
+         CREATE OR REPLACE FUNCTION public.json_get(j text, k text) \
+           RETURNS text \
+         AS $$    \
+           import json; \
+           json.loads(j)[k] \
+         $$ LANGUAGE plpython3u; \
+    ");
 
     ok.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
