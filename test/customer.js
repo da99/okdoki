@@ -165,16 +165,24 @@ describe( 'Customer update_screen_name', function () {
 
 describe( 'Customer update_homepage', function () {
 
-  it( 'updates homepage', function (done) {
-
+  it( 'updates homepage about', function (done) {
     var expected = 'This is about: ' + screen_name_2;
     customer.update_homepage(screen_name_2, {"homepage_about": expected}, function (meta) {
       customer.read_homepage(screen_name_2, function (data) {
         assert.equal(data.about, expected);
         done();
       });
-    } );
+    });
+  });
 
+  it( 'updates homepage title', function (done) {
+    var expected = 'This is for: ' + screen_name_2;
+    customer.update_homepage(screen_name_2, {"homepage_title": expected}, function (meta) {
+      customer.read_homepage(screen_name_2,  function (data) {
+        assert.equal(pg.hstore.parse(data.details).title, expected);
+        done();
+      });
+    });
   });
 }); // === describe
 
