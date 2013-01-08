@@ -163,6 +163,21 @@ describe( 'Customer update_screen_name', function () {
 
 }); // === describe
 
+describe( 'Customer update_homepage', function () {
+
+  it( 'updates homepage', function (done) {
+
+    var expected = 'This is about: ' + screen_name_2;
+    customer.update_homepage(screen_name_2, {"homepage_about": expected}, function (meta) {
+      customer.read_homepage(screen_name_2, function (data) {
+        assert.equal(data.about, expected);
+        done();
+      });
+    } );
+
+  });
+}); // === describe
+
 describe( 'Customer trash', function () {
 
   it( 'it updates Customer trashed_at date.', function (done) {
