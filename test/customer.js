@@ -179,7 +179,7 @@ describe( 'Customer update_homepage', function () {
     var expected = 'This is for: ' + screen_name_2;
     customer.update_homepage(screen_name_2, {"homepage_title": expected}, function (meta) {
       customer.read_homepage(screen_name_2,  function (data) {
-        assert.equal(pg.hstore.parse(data.details).title, expected);
+        assert.equal(data.details.title, expected);
         done();
       });
     });
