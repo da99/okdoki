@@ -184,6 +184,18 @@ describe( 'Customer update_homepage', function () {
       });
     });
   });
+
+  it( 'updates homepage allow', function (done) {
+    customer.read_screen_names(function (new_c) {
+      var expected = _.pluck(new_c.data.screen_name_rows, 'id').sort();
+      customer.update_homepage(screen_name, {'homepage_allow': expected}, function (mets) {
+        customer.read_homepage(screen_name, function (data) {
+          assert.deepEqual(data.settings.allow.sort(), expected);
+          done();
+        });
+      });
+    });
+  });
 }); // === describe
 
 describe( 'Customer trash', function () {
