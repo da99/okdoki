@@ -59,6 +59,10 @@ MMaj:
 
 
 Chat Room Activities replace Flash-based games:
+* feed friends' pets facts about yourself.
+* friends' pets ask you questions about yourself
+* survey remix: store questions for your friends in your pets.
+  * response: NOYB, TOOP, answer, etc.
 * word/timer guessing
 * mult choice
 * group help
