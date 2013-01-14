@@ -22,12 +22,33 @@ before(function (done) {
       c.read_screen_names( function (csn) {
         customer = csn;
         done();
+
       });
     });
   });
 
 });
 
+describe( 'Customer feed', function () {
+
+  it( 'grabs feed of items meant for the world', function (done) {
+    var db = new pg.query();
+    var screen_name_id = customer.data.screen_name_rows[0].id
+    db.q('INSERT INTO follows (id, pub_id, screen_name_id) VALUES ( $1, $2, $3 );', ['a1', 'mag1', screen_name_id]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p1', 'mag1', '1', JSON.stringify({allow: []}), 'post 1' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p5', 'mag1', '4', JSON.stringify({allow: []}), 'post 5' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p2', 'mag1', '2', JSON.stringify({allow: ['@']}), 'post 2' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p3', 'mag1', '3', JSON.stringify({allow: [screen_name_id]}), 'post 3' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p4', 'mag1', '4', JSON.stringify({allow: [screen_name_id]}), 'post 4' ]);
+    db.run_and_then(function (meta) {
+      customer.read_feed(function (raw_rows) {
+        var rows = _.map(raw_rows, function (r, i) { return r.id;});
+        assert.deepEqual(rows, ['p2', 'p3', 'p4']);
+        done();
+      });
+    });
+  });
+}); // === describe
 
 describe( 'Customer create', function () {
 

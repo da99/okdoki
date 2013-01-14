@@ -47,6 +47,24 @@ tbls.show_tables(function (meta) {
     ok.q("CREATE EXTENSION IF NOT EXISTS plpython3u");
 
     ok.q(" \
+         CREATE OR REPLACE FUNCTION public.json_get_varchar_array(j text, k text) \
+           RETURNS varchar[] \
+         AS $$    \
+           import json; \
+           return json.loads(j or '{}')[k]; \
+         $$ LANGUAGE plpython3u; \
+    ");
+
+    ok.q(" \
+         CREATE OR REPLACE FUNCTION public.json_get_text_array(j text, k text) \
+           RETURNS text[] \
+         AS $$    \
+           import json; \
+           return json.loads(j or '{}')[k]; \
+         $$ LANGUAGE plpython3u; \
+    ");
+
+    ok.q(" \
          CREATE OR REPLACE FUNCTION public.json_get(j text, k text) \
            RETURNS text \
          AS $$    \
@@ -106,7 +124,7 @@ tbls.show_tables(function (meta) {
         screen_name_id    varchar(15) NULL NULL, \
         settings          text,       \
         details           text,       \
-        body              text NOT NULL,         \
+        body              text,         \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
     )");
@@ -146,13 +164,14 @@ tbls.show_tables(function (meta) {
     ok.q(" \
       CREATE TABLE IF NOT EXISTS posts ( \
        id              varchar(30) NOT NULL UNIQUE, \
-       pub_id          varchar(15) NOT NULL UNIQUE, \
-       section_id      smallint NOT NULL, \
+       pub_id          varchar(15) NOT NULL,        \
+       section_id      smallint NOT NULL,    \
        settings        text,                 \
-       body            text, \
+       details         text,                 \
+       body            text,                 \
        created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
        updated_at      timestamp default null,  \
-       trashed_at      timestamp default null    \
+       trashed_at      timestamp default null   \
     )");
   }
 
