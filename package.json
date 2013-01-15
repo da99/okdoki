@@ -19,6 +19,7 @@
     "sql-generator"  : "0.x.x",
     "uri-js"         : "1.4.x"
     , "rel" : "0.x.x"
+    , "toobusy": "0.1.x"
   },
   "devDependencies": {
     "strftime" : "x.x.x"
