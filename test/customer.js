@@ -55,7 +55,7 @@ describe( 'Customer feed', function () {
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
-        assert.deepEqual(rows, ['p2', 'p3', 'p4']);
+        assert.deepEqual(rows, ['p2', 'p3', 'p4'].reverse());
         done();
       });
     });
@@ -67,7 +67,7 @@ describe( 'Customer feed', function () {
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
-        assert.deepEqual(rows, ['p2', 'p3', 'p4']);
+        assert.deepEqual(rows, ['p2', 'p3', 'p4'].reverse());
         done();
       });
     });
@@ -80,7 +80,7 @@ describe( 'Customer feed', function () {
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
-        assert.deepEqual(rows, ['p2', 'p3', 'p4', 'p7']);
+        assert.deepEqual(rows, ['p2', 'p3', 'p4', 'p7'].reverse());
         done();
       });
     });
@@ -92,7 +92,7 @@ describe( 'Customer feed', function () {
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
-        assert.deepEqual(rows, ['p2', 'p3', 'p4', 'p7']);
+        assert.deepEqual(rows, ['p2', 'p3', 'p4', 'p7'].reverse());
         done();
       });
     });
