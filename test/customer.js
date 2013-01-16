@@ -86,6 +86,18 @@ describe( 'Customer feed', function () {
     });
   });
 
+  it( 'does not grab items for any screen name in disallowed labels.', function (done) {
+    var db = new pg.query();
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p8', 'mag1', '4', JSON.stringify({allow: ['@'], disallow: ['l1']}), 'post 8' ]);
+    db.run_and_then(function (meta) {
+      customer.read_feed(function (raw_rows) {
+        var rows = _.map(raw_rows, function (r, i) { return r.id;});
+        assert.deepEqual(rows, ['p2', 'p3', 'p4', 'p7']);
+        done();
+      });
+    });
+  });
+
 }); // === describe
 
 describe( 'Customer create', function () {
