@@ -10,6 +10,7 @@ var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';
 var screen_name_2  = 'go2';
+var screen_name_id = null;
 
 before(function (done) {
 
@@ -21,6 +22,7 @@ before(function (done) {
     Customer.read(customer_id, function (c) {
       c.read_screen_names( function (csn) {
         customer = csn;
+        screen_name_id = customer.data.screen_name_rows[0].id;
         done();
 
       });
@@ -33,7 +35,6 @@ describe( 'Customer feed', function () {
 
   it( 'grabs feed of items meant for the world', function (done) {
     var db = new pg.query();
-    var screen_name_id = customer.data.screen_name_rows[0].id
     db.q('INSERT INTO follows (id, pub_id, screen_name_id) VALUES ( $1, $2, $3 );', ['a1', 'mag1', screen_name_id]);
     db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p1', 'mag1', '1', JSON.stringify({allow: [], disallow: []}), 'post 1' ]);
     db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p5', 'mag1', '4', JSON.stringify({allow: [], disallow: []}), 'post 5' ]);
@@ -49,7 +50,6 @@ describe( 'Customer feed', function () {
 
   it( 'grabs feed of items meant for any of the screen names.', function (done) {
     var db = new pg.query();
-    var screen_name_id = customer.data.screen_name_rows[0].id
     db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p3', 'mag1', '3', JSON.stringify({allow: [screen_name_id], disallow: []}), 'post 3' ]);
     db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p4', 'mag1', '4', JSON.stringify({allow: [screen_name_id], disallow: []}), 'post 4' ]);
     db.run_and_then(function (meta) {
@@ -63,7 +63,6 @@ describe( 'Customer feed', function () {
 
   it( 'does not grab items for any screen name in disallow.', function (done) {
     var db = new pg.query();
-    var screen_name_id = customer.data.screen_name_rows[0].id
     db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p6', 'mag1', '4', JSON.stringify({allow: ['@', screen_name_id], disallow: [screen_name_id]}), 'post 6' ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
@@ -73,6 +72,20 @@ describe( 'Customer feed', function () {
       });
     });
   });
+
+  it( 'grabs feed items for customer if in allowed contact label', function (done) {
+    var db = new pg.query();
+    db.q('INSERT INTO labelings (id, pub_id, label_id) VALUES ( $1, $2, $3 );',       ['lg1', screen_name_id, 'l1'] );
+    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p7', 'mag1', '4', JSON.stringify({allow: ['l1'], disallow: []}), 'post 7' ]);
+    db.run_and_then(function (meta) {
+      customer.read_feed(function (raw_rows) {
+        var rows = _.map(raw_rows, function (r, i) { return r.id;});
+        assert.deepEqual(rows, ['p2', 'p3', 'p4', 'p7']);
+        done();
+      });
+    });
+  });
+
 }); // === describe
 
 describe( 'Customer create', function () {

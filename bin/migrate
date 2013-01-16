@@ -136,7 +136,7 @@ tbls.show_tables(function (meta) {
         contact_id        varchar(15) NULL NULL, \
         settings          text,       \
         details           text,       \
-        body              text NOT NULL,         \
+        body              text,         \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
     )");
@@ -145,12 +145,20 @@ tbls.show_tables(function (meta) {
       CREATE TABLE IF NOT EXISTS labels   ( \
         id                varchar(30) NOT NULL UNIQUE, \
         owner_id          varchar(15) NULL NULL, \
-        label             varchar(15) NULL NULL, \
-        settings          text,       \
-        details           text,       \
+        label             varchar(40) NULL NULL, \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
         , UNIQUE (owner_id, label) \
+    )");
+
+    ok.q(" \
+      CREATE TABLE IF NOT EXISTS labelings ( \
+       id              varchar(30) NOT NULL UNIQUE, \
+       pub_id          varchar(15) NOT NULL,        \
+       label_id        varchar(30) NOT NULL, \
+       created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
+       trashed_at      timestamp default null   \
+       , UNIQUE (pub_id, label_id) \
     )");
 
     ok.q(" \
