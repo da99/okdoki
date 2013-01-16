@@ -90,7 +90,7 @@ tbls.show_tables(function (meta) {
 
     ok.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
-       id varchar(15) NOT NULL UNIQUE, \
+       id varchar(15) PRIMARY KEY, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        email text,                 \
@@ -99,12 +99,14 @@ tbls.show_tables(function (meta) {
 
     ok.q( " \
      CREATE TABLE IF NOT EXISTS screen_names ( \
-       id varchar(15) NOT NULL UNIQUE,   \
+       id varchar(15) PRIMARY KEY,   \
        customer_id varchar(15) NOT NULL, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        screen_name varchar(15) NOT NULL UNIQUE \
     )");
+
+    ok.q("CREATE INDEX ON screen_names (customer_id)");
 
     ok.q(" \
       CREATE TABLE IF NOT EXISTS comments ( \
@@ -122,7 +124,7 @@ tbls.show_tables(function (meta) {
 
     ok.q(" \
       CREATE TABLE IF NOT EXISTS follows  ( \
-        id                varchar(30) NOT NULL UNIQUE, \
+        id                varchar(30) PRIMARY KEY, \
         pub_id            varchar(15) NULL NULL, \
         screen_name_id    varchar(15) NULL NULL, \
         settings          text,       \
@@ -132,9 +134,11 @@ tbls.show_tables(function (meta) {
         trashed_at        timestamp default null \
     )");
 
+    ok.q("CREATE INDEX ON follows (screen_name_id)");
+
     ok.q(" \
       CREATE TABLE IF NOT EXISTS contacts ( \
-        id                varchar(30) NOT NULL UNIQUE, \
+        id                varchar(30) PRIMARY KEY, \
         owner_id          varchar(15) NULL NULL, \
         contact_id        varchar(15) NULL NULL, \
         settings          text,       \
@@ -174,7 +178,7 @@ tbls.show_tables(function (meta) {
 
     ok.q(" \
       CREATE TABLE IF NOT EXISTS posts ( \
-       id              varchar(30) NOT NULL UNIQUE, \
+       id              varchar(30) PRIMARY KEY, \
        pub_id          varchar(15) NOT NULL,        \
        section_id      smallint NOT NULL,    \
        settings        text NOT NULL default '{}' , \
@@ -186,6 +190,8 @@ tbls.show_tables(function (meta) {
        updated_at      timestamp default null,  \
        trashed_at      timestamp default null   \
     )");
+
+    ok.q(" CREATE INDEX ON posts (created_at DESC); ");
   }
 
   ok.run_and_then(function (meta) {
