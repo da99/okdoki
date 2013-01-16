@@ -51,7 +51,8 @@ tbls.show_tables(function (meta) {
            RETURNS varchar[] \
          AS $$    \
            import json; \
-           return json.loads(j or '{}')[k]; \
+           d = json.loads(j or '{}'); \
+           return d[k] if k in d else []; \
          $$ LANGUAGE plpython3u; \
     ");
 
@@ -60,7 +61,8 @@ tbls.show_tables(function (meta) {
            RETURNS text[] \
          AS $$    \
            import json; \
-           return json.loads(j or '{}')[k]; \
+           d = json.loads(j or '{}')[k]; \
+           return  d[k] if k in d else []; \
          $$ LANGUAGE plpython3u; \
     ");
 
@@ -69,7 +71,8 @@ tbls.show_tables(function (meta) {
            RETURNS text \
          AS $$    \
            import json; \
-           return json.loads(j or '{}')[k]; \
+           d = json.loads(j or '{}')[k]; \
+           return  d[k] if k in d else \"\"; \
          $$ LANGUAGE plpython3u; \
     ");
 
@@ -174,9 +177,11 @@ tbls.show_tables(function (meta) {
        id              varchar(30) NOT NULL UNIQUE, \
        pub_id          varchar(15) NOT NULL,        \
        section_id      smallint NOT NULL,    \
-       settings        text,                 \
-       details         text,                 \
+       settings        text NOT NULL default '{}' , \
+       details         text NOT NULL default '{}' , \
        body            text,                 \
+       allow           varchar[] default '{}',   \
+       disallow        varchar[] default '{}',   \
        created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
        updated_at      timestamp default null,  \
        trashed_at      timestamp default null   \

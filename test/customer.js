@@ -36,9 +36,9 @@ describe( 'Customer feed', function () {
   it( 'grabs feed of items meant for the world', function (done) {
     var db = new pg.query();
     db.q('INSERT INTO follows (id, pub_id, screen_name_id) VALUES ( $1, $2, $3 );', ['a1', 'mag1', screen_name_id]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p1', 'mag1', '1', JSON.stringify({allow: [], disallow: []}), 'post 1' ]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p5', 'mag1', '4', JSON.stringify({allow: [], disallow: []}), 'post 5' ]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p2', 'mag1', '2', JSON.stringify({allow: ['@'], disallow: []}), 'post 2' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p1', 'mag1', '1', '{}', 'post 1' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p5', 'mag1', '4', '{}', 'post 5' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p2', 'mag1', '2', '{"@"}', 'post 2' ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
@@ -50,8 +50,8 @@ describe( 'Customer feed', function () {
 
   it( 'grabs feed of items meant for any of the screen names.', function (done) {
     var db = new pg.query();
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p3', 'mag1', '3', JSON.stringify({allow: [screen_name_id], disallow: []}), 'post 3' ]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p4', 'mag1', '4', JSON.stringify({allow: [screen_name_id], disallow: []}), 'post 4' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p3', 'mag1', '3', '{"' + screen_name_id + '"}', 'post 3' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p4', 'mag1', '4', '{"' + screen_name_id + '"}', 'post 4' ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
@@ -63,7 +63,7 @@ describe( 'Customer feed', function () {
 
   it( 'does not grab items for any screen name in disallow.', function (done) {
     var db = new pg.query();
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p6', 'mag1', '4', JSON.stringify({allow: ['@', screen_name_id], disallow: [screen_name_id]}), 'post 6' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, disallow, body) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p6', 'mag1', '4', '{"@","' + screen_name_id + '"}', '{"' + screen_name_id + '"}', 'post 6' ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
@@ -76,7 +76,7 @@ describe( 'Customer feed', function () {
   it( 'grabs feed items for customer if in allowed contact label', function (done) {
     var db = new pg.query();
     db.q('INSERT INTO labelings (id, pub_id, label_id) VALUES ( $1, $2, $3 );',       ['lg1', screen_name_id, 'l1'] );
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p7', 'mag1', '4', JSON.stringify({allow: ['l1'], disallow: []}), 'post 7' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p7', 'mag1', '4', '{"@","l1"}', 'post 7' ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
@@ -88,7 +88,7 @@ describe( 'Customer feed', function () {
 
   it( 'does not grab items for any screen name in disallowed labels.', function (done) {
     var db = new pg.query();
-    db.q('INSERT INTO posts (id, pub_id, section_id, settings, body) VALUES ( $1, $2, $3, $4, $5 );', ['p8', 'mag1', '4', JSON.stringify({allow: ['@'], disallow: ['l1']}), 'post 8' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, disallow, body) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p8', 'mag1', '4', '{"@"}', '{"l1"}', 'post 8' ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
