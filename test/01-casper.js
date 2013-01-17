@@ -57,10 +57,11 @@ casper.then(function () {
 
 // === see if screen name errors are displayed
 casper.open(base_url + '/').then(function () {
-  // === see if errors are displayed.
+
   var form = 'form#form_create_account';
   var div_errors = form + ' div.errors';
 
+  // === see if screen name errors are displayed.
   this.fill(form, {
     'screen_name'        : '',
     'passphrase'         : phrase,
@@ -75,6 +76,53 @@ casper.open(base_url + '/').then(function () {
   }, function then() {
     this.test.assertEqual(this.fetchText(div_errors), "Name, \"\", must be 3-15 chars: 0-9 a-z A-Z _ - .", " Screen name errors when creating account. ");
   }, null, 700);
+
+});
+
+// === see if passphrase errors are displayed
+casper.open(base_url + '/').then(function () {
+
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : 'go99',
+    'passphrase'         : "",
+    'confirm_passphrase' : "",
+    'email'              : contact
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertEqual(this.fetchText(div_errors), "Passphrase must be at least 9 chars long.", " Passphrase errors when creating account. ");
+  }, null, 700);
+
+});
+
+// === see if passphrase confirm errors are displayed
+casper.open(base_url + '/').then(function () {
+
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : 'go99',
+    'passphrase'         : phrase,
+    'confirm_passphrase' : phrase + "u",
+    'email'              : contact
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertEqual(this.fetchText(div_errors), "Passphrase confirmation does not match passphrase.", " Passphrase confirm errors when creating account. ");
+  }, null, 700);
+
 });
 
 // === Creating a screename

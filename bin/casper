@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u
+bin/kill_test_server
+set -e
+
+PORT=5001
+echo ""
+echo "Starting server on $PORT..."
+PORT=$PORT bin/start &
+
+bin/migrate reset
+sleep 2
+PORT=$PORT casperjs test/01-casper.js $PORT
+(sleep 2 && bin/kill_test_server) &
+PORT=$PORT casperjs test/02-casper.js $PORT
+
+trap "bin/kill_test_server" EXIT

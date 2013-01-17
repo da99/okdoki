@@ -2,7 +2,6 @@
 # -*- bash -*-
 #
 set -u
-bin/kill_test_server
 set -e
 
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
@@ -12,25 +11,14 @@ reset_color=$(tput sgr0)
 bold_white_on_green=$(tput bold)${white}${green_bg}
 bold_white=$(tput bold)${white}
 
-PORT=5001
-
-echo ""
-echo "Starting server on $PORT..."
-PORT=$PORT bin/start &
-
 echo ""
 echo "Running phantomjs/casperjs tests..."
-bin/migrate reset
-sleep 1
-PORT=$PORT casperjs test/01-casper.js $PORT
-(sleep 2 && bin/kill_test_server) &
-PORT=$PORT casperjs test/02-casper.js $PORT
+bin/casper
 
 echo ""
 echo "Running nodejs/mocha tests..."
 bin/mocha
 
-trap "bin/kill_test_server" EXIT
 # echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
 
 
