@@ -1,3 +1,9 @@
+//
+//
+//  Main purpose of this file: What happens when server
+//     does not start?
+//
+//
 
 var opts = {
   verbose: true,
@@ -8,26 +14,9 @@ var opts = {
   }
 };
 
-function exists( s ) {
-  return function () {
-    return this.exists(s);
-  };
-};
-
-function test() {
-  var type = arguments[0];
-  var args = [];
-  var l = arguments.length;
-  var i = 1;
-  while (i < l) {
-    args.push(arguments[i]);
-    i++;
-  };
-  return function () {
-    this.test[type].apply(this.test, args);
-  };
-};
-
+var b = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
+var exists = b.create_exists;
+var test   = b.create_test;
 var casper = require('casper').create(opts);
 var base_url = 'http://localhost:' + casper.cli.args[0];
 var phrase = 'Hoppe gives us hope';

@@ -8,30 +8,22 @@ var opts = {
   }
 };
 
-function exists( s ) {
-  return function () {
-    return this.exists(s);
-  };
-};
 
-function test() {
-  var type = arguments[0];
-  var args = [];
-  var l = arguments.length;
-  var i = 1;
-  while (i < l) {
-    args.push(arguments[i]);
-    i++;
-  };
-  return function () {
-    this.test[type].apply(this.test, args);
-  };
-};
+var base_funcs = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
+var exists_f   = base_funcs.create_exists;
+var test_f     = base_funcs.create_test;
+var casper     = require('casper').create(opts);
+var base_url   = 'http://localhost:' + casper.cli.args[0];
+var phrase     = 'Hoppe gives us hope';
+var contact    = "someone@miniuni.zbc";
 
-var casper = require('casper').create(opts);
-var base_url = 'http://localhost:' + casper.cli.args[0];
-var phrase = 'Hoppe gives us hope';
-var contact = "someone@miniuni.zbc"
+casper.on('http.status.404', function(resource) {
+    this.echo('wait, this url is 404: ' + resource.url);
+});
+
+casper.on('http.status.500', function(resource) {
+    this.echo('woops, 500 error: ' + resource.url);
+});
 
 // === Make sure frontpage is working.
 //
@@ -39,8 +31,7 @@ casper.start(base_url + '/', function () {
   this.test.assertHttpStatus(200);
 });
 
-
-// === Creating an account
+// // === Creating an account
 
 casper.then(function () {
   var form = 'form#form_create_account';
@@ -62,6 +53,9 @@ casper.then(function () {
 
 });
 
+// === 
+//
+
 // === Sign-ing in
 var msg = function () {
   return document.querySelector('#sign_in div.errors').innerHTML;
@@ -73,8 +67,8 @@ casper.then(function () {
 
   // ... when no mask_name is entered.
   this.click(form + ' button.submit');
-  var test_func = test('assertEvalEquals', msg, "Username is required.", "Msg shown: Username is required.");
-  this.waitFor( exists(div_errors), test_func, null, 700);
+  var test_func = test_f('assertEvalEquals', msg, "Username is required.", "Msg shown: Username is required.");
+  this.waitFor( exists_f(div_errors), test_func, null, 700);
 
 });
 
@@ -89,8 +83,8 @@ casper.then( function () {
     'passphrase': "",
   }, false);
   this.click(sign_in + ' button.submit');
-  var test_func = test( 'assertEvalEquals', msg, "Password is required.", "Msg shown: Password is required.");
-  this.waitFor(exists(div_errors), test_func, null, 700);
+  var test_func = test_f( 'assertEvalEquals', msg, "Password is required.", "Msg shown: Password is required.");
+  this.waitFor(exists_f(div_errors), test_func, null, 700);
 });
 
 casper.run(function () {

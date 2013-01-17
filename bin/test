@@ -21,6 +21,7 @@ PORT=$PORT bin/start &
 echo ""
 echo "Running phantomjs/casperjs tests..."
 bin/migrate reset
+sleep 1
 PORT=$PORT casperjs test/01-casper.js $PORT
 (sleep 2 && bin/kill_test_server) &
 PORT=$PORT casperjs test/02-casper.js $PORT
