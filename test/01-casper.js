@@ -31,15 +31,17 @@ casper.start(base_url + '/', function () {
   this.test.assertHttpStatus(200);
 });
 
-// // === Creating an account
+// === Creating an account
 
 casper.then(function () {
+
+  // === see if errors are displayed.
   var form = 'form#form_create_account';
   var div_errors = form + ' div.errors';
   this.fill(form, {
-    'mask_name': '',
-    'passphrase': phrase,
-    'confirm-passphrase': phrase,
+    'screen_name': '',
+    'passphrase': '',
+    'confirm_passphrase': '',
     'email': contact
   }, false);
 
@@ -53,7 +55,29 @@ casper.then(function () {
 
 });
 
-// === 
+// === see if screen name errors are displayed
+casper.open(base_url + '/').then(function () {
+  // === see if errors are displayed.
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : '',
+    'passphrase'         : phrase,
+    'confirm_passphrase' : phrase,
+    'email'              : contact
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertEqual(this.fetchText(div_errors), "Name, \"\", must be 3-15 chars: 0-9 a-z A-Z _ - .", " Screen name errors when creating account. ");
+  }, null, 700);
+});
+
+// === Creating a screename
 //
 
 // === Sign-ing in
@@ -65,7 +89,7 @@ casper.then(function () {
   var form = 'form#form_sign_in';
   var div_errors = form + ' div.errors';
 
-  // ... when no mask_name is entered.
+  // ... when no screen_name is entered.
   this.click(form + ' button.submit');
   var test_func = test_f('assertEvalEquals', msg, "Username is required.", "Msg shown: Username is required.");
   this.waitFor( exists_f(div_errors), test_func, null, 700);
@@ -79,7 +103,7 @@ casper.then( function () {
 
   // ... when no password is entered.
   this.fill(sign_in, {
-    'mask_name': 'go99',
+    'screen_name': 'go99',
     'passphrase': "",
   }, false);
   this.click(sign_in + ' button.submit');
