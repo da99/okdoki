@@ -90,6 +90,14 @@ tbls.show_tables(function (meta) {
     ");
 
     ok.q(" \
+         CREATE OR REPLACE FUNCTION encode_passphrase(varchar) \
+           RETURNS varchar \
+         AS $$ \
+           SELECT encode(digest($1, 'sha512'), 'hex') \
+         $$ LANGUAGE SQL STRICT IMMUTABLE; \
+    ");
+
+    ok.q(" \
      CREATE TABLE IF NOT EXISTS customers ( \
        id varchar(15) PRIMARY KEY, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
