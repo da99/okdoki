@@ -64,29 +64,29 @@ block content
               button.submit(id='submit_form_create_account') Create Account
 
 
-    div(id='intro') 
+    div(id='intro')
       h2 What is OKdoki.com?
-      p 
+      p
         | Entertain your friends with:
         | <br />
         | <strong>chat</strong>, <strong>chat pets</strong>,
         | <strong>multiple lifes</strong>, and <strong>homepages</strong>.
       div(id='footer')
-        p 
+        p
           | (c) 2012-2013 OKdoki.com. Some rights reserved.
         p
           | All other copyrights belong to their respective owners.
 
     div.intro
-      p 
+      p
         | I built this as a weekend project.
         | <br />
-        | You can use it to chat with friends. However, your friends are busy most of the 
+        | You can use it to chat with friends. However, your friends are busy most of the
         | time. So, OKdoki includes
-        | <strong>chat pets</strong>. They always have time for you. They entertain you 
+        | <strong>chat pets</strong>. They always have time for you. They entertain you
         | when friends are busy.  They also give you little drama.
-      p 
-        span - 
+      p
+        span -
         a(href='/info/go99') go99
         span  (creator)
 
@@ -99,38 +99,38 @@ block content
 
     div.block(id='what_you_can_do_now')
       h2 What you can do now:
-      div.body 
+      div.body
         | You can go into chat:&nbsp;
         a(href="/chat") okdoki.com/chat
 
     div.block(id='homepages')
       h2 Your homepages:
-      div.body 
-        ul 
+      div.body
+        ul
         for x in screen_names
           li <a href="/info/#{x}">okdoki.com/info/#{x}</a>
-          
+
     div.block(id='create_screen_name')
       h2 Create Another Screen Name:
-      div.body 
+      div.body
         p
-          | Create a screen name for different aspects of your life: 
-          | <span class="label">work</span>, 
-          | <span class="label">school</span>, 
-          | <span class="label">friends</span>, 
+          | Create a screen name for different aspects of your life:
+          | <span class="label">work</span>,
+          | <span class="label">school</span>,
+          | <span class="label">friends</span>,
           | etc.
           | It helps keep your lifes private and better organized.
 
         form(id='form_create_screen_name', name='form_create_screen_name', method='post', action='/create/screen-name')
           div.fieldset
             input(type='text', name='new_screen_name')
-            button Create 
+            button Create
 
     div.block(id='trash_e')
       h2 Delete Account:
       div.body
         p
-          | All your 
+          | All your
           span.label screen-names
           |  and posts will be deleted within 48 hours.
           | You have this time to change your mind.
@@ -141,15 +141,15 @@ block content
 
     div.block(id='contacts')
       h2 Contacts List:
-      div.body 
+      div.body
         - for x in screen_names
-          div.contact 
+          div.contact
             a(href="/info/#{x}") @#{x}
             span.value : #{x}
 
     div.block(id='latest')
       h2 News Feed:
-      div.body 
+      div.body
 
         div.item.no_news
           | No news so far.
@@ -160,7 +160,7 @@ block content
           a.read_more(href='/link/1') Link to this...
           | &nbsp;
           span.label News
-          span.by      by 
+          span.by      by
           a.author(href='/info/okdoki') @okdoki
 
         div.item.random
@@ -169,7 +169,7 @@ block content
           a.read_more(href='/link/1') Link to this...
           | &nbsp;
           span.label Random Thought
-          span.by      by 
+          span.by      by
           a.author(href='/info/okdoki') @okdoki
 
         div.item.magazine
@@ -178,7 +178,7 @@ block content
           a.read_more(href='/link/1') Link to this...
           | &nbsp;
           span.label Article
-          span.by      by 
+          span.by      by
           a.author(href='/info/okdoki') @okdoki
 
         div.item.joke
@@ -187,7 +187,7 @@ block content
           a.read_more(href='/link/1') Link to this...
           | &nbsp;
           span.label Joke
-          span.by      by 
+          span.by      by
           a.author(href='/info/okdoki') @okdoki
 
         div.item.important
@@ -196,7 +196,7 @@ block content
           a.read_more(href='/link/1') Link to this...
           | &nbsp;
           span.label Important News
-          span.by      by 
+          span.by      by
           a.author(href='/info/okdoki') @okdoki
 
 
