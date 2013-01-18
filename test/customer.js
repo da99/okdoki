@@ -9,13 +9,14 @@ var show_databases = pg.show_databases;
 var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';
+var passphrase     = "this is my password";
 var screen_name_2  = 'go2';
 var screen_name_id = null;
 
 before(function (done) {
 
   var screen_name = 'mem1';
-  var pwp         = 'something for security';
+  var pwp         = passphrase;
   var vals = ({screen_name: screen_name, passphrase: pwp, confirm_passphrase: pwp, ip: '000.00.000'});
 
   Customer.create(vals, function (mem) {
@@ -104,20 +105,23 @@ describe( 'Customer feed', function () {
 describe( 'Customer create', function () {
 
   it( 'checks min length of screen_name', function () {
-    Customer.create({ passphrase: 'something for real'}, null, function (mem) {
-      assert.equal(mem.errors[1].indexOf('Name, "", must be'), 0);
+    var opts = { passphrase: passphrase, confirm_passphrase: passphrase, ip: '000.00.00'};
+    Customer.create( opts, null, function (mem) {
+      assert.equal(mem.errors[0].indexOf('Name, "", must be'), 0);
     });
   });
 
   it( 'checks max length of screen_name', function () {
     var screen_name = "123456789012345678";
-    Customer.create({ screen_name: screen_name, passphrase: 'something for real'}, null, function (mem) {
-      assert.equal(mem.errors[1].indexOf('Name, "' + screen_name + '", must be'), 0);
+    var opts = { screen_name: screen_name, passphrase: passphrase, confirm_passphrase: passphrase, ip: '00.000.000' };
+    Customer.create( opts, null, function (mem) {
+      assert.equal(mem.errors[0].indexOf('Name, "' + screen_name + '", must be'), 0);
     });
   });
 
   it( 'requires an ip address', function () {
-    Customer.create({ screen_name: "0123456789012", passphrase: 'something for real'}, null, function (mem) {
+    var opts = { screen_name: "0123456789012", passphrase: passphrase, confirm_passphrase: passphrase };
+    Customer.create( opts, null, function (mem) {
       assert.equal(mem.errors[0].indexOf("IP address is required"), 0);
     });
   });
@@ -194,6 +198,16 @@ describe( 'Customer read', function () {
     });
   });
 
+  it( 'reads customer if passed a hash with: screen_name, passphrase', function (done) {
+    Customer.read({screen_name: screen_name, passphrase: passphrase},
+                 function (c) {
+                   assert.equal(customer_id, c.data.id);
+                   done();
+                 }, function () {
+                   throw new Error('Customer not found.');
+                   done();
+                 });
+  });
 }); // === describe
 
 
