@@ -45,6 +45,7 @@ tbls.show_tables(function (meta) {
 
   if (is_up) {
     ok.q("CREATE EXTENSION IF NOT EXISTS plpython3u");
+    ok.q("CREATE EXTENSION IF NOT EXISTS pgcrypto");
 
     ok.q(" \
          CREATE OR REPLACE FUNCTION public.json_get_varchar_array(j text, k text) \
@@ -94,7 +95,7 @@ tbls.show_tables(function (meta) {
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        email text,                 \
-       passphrase_hash varchar(100) NOT NULL \
+       passphrase_hash varchar(150) NOT NULL \
     )");
 
     ok.q( " \
