@@ -1,9 +1,3 @@
-//
-//
-//  Main purpose of this file: What happens when server
-//     does not start?
-//
-//
 
 var opts = {
   verbose: true,
@@ -14,34 +8,158 @@ var opts = {
   }
 };
 
-var b = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
-var exists = b.create_exists;
-var test   = b.create_test;
-var casper = require('casper').create(opts);
-var base_url = 'http://localhost:' + casper.cli.args[0];
-var phrase = 'Hoppe gives us hope';
-var contact = "someone@miniuni.zbc"
 
-// === Load page.
-var msg = function () {
-  return document.querySelector('#sign_in div.errors').innerHTML;
-};
+var base_funcs = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
+var exists_f   = base_funcs.create_exists;
+var test_f     = base_funcs.create_test;
+var casper     = require('casper').create(opts);
+var base_url   = 'http://localhost:' + casper.cli.args[0];
+var phrase     = 'Hoppe gives us hope';
+var contact    = "someone@miniuni.zbc";
 
-casper.start(base_url + '/', function () {
+casper.on('http.status.404', function(resource) {
+    this.echo('wait, this url is 404: ' + resource.url);
 });
 
+casper.on('http.status.500', function(resource) {
+    this.echo('woops, 500 error: ' + resource.url);
+});
 
-// === Check error message when connection is off.
-casper.wait(1200, function () {
-  var form = 'form#form_sign_in';
+casper.on('http.status.501', function(resource) {
+    this.echo('woops, 501 error: ' + resource.url);
+});
+
+casper.on('http.status.503', function(resource) {
+    this.echo('woops, 503 error: ' + resource.url);
+});
+
+// === Make sure frontpage is working.
+//
+casper.start(base_url + '/', function () {
+  this.test.assertHttpStatus(200);
+});
+
+// === Creating an account
+
+casper.then(function () {
+
+  // === see if errors are displayed.
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+  this.fill(form, {
+    'screen_name': '',
+    'passphrase': '',
+    'confirm_passphrase': '',
+    'email': contact
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertExists(div_errors, div_errors + ' in form exist.');
+  }, null, 700);
+
+});
+
+// === see if screen name errors are displayed
+casper.then(function () {
+
+  var form = 'form#form_create_account';
   var div_errors = form + ' div.errors';
 
-  // ... when no screen_name is entered.
+  // === see if screen name errors are displayed.
+  this.fill(form, {
+    'screen_name'        : '',
+    'passphrase'         : phrase,
+    'confirm_passphrase' : phrase,
+    'email'              : contact
+  }, false);
+
   this.click(form + ' button.submit');
-  var test_func = test('assertEvalEquals', msg, "error: Check internet connection. Either that or OKdoki.com is down.", "Err msg shown: check conn.");
-  this.waitFor( exists(div_errors), test_func, null, 700);
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertEqual(this.fetchText(div_errors), "Name, \"\", must be 3-15 chars: 0-9 a-z A-Z _ - .", " Screen name errors when creating account. ");
+  }, null, 700);
+
 });
+
+// === see if passphrase errors are displayed
+casper.then(function () {
+
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : 'go99',
+    'passphrase'         : "",
+    'confirm_passphrase' : "",
+    'email'              : contact
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertEqual(this.fetchText(div_errors), "Passphrase must be at least 9 chars long.", " Passphrase errors when creating account. ");
+  }, null, 700);
+
+});
+
+// === see if passphrase confirm errors are displayed
+casper.then(function () {
+
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : 'go99',
+    'passphrase'         : phrase,
+    'confirm_passphrase' : phrase + "u",
+    'email'              : contact
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists(div_errors);
+  }, function then() {
+    this.test.assertEqual(this.fetchText(div_errors), "Passphrase confirmation does not match passphrase.", " Passphrase confirm errors when creating account. ");
+  }, null, 700);
+
+});
+
+// === Email is optional for creating an account.
+casper.then(function () {
+
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : 'go99',
+    'passphrase'         : phrase,
+    'confirm_passphrase' : phrase,
+    'email'              : ""
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists("#homepages");
+  }, function then() {
+    this.test.assertTextExists("Welcome, go99", " Email optional when creating account. ");
+  }, null, 700);
+
+});
+
 
 casper.run(function () {
   this.test.renderResults(true);
 });
+
+
+

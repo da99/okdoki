@@ -11,8 +11,9 @@ echo "Starting server on $PORT..."
 PORT=$PORT bin/start &
 sleep 1
 PORT=$PORT casperjs test/01-casper.js $PORT
-(sleep 2 && bin/kill_test_server) &
 PORT=$PORT casperjs test/02-casper.js $PORT
+(sleep 2 && bin/kill_test_server) &
+PORT=$PORT casperjs test/03-casper.js $PORT
 
 
 

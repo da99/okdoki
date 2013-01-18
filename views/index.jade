@@ -95,7 +95,7 @@ block content
     div(id='intro')
       include _keywords
 
-      h2 Welcome, #{screen_names.list.join(', ')}.
+      h2 Welcome, #{screen_names.join(', ')}.
 
     div.block(id='what_you_can_do_now')
       h2 What you can do now:
@@ -107,7 +107,7 @@ block content
       h2 Your homepages:
       div.body 
         ul 
-        for x in screen_names.list
+        for x in screen_names
           li <a href="/info/#{x}">okdoki.com/info/#{x}</a>
           
     div.block(id='create_screen_name')
@@ -142,7 +142,7 @@ block content
     div.block(id='contacts')
       h2 Contacts List:
       div.body 
-        - for x in screen_names.list
+        - for x in screen_names
           div.contact 
             a(href="/info/#{x}") @#{x}
             span.value : #{x}
