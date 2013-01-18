@@ -12,6 +12,10 @@ bold_white_on_green=$(tput bold)${white}${green_bg}
 bold_white=$(tput bold)${white}
 
 echo ""
+echo "Resetting db..."
+bin/migrate reset
+
+echo ""
 echo "Running phantomjs/casperjs tests..."
 bin/casper
 

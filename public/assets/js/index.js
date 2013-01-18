@@ -18,9 +18,7 @@ $(function () {
   Forms.Submit_Button('submit_form_sign_in');
   Forms.Submit_Button('submit_form_create_account', {
     after_success: function () {
-      $('#show_sign_in').hide();
-      $('#sign_in').hide();
-      $('#or_create_account').hide();
+      window.location.reload();
     }
   });
 

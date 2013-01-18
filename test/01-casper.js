@@ -125,6 +125,28 @@ casper.open(base_url + '/').then(function () {
 
 });
 
+// === Email is optional for creating an account.
+casper.open(base_url + '/').then(function () {
+
+  var form = 'form#form_create_account';
+  var div_errors = form + ' div.errors';
+
+  this.fill(form, {
+    'screen_name'        : 'go99',
+    'passphrase'         : phrase,
+    'confirm_passphrase' : phrase,
+    'email'              : ""
+  }, false);
+
+  this.click(form + ' button.submit');
+
+  this.waitFor(function check() {
+    return this.exists("#homepages");
+  }, function then() {
+    this.test.assertTextExists("Welcome, go99", " Email optional when creating account. ");
+  }, null, 700);
+
+});
 // === Creating a screename
 //
 
