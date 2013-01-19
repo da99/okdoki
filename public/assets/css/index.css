@@ -165,6 +165,16 @@ body.logged_in {
     border-radius: 0 0 7px 0;
   }
 
+  body.logged_in #latest.loading {
+  }
+
+    body.logged_in #latest.loading div.body {
+      background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
+    }
+    body.logged_in #latest.loading div.body div {
+      visibility: hidden;
+    }
+
 #blocks {
   overflow: auto;
   padding: 0;
@@ -238,5 +248,3 @@ a.author, a.read_more {
 a.author {
   text-transform: none;
 }
-
-

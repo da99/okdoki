@@ -15,7 +15,11 @@ $(function () {
     $('#sign_in').hide();
   });
 
-  Forms.Submit_Button('submit_form_sign_in');
+  Forms.Submit_Button('submit_form_sign_in', {
+    after_success: function () {
+      window.location.reload();
+    }
+  });
   Forms.Submit_Button('submit_form_create_account', {
     after_success: function () {
       window.location.reload();

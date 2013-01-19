@@ -3,10 +3,12 @@
 // Create databases: okdoki
 
 var db             = require('okdoki/lib/POSTGRESQL');
+var Customer       = require('okdoki/lib/Customer').Customer;
 var show_databases = db.show_databases;
 var _              = require('underscore');
 var cmd            = (process.argv[2] || 'nothing');
-var is_reset       = cmd === 'reset';
+var is_reset       = cmd === 'reset' || cmd === 'reset_with_user';
+var is_reset_user  = cmd === 'reset_with_user';
 var is_up          = is_reset || cmd === 'up';
 var is_down        = is_reset || cmd === 'down';
 var is_list        = cmd === 'list';
@@ -205,6 +207,12 @@ tbls.show_tables(function (meta) {
 
   ok.run_and_then(function (meta) {
     console.log('Finished migrating the main db.');
+    if (is_reset_user) {
+      var p = "Passphrase";
+      Customer.create({screen_name: 'go99', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function () {
+        console.log('Finished created default user.');
+      });
+    }
   });
 
 }); // === show_databases
