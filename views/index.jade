@@ -121,11 +121,13 @@ block content
           | etc.
           | It helps keep your lifes private and better organized.
 
-        form(id='form_create_screen_name', name='form_create_screen_name', method='post', action='/create/screen-name')
-          div.fieldset
-            input(type='text', name='new_screen_name')
-            input.field(type='hidden', name="_csrf", value="#{token}")
-            button Create
+        form(id='form_create_screen_name', action='/create/screen_name', method='post')
+          div.fields
+            div.field.screen_name
+              input(type='text', name='screen_name')
+            div.field.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
+              button.submit(id='submit_form_create_screen_name') Create
 
     div.block(id='trash_e')
       h2 Delete Account:

@@ -43,7 +43,7 @@ Forms.Success = function (form, resp, stat) {
     return form;
   };
 
-  Forms.call_callback(form.attr('id'), 'before_success');
+  Forms.call_callback(form.attr('id'), 'before_success', resp);
   form.children('div.fields').hide();
   form.removeClass('loading');
   log(stat);
@@ -52,7 +52,7 @@ Forms.Success = function (form, resp, stat) {
   e.text(resp.msg);
   form.prepend(e);
 
-  Forms.call_callback(form.attr('id'), 'after_success');
+  Forms.call_callback(form.attr('id'), 'after_success', resp);
   return form;
 };
 
@@ -87,7 +87,7 @@ Forms.Default_Ajax_Options = function (raw_form) {
   };
 };
 
-Forms.call_callback = function (id, name) {
+Forms.call_callback = function (id, name, resp) {
   var cb = Forms.callbacks[id];
   log(Forms.callbacks)
   if (!cb)
@@ -97,7 +97,7 @@ Forms.call_callback = function (id, name) {
   if (!func)
     return false;
 
-  return func();
+  return func(resp);
 };
 
 

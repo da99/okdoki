@@ -3,20 +3,10 @@
 //
 
 
-var opts = {
-  verbose: false,
-  logLevel: "info",
-  onError: function (self, m) {
-    console.log('Exiting because of this error: ' + m);
-    self.exit();
-  }
-};
-
-
 var base_funcs = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
+var casper     = base_funcs.new_casper();
 var exists_f   = base_funcs.create_exists;
 var test_f     = base_funcs.create_test;
-var casper     = require('casper').create(opts);
 var base_url   = 'http://localhost:' + casper.cli.args[0];
 
 base_funcs.prepare(casper);

@@ -1,10 +1,22 @@
-function exists( s ) {
+
+
+// http://roguejs.com/2011-11-30/console-colors-in-node-js/
+var red_c, blue_c, reset;
+red_c   = '\u001b[31m';
+blue_c  = '\u001b[34m';
+reset   = '\u001b[0m';
+
+function red(msg) {
+  return red_c + msg + reset;
+}
+
+exports.create_exists = function ( s ) {
   return function () {
     return this.exists(s);
   };
 };
 
-function test() {
+exports.create_test   = function test() {
   var type = arguments[0];
   var args = [];
   var l = arguments.length;
@@ -18,18 +30,23 @@ function test() {
   };
 };
 
-exports.create_exists = exists;
-exports.create_test   = test;
-
-// http://roguejs.com/2011-11-30/console-colors-in-node-js/
-var red_c, blue_c, reset;
-red_c   = '\u001b[31m';
-blue_c  = '\u001b[34m';
-reset   = '\u001b[0m';
-
-function red(msg) {
-  return red_c + msg + reset;
+exports.new_casper = function () {
+  var opts = {
+    verbose: false,
+    logLevel: "info",
+    onError: function (self, m) {
+      console.log('Exiting because of this error: ' + m);
+      self.exit();
+    }
+  };
+  var casper = require('casper').create(opts);
+  return casper;
 }
+
+exports.innerHTML_f = function (s) {
+  return new Function("return document.querySelector(\"" + s + "\").innerHTML;");
+};
+
 exports.prepare = function (casper) {
   casper.on('error', function(msg, trace) {
     this.echo(red( + 'JS error: ' + msg));
