@@ -1,3 +1,6 @@
+//
+// === Creating an account
+//
 
 var opts = {
   verbose: true,
@@ -25,8 +28,6 @@ base_funcs.prepare(casper);
 casper.start(base_url + '/', function () {
   this.test.assertHttpStatus(200);
 });
-
-// === Creating an account
 
 casper.then(function () {
 

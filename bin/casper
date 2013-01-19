@@ -9,11 +9,12 @@ PORT=5001
 echo ""
 echo "Starting server on $PORT..."
 PORT=$PORT bin/start &
-sleep 1
-PORT=$PORT casperjs test/01-casper.js $PORT
-PORT=$PORT casperjs test/02-casper.js $PORT
 (sleep 2 && bin/kill_test_server) &
-PORT=$PORT casperjs test/03-casper.js $PORT
+PORT=$PORT casperjs test/01-casper-disconnect.js $PORT
+
+PORT=$PORT bin/start &
+PORT=$PORT casperjs test/02-casper-sign-in.js $PORT
+PORT=$PORT casperjs test/03-casper-create-account.js $PORT
 
 trap "bin/kill_test_server" EXIT
 
