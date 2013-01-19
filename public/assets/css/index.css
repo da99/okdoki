@@ -169,10 +169,8 @@ body.logged_in {
   }
 
     body.logged_in #latest.loading div.body {
+      padding-top: 38px;
       background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
-    }
-    body.logged_in #latest.loading div.body div {
-      visibility: hidden;
     }
 
 #blocks {

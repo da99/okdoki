@@ -106,7 +106,7 @@ casper.then(function () {
     return this.exists(div_errors);
   }, function then() {
     this.test.assertEqual(this.fetchText(div_errors), "Passphrase must be at least 9 chars long.", " Passphrase errors when creating account. ");
-  }, null, 700);
+  }, null, 900);
 
 });
 
@@ -129,7 +129,7 @@ casper.then(function () {
     return this.exists(div_errors);
   }, function then() {
     this.test.assertEqual(this.fetchText(div_errors), "Passphrase confirmation does not match passphrase.", " Passphrase confirm errors when creating account. ");
-  }, null, 700);
+  }, null, 900);
 
 });
 
@@ -152,7 +152,7 @@ casper.then(function () {
     return this.exists("#homepages");
   }, function then() {
     this.test.assertTextExists("Welcome, go99", " Email optional when creating account. ");
-  }, null, 700);
+  }, null, 900);
 
 });
 
