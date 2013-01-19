@@ -19,6 +19,7 @@ var casper     = require('casper').create(opts);
 var base_url   = 'http://localhost:' + casper.cli.args[0];
 var phrase     = 'Hoppe gives us hope';
 var contact    = "someone@miniuni.zbc";
+var screen_name= "go999";
 
 
 base_funcs.prepare(casper);
@@ -82,7 +83,7 @@ casper.then(function () {
   var div_errors = form + ' div.errors';
 
   this.fill(form, {
-    'screen_name'        : 'go99',
+    'screen_name'        : screen_name,
     'passphrase'         : "",
     'confirm_passphrase' : "",
     'email'              : contact
@@ -105,7 +106,7 @@ casper.then(function () {
   var div_errors = form + ' div.errors';
 
   this.fill(form, {
-    'screen_name'        : 'go99',
+    'screen_name'        : screen_name,
     'passphrase'         : phrase,
     'confirm_passphrase' : phrase + "u",
     'email'              : contact
@@ -128,7 +129,7 @@ casper.then(function () {
   var div_errors = form + ' div.errors';
 
   this.fill(form, {
-    'screen_name'        : 'go99',
+    'screen_name'        : screen_name,
     'passphrase'         : phrase,
     'confirm_passphrase' : phrase,
     'email'              : ""
@@ -139,7 +140,7 @@ casper.then(function () {
   this.waitFor(function check() {
     return this.exists("#homepages");
   }, function then() {
-    this.test.assertTextExists("Welcome, go99", " Email optional when creating account. ");
+    this.test.assertTextExists("Welcome, " + screen_name, " Email optional when creating account. ");
   }, null, 900);
 
 });

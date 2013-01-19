@@ -12,7 +12,9 @@ PORT=$PORT bin/start &
 (sleep 2 && bin/kill_test_server) &
 PORT=$PORT casperjs test/01-casper-disconnect.js $PORT
 
+bin/migrate reset_with_customer
 PORT=$PORT bin/start &
+sleep 1
 PORT=$PORT casperjs test/02-casper-sign-in.js $PORT
 PORT=$PORT casperjs test/03-casper-create-account.js $PORT
 

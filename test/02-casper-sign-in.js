@@ -27,6 +27,8 @@ var msg = function () {
 
 casper.start(base_url + '/');
 
+// === Screen name is requierd.
+//
 casper.then(function () {
   this.test.assertHttpStatus(200);
   var form = 'form#form_sign_in';
@@ -34,12 +36,13 @@ casper.then(function () {
 
   // ... when no screen_name is entered.
   this.click(form + ' button.submit');
-  var test_func = test_f('assertEvalEquals', msg, "Username is required.", "Msg shown: Username is required.");
+  var test_func = test_f('assertEvalEquals', msg, "Screen name is required.", "Msg shown: Username is required.");
   this.waitFor( exists_f(div_errors), test_func, null, 700);
 
 });
 
-
+// === Password is required.
+//
 casper.then( function () {
   var sign_in = 'form#form_sign_in';
   var div_errors = sign_in + ' div.errors';
@@ -52,6 +55,22 @@ casper.then( function () {
   this.click(sign_in + ' button.submit');
   var test_func = test_f( 'assertEvalEquals', msg, "Password is required.", "Msg shown: Password is required.");
   this.waitFor(exists_f(div_errors), test_func, null, 700);
+});
+
+// === Success
+//
+casper.then(function () {
+  var sign_in = 'form#form_sign_in';
+
+  this.fill(sign_in, {
+    'screen_name': 'go99',
+    'passphrase': "Passphrase",
+  }, false);
+  this.click(sign_in + ' button.submit');
+  var test_func = test_f( 'assertEvalEquals', function () {
+    return document.querySelector('#intro h2').innerHTML;
+  }, "Welcome, go99.", "Msg shown: Welcome, [customer].");
+  this.waitFor(exists_f('#homepages'), test_func, null, 700);
 });
 
 casper.run(function () {
