@@ -2,9 +2,7 @@
 
 var latest = null;
 var latest_body = null;
-
 $(function () {
-
 
   $('#show_sign_in a').click(function (e) {
     e.preventDefault();
@@ -112,6 +110,51 @@ function print_news_feed_item(o) {
           // span.by      by
           // a.author(href='/info/okdoki') @okdoki
 
+
+        // div.item.news
+          // span.time 15 mins ago...
+          // span.value  SOmething Really Bad Happend
+          // a.read_more(href='/link/1') Link to this...
+          // | &nbsp;
+          // span.label News
+          // span.by      by
+          // a.author(href='/info/okdoki') @okdoki
+
+        // div.item.random
+          // span.time 12 hours ago...
+          // span.value  I just got demoted.
+          // a.read_more(href='/link/1') Link to this...
+          // | &nbsp;
+          // span.label Random Thought
+          // span.by      by
+          // a.author(href='/info/okdoki') @okdoki
+
+        // div.item.magazine
+          // span.time 1 day ago...
+          // span.value  My boss is in a bad mood.
+          // a.read_more(href='/link/1') Link to this...
+          // | &nbsp;
+          // span.label Article
+          // span.by      by
+          // a.author(href='/info/okdoki') @okdoki
+
+        // div.item.joke
+          // span.time 2 days ago...
+          // span.value  My kids are wieners.
+          // a.read_more(href='/link/1') Link to this...
+          // | &nbsp;
+          // span.label Joke
+          // span.by      by
+          // a.author(href='/info/okdoki') @okdoki
+
+        // div.item.important
+          // span.time 5 days ago...
+          // span.value  My spouse is trying to kill me.
+          // a.read_more(href='/link/1') Link to this...
+          // | &nbsp;
+          // span.label Important News
+          // span.by      by
+          // a.author(href='/info/okdoki') @okdoki
 
 
 

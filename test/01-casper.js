@@ -4,10 +4,10 @@
 
 
 var opts = {
-  verbose: true,
+  verbose: false,
   logLevel: "info",
   onError: function (self, m) {
-    console.log('FATAL: ' + m);
+    console.log('Exiting because of this error: ' + m);
     self.exit();
   }
 };
@@ -18,6 +18,8 @@ var exists_f   = base_funcs.create_exists;
 var test_f     = base_funcs.create_test;
 var casper     = require('casper').create(opts);
 var base_url   = 'http://localhost:' + casper.cli.args[0];
+
+base_funcs.prepare(casper);
 
 var msg = function () {
   return document.querySelector('#sign_in div.errors').innerHTML;

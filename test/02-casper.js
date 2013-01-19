@@ -17,21 +17,8 @@ var base_url   = 'http://localhost:' + casper.cli.args[0];
 var phrase     = 'Hoppe gives us hope';
 var contact    = "someone@miniuni.zbc";
 
-casper.on('http.status.404', function(resource) {
-    this.echo('wait, this url is 404: ' + resource.url);
-});
 
-casper.on('http.status.500', function(resource) {
-    this.echo('woops, 500 error: ' + resource.url);
-});
-
-casper.on('http.status.501', function(resource) {
-    this.echo('woops, 501 error: ' + resource.url);
-});
-
-casper.on('http.status.503', function(resource) {
-    this.echo('woops, 503 error: ' + resource.url);
-});
+base_funcs.prepare(casper);
 
 // === Make sure frontpage is working.
 //

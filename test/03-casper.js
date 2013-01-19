@@ -14,13 +14,15 @@ var opts = {
   }
 };
 
-var b = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
-var exists = b.create_exists;
-var test   = b.create_test;
+var base_funcs = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
+var exists = base_funcs.create_exists;
+var test   = base_funcs.create_test;
 var casper = require('casper').create(opts);
 var base_url = 'http://localhost:' + casper.cli.args[0];
 var phrase = 'Hoppe gives us hope';
 var contact = "someone@miniuni.zbc"
+
+base_funcs.prepare(casper);
 
 // === Load page.
 var msg = function () {
@@ -28,6 +30,7 @@ var msg = function () {
 };
 
 casper.start(base_url + '/', function () {
+  this.test.assertHttpStatus(200);
 });
 
 
