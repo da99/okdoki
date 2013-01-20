@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u
+set -e
+
+bin/migrate reset_with_customer
+bin/start
