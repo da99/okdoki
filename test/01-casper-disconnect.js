@@ -34,16 +34,28 @@ casper.start(base_url + '/', function () {
 });
 
 
-// === Check error message when connection is off.
-casper.wait(1200, function () {
+casper.waitFor( function () {
+  var errors = this.evaluate(function () {
+    return document.querySelector('#sign_in div.errors');
+  });
+  if (errors && errors.innerHTML.match(/Check internet/) ) {
+    return true;
+  } else {
+    this.click('#sign_in button.submit');
+    return false;
+  }
+}, function () {
   var form = 'form#form_sign_in';
   var div_errors = form + ' div.errors';
 
-  // ... when no screen_name is entered.
-  this.click(form + ' button.submit');
-  var test_func = test('assertEvalEquals', msg, "error: Check internet connection. Either that or OKdoki.com is down.", "Err msg shown: check conn.");
-  this.waitFor( exists(div_errors), test_func, null, 700);
-});
+  // === Check error message when connection is off.
+  var errors = this.evaluate(function () {
+    return document.querySelector('#sign_in div.errors');
+  });
+
+  this.test.assertEquals(errors.innerHTML,"error: Check internet connection. Either that or OKdoki.com is down.", "Err msg shown: check conn." );
+}, null, 3000);
+
 
 casper.run(function () {
   this.test.renderResults(true);
