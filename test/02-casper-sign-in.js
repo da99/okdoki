@@ -9,8 +9,6 @@ var exists_f   = base_funcs.create_exists;
 var test_f     = base_funcs.create_test;
 var base_url   = 'http://localhost:' + casper.cli.args[0];
 
-base_funcs.prepare(casper);
-
 var msg = function () {
   return document.querySelector('#sign_in div.errors').innerHTML;
 };

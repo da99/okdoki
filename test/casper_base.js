@@ -1,4 +1,5 @@
 
+var base_url = exports.base_url = 'http://localhost:5001';
 
 // http://roguejs.com/2011-11-30/console-colors-in-node-js/
 var red_c, blue_c, reset;
@@ -30,7 +31,7 @@ exports.create_test   = function test() {
   };
 };
 
-exports.new_casper = function () {
+exports.new_casper = function (sign_in) {
   var opts = {
     verbose: false,
     logLevel: "info",
@@ -39,7 +40,25 @@ exports.new_casper = function () {
       self.exit();
     }
   };
+
   var casper = require('casper').create(opts);
+  exports.prepare(casper);
+
+  if (sign_in) {
+    casper.start(base_url + '/')
+    casper.waitForSelector('title', function () {
+      this.test.assertHttpStatus(200);
+      var sign_in = 'form#form_sign_in';
+
+      this.fill(sign_in, {
+        'screen_name': 'go99',
+        'passphrase': "Passphrase",
+      }, false);
+      this.click(sign_in + ' button.submit');
+      this.waitFor(exists_f('#homepages'), null, null, 1000);
+    }, null, 4000);
+  }
+
   return casper;
 }
 

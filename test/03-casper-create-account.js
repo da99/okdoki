@@ -2,27 +2,16 @@
 // === Creating an account
 //
 
-var opts = {
-  verbose: true,
-  logLevel: "info",
-  onError: function (self, m) {
-    console.log('FATAL: ' + m);
-    self.exit();
-  }
-};
-
 
 var base_funcs = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
 var exists_f   = base_funcs.create_exists;
 var test_f     = base_funcs.create_test;
-var casper     = require('casper').create(opts);
+var casper     = base_funcs.new_casper();
 var base_url   = 'http://localhost:' + casper.cli.args[0];
 var phrase     = 'Hoppe gives us hope';
 var contact    = "someone@miniuni.zbc";
 var screen_name= "go999";
 
-
-base_funcs.prepare(casper);
 
 // === Make sure frontpage is working.
 //

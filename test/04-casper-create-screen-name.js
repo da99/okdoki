@@ -4,33 +4,17 @@
 
 
 var base_funcs = require("/home/da/imp/MyLife/apps/SITES/okdoki/test/casper_base");
-var casper     = base_funcs.new_casper();
 var exists_f   = base_funcs.create_exists;
 var test_f     = base_funcs.create_test;
 var innerHTML_f= base_funcs.innerHTML_f;
-var base_url   = 'http://localhost:' + casper.cli.args[0];
+var base_url   = 'http://localhost:5001';
+var casper     = base_funcs.new_casper("sign_in");
 
-base_funcs.prepare(casper);
 
 var msg = function () {
   return document.querySelector('#sign_in div.errors').innerHTML;
 };
 
-casper.start(base_url + '/');
-
-// === Preparation: sign in
-//
-//
-casper.then(function () {
-  var sign_in = 'form#form_sign_in';
-
-  this.fill(sign_in, {
-    'screen_name': 'go99',
-    'passphrase': "Passphrase",
-  }, false);
-  this.click(sign_in + ' button.submit');
-  this.waitFor(exists_f('#homepages'), null, null, 1000);
-});
 
 // === Screen name is required.
 //

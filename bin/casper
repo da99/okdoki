@@ -23,7 +23,6 @@ fi
 if [[ "$FILE" != "01" ]]; then
   bin/migrate reset_with_customer
   PORT=$PORT bin/start &
-  sleep 1
 fi
 
 if [[ "$FILE" == "all" || "$FILE" == "02" ]]; then
