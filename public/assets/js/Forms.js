@@ -4,8 +4,8 @@ var Forms = {};
 
 Forms.callbacks = {};
 
-Forms.Submit_Button = function (id, callbacks) {
-  var button  = $('#' + id);
+Forms.Submit_Button = function (selector, callbacks) {
+  var button  = $(selector);
   var form = button.closest('form');
 
   if (form.attr('id') && form.attr('id') != '' && callbacks) {

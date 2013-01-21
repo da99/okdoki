@@ -1,5 +1,5 @@
 
-var base_url = exports.base_url = 'http://localhost:5001';
+var base_url = exports.url = 'http://localhost:5001';
 
 // http://roguejs.com/2011-11-30/console-colors-in-node-js/
 var red_c, blue_c, reset;

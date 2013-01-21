@@ -44,4 +44,5 @@ $(function () {
     $('#form_create_content').show();
   });
 
+  Forms.Submit_Button('#form_trash_screen_name button.submit');
 });

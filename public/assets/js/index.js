@@ -16,7 +16,7 @@ $(function () {
     $('#sign_in').hide();
   });
 
-  Forms.Submit_Button('submit_form_create_screen_name', {
+  Forms.Submit_Button('#submit_form_create_screen_name', {
     after_success: function (o) {
       if (!o.screen_name)
         return false;
@@ -34,13 +34,13 @@ $(function () {
     }
   });
 
-  Forms.Submit_Button('submit_form_sign_in', {
+  Forms.Submit_Button('#submit_form_sign_in', {
     after_success: function () {
       window.location.reload();
     }
   });
 
-  Forms.Submit_Button('submit_form_create_account', {
+  Forms.Submit_Button('#submit_form_create_account', {
     after_success: function () {
       window.location.reload();
     }

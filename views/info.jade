@@ -4,6 +4,8 @@ block footer
   script(src='/assets/js/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
+  script(src='/assets/js/_base.js')
+  script(src='/assets/js/Forms.js')
   script(src='/assets/js/info.js')
 
 block content
@@ -17,12 +19,11 @@ block content
         div.intro
           span.label Delete Screen-name
         div.options
-          div.opt.trash
-            span
-              | You have 48 hours to change
-              | your mind.
-            div.buttons
-              button Delete
+          form(id="form_trash_screen_name", method="POST", action="/trash/screen_name/#{screen_name}")
+            div.fields
+              div.field.buttons
+                input.field(type='hidden', name="_csrf", value="#{token}")
+                button.submit Delete
 
         div.intro
           span.label Edit Your Homepage
