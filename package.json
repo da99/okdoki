@@ -20,6 +20,8 @@
     "uri-js"         : "1.4.x"
     , "rel" : "0.x.x"
     , "toobusy": "0.1.x"
+    , "reltime": "0.0.x"
+    , "duration": "0.1.x"
   },
   "devDependencies": {
     "strftime" : "x.x.x"
