@@ -143,15 +143,6 @@ describe( 'Customer create', function () {
     done();
   });
 
-  it( 'adds a homepage entry', function (done) {
-    var db = new pg.query();
-    db.q('SELECT * FROM homepages;');
-    db.run_and_then(function (meta) {
-      assert.deepEqual(_.pluck(customer.data.screen_name_rows, 'id'), _.pluck(meta.rows, 'screen_name_id'));
-      done();
-    });
-  }); // it
-
 }); // === describe
 
 describe( 'Customer create_screen_name', function () {
@@ -166,14 +157,6 @@ describe( 'Customer create_screen_name', function () {
     });
   }); // it
 
-  it( 'adds a homepage entry to Customer db', function (done) {
-    var db = new pg.query();
-    db.q('SELECT * FROM homepages');
-    db.run_and_then(function (meta) {
-      assert.deepEqual(_.pluck(meta.rows, 'screen_name_id'), _.pluck(customer.data.screen_name_rows, 'id') );
-      done();
-    });
-  }); // it
 
 });
 

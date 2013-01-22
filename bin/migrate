@@ -114,7 +114,10 @@ tbls.show_tables(function (meta) {
        customer_id varchar(15) NOT NULL, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
-       screen_name varchar(15) NOT NULL UNIQUE \
+       screen_name varchar(15) NOT NULL UNIQUE,  \
+       settings        text,                 \
+       details         text,                 \
+       about           text  \
     )");
 
     ok.q("CREATE INDEX ON screen_names (customer_id)");
@@ -177,14 +180,6 @@ tbls.show_tables(function (meta) {
        created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at      timestamp default null   \
        , UNIQUE (pub_id, label_id) \
-    )");
-
-    ok.q(" \
-      CREATE TABLE IF NOT EXISTS homepages ( \
-       screen_name_id  varchar(15) NOT NULL UNIQUE, \
-       settings        text,                 \
-       details         text,                 \
-       about           text  \
     )");
 
     ok.q(" \
