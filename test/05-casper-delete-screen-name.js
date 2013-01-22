@@ -44,17 +44,17 @@ casper.then(function () {
   });
 });
 
-// casper.then(function () {
-  // this.click(form + 'button.unsubmit');
+casper.then(function () {
+  this.click(form + 'button.unsubmit');
 
-  // this.wait(200);
+  this.wait(200);
 
-  // this.waitForSelector(success, function () {
-    // this.test.assertEvalEquals( this.fetchText(success), unsuccess_msg, "Undo deletion success msg shown.");
-    // this.test.assertEvalEquals(function (form) { return $(form + 'button.submit').css('display'); }, 'inline-block', 'Delete button displayed.', form);
-    // this.test.assertEvalEquals(function (form) { return $(form + 'button.unsubmit').css('display'); }, 'none', 'Un-Delete button hidden.', form);
-  // });
-// });
+  this.waitForSelector(success, function () {
+    this.test.assertEquals( this.fetchText(success), unsuccess_msg, "Undo deletion success msg shown.");
+    this.test.assertEvalEquals(function (form) { return $(form + 'button.submit').css('display'); }, 'inline-block', 'Delete button displayed.', form);
+    this.test.assertEvalEquals(function (form) { return $(form + 'button.unsubmit').css('display'); }, 'none', 'Un-Delete button hidden.', form);
+  });
+});
 
 casper.run(function () {
   this.test.renderResults(true);
