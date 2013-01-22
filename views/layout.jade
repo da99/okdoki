@@ -3,6 +3,9 @@ if typeof(logged_in) != 'undefined' && logged_in
 else
   - var css_logged = 'not_logged_in'
 
+if typeof(body_css) === 'undefined'
+  - var body_css = ''
+
 !!! 5
 html(lang='en')
   head
@@ -11,6 +14,6 @@ html(lang='en')
     link(href='/bootstrap/css/bootstrap.min.css', rel='stylesheet', media='screen')
     link(href="/assets/css/_base.css", rel='stylesheet', media='screen')
     link(href="/assets/css/#{view_name}.css", rel='stylesheet', media='screen')
-  body(class='#{css_logged}')
+  body(class='#{css_logged} #{body_css}')
     block content
     block footer

@@ -31,11 +31,11 @@ casper.thenOpen(base_funcs.url + '/info/go99', function () {
 
 casper.then(function () {
   this.reload(function () {
-    this.test.assertEquals(
-      this.fetchText('#form_trash_screen_name div.success'),
-      success_msg,
-      "Delete/un-delete message shown on page reload."
-    );
+
+    this.test.assertEquals( this.fetchText(success), success_msg, "Delete/un-delete message shown on page reload.");
+    this.test.assertEvalEquals(function (form) { return $(form + 'button.submit').css('display'); }, 'none', 'Delete button display=none.', form);
+    this.test.assertEvalEquals(function (form) { return $(form + 'button.unsubmit').css('display'); }, 'inline-block', 'Un-Delete button display=inline-block.', form);
+
   });
 });
 
