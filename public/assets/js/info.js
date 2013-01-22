@@ -44,5 +44,9 @@ $(function () {
     $('#form_create_content').show();
   });
 
-  Forms.Submit_Button('#form_trash_screen_name button.submit');
+  Forms.Submit_Button('#form_trash_screen_name button.submit', {
+    after_success: function () {
+      $('body').addClass('trashed');
+    }
+  });
 });

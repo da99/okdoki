@@ -177,3 +177,18 @@ div.block {
   #form_create_content {
     display: none;
   }
+
+body #form_trash_screen_name button.unsubmit {
+  display: none;
+}
+
+body.trashed #form_trash_screen_name button.submit {
+  display: none;
+}
+
+body.trashed #form_trash_screen_name button.unsubmit {
+  display: inline;
+}
+
+
+

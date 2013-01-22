@@ -23,6 +23,8 @@ casper.thenOpen(base_funcs.url + '/info/go99', function () {
   this.click(form + 'button.submit');
   this.waitForSelector(success, function () {
     this.test.assertEquals(this.fetchText(success), success_msg, "Msg: Time until complete deletion.");
+    this.test.assertEvalEquals(function (form) { return $(form + 'button.submit').css('display'); }, 'none', 'Delete button display=none.', form);
+    this.test.assertEvalEquals(function (form) { return $(form + 'button.unsubmit').css('display'); }, 'inline-block', 'Un-Delete button display=inline-block.', form);
   }, null, 1000);
 });
 
