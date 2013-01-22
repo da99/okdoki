@@ -8,8 +8,8 @@ Forms.Submit_Button = function (selector, callbacks) {
   var button  = $(selector);
   var form = button.closest('form');
 
-  if (form.attr('id') && form.attr('id') != '' && callbacks) {
-    Forms.callbacks[form.attr('id')] = callbacks;
+  if (callbacks) {
+    Forms.callbacks[selector] = callbacks;
   };
 
   button.click(function (e) {
@@ -18,21 +18,24 @@ Forms.Submit_Button = function (selector, callbacks) {
     form.children('div.success').remove();
     form.addClass('loading');
     setTimeout(function () {
-      Forms.Submit(form);
+      Forms.Submit(selector);
     }, 500);
   });
 
   return button;
 };
 
-Forms.Submit = function (form) {
-  var ajax_o = Forms.Default_Ajax_Options(form);
+Forms.Submit = function (selector) {
+  var form = $(selector).closest('form');
+  var ajax_o = Forms.Default_Ajax_Options(selector);
   log(ajax_o);
+  Forms.call_callback(selector, 'before_submit', ajax_o);
   $.ajax(ajax_o);
   return form;
 };
 
-Forms.Success = function (form, resp, stat) {
+Forms.Success = function (selector, resp, stat) {
+  var form = $(selector).closest('form');
   if (stat !== 'success') {
     Forms.Errors(form, "Unknown error.");
     return form;
@@ -43,7 +46,7 @@ Forms.Success = function (form, resp, stat) {
     return form;
   };
 
-  Forms.call_callback(form.attr('id'), 'before_success', resp);
+  Forms.call_callback(selector, 'before_success', resp);
   form.children('div.fields').hide();
   form.removeClass('loading');
   log(stat);
@@ -52,7 +55,7 @@ Forms.Success = function (form, resp, stat) {
   e.text(resp.msg);
   form.prepend(e);
 
-  Forms.call_callback(form.attr('id'), 'after_success', resp);
+  Forms.call_callback(selector, 'after_success', resp);
   return form;
 };
 
@@ -66,12 +69,13 @@ Forms.Errors = function (form, msg) {
   return form;
 };
 
-Forms.Default_Ajax_Options = function (raw_form) {
-  var form = $(raw_form);
-  var obj = {};
+Forms.Default_Ajax_Options = function (selector) {
+  var form = $(selector).closest('form');
+  var obj  = {};
   $.each(form.serializeArray(), function (i, ele) {
     obj[ele.name] = ele.value;
   });
+
   return { type: 'POST',
     url : window.location.origin + form.attr('action'),
     cache: false,
@@ -79,7 +83,7 @@ Forms.Default_Ajax_Options = function (raw_form) {
     data : JSON.stringify(obj),
     dataType: 'json',
     success: function (resp, stat) {
-      Forms.Success(form, resp, stat);
+      Forms.Success(selector, resp, stat);
     },
     error: function (xhr, textStatus, errThrown) {
       Forms.Errors(form, textStatus + ': ' + (errThrown || "Check internet connection. Either that or OKdoki.com is down.") );

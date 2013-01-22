@@ -49,4 +49,14 @@ $(function () {
       $('body').addClass('trashed');
     }
   });
+
+  Forms.Submit_Button('#form_trash_screen_name button.unsubmit', {
+    before_submit: function (o) {
+      o.url = o.url.replace("/trash", "/undo/trash");
+      return o;
+    },
+    after_success: function () {
+      $('body').removeClass('trashed');
+    }
+  });
 });

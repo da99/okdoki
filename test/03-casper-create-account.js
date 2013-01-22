@@ -37,7 +37,7 @@ casper.then(function () {
     return this.exists(div_errors);
   }, function then() {
     this.test.assertExists(div_errors, div_errors + ' in form exist.');
-  }, null, 700);
+  });
 
 });
 
@@ -61,7 +61,7 @@ casper.then(function () {
     return this.exists(div_errors);
   }, function then() {
     this.test.assertEqual(this.fetchText(div_errors), "Name, \"\", must be 3-15 chars: 0-9 a-z A-Z _ - .", " Screen name errors when creating account. ");
-  }, null, 700);
+  });
 
 });
 
@@ -84,7 +84,7 @@ casper.then(function () {
     return this.exists(div_errors);
   }, function then() {
     this.test.assertEqual(this.fetchText(div_errors), "Passphrase must be at least 9 chars long.", " Passphrase errors when creating account. ");
-  }, null, 900);
+  });
 
 });
 
@@ -107,7 +107,7 @@ casper.then(function () {
     return this.exists(div_errors);
   }, function then() {
     this.test.assertEqual(this.fetchText(div_errors), "Passphrase confirmation does not match passphrase.", " Passphrase confirm errors when creating account. ");
-  }, null, 900);
+  });
 
 });
 
@@ -130,7 +130,7 @@ casper.then(function () {
     return this.exists("#homepages");
   }, function then() {
     this.test.assertTextExists("Welcome, " + screen_name, " Email optional when creating account. ");
-  }, null, 900);
+  });
 
 });
 

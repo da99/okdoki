@@ -19,6 +19,7 @@ var form    = '#form_trash_screen_name ';
 var success = form + 'div.success';
 var success_msg = "Screen name, go99, has been put in trash." +
   " You have 2 days from now to change your mind before it gets completely deleted.";
+var unsuccess_msg = "Screen name, go99, has been taken out of the trash.";
 
 casper.thenOpen(base_funcs.url + '/info/go99', function () {
   this.test.assertEvalEquals(function (form) { return $(form + 'button.submit').css('display'); }, 'inline-block', 'Delete button shown when not trashed.', form);
@@ -43,9 +44,17 @@ casper.then(function () {
   });
 });
 
-// === Success
-//
+// casper.then(function () {
+  // this.click(form + 'button.unsubmit');
 
+  // this.wait(200);
+
+  // this.waitForSelector(success, function () {
+    // this.test.assertEvalEquals( this.fetchText(success), unsuccess_msg, "Undo deletion success msg shown.");
+    // this.test.assertEvalEquals(function (form) { return $(form + 'button.submit').css('display'); }, 'inline-block', 'Delete button displayed.', form);
+    // this.test.assertEvalEquals(function (form) { return $(form + 'button.unsubmit').css('display'); }, 'none', 'Un-Delete button hidden.', form);
+  // });
+// });
 
 casper.run(function () {
   this.test.renderResults(true);
