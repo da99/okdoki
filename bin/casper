@@ -41,6 +41,10 @@ if [[ "$FILE" == "all" || "$FILE" == "05" ]]; then
   PORT=$PORT casperjs test/05-casper-delete-screen-name.js $PORT
 fi
 
+if [[ "$FILE" == "all" || "$FILE" == "06" ]]; then
+  PORT=$PORT casperjs test/06-casper-change-homepage-privacy.js $PORT
+fi
+
 trap "bin/kill_test_server" EXIT
 
 

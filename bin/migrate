@@ -115,6 +115,8 @@ tbls.show_tables(function (meta) {
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        screen_name varchar(15) NOT NULL UNIQUE,  \
+       read_able       varchar(1) default 'W', \
+       read_able_list  varchar(100) ARRAY,   \
        settings        text,                 \
        details         text,                 \
        about           text  \

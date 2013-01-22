@@ -190,5 +190,17 @@ body.trashed #form_trash_screen_name button.unsubmit {
   display: inline;
 }
 
+body.world_read #form_homepage_priv div.specify {
+  display: none;
+}
+
+body.no_one #form_homepage_priv div.specify {
+  display: none;
+}
+
+body.specify_read #form_homepage_priv div.specify {
+  display: block;
+}
+
 
 

@@ -1,5 +1,14 @@
-if screen_name_info.is_trashed
-  - var body_css = 'trashed'
+
+block vars
+  - var body_css = ''
+  if screen_name_info.is_trashed
+    - body_css += ' trashed'
+  if screen_name_info.world_read
+    - body_css += " world_read"
+  if screen_name_info.no_one_read
+    - body_css += ' no_one_read'
+  if screen_name_info.specify_read
+    - body_css += ' specify_read'
 
 extends ./layout
 
@@ -36,14 +45,17 @@ block content
         div.options
           div.opt.privacy
             span.value Who can see it?
-            select(id='control_priv')
-              option(value='the_world') The World
-              option(value='no_one') No one, but me.
-              option(value='specify') Let me specify:
-            div.specify(id='control_priv_specify')
-              textarea(rows='3')
-              div.buttons
-                button Save
+            form(id="form_homepage_priv", method="POST", action="/update/homepage/priv")
+              div.fields
+                div.field
+                  select(id='control_priv')
+                    option(value='the_world') The World
+                    option(value='no_one') No one, but me.
+                    option(value='specify') Let me specify:
+                div.field.specify
+                  textarea(name="specify", rows='3')
+                div.field.buttons
+                  button.submit Update
 
 
       else
