@@ -15,11 +15,12 @@ var msg = function () {
 };
 
 
+var form    = '#form_trash_screen_name ';
+var success = form + 'div.success';
+var success_msg = "Screen name, go99, has been put in trash." +
+  " You have 2 days from now to change your mind before it gets completely deleted.";
+
 casper.thenOpen(base_funcs.url + '/info/go99', function () {
-  var form    = '#form_trash_screen_name ';
-  var success = form + 'div.success';
-  var success_msg = "Screen name, go99, has been put in trash." +
-    " You have 2 days from now to change your mind before it gets completely deleted.";
   this.click(form + 'button.submit');
   this.waitForSelector(success, function () {
     this.test.assertEquals(this.fetchText(success), success_msg, "Msg: Time until complete deletion.");
@@ -28,6 +29,15 @@ casper.thenOpen(base_funcs.url + '/info/go99', function () {
   }, null, 1000);
 });
 
+casper.then(function () {
+  this.reload(function () {
+    this.test.assertEquals(
+      this.fetchText('#form_trash_screen_name div.success'),
+      success_msg,
+      "Delete/un-delete message shown on page reload."
+    );
+  });
+});
 
 // === Success
 //
