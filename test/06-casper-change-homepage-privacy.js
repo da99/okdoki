@@ -26,6 +26,12 @@ casper.thenOpen(base_funcs.url + '/info/go99', function () {
   this.test.assertEvalEquals(css_specify_display, 'none', "Specify text box hidden by default.", form);
 });
 
+casper.then(function () {
+  this.evaluate(function (form) { $(form + ' select.menu_priv').val('specify').change(); }, form);
+  this.wait(300);
+  this.test.assertEvalEquals(css_specify_display, 'block', "Specify text box shown when 'specify' selected in menu.", form);
+});
+
 casper.run(function () {
   this.test.renderResults(true);
 });

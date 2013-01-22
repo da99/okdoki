@@ -25,10 +25,10 @@ $(function () {
   });
 
   $('#control_priv').change(function () {
-    var textarea = $('#control_priv_specify');
-    if ($(this).val() === 'specify')
+    var textarea = $('#form_homepage_priv div.specify');
+    if ($(this).val() === 'specify') {
       textarea.show();
-    else {
+    } else {
       textarea.hide();
       var box = $(this).closest("div.options");
       box.addClass('loading');
