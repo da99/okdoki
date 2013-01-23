@@ -36,15 +36,6 @@ describe( '.on_end', function () {
 
 describe( 'sqler', function () {
 
-  it( 'transforms objects into hstore inputs', function () {
-    var actual = pg.sqler("INSERT INTO tbl (settings) VALUES ( ~x );", [{a: 'b'}]);
-    var expected = [
-      "INSERT INTO tbl (settings) VALUES ( hstore(ARRAY[ $1 , $2 ]) );",
-      ['a', 'b']
-    ];
-    assert.deepEqual(actual, expected);
-  });
-
   it( 'transforms an array into ( $1 , ... )', function () {
     var actual = pg.sqler("WHERE a in ( ~x )", [[1,2,3]]);
     var expected = [
@@ -54,11 +45,11 @@ describe( 'sqler', function () {
     assert.deepEqual(actual, expected);
   });
 
-  it( 'transforms a combination of values, arrays, and objects into values, arrays, hstore inputs', function () {
-    var actual = pg.sqler("VALUES ( ~x, ~x, ~x, ~x ) WHERE a in ( ~x );", [1, "str1", {a: 'b', c: 'd'}, "str2", [1,2,3]]);
+  it( 'transforms a combination of values, arrays into values, arrays inputs', function () {
+    var actual = pg.sqler("VALUES ( ~x, ~x, ~x ) WHERE a in ( ~x );", [1, "str1", "str2", [1,2,3]]);
     var expected = [
-      "VALUES ( $1, $2, hstore(ARRAY[ $3 , $4 , $5 , $6 ]), $7 ) WHERE a in ( $8 , $9 , $10 );",
-      [1, "str1", 'a', 'b', 'c', 'd', "str2", 1, 2, 3]
+      "VALUES ( $1, $2, $3 ) WHERE a in ( $4 , $5 , $6 );",
+      [1, "str1", "str2", 1, 2, 3]
     ];
     assert.equal(actual[0], expected[0]);
     assert.deepEqual(actual[1], expected[1]);

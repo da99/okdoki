@@ -45,7 +45,7 @@ block content
         div.options
           div.opt.privacy
             span.value Who can see it?
-            form(id="form_homepage_priv", method="POST", action="/update/homepage/priv")
+            form(id="form_homepage_priv", method="POST", action="/update/homepage/priv/#{screen_name}")
               div.fields
                 div.field
                   select.menu_priv(id='control_priv', name="read_able")

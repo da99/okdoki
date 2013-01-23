@@ -44,12 +44,34 @@ casper.then(function () {
   this.test.assertEvalEquals(css_specify_display, 'none', "Specify text box hidden when 'specify' not chosen in menu.", form);
 });
 
-// === Submitting privacy menu.
+// === Submitting privacy menu: N
 casper.then(function () {
   this.evaluate(function (form) { $(form + ' select.menu_priv').val('N').change(); }, form);
   this.click(submit);
   this.waitForSelector(success, function () {
-    this.test.assertEqual(this.fetchText(success), "Saved.", "Success msg: when changed to No-One readable.");
+    this.test.assertEqual(this.fetchText(success), "Updated settings: no one but you can see this homepage.", "Success msg: when changed to No-One readable.");
+    this.test.assertEvalEqual(css_fields_display, "block", "Form fields shown after success.", form);
+  });
+});
+
+// === Submitting privacy menu: W
+casper.then(function () {
+  this.evaluate(function (form) { $(form + ' select.menu_priv').val('W').change(); }, form);
+  this.click(submit);
+  this.waitForSelector(success, function () {
+    this.test.assertEqual(this.fetchText(success), "Updated settings: Anyone online may see this homepage.", "Success msg: when changed to world readable.");
+    this.test.assertEvalEqual(css_fields_display, "block", "Form fields shown after success.", form);
+  });
+});
+
+// === Submitting privacy menu: S
+casper.then(function () {
+  this.evaluate(function (form) { $(form + ' select.menu_priv').val('S').change(); }, form);
+  this.evaluate(function (form) { $(form + ' textarea').val('o1 o2 o3'); }, form);
+
+  this.click(submit);
+  this.waitForSelector(success, function () {
+    this.test.assertEqual(this.fetchText(success), "Updated settings: The following may see your homepage: o1, o2, o3", "Success msg: when changed to 'specify' readable.");
     this.test.assertEvalEqual(css_fields_display, "block", "Form fields shown after success.", form);
   });
 });
