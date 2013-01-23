@@ -36,7 +36,7 @@ casper.thenOpen(base_funcs.url + '/info/go99', function () {
 casper.then(function () {
   this.evaluate(function (form) { $(form + ' select.menu_priv').val('S').change(); }, form);
   this.wait(300);
-  this.test.assertEvalEquals(css_specify_display, 'block', "Specify text box shown when 'specify' selected in menu.", form);
+  // this.test.assertEvalEquals(css_specify_display, 'block', "Specify text box shown when 'specify' selected in menu.", form);
   this.test.assertEvalEquals(css_submit_display, 'inline-block', "Submit button shown after menu change.", form);
 
   this.evaluate(function (form) { $(form + ' select.menu_priv').val('N').change(); }, form);
@@ -65,16 +65,16 @@ casper.then(function () {
 });
 
 // === Submitting privacy menu: S
-casper.then(function () {
-  this.evaluate(function (form) { $(form + ' select.menu_priv').val('S').change(); }, form);
-  this.evaluate(function (form) { $(form + ' textarea').val('o1 o2 o3'); }, form);
+// casper.then(function () {
+  // this.evaluate(function (form) { $(form + ' select.menu_priv').val('S').change(); }, form);
+  // this.evaluate(function (form) { $(form + ' textarea').val('o1 o2 o3'); }, form);
 
-  this.click(submit);
-  this.waitForSelector(success, function () {
-    this.test.assertEqual(this.fetchText(success), "Updated settings: The following may see your homepage: o1, o2, o3", "Success msg: when changed to 'specify' readable.");
-    this.test.assertEvalEqual(css_fields_display, "block", "Form fields shown after success.", form);
-  });
-});
+  // this.click(submit);
+  // this.waitForSelector(success, function () {
+    // this.test.assertEqual(this.fetchText(success), "Updated settings: The following may see your homepage: o1, o2, o3", "Success msg: when changed to 'specify' readable.");
+    // this.test.assertEvalEqual(css_fields_display, "block", "Form fields shown after success.", form);
+  // });
+// });
 
 casper.run(function () {
   this.test.renderResults(true);
