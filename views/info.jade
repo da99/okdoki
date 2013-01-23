@@ -48,13 +48,14 @@ block content
             form(id="form_homepage_priv", method="POST", action="/update/homepage/priv")
               div.fields
                 div.field
-                  select.menu_priv(id='control_priv')
-                    option(value='the_world') The World
-                    option(value='no_one') No one, but me.
-                    option(value='specify') Let me specify:
+                  select.menu_priv(id='control_priv', name="read_able")
+                    option(value='W') The World
+                    option(value='N') No one, but me.
+                    option(value='S') Let me specify:
                 div.field.specify
-                  textarea(name="specify", rows='3')
+                  textarea(name="read_able_list", rows='3')
                 div.field.buttons
+                  input.field(type='hidden', name="_csrf", value="#{token}")
                   button.submit Update
 
 

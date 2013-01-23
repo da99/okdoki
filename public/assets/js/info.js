@@ -8,7 +8,8 @@ $(function () {
     }, 500);
   });
 
-  $("#sidebar button").click(function () {
+  $("#sidebar button").click(function (e) {
+    e.preventDefault();
     var box = $(this).closest("div.options");
     box.addClass('loading');
     setTimeout(function () {
@@ -25,18 +26,28 @@ $(function () {
   });
 
   $('#control_priv').change(function () {
-    var textarea = $('#form_homepage_priv div.specify');
-    textarea.closest('form').find('button.submit').show();
-    if ($(this).val() === 'specify') {
+    var form     = $(this).closest('form');
+    var textarea = form.find('div.specify');
+    var submit   = form.find('button.submit');
+
+    submit.show();
+
+    if ($(this).val() === 'S')
       textarea.show();
-    } else {
+    else
       textarea.hide();
-      var box = $(this).closest("div.options");
-      box.addClass('loading');
-      setTimeout(function () {
-        box.removeClass('loading');
-      }, 500);
-    };
+  });
+
+  Forms.Submit_Button('#form_homepage_priv button.submit', {
+    before_submit : function (opts) {
+      // var form     = $(this).closest('form');
+      // var textarea = form.find('div.specify');
+      // var submit   = form.find('button.submit');
+      // var box      = $(this).closest("div.options");
+    }, after_success: function () {
+      $('#form_homepage_priv div.fields').show();
+      $('#form_homepage_priv button.submit').hide();
+    }
   });
 
   $('#show_form_create_content').click(function (e) {
