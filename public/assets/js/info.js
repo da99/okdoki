@@ -26,6 +26,7 @@ $(function () {
 
   $('#control_priv').change(function () {
     var textarea = $('#form_homepage_priv div.specify');
+    textarea.closest('form').find('button.submit').show();
     if ($(this).val() === 'specify') {
       textarea.show();
     } else {

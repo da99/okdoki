@@ -202,5 +202,10 @@ body.specify_read #form_homepage_priv div.specify {
   display: block;
 }
 
+#form_homepage_priv button.submit {
+  display: none;
+}
+
+
 
 
