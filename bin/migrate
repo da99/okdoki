@@ -117,9 +117,9 @@ tbls.show_tables(function (meta) {
        screen_name varchar(15) NOT NULL UNIQUE,  \
        read_able       varchar(1) default 'W', \
        read_able_list  varchar(100) ARRAY,   \
+       about           text default null,    \
        settings        text,                 \
-       details         text,                 \
-       about           text  \
+       details         text                  \
     )");
 
     ok.q("CREATE INDEX ON screen_names (customer_id)");
