@@ -1,13 +1,17 @@
 
 block vars
   - var body_css = ''
+
   if screen_name_info.is_trashed
     - body_css += ' trashed'
-  if screen_name_info.world_read
+
+  if screen_name_info.read_able == 'W'
     - body_css += " world_read"
-  if screen_name_info.no_one_read
+
+  if screen_name_info.read_able == 'N'
     - body_css += ' no_one_read'
-  if screen_name_info.specify_read
+
+  if screen_name_info.read_able == 'S'
     - body_css += ' specify_read'
 
 extends ./layout
@@ -49,8 +53,8 @@ block content
               div.fields
                 div.field
                   select.menu_priv(id='control_priv', name="read_able")
-                    option(value='W') The World
-                    option(value='N') No one, but me.
+                    option(value='W', selected='W'==screen_name_info.read_able) The World
+                    option(value='N', selected='N'==screen_name_info.read_able) No one, but me.
                 div.field.specify
                   textarea(name="read_able_list", rows='3')
                 div.field.buttons

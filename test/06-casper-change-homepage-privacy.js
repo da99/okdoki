@@ -21,12 +21,14 @@ var success             = form + 'div.success';
 var css_specify_display = function (form) { return $(form + 'div.specify').css('display'); };
 var css_submit_display  = function (form) { return $(form + 'button.submit').css('display'); };
 var css_fields_display = function (form) { return $(form + 'div.fields').css('display'); };
+var css_menu_selected  = function () { return $('#form_homepage_priv select option:selected').val(); };
 var submit              = form + 'button.submit';
 var success             = form + 'div.success';
 var css_body            = function (css) { return $('body').hasClass(css); };
 
 // === Default css classes.
 casper.thenOpen(base_funcs.url + '/info/go99', function () {
+  this.test.assertEvalEqual(css_menu_selected, 'W', "Selected menu option should be 'W'");
   this.test.assertEval(css_body, "Body has default class: world_read.", 'world_read');
   this.test.assertEvalEquals(css_specify_display, 'none', "Specify text box hidden by default.", form);
   this.test.assertEvalEquals(css_submit_display, 'none', "Submit button hidden before any menu change.", form);
@@ -51,6 +53,10 @@ casper.then(function () {
   this.waitForSelector(success, function () {
     this.test.assertEqual(this.fetchText(success), "Updated settings: no one but you can see this homepage.", "Success msg: when changed to No-One readable.");
     this.test.assertEvalEqual(css_fields_display, "block", "Form fields shown after success.", form);
+  });
+
+  this.reload(function () {
+    this.test.assertEvalEqual(css_menu_selected, 'N', "Selected menu option should be 'N'");
   });
 });
 

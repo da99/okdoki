@@ -194,7 +194,7 @@ body.world_read #form_homepage_priv div.specify {
   display: none;
 }
 
-body.no_one #form_homepage_priv div.specify {
+body.no_one_read #form_homepage_priv div.specify {
   display: none;
 }
 
