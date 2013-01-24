@@ -8,6 +8,7 @@ Forms.Submit_able = function (selector, callbacks) {
   Forms.Show_Fields(selector   + ' button.show');
   Forms.Show_Again(selector    + ' button.show_again');
   Forms.Submit_Button(selector + ' button.submit', callbacks);
+  Forms.Undo_Button(selector   + ' button.undo');
 }
 
 Forms.Show_Fields = function (selector) {
@@ -26,6 +27,39 @@ Forms.Show_Again = function (selector) {
     button.closest('div.show_again').hide();
     button.closest('form').find('div.fields').show();
     button.closest('form').find('div.success').remove();
+  });
+};
+
+Forms.Undo_Button = function (s) {
+  $(s).click(function (e) {
+    e.preventDefault();
+    var b    = $(e.target);
+    var block = b.closest('div.undo');
+    var form = b.closest('form');
+
+    form.removeClass('success');
+    form.addClass('loading');
+    form.find('div.success').remove();
+    b.closest('div.undo').hide();
+
+    var ajax_o = Forms.Default_Ajax_Options(form);
+    log(ajax_o);
+    ajax_o.url = ajax_o.url.replace(/[^\/]\/[^\/]/, function (s) {
+      return s.replace('/', '/undo/');
+    });
+
+    ajax_o.success = function (resp, stat) {
+      Forms.Success(b, resp, stat);
+
+      if (block.hasClass('trash')) {
+        form.removeClass('trashed');
+      }
+      form.children('div.fields').show();
+      block.hide();
+    };
+
+    $.ajax(ajax_o);
+    return form;
   });
 };
 
@@ -80,6 +114,7 @@ Forms.Success = function (selector, resp, stat) {
   e.text(resp.msg);
   form.prepend(e);
   form.find('div.show_again').show();
+  form.find('div.undo').show();
 
   Forms.call_callback(selector, 'after_success', resp);
   return form;

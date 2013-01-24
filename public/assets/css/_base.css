@@ -112,12 +112,25 @@ div.intro {
 }
 
 form {}
+
   form.hidden_fields div.fields {
+    display: none;
+  }
+
+  form div.undo {
     display: none;
   }
 
   form div.show_again {
     display: none;
+  }
+
+  form.trashed div.fields {
+    display: none;
+  }
+
+  form.trashed div.undo {
+    display: block;
   }
 
 textarea, select, option {

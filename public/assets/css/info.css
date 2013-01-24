@@ -79,17 +79,9 @@ div.block {
     #sidebar div.privacy {
     }
 
-    #sidebar div.trash div.buttons {
-      text-align: center;
-    }
-
   #sidebar div.screen_name div.opt:hover {
     background: #FFFCD2;
   }
-
-    #sidebar div.buttons {
-      text-align: right;
-    }
 
 
   #sidebar div.screen_name {
@@ -178,17 +170,6 @@ div.block {
     display: none;
   }
 
-body #form_trash_screen_name button.unsubmit {
-  display: none;
-}
-
-body.trashed #form_trash_screen_name button.submit {
-  display: none;
-}
-
-body.trashed #form_trash_screen_name button.unsubmit {
-  display: inline;
-}
 
 body.world_read #form_homepage_priv div.specify {
   display: none;
@@ -200,6 +181,14 @@ body.no_one_read #form_homepage_priv div.specify {
 
 body.specify_read #form_homepage_priv div.specify {
   display: block;
+}
+
+#form_trash_screen_name div.fields {
+  text-align: center;
+}
+
+#form_trash_screen_name.loading div.fields {
+  padding-top: 50px;
 }
 
 #form_homepage_priv button.submit {

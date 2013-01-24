@@ -1,21 +1,5 @@
 
 $(function () {
-  $("#sidebar div.options input[type='checkbox']").change(function () {
-    var box = $(this).closest("div.options");
-    box.addClass('loading');
-    setTimeout(function () {
-      box.removeClass('loading');
-    }, 500);
-  });
-
-  $("#sidebar button").click(function (e) {
-    e.preventDefault();
-    var box = $(this).closest("div.options");
-    box.addClass('loading');
-    setTimeout(function () {
-      box.removeClass('loading');
-    }, 500);
-  });
 
   $('textarea').focus( function () {
     var txt = $(this).val();
@@ -58,15 +42,11 @@ $(function () {
 
   Forms.Submit_Button('#form_trash_screen_name button.submit', {
     after_success: function () {
-      $('body').addClass('trashed');
+      $('#form_trash_screen_name').addClass('trashed');
     }
   });
 
-  Forms.Submit_Button('#form_trash_screen_name button.unsubmit', {
-    before_submit: function (o) {
-      o.url = o.url.replace("/trash", "/undo/trash");
-      return o;
-    },
+  Forms.Undo_Button('#form_trash_screen_name button.undo', {
     after_success: function () {
       $('body').removeClass('trashed');
     }

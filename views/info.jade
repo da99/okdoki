@@ -1,9 +1,10 @@
 
 block vars
   - var body_css = ''
+  - var form_css = ''
 
   if screen_name_info.is_trashed
-    - body_css += ' trashed'
+    - form_css += ' trashed'
 
   if screen_name_info.read_able == 'W'
     - body_css += " world_read"
@@ -35,14 +36,15 @@ block content
         div.intro
           span.label Delete Screen-name
         div.options
-          form(id="form_trash_screen_name", method="POST", action="/trash/screen_name/#{screen_name}")
+          form(class='#{form_css}', id="form_trash_screen_name", method="POST", action="/trash/screen_name/#{screen_name}")
             if screen_name_info.is_trashed
               div.success #{screen_name_info.trash_msg}
+            div.undo.trash
+              button.undo Undo
             div.fields
               div.field.buttons
                 input.field(type='hidden', name="_csrf", value="#{token}")
                 button.submit Delete
-                button.unsubmit Un-delete
 
         div.intro
           span.label Edit Your Homepage

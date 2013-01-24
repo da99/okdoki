@@ -68,7 +68,7 @@ exports.innerHTML_f = function (s) {
 
 exports.prepare = function (casper) {
   casper.then_log_out = function () {
-    this.thenOpen(base_funcs.url + '/logout');
+    this.thenOpen(base_funcs.url + '/log-out');
   };
 
   casper.then_log_in = function () {
@@ -100,19 +100,21 @@ exports.prepare = function (casper) {
   });
 
   casper.on('http.status.404', function(resource) {
-    this.echo(red( 'wait, this url is 404: ' + resource.url));
+    if (this.ignore_404)
+      return false;
+    this.echo(red( '404: ' + resource.url));
     this.echo('Exiting...');
     this.exit(1);
   });
 
   casper.on('http.status.500', function(resource) {
-    this.echo(red('woops, 500 error: ' + resource.url));
+    this.echo(red('500 error: ' + resource.url));
     this.echo('Exiting...');
     this.exit(1);
   });
 
   casper.on('http.status.501', function(resource) {
-    this.echo(red( 'woops, 501 error: ' + resource.url));
+    this.echo(red( '501 error: ' + resource.url));
     this.echo('Exiting...');
     this.exit(1);
   });
