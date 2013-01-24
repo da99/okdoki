@@ -111,6 +111,15 @@ div.intro {
   padding: 0;
 }
 
+form {}
+  form.hidden_fields div.fields {
+    display: none;
+  }
+
+  form div.show_again {
+    display: none;
+  }
+
 textarea, select, option {
   color: #000;
 }

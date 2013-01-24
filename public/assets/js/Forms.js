@@ -4,9 +4,33 @@ var Forms = {};
 
 Forms.callbacks = {};
 
+Forms.Submit_able = function (selector, callbacks) {
+  Forms.Show_Fields(selector   + ' button.show');
+  Forms.Show_Again(selector    + ' button.show_again');
+  Forms.Submit_Button(selector + ' button.submit', callbacks);
+}
+
+Forms.Show_Fields = function (selector) {
+  $(selector).click(function (e) {
+    e.preventDefault();
+    var button = $(e.target);
+    button.closest('div.show').hide();
+    button.closest('form').find('div.fields').show();
+  });
+};
+
+Forms.Show_Again = function (selector) {
+  $(selector).click(function (e) {
+    e.preventDefault();
+    var button = $(e.target);
+    button.closest('div.show_again').hide();
+    button.closest('form').find('div.fields').show();
+  });
+};
+
 Forms.Submit_Button = function (selector, callbacks) {
-  var button  = $(selector);
-  var form = button.closest('form');
+  var button = $(selector);
+  var form   = button.closest('form');
 
   if (callbacks) {
     Forms.callbacks[selector] = callbacks;

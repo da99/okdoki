@@ -151,11 +151,19 @@ block content
     h2 About Me:
     div.body
       if logged_in && homepage_belongs_to_viewer
-        form(id="form_update_about", method="POST", action="/update/homepage")
+        form.hidden_fields(id="form_update_about", method="POST", action="/update/homepage/#{screen_name}")
+          div.show
+            div.msg 
+              | You can write your "about" section that will introduce
+              | you to other people.
+            button.show Start editing "about" section.
+          div.show_again
+            button.show_again Edit "about" again.
           div.fields
             div.field.about
-              textarea(rows=4) #{screen_name_info.about}
+              textarea(rows=4, name='about') #{screen_name_info.about}
             div.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
               button.submit Update
       else
         if screen_name_info.about

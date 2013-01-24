@@ -71,4 +71,6 @@ $(function () {
       $('body').removeClass('trashed');
     }
   });
+
+  Forms.Submit_able('#form_update_about');
 });
