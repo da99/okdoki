@@ -67,6 +67,26 @@ exports.innerHTML_f = function (s) {
 };
 
 exports.prepare = function (casper) {
+  casper.then_log_out = function () {
+    this.thenOpen(base_funcs.url + '/logout');
+  };
+
+  casper.then_log_in = function () {
+    this.thenOpen(base_url + '/', function () {
+      this.waitForSelector('title', function () {
+        this.test.assertHttpStatus(200);
+        var sign_in = 'form#form_sign_in';
+
+        this.fill(sign_in, {
+          'screen_name': 'go99',
+          'passphrase': "Passphrase",
+        }, false);
+        this.click(sign_in + ' button.submit');
+        this.waitFor(exists_f('#homepages'), null, null, 1000);
+      }, null, 4000);
+    });
+  };
+
   casper.on('error', function(msg, trace) {
     this.echo(red( + 'JS error: ' + msg));
     this.echo('Exiting...');

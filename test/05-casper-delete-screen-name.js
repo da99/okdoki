@@ -39,6 +39,16 @@ casper.thenOpen(base_funcs.url + '/info/go99', function () {
   }, null, 1000);
 });
 
+
+// === Non-authorized customers get 404
+casper.then_log_out();
+casper.thenOpen(base_funcs.url + '/info/go99', function () {
+  this.test.assertHttpStatus(404);
+  this.test.assertEquals(this.fetchText('body').indexOf('Screen name not found:') > -1, true);
+});
+casper.then_log_in();
+
+
 casper.thenOpen(base_funcs.url + '/info/go99', function () {
 
     this.test.assertEval(css_body, "Body has class: trashed.", 'trashed');
