@@ -25,6 +25,7 @@ Forms.Show_Again = function (selector) {
     var button = $(e.target);
     button.closest('div.show_again').hide();
     button.closest('form').find('div.fields').show();
+    button.closest('form').find('div.success').remove();
   });
 };
 
@@ -78,6 +79,7 @@ Forms.Success = function (selector, resp, stat) {
   e.addClass('success');
   e.text(resp.msg);
   form.prepend(e);
+  form.find('div.show_again').show();
 
   Forms.call_callback(selector, 'after_success', resp);
   return form;

@@ -23,6 +23,7 @@ var success             = form + 'div.success';
 var submit              = form + 'button.submit';
 var show_fields         = form + 'button.show';
 var show_again          = form + 'button.show_again';
+var show_again_div      = form + 'div.show_again';
 var success             = form + 'div.success';
 
 var css_specify_display = function (form) { return $(form + 'div.specify').css('display'); };
@@ -58,6 +59,7 @@ casper.then(function () {
   this.waitForSelector(success, function () {
     this.test.assertEqual(this.fetchText(success), success_msg, 'Update "about" success message.');
     this.test.assertEvalEquals(css_display, 'none', 'Form fields hidden during success msg.', fields);
+    this.test.assertEvalEquals(css_display, 'block', '"Show again": displayed during success msg.', show_again_div);
   });
 });
 
@@ -65,6 +67,7 @@ casper.then(function () {
 casper.then(function () {
   this.click(show_again);
   this.test.assertEvalEquals(css_display, 'block', 'About form displayed after clicking show_again.', form);
+  this.test.assertEvalEquals(function (form) { return $(form + ' div.success').length;}, 0, 'Success msg: removed after clicking show_again.', form);
   this.fill(form, {
     about: about_2
   });
