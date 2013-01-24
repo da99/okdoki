@@ -5,4 +5,4 @@ set -u
 set -e
 
 bin/migrate reset_with_customer
-bin/start
+NODE_ENV=development PORT=5000 bin/start

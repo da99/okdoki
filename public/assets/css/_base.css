@@ -197,3 +197,13 @@ form {
     background: transparent;
   }
 
+div.loading {
+  padding: 0 0 0 22px;
+  background: transparent url("/assets/img/small_loading.gif") no-repeat left center;
+  font-family: serif;
+  font-style: italic;
+}
+
+div.no_records {
+  display: none;
+}
