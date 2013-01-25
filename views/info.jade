@@ -102,54 +102,6 @@ block content
       span #{life_name}
 
 
-  if logged_in && homepage_belongs_to_viewer
-    div.block(id='create_content')
-      h2 Post/Write Something:
-      div.body
-        p.intro
-          | You can write and post content to your homepage.
-        button(id='show_form_create_content') Start Writing
-        form(id='form_create_content', action="/post", method="POST")
-
-          div.fieldset
-            div
-              span.label Type of Post:
-            select
-              option Random Thought
-              option Status/Location/Travel Update
-              option Event
-              option Emergency
-              option Full Article
-
-          div.fieldset.title
-            div
-              span.label Title:
-            input(name="title", type="text", value="")
-          div.fieldset
-            div
-              span.label Body:
-            textarea(rows='5')
-          div.fieldset
-            div
-              span.label Other Keywords:
-              span.value (optional)
-            input(name="keywords", type="text", value="")
-
-          div.fieldset
-            div.opt.privacy
-              span.value Who can see it?
-              select(id='control_priv')
-                option(value='the_world') The World
-                option(value='no_one') No one, but me.
-                option(value='specify') Let me specify:
-              div.specify(id='control_priv_specify')
-                textarea(rows='3')
-                div.buttons
-                  button Save
-
-          div.buttons
-            button Save and Post
-
   div.block(id='about')
     h2 About Me:
     div.body
@@ -187,6 +139,8 @@ block content
           div.instruct
             | Ask a question about this person:
         form(id='form_create_question', method='POST', action='/qa/#{screen_name}')
+          div.show_again
+            button.show_again Write another.
           div.fields
             div.field.q
               textarea.blurred(name='q',rows='3') Type your question here.
@@ -202,19 +156,72 @@ block content
         | Fetching cheers & boos....
       if logged_in && !homepage_belongs_to_viewer
         form(id='#form_create_cheer_or_jeer', method='POST', action='/cheer-or-jeer/#{screen_name}')
-        div.fields
-          div.field
-            select(name="chear_or_jeer")
-              option(value='cheer') Cheer this person:
-              option(value='jeer') Boo this person:
-          div.field
-            textarea.blurred(name='cj', rows='3') Type your reason here.
-          include _as
-          div.buttons
-            button.submit Save
+          div.show_again
+            button.show_again Write another.
+          div.fields
+            div.field
+              select(name="chear_or_jeer")
+                option(value='cheer') Cheer this person:
+                option(value='jeer') Boo this person:
+            div.field
+              textarea.blurred(name='cj', rows='3') Type your reason here.
+            include _as
+            div.buttons
+              button.submit Save
 
   div.block(id='latest')
     h2 News Feed:
     div.body
       div.loading.loading_rows
         | Fetching latest posts....
+
+      if logged_in && homepage_belongs_to_viewer
+        p.intro
+          | You can write and post content to your homepage.
+        form.hidden_fields(id='form_create_content', action="/post", method="POST")
+          div.show
+            button.show Write a new post.
+          div.show_again
+            button.show_again Write another.
+          div.fields
+            div.field
+              div
+                span.label Type of Post:
+              select(name="category")
+                option Random Thought
+                option Status/Location/Travel Update
+                option Event
+                option Emergency
+                option Full Article
+
+            div.field.title
+              div
+                span.label Title:
+              input(name="title", type="text", value="")
+            div.field
+              div
+                span.label Body:
+              textarea(rows='5')
+            div.field
+              div
+                span.label Other Keywords:
+                span.value (optional)
+              input(name="keywords", type="text", value="")
+
+            div.field
+              div.opt.privacy
+                span.value Who can see it?
+                select(id='control_priv')
+                  option(value='the_world') The World
+                  option(value='no_one') No one, but me.
+                  option(value='specify') Let me specify:
+                div.specify(id='control_priv_specify')
+                  textarea(rows='3')
+                  div.buttons
+                    button Save
+
+            div.buttons
+              button.submit Save and Post
+
+
+
