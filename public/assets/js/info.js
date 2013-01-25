@@ -53,4 +53,98 @@ $(function () {
   });
 
   Forms.Submit_able('#form_update_about');
+
+  var base_path = window.location.pathname.replace(/\/$/, '');
+  Records.get(base_path + '/list/qa', '#qa', qa_record);
+  Records.get(base_path + '/list/cheers-and-boos', '#boos', boo_record);
+  Records.get(base_path + '/list/posts', '#latest', latest_record);
+
 });
+
+function qa_record(type, o) {
+  var id = '#qa';
+  switch (type) {
+    case 'no_rows':
+      Records.no_rows(id, o.msg);
+      break;
+    default:
+      Records.error(id, o);
+  };
+};
+
+function boo_record(type, o) {
+  var id = '#boos';
+  switch (type) {
+    case 'no_rows':
+      Records.no_rows(id, o.msg);
+      break;
+    default:
+      Records.error(id, o);
+  };
+};
+
+function latest_record(type, o) {
+  var id = '#latest';
+  switch (type) {
+    case 'no_rows':
+      Records.no_rows('#latest', o.msg);
+      break;
+    default:
+      Records.error(id, o);
+  };
+};
+
+var Records = {};
+
+Records.error = function (selector, o) {
+  var target = $(selector);
+  var block  = target.closest('div.body');
+  var err = $('<div class="error"></div>');
+  err.text(o.msg);
+  block.children('div.error').remove();
+  block.prepend(err);
+  return err;
+};
+
+Records.get = function (url, selector, callback) {
+  var o = Records.default_ajax_options(url, selector, callback);
+  return $.ajax(o);
+};
+
+Records.no_rows = function (selector, msg) {
+  var div = $('<div class="no_rows"></div>');
+  div.text(msg);
+  var parent = $(selector + ' div.body');
+
+  $(selector + ' div.no_rows').remove();
+  $(selector + ' div.rows').remove();
+  parent.prepend(div);
+};
+
+Records.default_ajax_options = function (url, selector, callback) {
+  return { type : 'GET',
+    url         : window.location.origin + url,
+    cache       : false,
+    dataType    : 'json',
+    success     : function (resp, stat) {
+      log(resp);
+      $(selector + ' div.body div.loading_rows ').remove();
+      if (resp.success) {
+        if (resp.rows.length == 0)
+          callback('no_rows', resp, stat);
+        else {
+          var records = resp.rows.slice();
+          while (records.length > 0) {
+            callback('rows', records.pop());
+          };
+        }
+      } else {
+        callback('fail', resp, stat );
+      }
+    },
+    error : function (xhr, textStatus, errThrown) {
+      var msg = textStatus + ' : ' + (errThrown || "Check internet connection. Either that or OKdoki.com is down.");
+      callback('error', {msg: msg}, xhr, textStatus, errThrown);
+    }
+  }
+};

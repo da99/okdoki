@@ -192,6 +192,8 @@ tbls.show_tables(function (meta) {
        settings        text NOT NULL default '{}' , \
        details         text NOT NULL default '{}' , \
        body            text,                 \
+       read_able       varchar(1) default 'W', \
+       read_able_list  varchar(100) ARRAY,   \
        allow           varchar[] default '{}',   \
        disallow        varchar[] default '{}',   \
        created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \

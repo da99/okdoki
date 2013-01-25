@@ -176,7 +176,7 @@ block content
   div.block(id='qa')
     h2 Q&A:
     div.body
-      div.loading
+      div.loading.loading_rows
         | Fetching Q&As....
       if logged_in
         div.fieldset
@@ -187,7 +187,7 @@ block content
   div.block(id='boos')
     h2 Cheers & BOOs:
     div.body
-      div.loading
+      div.loading.loading_rows
         | Fetching cheers & boos....
       if logged_in && !homepage_belongs_to_viewer
         div.fieldset
@@ -202,5 +202,5 @@ block content
   div.block(id='latest')
     h2 Latest:
     div.body
-      div.loading
+      div.loading.loading_rows
         | Fetching latest posts....
