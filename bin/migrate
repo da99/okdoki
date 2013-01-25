@@ -206,8 +206,11 @@ tbls.show_tables(function (meta) {
     console.log('Finished migrating the main db.');
     if (is_reset_user) {
       var p = "Passphrase";
-      Customer.create({screen_name: 'go99', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function () {
-        console.log('Finished created default user.');
+      Customer.create({screen_name: 'go99', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c1) {
+        console.log('Finished created default user: ' + c1.data.screen_names[0]);
+        Customer.create({screen_name: 'dos', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c2) {
+          console.log('Finished created default user: ' + c2.data.screen_names[0]);
+        });
       });
     }
   });

@@ -178,8 +178,6 @@ block content
     div.body
       div.loading
         | Fetching Q&As....
-      div.no_records
-        | No Q&As yet.
       if logged_in
         div.fieldset
           textarea.blurred(rows='3') Type your question here.
@@ -191,8 +189,6 @@ block content
     div.body
       div.loading
         | Fetching cheers & boos....
-      div.no_records
-        | Nothing posted so far.
       if logged_in && !homepage_belongs_to_viewer
         div.fieldset
           select
@@ -208,5 +204,3 @@ block content
     div.body
       div.loading
         | Fetching latest posts....
-      div.no_records
-        | No posts.
