@@ -84,7 +84,7 @@ function qa_record(type, o) {
     break;
     case 'row':
       var q = $('<div class="record"></div>');
-      q.text(o.body);
+      q.text(o.author_screen_name + ' asked: ' + o.body);
       $(id + ' div.body  div.records')[o.html_order || 'prepend'](q);
     break;
     default:
@@ -100,7 +100,8 @@ function boo_record(type, o) {
     break;
     case 'row':
       var q = $('<div class="record"></div>');
-      q.text(o.body);
+      var section_name = ((o.section_name === 'jeer') ? 'boo' : 'cheer');
+      q.text(section_name + ' from ' + o.author_screen_name + ': ' + o.body);
       $(id + ' div.body  div.records')[o.html_order || 'prepend'](q);
     break;
     default:
@@ -127,6 +128,7 @@ function latest_record(type, o) {
 var Records = {};
 
 Records.error = function (selector, o) {
+  $(selector + ' div.body div.loading_rows ').remove();
   if (!o || !o.msg) {
     log("Uknown record missing error msg: ");
     log(o);
