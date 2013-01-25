@@ -56,7 +56,7 @@ $(function () {
 
   var base_path = window.location.pathname.replace(/\/$/, '');
   Records.get(base_path + '/list/qa', '#qa', qa_record);
-  Records.get(base_path + '/list/cheers-and-boos', '#boos', boo_record);
+  Records.get(base_path + '/list/cheers-boos', '#boos', boo_record);
   Records.get(base_path + '/list/posts', '#latest', latest_record);
 
 });
