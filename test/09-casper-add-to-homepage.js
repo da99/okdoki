@@ -24,11 +24,12 @@ casper.then_log_in('dos');
 casper.thenOpen(base_funcs.url + '/info/go99');
 
 // === Add question.
-var q      = 'Why is Singapore wealthier than Indonesia and Malaysia?';
-var q_form = '#form_create_question';
+var q        = 'Why is Singapore wealthier than Indonesia and Malaysia?';
+var q_form   = '#form_create_question';
 var q_record = '#qa div.body div.record';
+
 casper.then(function () {
-  this.fill(q, {
+  this.fill(q_form, {
     q: q
   }, false);
 

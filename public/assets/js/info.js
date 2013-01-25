@@ -53,7 +53,12 @@ $(function () {
   });
 
   Forms.Submit_able('#form_update_about');
-  Forms.Submit_able('#form_create_question');
+  Forms.Submit_able('#form_create_question', {
+    after_success: function (resp) {
+      resp.rows[0].html_order = 'prepend';
+      qa_record('row', resp.rows[0]);
+    }
+  });
 
   var base_path = window.location.pathname.replace(/\/$/, '');
   Records.get(base_path + '/list/qa', '#qa', qa_record);
@@ -67,7 +72,12 @@ function qa_record(type, o) {
   switch (type) {
     case 'no_rows':
       Records.no_rows(id, o.msg);
-      break;
+    break;
+    case 'row':
+      var q = $('<div class="record"></div>');
+      q.text(o.body);
+      $(id + ' div.body  div.records')[o.html_order || 'prepend'](q);
+    break;
     default:
       Records.error(id, o);
   };
@@ -78,7 +88,12 @@ function boo_record(type, o) {
   switch (type) {
     case 'no_rows':
       Records.no_rows(id, o.msg);
-      break;
+    break;
+    case 'row':
+      var q = $('<div class="record"></div>');
+    q.text(o.body);
+    $(id + ' div.body div.records').append(q);
+    break;
     default:
       Records.error(id, o);
   };
@@ -90,6 +105,11 @@ function latest_record(type, o) {
     case 'no_rows':
       Records.no_rows('#latest', o.msg);
       break;
+    case 'row':
+      var q = $('<div class="record"></div>');
+    q.text(o.body);
+    $(id + ' div.body div.records').append(q);
+    break;
     default:
       Records.error(id, o);
   };
@@ -98,12 +118,19 @@ function latest_record(type, o) {
 var Records = {};
 
 Records.error = function (selector, o) {
+  if (!o || !o.msg) {
+    log("Uknown record missing error msg: ");
+    log(o);
+    return false;
+  }
+
   var target = $(selector);
-  var block  = target.closest('div.body');
-  var err = $('<div class="error"></div>');
+  var block  = target.children('div.body');
+  var err    = $('<div class="error"></div>');
   err.text(o.msg);
   block.children('div.error').remove();
   block.prepend(err);
+
   return err;
 };
 
@@ -128,15 +155,17 @@ Records.default_ajax_options = function (url, selector, callback) {
     cache       : false,
     dataType    : 'json',
     success     : function (resp, stat) {
-      log(resp);
       $(selector + ' div.body div.loading_rows ').remove();
+      $(selector + ' div.body div.records ').remove();
+      $(selector + ' div.body ').prepend($('<div class="records"></div>'));
+
       if (resp.success) {
         if (resp.rows.length == 0)
           callback('no_rows', resp, stat);
         else {
           var records = resp.rows.slice();
           while (records.length > 0) {
-            callback('rows', records.pop());
+            callback('row', records.pop());
           };
         }
       } else {

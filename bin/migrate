@@ -188,6 +188,7 @@ tbls.show_tables(function (meta) {
       CREATE TABLE IF NOT EXISTS posts ( \
        id              varchar(30) PRIMARY KEY, \
        pub_id          varchar(15) NOT NULL,        \
+       author_id       varchar(15) NOT NULL,        \
        section_id      smallint NOT NULL,    \
        settings        text NOT NULL default '{}' , \
        details         text NOT NULL default '{}' , \
