@@ -59,6 +59,12 @@ $(function () {
       qa_record('row', resp.rows[0]);
     }
   });
+  Forms.Submit_able('#form_create_cheer_or_jeer', {
+    after_success: function (resp) {
+      resp.rows[0].html_order = 'prepend';
+      boo_record('row', resp.rows[0]);
+    }
+  });
 
   var base_path = window.location.pathname.replace(/\/$/, '');
   Records.get(base_path + '/list/qa', '#qa', qa_record);

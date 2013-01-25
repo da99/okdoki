@@ -154,7 +154,6 @@ Forms.Default_Ajax_Options = function (selector) {
 
 Forms.call_callback = function (id, name, resp) {
   var cb = Forms.callbacks[id];
-  log(Forms.callbacks)
   if (!cb)
     return false;
 

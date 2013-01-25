@@ -155,7 +155,7 @@ block content
       div.loading.loading_rows
         | Fetching cheers & boos....
       if logged_in && !homepage_belongs_to_viewer
-        form(id='#form_create_cheer_or_jeer', method='POST', action='/cheer-or-jeer/#{screen_name}')
+        form(id='form_create_cheer_or_jeer', method='POST', action='/cheer-or-jeer/#{screen_name}')
           div.show_again
             button.show_again Write another.
           div.fields
@@ -167,6 +167,7 @@ block content
               textarea.blurred(name='cj', rows='3') Type your reason here.
             include _as
             div.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
               button.submit Save
 
   div.block(id='latest')
