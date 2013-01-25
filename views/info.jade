@@ -29,7 +29,7 @@ block content
 
   include _log_out
 
-  if logged_in
+  if logged_in && homepage_belongs_to_viewer
     div(id='sidebar')
       if homepage_belongs_to_viewer
 
@@ -65,30 +65,31 @@ block content
 
 
       else
-        - for x in screen_names.list
-          div.screen_name
-            div.name
-              span.label As:
-              span.value &nbsp;#{x}
-            div.options
-              div.opt.add_to_address_book
-                input(type='checkbox', value='add_to_address_book')
-                span Add To Address Book
-              div.opt.sub_e
-                input(type='checkbox', value='sub_e')
-                span Subscribe (Everything)
-              div.opt.sub_i
-                input(type='checkbox', value='sub_i')
-                span  Subscribe (Important News Only)
-              div.opt.hate
-                input(type='checkbox', value='hate')
-                span Block!
-              div.opt.keywords
-                span.value Keywords:
-                span.value  (optional. Ex: friend family classmate)
-                textarea(rows='3')
-                div.buttons
-                  button Save
+        if false 
+          - for x in aud.data.screen_name_rows
+            div.screen_name
+              div.name
+                span.label As:
+                span.value &nbsp;#{x.screen_name}
+              div.options
+                div.opt.add_to_address_book
+                  input(type='checkbox', value='add_to_address_book')
+                  span Add To Address Book
+                div.opt.sub_e
+                  input(type='checkbox', value='sub_e')
+                  span Subscribe (Everything)
+                div.opt.sub_i
+                  input(type='checkbox', value='sub_i')
+                  span  Subscribe (Important News Only)
+                div.opt.hate
+                  input(type='checkbox', value='hate')
+                  span Block!
+                div.opt.keywords
+                  span.value Keywords:
+                  span.value  (optional. Ex: friend family classmate)
+                  textarea(rows='3')
+                  div.buttons
+                    button Save
 
   div(id='intro')
     h2 #{life_name}
@@ -179,10 +180,20 @@ block content
       div.loading.loading_rows
         | Fetching Q&As....
       if logged_in
-        div.fieldset
-          textarea.blurred(rows='3') Type your question here.
-        div.buttons
-          button Ask
+        if homepage_belongs_to_viewer
+          div.instruct
+            | Post questions that people frequently ask you.
+        else
+          div.instruct
+            | Ask a question about this person:
+        form(id='form_create_question', method='POST', action='/qa/#{screen_name}')
+          div.fields
+            div.field.q
+              textarea.blurred(name='q',rows='3') Type your question here.
+            include _as
+            div.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
+              button.submit Post Question
 
   div.block(id='boos')
     h2 Cheers & BOOs:
@@ -190,17 +201,20 @@ block content
       div.loading.loading_rows
         | Fetching cheers & boos....
       if logged_in && !homepage_belongs_to_viewer
-        div.fieldset
-          select
-            option Boo this person:
-            option Cheer this person:
-        div.fieldset
-          textarea.blurred(rows='3') Type your reason here.
-        div.buttons
-          button Save
+        form(id='#form_create_cheer_or_jeer', method='POST', action='/cheer-or-jeer/#{screen_name}')
+        div.fields
+          div.field
+            select(name="chear_or_jeer")
+              option(value='cheer') Cheer this person:
+              option(value='jeer') Boo this person:
+          div.field
+            textarea.blurred(name='cj', rows='3') Type your reason here.
+          include _as
+          div.buttons
+            button.submit Save
 
   div.block(id='latest')
-    h2 Latest:
+    h2 News Feed:
     div.body
       div.loading.loading_rows
         | Fetching latest posts....

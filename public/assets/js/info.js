@@ -53,6 +53,7 @@ $(function () {
   });
 
   Forms.Submit_able('#form_update_about');
+  Forms.Submit_able('#form_create_question');
 
   var base_path = window.location.pathname.replace(/\/$/, '');
   Records.get(base_path + '/list/qa', '#qa', qa_record);

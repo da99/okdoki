@@ -71,15 +71,17 @@ exports.prepare = function (casper) {
     this.thenOpen(base_funcs.url + '/log-out');
   };
 
-  casper.then_log_in = function () {
+  casper.then_log_in = function (name) {
+    if (!name)
+      name = 'go99';
     this.thenOpen(base_url + '/', function () {
       this.waitForSelector('title', function () {
         this.test.assertHttpStatus(200);
         var sign_in = 'form#form_sign_in';
 
         this.fill(sign_in, {
-          'screen_name': 'go99',
-          'passphrase': "Passphrase",
+          'screen_name' : name,
+          'passphrase'  : "Passphrase",
         }, false);
         this.click(sign_in + ' button.submit');
         this.waitFor(exists_f('#homepages'), null, null, 1000);
