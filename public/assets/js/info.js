@@ -60,6 +60,9 @@ $(function () {
     }
   });
   Forms.Submit_able('#form_create_cheer_or_jeer', {
+    before_submit: function (o) {
+      o.url = o.url.replace('/cheer', '/' + $('#form_create_cheer_or_jeer select[name="section_name"]').val());
+    },
     after_success: function (resp) {
       resp.rows[0].html_order = 'prepend';
       boo_record('row', resp.rows[0]);
@@ -97,8 +100,8 @@ function boo_record(type, o) {
     break;
     case 'row':
       var q = $('<div class="record"></div>');
-    q.text(o.body);
-    $(id + ' div.body div.records').append(q);
+      q.text(o.body);
+      $(id + ' div.body  div.records')[o.html_order || 'prepend'](q);
     break;
     default:
       Records.error(id, o);

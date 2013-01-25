@@ -138,15 +138,16 @@ block content
         else
           div.instruct
             | Ask a question about this person:
-        form(id='form_create_question', method='POST', action='/qa/#{screen_name}')
+        form(id='form_create_question', method='POST', action='/post/#{screen_name}')
           div.show_again
             button.show_again Write another.
           div.fields
-            div.field.q
-              textarea.blurred(name='q',rows='3') Type your question here.
+            div.field.post_body
+              textarea.blurred(name='post_body',rows='3') Type your question here.
             include _as
             div.buttons
               input.field(type='hidden', name="_csrf", value="#{token}")
+              input.field(type='hidden', name="section_name", value="question")
               button.submit Post Question
 
   div.block(id='boos')
@@ -155,16 +156,16 @@ block content
       div.loading.loading_rows
         | Fetching cheers & boos....
       if logged_in && !homepage_belongs_to_viewer
-        form(id='form_create_cheer_or_jeer', method='POST', action='/cheer-or-jeer/#{screen_name}')
+        form(id='form_create_cheer_or_jeer', method='POST', action='/post/#{screen_name}')
           div.show_again
             button.show_again Write another.
           div.fields
             div.field
-              select(name="chear_or_jeer")
+              select(name="section_name")
                 option(value='cheer') Cheer this person:
                 option(value='jeer') Boo this person:
             div.field
-              textarea.blurred(name='cj', rows='3') Type your reason here.
+              textarea.blurred(name='post_body', rows='3') Type your reason here.
             include _as
             div.buttons
               input.field(type='hidden', name="_csrf", value="#{token}")
@@ -179,7 +180,7 @@ block content
       if logged_in && homepage_belongs_to_viewer
         p.intro
           | You can write and post content to your homepage.
-        form.hidden_fields(id='form_create_content', action="/post", method="POST")
+        form.hidden_fields(id='form_create_content', action="/post/#{screen_name}", method="POST")
           div.show
             button.show Write a new post.
           div.show_again
