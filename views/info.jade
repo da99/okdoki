@@ -244,7 +244,7 @@ block content
           button.show Show
         div.fields
 
-          div.field.at_url
+          div.field.at
             div
               span.label @#{screen_name} app url:
             input(type="text", name="at_url", value="#{screen_name_info.bot_url || ''}")
@@ -252,18 +252,19 @@ block content
           div.field.at_url_passphrase
             div
               span.label @#{screen_name} app's passphrase:
-            input(type="password", name="at_url_passphrase", value="")
+            input(type="password", name="at_passphrase", value="")
 
           hr
 
-          div.field.pet_at_url
+          div.field.bot_url
             div
               span.label pet@#{screen_name} app url:
-            input(type="text", name="bot_at_url", value="#{screen_name_info.pet_url || ''}")
-          div.field.pet_at_url_passphrase
+            input(type="text", name="bot_url", value="#{screen_name_info.bot_url || ''}")
+
+          div.field.bot_passphrase
             div
               span.label pet@#{screen_name} app's passphrase:
-            input(type="password", name="bot_at_url_passphrase", value="")
+            input(type="password", name="bot_passphrase", value="")
 
           div.buttons
             input.field(type='hidden', name="_csrf", value="#{token}")

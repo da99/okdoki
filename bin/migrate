@@ -115,15 +115,15 @@ tbls.show_tables(function (meta) {
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        screen_name varchar(15) NOT NULL UNIQUE,  \
-       read_able       varchar(1) default 'W', \
-       read_able_list  varchar(100) ARRAY,   \
-       at_url          text default null,    \
-       bot_at_url      text default null,    \
-       at_passphrase_hash     varchar(150) NOT NULL \
-       bot_at_passphrase_hash varchar(150) NOT NULL \
-       about           text default null,    \
-       settings        text,                 \
-       details         text                  \
+       read_able           varchar(1) default 'W', \
+       read_able_list      varchar(100) ARRAY,   \
+       at_url              text default null,    \
+       bot_url             text default null,    \
+       at_passphrase_hash  varchar(150) NOT NULL \
+       bot_passphrase_hash varchar(150) NOT NULL \
+       about               text default null,    \
+       settings            text,                 \
+       details             text                  \
     )");
 
     ok.q("CREATE INDEX ON screen_names (customer_id)");
