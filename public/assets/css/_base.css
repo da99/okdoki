@@ -46,6 +46,13 @@ code {
   border-radius: 4px 0 0 4px;
 }
 
+strong {
+  background: #008EED;
+  color: #fff;
+  padding: 0 5px 2px 5px;
+  font-size: 90%;
+  font-weight: normal;
+}
 
 body.logged_in #okdoki_nav_bar a.home {
   margin-right: 10px;
@@ -91,10 +98,12 @@ div.block {
   div.block div.fieldset {
     text-align: right;
   }
-    div.block input[type='text'] {
+    div.block input[type='text'],
+    div.block input[type='password'] {
       width: 90%;
       text-align: left;
     }
+
     div.block button {
       margin-top: 5px;
     }

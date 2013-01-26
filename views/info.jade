@@ -51,7 +51,7 @@ block content
         div.options
           div.opt.privacy
             span.value Who can see it?
-            form(id="form_homepage_priv", method="POST", action="/update/homepage/priv/#{screen_name}")
+            form(id="form_homepage_priv", method="POST", action="/screen_names/#{screen_name}")
               div.fields
                 div.field
                   select.menu_priv(id='control_priv', name="read_able")
@@ -61,6 +61,7 @@ block content
                   textarea(name="read_able_list", rows='3')
                 div.field.buttons
                   input.field(type='hidden', name="_csrf", value="#{token}")
+                  input.field(type='hidden', name="_method", value="put")
                   button.submit Update
 
 
@@ -106,7 +107,7 @@ block content
     h2 About Me:
     div.body
       if logged_in && homepage_belongs_to_viewer
-        form.hidden_fields(id="form_update_about", method="POST", action="/update/homepage/#{screen_name}")
+        form.hidden_fields(id="form_update_about", method="POST", action="/screen_names/#{screen_name}")
           div.show
             div.msg 
               | You can write your "about" section that will introduce
@@ -119,6 +120,7 @@ block content
               textarea(rows=4, name='about') #{screen_name_info.about}
             div.buttons
               input.field(type='hidden', name="_csrf", value="#{token}")
+              input.field(type='hidden', name="_method", value="PUT")
               button.submit Update
       else
         if screen_name_info.about
@@ -224,6 +226,49 @@ block content
 
             div.buttons
               button.submit Save and Post
+ 
+  div.block(id='scientist_settings')
+    h2 Scientist Settings:
+    div.body
+      p
+        | Options for science students who love 
+        a(href="http://goo.gl/ZywgS") computational thinking
+        | : You can create a web app and have it manage your 
+        strong @#{screen_name}
+        |  screen name
+        |  or your 
+        strong pet@#{screen_name}
+        | .
+      form.hidden_fields(id="form_scientist_settings", method="POST", action="/screen_names/#{screen_name}")
+        div.show
+          button.show Show
+        div.fields
+
+          div.field.at_url
+            div
+              span.label @#{screen_name} app url:
+            input(type="text", name="at_url", value="#{screen_name_info.bot_url || ''}")
+
+          div.field.at_url_passphrase
+            div
+              span.label @#{screen_name} app's passphrase:
+            input(type="password", name="at_url_passphrase", value="")
+
+          hr
+
+          div.field.pet_at_url
+            div
+              span.label pet@#{screen_name} app url:
+            input(type="text", name="bot_at_url", value="#{screen_name_info.pet_url || ''}")
+          div.field.pet_at_url_passphrase
+            div
+              span.label pet@#{screen_name} app's passphrase:
+            input(type="password", name="bot_at_url_passphrase", value="")
+
+          div.buttons
+            input.field(type='hidden', name="_csrf", value="#{token}")
+            button.submit Save
+
 
 
 

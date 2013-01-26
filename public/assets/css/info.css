@@ -1,7 +1,7 @@
 
 body {
   background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
-  padding: 0 0 0 170px;
+  padding: 0 0 80px 170px;
 }
 
 #log_out {
@@ -197,4 +197,20 @@ body.specify_read #form_homepage_priv div.specify {
 
 
 
+#scientist_settings {}
+  #scientist_settings hr {
+    padding: 10px;
+    margin: 0;
+  }
+
+  #scientist_settings hr {
+    border-top: 1px dashed red;
+    margin: 5px 0 -13px 0;
+    height: 3px;
+    width: 90%;
+  }
+
+  #scientist_settings form.loading {
+    background-position: center center;
+  }
 

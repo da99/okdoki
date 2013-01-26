@@ -2,6 +2,7 @@ body {
   background: #fff url("http://megauni.s3.amazonaws.com/bg.gif") repeat -125px 0;
 }
 
+
 #forms {
   background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif') repeat -37px 0;
   width: 200px;
@@ -80,12 +81,10 @@ body {
     padding: 0;
   }
 
-  #intro strong, div.intro strong {
+
+  #intro strong {
     background: #185DAD;
     color: #fff;
-    padding: 0 5px;
-    font-size: 90%;
-    font-weight: normal;
   }
 
 div.intro {
@@ -94,6 +93,12 @@ div.intro {
   div.intro p {
     max-width: 400px;
     margin: 0 auto;
+  }
+
+
+  div.intro strong {
+    background: #185DAD;
+    color: #fff;
   }
 
 #footer {

@@ -117,6 +117,10 @@ tbls.show_tables(function (meta) {
        screen_name varchar(15) NOT NULL UNIQUE,  \
        read_able       varchar(1) default 'W', \
        read_able_list  varchar(100) ARRAY,   \
+       at_url          text default null,    \
+       bot_at_url      text default null,    \
+       at_passphrase_hash     varchar(150) NOT NULL \
+       bot_at_passphrase_hash varchar(150) NOT NULL \
        about           text default null,    \
        settings        text,                 \
        details         text                  \

@@ -52,6 +52,7 @@ $(function () {
     }
   });
 
+  Forms.Submit_able('#form_scientist_settings');
   Forms.Submit_able('#form_update_about');
   Forms.Submit_able('#form_create_question', {
     after_success: function (resp) {
