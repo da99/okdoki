@@ -77,6 +77,11 @@ div.label, span.label {
   border-radius: 0;
 }
 
+div.label_mild, span.label_mild {
+  color: #008EED;
+  border-radius: 0;
+}
+
 div.block {
 }
 

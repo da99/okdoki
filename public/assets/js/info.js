@@ -52,7 +52,8 @@ $(function () {
     }
   });
 
-  Forms.Submit_able('#form_scientist_settings');
+  Forms.Submit_able('#form_update_at');
+  Forms.Submit_able('#form_update_bot');
   Forms.Submit_able('#form_update_about');
   Forms.Submit_able('#form_create_question', {
     after_success: function (resp) {
@@ -75,7 +76,29 @@ $(function () {
   Records.get(base_path + '/list/cheers-boos', '#boos', boo_record);
   Records.get(base_path + '/list/posts', '#latest', latest_record);
 
+  create_show_button('#scientist_settings div.body', 'Edit Settings', '#scientist_settings div.forms');
+
 });
+
+function screen_name(txt) {
+  var n = window.location.pathname.replace('/', ' ').trim().split('/').pop();
+  return txt.replace("{screen_name}", n);
+}
+
+function create_show_button(container, txt, target) {
+  var button = $('<button></button>');
+  button.text(screen_name(txt));
+  button.addClass('show');
+  $(container).append(button);
+  button.click(function (e) {
+    e.preventDefault();
+    log($(target))
+    $(target).show();
+    $(e.target).remove();
+  });
+
+  return $(button);
+}
 
 function qa_record(type, o) {
   var id = '#qa';

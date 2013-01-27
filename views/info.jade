@@ -228,47 +228,70 @@ block content
               button.submit Save and Post
  
   div.block(id='scientist_settings')
-    h2 Scientist Settings:
+    h2 Genius Settings:
     div.body
       p
-        | Options for science students who love 
-        a(href="http://goo.gl/ZywgS") computational thinking
+        | Options for  
+        a(href="http://goo.gl/ZywgS") genius thinkers
         | : You can create a web app and have it manage your 
-        strong @#{screen_name}
-        |  screen name
-        |  or your 
-        strong pet@#{screen_name}
-        | .
-      form.hidden_fields(id="form_scientist_settings", method="POST", action="/screen_names/#{screen_name}")
-        div.show
-          button.show Show
-        div.fields
+        | screen name or your pet.
 
-          div.field.at
-            div
-              span.label @#{screen_name} app url:
-            input(type="text", name="at_url", value="#{screen_name_info.bot_url || ''}")
+      div.forms
 
-          div.field.at_url_passphrase
-            div
-              span.label @#{screen_name} app's passphrase:
-            input(type="password", name="at_passphrase", value="")
+        form(id="form_update_at", method="POST", action="/screen_names/#{screen_name}")
+          div.fields
 
-          hr
+            div.label @#{screen_name}:
+            div.field.at
+              div.edit_able
+                span.title URL: 
+                span.vale [NONE] 
+                a.edit(href='#') Edit.
+              div.input
+                input(type="text", name="at_url", value="#{screen_name_info.bot_url || ''}")
+                |   
+                a.save(href='#save') Save.
+                |  
+                a.cancel(href='#cancel') Cancel.
 
-          div.field.bot_url
-            div
-              span.label pet@#{screen_name} app url:
-            input(type="text", name="bot_url", value="#{screen_name_info.bot_url || ''}")
+            div.field.at_url_passphrase
+              div.edit_able
+                span.title Token: 
+                span.vale [NONE] 
+                a.edit(href='#') Edit.
+              div.input
+                input(type="password", name="at_passphrase", value="")
+                |   
+                a.save(href='#save') Save.
+                |  
+                a.cancel(href='#cancel') Cancel.
+              div.buttons
+                input.field(type='hidden', name="_csrf", value="#{token}")
+                input.field(type='hidden', name="_method", value="put")
+                button.submit Save @#{screen_name} Settings
+                a.cancel(href='#cancel') Cancel.
 
-          div.field.bot_passphrase
-            div
-              span.label pet@#{screen_name} app's passphrase:
-            input(type="password", name="bot_passphrase", value="")
 
-          div.buttons
-            input.field(type='hidden', name="_csrf", value="#{token}")
-            button.submit Save
+
+
+        form(id="form_update_bot", method="POST", action="/screen_names/#{screen_name}")
+          div.fields
+            div.label pet@#{screen_name}:
+            div.field.bot_url
+              div.label URL:
+              input(type="text", name="bot_url", value="#{screen_name_info.bot_url || ''}")
+
+            div.field.bot_passphrase
+              div.label Token:
+              input(type="password", name="bot_passphrase", value="")
+
+            div.buttons
+              input.field(type='hidden', name="_csrf", value="#{token}")
+              input.field(type='hidden', name="_method", value="put")
+              button.submit Save pet@#{screen_name} Settings
+
+
+
 
 
 

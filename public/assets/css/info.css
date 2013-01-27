@@ -197,7 +197,10 @@ body.specify_read #form_homepage_priv div.specify {
 
 
 
-#scientist_settings {}
+#scientist_settings {
+  max-width: 800px;
+}
+
   #scientist_settings hr {
     padding: 10px;
     margin: 0;
@@ -212,5 +215,39 @@ body.specify_read #form_homepage_priv div.specify {
 
   #scientist_settings form.loading {
     background-position: center center;
+  }
+
+  #scientist_settings div.forms {
+    display: none;
+  }
+
+  #scientist_settings div.forms div.buttons {
+    text-align: left;
+  }
+
+  #scientist_settings div.forms form div.field div.label {
+    color: #444444;
+    background: none;
+    font-weight: normal;
+    text-shadow: none;
+    display: block;
+  }
+
+  #scientist_settings div.forms form div.label span {
+    display: block;
+  }
+
+  #scientist_settings form input {
+    width: 75%;
+  }
+
+  #form_update_at {
+    padding: 10px 0 20px 0;
+    border-top: 1px dashed red;
+    border-bottom: 1px dashed red;
+  }
+
+  #form_update_bot {
+    padding-top: 15px;
   }
 

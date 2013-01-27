@@ -119,8 +119,8 @@ tbls.show_tables(function (meta) {
        read_able_list      varchar(100) ARRAY,   \
        at_url              text default null,    \
        bot_url             text default null,    \
-       at_passphrase_hash  varchar(150) NOT NULL \
-       bot_passphrase_hash varchar(150) NOT NULL \
+       at_passphrase_hash  varchar(150) default NULL,\
+       bot_passphrase_hash varchar(150) default NULL,\
        about               text default null,    \
        settings            text,                 \
        details             text                  \
