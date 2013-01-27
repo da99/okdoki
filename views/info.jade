@@ -226,7 +226,7 @@ block content
 
             div.buttons
               button.submit Save and Post
- 
+
   div.block(id='scientist_settings')
     h2 Genius Settings:
     div.body
@@ -238,57 +238,32 @@ block content
 
       div.forms
 
-        form(id="form_update_at", method="POST", action="/screen_names/#{screen_name}")
-          div.fields
+        - var vals = [['at', ''], ['bot', 'pet']];
+        each v in vals
+          - var prog  = v[0]
+          - var human = v[1]
+          form(id="form_update_#{prog}", method="POST", action="/screen_names/#{screen_name}")
+            div.fields
 
-            div.label @#{screen_name}:
-            div.field.at
-              div.edit_able
+              div.label #{human}@#{screen_name}:
+
+              div.field.edit_able.url.input
                 span.title URL: 
-                span.vale [NONE] 
-                a.edit(href='#') Edit.
-              div.input
-                input(type="text", name="at_url", value="#{screen_name_info.bot_url || ''}")
-                |   
-                a.save(href='#save') Save.
-                |  
-                a.cancel(href='#cancel') Cancel.
+                span.value #{screen_name_info[prog + '_url'] || '[none]'} 
+                a.edit(href='#edit-url', target="#{prog}_url") Edit.
 
-            div.field.at_url_passphrase
-              div.edit_able
+              div.field.edit_able.passphrase.input
                 span.title Token: 
-                span.vale [NONE] 
-                a.edit(href='#') Edit.
-              div.input
-                input(type="password", name="at_passphrase", value="")
-                |   
-                a.save(href='#save') Save.
-                |  
-                a.cancel(href='#cancel') Cancel.
+                span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
+                a.edit(href='#edit-token', target="#{prog}_passphrase") Edit.
+
               div.buttons
-                input.field(type='hidden', name="_csrf", value="#{token}")
+                input.field(type='hidden', name="_csrf",   value="#{token}")
                 input.field(type='hidden', name="_method", value="put")
-                button.submit Save @#{screen_name} Settings
+                button.submit Save #{human}@#{screen_name} 
                 a.cancel(href='#cancel') Cancel.
 
 
-
-
-        form(id="form_update_bot", method="POST", action="/screen_names/#{screen_name}")
-          div.fields
-            div.label pet@#{screen_name}:
-            div.field.bot_url
-              div.label URL:
-              input(type="text", name="bot_url", value="#{screen_name_info.bot_url || ''}")
-
-            div.field.bot_passphrase
-              div.label Token:
-              input(type="password", name="bot_passphrase", value="")
-
-            div.buttons
-              input.field(type='hidden', name="_csrf", value="#{token}")
-              input.field(type='hidden', name="_method", value="put")
-              button.submit Save pet@#{screen_name} Settings
 
 
 

@@ -221,6 +221,18 @@ body.specify_read #form_homepage_priv div.specify {
     display: none;
   }
 
+  #scientist_settings div.forms div.field {
+    padding: 2px;
+  }
+
+    #scientist_settings div.forms span.title {
+      display: inline;
+    }
+
+    #scientist_settings div.forms span.value {
+      display: inline;
+    }
+
   #scientist_settings div.forms div.buttons {
     text-align: left;
   }
