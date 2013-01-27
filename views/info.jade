@@ -248,20 +248,21 @@ block content
               div.label #{human}@#{screen_name}:
 
               div.field.edit_able.url.input
-                span.title URL: 
-                span.value #{screen_name_info[prog + '_url'] || '[none]'} 
-                a.edit(href='#edit-url', target="#{prog}_url") Edit.
+                div.hide_able
+                  a.edit(href='#edit-url', target="#{prog}_url") Edit
+                  | &nbsp;
+                  span.title URL: 
+                  span.value #{screen_name_info[prog + '_url'] || '[none]'} 
 
               div.field.edit_able.passphrase.input
-                span.title Token: 
-                span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
-                a.edit(href='#edit-token', target="#{prog}_passphrase") Edit.
+                div.hide_able
+                  a.edit(href='#edit-token', target="#{prog}_passphrase") Edit
+                  | &nbsp;
+                  span.title Token: 
+                  span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
 
-              div.buttons
-                input.field(type='hidden', name="_csrf",   value="#{token}")
-                input.field(type='hidden', name="_method", value="put")
-                button.submit Save #{human}@#{screen_name} 
-                a.cancel(href='#cancel') Cancel.
+              input.field(type='hidden', name="_csrf",   value="#{token}")
+              input.field(type='hidden', name="_method", value="put")
 
 
 

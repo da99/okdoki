@@ -9,6 +9,7 @@ Forms.Submit_able = function (selector, callbacks) {
   Forms.Show_Again(selector    + ' button.show_again');
   Forms.Submit_Button(selector + ' button.submit', callbacks);
   Forms.Undo_Button(selector   + ' button.undo');
+  Forms.Edit_ables(selector);
 }
 
 Forms.Show_Fields = function (selector) {
@@ -82,6 +83,61 @@ Forms.Submit_Button = function (selector, callbacks) {
   });
 
   return button;
+};
+
+Forms.Edit_ables = function (selector) {
+  var form  = $(selector);
+  var edits = $(selector + ' div.edit_able');
+  $.each(edits, function (i, edit_able) {
+
+    var buttons = $(edit_able).find('div.hide_able a.edit')
+
+    if (buttons.length === 0)
+      log("No a.edit found for: selector");
+
+    buttons.click(function (e) {
+      e.preventDefault();
+      button = $(e.target);
+      var main       = button.closest('div.edit_able');
+      var hide_able  = button.closest('div.hide_able');
+      var input_able = main.children('div.input_able');
+      var is_textarea = main.hasClass('textarea');
+      var label_text  = hide_able.find('span.title').text();
+      hide_able.hide();
+
+      if (input_able.length === 0) {
+
+        input_able = $('<div class="input_able">' +
+                       '<div class="label"></div>' +
+                       '<div class="buttons">' +
+                       '<a class="submit" href="#save">Save</a> ' +
+                       '<a class="cancel" href="#cancel">Cancel</a>' +
+                       '</div>' +
+                       '</div>');
+
+        input_able.find('div.label').text(label_text);
+
+
+        var val = $.trim( hide_able.find('span.value').text());
+        if (val === '[none]')
+          val = '';
+
+        if (is_textarea) {
+          var input = $('<textarea></textarea>');
+          input.text(val);
+        } else {
+          var input = $('<input type="text" value="" />');
+          input.attr('value', val);
+        }
+
+        input.attr('name', button.attr('target'));
+        input_able.find('div.buttons').before(input);
+        main.append(input_able);
+
+      }
+      input_able.show();
+    });
+  });
 };
 
 Forms.Submit = function (selector) {
