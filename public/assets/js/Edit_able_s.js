@@ -12,33 +12,6 @@ Edit_able_s.new = function (selector) {
   return (new Edit_able_s(selector));
 };
 
-Edit_able_s.ajax_options = function (raw_button) {
-  var button    = $(raw_button);
-  var edit_able = button.closest('div.edit_able');
-  var data      = Edit_able_s.vals(button);
-  var action    = data.action;
-  delete data.action;
-
-  return { type : 'POST',
-    url         : action,
-    cache       : false,
-    contentType : 'application/json',
-    data        : JSON.stringify(data),
-    dataType    : 'json',
-    success     : function (resp, stat) {
-      log(stat);
-      if (resp.success)
-        button.trigger('after_success', [resp]);
-      else
-        Edit_able_s.error(button, resp.msg);
-    },
-    error: function (xhr, textStatus, errThrown) {
-      Edit_able_s.error(button, textStatus + ': ' + (errThrown || "Check internet connection. Either that or OKdoki.com is down.") );
-    }
-  };
-
-};
-
 // =================================================================================================
 
 function Edit_able(selector) {
@@ -61,10 +34,11 @@ Edit_able.prototype.input_able = function () {
 };
 
 Edit_able.prototype.error = function (msg) {
+  log(msg)
   this.$.removeClass('loading');
   var err = $('<div class="error"></div>');
   err.text(msg);
-  this.$.append(err);
+  this.input_able().append(err);
 
   return err;
 };
@@ -86,7 +60,7 @@ Edit_able.prototype.cancel = function (e) {
 
 Edit_able.prototype.loading = function () {
   this.$.addClass('loading');
-  this.$.children('div.success, div.error').remove();
+  this.$.find('div.success, div.error').remove();
   return this;
 };
 
@@ -145,9 +119,8 @@ Edit_able.prototype.edit = function (e) {
   input_able.find('a.cancel').click(function (e) { me.cancel(e); });
   input_able.find('a.submit').click(function (e) { me.submit(e); });
   input_able.find('a.submit').bind('after_success', function (o) {
-    main.find('div.hide_able span.value').text(o.sanitized_data[name]);
+    me.find('div.hide_able span.value').text(o.sanitized_data[name]);
     edit_able.removeClass('loading');
-    edit_able.children('div.error').hide();
     hide_able.show();
     input_able.hide();
   });
@@ -158,13 +131,45 @@ Edit_able.prototype.edit = function (e) {
 
 Edit_able.prototype.submit = function (e) {
   e.preventDefault();
+  this.$.find('div.success, div.error').remove();
+  var me        = this;
   var button    = $(e.target);
   var edit_able = button.closest('div.edit_able');
-  var o         = Edit_able_s.ajax_options(button);
+  var o         = this.ajax_options();
   edit_able.addClass('loading');
-  var timeout = setTimeout(function () { $.ajax(o); }, 500);
+  var timeout = setTimeout(function () {
+    $.ajax(o);
+  }, 500);
 
   return {edit_able: edit_able, button: button, timeout: timeout};
+};
+
+Edit_able.prototype.ajax_options = function () {
+  var me = this;
+  var edit_able = this.$;
+  var data      = this.vals();
+  var action    = data.action;
+  delete data.action;
+  log(data);
+
+  return { type : 'POST',
+    url         : action,
+    cache       : false,
+    contentType : 'application/json',
+    data        : JSON.stringify(data),
+    dataType    : 'json',
+    success     : function (resp, stat) {
+      log(stat);
+      if (resp.success)
+        button.trigger('after_success', [resp]);
+      else
+        Edit_able_s.error(button, resp.msg);
+    },
+    error: function (xhr, textStatus, errThrown) {
+      me.error(textStatus + ': ' + (errThrown || "Check internet connection. Either that or OKdoki.com is down.") );
+    }
+  };
+
 };
 
 
