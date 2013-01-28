@@ -76,7 +76,7 @@ block content
                 div.field.as.select
                   select(name="as[]")
                     option(value="#{aud.data.screen_names[0]}") Yes
-                    option(value="") No
+                    option(value="null") No
               else
                 div.field.as.check_boxs
                   include _as_check_boxs.jade

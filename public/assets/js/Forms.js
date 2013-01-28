@@ -134,16 +134,19 @@ Forms.Errors = function (selector, msg) {
 Forms.vals = function (form) {
   var obj  = {};
   $.each(form.serializeArray(), function (i, o) {
-    var v        = o.value;
+    var v        = $.trim(o.value);
     var is_array = o.name.indexOf('[]') > -1;
     var n        = o.name.replace('[]', '');
 
     if (obj.hasOwnProperty(n)) {
         obj[n].push(v);
     } else {
-      if (is_array)
-        obj[n] = [v];
-      else
+      if (is_array) {
+        if (v === 'null')
+          obj[n] = [];
+        else
+          obj[n] = [v];
+      } else
         obj[n] = v;
     }
   });
