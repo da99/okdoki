@@ -282,15 +282,23 @@ div.no_records {
 }
 
 div.edit_able_s {
-  padding: 0 0 10px;
+  padding: 0 0 4px 0;
 }
+    div.edit_able_s div.label {
+      font-weight: bold;
+      font-size: 80%;
+      display: inline-block;
+      padding: 0 5px;
+      margin-bottom: 3px;
+    }
+
   div.edit_able {
+    padding: 0 0 0 13px;
   }
     div.edit_able div.label {
+      margin: 0;
       background: transparent;
-      font-weight: bold;
       color: #000;
-      font-size: 80%;
     }
 
     div.edit_able div.input_able {
@@ -298,13 +306,32 @@ div.edit_able_s {
     }
       div.edit_able div.input_able input[type="text"],
       div.edit_able div.input_able input[type="password"] {
-        width: 75%;
+        width: 70%;
       }
 
       div.edit_able div.input_able div.buttons {
-        padding-left: 10px;
+        padding-left: 4px;
         display: inline-block;
         text-transform: uppercase;
         font-size: 75%;
         font-weight: bold;
       }
+
+    div.edit_able span.title {
+      display: inline;
+      font-size: 85%;
+      font-weight: bold;
+    }
+
+    div.edit_able span.value {
+      display: inline;
+      font-size: 85%;
+    }
+
+    div.edit_able a.edit {
+      font-size: 75%;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+

@@ -201,67 +201,13 @@ body.specify_read #form_homepage_priv div.specify {
   max-width: 800px;
 }
 
-  #scientist_settings hr {
-    padding: 10px;
-    margin: 0;
-  }
-
-  #scientist_settings hr {
-    border-top: 1px dashed red;
-    margin: 5px 0 -13px 0;
-    height: 3px;
-    width: 90%;
-  }
-
-  #scientist_settings form.loading {
-    background-position: center center;
-  }
-
   #scientist_settings div.forms {
     /* display: none; */
   }
 
-  #scientist_settings div.forms div.field {
-    padding: 2px;
+  #update_at {
   }
 
-    #scientist_settings div.forms span.title {
-      display: inline;
-      font-size: 85%;
-      font-weight: bold;
-    }
-
-    #scientist_settings div.forms span.value {
-      display: inline;
-      font-size: 85%;
-    }
-
-    #scientist_settings div.forms a.edit {
-      font-size: 75%;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-  #scientist_settings div.forms form div.field div.label {
-    color: #444444;
-    background: none;
-    font-weight: normal;
-    text-shadow: none;
-    display: block;
-  }
-
-  #scientist_settings div.forms form div.label span {
-    display: block;
-  }
-
-
-  #form_update_at {
-    padding: 10px 0 20px 0;
-    border-top: 1px dashed red;
-    border-bottom: 1px dashed red;
-  }
-
-  #form_update_bot {
-    padding-top: 15px;
+  #update_bot {
   }
 
