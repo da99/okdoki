@@ -228,43 +228,44 @@ block content
             div.buttons
               button.submit Save and Post
 
-  div.block(id='scientist_settings')
-    h2 Genius Settings:
-    div.body
-      p
-        | Options for  
-        a(href="http://goo.gl/ZywgS") genius thinkers
-        | : You can create a web app and have it manage your 
-        | screen name or your pet.
+  if logged_in && homepage_belongs_to_viewer
+    div.block(id='scientist_settings')
+      h2 Genius Settings:
+      div.body
+        p
+          | Options for  
+          a(href="http://goo.gl/ZywgS") genius thinkers
+          | : You can create a web app and have it manage your 
+          | screen name or your pet.
 
-      div.forms
+        div.forms
 
-        - var vals = [['at', ''], ['bot', 'pet']];
-        each v in vals
-          - var prog  = v[0]
-          - var human = v[1]
-          div.edit_able_s(id="update_#{prog}")
+          - var vals = [['at', ''], ['bot', 'pet']];
+          each v in vals
+            - var prog  = v[0]
+            - var human = v[1]
+            div.edit_able_s(id="update_#{prog}")
 
-            div.label #{human}@#{screen_name}:
+              div.label #{human}@#{screen_name}:
 
-            div.edit_able.url.input
-              div.hide_able
-                a.edit(href='#edit-url', target="#{prog}_url") Edit
-                | &nbsp;
-                span.title URL: 
-                span.value #{screen_name_info[prog + '_url'] || '[none]'} 
+              div.edit_able.url.input
+                div.hide_able
+                  a.edit(href='#edit-url', target="#{prog}_url") Edit
+                  | &nbsp;
+                  span.title URL: 
+                  span.value #{screen_name_info[prog + '_url'] || '[none]'} 
 
-            div.edit_able.passphrase.input
-              div.hide_able
-                a.edit(href='#edit-token', target="#{prog}_passphrase") Edit
-                | &nbsp;
-                span.title Token: 
-                span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
+              div.edit_able.passphrase.input
+                div.hide_able
+                  a.edit(href='#edit-token', target="#{prog}_passphrase") Edit
+                  | &nbsp;
+                  span.title Token: 
+                  span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
 
-            div.common
-              input.field(type='hidden', name="_csrf",   value="#{token}")
-              input.field(type='hidden', name="_method", value="put")
-              input.field(type='hidden', name="action",  value="/screen_names/#{screen_name}")
+              div.common
+                input.field(type='hidden', name="_csrf",   value="#{token}")
+                input.field(type='hidden', name="_method", value="put")
+                input.field(type='hidden', name="action",  value="/screen_names/#{screen_name}")
 
 
 

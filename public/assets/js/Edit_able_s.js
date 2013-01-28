@@ -101,7 +101,7 @@ Edit_able.prototype.edit = function (e) {
   input_able.find('div.label').text(label_text);
 
   var val = $.trim( me.hide_able().find('span.value').text());
-  if (val === '[none]')
+  if (val === '[none]' || val === '[hidden]')
     val = '';
 
   if (is_textarea) {
@@ -118,11 +118,15 @@ Edit_able.prototype.edit = function (e) {
 
   input_able.find('a.cancel').click(function (e) { me.cancel(e); });
   input_able.find('a.submit').click(function (e) { me.submit(e); });
-  input_able.find('a.submit').bind('after_success', function (o) {
-    me.find('div.hide_able span.value').text(o.sanitized_data[name]);
-    edit_able.removeClass('loading');
-    hide_able.show();
-    input_able.hide();
+  input_able.find('a.submit').bind('after_success', function (e, o) {
+    var new_val = o.updated[name];
+
+    if (!new_val || $.trim(new_val).length === 0)
+      new_val = '[none]';
+
+    me.$.find('div.hide_able span.value').text(new_val);
+    me.reset(e);
+    me.hide_able().prepend($('<div class="success"></div>').text('UPDATED'));
   });
 
 
@@ -161,9 +165,9 @@ Edit_able.prototype.ajax_options = function () {
     success     : function (resp, stat) {
       log(stat);
       if (resp.success)
-        button.trigger('after_success', [resp]);
+        me.$.find('a.submit').trigger('after_success', [resp]);
       else
-        Edit_able_s.error(button, resp.msg);
+        me.error(resp.msg);
     },
     error: function (xhr, textStatus, errThrown) {
       me.error(textStatus + ': ' + (errThrown || "Check internet connection. Either that or OKdoki.com is down.") );

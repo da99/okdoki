@@ -202,7 +202,11 @@ body.specify_read #form_homepage_priv div.specify {
 }
 
   #scientist_settings div.forms {
-    /* display: none; */
+    display: none;
+  }
+
+  #scientist_settings p {
+    margin: 0;
   }
 
   #update_at {

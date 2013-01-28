@@ -348,6 +348,7 @@ div.edit_able_s {
     }
 
     div.edit_able div.success {
+      border-radius  : 3px;
       display        : inline-block;
       font-weight    : bold;
       background     : #74BB1B;
