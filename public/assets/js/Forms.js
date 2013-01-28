@@ -131,12 +131,29 @@ Forms.Errors = function (selector, msg) {
   return form;
 };
 
+Forms.vals = function (form) {
+  var obj  = {};
+  $.each(form.serializeArray(), function (i, o) {
+    var v        = o.value;
+    var is_array = o.name.indexOf('[]') > -1;
+    var n        = o.name.replace('[]', '');
+
+    if (obj.hasOwnProperty(n)) {
+        obj[n].push(v);
+    } else {
+      if (is_array)
+        obj[n] = [v];
+      else
+        obj[n] = v;
+    }
+  });
+
+  return obj;
+};
+
 Forms.Default_Ajax_Options = function (selector) {
   var form = $(selector).closest('form');
-  var obj  = {};
-  $.each(form.serializeArray(), function (i, ele) {
-    obj[ele.name] = ele.value;
-  });
+  var obj  = Forms.vals(form);
   var action = window.location.origin + form.attr('action');
 
   return { type: 'POST',

@@ -184,14 +184,6 @@ form {
     font-weight: bold;
   }
 
-  form div span.label {
-  }
-
-  form div span.value {
-    font-size: 80%;
-    display: block;
-  }
-
   form div.errors {
     background: #CB0818;
     color: #fff;

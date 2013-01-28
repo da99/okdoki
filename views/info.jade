@@ -30,7 +30,7 @@ block content
 
   include _log_out
 
-  if logged_in && homepage_belongs_to_viewer
+  if logged_in
     div(id='sidebar')
       if homepage_belongs_to_viewer
 
@@ -67,6 +67,18 @@ block content
 
 
       else
+        div.intro
+          span.label Allowed to chat w/ you?
+        div.options
+          form(id='form_update_contact', action="/contact", method="POST")
+            div.fields
+              div.field.as
+                include _as_check_boxs.jade
+                if aud.data.screen_name_rows.length === 1
+                  input.field(type='checkbox', name="ignore[]", value="yes") 
+                  span.value Yes
+              div.buttons
+                button.submit Update
         if false
           - for x in aud.data.screen_name_rows
             div.screen_name
