@@ -70,14 +70,19 @@ block content
         div.intro
           span.label Allowed to chat w/ you?
         div.options
-          form(id='form_update_contact', action="/contact", method="POST")
+          form(id='form_update_contact', action="/contact", method="POST", class="#{ (aud.data.screen_name_rows.length === 1) ? 'single_screen_name' : ''}")
             div.fields
-              div.field.as
-                include _as_check_boxs.jade
-                if aud.data.screen_name_rows.length === 1
-                  input.field(type='checkbox', name="ignore[]", value="yes") 
-                  span.value Yes
+              if aud.data.screen_name_rows.length === 1
+                div.field.as.select
+                  select(name="as[]")
+                    option(value="#{aud.data.screen_names[0]}") Yes
+                    option(value="") No
+              else
+                div.field.as.check_boxs
+                  include _as_check_boxs.jade
               div.buttons
+                input.field(type='hidden', name="_csrf", value="#{token}")
+                input.field(type='hidden', name="_method", value="put")
                 button.submit Update
         if false
           - for x in aud.data.screen_name_rows

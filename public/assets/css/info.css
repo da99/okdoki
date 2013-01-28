@@ -46,6 +46,7 @@ div.block {
     border-radius: 0 0 0 6px;
   }
 
+
 #sidebar {
   width: 150px;
   padding: 10px 0 0 0;
@@ -57,6 +58,12 @@ div.block {
   border-width: 0 1px 1px 1px;
   border-radius: 0 0 5px 5px;
 }
+
+  #form_update_contact.loading { min-height: 40px; background-position: center center; }
+  #form_update_contact.single_screen_name { text-align: center; }
+    #form_update_contact.single_screen_name div.as { display: inline-block; }
+    #form_update_contact.single_screen_name select { min-width: 50px; }
+    #form_update_contact.single_screen_name div.buttons { display: inline-block; }
 
   #control_priv_specify {
     display: none;

@@ -121,7 +121,7 @@ Forms.Success = function (selector, resp, stat) {
 };
 
 Forms.Errors = function (selector, msg) {
-  var form = $(selector);
+  var form = $(selector).closest('form');
   form.removeClass('loading');
   var e = $('<div></div>');
   e.addClass('errors');

@@ -55,6 +55,7 @@ $(function () {
   Edit_able_s.new('#update_at');
   Edit_able_s.new('#update_bot');
 
+  Forms.Submit_able('#form_update_contact');
   Forms.Submit_able('#form_update_about');
   Forms.Submit_able('#form_create_question', {
     after_success: function (resp) {
