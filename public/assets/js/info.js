@@ -52,8 +52,9 @@ $(function () {
     }
   });
 
-  Forms.Submit_able('#form_update_at');
-  Forms.Submit_able('#form_update_bot');
+  Edit_able_s.new('#update_at');
+  Edit_able_s.new('#update_bot');
+
   Forms.Submit_able('#form_update_about');
   Forms.Submit_able('#form_create_question', {
     after_success: function (resp) {

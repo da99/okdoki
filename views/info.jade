@@ -23,6 +23,7 @@ block footer
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
   script(src='/assets/js/_base.js')
   script(src='/assets/js/Forms.js')
+  script(src='/assets/js/Edit_able_s.js')
   script(src='/assets/js/info.js')
 
 block content
@@ -242,27 +243,28 @@ block content
         each v in vals
           - var prog  = v[0]
           - var human = v[1]
-          form(id="form_update_#{prog}", method="POST", action="/screen_names/#{screen_name}")
-            div.fields
+          div.edit_able_s(id="update_#{prog}")
 
-              div.label #{human}@#{screen_name}:
+            div.label #{human}@#{screen_name}:
 
-              div.field.edit_able.url.input
-                div.hide_able
-                  a.edit(href='#edit-url', target="#{prog}_url") Edit
-                  | &nbsp;
-                  span.title URL: 
-                  span.value #{screen_name_info[prog + '_url'] || '[none]'} 
+            div.edit_able.url.input
+              div.hide_able
+                a.edit(href='#edit-url', target="#{prog}_url") Edit
+                | &nbsp;
+                span.title URL: 
+                span.value #{screen_name_info[prog + '_url'] || '[none]'} 
 
-              div.field.edit_able.passphrase.input
-                div.hide_able
-                  a.edit(href='#edit-token', target="#{prog}_passphrase") Edit
-                  | &nbsp;
-                  span.title Token: 
-                  span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
+            div.edit_able.passphrase.input
+              div.hide_able
+                a.edit(href='#edit-token', target="#{prog}_passphrase") Edit
+                | &nbsp;
+                span.title Token: 
+                span.value #{screen_name_info['has_' + prog + '_passphrase'] ? '[hidden]' : '[none]'} 
 
+            div.common
               input.field(type='hidden', name="_csrf",   value="#{token}")
               input.field(type='hidden', name="_method", value="put")
+              input.field(type='hidden', name="action",  value="/screen_names/#{screen_name}")
 
 
 

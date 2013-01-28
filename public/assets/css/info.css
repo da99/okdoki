@@ -221,23 +221,6 @@ body.specify_read #form_homepage_priv div.specify {
     /* display: none; */
   }
 
-    #scientist_settings div.forms div.edit_able div.buttons {
-      display: inline;
-      text-transform: uppercase;
-      font-size: 75%;
-      font-weight: bold;
-    }
-
-      #scientist_settings div.forms div.edit_able div.buttons a:link {
-        padding: 2px 4px;
-      }
-
-
-      #scientist_settings div.forms div.edit_able div.buttons a:hover {
-        background: #F85D95;
-        color: #fff;
-      }
-
   #scientist_settings div.forms div.field {
     padding: 2px;
   }
@@ -259,10 +242,6 @@ body.specify_read #form_homepage_priv div.specify {
       text-transform: uppercase;
     }
 
-  #scientist_settings div.forms div.buttons {
-    text-align: left;
-  }
-
   #scientist_settings div.forms form div.field div.label {
     color: #444444;
     background: none;
@@ -275,9 +254,6 @@ body.specify_read #form_homepage_priv div.specify {
     display: block;
   }
 
-  #scientist_settings form input {
-    width: 75%;
-  }
 
   #form_update_at {
     padding: 10px 0 20px 0;
