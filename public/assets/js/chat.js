@@ -173,7 +173,8 @@ $(function () {
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
   // load_or_reload_bots();
-  add_timer(call_ajax, 1000);
+  
+  // add_timer(call_ajax, 1000);
 
   chatters = ['zebra', 'mike_rogers', 'okdoki', 'jeff_tucker', 'Lew_Rock', 'Lew_Rock'];
   sort_contacts();

@@ -4,7 +4,9 @@ block footer
   script(src='/assets/js/underscore-min.js')
   script(src='/assets/js/jquery-1.8.2.min.js')
   script(src='/assets/js/jquery-ui-1.9.1.custom.min.js')
-  script(src='/assets/js/#{view_name}.js')
+  script(src='/assets/js/_base.js')
+  script(src='/assets/js/Forms.js')
+  script(src='/assets/js/chat.js')
 
 block content
 
@@ -12,80 +14,38 @@ block content
 
     div(id='output')
 
-      div.form(id='sign_in')
-        h2 Sign-in
-        form(action='/sign-in', method='post')
-          div.screen_name
-            label(for="screen_name") Screen name:
-            input.field(type='text', name="screen_name", value="")
-          div.passphrase
-            label(for="passphrase") Passphrase:
-            input.field(type='password', name="passphrase", value="")
-          div.status
-            div.content
-          div.buttons
-            button.submit Sign-In
-            a.cancel(href="#cancel") Cancel
-
-      div.form(id='create_account')
-        h2 Create Account
-        form(action='/create-account', method='post')
-          div.screen_name
-            label(for="screen_name") Screen name:
-            input.field(type='text', name="screen_name", value="")
-          div.passphrase
-            label(for="passphrase") Passphrase
-            input.field(type='password', name="passphrase", value="")
-          div.confirm-passphrase
-            label(for="confirm-passphrase") Passphrase
-            input.field(type='password', name="confirm-passphrase", value="")
-          div.status
-            div.content
-          div.buttons
-            button.submit Create Account
-            a.cancel(href="#cancel") Cancel
-
       div(id='messages')
         div(id='notifys')
         div(id='msgs')
-
 
     div(id='input')
 
       include _log_out
 
-
       div(id='create_msg')
-        div
-          textarea.blur_ed(id='the_msg', rows='4') ;-)~ Type here.
-          input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
-        div.fieldset
-          if lifes.length === 1
-            span.label From:&nbsp;
-            span.value #{lifes[0]}
-          else
-            div.label From:
-            select(name='from', id='from')
-              option(value='#{screen_name}', selected='selected') #{screen_name}
-              option(id="choose_life", value='#{screen_name}', disabled='disabled') No other lifes created.
-        div.fieldset
-          span.label To:
-          select(name='to', id='to')
-            option(value='the_world', selected='selected') The World.
-            option(value='choose_recip') Let me specify recipients:
-          div(id='enter_recip')
-            input.field(name='recips', id='recips', type='text', value="")
-            div
-              span.label Example:&nbsp;
-              span.value friends family @okdoki @okdoki-pet
+        form(id="form_create_post", action="/posts", method='POST')
+          div.fields
+            div.field.msg
+              textarea.blur_ed(name="msg", id='the_msg', rows='4') ;-)~ Type here.
+            if lifes.length > 1
+              div.field
+                //- span.label From:&nbsp;
+                //- span.value #{aud.data.screen_name_rows[0].screen_name}
+                div.label From:
+                select(name='from')
+                  - for x in aud.data.screen_name_rows
+                    option(value='#{x.screen_name}') #{xscreen_name}
 
         div.buttons
-          button.submit Send
+          if lifes.length === 1
+            input(type="hidden", name="from", value="#{lifes[0]}")
+          input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
+          button.submit Send Message
 
       div(id='bots')
 
         div(id='bots-o')
-          h2 Available for chat:
+          h2 Your online audience:
           div.contacts(id='contacts_list')
 
 
@@ -119,3 +79,46 @@ block content
             a(href="https://github.com/da99/okdoki") Make a Bot.
 
 
+      //- div.form(id='sign_in')
+        //- h2 Sign-in
+        //- form(action='/sign-in', method='post')
+          //- div.screen_name
+            //- label(for="screen_name") Screen name:
+            //- input.field(type='text', name="screen_name", value="")
+          //- div.passphrase
+            //- label(for="passphrase") Passphrase:
+            //- input.field(type='password', name="passphrase", value="")
+          //- div.status
+            //- div.content
+          //- div.buttons
+            //- button.submit Sign-In
+            //- a.cancel(href="#cancel") Cancel
+
+      //- div.form(id='create_account')
+        //- h2 Create Account
+        //- form(action='/create-account', method='post')
+          //- div.screen_name
+            //- label(for="screen_name") Screen name:
+            //- input.field(type='text', name="screen_name", value="")
+          //- div.passphrase
+            //- label(for="passphrase") Passphrase
+            //- input.field(type='password', name="passphrase", value="")
+          //- div.confirm-passphrase
+            //- label(for="confirm-passphrase") Passphrase
+            //- input.field(type='password', name="confirm-passphrase", value="")
+          //- div.status
+            //- div.content
+          //- div.buttons
+            //- button.submit Create Account
+            //- a.cancel(href="#cancel") Cancel
+
+      //- div.field
+        //- span.label To:
+        //- select(name='to', id='to')
+          //- option(value='the_world', selected='selected') The World.
+          //- option(value='choose_recip') Let me specify recipients:
+        //- div(id='enter_recip')
+          //- input.field(name='recips', id='recips', type='text', value="")
+          //- div
+            //- span.label Example:&nbsp;
+            //- span.value friends family @okdoki @okdoki-pet
