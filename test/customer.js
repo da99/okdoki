@@ -38,9 +38,9 @@ describe( 'Customer feed', function () {
   it( 'grabs feed of items meant for the world', function (done) {
     var db = new pg.query();
     db.q('INSERT INTO follows (id, pub_id, screen_name_id) VALUES ( $1, $2, $3 );', ['a1', 'mag1', screen_name_id]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p1', 'mag1', '1', '{}', 'post 1' ]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p5', 'mag1', '4', '{}', 'post 5' ]);
-    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body) VALUES ( $1, $2, $3, $4, $5 );', ['p2', 'mag1', '2', '{"@"}', 'post 2' ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body, author_id) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p1', 'mag1', '1', '{}', 'post 1', screen_name_id]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body, author_id) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p5', 'mag1', '4', '{}', 'post 5', screen_name_id ]);
+    db.q('INSERT INTO posts (id, pub_id, section_id, allow, body, author_id) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p2', 'mag1', '2', '{"@"}', 'post 2', screen_name_id ]);
     db.run_and_then(function (meta) {
       customer.read_feed(function (raw_rows) {
         var rows = _.map(raw_rows, function (r, i) { return r.id;});
@@ -230,13 +230,9 @@ describe( 'Customer update_screen_name', function () {
 
   }); // it
 
-}); // === describe
-
-describe( 'Customer update_homepage', function () {
-
   it( 'updates homepage about', function (done) {
     var expected = 'This is about: ' + screen_name_2;
-    customer.update_homepage(screen_name_2, {"homepage_about": expected}, function (meta) {
+    customer.update_screen_name(screen_name_2, {"homepage_about": expected}, function (meta) {
       customer.read_homepage(screen_name_2, function (data) {
         assert.equal(data.about, expected);
         done();
@@ -246,7 +242,7 @@ describe( 'Customer update_homepage', function () {
 
   it( 'updates homepage title', function (done) {
     var expected = 'This is for: ' + screen_name_2;
-    customer.update_homepage(screen_name_2, {"homepage_title": expected}, function (meta) {
+    customer.update_screen_name(screen_name_2, {"homepage_title": expected}, function (meta) {
       customer.read_homepage(screen_name_2,  function (data) {
         assert.equal(data.details.title, expected);
         done();
@@ -257,7 +253,7 @@ describe( 'Customer update_homepage', function () {
   it( 'updates homepage allow', function (done) {
     customer.read_screen_names(function (new_c) {
       var expected = _.pluck(new_c.data.screen_name_rows, 'id').sort();
-      customer.update_homepage(screen_name, {'homepage_allow': expected}, function (mets) {
+      customer.update_screen_name(screen_name, {'homepage_allow': expected}, function (mets) {
         customer.read_homepage(screen_name, function (data) {
           assert.deepEqual(data.settings.allow.sort(), expected);
           done();

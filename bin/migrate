@@ -166,6 +166,7 @@ tbls.show_tables(function (meta) {
         body              text,         \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
+        , CONSTRAINT unique_to_owner UNIQUE (owner_id, contact_id) \
     )");
 
     ok.q(" \

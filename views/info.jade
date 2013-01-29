@@ -70,7 +70,7 @@ block content
         div.intro
           span.label Allowed to chat w/ you?
         div.options
-          form(id='form_update_contact', action="/contact", method="POST", class="#{ (aud.data.screen_name_rows.length === 1) ? 'single_screen_name' : ''}")
+          form(id='form_update_contact', action="/contacts/#{screen_name}", method="POST", class="#{ (aud.data.screen_name_rows.length === 1) ? 'single_screen_name' : ''}")
             div.fields
               if aud.data.screen_name_rows.length === 1
                 div.field.as.select
