@@ -72,11 +72,12 @@ block content
         div.options
           form(id='form_update_contact', action="/contacts/#{screen_name}", method="POST", class="#{ (aud.data.screen_name_rows.length === 1) ? 'single_screen_name' : ''}")
             div.fields.show_after_success
+              - var as_check_box_menu = aud.data.contact_menu
               if aud.data.screen_name_rows.length === 1
                 div.field.as.select
                   select(name="as[]")
-                    option(value="#{aud.data.screen_names[0]}") Yes
-                    option(value="null") No
+                    option(selected=as_check_box_menu[aud.data.screen_names[0]], value="#{aud.data.screen_names[0]}") Yes
+                    option(selected=!as_check_box_menu[aud.data.screen_names[0]], value="null") No
               else
                 div.field.as.check_boxs
                   include _as_check_boxs.jade
