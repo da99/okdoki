@@ -94,7 +94,9 @@ Forms.Submit = function (selector) {
 };
 
 Forms.Success = function (selector, resp, stat) {
-  var form = $(selector).closest('form');
+  var form   = $(selector).closest('form');
+  var fields = form.children('div.fields');
+
   if (stat !== 'success') {
     Forms.Errors(form, "Unknown error.");
     return form;
@@ -106,7 +108,12 @@ Forms.Success = function (selector, resp, stat) {
   };
 
   Forms.call_callback(selector, 'before_success', resp);
-  form.children('div.fields').hide();
+
+  if (fields.hasClass('show_after_success'))
+    fields.show();
+  else
+    fields.hide();
+
   form.removeClass('loading');
   log(stat);
   var e = $('<div></div>');
