@@ -110,11 +110,13 @@ tbls.show_tables(function (meta) {
 
     ok.q( " \
      CREATE TABLE IF NOT EXISTS screen_names ( \
-       id varchar(15) PRIMARY KEY,   \
-       owner_id varchar(15) NOT NULL, \
-       created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
-       trashed_at timestamp default null,   \
-       screen_name varchar(15) NOT NULL UNIQUE,  \
+       id                  varchar(15) PRIMARY KEY,   \
+       owner_id            varchar(15) NOT NULL, \
+       created_at          timestamp default (now() AT TIME ZONE 'UTC'),  \
+       trashed_at          timestamp default NULL,   \
+       screen_name         varchar(15) NOT NULL UNIQUE,  \
+       display_name        varchar(15) NOT NULL UNIQUE,  \
+       nick_name           varchar(30) default NULL,  \
        read_able           varchar(1) default 'W', \
        read_able_list      varchar(100) ARRAY,   \
        at_url              text default null,    \
@@ -228,9 +230,7 @@ tbls.show_tables(function (meta) {
 
 
 // ==========================================================================================
-
-
-console.log('Process id: ' + process.pid);
+// console.log('Process id: ' + process.pid);
 
 
 
