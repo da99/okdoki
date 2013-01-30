@@ -67,6 +67,11 @@ Forms.Submit_Button = function (selector, callbacks) {
   var button = $(selector);
   var form   = button.closest('form');
 
+  form.submit(function (e) {
+    e.preventDefault();
+    return false;
+  });
+
   if (callbacks) {
     Forms.callbacks[selector] = callbacks;
   };
