@@ -111,7 +111,7 @@ tbls.show_tables(function (meta) {
     ok.q( " \
      CREATE TABLE IF NOT EXISTS screen_names ( \
        id varchar(15) PRIMARY KEY,   \
-       customer_id varchar(15) NOT NULL, \
+       owner_id varchar(15) NOT NULL, \
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        screen_name varchar(15) NOT NULL UNIQUE,  \
@@ -126,7 +126,7 @@ tbls.show_tables(function (meta) {
        details             text                  \
     )");
 
-    ok.q("CREATE INDEX ON screen_names (customer_id)");
+    ok.q("CREATE INDEX ON screen_names (owner_id)");
 
     ok.q(" \
       CREATE TABLE IF NOT EXISTS comments ( \
@@ -163,7 +163,7 @@ tbls.show_tables(function (meta) {
         contact_id        varchar(15) NULL NULL, \
         settings          text,       \
         details           text,       \
-        body              text,         \
+        body              text,       \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
         , CONSTRAINT unique_to_owner UNIQUE (owner_id, contact_id) \
