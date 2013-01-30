@@ -1,6 +1,7 @@
 "use strict";
 // http://okdoki-disk-drive-shopper.herokuapp.com:80/
 
+var base_url  = window.location.origin.replace(/\/$/, '');
 var ALL_MSGS  = $('#messages');
 var MSGS      = $('#messages #msgs');
 var NOTIFYS   = $('#messages #notifys');
@@ -178,6 +179,7 @@ $(function () {
 
   chatters = ['zebra', 'mike_rogers', 'okdoki', 'jeff_tucker', 'Lew_Rock', 'Lew_Rock'];
   sort_contacts();
+  get_online_contacts();
 });
 
 // ======================================================================
@@ -505,3 +507,25 @@ function sort_contacts() {
     $('#' + add_contact(val)).addClass('chatty');
   });
 };
+
+
+function get_online_contacts() {
+  var o = {
+    type        : 'POST',
+    url         : base_url + "/contacts/online",
+    cache       : false,
+    contentType : 'application/json',
+    data        : JSON.stringify({"_csrf": $('#csrf_token').val()}),
+    dataType    : 'json',
+    success     : function (resp, stat) {
+      log(resp, stat);
+    },
+    error       : function (xhr, textStatus, errThrown) {
+      log(textStatus, errThrown);
+    }
+  };
+
+  $.ajax(o);
+}
+
+
