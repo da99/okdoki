@@ -22,12 +22,16 @@
     , "toobusy": "0.1.x"
     , "reltime": "0.0.x"
     , "duration": "0.1.x"
+    , "redis": "0.8.x"
+    , "hiredis": "0.x.x"
   },
   "devDependencies": {
     "strftime" : "x.x.x"
   },
+
   "engines": {
-    "node" : "0.8.x",
-    "npm"  : "1.1.x"
+    "node" : "0.8.18",
+    "npm"  : "1.2.2"
+    , "__comment": "NOTE: rebuild hiredis when upgrading nodejs and npm"
   }
 }

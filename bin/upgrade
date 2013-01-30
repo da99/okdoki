@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+
+set -u
+set -e
+
+sudo apt-get update
+sudo apt-get upgrade
+
+# If you use hiredis, be sure to rebuild it
+# whenever you upgrade your version of node.
+# There are mysterious failures that can happen
+# between node and native code modules after a
+# node upgrade.
+npm rebuild hiredis
+
+
+
+
