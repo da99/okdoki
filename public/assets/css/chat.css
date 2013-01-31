@@ -176,64 +176,6 @@ body {
         }
 
 
-    #bots {
-    }
-
-      #bots h2 {
-        border-radius: 4px 0 0 0;
-        color: #2D2D2D;
-        padding: 3px 0 3px 8px;
-        font-size: 80%;
-      }
-
-      #bots ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-        #bots li {
-          border-bottom: 1px solid #313131;
-          padding: 4px 0 4px 6px;
-          border-radius: 4px 0 0  4px;
-        }
-
-      #bots-o, #bots-x {
-        border-radius: 4px 0 0 0;
-        margin: 0 0 10px 0;
-      }
-
-      #bots div.chatty {
-        /* background: #FFF175; */
-        font-style: normal;
-        color: #0081D7;
-      }
-
-      #bots-o {
-        padding-left: 0;
-      }
-
-        #bots-o h2 {
-          background: #008EED;
-          color: #fff;
-        }
-
-      #bots-x {
-        background: #161616;
-      }
-
-        #bots-x h2 {
-          color: #FD6C08;
-          padding-top: 6px;
-          padding-bottom: 0;
-        }
-
-        #bots-x li {
-          color: #909EB4;
-          font-style: italic;
-          padding-bottom: 6px;
-          padding-top: 4px;
-        }
 
     div.fieldset {
       padding: 0 0 4px 0;
@@ -294,7 +236,30 @@ body {
       padding-right: 8px;
     }
 
-div.contacts {}
+div.contacts {
+  border-radius: 4px 0 0 0;
+  margin: 0 0 10px 0;
+}
+
+  div.contacts h2 {
+    border-radius: 4px 0 0 0;
+    color: #fff;
+    padding: 3px 0 3px 8px;
+    font-size: 80%;
+    background: #008EED;
+  }
+
+  div.contacts ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+    div.contacts li {
+      border-bottom: 1px solid #313131;
+      padding: 4px 0 4px 6px;
+      border-radius: 4px 0 0  4px;
+    }
 
   div.contacts div.contact {
     padding      : 2px 2px 2px 5px;
@@ -303,31 +268,34 @@ div.contacts {}
     border-bottom: 1px dashed #A5ABC6;
   }
 
-  div.contacts div.contact div.screen_name {
-  }
-
-  div.contacts div.contact div.as {
-    font-size    : 85%;
-
-    /* The above element is a padded link, so we add padding  */
-    /* for alignment. */
-    padding-left : 5px;
-  }
-
-    div.contacts div.contact div.as span.intro {
-      font-style   : italic;
-      color        : #A0A0A0;
+    div.contacts div.contact div.screen_name {
     }
 
-    div.contacts div.contact div.as span.intro::after {
-      content: " ";
+    div.contacts div.contact div.as {
+      font-size    : 85%;
+
+      /* The above element is a padded link, so we add padding  */
+      /* for alignment. */
+      padding-left : 5px;
     }
 
-    div.contacts div.contact div.as span.screen_names {
-      color: #12182E;
-      font-style: italic;
-      font-weight: normal;
-    }
+      div.contacts div.contact div.as span.intro {
+        font-style   : italic;
+        color        : #A0A0A0;
+      }
+
+      div.contacts div.contact div.as span.intro::after {
+        content: " ";
+      }
+
+      div.contacts div.contact div.as span.screen_names {
+        color: #12182E;
+        font-style: italic;
+        font-weight: normal;
+      }
+
+
+
 
 
 
