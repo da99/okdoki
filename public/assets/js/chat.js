@@ -177,17 +177,11 @@ $(function () {
   // add_timer(call_ajax, 1000);
 
   The_Contacts = Contacts.new('#chatters');
-  The_Contacts.read();
+  setTimeout( function () {
+    The_Contacts.read();
+  }, 400);
 
-  if (is_dev) {
-    The_Contacts.load({
-      zebra       : ['go99'],
-      mike_rogers : ['go99'],
-      okdoki      : ['dos'],
-      jeff_tucker : ['go99', 'dos'],
-      Lew_Rock    : ['go99']
-    });
-  }
+
 });
 
 // ======================================================================
@@ -500,64 +494,6 @@ var cmds = {
 
 };
 
-
-
-var Contacts = function (selector) {
-  this.home = $(selector);
-  this.list = this.home.find('div.contacts');
-}
-
-Contacts.new = function (selector) {
-  return (new Contacts(selector));
-};
-
-Contacts.prototype.read = function () {
-  var o = {
-    type        : 'POST',
-    url         : base_url + "/contacts/online",
-    cache       : false,
-    contentType : 'application/json',
-    data        : JSON.stringify({"_csrf": $('#csrf_token').val()}),
-    dataType    : 'json',
-    success     : function (resp, stat) {
-      log(resp, stat);
-    },
-    error       : function (xhr, textStatus, errThrown) {
-      log(textStatus, errThrown);
-    }
-  };
-
-  $.ajax(o);
-}
-
-Contacts.prototype.load = function (menu) {
-  var me   = this;
-  $.each(menu, function (key, arr) {
-    var ele  = $('<div class="contact">' +
-                 '<div class="screen_name"></div>' +
-                 '<div class="as">' +
-                 '<span class="intro">As:</span>' +
-                 '<span class="screen_names"></span>' +
-                 '</div>' +
-                 '</div>');
-
-    var link = new_target( $('<a></a>').text(key).attr('href', "/info/" + key) );
-    ele.find('div.screen_name').append(link);
-    ele.find('span.screen_names').text(arr.join(', '));
-    me.list.append(ele);
-  });
-
-  return me.list;
-};
-
-Contacts.prototype.sort = function () {
-  chatters = _.uniq(chatters).sort();
-  $("#contacts_list").empty();
-
-  $.each(chatters.sort(), function (i, val) {
-    $('#' + add_contact(val)).addClass('chatty');
-  });
-};
 
 
 

@@ -240,10 +240,16 @@ body {
       padding-right: 8px;
     }
 
+
+div.no_records {
+  display: none;
+}
+
 div.contacts {
   border-radius: 4px 0 0 0;
   margin: 0 0 10px 0;
 }
+
 
   div.contacts h2 {
     border-radius: 4px 0 0 0;
@@ -251,6 +257,9 @@ div.contacts {
     padding: 3px 0 3px 8px;
     font-size: 80%;
     background: #008EED;
+  }
+
+  div.contacts div.loading {
   }
 
   div.contacts ul {
@@ -265,12 +274,27 @@ div.contacts {
       border-radius: 4px 0 0  4px;
     }
 
-  div.contacts div.contact {
+  div.contacts div.loading {
+    padding: 3px 0 3px 25px;
+    background-position: 4px center;
+    background-color: #fff;
+    border-bottom: 1px dashed #A5ABC6;
+  }
+
+  div.contacts div.contact,
+  div.contacts div.no_records {
     padding      : 2px 2px 2px 5px;
     font-weight  : bold;
     background   : #fff;
     border-bottom: 1px dashed #A5ABC6;
   }
+
+    div.contacts div.no_records {
+      font-weight: normal;
+      padding-left: 10px;
+      font-style: italic;
+      font-family: serif;
+    }
 
     div.contacts div.contact div.screen_name {
     }
