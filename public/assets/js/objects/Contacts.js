@@ -16,7 +16,7 @@ Contacts.new = function (selector) {
 Contacts.prototype.push_event = function (name, func) {
   var me = this;
   if (!me.events[name])
-    throw new Error('log unknown event: ' + name);
+    throw new Error('unknown event: ' + name);
   me.events[name].push(func);
 };
 
@@ -55,12 +55,12 @@ Contacts.prototype.read = function (opts) {
     url         : base_url + "/contacts/online",
     cache       : false,
     contentType : 'application/json',
-    data        : JSON.stringify({"_csrf": $('#csrf_token').val()}),
+    data        : JSON.stringify({"_csrf": csrf_token_val()}),
     dataType    : 'json',
     success     : function (resp, stat) {
       log(resp, stat);
 
-      if (is_dev) {
+      if (is_dev && (!resp.menu || $.isEmptyObject(resp.menu))) {
         resp.menu = ({
           zebra       : ['go99'],
           mike_rogers : ['go99'],

@@ -1,7 +1,6 @@
 "use strict";
 // http://okdoki-disk-drive-shopper.herokuapp.com:80/
 
-var base_url  = window.location.origin.replace(/\/$/, '');
 var ALL_MSGS  = $('#messages');
 var MSGS      = $('#messages #msgs');
 var NOTIFYS   = $('#messages #notifys');
@@ -182,7 +181,7 @@ $(function () {
   The_Contacts.read({
     wait: 400,
     after_success: function () {
-      The_Heart_Beep.read();
+      The_Heart_Beep.start();
     }
   });
 
