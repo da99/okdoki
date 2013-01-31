@@ -4,13 +4,52 @@ var Contacts = function (selector) {
   this.list       = this.home.find('div.contacts');
   this.loading    = this.home.find('div.loading');
   this.no_records = this.home.find('div.no_records');
+  this.events     = {
+    after_success_read: []
+  };
 }
 
 Contacts.new = function (selector) {
   return (new Contacts(selector));
 };
 
-Contacts.prototype.read = function () {
+Contacts.prototype.push_event = function (name, func) {
+  var me = this;
+  if (!me.events[name])
+    throw new Error('log unknown event: ' + name);
+  me.events[name].push(func);
+};
+
+Contacts.prototype.run_event = function (name) {
+  var me = this;
+  $.each(me.events[name], function(i, f) {
+    f(me);
+  });
+};
+
+Contacts.prototype.read = function (opts) {
+  var me = this;
+  var run_it = true;
+
+  if (opts) {
+    $.each(opts, function (k, v) {
+      switch (k) {
+        case 'wait':
+          setTimeout(function () {me.read();}, v);
+        run_it = false;
+          break;
+        case 'after_success':
+          me.push_event(k+'_read', v);
+        break;
+        default:
+          throw new Error('Programmer error: Unknown Contacts#read option: ' + k);
+      };
+    });
+  }
+
+  if (!run_it)
+    return null;
+
   var o = {
     type        : 'POST',
     url         : base_url + "/contacts/online",
@@ -31,8 +70,8 @@ Contacts.prototype.read = function () {
         });
       }
 
-
       The_Contacts.load(resp.menu || {});
+      me.run_event('after_success_read');
     },
     error       : function (xhr, textStatus, errThrown) {
       log(textStatus, errThrown);

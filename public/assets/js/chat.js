@@ -24,7 +24,8 @@ var deleted_msgs = 0;
 var timers      = [];
 var no_new_msgs = 0;
 
-var The_Contacts = null;
+var The_Contacts = null
+, The_Heart_Beep = null;
 
 function add_timer(func, time) {
   if (timers.length === 0) {
@@ -176,10 +177,14 @@ $(function () {
   // load_or_reload_bots();
   // add_timer(call_ajax, 1000);
 
+  The_Heart_Beep = Heart_Beep.new();
   The_Contacts = Contacts.new('#chatters');
-  setTimeout( function () {
-    The_Contacts.read();
-  }, 400);
+  The_Contacts.read({
+    wait: 400,
+    after_success: function () {
+      The_Heart_Beep.read();
+    }
+  });
 
 
 });
