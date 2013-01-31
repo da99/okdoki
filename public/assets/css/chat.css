@@ -138,11 +138,15 @@ body {
     overflow     : auto;
   }
 
+    #input textarea {
+      max-width: 281px;
+    }
+
     #log_out {
       position: static;
       background: transparent;
       text-align: right;
-      padding: 0 10px 0 0;
+      padding: 0 5px 0 0;
     }
       #log_out a:link {
         display: inline-block;
@@ -156,7 +160,7 @@ body {
     }
 
     #create_msg {
-      padding: 4px 0 10px 0;
+      padding: 0 0 10px 0;
     }
 
       #create_msg textarea {

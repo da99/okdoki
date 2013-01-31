@@ -176,7 +176,7 @@ $(function () {
   // load_or_reload_bots();
   // add_timer(call_ajax, 1000);
 
-  The_Contacts = Contacts.new('#bots');
+  The_Contacts = Contacts.new('#chatters');
   The_Contacts.read();
 
   if (is_dev) {
