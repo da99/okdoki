@@ -98,7 +98,7 @@ Contacts.prototype.load = function (menu) {
       var ele  = $('<div class="contact">' +
                    '<div class="screen_name"></div>' +
                    '<div class="as">' +
-                   '<span class="intro">As:</span>' +
+                   '<span class="intro">From:</span>' +
                    '<span class="screen_names"></span>' +
                    '</div>' +
                    '</div>');
