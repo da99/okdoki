@@ -17,14 +17,14 @@ var errors_403  = 0;
 var err_count   = 0;
 var err_showing = true;
 var msg_limit   = 250;
-var is_dev    = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1;
 var ignore_text = ';-)~ Type here.';
 var last_time   = (new Date()).getTime();
 var max_msg_date = (new Date).getTime() - (1000 * 10);
 var deleted_msgs = 0;
 var timers      = [];
 var no_new_msgs = 0;
-var chatters = [];
+
+var The_Contacts = null;
 
 function add_timer(func, time) {
   if (timers.length === 0) {
@@ -174,12 +174,20 @@ $(function () {
 
   publish_msg(OKDOKI + " Welcome. Please wait as I get the latest messages.", STATUS_MSG);
   // load_or_reload_bots();
-  
   // add_timer(call_ajax, 1000);
 
-  chatters = ['zebra', 'mike_rogers', 'okdoki', 'jeff_tucker', 'Lew_Rock', 'Lew_Rock'];
-  sort_contacts();
-  get_online_contacts();
+  The_Contacts = Contacts.new('#bots');
+  The_Contacts.read();
+
+  if (is_dev) {
+    The_Contacts.load({
+      zebra       : ['go99'],
+      mike_rogers : ['go99'],
+      okdoki      : ['dos'],
+      jeff_tucker : ['go99', 'dos'],
+      Lew_Rock    : ['go99']
+    });
+  }
 });
 
 // ======================================================================
@@ -260,6 +268,11 @@ function default_ajax_options(request_type, succ, err) {
 function call_ajax() {
   $.ajax(default_ajax_options('latest msgs'));
 }
+
+function new_target( ele ) {
+  ele.attr('target', '_new');
+  return ele;
+};
 
 function create_msg_ele(raw_msg, css) {
   var id, msg;
@@ -487,29 +500,18 @@ var cmds = {
 
 };
 
-function add_contact(name) {
-  var list = $('#contacts_list');
-  var id = "contact-" + name;
-  var html = "<div id=\"" + id + "\" class=\"contact\">";
-  html += name;
-  html += "</div>";
 
-  list.append($(html));
-  return id;
+
+var Contacts = function (selector) {
+  this.home = $(selector);
+  this.list = this.home.find('div.contacts');
+}
+
+Contacts.new = function (selector) {
+  return (new Contacts(selector));
 };
 
-
-function sort_contacts() {
-  chatters = _.uniq(chatters).sort();
-  $("#contacts_list").empty();
-
-  $.each(chatters.sort(), function (i, val) {
-    $('#' + add_contact(val)).addClass('chatty');
-  });
-};
-
-
-function get_online_contacts() {
+Contacts.prototype.read = function () {
   var o = {
     type        : 'POST',
     url         : base_url + "/contacts/online",
@@ -527,5 +529,36 @@ function get_online_contacts() {
 
   $.ajax(o);
 }
+
+Contacts.prototype.load = function (menu) {
+  var me   = this;
+  $.each(menu, function (key, arr) {
+    var ele  = $('<div class="contact">' +
+                 '<div class="screen_name"></div>' +
+                 '<div class="as">' +
+                 '<span class="intro">As:</span>' +
+                 '<span class="screen_names"></span>' +
+                 '</div>' +
+                 '</div>');
+
+    var link = new_target( $('<a></a>').text(key).attr('href', "/info/" + key) );
+    ele.find('div.screen_name').append(link);
+    ele.find('span.screen_names').text(arr.join(', '));
+    me.list.append(ele);
+  });
+
+  return me.list;
+};
+
+Contacts.prototype.sort = function () {
+  chatters = _.uniq(chatters).sort();
+  $("#contacts_list").empty();
+
+  $.each(chatters.sort(), function (i, val) {
+    $('#' + add_contact(val)).addClass('chatty');
+  });
+};
+
+
 
 
