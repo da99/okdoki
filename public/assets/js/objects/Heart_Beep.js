@@ -54,7 +54,7 @@ Heart_Beep.prototype.read = function () {
       me.wait_and_read();
     },
     error       : function (xhr, textStatus, errThrown) {
-      log(textStatus, errThrown);
+      log(textStatus, errThrown || "Either the website is down or your Internet connect is down.");
       me.wait_and_read();
     }
   };
