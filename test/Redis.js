@@ -33,7 +33,7 @@ describe( 'Redis', function () {
   });
 
   it( 'runs commands in fin function', function (done) {
-    var  R = Redis.new();
+    var R = Redis.new();
 
     R.add('r1', 'set', ['r1', '1']);
 
@@ -50,5 +50,19 @@ describe( 'Redis', function () {
     });
   });
 
+  it( 'runs fin function only once', function (done) {
+    var R = Redis.new();
+    var count = 0;
+    R.add('r1', 'set', ['r1', '1']);
+    R.exec(function () {
+      count += 1;
+      R.add('r2', 'set', ['r2', '2'], function () {
+        R.add('r3', 'set', ['r3', '3'], function () {
+          assert.equal(count, 1);
+          done();
+        });
+      });
+    });
+  });
 }); // === describe
 
