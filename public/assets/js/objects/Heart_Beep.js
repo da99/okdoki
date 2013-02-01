@@ -29,7 +29,7 @@ Heart_Beep.prototype.wait_and_read = function (ms) {
       if (!me.read_count)
         me.read_count = 0;
       me.read_count += 1;
-      if (me.read_count > 30) {
+      if (false && me.read_count > 30) {
         log('Stopping: Heart_Beep # wait_and_read because of dev env.');
         return null;
       }
