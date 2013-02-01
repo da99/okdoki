@@ -15,5 +15,23 @@ describe( 'Redis', function () {
       done();
     });
   });
+
+  it( 'runs commands inside commands', function (done) {
+    var  R = Redis.new();
+
+    R.add('r1', 'set', ['r1', '1'], function () {
+
+      R.add('r2', 'set', ['r2', '2'], function () {
+        assert.equal(R.replys['r1'].reply, "OK");
+        assert.equal(R.replys['r2'].reply, "OK");
+        done();
+      });
+
+    });
+
+    R.exec(function () {
+    });
+  });
+
 }); // === describe
 
