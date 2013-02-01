@@ -14,3 +14,4 @@ echo ""
 
 NODE_ENV=production mocha --colors test/postgresql.js "$@"
 NODE_ENV=production mocha --timeout 4000 --colors test/customer.js "$@"
+NODE_ENV=production mocha --timeout 1000 --colors test/Redis.js "$@"
