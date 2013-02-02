@@ -1,6 +1,6 @@
 var _    = require('underscore')
 , assert = require('assert')
-, RSN    = require('okdoki/lib/Redis_Screen_name').Redis_Screen_name
+, RSN    = require('okdoki/lib/Redis_Screen_Name').Redis_Screen_Name
 , Redis  = require('okdoki/lib/Redis').Redis
 ;
 
@@ -14,7 +14,7 @@ after(function (done) {
   done();
 });
 
-describe( 'Redis_Screen_name', function () {
+describe( 'Redis_Screen_Name', function () {
 
   describe( 'create_im', function () {
     it( 'saves im', function (done) {
