@@ -1,6 +1,6 @@
 var _    = require('underscore')
 , assert = require('assert')
-, RSN    = require('okdoki/lib/Redis_Screen_Name').Redis_Screen_Name
+, RSN    = require('okdoki/lib/Screen_Name').Redis_Screen_Name
 , Redis  = require('okdoki/lib/Redis').Redis
 ;
 

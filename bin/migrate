@@ -4,6 +4,7 @@
 
 var db             = require('okdoki/lib/POSTGRESQL');
 var Customer       = require('okdoki/lib/Customer').Customer;
+var Chat_Bot       = require('okdoki/lib/Chat_Bot').Chat_Bot;
 var show_databases = db.show_databases;
 var _              = require('underscore');
 var cmd            = (process.argv[2] || 'nothing');
@@ -113,20 +114,34 @@ tbls.show_tables(function (meta) {
        id                  varchar(15) PRIMARY KEY,   \
        owner_id            varchar(15) NOT NULL, \
        created_at          timestamp default (now() AT TIME ZONE 'UTC'),  \
-       trashed_at          timestamp default NULL,   \
        screen_name         varchar(15) NOT NULL UNIQUE,  \
        display_name        varchar(15) NOT NULL UNIQUE,  \
        nick_name           varchar(30) default NULL,  \
        read_able           varchar(1) default 'W', \
        read_able_list      varchar(100) ARRAY,   \
-       at_url              text default null,    \
-       bot_url             text default null,    \
-       at_passphrase_hash  varchar(150) default NULL,\
-       bot_passphrase_hash varchar(150) default NULL,\
        about               text default null,    \
        settings            text,                 \
        details             text                  \
+       , trashed_at        timestamp default NULL \
     )");
+
+    ok.q( " \
+     CREATE TABLE IF NOT EXISTS bots         ( \
+       id                  varchar(15) PRIMARY KEY,   \
+       owner_id            varchar(15) NOT NULL, \
+       name                varchar(15) NOT NULL UNIQUE,  \
+       display_name        varchar(15) NOT NULL UNIQUE,  \
+       nick_name           varchar(30) default NULL,  \
+       read_able           varchar(1) default 'W', \
+       read_able_list      varchar(100) ARRAY,   \
+       url                 text default null,    \
+       passphrase_hash     varchar(150) default NULL,\
+       about               text default null,    \
+       settings            text,                 \
+       details             text                  \
+       , trashed_at        timestamp default NULL \
+    )");
+
 
     ok.q("CREATE INDEX ON screen_names (owner_id)");
 
@@ -214,15 +229,29 @@ tbls.show_tables(function (meta) {
 
   ok.run_and_then(function (meta) {
     console.log('Finished migrating the main db.');
-    if (is_reset_user) {
-      var p = "Passphrase";
-      Customer.create({screen_name: 'go99', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c1) {
-        console.log('Finished created default user: ' + c1.data.screen_names[0]);
-        Customer.create({screen_name: 'dos', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c2) {
-          console.log('Finished created default user: ' + c2.data.screen_names[0]);
+    if (!is_reset_user) {
+      Chat_Bot.redis.quit();
+      return;
+    }
+
+    var p = "Passphrase";
+    Customer.create({screen_name: 'go99', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c1) {
+      console.log('Finished creating default user: ' + c1.data.screen_names[0]);
+      Customer.create({screen_name: 'dos', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c2) {
+        console.log('Finished creating default user: ' + c2.data.screen_names[0]);
+
+        var cb = Chat_Bot.new('math@go99');
+        cb.create({url: "https://okdoki.heroku.com/bots/math"}, function (cb) {
+          console.log('Finishd creating bot: ' + cb.screen_name);
+
+          var cb = Chat_Bot.new('money@dos');
+          cb.create({url: "https://okdoki.heroku.com/bots/dos"}, function (cb) {
+            console.log('Finishd creating bot: ' + cb.screen_name);
+            Chat_Bot.redis.quit();
+          });
         });
       });
-    }
+    });
   });
 
 }); // === show_databases

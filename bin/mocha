@@ -5,8 +5,9 @@
 set -e
 
 if [ -z "$NO_DB_RESET" ];
-then bin/migrate reset;
-else echo "Skipping db reset";
+then bin/migrate reset_with_customer;
+else
+  echo "Skipping db reset";
 fi
 
 set -u
@@ -15,4 +16,6 @@ echo ""
 NODE_ENV=production mocha --colors test/postgresql.js "$@"
 NODE_ENV=production mocha --timeout 4000 --colors test/customer.js "$@"
 NODE_ENV=production mocha --timeout 1000 --colors test/Redis.js "$@"
-NODE_ENV=production mocha --timeout 1000 --colors test/Redis_Screen_Name.js "$@"
+NODE_ENV=production mocha --timeout 1000 --colors test/Screen_Name.js "$@"
+
+NODE_ENV=production mocha --timeout 1500 --colors test/Chat_Bot.js "$@"
