@@ -27,6 +27,26 @@ describe( 'Redis_Screen_Name', function () {
         });
       });
     });
+
+    it( 'sets an expire time', function (done) {
+      var rsn  = RSN.new('u1');
+      rsn.create_im({owner: 'u1', body: "something"}, function (e, r, m) {
+        Redis.client.ttl(m.id, function (e, r) {
+          assert.equal(r > RSN.expire_in && r <= 10, true);
+          done();
+        });
+      });
+    });
+
+    it( 'update expire time of msgs group', function (done) {
+      var rsn  = RSN.new('u1');
+      rsn.create_im({owner: 'u1', body: "something"}, function (e, r, m) {
+        Redis.client.ttl('u1:msgs', function (e, r) {
+          assert.equal(r > RSN.expire_in && r <= 10, true);
+          done();
+        });
+      });
+    });
   }); // === describe
 
   describe( 'read_ims', function () {
