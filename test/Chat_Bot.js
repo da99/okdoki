@@ -20,7 +20,7 @@ describe( 'Chat_Bot', function () {
     r.hmset('MONEY@DOS:2', {'from':'DOS',  to: 'MONEY@DOS', body: 'Hi 2'});
     r.exec(function (err, reply) {
       if (err) throw err;
-      Chat_Bot.send_ims(function (err, mail_room) {
+      Chat_Bot.send_ims("http://localhost:5000/bots/ims", function (err, mail_room) {
         assert.equal(err, null);
         assert.equal(mail_room.ims, 1);
         assert.equal(true, false);
