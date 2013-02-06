@@ -61,7 +61,7 @@ describe( 'Redis_Screen_Name', function () {
       multi.hmset('f1:2', {'body': body[1]});
       multi.hmset('u2:c', {'f1':1});
       multi.exec(function (err, replys) {
-        rsn.read_ims(function (e, r) {
+        rsn.read_ims(function (r) {
           assert.deepEqual(_.pluck(r, 'body'), body);
           done();
         });

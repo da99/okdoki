@@ -27,10 +27,10 @@ describe( 'Chat_Bot', function () {
       if (err) throw err;
       Chat_Bot.deliver_ims("http://localhost:5000/bots/ims", function (mail_room) {
         assert.equal(mail_room.ims.length, 2);
-        Screen_Name.new('GO99').read_ims(function (err, msgs) {
+        Screen_Name.new('GO99').read_ims(function (msgs) {
 console.log(arguments);
           assert.equal(msgs.length, 1);
-          Screen_Name.new('DOS').read_ims(function (err, msgs) {
+          Screen_Name.new('DOS').read_ims(function (msgs) {
             assert.equal(msgs.length, 1);
             done();
           });
