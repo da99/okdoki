@@ -3,3 +3,5 @@
 - add template vars to response IMs from bots:
   @{{SCREEN NAME}}
   {{FIRST NAME}}
+
+- Make sure all content in/out is utf8

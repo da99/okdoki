@@ -24,6 +24,7 @@
     , "duration"   : "0.1.x"
     , "redis"      : "0.8.x"
     , "queue-flow" : "0.5.x"
+    , "request"    : "2.x.x"
   },
   "devDependencies": {
     "strftime" : "x.x.x"

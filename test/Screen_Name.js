@@ -20,7 +20,7 @@ describe( 'Redis_Screen_Name', function () {
     it( 'saves im', function (done) {
       var body = 'Yo yo.';
       var rsn  = RSN.new('u1');
-      rsn.create_im({owner: 'u1', body: body}, function (e, r, m) {
+      rsn.create_im({owner: 'u1', body: body}, function (r, m) {
         Redis.client.hget(m.id, 'body', function (e, r) {
           assert.equal(r, body);
           done();
@@ -30,7 +30,7 @@ describe( 'Redis_Screen_Name', function () {
 
     it( 'sets an expire time', function (done) {
       var rsn  = RSN.new('u1');
-      rsn.create_im({owner: 'u1', body: "something"}, function (e, r, m) {
+      rsn.create_im({owner: 'u1', body: "something"}, function (r, m) {
         Redis.client.ttl(m.id, function (e, r) {
           assert.equal(r > RSN.expire_in && r <= 10, true);
           done();
@@ -40,7 +40,7 @@ describe( 'Redis_Screen_Name', function () {
 
     it( 'update expire time of msgs group', function (done) {
       var rsn  = RSN.new('u1');
-      rsn.create_im({owner: 'u1', body: "something"}, function (e, r, m) {
+      rsn.create_im({owner: 'u1', body: "something"}, function (r, m) {
         Redis.client.ttl('u1:msgs', function (e, r) {
           assert.equal(r > RSN.expire_in && r <= 10, true);
           done();
