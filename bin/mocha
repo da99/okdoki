@@ -18,4 +18,4 @@ NODE_ENV=production mocha --timeout 4000 --colors test/customer.js "$@"
 NODE_ENV=production mocha --timeout 1000 --colors test/Redis.js "$@"
 NODE_ENV=production mocha --timeout 1000 --colors test/Screen_Name.js "$@"
 
-NODE_ENV=production mocha --timeout 1500 --colors test/Chat_Bot.js "$@"
+NODE_ENV=production mocha --timeout 3500 --colors test/Chat_Bot.js "$@"
