@@ -240,16 +240,16 @@ tbls.show_tables(function (meta) {
     var p = "Passphrase";
     var jobs = Jobs.new();
     var customer_created = function (f) {
-      return function (c) {
+      return function (err, c) {
         console.log('Finished creating customer: ' + c.data.screen_names[0]);
-        f(c);
+        f(err, c);
       };
     };
 
     var bot_created = function (f) {
-      return function (c) {
+      return function (err, c) {
         console.log('Finished creating bot: ' + c.screen_name);
-        f(c);
+        f(err, c);
       };
     };
 
