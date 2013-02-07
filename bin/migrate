@@ -13,6 +13,9 @@ var is_reset       = cmd === 'reset' || is_reset_user;
 var is_up          = is_reset || cmd === 'up';
 var is_down        = is_reset || cmd === 'down';
 var is_list        = cmd === 'list';
+var Redis = require('okdoki/lib/Redis').Redis;
+var pg    = require('okdoki/lib/POSTGRESQL').pg;
+var Jobs  = require('okdoki/lib/Jobs').Jobs;
 
 if (!is_up && !is_down && !is_list) {
   console.log('Unknown cmd: ' + process.argv[2]);
@@ -235,23 +238,52 @@ tbls.show_tables(function (meta) {
     }
 
     var p = "Passphrase";
-    Customer.create({screen_name: 'go99', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c1) {
-      console.log('Finished creating default user: ' + c1.data.screen_names[0]);
-      Customer.create({screen_name: 'dos', passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, function (c2) {
-        console.log('Finished creating default user: ' + c2.data.screen_names[0]);
+    var jobs = Jobs.new();
+    var customer_created = function (f) {
+      return function (c) {
+        console.log('Finished creating customer: ' + c.data.screen_names[0]);
+        f(c);
+      };
+    };
 
-        var cb = Chat_Bot.new('math@go99');
-        cb.create({url: "https://okdoki.heroku.com/bots/math"}, function (cb) {
-          console.log('Finishd creating bot: ' + cb.screen_name);
+    var bot_created = function (f) {
+      return function (c) {
+        console.log('Finished creating bot: ' + c.screen_name);
+        f(c);
+      };
+    };
 
-          var cb = Chat_Bot.new('money@dos');
-          cb.create({url: "https://okdoki.heroku.com/bots/dos"}, function (cb) {
-            console.log('Finishd creating bot: ' + cb.screen_name);
-            Chat_Bot.redis.quit();
-          });
-        });
+    _.each(['go99', 'dos'], function (sn) {
+      jobs.create('create: ', sn, function (f, g, id) {
+        Customer.create({screen_name: sn, passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, customer_created(f));
       });
     });
+
+    jobs.create('create bot: ', '404@go99', function (f, g, id) {
+      var cb = Chat_Bot.new(id);
+      cb.create({url: "https://okdoki-bot.herokuapp.com/test/404/404"}, bot_created(f));
+    });
+
+    jobs.create('create bot: ', 'ok@go99', function (f, g, id) {
+      var cb = Chat_Bot.new(id);
+      cb.create({url: "https://okdoki-bot.herokuapp.com/test/ok"}, bot_created(f));
+    });
+
+    jobs.create('create bot: ', 'im@dos', function (f, g, id) {
+      var cb = Chat_Bot.new(id);
+      cb.create({url: "https://okdoki-bot.herokuapp.com/test/im"}, bot_created(f));
+    });
+
+    jobs.create('create bot: ', 'not_json@dos', function (f, g, id) {
+      var cb = Chat_Bot.new(id);
+      cb.create({url: "https://okdoki-bot.herokuapp.com/test/not_json"}, bot_created(f));
+    });
+
+    jobs.run_fifo(function () {
+      console.log('Closing redis...');
+      Chat_Bot.redis.quit();
+    });
+
   });
 
 }); // === show_databases
