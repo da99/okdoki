@@ -14,9 +14,9 @@ describe( 'Jobs', function () {
 
     _.each(['google', 'bing', 'yahoo'], function (name, i) {
       j.create('get: ', name, function (f) {
-        request.get('http://www.' + name + '.com/', function (a,b,data) {
+        request.get('http://www.' + name + '.com/', function (err, resp, data) {
           results.push(i);
-          f(data);
+          f(err, data);
         });
       });
     });
