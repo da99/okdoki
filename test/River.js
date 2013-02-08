@@ -3,7 +3,6 @@ var _     = require('underscore')
 , assert  = require('assert')
 , River   = require('okdoki/lib/River').River
 , Redis   = require('okdoki/lib/Redis').Redis
-, request = require('request')
 ;
 
 describe( 'River', function () {
@@ -13,9 +12,7 @@ describe( 'River', function () {
     var i = [];
 
     var get = function (name, r, i) {
-      // request.get('http://www.' + name + '.com/', function (err, resp, data) {
-        r.parent.finish(null, i);
-      // });
+      r.flow.finish(null, i);
     };
 
     j.job('get:', 'google', function (r) {
@@ -55,7 +52,9 @@ describe( 'River', function () {
       });
 
       j.job('insert: ', 1, function (r) {
-        Redis.client.rpush('job-keys', r.id, fin);
+        process.nextTick( function() {
+          Redis.client.rpush('job-keys', r.id, fin);
+        });
       });
 
       j.job('pop: ', 1, function (r) {
