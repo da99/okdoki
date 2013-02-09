@@ -5,3 +5,8 @@
   {{FIRST NAME}}
 
 - Make sure all content in/out is utf8
+
+- figure out why homepage is being used as cached when 
+  back button is used in browser
+
+- Show "please sign in" if AJAX request is being made w/o loggig in.

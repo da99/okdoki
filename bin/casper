@@ -16,7 +16,7 @@ echo ""
 echo "Starting server on $PORT..."
 
 if [[ "$FILE" == "all" || "$FILE" == "01" ]]; then
-  TEST_DISCONNECT=true PORT=$PORT bin/start &
+  TESTING=true PORT=$PORT bin/start &
   PORT=$PORT casperjs test/01-casper-disconnect.js $PORT
 fi
 
