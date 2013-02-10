@@ -87,4 +87,26 @@ describe( 'River', function () {
       done();
     });
   }); // === describe
+
+  describe( '.error', function () {
+    it( 'stops river', function (done) {
+      var results = [];
+      var r = River.new();
+      r
+      .on('error', function (j) {
+        results.push([j.id, j.error_msg]);
+      })
+      .job('emit error', 1, function (j) {
+        j.error("done");
+      })
+      .job('emit error', 2, function (j) {
+        j.error("done");
+      })
+      .run_and_on_finish(function (r) {
+        throw new Error('This is not supposed to be run after .error().');
+      });
+      assert.deepEqual(results, [[1, 'done']]);
+      done();
+    });
+  }); // === describe
 }); // === describe
