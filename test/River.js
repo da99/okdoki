@@ -7,44 +7,42 @@ var _     = require('underscore')
 
 describe( 'River', function () {
 
-  describe( 'style: line', function () {
-    it( 'runs job after the previous one finishes', function (done) {
-      var r = River.new();
-      var results = [];
+  it( 'runs job after the previous one finishes', function (done) {
+    var r = River.new();
+    var results = [];
 
-      var fin = function (job) {
-        return function (err, reply) {
-          if(err)
-            return job.error(err, reply);
-          job.finish(reply)
-        };
+    var fin = function (job) {
+      return function (err, reply) {
+        if(err)
+          return job.error(err, reply);
+        job.finish(reply)
       };
+    };
 
-      r.job('del: ', 'job-keys', function (j) {
-        Redis.client.del('job-keys', fin(j));
-      });
+    r.job('del: ', 'job-keys', function (j) {
+      Redis.client.del('job-keys', fin(j));
+    });
 
-      r.job('pop: ', 0, function (j) {
-        Redis.client.lpop('job-keys', fin(j));
-      });
+    r.job('pop: ', 0, function (j) {
+      Redis.client.lpop('job-keys', fin(j));
+    });
 
-      r.job('insert: ', 1, function (j) {
-        process.nextTick( function() {
-          Redis.client.rpush('job-keys', j.id, fin(j));
-        });
-      });
-
-      r.job('pop: ', 1, function (j) {
-        Redis.client.lpop('job-keys', fin(j));
-      });
-
-      r
-      .run_and_on_finish(function () {
-        assert.deepEqual([null, 1, '1'], _.flatten(r.results.slice(1), 1));
-        done();
+    r.job('insert: ', 1, function (j) {
+      process.nextTick( function() {
+        Redis.client.rpush('job-keys', j.id, fin(j));
       });
     });
-  }); // === describe
+
+    r.job('pop: ', 1, function (j) {
+      Redis.client.lpop('job-keys', fin(j));
+    });
+
+    r
+    .run_and_on_finish(function () {
+      assert.deepEqual([null, 1, '1'], _.flatten(r.results.slice(1), 1));
+      done();
+    });
+  });
 
   describe( 'on_job', function () {
     it( 'runs event only in job', function (done) {
@@ -75,12 +73,15 @@ describe( 'River', function () {
       })
       .job('runs', 3, function (j) {
         job = j;
-        j.invalid(j.id)
+        j.invalid(j.id);
+        j.finish(j.id);
       })
       .job('runs', 4, function (j) {
         j.finish(j.id)
       })
-      .run();
+      .run_and_on_finish(function () {
+        throw new Error('This is not suppose to run.');
+      });
       assert.deepEqual(_.flatten(r.results, 1), [1,2]);
       assert.equal(job.invalid_msg, 3);
       done();
