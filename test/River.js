@@ -49,7 +49,7 @@ describe( 'River', function () {
       var results = [];
       var r = River.new();
       r
-      .on_job('invalid', function (j) {
+      .on_job('invalid', function (msg, j) {
         assert.equal(j.invalid_msg, 'done');
         done();
       })
@@ -93,7 +93,8 @@ describe( 'River', function () {
       var results = [];
       var r = River.new();
       r
-      .on('error', function (j) {
+      .on('error', function (err, j) {
+        console.log(j)
         results.push([j.id, j.error_msg]);
       })
       .job('emit error', 1, function (j) {
@@ -109,4 +110,29 @@ describe( 'River', function () {
       done();
     });
   }); // === describe
+
+
+  describe( '.not_found', function () {
+    it( 'stops river', function (done) {
+      var results = [];
+      var r = River.new();
+      r
+      .on('not_found', function (j) {
+        results.push([j.id, j.error_msg]);
+      })
+      .job('emit not_found', 1, function (j) {
+        j.not_found("done");
+      })
+      .job('emit error', 2, function (j) {
+        throw new Error('This is not supposed to be run after .not_found().');
+      })
+      .run_and_on_finish(function (r) {
+        throw new Error('This is not supposed to be run after .not_found().');
+      });
+      assert.deepEqual(results, [[1, 'done']]);
+      done();
+    });
+  }); // === describe
+
+
 }); // === describe
