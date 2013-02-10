@@ -14,7 +14,7 @@ describe( 'River', function () {
       var i = [];
 
       var get = function (name, r, i) {
-        r.flow.finish(null, i);
+        r.river.finish(null, i);
       };
 
       j.job('get:', 'google', function (r) {
@@ -69,6 +69,22 @@ describe( 'River', function () {
         assert.deepEqual([null, 1, '1'], _.flatten(j.results.slice(1), 1));
         done();
       });
+    });
+  }); // === describe
+
+  describe( 'on_job', function () {
+    it( 'runs event only in job', function (done) {
+      var results = [];
+      var r = River.new();
+      r
+      .on_job('invalid', function (j) {
+        assert.equal(j.invalid_msg, 'done');
+        done();
+      })
+      .job('push', 'done', function (j) {
+        j.invalid('done');
+      })
+      .run();
     });
   }); // === describe
 }); // === describe
