@@ -7,36 +7,6 @@ var _     = require('underscore')
 
 describe( 'River', function () {
 
-  describe( 'style: whatever', function () {
-    it( 'runs each job w/o waiting for the previous one to finish', function (done) {
-      var j = River.new();
-      j.style('whatever');
-      var i = [];
-
-      var get = function (name, j, i) {
-        j.finish(i);
-      };
-
-      j.job('get:', 'google', function (r) {
-        get(r.id, r, 1);
-      });
-
-      j.job('get:', 'bing', function (r) {
-        process.nextTick(function () { get(r.id, r, 2); });
-      });
-
-      j.job('get:', 'yahoo', function (r) {
-        get(r.id, r, 3);
-      });
-
-      j.run_and_on_finish(function () {
-        assert.deepEqual([1, 3, 2], _.flatten(j.results));
-        done();
-      });
-
-    });
-  }); // === describe
-
   describe( 'style: line', function () {
     it( 'runs job after the previous one finishes', function (done) {
       var r = River.new();
