@@ -13,8 +13,8 @@ describe( 'River', function () {
       j.style('whatever');
       var i = [];
 
-      var get = function (name, r, i) {
-        r.river.finish(null, i);
+      var get = function (name, j, i) {
+        j.finish(i);
       };
 
       j.job('get:', 'google', function (r) {
@@ -39,34 +39,38 @@ describe( 'River', function () {
 
   describe( 'style: line', function () {
     it( 'runs job after the previous one finishes', function (done) {
-      var j = River.new();
+      var r = River.new();
       var results = [];
 
-      var fin = function (err, reply) {
-        j.finish(err, reply)
+      var fin = function (job) {
+        return function (err, reply) {
+          if(err)
+            return job.error(err, reply);
+          job.finish(reply)
+        };
       };
 
-      j.job('del: ', 'job-keys', function (r) {
-        Redis.client.del('job-keys', fin);
+      r.job('del: ', 'job-keys', function (j) {
+        Redis.client.del('job-keys', fin(j));
       });
 
-      j.job('pop: ', 0, function (r) {
-        Redis.client.lpop('job-keys', fin);
+      r.job('pop: ', 0, function (j) {
+        Redis.client.lpop('job-keys', fin(j));
       });
 
-      j.job('insert: ', 1, function (r) {
+      r.job('insert: ', 1, function (j) {
         process.nextTick( function() {
-          Redis.client.rpush('job-keys', r.id, fin);
+          Redis.client.rpush('job-keys', j.id, fin(j));
         });
       });
 
-      j.job('pop: ', 1, function (r) {
-        Redis.client.lpop('job-keys', fin);
+      r.job('pop: ', 1, function (j) {
+        Redis.client.lpop('job-keys', fin(j));
       });
 
-      j
+      r
       .run_and_on_finish(function () {
-        assert.deepEqual([null, 1, '1'], _.flatten(j.results.slice(1), 1));
+        assert.deepEqual([null, 1, '1'], _.flatten(r.results.slice(1), 1));
         done();
       });
     });
@@ -85,6 +89,31 @@ describe( 'River', function () {
         j.invalid('done');
       })
       .run();
+    });
+  }); // === describe
+
+  describe( '.invalid', function () {
+    it( 'stops river', function (done) {
+      var r = River.new();
+      var job = null;
+      r
+      .job('runs', 1, function (j) {
+        j.finish(j.id);
+      })
+      .job('runs', 2, function (j) {
+        j.finish(j.id)
+      })
+      .job('runs', 3, function (j) {
+        job = j;
+        j.invalid(j.id)
+      })
+      .job('runs', 4, function (j) {
+        j.finish(j.id)
+      })
+      .run();
+      assert.deepEqual(_.flatten(r.results, 1), [1,2]);
+      assert.equal(job.invalid_msg, 3);
+      done();
     });
   }); // === describe
 }); // === describe
