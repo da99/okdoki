@@ -94,7 +94,6 @@ describe( 'River', function () {
       var r = River.new();
       r
       .on('error', function (err, j) {
-        console.log(j)
         results.push([j.id, j.error_msg]);
       })
       .job('emit error', 1, function (j) {
@@ -117,8 +116,8 @@ describe( 'River', function () {
       var results = [];
       var r = River.new();
       r
-      .on('not_found', function (j) {
-        results.push([j.id, j.error_msg]);
+      .on_job('not_found', function (msg, j) {
+        results.push([j.id, j.not_found_msg]);
       })
       .job('emit not_found', 1, function (j) {
         j.not_found("done");
