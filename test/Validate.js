@@ -66,4 +66,15 @@ describe( 'Validate', function () {
       assert.equal(o.errors, 'name must be between: 5 and 10');
     });
   }); // === describe
+
+  describe( 'at_least_2_words', function () {
+
+    it( 'sets error if there is no space', function () {
+      var o = {new_data: {name: "1234567890123"}};
+      Validate.new('at_least_2_words', function (v) {
+        v.define('name', function (v) { v.at_least_2_words(); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must be two words or more.');
+    });
+  }); // === describe
 }); // === describe
