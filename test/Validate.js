@@ -134,4 +134,26 @@ describe( 'Validate', function () {
     });
   }); // === describe
 
+  describe( '.match', function () {
+    it( 'sets error if string matches regex', function () {
+      var o = {new_data: {name: "ab"}};
+      Validate.new('.match', function (v) {
+        v.define('name', function (v) { v.match(/ABC/gi); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must match: /ABC/gi');
+    });
+  }); // === describe
+
 }); // === describe
+
+
+
+
+
+
+
+
+
+
+
+
