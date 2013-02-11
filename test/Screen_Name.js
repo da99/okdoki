@@ -1,12 +1,20 @@
-var _    = require('underscore')
-, assert = require('assert')
-, RSN    = require('okdoki/lib/Screen_Name').Screen_Name
-, Redis  = require('okdoki/lib/Redis').Redis
+var _         = require('underscore')
+, assert      = require('assert')
+, RSN         = require('okdoki/lib/Screen_Name').Screen_Name
+, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, Redis       = require('okdoki/lib/Redis').Redis
+, River       = require('okdoki/lib/River').River
+, PG_Client   = require('okdoki/lib/POSTGRESQL').Client
 ;
 
 before(function (done) {
   RSN(Redis.client);
-  done();
+  PG_Client.new('DELETE FROM screen_names', [])
+  .run_and_on_finish(function (err, meta) {
+    if(err)
+      throw err;
+    done();
+  });
 });
 
 after(function (done) {
@@ -14,22 +22,34 @@ after(function (done) {
   done();
 });
 
-describe( 'Customer create_screen_name', function () {
+describe( 'Screen_Name create', function () {
 
-  it( 'adds entry to screen_names tables', function (done) {
-    customer.create_screen_name(screen_name_2, function () {
-      customer.read_screen_names(function (mem) {
-        assert.deepEqual(mem.data.screen_names.sort(), [screen_name, screen_name_2].sort());
-        customer = mem;
-        done();
-      });
+  it( 'saves screen_name to datastore', function (done) {
+    var c = {data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
+    var r = River.new();
+    r
+    .job('create sn', 'mem1', function (j) {
+      Screen_Name.create(c, j.id, r);
+    })
+    .job('read sn', 'mem1', function (j) {
+      PG_Client.new('SELECT * FROM screen_names WHERE screen_name = UPPER($1)', [j.id])
+      .run_and_on_finish(function (err, meta) {
+        if(err)
+          j.error(err);
+        j.finish(meta.rows[0]);
+      })
+    })
+    .run_and_on_finish(function () {
+      var sn = r.last_reply();
+      assert.equal(sn.screen_name, 'mem1'.toUpperCase());
+      done();
     });
   }); // it
 
 
 });
 
-describe( 'Screen_Name', function () {
+describe.skip( 'Screen_Name', function () {
 
   describe( 'create_im', function () {
     it( 'saves im', function (done) {
@@ -89,7 +109,7 @@ describe( 'Screen_Name', function () {
 
 
 
-describe( 'Customer update_screen_name', function () {
+describe.skip( 'Customer update_screen_name', function () {
 
   it( 'updates screen-name', function (done) {
 
