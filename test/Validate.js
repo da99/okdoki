@@ -135,12 +135,22 @@ describe( 'Validate', function () {
   }); // === describe
 
   describe( '.match', function () {
-    it( 'sets error if string matches regex', function () {
+    it( 'sets error if string does not matche regex', function () {
       var o = {new_data: {name: "ab"}};
       Validate.new('.match', function (v) {
         v.define('name', function (v) { v.match(/ABC/gi); });
       }).validate(o);
       assert.equal(o.errors, 'name must match: /ABC/gi');
+    });
+  }); // === describe
+
+  describe( '.not_match', function () {
+    it( 'sets error if string matches regex', function () {
+      var o = {new_data: {name: "abcdef"}};
+      Validate.new('.not_match', function (v) {
+        v.define('name', function (v) { v.not_match(/ABC/gi); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must not match: /ABC/gi');
     });
   }); // === describe
 
