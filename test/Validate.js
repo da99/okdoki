@@ -17,7 +17,23 @@ describe( 'Validate', function () {
       assert.deepEqual(o.sanitized_data, {name: "name_1"});
     });
 
-    it.skip( 'calls River.invalid(msg)', function (done) {
+    it( 'returns true if valid', function () {
+      var o = {new_data: {name: " name_1 "}};
+      var result = Validate.new('test 1', function (v) {
+        v.define('name', function (v) { });
+      }).validate(o);
+      assert.equal(result, true);
+    });
+
+    it( 'returns false if invalid', function () {
+      var o = {new_data: {name: " name_1 "}};
+      var result = Validate.new('test 1', function (v) {
+        v.define('name', function (v) { v.at_least(100); });
+      }).validate(o);
+      assert.equal(result, false);
+    });
+
+    it.skip( 'calls River.invalid(msg)', function () {
     });
 
   }); // === describe
