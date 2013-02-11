@@ -123,4 +123,15 @@ describe( 'Validate', function () {
     });
   }); // === describe
 
+  describe( '.length_gte', function () {
+
+    it( 'sets error if length is less than min', function () {
+      var o = {new_data: {name: "abcdef"}};
+      Validate.new('length_gte', function (v) {
+        v.define('name', function (v) { v.length_gte(10); });
+      }).validate(o);
+      assert.equal(o.errors, 'Length of name must be greater or equal to: 10');
+    });
+  }); // === describe
+
 }); // === describe
