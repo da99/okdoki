@@ -67,7 +67,7 @@ describe( 'Validate', function () {
     });
   }); // === describe
 
-  describe( 'at_least_2_words', function () {
+  describe( '.at_least_2_words', function () {
 
     it( 'sets error if there is no space', function () {
       var o = {new_data: {name: "1234567890123"}};
@@ -77,4 +77,50 @@ describe( 'Validate', function () {
       assert.equal(o.errors, 'name must be two words or more.');
     });
   }); // === describe
+
+  describe( '.equals', function () {
+
+    it( 'sets error if value does not equal', function () {
+      var o = {new_data: {name: "same"}};
+      Validate.new('equals', function (v) {
+        v.define('name', function (v) { v.equal('sa,e'); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must equal: sa,e');
+    });
+  }); // === describe
+
+  describe( '.not_empty', function () {
+    it( 'sets error if value is null', function () {
+      var o = {new_data: {name: null}};
+      Validate.new('equals', function (v) {
+        v.define('name', function (v) { v.not_empty(); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must not be empty.');
+    });
+
+    it( 'sets error if value is undefined', function () {
+      var o = {new_data: {}};
+      Validate.new('equals', function (v) {
+        v.define('name', function (v) { v.not_empty(); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must not be empty.');
+    });
+
+    it( 'sets error if value is an empty string', function () {
+      var o = {new_data: {name: ' '}};
+      Validate.new('equals', function (v) {
+        v.define('name', function (v) { v.not_empty(); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must not be empty.');
+    });
+
+    it( 'sets error if value is an empty array', function () {
+      var o = {new_data: {name: []}};
+      Validate.new('equals', function (v) {
+        v.define('name', function (v) { v.not_empty(); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must not be empty.');
+    });
+  }); // === describe
+
 }); // === describe
