@@ -96,7 +96,7 @@ tbls.show_tables(function (meta) {
     ");
 
     ok.q(" \
-         CREATE OR REPLACE FUNCTION encode_passphrase(varchar) \
+         CREATE OR REPLACE FUNCTION encode_pass_phrase(varchar) \
            RETURNS varchar \
          AS $$ \
            SELECT encode(digest($1, 'sha512'), 'hex') \
@@ -109,7 +109,7 @@ tbls.show_tables(function (meta) {
        created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
        trashed_at timestamp default null,   \
        email text,                 \
-       passphrase_hash varchar(150) NOT NULL \
+       pass_phrase_hash varchar(150) NOT NULL \
     )");
 
     ok.q( " \
@@ -138,7 +138,7 @@ tbls.show_tables(function (meta) {
        read_able           varchar(1) default 'W', \
        read_able_list      varchar(100) ARRAY,   \
        url                 text default null,    \
-       passphrase_hash     varchar(150) default NULL,\
+       pass_phrase_hash     varchar(150) default NULL,\
        about               text default null,    \
        settings            text,                 \
        details             text                  \
@@ -237,7 +237,7 @@ tbls.show_tables(function (meta) {
       return;
     }
 
-    var p = "Passphrase";
+    var p = "pass phrase";
     var jobs = Jobs.new();
     var customer_created = function (f) {
       return function (err, c) {
@@ -255,7 +255,7 @@ tbls.show_tables(function (meta) {
 
     _.each(['go99', 'dos'], function (sn) {
       jobs.create('create: ', sn, function (f, g, id) {
-        Customer.create({screen_name: sn, passphrase: p, confirm_passphrase: p, ip: '000.000.00'}, customer_created(f));
+        Customer.create({screen_name: sn, pass_phrase: p, confirm_pass_phrase: p, ip: '000.000.00'}, customer_created(f));
       });
     });
 

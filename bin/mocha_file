@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+
+set -e
+set -u
+
+
+NODE_ENV=production mocha --timeout 2000 --colors "$@"

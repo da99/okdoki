@@ -10,3 +10,6 @@
   back button is used in browser
 
 - Show "please sign in" if AJAX request is being made w/o loggig in.
+
+- When customer updates their info/profile, update their redis cache.
+  - example: one window open to /chat, another edits their profile.
