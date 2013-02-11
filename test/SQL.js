@@ -47,5 +47,27 @@ describe( 'SQL', function () {
       assert.deepEqual(results[1], "a b c d".split(' '));
     });
 
+    it( 'can use another query as a table', function () {
+      var target = "SELECT * FROM screen_names \
+      WHERE trashed_at IS NULL AND name IS NOT NULL ;"
+      var names = SQL.new();
+      names.from('screen_names');
+      names.where('trashed_at IS NULL');
+
+      var sql = SQL.new();
+      sql
+      .select('*')
+      .from(names)
+      .where('name IS NOT NULL');
+
+      var r = sql.to_sql();
+      assert.equal(clean(r[0]), clean(target));
+    });
   }); // === describe
 }); // === describe
+
+
+
+
+
+
