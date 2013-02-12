@@ -67,6 +67,31 @@ describe( 'SQL', function () {
 
   it( 'can generate LEFT JOIN with ON expression', function () {
     var target = "SELECT * \
+    FROM ( \
+      customers LEFT JOIN screen_names \
+      ON customers.id = screen_names.customer_id \
+    ) \
+    WHERE customers.name IS NOT NULL ;";
+
+    var names = SQL.new()
+    .from('screen_names')
+    .where('.trashed_at IS NULL')
+    ;
+
+    var sql = SQL.new();
+    sql
+    .from('customers')
+      .select('*')
+      .where('.name IS NOT NULL')
+    .left_join('screen_names')
+      .on('.id', '.customer_id');
+
+    var r = sql.to_sql();
+    assert.equal(clean(r[0]), clean(target));
+  });
+
+  it( 'can generate LEFT JOIN using a SQL.Table instead of a table name string', function () {
+    var target = "SELECT * \
     FROM ( customers LEFT JOIN screen_names \
     ON customers.id = screen_names.customer_id \
         AND screen_names.trashed_at IS NULL ) \
@@ -83,8 +108,7 @@ describe( 'SQL', function () {
       .select('*')
       .where('.name IS NOT NULL')
     .left_join(names)
-      .as('screen_names')
-      .on('.id', '.customer_id')
+      .on('.id', '.customer_id');
 
     var r = sql.to_sql();
     assert.equal(clean(r[0]), clean(target));
