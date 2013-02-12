@@ -4,7 +4,7 @@ var _         = require('underscore')
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
 , Redis       = require('okdoki/lib/Redis').Redis
 , River       = require('okdoki/lib/River').River
-, PG_Client   = require('okdoki/lib/POSTGRESQL').Client
+, PG          = require('okdoki/lib/PG').PG
 ;
 
 before(function (done) {
@@ -28,17 +28,22 @@ describe( 'Screen_Name create', function () {
     var c = {data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
     var r = River.new();
     r
+
     .job('create sn', 'mem1', function (j) {
       Screen_Name.create(c, j.id, r);
     })
+
     .job('read sn', 'mem1', function (j) {
-      PG_Client.new('SELECT * FROM screen_names WHERE screen_name = UPPER($1)', [j.id])
-      .run_and_on_finish(function (err, meta) {
-        if(err)
-          j.error(err);
-        j.finish(meta.rows[0]);
-      })
+
+      PG.new('read screen_name', j)
+      .select('*')
+        .from('screen_names')
+        .where('screen_name = UPPER( $next )', j.id)
+        .limit(1)
+      .run();
+
     })
+
     .run_and_on_finish(function () {
       var sn = r.last_reply();
       assert.equal(sn.screen_name, 'mem1'.toUpperCase());
