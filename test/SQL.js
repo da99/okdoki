@@ -113,6 +113,20 @@ describe( 'SQL', function () {
     var r = sql.to_sql();
     assert.equal(clean(r.sql), clean(target));
   });
+
+  it( 'can generate LIMIT expression', function () {
+    var sql = SQL.new()
+    .select('*')
+    .from('tbl')
+    .where('fld = $1', [2])
+    .limit(1)
+    ;
+
+    var target_sql = "SELECT * FROM tbl WHERE fld = $1 LIMIT 1 ;";
+    var results    = sql.to_sql();
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, [2]);
+  });
 }); // === describe
 
 
