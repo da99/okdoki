@@ -19,8 +19,8 @@ describe( 'SQL', function () {
 
     var target_sql = "SELECT * FROM tbl WHERE fld = $1 ;";
     var results    = sql.to_sql();
-    assert.equal(clean(results[0]), clean(target_sql));
-    assert.deepEqual(results[1], [2]);
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, [2]);
   });
 
   it( 'keeps track of var names in WHERE', function () {
@@ -39,9 +39,9 @@ describe( 'SQL', function () {
     f IN [$1, $1, $2] \
     AND    \
     d IN [$3, $4, $4] ;";
-    var results    = sql.to_sql();
-    assert.equal(clean(results[0]), clean(target_sql));
-    assert.deepEqual(results[1], "a b c d".split(' '));
+    var results = sql.to_sql();
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, "a b c d".split(' '));
   });
 
   it( 'can use another query as a table', function () {
@@ -62,7 +62,7 @@ describe( 'SQL', function () {
     .to_sql()
     ;
 
-    assert.equal(clean(r[0]), clean(target));
+    assert.equal(clean(r.sql), clean(target));
   });
 
   it( 'can generate LEFT JOIN with ON expression', function () {
@@ -78,16 +78,16 @@ describe( 'SQL', function () {
     .where('.trashed_at IS NULL')
     ;
 
-    var sql = SQL.new();
-    sql
+    var sql = SQL.new()
+    .select('*')
     .from('customers')
-      .select('*')
-      .where('.name IS NOT NULL')
-    .left_join('screen_names')
-      .on('.id', '.customer_id');
+      .left_join('screen_names')
+        .on('.id', '.customer_id')
+    .where('.name IS NOT NULL')
+    ;
 
     var r = sql.to_sql();
-    assert.equal(clean(r[0]), clean(target));
+    assert.equal(clean(r.sql), clean(target));
   });
 
   it( 'can generate LEFT JOIN using a SQL.Table instead of a table name string', function () {
@@ -102,16 +102,16 @@ describe( 'SQL', function () {
     .where('.trashed_at IS NULL')
     ;
 
-    var sql = SQL.new();
-    sql
+    var sql = SQL.new()
+    .select('*')
     .from('customers')
-      .select('*')
-      .where('.name IS NOT NULL')
-    .left_join(names)
-      .on('.id', '.customer_id');
+      .left_join(names)
+        .on('.id', '.customer_id')
+    .where('.name IS NOT NULL')
+    ;
 
     var r = sql.to_sql();
-    assert.equal(clean(r[0]), clean(target));
+    assert.equal(clean(r.sql), clean(target));
   });
 }); // === describe
 
