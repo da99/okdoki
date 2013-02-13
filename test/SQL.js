@@ -11,7 +11,7 @@ function clean(s) {
 describe( 'SQL: select', function () {
 
   it( 'generates sql for SELECT', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .select('*')
     .from('tbl')
     .where('fld = $1', [2])
@@ -24,8 +24,7 @@ describe( 'SQL: select', function () {
   });
 
   it( 'keeps track of var names in WHERE', function () {
-    var sql = SQL.new();
-    sql
+    var sql = SQL
     .select('*')
     .from('tbl')
     .where(' f IN [$1, $1, $2]', ['a', 'b'])
@@ -72,7 +71,7 @@ describe( 'SQL: select', function () {
 
     var names = SQL.new().from('screen_names').where('.trashed_at IS NULL');
 
-    var sql = SQL.new()
+    var sql = SQL
     .select('*')
     .from('customers')
       .left_join('screen_names')
@@ -93,7 +92,7 @@ describe( 'SQL: select', function () {
 
     var names = SQL.new().from('screen_names').where('.trashed_at IS NULL');
 
-    var sql = SQL.new()
+    var sql = SQL
     .select('*')
     .from('customers')
       .left_join(names)
@@ -106,7 +105,7 @@ describe( 'SQL: select', function () {
   });
 
   it( 'can generate LIMIT expression', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .select('*')
     .from('tbl')
     .where('fld = $1', [2])
@@ -123,7 +122,7 @@ describe( 'SQL: select', function () {
 describe( 'SQL: insert', function () {
 
   it( 'generates INSERT statement', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .insert_into('names')
     .value('name', 'okdoki')
     .value('about', 'website')
@@ -140,7 +139,7 @@ describe( 'SQL: insert', function () {
   });
 
   it( 'generates INSERT statement from a HASH values', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .insert_into('names')
     .values({name: 'okdoki', about: 'website'})
     ;
@@ -156,7 +155,7 @@ describe( 'SQL: insert', function () {
   });
 
   it( 'generates INSERT statement with SQL functions', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .insert_into('names')
     .values({
       name    : 'okdoki',
@@ -180,7 +179,7 @@ describe( 'SQL: insert', function () {
 describe( 'SQL: delete', function () {
 
   it( 'generates DELETE statement', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .delete_from('names')
     .where('name', 'okdoki')
       .and('about = $1', 'website')
@@ -202,7 +201,7 @@ describe( 'SQL: delete', function () {
 describe( 'SQL: update', function () {
 
   it( 'generates UPDATE statement', function () {
-    var sql = SQL.new()
+    var sql = SQL
     .update('names')
     .set({ name: 'okdoki', about: 'website'})
     .where('name', 'ok')

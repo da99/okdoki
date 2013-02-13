@@ -35,15 +35,12 @@ describe( 'Screen_Name create', function () {
 
     .job('read sn', 'mem1', function (j) {
 
-      PG.new('read screen_name', j)
-      .q(
-        SQL.new()
+      PG.run(j, SQL
         .select('*')
         .from('screen_names')
         .where('screen_name = UPPER( $1 )', [j.id])
         .limit(1)
-      )
-      .run();
+      );
 
     })
 
