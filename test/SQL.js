@@ -149,6 +149,28 @@ describe( 'SQL: insert', function () {
   });
 }); // === describe
 
+describe( 'SQL: delete', function () {
+
+  it( 'generates DELETE statement', function () {
+    var sql = SQL.new()
+    .delete_from('names')
+    .where('name', 'okdoki')
+      .and('about = $1', 'website')
+    ;
+
+    var target_sql = "\
+      DELETE FROM names \
+      WHERE name = $1   \
+      AND about = $2  \
+      ;";
+
+    var results    = sql.to_sql();
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, ['okdoki', 'website']);
+  });
+
+}); // === describe
+
 
 
 
