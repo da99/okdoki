@@ -138,6 +138,43 @@ describe( 'SQL: insert', function () {
     assert.equal(clean(results.sql), clean(target_sql));
     assert.deepEqual(results.vals, ['okdoki', 'website']);
   });
+
+  it( 'generates INSERT statement from a HASH values', function () {
+    var sql = SQL.new()
+    .insert_into('names')
+    .values({name: 'okdoki', about: 'website'})
+    ;
+
+    var target_sql = "\
+      INSERT INTO names ( name, about ) \
+      VALUES ( $1, $2 ) \
+      RETURNING * ;";
+
+    var results    = sql.to_sql();
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, ['okdoki', 'website']);
+  });
+
+  it( 'generates INSERT statement with SQL functions', function () {
+    var sql = SQL.new()
+    .insert_into('names')
+    .values({
+      name    : 'okdoki',
+      about   : ['upper($x)', 'website'],
+      display : 'website'
+    })
+    ;
+
+    var target_sql = "\
+      INSERT INTO names ( name, about, display ) \
+      VALUES ( $1, upper($2), $3 ) \
+      RETURNING * ;";
+
+    var results    = sql.to_sql();
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, ['okdoki', 'website', 'website']);
+  });
+
 }); // === describe
 
 describe( 'SQL: delete', function () {
