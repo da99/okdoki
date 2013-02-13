@@ -125,7 +125,7 @@ describe( 'SQL', function () {
     var target_sql = "SELECT * FROM tbl WHERE fld = $1 LIMIT 1 ;";
     var results    = sql.to_sql();
     assert.equal(clean(results.sql), clean(target_sql));
-    assert.deepEqual(results.vals, [2]);
+    assert.equal(results.limit_1, true);
   });
 }); // === describe
 
