@@ -8,7 +8,7 @@ function clean(s) {
   return s.trim().split(/\s+/).join(' ');
 }
 
-describe( 'SQL', function () {
+describe( 'SQL: select', function () {
 
   it( 'generates sql for SELECT', function () {
     var sql = SQL.new()
@@ -129,6 +129,25 @@ describe( 'SQL', function () {
   });
 }); // === describe
 
+describe( 'SQL: insert', function () {
+
+  it( 'generates INSERT statement', function () {
+    var sql = SQL.new()
+    .insert_into('names')
+    .value('name', 'okdoki')
+    .value('about', 'website')
+    ;
+
+    var target_sql = "\
+      INSERT INTO names ( name, about ) \
+      VALUES ( $1, $2 ) \
+      RETURNING * ;";
+
+    var results    = sql.to_sql();
+    assert.equal(clean(results.sql), clean(target_sql));
+    assert.deepEqual(results.vals, ['okdoki', 'website']);
+  });
+}); // === describe
 
 
 
