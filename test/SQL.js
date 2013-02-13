@@ -26,8 +26,8 @@ describe( 'SQL: select', function () {
   it( 'keeps track of var names in WHERE', function () {
     var sql = SQL.new();
     sql
-    .from('tbl')
     .select('*')
+    .from('tbl')
     .where(' f IN [$1, $1, $2]', ['a', 'b'])
     .and(  ' d IN [$1, $2, $2]', ['c', 'd'])
     ;
@@ -50,10 +50,7 @@ describe( 'SQL: select', function () {
     WHERE trashed_at IS NULL \
     AND name IS NOT NULL ;";
 
-    var names = SQL.new()
-    .from('screen_names')
-    .where('trashed_at IS NULL')
-    ;
+    var names = SQL.new().from('screen_names').where('trashed_at IS NULL');
 
     var r = SQL
     .new(names)
@@ -73,10 +70,7 @@ describe( 'SQL: select', function () {
     ) \
     WHERE customers.name IS NOT NULL ;";
 
-    var names = SQL.new()
-    .from('screen_names')
-    .where('.trashed_at IS NULL')
-    ;
+    var names = SQL.new().from('screen_names').where('.trashed_at IS NULL');
 
     var sql = SQL.new()
     .select('*')
@@ -97,10 +91,7 @@ describe( 'SQL: select', function () {
         AND screen_names.trashed_at IS NULL ) \
     WHERE customers.name IS NOT NULL ;";
 
-    var names = SQL.new()
-    .from('screen_names')
-    .where('.trashed_at IS NULL')
-    ;
+    var names = SQL.new().from('screen_names').where('.trashed_at IS NULL');
 
     var sql = SQL.new()
     .select('*')
@@ -167,6 +158,29 @@ describe( 'SQL: delete', function () {
     var results    = sql.to_sql();
     assert.equal(clean(results.sql), clean(target_sql));
     assert.deepEqual(results.vals, ['okdoki', 'website']);
+  });
+
+}); // === describe
+
+describe( 'SQL: update', function () {
+
+  it( 'generates UPDATE statement', function () {
+    var sql = SQL.new()
+    .update('names')
+    .set({ name: 'okdoki', about: 'website'})
+    .where('name', 'ok')
+    .and('about', 'webapp')
+    ;
+
+    var target = "\
+      UPDATE names                \
+      SET name = $1, about = $2   \
+      WHERE name = $3 AND about = $4 \
+    ;";
+
+    var r = sql.to_sql();
+    assert.equal(clean(r.sql), clean(target));
+    assert.deepEqual(r.vals, ['okdoki', 'website', 'ok', 'webapp']);
   });
 
 }); // === describe
