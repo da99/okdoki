@@ -5,14 +5,14 @@ var _         = require('underscore')
 , Redis       = require('okdoki/lib/Redis').Redis
 , River       = require('okdoki/lib/River').River
 , PG          = require('okdoki/lib/PG').PG
+, SQL         = require('okdoki/lib/SQL').SQL
 ;
 
 before(function (done) {
   RSN(Redis.client);
-  PG_Client.new('DELETE FROM screen_names', [])
-  .run_and_on_finish(function (err, meta) {
-    if(err)
-      throw err;
+  PG.new('delete all screen_names')
+  .delete_all('screen_names')
+  .run_and_on_finish(function (meta) {
     done();
   });
 });
@@ -36,10 +36,13 @@ describe( 'Screen_Name create', function () {
     .job('read sn', 'mem1', function (j) {
 
       PG.new('read screen_name', j)
-      .select('*')
+      .q(
+        SQL.new()
+        .select('*')
         .from('screen_names')
-        .where('screen_name = UPPER( $next )', j.id)
+        .where('screen_name = UPPER( $1 )', [j.id])
         .limit(1)
+      )
       .run();
 
     })

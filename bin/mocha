@@ -13,10 +13,5 @@ fi
 set -u
 echo ""
 
-NODE_ENV=production mocha --colors test/postgresql.js "$@"
-NODE_ENV=production mocha --timeout 4000 --colors test/customer.js "$@"
-NODE_ENV=production mocha --timeout 1000 --colors test/Redis.js "$@"
-NODE_ENV=production mocha --timeout 1000 --colors test/Screen_Name.js "$@"
-
-NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
-NODE_ENV=production mocha --timeout 900 --colors test/River.js "$@"
+bin/mocha_file test/River.js test/Validate.js test/SQL.js test/Redis.js test/Screen_Name.js "$@"
+# NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
