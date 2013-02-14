@@ -133,5 +133,21 @@ describe( 'River', function () {
     });
   }); // === describe
 
+  describe( 'group/id', function () {
+    it( 'group/id are optional', function (done) {
+      var val = null;
+      River.new()
+      .job(function (j) {
+        val = j.group + ' ' + j.id;
+        j.finish(val);
+      })
+      .on_finish(function (r) {
+        assert.equal(val, 'no group 1');
+        done();
+      })
+      .run()
+      ;
+    });
+  }); // === describe
 
 }); // === describe
