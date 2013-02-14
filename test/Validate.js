@@ -33,7 +33,14 @@ describe( 'Validate', function () {
       assert.equal(result, false);
     });
 
-    it.skip( 'calls River.invalid(msg)', function () {
+    it( 'calls River.invalid(msg)', function (done) {
+      var o = {new_data: {name: " name_1 "}};
+      var result = Validate.new('test 1', function (v) {
+        v.define('name', function (v) { v.at_least(100); });
+      }).validate(o, {invalid: function (msg) {
+        assert.equal(msg, "name must be at least: 100");
+        done();
+      }});
     });
 
   }); // === describe
@@ -83,7 +90,7 @@ describe( 'Validate', function () {
     it( 'sets error if value does not equal', function () {
       var o = {new_data: {name: "same"}};
       Validate.new('equals', function (v) {
-        v.define('name', function (v) { v.equal('sa,e'); });
+        v.define('name', function (v) { v.equals('sa,e'); });
       }).validate(o);
       assert.equal(o.errors, 'name must equal: sa,e');
     });
