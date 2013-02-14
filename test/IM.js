@@ -23,6 +23,7 @@ describe( 'IM create_im:', function () {
   });
 
   it( 'sets an expire time', function (done) {
+
     var o = {
       from: 'mem2',
       body: 'something'
@@ -34,6 +35,7 @@ describe( 'IM create_im:', function () {
         done();
       });
     });
+
   });
 
   it( 'update expire time of ims group', function (done) {
@@ -45,7 +47,7 @@ describe( 'IM create_im:', function () {
 
     IM.create(o, function (im) {
       Redis.client.ttl('u1:ims', function (e, r) {
-        assert.equal(r > Screen_Name.expire_in && r <= 10, true);
+        assert.equal(r > IM.expire_in && r <= 10, true);
         done();
       });
     });
