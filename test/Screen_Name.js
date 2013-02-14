@@ -1,6 +1,5 @@
 var _         = require('underscore')
 , assert      = require('assert')
-, RSN         = require('okdoki/lib/Screen_Name').Screen_Name
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
 , Redis       = require('okdoki/lib/Redis').Redis
 , River       = require('okdoki/lib/River').River
@@ -9,7 +8,7 @@ var _         = require('underscore')
 ;
 
 before(function (done) {
-  RSN(Redis.client);
+  Screen_Name(Redis.client);
   PG.new('delete all screen_names')
   .delete_all('screen_names')
   .run_and_on_finish(function (meta) {
@@ -22,15 +21,13 @@ after(function (done) {
   done();
 });
 
-describe( 'Screen_Name create', function () {
+describe( 'Screen_Name create:', function () {
 
   it( 'saves screen_name to datastore', function (done) {
     var c = {data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
-    var r = River.new();
-    r
-
+    River.new()
     .job('create sn', 'mem1', function (j) {
-      Screen_Name.create(c, j.id, r);
+      Screen_Name.create(c, j.id, j);
     })
 
     .job('read sn', 'mem1', function (j) {
@@ -44,71 +41,12 @@ describe( 'Screen_Name create', function () {
 
     })
 
-    .run_and_on_finish(function () {
+    .run_and_on_finish(function (r) {
       var sn = r.last_reply();
       assert.equal(sn.screen_name, 'mem1'.toUpperCase());
       done();
     });
   }); // it
-
-
-});
-
-describe.skip( 'Screen_Name', function () {
-
-  describe( 'create_im', function () {
-    it( 'saves im', function (done) {
-      var body = 'Yo yo.';
-      var rsn  = RSN.new('u1');
-      rsn.create_im({owner: 'u1', body: body}, function (r, m) {
-        Redis.client.hget(m.id, 'body', function (e, r) {
-          assert.equal(r, body);
-          done();
-        });
-      });
-    });
-
-    it( 'sets an expire time', function (done) {
-      var rsn  = RSN.new('u1');
-      rsn.create_im({owner: 'u1', body: "something"}, function (r, m) {
-        Redis.client.ttl(m.id, function (e, r) {
-          assert.equal(r > RSN.expire_in && r <= 10, true);
-          done();
-        });
-      });
-    });
-
-    it( 'update expire time of msgs group', function (done) {
-      var rsn  = RSN.new('u1');
-      rsn.create_im({owner: 'u1', body: "something"}, function (r, m) {
-        Redis.client.ttl('u1:msgs', function (e, r) {
-          assert.equal(r > RSN.expire_in && r <= 10, true);
-          done();
-        });
-      });
-    });
-  }); // === describe
-
-  describe( 'read_ims', function () {
-    it( 'retrieves ims', function (done) {
-      var multi = Redis.client.multi();
-      var body = ['Yo yo: 1', 'Yo yo:2 '];
-      var rsn  = RSN.new('u2');
-
-      multi.hmset('f1:msgs', {'f1:1': 1});
-      multi.hmset('f1:msgs', {'f1:2': 1});
-      multi.hmset('f1:1', {'body': body[0]});
-      multi.hmset('f1:2', {'body': body[1]});
-      multi.hmset('u2:c', {'f1':1});
-      multi.exec(function (err, replys) {
-        rsn.read_ims(function (r) {
-          assert.deepEqual(_.pluck(r, 'body'), body);
-          done();
-        });
-      });
-
-    });
-  }); // === describe
 
 }); // === describe
 

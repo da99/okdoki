@@ -14,6 +14,7 @@ set -u
 echo ""
 
 bin/mocha_file \
+  test/IM.js    \
   test/PG.js    \
   test/Redis.js    \
   test/River.js    \
