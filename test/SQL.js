@@ -136,6 +136,7 @@ describe( 'SQL: insert', function () {
     var results    = sql.to_sql();
     assert.equal(clean(results.sql), clean(target_sql));
     assert.deepEqual(results.vals, ['okdoki', 'website']);
+    assert.equal(results.row_1, true);
   });
 
   it( 'generates INSERT statement from a HASH values', function () {
