@@ -18,9 +18,10 @@ bin/mocha_file \
   test/PG.js    \
   test/Redis.js    \
   test/River.js    \
-  test/Screen_Name.js \
   test/SQL.js      \
   test/Validate.js \
+  test/Screen_Name.js \
+  test/Customer.js    \
   "$@"
 
 # NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"

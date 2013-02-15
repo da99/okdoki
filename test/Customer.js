@@ -47,11 +47,12 @@ before(function (done) {
 
 describe( 'Customer create', function () {
 
-  it( 'checks min length of screen_name', function () {
+  it( 'checks min length of screen_name', function (done) {
     var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
     River.new()
     .on_job('invalid', function (msg) {
       assert.equal(msg.indexOf('Screen name must be: '), 0);
+      done();
     })
     .job('create', 'w missing name', [Customer, 'create', opts])
     .run_and_on_finish(function (r) {
@@ -59,22 +60,33 @@ describe( 'Customer create', function () {
     });
   });
 
-  it( 'checks max length of screen_name', function () {
-    var screen_name = "123456789012345678";
-    var opts = { screen_name: screen_name, pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '00.000.000' };
-    Customer.create( opts, null, function (mem) {
-      assert.equal(mem.errors[0].indexOf('Name, "' + screen_name + '", must be'), 0);
-    });
+  it( 'checks max length of screen_name', function (done) {
+    var screen_name = "12345678901234567890";
+    var opts = {
+      screen_name: screen_name,
+      pass_phrase: pass_phrase,
+      confirm_pass_phrase: pass_phrase,
+      ip: '00.000.000'
+    };
+    River.new()
+    .on_job('invalid', function (msg) {
+      assert.equal(msg.indexOf('Screen name must be: '), 0);
+      done();
+    })
+    .job(function (j) {
+      Customer.create(opts, j);
+    })
+    .run_and_on_finish(throw_it);
   });
 
-  it( 'requires an ip address', function () {
+  it( 'requires an ip address', function (done) {
     var opts = { screen_name: "0123456789012", pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase };
     Customer.create( opts, null, function (mem) {
       assert.equal(mem.errors[0].indexOf("IP address is required"), 0);
     });
   });
 
-  it( 'allows a valid screen_name', function () {
+  it( 'allows a valid screen_name', function (done) {
     assert.deepEqual(customer.data.screen_names, [screen_name]);
   });
 
