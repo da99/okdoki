@@ -151,20 +151,45 @@ describe( 'River', function () {
   }); // === describe
 
   describe( 'inheriting a job', function () {
+
     it( 'runs the events of the previous job.river', function (done) {
-      River.new().on_error(function (msg) {
+      River.new()
+      .on_error(function (msg) {
         assert.equal(msg, 'reached');
         done();
       })
       .job(function (j) {
+
         River.new(j)
         .job(function (j) {
           j.error('reached');
         })
         .run();
+
+      })
+      .run();
+    });
+
+    it( 'runs .finish functions only once', function () {
+      var val = 0;
+      River.new()
+      .on_finish(function (r) {
+        ++val;
+      })
+      .job(function (j) {
+
+        River.new(j)
+        .job(function (new_j) {
+          new_j.finish();
+        })
+        .run_and_on_finish(function (r) {
+          j.finish();
+        });
+
       })
       .run();
 
+      assert.equal(val, 1);
     });
   }); // === describe
 
