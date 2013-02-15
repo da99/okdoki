@@ -170,7 +170,37 @@ describe( 'River', function () {
       .run();
     });
 
-    it( 'runs .finish functions only once', function () {
+    //
+    // Parent job's .finish has to be called manually because the .on_finish
+    //   callbacks might run other async jobs. Example:
+    //
+    //     .run_and_on_finish(function () {
+    //        Redis.client.hgetall(function () {
+    //            original_job.finish(arguments);
+    //        });
+    //     })
+    //
+    it( 'parent job\'s .finish has to be called manually', function () {
+      var val = 0;
+      River.new()
+      .job(function (j) {
+
+        River.new(j)
+        .job(function (new_j) {
+          new_j.finish();
+        })
+        .run_and_on_finish(function (r) {
+        });
+
+      })
+      .run_and_on_finish(function (r) {
+        ++val;
+      });
+
+      assert.equal(val, 0);
+    });
+
+    it( 'stops running if parent job has finished', function () {
       var val = 0;
       River.new()
       .on_finish(function (r) {
@@ -180,10 +210,11 @@ describe( 'River', function () {
 
         River.new(j)
         .job(function (new_j) {
+          j.finish();
           new_j.finish();
         })
         .run_and_on_finish(function (r) {
-          j.finish();
+          throw new Error('Should not be reached.');
         });
 
       })
