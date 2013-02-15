@@ -24,10 +24,10 @@ after(function (done) {
 describe( 'Screen_Name create:', function () {
 
   it( 'saves screen_name to datastore', function (done) {
-    var c = {data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
+    var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
     River.new()
     .job('create sn', 'mem1', function (j) {
-      Screen_Name.create(c, j.id, j);
+      Screen_Name.create(c, j);
     })
 
     .job('read sn', 'mem1', function (j) {
