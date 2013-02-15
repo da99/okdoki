@@ -15,7 +15,6 @@ var screen_name_2  = 'go2';
 var screen_name_id = null;
 
 function throw_it() {
-  console.log.apply(console, arguments);
   throw new Error(arguments[0].toString());
   return false;
 }
