@@ -37,7 +37,7 @@ before(function (done) {
     Customer.read_by_id(customer_id, j);
   })
   .run_and_on_finish(function (r) {
-    customer = r.last_reply();
+    customer       = r.last_reply();
     screen_name_id = customer.screen_name_id(screen_name);
     done();
   })
@@ -50,9 +50,12 @@ describe( 'Customer create', function () {
   it( 'checks min length of screen_name', function () {
     var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
     River.new()
-    .job('create', 'w missing name', [Customer, opts])
+    .on_job('invalid', function (msg) {
+      assert.equal(msg.indexOf('Screen name must be: '), 0);
+    })
+    .job('create', 'w missing name', [Customer, 'create', opts])
     .run_and_on_finish(function (r) {
-      assert.equal(r.last_reply().errors[0].indexOf('Name, "", must be'), 0);
+      throw new Error('Unreachable.');
     });
   });
 
