@@ -45,6 +45,7 @@ describe( 'River', function () {
   });
 
   describe( 'on_job', function () {
+
     it( 'runs event only in job', function (done) {
       var results = [];
       var r = River.new();
@@ -58,6 +59,24 @@ describe( 'River', function () {
       })
       .run();
     });
+
+    it( 'throws Error if no invalid handler defined', function (done) {
+      var results = [];
+      var r = River.new();
+      r
+      .job('throw', 'done', function (j) {
+        var e = null;
+        try {
+          j.invalid('done');
+        } catch(err) {
+          e = err;
+        }
+        assert(e.message, 'done');
+        done();
+      })
+      .run();
+    });
+
   }); // === describe
 
   describe( '.invalid', function () {
@@ -71,6 +90,8 @@ describe( 'River', function () {
       .job('runs', 2, function (j) {
         j.finish(j.id)
       })
+
+      .on_job('invalid', function () { return;})
       .job('runs', 3, function (j) {
         job = j;
         j.invalid(j.id);
