@@ -38,7 +38,7 @@ casper.then( function () {
   // ... when no password is entered.
   this.fill(sign_in, {
     'screen_name': 'go99',
-    'passphrase': "",
+    'pass_phrase': "",
   }, false);
   this.click(sign_in + ' button.submit');
   var test_func = test_f( 'assertEvalEquals', msg, "Password is required.", "Msg shown: Password is required.");
@@ -52,7 +52,7 @@ casper.then(function () {
 
   this.fill(sign_in, {
     'screen_name': 'go99',
-    'passphrase': "Passphrase",
+    'pass_phrase': "Pass_phrase",
   }, false);
   this.click(sign_in + ' button.submit');
   var test_func = test_f( 'assertEvalEquals', function () {

@@ -26,8 +26,8 @@ casper.then(function () {
   var div_errors = form + ' div.errors';
   this.fill(form, {
     'screen_name': '',
-    'passphrase': '',
-    'confirm_passphrase': '',
+    'pass_phrase': '',
+    'confirm_pass_phrase': '',
     'email': contact
   }, false);
 
@@ -50,8 +50,8 @@ casper.then(function () {
   // === see if screen name errors are displayed.
   this.fill(form, {
     'screen_name'        : '',
-    'passphrase'         : phrase,
-    'confirm_passphrase' : phrase,
+    'pass_phrase'         : phrase,
+    'confirm_pass_phrase' : phrase,
     'email'              : contact
   }, false);
 
@@ -65,7 +65,7 @@ casper.then(function () {
 
 });
 
-// === see if passphrase errors are displayed
+// === see if pass_phrase errors are displayed
 casper.then(function () {
 
   var form = 'form#form_create_account';
@@ -73,8 +73,8 @@ casper.then(function () {
 
   this.fill(form, {
     'screen_name'        : screen_name,
-    'passphrase'         : "",
-    'confirm_passphrase' : "",
+    'pass_phrase'         : "",
+    'confirm_pass_phrase' : "",
     'email'              : contact
   }, false);
 
@@ -83,12 +83,12 @@ casper.then(function () {
   this.waitFor(function check() {
     return this.exists(div_errors);
   }, function then() {
-    this.test.assertEqual(this.fetchText(div_errors), "Passphrase must be at least 9 chars long.", " Passphrase errors when creating account. ");
+    this.test.assertEqual(this.fetchText(div_errors), "Pass phrase must be at least 9 chars long.", " Pass phrase errors when creating account. ");
   });
 
 });
 
-// === see if passphrase confirm errors are displayed
+// === see if pass_phrase confirm errors are displayed
 casper.then(function () {
 
   var form = 'form#form_create_account';
@@ -96,8 +96,8 @@ casper.then(function () {
 
   this.fill(form, {
     'screen_name'        : screen_name,
-    'passphrase'         : phrase,
-    'confirm_passphrase' : phrase + "u",
+    'pass_phrase'         : phrase,
+    'confirm_pass_phrase' : phrase + "u",
     'email'              : contact
   }, false);
 
@@ -106,7 +106,7 @@ casper.then(function () {
   this.waitFor(function check() {
     return this.exists(div_errors);
   }, function then() {
-    this.test.assertEqual(this.fetchText(div_errors), "Passphrase confirmation does not match passphrase.", " Passphrase confirm errors when creating account. ");
+    this.test.assertEqual(this.fetchText(div_errors), "Pass phrase confirmation does not match pass phrase.", " Pass phrase confirm errors when creating account. ");
   });
 
 });
@@ -119,8 +119,8 @@ casper.then(function () {
 
   this.fill(form, {
     'screen_name'        : screen_name,
-    'passphrase'         : phrase,
-    'confirm_passphrase' : phrase,
+    'pass_phrase'         : phrase,
+    'confirm_pass_phrase' : phrase,
     'email'              : ""
   }, false);
 

@@ -52,34 +52,46 @@ describe( 'Screen_Name create:', function () {
 
 
 
-describe.skip( 'Customer update_screen_name', function () {
+describe.skip( 'Screen_Name update', function () {
 
-  it( 'updates screen-name', function (done) {
+  // beforeEach(function (done) {
+    // PG.new('delete all screen_names')
+    // .delete_all('screen_names')
+    // .run_and_on_finish(function (meta) {
+      // Screen_Name.create(c, 'mem1', {finish: function (new_row) {
+        // row = new_row;
+        // done();
+      // }});
+    // });
+  // });
 
-    var mem = customer;
-    var old = screen_name;
-    var n   = 'new-' + old;
-    mem.update_screen_name(old, n, function (meta) {
-      mem.read_screen_names(function (c) {
-        assert.deepEqual(c.data.screen_names.sort(), [n, screen_name_2].sort());
-        screen_name = n;
-        done();
-      });
-    });
+  it( 'updates screen name', function (done) {
+    var c = Customer.new();
+    c.is_new = false;
+    c.data.id = 'c1';
+    c.new_data = {'old_screen_name': 'mem1', 'screen_name': 'mem1new'};
+    var c = {
+      data                 : {id: 'c1'},
+      push_screen_name_row : function (r) { this.row = r;},
+      new_data             : null,
+      remove_screen_name   : null
+    };
+    Screen_Name.update('mem', c, { finish: function (row) {
+      assert.deepEqual(row.screen_name, 'mem1new');
+      done();
+    }});
 
   }); // it
 
   it( 'updates homepage about', function (done) {
-    var expected = 'This is about: ' + screen_name_2;
-    customer.update_screen_name(screen_name_2, {"homepage_about": expected}, function (meta) {
-      customer.read_homepage(screen_name_2, function (data) {
-        assert.equal(data.about, expected);
-        done();
-      });
+    var expected = 'This is about: mem1new';
+    Screen_Name.update('mem1new', {new_data: {"about": expected}}, function (row) {
+      assert.equal(row.about, expected);
+      done();
     });
   });
 
-  it( 'updates homepage title', function (done) {
+  it.skip( 'updates homepage title', function (done) {
     var expected = 'This is for: ' + screen_name_2;
     customer.update_screen_name(screen_name_2, {"homepage_title": expected}, function (meta) {
       customer.read_homepage(screen_name_2,  function (data) {
@@ -89,7 +101,7 @@ describe.skip( 'Customer update_screen_name', function () {
     });
   });
 
-  it( 'updates homepage allow', function (done) {
+  it.skip( 'updates homepage allow', function (done) {
     customer.read_screen_names(function (new_c) {
       var expected = _.pluck(new_c.data.screen_name_rows, 'id').sort();
       customer.update_screen_name(screen_name, {'homepage_allow': expected}, function (mets) {

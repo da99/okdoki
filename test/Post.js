@@ -7,8 +7,8 @@ var pg             = require('okdoki/lib/POSTGRESQL');
 before(function (done) {
 
   var screen_name = 'mem1';
-  var pwp         = passphrase;
-  var vals = ({screen_name: screen_name, passphrase: pwp, confirm_passphrase: pwp, ip: '000.00.000'});
+  var pwp         = pass_phrase;
+  var vals = ({screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'});
 
   Customer.create(vals, function (mem) {
     customer_id = mem.sanitized_data.id;

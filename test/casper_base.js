@@ -52,7 +52,7 @@ exports.new_casper = function (sign_in) {
 
       this.fill(sign_in, {
         'screen_name': 'go99',
-        'passphrase': "Passphrase",
+        'pass_phrase': "Pass phrase",
       }, false);
       this.click(sign_in + ' button.submit');
       this.waitFor(exists_f('#homepages'), null, null, 1000);
@@ -81,7 +81,7 @@ exports.prepare = function (casper) {
 
         this.fill(sign_in, {
           'screen_name' : name,
-          'passphrase'  : "Passphrase",
+          'pass_phrase'  : "Pass phrase",
         }, false);
         this.click(sign_in + ' button.submit');
         this.waitFor(exists_f('#homepages'), null, null, 1000);

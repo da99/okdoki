@@ -10,18 +10,24 @@ var show_databases = pg.show_databases;
 var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';
-var passphrase     = "this is my password";
+var pass_phrase     = "this is my password";
 var screen_name_2  = 'go2';
 var screen_name_id = null;
+
+function throw_it() {
+  console.log.apply(console, arguments);
+  throw new Error(arguments[0].toString());
+  return false;
+}
 
 before(function (done) {
 
   var screen_name = 'mem1';
-  var pwp         = passphrase;
-  var vals = ({screen_name: screen_name, passphrase: pwp, confirm_passphrase: pwp, ip: '000.00.000'});
+  var pwp         = pass_phrase;
+  var vals = {screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'};
 
-  var r = River.new();
-  r
+  River.new()
+  .on_job('invalid', throw_it)
   .job('create:', screen_name, [Customer, 'create', vals])
   .job('read:', screen_name, function (j) {
     customer_id = j.river.last_reply().sanitized_data.id;
@@ -39,7 +45,7 @@ before(function (done) {
 describe( 'Customer create', function () {
 
   it( 'checks min length of screen_name', function () {
-    var opts = { passphrase: passphrase, confirm_passphrase: passphrase, ip: '000.00.00'};
+    var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
     River.new()
     .job('create', 'w missing name', [Customer, opts])
     .run_and_on_finish(function (r) {
@@ -49,14 +55,14 @@ describe( 'Customer create', function () {
 
   it( 'checks max length of screen_name', function () {
     var screen_name = "123456789012345678";
-    var opts = { screen_name: screen_name, passphrase: passphrase, confirm_passphrase: passphrase, ip: '00.000.000' };
+    var opts = { screen_name: screen_name, pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '00.000.000' };
     Customer.create( opts, null, function (mem) {
       assert.equal(mem.errors[0].indexOf('Name, "' + screen_name + '", must be'), 0);
     });
   });
 
   it( 'requires an ip address', function () {
-    var opts = { screen_name: "0123456789012", passphrase: passphrase, confirm_passphrase: passphrase };
+    var opts = { screen_name: "0123456789012", pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase };
     Customer.create( opts, null, function (mem) {
       assert.equal(mem.errors[0].indexOf("IP address is required"), 0);
     });
@@ -102,8 +108,8 @@ describe( 'Customer read', function () {
     });
   });
 
-  it( 'reads customer if passed a hash with: screen_name, passphrase', function (done) {
-    Customer.read({screen_name: screen_name, passphrase: passphrase},
+  it( 'reads customer if passed a hash with: screen_name, pass_phrase', function (done) {
+    Customer.read({screen_name: screen_name, pass_phrase: pass_phrase},
                  function (c) {
                    assert.equal(customer_id, c.data.id);
                    done();
