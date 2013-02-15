@@ -18,118 +18,127 @@ function throw_it() {
   return false;
 }
 
-before(function (done) {
 
-  var screen_name = 'mem1';
-  var pwp         = pass_phrase;
-  var vals = {screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'};
+describe( 'Customer', function () {
 
-  River.new()
-  .job('clear data', function (j) {
-    PG.new('delete data')
-    .delete_all('screen_names')
-    .delete_all('customers')
-    .run_and_on_finish(j.finish);
-  })
-  .job('create:', screen_name, [Customer, 'create', vals])
-  .job('read:', screen_name, function (j) {
-    customer_id = j.river.last_reply().sanitized_data.id;
-    Customer.read_by_id(customer_id, j);
-  })
-  .run_and_on_finish(function (r) {
-    customer       = r.last_reply();
-    screen_name_id = customer.screen_name_id(screen_name);
-    done();
-  })
-  ;
+  before(function (done) {
 
-});
+    var screen_name = 'mem1';
+    var pwp         = pass_phrase;
+    var vals = {screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'};
 
-describe( 'Customer create', function () {
-
-  it( 'checks min length of screen_name', function (done) {
-    var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
     River.new()
-    .on_job('invalid', function (msg) {
-      assert.equal(msg.indexOf('Screen name must be: '), 0);
-      done();
+    .job('clear data', function (j) {
+      PG.new('delete data')
+      .delete_all('screen_names')
+      .delete_all('customers')
+      .run_and_on_finish(j.finish);
     })
-    .job('create', 'w missing name', [Customer, 'create', opts])
+    .job('create:', screen_name, [Customer, 'create', vals])
+    .job('read:', screen_name, function (j) {
+      customer_id = j.river.last_reply().sanitized_data.id;
+      Customer.read_by_id(customer_id, j);
+    })
     .run_and_on_finish(function (r) {
-      throw new Error('Unreachable.');
-    });
-  });
-
-  it( 'checks max length of screen_name', function (done) {
-    var screen_name = "12345678901234567890";
-    var opts = {
-      screen_name: screen_name,
-      pass_phrase: pass_phrase,
-      confirm_pass_phrase: pass_phrase,
-      ip: '00.000.000'
-    };
-    River.new()
-    .on_job('invalid', function (msg) {
-      assert.equal(msg.indexOf('Screen name must be: '), 0);
+      customer       = r.last_reply();
+      screen_name_id = customer.screen_name_id(screen_name);
       done();
     })
-    .job(function (j) {
-      Customer.create(opts, j);
-    })
-    .run_and_on_finish(throw_it);
-  });
+    ;
 
-  it( 'saves screen_name to Customer object', function () {
-    assert.deepEqual(customer.data.screen_names, [screen_name.toUpperCase()]);
-  });
+  }); // === end before
+
+  describe( 'create:', function () {
+    it( 'checks min length of screen_name', function (done) {
+      var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
+      River.new()
+      .on_job('invalid', function (msg) {
+        assert.equal(msg.indexOf('Screen name must be: '), 0);
+        done();
+      })
+      .job('create', 'w missing name', [Customer, 'create', opts])
+      .run_and_on_finish(function (r) {
+        throw new Error('Unreachable.');
+      });
+    });
+
+    it( 'checks max length of screen_name', function (done) {
+      var screen_name = "12345678901234567890";
+      var opts = {
+        screen_name: screen_name,
+        pass_phrase: pass_phrase,
+        confirm_pass_phrase: pass_phrase,
+        ip: '00.000.000'
+      };
+      River.new()
+      .on_job('invalid', function (msg) {
+        assert.equal(msg.indexOf('Screen name must be: '), 0);
+        done();
+      })
+      .job(function (j) {
+        Customer.create(opts, j);
+      })
+      .run_and_on_finish(throw_it);
+    });
+
+    it( 'saves screen_name to Customer object', function () {
+      assert.deepEqual(customer.data.screen_names, [screen_name.toUpperCase()]);
+    });
 
 
-  it( 'saves Customer id to Customer ovject', function (done) {
-    var c = customer;
+    it( 'saves Customer id to Customer ovject', function (done) {
+      var c = customer;
 
-    // Has the customer id been saved?
-    assert.equal(customer_id, c.data.id);
+      // Has the customer id been saved?
+      assert.equal(customer_id, c.data.id);
 
-    // Has the screen name been saved?
-    assert.deepEqual([screen_name.toUpperCase()], c.data.screen_names);
+      // Has the screen name been saved?
+      assert.deepEqual([screen_name.toUpperCase()], c.data.screen_names);
 
-    done();
-  });
+      done();
+    });
+
+  }); // === describe create
+
+
+  describe( 'read_by_id:', function () {
+
+    it( 'reads Customer from DB using customer id', function (done) {
+      River.new()
+      .job('read', customer_id, [Customer, 'read_by_id', customer_id])
+      .run_and_on_finish(function (r) {
+        var c = r.last_reply();
+        assert.equal(c.data.id, customer_id);
+        done();
+      });
+    });
+
+    it( 'reads screen-names', function (done) {
+      assert.deepEqual(customer.data.screen_names.sort(), [screen_name, screen_name_2].sort());
+      done();
+    });
+
+    it( 'executes on_err func', function (done) {
+      Customer.read("no one", function () { throw new Error('err'); },  function (meta) {
+        assert.equal(meta.rowCount, 0);
+        done();
+      });
+    });
+
+    it( 'reads customer if passed a hash with: screen_name, pass_phrase', function (done) {
+      Customer.read({screen_name: screen_name, pass_phrase: pass_phrase},
+                    function (c) {
+                      assert.equal(customer_id, c.data.id);
+                      done();
+                    }, function () {
+                      throw new Error('Customer not found.');
+                      done();
+                    });
+    });
+  }); // === describe read_by_id
 
 }); // === describe
 
-describe( 'Customer read', function () {
-
-  it( 'reads Customer from DB', function (done) {
-    Customer.read(customer_id, function (c, meta) {
-      assert.equal(c.data.id, customer_id);
-      done();
-    });
-  });
-
-  it( 'reads screen-names', function (done) {
-    assert.deepEqual(customer.data.screen_names.sort(), [screen_name, screen_name_2].sort());
-    done();
-  });
-
-  it( 'executes on_err func', function (done) {
-    Customer.read("no one", function () { throw new Error('err'); },  function (meta) {
-      assert.equal(meta.rowCount, 0);
-      done();
-    });
-  });
-
-  it( 'reads customer if passed a hash with: screen_name, pass_phrase', function (done) {
-    Customer.read({screen_name: screen_name, pass_phrase: pass_phrase},
-                 function (c) {
-                   assert.equal(customer_id, c.data.id);
-                   done();
-                 }, function () {
-                   throw new Error('Customer not found.');
-                   done();
-                 });
-  });
-}); // === describe
 
 
 describe.skip( 'Customer update', function () {
