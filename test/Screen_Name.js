@@ -7,21 +7,22 @@ var _         = require('underscore')
 , SQL         = require('okdoki/lib/SQL').SQL
 ;
 
-before(function (done) {
-  Screen_Name(Redis.client);
-  PG.new('delete all screen_names')
-  .delete_all('screen_names')
-  .run_and_on_finish(function (meta) {
+describe( 'Screen_Name create:', function () {
+
+  before(function (done) {
+    Screen_Name(Redis.client);
+    PG.new('delete all screen_names and customers')
+    .delete_all('screen_names')
+    .delete_all('customers')
+    .run_and_on_finish(function (meta) {
+      done();
+    });
+  });
+
+  after(function (done) {
+    Redis.client.quit();
     done();
   });
-});
-
-after(function (done) {
-  Redis.client.quit();
-  done();
-});
-
-describe( 'Screen_Name create:', function () {
 
   it( 'saves screen_name to datastore', function (done) {
     var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
