@@ -3,10 +3,9 @@ var _              = require('underscore');
 var assert         = require('assert');
 var River          = require('okdoki/lib/River').River;
 var Customer       = require('okdoki/lib/Customer').Customer;
-var pg             = require('okdoki/lib/POSTGRESQL');
+var PG             = require('okdoki/lib/PG').PG;
 var strftimeUTC    = require('strftime').strftimeUTC;
 var strftime       = require('strftime').strftime;
-var show_databases = pg.show_databases;
 var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';
@@ -26,13 +25,18 @@ before(function (done) {
   var vals = {screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'};
 
   River.new()
-  .on_job('invalid', throw_it)
+  .job('clear data', function (j) {
+    PG.new('delete data')
+    .delete_all('screen_names')
+    .delete_all('customers')
+    .run_and_on_finish(j.finish);
+  })
   .job('create:', screen_name, [Customer, 'create', vals])
   .job('read:', screen_name, function (j) {
     customer_id = j.river.last_reply().sanitized_data.id;
-    Customer.read(customer_id, j);
+    Customer.read_by_id(customer_id, j);
   })
-  .run_and_on_finish(function () {
+  .run_and_on_finish(function (r) {
     customer = r.last_reply();
     screen_name_id = customer.screen_name_id(screen_name);
     done();

@@ -17,7 +17,7 @@ describe( 'PG', function () {
       })
       .q('SELECT now() AS TIME')
       .q('SELECT * FROM "no-table";')
-      .run(function () { throw new Error('Not suppose to reach here.') })
+      .run_and_on_finish(function () { throw new Error('Not suppose to reach here.') })
       ;
     });
 
@@ -51,8 +51,8 @@ describe( 'PG', function () {
       PG.new('test .on_finish')
       .q('SELECT now() AS TIME')
       .q('SELECT current_database() AS NAME')
-      .on_finish(function (meta) {
-        assert.equal(meta.rows.length, 1);
+      .on_finish(function (rows) {
+        assert.equal(rows.length, 1);
         done();
       })
       .run();
