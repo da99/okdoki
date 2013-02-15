@@ -160,19 +160,19 @@ describe( 'SQL: insert', function () {
     .insert_into('names')
     .values({
       name    : 'okdoki',
-      about   : ['upper($x)', 'website'],
-      display : 'website'
+      about   : ['upper($1)', 'website'],
+      display : ['upper($1, $2)', ['website', 'app']]
     })
     ;
 
     var target_sql = "\
       INSERT INTO names ( name, about, display ) \
-      VALUES ( $1, upper($2), $3 ) \
+      VALUES ( $1, upper($2), upper($3, $4) ) \
       RETURNING * ;";
 
     var results    = sql.to_sql();
     assert.equal(clean(results.sql), clean(target_sql));
-    assert.deepEqual(results.vals, ['okdoki', 'website', 'website']);
+    assert.deepEqual(results.vals, ['okdoki', 'website', 'website', 'app']);
   });
 
 }); // === describe
