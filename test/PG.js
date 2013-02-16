@@ -1,9 +1,43 @@
 
-var PG   = require('okdoki/lib/PG').PG
-, River  = require('okdoki/lib/River').River
-, assert = require('assert');
+var _      = require('underscore')
+, PG       = require('okdoki/lib/PG').PG
+, River    = require('okdoki/lib/River').River
+, SQL      = require('okdoki/lib/SQL').SQL
+, Customer = require('okdoki/lib/Customer').Customer
+, assert   = require('assert')
+;
 
 describe( 'PG', function () {
+
+  describe( '.run', function () {
+    it( 'removes pass_phrase_hash from each result', function (done) {
+      var opts = {
+        pass_phrase         : "this is a pass phrase",
+        confirm_pass_phrase : "this is a pass phrase",
+        ip                  : '000.00.000'
+      };
+
+      var opts_1 = _.extend( _.clone(opts), {screen_name: 'r_0_1'});
+      var opts_2 = _.extend( _.clone(opts), {screen_name: 'r_0_2'});
+
+      River.new()
+      .job('create' , '1', [Customer, 'create', opts_1])
+      .job('create' , '2', [Customer, 'create', opts_2])
+      .job('read', 'customers', function (j) {
+        PG.new()
+        .q(SQL.select('*').from(Customer.TABLE_NAME))
+        .run(function (rows) {
+          _.each(rows, function (r) {
+            assert.equal(r.hasOwnProperty('pass_phrase_hash'), false);
+          })
+          j.finish(rows);
+        });
+      })
+      .run_and_on_finish(function () {
+        done();
+      });
+    });
+  }); // === describe
 
   describe( '.on_error', function () {
 
