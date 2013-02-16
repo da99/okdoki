@@ -5,23 +5,21 @@
   "private"     : true,
   "main"        : "lib/app.js",
   "dependencies": {
-    "express"        : "3.0.x",
-    "jade"           : "0.27.6",
-    "pg"             : "0.8.x",
-    "passport"       : "0.1.x",
-    "passport-local" : "0.1.x",
-    "password-hash"  : "1.2.x",
+    "express"        : "3.x.x",
+    "jade"           : "0.x.6",
+    "pg"             : "0.x.x",
+    "passport"       : "0.x.x",
+    "passport-local" : "0.x.x",
+    "password-hash"  : "1.x.x",
     "shortid"        : "1.x.x",
-    "validator"      : "0.4.x",
-    "underscore"     : "1.4.x",
-    "sql-generator"  : "0.x.x",
-    "uri-js"         : "1.4.x"
+    "validator"      : "0.x.x",
+    "underscore"     : "1.x.x",
+    "uri-js"         : "1.x.x"
     , "rel"        : "0.x.x"
-    , "toobusy"    : "0.1.x"
-    , "reltime"    : "0.0.x"
-    , "duration"   : "0.1.x"
-    , "redis"      : "0.8.x"
-    , "queue-flow" : "0.5.x"
+    , "toobusy"    : "0.x.x"
+    , "reltime"    : "0.x.x"
+    , "duration"   : "0.x.x"
+    , "redis"      : "0.x.x"
     , "request"    : "2.x.x"
   },
   "devDependencies": {
