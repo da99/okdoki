@@ -85,7 +85,6 @@ describe( 'Customer', function () {
       assert.deepEqual(customer.data.screen_names, [screen_name.toUpperCase()]);
     });
 
-
     it( 'saves Customer id to Customer ovject', function (done) {
       var c = customer;
 
@@ -180,28 +179,31 @@ describe( 'Customer', function () {
 
   }); // === describe read_by_screen_name
 
-}); // === describe
 
+  describe( 'Customer update', function () {
 
-
-describe.skip( 'Customer update', function () {
-
-  it( 'updates Customer email', function (done) {
-
-    var new_email = 'new-e\'mail@i-hate-all.com';
-    var mem = customer;
-    mem.update({'email': new_email}, function (meta) {
-      Customer.read(customer_id, function (new_mem) {
-        new_mem.read(customer_id, function (meta) {
-          assert(new_mem.data.email, new_email);
-          done();
-        });
+    it('updates Customer email', function (done) {
+      var new_email = 'new-e\'mail@i-hate-all.com';
+      River.new()
+      .on_job('invalid', throw_it)
+      .job('update customer', new_email, [customer, 'update', {'email': new_email}])
+      .job('assert new email', function (j) {
+        assert.equal(customer.data.email, new_email);
+        j.finish(customer.data.email);
+      })
+      .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
+      .run_and_on_finish(function (r) {
+        assert.equal(r.last_reply().data.email, new_email);
+        done();
       });
-    });
+    }); // it
 
-  }); // it
+  }); // === describe update
 
-}); // === describe
+
+}); // === describe Customer
+
+
 
 describe.skip( 'Customer trash', function () {
 
