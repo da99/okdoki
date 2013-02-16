@@ -18,6 +18,10 @@ function throw_it() {
   return false;
 }
 
+function is_recent(date) {
+  var diff = Math.abs(((new Date).getTime() - date.getTime()));
+  return diff < 1000;
+}
 
 describe( 'Customer', function () {
 
@@ -200,24 +204,30 @@ describe( 'Customer', function () {
 
   }); // === describe update
 
+  describe( 'trash', function () {
+
+    it( 'it updates Customer trashed_at date.', function (done) {
+      var f = '%Y-%m-%dT%H:%M';
+      River.new('trash customer')
+      .job('trash customer', customer_id, [customer, 'trash'])
+      .job('assert trashed_at changed', function (j) {
+        assert.equal(is_recent(customer.data.trashed_at), true);
+        j.finish(customer);
+      })
+      .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
+      .run_and_on_finish(function (r) {
+        var c = r.last_reply();
+        assert.equal(is_recent(c.data.trashed_at), true);
+        done();
+      });
+    }); // it
+
+  }); // === describe trash
+
 
 }); // === describe Customer
 
 
-
-describe.skip( 'Customer trash', function () {
-
-  it( 'it updates Customer trashed_at date.', function (done) {
-    var f = '%Y-%m-%dT%H:%M';
-    customer.trash(function () {
-      Customer.read(customer_id, function (c) {
-        assert.equal(c.data.trashed_at.toString(), (new Date()).toString());
-        done();
-      });
-    });
-  }); // it
-
-}); // === describe
 
 describe.skip( 'Customer trash_screen_name', function () {
 
