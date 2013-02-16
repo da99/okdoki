@@ -213,6 +213,7 @@ describe( 'SQL: update', function () {
       UPDATE names                \
       SET name = $1, about = $2   \
       WHERE name = $3 AND about = $4 \
+      RETURNING * \
     ;";
 
     var r = sql.to_sql();
