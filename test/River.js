@@ -19,29 +19,31 @@ describe( 'River', function () {
       };
     };
 
-    r.job('del: ', 'job-keys', function (j) {
+    r
+    .job('del: ', 'job-keys', function (j) {
       Redis.client.del('job-keys', fin(j));
-    });
+    })
 
-    r.job('pop: ', 0, function (j) {
+    .job('pop: ', 0, function (j) {
       Redis.client.lpop('job-keys', fin(j));
-    });
+    })
 
-    r.job('insert: ', 1, function (j) {
+    .job('insert: ', 1, function (j) {
       process.nextTick( function() {
         Redis.client.rpush('job-keys', j.id, fin(j));
       });
-    });
+    })
 
-    r.job('pop: ', 1, function (j) {
+    .job('pop: ', 1, function (j) {
       Redis.client.lpop('job-keys', fin(j));
-    });
+    })
 
-    r
     .run_and_on_finish(function () {
-      assert.deepEqual([null, 1, '1'], _.flatten(r.results.slice(1), 1));
+      assert.deepEqual([null, 1, '1'], _.flatten(r.replys.slice(1), 1));
       done();
-    });
+    })
+    ;
+
   });
 
   describe( 'on_job', function () {
@@ -103,7 +105,7 @@ describe( 'River', function () {
       .run_and_on_finish(function () {
         throw new Error('This is not suppose to run.');
       });
-      assert.deepEqual(_.flatten(r.results, 1), [1,2]);
+      assert.deepEqual(_.flatten(r.replys, 1), [1,2]);
       assert.equal(job.invalid_msg, 3);
       done();
     });
