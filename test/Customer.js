@@ -114,28 +114,71 @@ describe( 'Customer', function () {
     });
 
     it( 'reads screen-names', function (done) {
-      assert.deepEqual(customer.data.screen_names.sort(), [screen_name, screen_name_2].sort());
-      done();
-    });
-
-    it( 'executes on_err func', function (done) {
-      Customer.read("no one", function () { throw new Error('err'); },  function (meta) {
-        assert.equal(meta.rowCount, 0);
+      River.new()
+      .job('read', customer_id, [Customer, 'read_by_id', customer_id])
+      .run_and_on_finish(function (r) {
+        var c = r.last_reply();
+        assert.deepEqual(c.data.screen_names, [screen_name.toUpperCase()]);
         done();
       });
     });
 
-    it( 'reads customer if passed a hash with: screen_name, pass_phrase', function (done) {
-      Customer.read({screen_name: screen_name, pass_phrase: pass_phrase},
-                    function (c) {
-                      assert.equal(customer_id, c.data.id);
-                      done();
-                    }, function () {
-                      throw new Error('Customer not found.');
-                      done();
-                    });
+    it( 'executes not_found func', function (done) {
+      River.new()
+      .on_job('not_found', function (msg) {
+        assert.equal(msg, 'Not found: no-id');
+        done();
+      })
+      .job('read empty:', 'no-id', [Customer, 'read_by_id', 'no-id'])
+      .run_and_on_finish(throw_it);
     });
+
   }); // === describe read_by_id
+
+  describe( 'read_by_screen_name', function () {
+
+    it( 'reads customer if passed screen-name as string', function (done) {
+      River.new('read by screen name')
+      .job('read:', screen_name, [Customer, 'read_by_screen_name', screen_name])
+      .run_and_on_finish(function (r) {
+        var c = r.last_reply();
+        assert.equal(customer_id, c.data.id);
+        done();
+      });
+    });
+
+    it( 'reads customer if passed a hash with: screen_name', function (done) {
+      River.new('read by screen name')
+      .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name}])
+      .run_and_on_finish(function (r) {
+        var c = r.last_reply();
+        assert.equal(customer_id, c.data.id);
+        done();
+      });
+    });
+
+    it( 'reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
+      River.new('read by screen name')
+      .on_job('not_found', throw_it)
+      .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
+      .run_and_on_finish(function (r) {
+        var c = r.last_reply();
+        assert.equal(customer_id, c.data.id);
+        done();
+      });
+    });
+
+    it( 'does not reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
+      River.new('read by screen name')
+      .on_job('not_found', function (msg) {
+        assert.equal(msg, 'Not found: ' + screen_name);
+        done();
+      })
+      .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
+      .run_and_on_finish(throw_it);
+    });
+
+  }); // === describe read_by_screen_name
 
 }); // === describe
 
