@@ -3,13 +3,16 @@ var _              = require('underscore');
 var assert         = require('assert');
 var River          = require('okdoki/lib/River').River;
 var Customer       = require('okdoki/lib/Customer').Customer;
+var Screen_Name    = require('okdoki/lib/Screen_Name').Screen_Name;
 var PG             = require('okdoki/lib/PG').PG;
+var SQL            = require('okdoki/lib/SQL').SQL;
 var strftimeUTC    = require('strftime').strftimeUTC;
 var strftime       = require('strftime').strftime;
+var reltime        = require('reltime');
 var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';
-var pass_phrase     = "this is my password";
+var pass_phrase    = "this is my password";
 var screen_name_2  = 'go2';
 var screen_name_id = null;
 
@@ -23,9 +26,25 @@ function utc_timestamp() {
  return (d.getTime() + d.getTimezoneOffset()*60*1000);
 }
 
+function utc_diff(date) {
+  return utc_timestamp() - (date).getTime();
+}
 function is_recent(date) {
-  var diff = Math.abs(utc_timestamp() - (date).getTime());
-  return diff < 1000;
+  return utc_diff(date) < 1000;
+}
+
+function ago(english) {
+  switch (english) {
+    case '-1d -22h':
+      utc_timestamp() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 *22);
+      break;
+    case '-3d':
+      utc_timestamp() - (1000 * 60 * 60 * 24 * 3);
+      break;
+    default:
+      throw new Error('Unknown: ' + english);
+  };
+  return reltime.parse((new Date), english);
 }
 
 describe( 'Customer', function () {
@@ -232,12 +251,14 @@ describe( 'Customer', function () {
   describe( 'delete_trashed', function () {
 
     it( 'it does not delete Customer records less than 2 days old', function (done) {
+      var trashed_at = ago('-1d -22h');
+
       River.new()
       .job('update trashed_at', function (j) {
         PG.new()
         .q(SQL
            .update(Customer.TABLE_NAME)
-           .set({trashed_at: d1_day_ago})
+           .set({trashed_at: trashed_at})
            .where('id', customer_id)
           )
         .run_and_on_finish(function (row) {
@@ -247,7 +268,9 @@ describe( 'Customer', function () {
       .job('delete customers', [Customer, 'delete_trashed'])
       .job('read customer', [Customer, 'read_by_id', customer_id])
       .run_and_on_finish(function (r) {
-        assert.equal(r.last_reply().data.trashed_at, null);
+        var age = utc_diff(r.last_reply().data.trashed_at);
+        var almost_2_days = utc_diff(ago('-1d -22h'));
+        assert.equal( (age - almost_2_days) < 1000, true);
         done();
       });
     }); // it
@@ -272,7 +295,7 @@ describe( 'Customer', function () {
         PG.new()
         .q(SQL
            .update(Customer.TABLE_NAME)
-           .set({trashed_at: d3_day_ago})
+           .set({trashed_at: ago('-3d')})
            .where('id', customer_id)
           )
         .run_and_on_finish(function (row) {
@@ -280,8 +303,8 @@ describe( 'Customer', function () {
         });
       })
       .job('delete customers', [Customer, 'delete_trashed'])
-      .on_job('not_found', function (msg) {
-        assert.equal(msg, "something");
+      .on_job('not_found', function (msg, r) {
+        assert.equal(msg, "Not found: " + customer_id);
         sn_river.run();
       })
       .job('read customer', [Customer, 'read_by_id', customer_id])
