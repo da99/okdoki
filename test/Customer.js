@@ -18,8 +18,13 @@ function throw_it() {
   return false;
 }
 
+function utc_timestamp() {
+  var d = new Date;
+ return (d.getTime() + d.getTimezoneOffset()*60*1000);
+}
+
 function is_recent(date) {
-  var diff = Math.abs(((new Date).getTime() - date.getTime()));
+  var diff = Math.abs(utc_timestamp() - (date).getTime());
   return diff < 1000;
 }
 
@@ -224,60 +229,70 @@ describe( 'Customer', function () {
 
   }); // === describe trash
 
+  describe( 'delete_trashed', function () {
+
+    it( 'it does not delete Customer records less than 2 days old', function (done) {
+      River.new()
+      .job('update trashed_at', function (j) {
+        PG.new()
+        .q(SQL
+           .update(Customer.TABLE_NAME)
+           .set({trashed_at: d1_day_ago})
+           .where('id', customer_id)
+          )
+        .run_and_on_finish(function (row) {
+          j.finish(row)
+        });
+      })
+      .job('delete customers', [Customer, 'delete_trashed'])
+      .job('read customer', [Customer, 'read_by_id', customer_id])
+      .run_and_on_finish(function (r) {
+        assert.equal(r.last_reply().data.trashed_at, null);
+        done();
+      });
+    }); // it
+
+    it( 'it deletes Customer and Screen-Names records more than 2 days old', function (done) {
+      var sn_river = River.new()
+      .job('read screen names', function (j) {
+        PG.new()
+        .q(SQL
+          .select('*')
+          .from(Screen_Name.TABLE_NAME)
+          .where('owner_id', customer_id)
+          )
+        .run_and_on_finish(function (rows) {
+          assert.equal(rows.length, 0);
+          done();
+        });
+      });
+
+      River.new()
+      .job('update trashed_at', function (j) {
+        PG.new()
+        .q(SQL
+           .update(Customer.TABLE_NAME)
+           .set({trashed_at: d3_day_ago})
+           .where('id', customer_id)
+          )
+        .run_and_on_finish(function (row) {
+          j.finish(row)
+        });
+      })
+      .job('delete customers', [Customer, 'delete_trashed'])
+      .on_job('not_found', function (msg) {
+        assert.equal(msg, "something");
+        sn_river.run();
+      })
+      .job('read customer', [Customer, 'read_by_id', customer_id])
+      .run_and_on_finish(throw_it);
+    }); // it
+
+  }); // === describe delete
+
 
 }); // === describe Customer
 
-
-
-describe.skip( 'Customer trash_screen_name', function () {
-
-  it( 'it updates screen-name\'s trashed_at column', function (done) {
-    var f = '%Y-%m-%dT%H:%M';
-    customer.trash_screen_name(screen_name, function (meta) {
-      customer.read_screen_names(function (new_c) {
-        var r        = new_c.screen_name_row(screen_name);
-        var actual   = r.trashed_at;
-        var expected = (new Date());
-        assert.equal( actual.getYear(), expected.getYear() );
-        done();
-      });
-    });
-  });
-
-}); // === describe
-
-describe.skip( 'Customer delete screen-name', function () {
-
-  it( 'it deletes screen-name record', function (done) {
-    customer.delete_screen_name(screen_name, function (meta) {
-      customer.read_screen_names(function (new_c) {
-        assert.deepEqual(new_c.data.screen_names, [screen_name_2]);
-        done();
-      });
-    });
-  });
-}); // === describe
-
-describe.skip( 'Customer delete', function () {
-
-  it( 'it deletes Customer record and all Customer screen-names', function (done) {
-    var mem = customer;
-    show_databases(function (old_list) {
-      mem.delete(function () {
-        // Customer record deleted.
-        Customer.read(customer_id, function () {throw new Error('found');}, function () {
-
-          // Screen names deleted.
-          mem.read_screen_names(function () {throw new Error('found names');}, function () {
-            done();
-          });
-
-        });
-      });
-    });
-  }); // it
-
-}); // === describe
 
 
 

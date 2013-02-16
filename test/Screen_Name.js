@@ -115,4 +115,37 @@ describe.skip( 'Screen_Name update', function () {
   });
 }); // === describe
 
+describe( 'Screen_Name trash', function () {
+
+describe.skip( 'Customer trash_screen_name', function () {
+
+  it( 'it updates screen-name\'s trashed_at column', function (done) {
+    var f = '%Y-%m-%dT%H:%M';
+    customer.trash_screen_name(screen_name, function (meta) {
+      customer.read_screen_names(function (new_c) {
+        var r        = new_c.screen_name_row(screen_name);
+        var actual   = r.trashed_at;
+        var expected = (new Date());
+        assert.equal( actual.getYear(), expected.getYear() );
+        done();
+      });
+    });
+  });
+
+}); // === describe
+}); // === describe
+
+describe.skip( 'Customer delete screen-name', function () {
+
+  it( 'it deletes screen-name record', function (done) {
+    customer.delete_screen_name(screen_name, function (meta) {
+      customer.read_screen_names(function (new_c) {
+        assert.deepEqual(new_c.data.screen_names, [screen_name_2]);
+        done();
+      });
+    });
+  });
+}); // === describe
+
+
 
