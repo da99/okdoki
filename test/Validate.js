@@ -119,7 +119,7 @@ describe( 'Validate', function () {
     });
 
     it( 'sets error if value is undefined', function () {
-      var o = {new_data: {}};
+      var o = {new_data: {name: undefined}};
       Validate.new('equals', function (v) {
         v.define('name', function (v) { v.not_empty(); });
       }).validate(o);
