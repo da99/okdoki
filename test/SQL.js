@@ -221,6 +221,25 @@ describe( 'SQL: update', function () {
     assert.deepEqual(r.vals, ['okdoki', 'website', 'ok', 'webapp']);
   });
 
+  it( 'generates UPDATE statement with SQL functions', function () {
+    var sql = SQL
+    .update('names')
+    .set({ name: 'okdoki', about: ['UPPER($1)', 'website']})
+    .where('name', 'ok')
+    ;
+
+    var target = "\
+      UPDATE names                \
+      SET name = $1, about = UPPER($2)   \
+      WHERE name = $3 \
+      RETURNING * \
+    ;";
+
+    var r = sql.to_sql();
+    assert.equal(clean(r.sql), clean(target));
+    assert.deepEqual(r.vals, ['okdoki', 'website', 'ok']);
+  });
+
 }); // === describe
 
 
