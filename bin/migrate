@@ -123,8 +123,8 @@ tbls.show_tables(function (meta) {
        read_able           varchar(1) default 'W', \
        read_able_list      varchar(100) ARRAY,   \
        about               text default null,    \
-       settings            text,                 \
-       details             text                  \
+       settings            text default null,                 \
+       details             text default null     \
        , trashed_at        timestamp default NULL \
     )");
 
@@ -140,8 +140,8 @@ tbls.show_tables(function (meta) {
        url                 text default null,    \
        pass_phrase_hash     varchar(150) default NULL,\
        about               text default null,    \
-       settings            text,                 \
-       details             text                  \
+       settings            text default null,                 \
+       details             text default null     \
        , trashed_at        timestamp default NULL \
     )");
 
@@ -154,8 +154,8 @@ tbls.show_tables(function (meta) {
         screen_name_id    varchar(15) NULL NULL, \
         conv_id           varchar(30) NOT NULL UNIQUE, \
         ref_id            varchar(30) NOT NULL UNIQUE, \
-        settings          text,       \
-        details           text,       \
+        settings          text default null,       \
+        details           text default null,       \
         body              text NOT NULL,         \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         updated_at        timestamp default null, \
@@ -167,8 +167,8 @@ tbls.show_tables(function (meta) {
         id                varchar(30) PRIMARY KEY, \
         pub_id            varchar(15) NULL NULL, \
         screen_name_id    varchar(15) NULL NULL, \
-        settings          text,       \
-        details           text,       \
+        settings          text default null,       \
+        details           text default null,       \
         body              text,         \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
@@ -181,8 +181,8 @@ tbls.show_tables(function (meta) {
         id                varchar(30) PRIMARY KEY, \
         owner_id          varchar(15) NULL NULL, \
         contact_id        varchar(15) NULL NULL, \
-        settings          text,       \
-        details           text,       \
+        settings          text default null,       \
+        details           text default null,       \
         body              text,       \
         created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
         trashed_at        timestamp default null \
@@ -215,8 +215,8 @@ tbls.show_tables(function (meta) {
        pub_id          varchar(15) NOT NULL,        \
        author_id       varchar(15) NOT NULL,        \
        section_id      smallint NOT NULL,    \
-       settings        text NOT NULL default '{}' , \
-       details         text NOT NULL default '{}' , \
+       settings        text default null , \
+       details         text default null , \
        body            text,                 \
        read_able       varchar(1) default 'W', \
        read_able_list  varchar(100) ARRAY,   \

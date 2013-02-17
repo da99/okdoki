@@ -43,6 +43,19 @@ describe( 'Validate', function () {
       }});
     });
 
+    it( 'does not validate non-existent keys', function (done) {
+      var o = {new_data: {name: " name_1 "}};
+      var result = Validate.new('test 1', function (v) {
+        v.define('name', function (v) { v.at_least(2); });
+        v.define('about', function (v) { v.is_null_if_empty(); });
+      }).validate(o, {invalid: function (msg) {
+        throw new Error(msg);
+      }, finish: function (v) {
+        assert.deepEqual(o.sanitized_data, {name: 'name_1'});
+        done();
+      }});
+    });
+
   }); // === describe
 
   describe( '.at_least', function () {
