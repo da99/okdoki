@@ -110,7 +110,7 @@ describe( 'Customer', function () {
     });
 
     it( 'saves screen_name to Customer object', function () {
-      assert.deepEqual(customer.data.screen_names, [screen_name.toUpperCase()]);
+      assert.deepEqual(customer.screen_names(), [screen_name.toUpperCase()]);
     });
 
     it( 'saves Customer id to Customer ovject', function (done) {
@@ -120,7 +120,7 @@ describe( 'Customer', function () {
       assert.equal(customer_id, c.data.id);
 
       // Has the screen name been saved?
-      assert.deepEqual([screen_name.toUpperCase()], c.data.screen_names);
+      assert.deepEqual([screen_name.toUpperCase()], c.screen_names());
 
       done();
     });
@@ -145,7 +145,7 @@ describe( 'Customer', function () {
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
       .run_and_on_finish(function (r) {
         var c = r.last_reply();
-        assert.deepEqual(c.data.screen_names, [screen_name.toUpperCase()]);
+        assert.deepEqual(c.screen_names(), [screen_name.toUpperCase()]);
         done();
       });
     });

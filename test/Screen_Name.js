@@ -148,7 +148,7 @@ describe( 'Screen_Name', function () {
     it( 'it deletes screen-name record', function (done) {
       customer.delete_screen_name(screen_name, function (meta) {
         customer.read_screen_names(function (new_c) {
-          assert.deepEqual(new_c.data.screen_names, [screen_name_2]);
+          assert.deepEqual(new_c.screen_names(), [screen_name_2]);
           done();
         });
       });
