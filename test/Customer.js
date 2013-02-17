@@ -15,37 +15,7 @@ var screen_name    = 'mem1';
 var pass_phrase    = "this is my password";
 var screen_name_2  = 'go2';
 var screen_name_id = null;
-
-function throw_it() {
-  throw new Error(arguments[0].toString());
-  return false;
-}
-
-function utc_timestamp() {
-  var d = new Date;
- return (d.getTime() + d.getTimezoneOffset()*60*1000);
-}
-
-function utc_diff(date) {
-  return utc_timestamp() - (date).getTime();
-}
-function is_recent(date) {
-  return utc_diff(date) < 1000;
-}
-
-function ago(english) {
-  switch (english) {
-    case '-1d -22h':
-      utc_timestamp() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 *22);
-      break;
-    case '-3d':
-      utc_timestamp() - (1000 * 60 * 60 * 24 * 3);
-      break;
-    default:
-      throw new Error('Unknown: ' + english);
-  };
-  return reltime.parse((new Date), english);
-}
+var h = require('okdoki/test/helpers');
 
 describe( 'Customer', function () {
 
@@ -106,7 +76,7 @@ describe( 'Customer', function () {
       .job(function (j) {
         Customer.create(opts, j);
       })
-      .run_and_on_finish(throw_it);
+      .run_and_on_finish(h.throw_it);
     });
 
     it( 'saves screen_name to Customer object', function () {
@@ -157,7 +127,7 @@ describe( 'Customer', function () {
         done();
       })
       .job('read empty:', 'no-id', [Customer, 'read_by_id', 'no-id'])
-      .run_and_on_finish(throw_it);
+      .run_and_on_finish(h.throw_it);
     });
 
   }); // === describe read_by_id
@@ -186,7 +156,7 @@ describe( 'Customer', function () {
 
     it( 'reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name')
-      .on_job('not_found', throw_it)
+      .on_job('not_found', h.throw_it)
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
       .run_and_on_finish(function (r) {
         var c = r.last_reply();
@@ -202,7 +172,7 @@ describe( 'Customer', function () {
         done();
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
-      .run_and_on_finish(throw_it);
+      .run_and_on_finish(h.throw_it);
     });
 
   }); // === describe read_by_screen_name
@@ -213,7 +183,7 @@ describe( 'Customer', function () {
     it('updates Customer email', function (done) {
       var new_email = 'new-e\'mail@i-hate-all.com';
       River.new()
-      .on_job('invalid', throw_it)
+      .on_job('invalid', h.throw_it)
       .job('update customer', new_email, [customer, 'update', {'email': new_email}])
       .job('assert new email', function (j) {
         assert.equal(customer.data.email, new_email);
@@ -235,13 +205,13 @@ describe( 'Customer', function () {
       River.new('trash customer')
       .job('trash customer', customer_id, [customer, 'trash'])
       .job('assert trashed_at changed', function (j) {
-        assert.equal(is_recent(customer.data.trashed_at), true);
+        assert.equal(h.is_recent(customer.data.trashed_at), true);
         j.finish(customer);
       })
       .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
       .run_and_on_finish(function (r) {
         var c = r.last_reply();
-        assert.equal(is_recent(c.data.trashed_at), true);
+        assert.equal(h.is_recent(c.data.trashed_at), true);
         done();
       });
     }); // it
@@ -251,7 +221,7 @@ describe( 'Customer', function () {
   describe( 'delete_trashed', function () {
 
     it( 'it does not delete Customer records less than 2 days old', function (done) {
-      var trashed_at = ago('-1d -22h');
+      var trashed_at = h.ago('-1d -22h');
 
       River.new()
       .job('update trashed_at', function (j) {
@@ -268,8 +238,8 @@ describe( 'Customer', function () {
       .job('delete customers', [Customer, 'delete_trashed'])
       .job('read customer', [Customer, 'read_by_id', customer_id])
       .run_and_on_finish(function (r) {
-        var age = utc_diff(r.last_reply().data.trashed_at);
-        var almost_2_days = utc_diff(ago('-1d -22h'));
+        var age = h.utc_diff(r.last_reply().data.trashed_at);
+        var almost_2_days = h.utc_diff(h.ago('-1d -22h'));
         assert.equal( (age - almost_2_days) < 1000, true);
         done();
       });
@@ -295,7 +265,7 @@ describe( 'Customer', function () {
         PG.new()
         .q(SQL
            .update(Customer.TABLE_NAME)
-           .set({trashed_at: ago('-3d')})
+           .set({trashed_at: h.ago('-3d')})
            .where('id', customer_id)
           )
         .run_and_on_finish(function (row) {
@@ -308,7 +278,7 @@ describe( 'Customer', function () {
         sn_river.run();
       })
       .job('read customer', [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(throw_it);
+      .run_and_on_finish(h.throw_it);
     }); // it
 
   }); // === describe delete

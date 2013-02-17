@@ -6,7 +6,12 @@ var _         = require('underscore')
 , River       = require('okdoki/lib/River').River
 , PG          = require('okdoki/lib/PG').PG
 , SQL         = require('okdoki/lib/SQL').SQL
+, h           = require('okdoki/test/helpers')
 ;
+
+var c = null;
+var sn = 'SN_1';
+var sn_updated = 'SN_1_UPDATED';
 
 describe( 'Screen_Name', function () {
 
@@ -56,11 +61,10 @@ describe( 'Screen_Name', function () {
 
   describe( 'update:', function () {
 
-    var c = null;
 
     before(function (done) {
       var c_opts = {
-        screen_name         : 'sn_1',
+        screen_name         : sn.toLowerCase(),
         pass_phrase         : "this is a pass phrase",
         confirm_pass_phrase : "this is a pass phrase",
         ip                  : '000.00.000'
@@ -77,8 +81,8 @@ describe( 'Screen_Name', function () {
     it( 'updates screen name', function (done) {
 
       var sn_opts = {
-        old_screen_name : 'sn_1',
-        screen_name     : 'sn_1_upDATED'
+        old_screen_name : sn,
+        screen_name     : sn_updated.toLowerCase()
       };
 
       River.new()
@@ -89,55 +93,24 @@ describe( 'Screen_Name', function () {
       })
 
       .run_and_on_finish(function (r) {
-        assert.deepEqual(c.screen_names(), ['SN_1_UPDATED']);
+        assert.deepEqual(c.screen_names(), [sn_updated]);
+        sn = sn_updated;
         done();
       });
 
     }); // it
-
-    it( 'updates homepage about', function (done) {
-      var expected = 'This is about: mem1new';
-      Screen_Name.update('mem1new', {new_data: {"about": expected}}, function (row) {
-        assert.equal(row.about, expected);
-        done();
-      });
-    });
-
-    it.skip( 'updates homepage title', function (done) {
-      var expected = 'This is for: ' + screen_name_2;
-      customer.update_screen_name(screen_name_2, {"homepage_title": expected}, function (meta) {
-        customer.read_homepage(screen_name_2,  function (data) {
-          assert.equal(data.details.title, expected);
-          done();
-        });
-      });
-    });
-
-    it.skip( 'updates homepage allow', function (done) {
-      customer.read_screen_names(function (new_c) {
-        var expected = _.pluck(new_c.data.screen_name_rows, 'id').sort();
-        customer.update_screen_name(screen_name, {'homepage_allow': expected}, function (mets) {
-          customer.read_homepage(screen_name, function (data) {
-            assert.deepEqual(data.settings.allow.sort(), expected);
-            done();
-          });
-        });
-      });
-    });
   }); // === describe update
 
   describe( 'trash', function () {
 
+
     it( 'it updates screen-name\'s trashed_at column', function (done) {
       var f = '%Y-%m-%dT%H:%M';
-      customer.trash_screen_name(screen_name, function (meta) {
-        customer.read_screen_names(function (new_c) {
-          var r        = new_c.screen_name_row(screen_name);
-          var actual   = r.trashed_at;
-          var expected = (new Date());
-          assert.equal( actual.getYear(), expected.getYear() );
-          done();
-        });
+      River.new()
+      .job('trash', sn, [Screen_Name, 'trash', c.screen_name_id(sn)])
+      .run_and_on_finish(function (r) {
+        assert.equal(h.is_recent(r.last_reply().trashed_at), true);
+        done();
       });
     });
 
@@ -145,12 +118,22 @@ describe( 'Screen_Name', function () {
 
   describe( 'delete', function () {
 
-    it( 'it deletes screen-name record', function (done) {
-      customer.delete_screen_name(screen_name, function (meta) {
-        customer.read_screen_names(function (new_c) {
-          assert.deepEqual(new_c.screen_names(), [screen_name_2]);
-          done();
-        });
+    it( 'it deletes screen-name record of more than 2 days old', function (done) {
+      River.new()
+      .job('age', 'trashed screen name', function (j) {
+        PG.new()
+        .q(SQL
+           .update(Screen_Name.TABLE_NAME)
+           .set({trashed_at: h.ago('-3d')})
+           .where('screen_name', sn)
+          )
+        .run_and_on_finish(j.finish);
+      })
+      .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
+      .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])
+      .run_and_on_finish(function (r) {
+        assert.equal(r.last_reply().screen_names().length, 0);
+        done();
       });
     });
 
