@@ -5,7 +5,7 @@
 set -e
 
 if [ -z "$NO_DB_RESET" ];
-then bin/migrate reset_with_customer;
+then bin/migrate reset_with_data;
 else
   echo "Skipping db reset";
 fi
