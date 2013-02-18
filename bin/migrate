@@ -170,9 +170,6 @@ CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(30) PRIMARY KEY, \
 owner_id          varchar(15) NULL NULL, \
 contact_id        varchar(15) NULL NULL, \
-settings          text default null,       \
-details           text default null,       \
-body              text,       \
 created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
 trashed_at        timestamp default null \
 , CONSTRAINT unique_to_owner UNIQUE (owner_id, contact_id) \
