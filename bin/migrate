@@ -140,7 +140,7 @@ about               text default null    \
 ok.q(" \
  CREATE TABLE IF NOT EXISTS comments ( \
  id                varchar(30) NOT NULL UNIQUE, \
- screen_name_id    varchar(15) NULL NULL, \
+ screen_name_id    varchar(15) NULL, \
  conv_id           varchar(30) NOT NULL UNIQUE, \
  ref_id            varchar(30) NOT NULL UNIQUE, \
  settings          text default null,       \
@@ -154,8 +154,8 @@ ok.q(" \
  ok.q(" \
 CREATE TABLE IF NOT EXISTS follows  ( \
 id                varchar(30) PRIMARY KEY, \
-pub_id            varchar(15) NULL NULL, \
-screen_name_id    varchar(15) NULL NULL, \
+pub_id            varchar(15) NULL, \
+screen_name_id    varchar(15) NULL, \
 settings          text default null,       \
 details           text default null,       \
 body              text,         \
@@ -168,18 +168,41 @@ ok.q("CREATE INDEX ON follows (screen_name_id)");
 ok.q(" \
 CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(30) PRIMARY KEY, \
-owner_id          varchar(15) NULL NULL, \
-contact_id        varchar(15) NULL NULL, \
+owner_id          varchar(15) NULL, \
+contact_id        varchar(15) NULL, \
 created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
 trashed_at        timestamp default null \
 , CONSTRAINT unique_to_owner UNIQUE (owner_id, contact_id) \
 )");
 
 ok.q(" \
+CREATE UNLOGGED TABLE IF NOT EXISTS online_customers ( \
+id                varchar(30) PRIMARY KEY, \
+customer_id       varchar(15) NULL, \
+screen_name_id    varchar(15) NULL, \
+last_seen_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at        timestamp default (now() AT TIME ZONE 'UTC')  \
+, CONSTRAINT unique_customer_id_to_screen_name_id UNIQUE (customer_id, screen_name_id) \
+)");
+
+ok.q(" \
+CREATE UNLOGGED TABLE IF NOT EXISTS ims ( \
+id              varchar(15) PRIMARY KEY,     \
+client_id       varchar(15) default NULL,    \
+re_client_id    varchar(15) default NULL,    \
+re_id           varchar(15) default NULL,    \
+\"from\"        varchar(15) NOT NULL,        \
+\"to\"          varchar(15) default 'W',     \
+labels          varchar(15) ARRAY,    \
+body            text,                 \
+created_at      timestamp default (now() AT TIME ZONE 'UTC')  \
+)");
+
+ok.q(" \
 CREATE TABLE IF NOT EXISTS labels   ( \
 id                varchar(30) NOT NULL UNIQUE, \
-owner_id          varchar(15) NULL NULL, \
-label             varchar(40) NULL NULL, \
+owner_id          varchar(15) NULL, \
+label             varchar(40) NULL, \
 created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
 trashed_at        timestamp default null \
 , UNIQUE (owner_id, label) \
