@@ -168,11 +168,11 @@ ok.q("CREATE INDEX ON follows (screen_name_id)");
 ok.q(" \
 CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(30) PRIMARY KEY, \
-\"from\"          varchar(15) NULL, \
-\"to\"            varchar(15) NULL, \
+\"from_id\"          varchar(15) NULL, \
+\"to_id\"            varchar(15) NULL, \
 created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
 trashed_at        timestamp default null \
-, CONSTRAINT unique_from UNIQUE (\"from\", \"to\") \
+, CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
 )");
 
 ok.q(" \
@@ -189,10 +189,10 @@ ok.q(" \
 CREATE UNLOGGED TABLE IF NOT EXISTS ims ( \
 id              varchar(15) PRIMARY KEY,     \
 client_id       varchar(15) default NULL,    \
-re_client_id    varchar(15) default NULL,    \
 re_id           varchar(15) default NULL,    \
-\"from\"        varchar(15) NOT NULL,        \
-\"to\"          varchar(15) default 'W',     \
+re_client_id    varchar(15) default NULL,    \
+\"from_id\"        varchar(15) NOT NULL,        \
+\"to_id\"          varchar(15) default 'W',     \
 labels          varchar(15) ARRAY,    \
 body            text,                 \
 created_at      timestamp default (now() AT TIME ZONE 'UTC')  \
