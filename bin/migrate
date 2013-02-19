@@ -15,6 +15,7 @@ var cmd         = (process.argv[2] || 'nothing')
 , is_reset      = cmd === 'reset' || is_reset_user
 , is_up         = is_reset || cmd === 'up'
 , is_down       = is_reset || cmd === 'down'
+, now           = "(now() AT TIME ZONE 'UTC')"
 ;
 
 if (!is_up && !is_down) {
@@ -95,7 +96,7 @@ $$ LANGUAGE SQL STRICT IMMUTABLE; \
 ok.q(" \
 CREATE TABLE IF NOT EXISTS customers ( \
 id varchar(15) PRIMARY KEY, \
-created_at timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at timestamp default " + now +",  \
 trashed_at timestamp default null,   \
 email text,                 \
 pass_phrase_hash varchar(150) NOT NULL \
@@ -105,7 +106,7 @@ ok.q( " \
 CREATE TABLE IF NOT EXISTS screen_names ( \
 id                  varchar(15) PRIMARY KEY,   \
 owner_id            varchar(15) NOT NULL, \
-created_at          timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at          timestamp default " + now + ",  \
 screen_name         varchar(15) NOT NULL UNIQUE,  \
 display_name        varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
@@ -146,7 +147,7 @@ ok.q(" \
  settings          text default null,       \
  details           text default null,       \
  body              text NOT NULL,         \
- created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+ created_at        timestamp default " + now + ",  \
  updated_at        timestamp default null, \
  trashed_at        timestamp default null  \
  )");
@@ -159,7 +160,7 @@ screen_name_id    varchar(15) NULL, \
 settings          text default null,       \
 details           text default null,       \
 body              text,         \
-created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at        timestamp default " + now + ",  \
 trashed_at        timestamp default null \
 )");
 
@@ -170,7 +171,7 @@ CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(30) PRIMARY KEY, \
 \"from_id\"          varchar(15) NULL, \
 \"to_id\"            varchar(15) NULL, \
-created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at        timestamp default " + now + ",  \
 trashed_at        timestamp default null \
 , CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
 )");
@@ -180,8 +181,8 @@ CREATE UNLOGGED TABLE IF NOT EXISTS online_customers ( \
 id                varchar(30) PRIMARY KEY, \
 customer_id       varchar(15) NULL, \
 screen_name_id    varchar(15) NULL, \
-last_seen_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
-created_at        timestamp default (now() AT TIME ZONE 'UTC')  \
+last_seen_at      timestamp default " + now + ",  \
+created_at        timestamp default " + now + "  \
 , CONSTRAINT unique_customer_id_to_screen_name_id UNIQUE (customer_id, screen_name_id) \
 )");
 
@@ -195,7 +196,7 @@ re_client_id    varchar(15) default NULL,    \
 \"to_id\"          varchar(15) default 'W',     \
 labels          varchar(15) ARRAY,    \
 body            text,                 \
-created_at      timestamp default (now() AT TIME ZONE 'UTC')  \
+created_at      timestamp default " + now + "  \
 )");
 
 ok.q(" \
@@ -203,7 +204,7 @@ CREATE TABLE IF NOT EXISTS labels   ( \
 id                varchar(30) NOT NULL UNIQUE, \
 owner_id          varchar(15) NULL, \
 label             varchar(40) NULL, \
-created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at        timestamp default " + now + ",  \
 trashed_at        timestamp default null \
 , UNIQUE (owner_id, label) \
 )");
@@ -213,27 +214,27 @@ CREATE TABLE IF NOT EXISTS labelings ( \
 id              varchar(30) NOT NULL UNIQUE, \
 pub_id          varchar(15) NOT NULL,        \
 label_id        varchar(30) NOT NULL, \
-created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
+created_at      timestamp default " + now + ",  \
 trashed_at      timestamp default null   \
 , UNIQUE (pub_id, label_id) \
 )");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS posts ( \
-id              varchar(30) PRIMARY KEY, \
-pub_id          varchar(15) NOT NULL,        \
-author_id       varchar(15) NOT NULL,        \
-section_id      smallint NOT NULL,    \
-settings        text default null , \
-details         text default null , \
-body            text,                 \
-read_able       varchar(1) default 'W', \
-read_able_list  varchar(100) ARRAY,   \
-allow           varchar[] default '{}',   \
-disallow        varchar[] default '{}',   \
-created_at      timestamp default (now() AT TIME ZONE 'UTC'),  \
-updated_at      timestamp default null,  \
-trashed_at      timestamp default null   \
+  id              varchar(30) PRIMARY KEY,     \
+  pub_id          varchar(15) NOT NULL,        \
+  author_id       varchar(15) NOT NULL,        \
+  section_id      smallint NOT NULL,           \
+  settings        text default null ,          \
+  details         text default null ,          \
+  body            text,                        \
+  read_able       varchar(1) default 'W',      \
+  read_able_list  varchar(100) ARRAY,          \
+  allow           varchar[] default '{}',      \
+  disallow        varchar[] default '{}',      \
+  created_at      timestamp default " + now + ",  \
+  updated_at      timestamp default null,       \
+  trashed_at      timestamp default null        \
 )");
 
 ok.q(" CREATE INDEX ON posts (created_at DESC); ");
