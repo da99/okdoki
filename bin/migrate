@@ -168,11 +168,11 @@ ok.q("CREATE INDEX ON follows (screen_name_id)");
 ok.q(" \
 CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(30) PRIMARY KEY, \
-owner_id          varchar(15) NULL, \
-contact_id        varchar(15) NULL, \
+\"from\"          varchar(15) NULL, \
+\"to\"            varchar(15) NULL, \
 created_at        timestamp default (now() AT TIME ZONE 'UTC'),  \
 trashed_at        timestamp default null \
-, CONSTRAINT unique_to_owner UNIQUE (owner_id, contact_id) \
+, CONSTRAINT unique_from UNIQUE (\"from\", \"to\") \
 )");
 
 ok.q(" \
