@@ -13,7 +13,7 @@ fi
 set -u
 echo ""
 
-bin/mocha_file \
+SHOW_SQL=true bin/mocha_file \
   test/IM.js    \
   test/PG.js    \
   test/River.js    \

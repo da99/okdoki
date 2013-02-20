@@ -1,23 +1,57 @@
-var _    = require('underscore')
-, assert = require('assert')
-, IM     = require('okdoki/lib/IM').IM
-, Redis  = require('okdoki/lib/Redis').Redis
+var _      = require('underscore')
+, assert   = require('assert')
+, IM       = require('okdoki/lib/IM').IM
+, SQL      = require('okdoki/lib/SQL').SQL
+, PG       = require('okdoki/lib/PG').PG
+, River    = require('okdoki/lib/River').River
+, Customer = require('okdoki/lib/Customer').Customer
 ;
 
 describe( 'IM create_im:', function () {
 
+  var sn = 'im_auth_1';
+  var c  = null;
+
+  before(function (done) {
+    var o = {
+      screen_name: sn,
+      pass_phrase: "this is a pass",
+      confirm_pass_phrase: "this is a pass",
+      ip: '000.00.000'
+    };
+
+    River.new()
+    .job('clear previous', function (j) {
+      PG.new('clear customers', j)
+      .delete_all('customers')
+      .delete_all('screen_names')
+      .run()
+    })
+    .job('create customer', [Customer, 'create', o])
+    .run_and_on_finish(function (r) {
+      c = r.last_reply();
+      done();
+    });
+  });
+
   it( 'saves im', function (done) {
 
     var o = {
-      from : 'mem1',
+      from : sn,
       body : 'This is an im body.'
     };
 
-    IM.create(o, function (im) {
-      Redis.client.hgetall(im.id, function (e, r) {
-        assert.equal(r.body, o.body);
-        done();
-      });
+    River.new()
+    .job('create', [IM, 'create', o])
+    .job('read', function (j) {
+      PG.new(j)
+      .q(SQL.select('*').from(IM.TABLE_NAME).where('id', j.river.last_reply().data.id).limit(1))
+      .run()
+    })
+    .run_and_on_finish(function (river) {
+      var r = river.last_reply();
+      assert.equal(r.body, o.body);
+      done();
     });
 
   });
