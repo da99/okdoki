@@ -2,7 +2,6 @@ var _         = require('underscore')
 , assert      = require('assert')
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
-, Redis       = require('okdoki/lib/Redis').Redis
 , River       = require('okdoki/lib/River').River
 , PG          = require('okdoki/lib/PG').PG
 , SQL         = require('okdoki/lib/SQL').SQL
@@ -16,7 +15,6 @@ var sn_updated = 'SN_1_UPDATED';
 describe( 'Screen_Name', function () {
 
   before(function (done) {
-    Screen_Name(Redis.client);
     PG.new('delete all screen_names and customers')
     .delete_all('screen_names')
     .delete_all('customers')
@@ -26,7 +24,6 @@ describe( 'Screen_Name', function () {
   });
 
   after(function (done) {
-    Redis.client.quit();
     done();
   });
 
