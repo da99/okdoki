@@ -7,6 +7,11 @@ var _     = require('underscore')
 
 describe( 'River', function () {
 
+  before(function (done) {
+    Redis.connect();
+    done();
+  });
+
   it( 'runs job after the previous one finishes', function (done) {
     var r = River.new();
     var results = [];
