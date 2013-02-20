@@ -113,6 +113,7 @@ display_name        varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
 read_able           varchar(1) default 'W', \
 read_able_list      varchar(100) ARRAY,   \
+un_read_able_list   varchar(100) ARRAY,   \
 about               text default null    \
 , trashed_at        timestamp default NULL \
 )");
@@ -127,6 +128,7 @@ name                varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
 read_able           varchar(1) default 'W', \
 read_able_list      varchar(100) ARRAY,   \
+un_read_able_list   varchar(100) ARRAY,   \
 url                 text default null    \
 , trashed_at        timestamp default NULL \
 )");
@@ -142,7 +144,7 @@ about               text default null    \
 ok.q(" \
  CREATE TABLE IF NOT EXISTS comments ( \
  id                varchar(30) NOT NULL UNIQUE, \
- screen_name_id    varchar(15) NULL, \
+ author_id         varchar(15) NULL, \
  conv_id           varchar(30) NOT NULL UNIQUE, \
  ref_id            varchar(30) NOT NULL UNIQUE, \
  settings          text default null,       \
@@ -157,7 +159,7 @@ ok.q(" \
 CREATE TABLE IF NOT EXISTS follows  ( \
 id                varchar(30) PRIMARY KEY, \
 pub_id            varchar(15) NULL, \
-screen_name_id    varchar(15) NULL, \
+follower_id       varchar(15) NULL, \
 settings          text default null,       \
 details           text default null,       \
 body              text,         \
@@ -165,7 +167,7 @@ created_at        timestamp default " + now + ",  \
 trashed_at        timestamp default null \
 )");
 
-ok.q("CREATE INDEX ON follows (screen_name_id)");
+ok.q("CREATE INDEX ON follows (follower_id)");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS contacts ( \
@@ -222,19 +224,19 @@ trashed_at      timestamp default null   \
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS posts ( \
-  id               varchar(30) PRIMARY KEY,     \
-  pub_id           varchar(30) NOT NULL,        \
-  re_id            varchar(30) NOT NULL,        \
-  from_id          varchar(30) NOT NULL,        \
-  section_id       smallint NOT NULL,           \
-  title            varchar(100) default null,   \
-  body             text,                        \
-  extra            text default '{}',           \
-  read_able        varchar(1) default 'W',      \
-  read_able_list   varchar(100) ARRAY,          \
-  unread_able_list varchar(100) ARRAY,          \
-  created_at       timestamp default " + now + ",  \
-  trashed_at       timestamp default null       \
+  id                  varchar(30) PRIMARY KEY,     \
+  pub_id              varchar(30) NOT NULL,        \
+  re_id               varchar(30) NOT NULL,        \
+  author_id           varchar(30) NOT NULL,        \
+  section_id          smallint NOT NULL,           \
+  title               varchar(100) default null,   \
+  body                text,                        \
+  extra               text default '{}',           \
+  read_able           varchar(1) default 'W',      \
+  read_able_list      varchar(100) ARRAY,          \
+  un_read_able_list   varchar(100) ARRAY,          \
+  created_at          timestamp default " + now + ",  \
+  trashed_at          timestamp default null       \
 )");
 
 ok.q(" CREATE INDEX ON posts (created_at DESC); ");
