@@ -6,7 +6,6 @@ var PG     = require('okdoki/lib/PG').PG
 , SQL      = require('okdoki/lib/SQL').SQL
 , Customer = require('okdoki/lib/Customer').Customer
 , Chat_Bot = require('okdoki/lib/Chat_Bot').Chat_Bot
-, Redis    = require('okdoki/lib/Redis').Redis
 , River    = require('okdoki/lib/River').River;
 
 var _      = require('underscore');
@@ -245,7 +244,6 @@ ok.q(" CREATE INDEX ON posts (created_at DESC); ");
 function create(meta) {
   console.log('Finished migrating the main db.');
   if (!is_reset_user) {
-    Chat_Bot.redis.quit();
     return;
   }
 
@@ -286,10 +284,7 @@ function create(meta) {
     Chat_Bot.create({owner_id: c.data.id, url: "https://okdoki-bot.herokuapp.com/test/not_json", name: j.id}, (j));
   });
 
-  r.run_and_on_finish(function () {
-    console.log('Closing redis...');
-    Chat_Bot.redis.quit();
-  });
+  r.run();
 
 };
 
