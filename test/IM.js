@@ -7,7 +7,7 @@ var _      = require('underscore')
 , Customer = require('okdoki/lib/Customer').Customer
 ;
 
-describe( 'IM create_im:', function () {
+describe( 'IM', function () {
 
   var sn = 'im_auth_1';
   var c  = null;
@@ -34,81 +34,72 @@ describe( 'IM create_im:', function () {
     });
   });
 
-  it( 'saves im', function (done) {
+  describe( 'create_im:', function () {
+    it( 'saves im', function (done) {
 
-    var o = {
-      from : sn,
-      body : 'This is an im body.'
-    };
+      var o = {
+        from : sn,
+        body : 'This is an im body.'
+      };
 
-    River.new()
-    .job('create', [IM, 'create', o])
-    .job('read', function (j) {
-      PG.new(j)
-      .q(SQL.select('*').from(IM.TABLE_NAME).where('id', j.river.last_reply().data.id).limit(1))
-      .run()
-    })
-    .run_and_on_finish(function (river) {
-      var r = river.last_reply();
-      assert.equal(r.body, o.body);
-      done();
-    });
-
-  });
-
-  it( 'sets an expire time', function (done) {
-
-    var o = {
-      from: 'mem2',
-      body: 'something'
-    };
-
-    IM.create(o, function (im) {
-      Redis.client.ttl(im.id, function (e, r) {
-        assert.equal(r > IM.expire_in && r <= 10, true);
+      River.new()
+      .job('create', [IM, 'create', o])
+      .job('read', function (j) {
+        PG.new(j)
+        .q(SQL.select('*').from(IM.TABLE_NAME).where('id', j.river.last_reply().data.id).limit(1))
+        .run()
+      })
+      .run_and_on_finish(function (river) {
+        var r = river.last_reply();
+        assert.equal(r.body, o.body);
         done();
       });
+
     });
 
-  });
+    it( 'sets created_at', function (done) {
 
-  it( 'update expire time of ims group', function (done) {
+      var o = {
+        from: sn,
+        body: 'something'
+      };
 
-    var o = {
-      from: 'u1',
-      body: "something"
-    };
-
-    IM.create(o, function (im) {
-      Redis.client.ttl('u1:ims', function (e, r) {
-        assert.equal(r > IM.expire_in && r <= 10, true);
+      River.new()
+      .job('create IM', [IM, 'create', o])
+      .job('read', 'IM', function (j) {
+        PG.new(j)
+        .q(SQL.select('created_at').from(IM.TABLE_NAME)
+           .where('id', j.river.last_reply().data.id)
+           .limit(1)
+          )
+          .run()
+      })
+      .job('read', 'now()', function (j) {
+        PG.new(j)
+        .q(SQL.select("now() AT TIME ZONE 'UTC' as now").limit(1))
+        .run()
+      })
+      .run_and_on_finish(function (r) {
+        var im = r.reply_for('read', 'IM');
+        var now = r.reply_for('read', 'now()').now;
+        assert.equal((now.getTime() - im.created_at.getTime()) < 100, true);
         done();
       });
-    });
-  });
 
-}); // === describe
-
-describe( 'IM read', function () {
-
-  it( 'retrieves ims', function (done) {
-
-    var multi = Redis.client.multi();
-    var body  = ['Yo yo: 1', 'Yo yo:2 '];
-
-    multi.hmset('f1:ims', {'f1:1': 1});
-    multi.hmset('f1:ims', {'f1:2': 1});
-    multi.hmset('f1:1', {'body': body[0]});
-    multi.hmset('f1:2', {'body': body[1]});
-    multi.hmset('u2:c', {'f1':1});
-    multi.exec(function (err, replys) {
-      IM.read('u2', {finish: function (r) {
-        assert.deepEqual(_.pluck(r, 'body'), body);
-        done();
-      }});
     });
 
-  });
-}); // === describe
+  }); // === describe create_im
 
+  describe( 'read_list:', function () {
+
+    it.skip( 'retrieves list ims read_able by intended customer.', function (done) {
+
+
+    });
+  }); // === describe
+
+
+
+
+}); // === describe
 
