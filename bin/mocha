@@ -13,14 +13,18 @@ fi
 set -u
 echo ""
 
-bin/mocha_file \
-  test/IM.js    \
-  test/PG.js    \
-  test/River.js    \
-  test/SQL.js      \
-  test/Validate.js \
+bin/mocha_file        \
+  test/IM.js          \
+  test/PG.js          \
+  test/River.js       \
+  test/SQL.js         \
+  test/Validate.js    \
   test/Screen_Name.js \
   test/Customer.js    \
+  test/Home_Page.js   \
   "$@"
 
 # NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
+
+
+
