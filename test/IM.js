@@ -5,31 +5,27 @@ var _      = require('underscore')
 , PG       = require('okdoki/lib/PG').PG
 , River    = require('okdoki/lib/River').River
 , Customer = require('okdoki/lib/Customer').Customer
+, h        = require('okdoki/test/helpers')
 ;
 
 describe( 'IM', function () {
 
-  var sn = 'im_auth_1';
-  var c  = null;
+  var sn   = 'im_auth_1';
+  var sn_2 = 'im_auth_2';
+  var sn_3 = 'im_auth_3';
+
+  var c, c2, c3;
 
   before(function (done) {
-    var o = {
-      screen_name: sn,
-      pass_phrase: "this is a pass",
-      confirm_pass_phrase: "this is a pass",
-      ip: '000.00.000'
-    };
-
     River.new()
-    .job('clear previous', function (j) {
-      PG.new('clear customers', j)
-      .delete_all('customers')
-      .delete_all('screen_names')
-      .run()
-    })
-    .job('create customer', [Customer, 'create', o])
+    .job('clear',  [Customer, 'delete_all'])
+    .job('create', sn,   [Customer, 'create_sample', sn])
+    .job('create', sn_3, [Customer, 'create_sample', sn_3])
+    .job('create', sn_2, [Customer, 'create_sample', sn_2])
     .run_and_on_finish(function (r) {
-      c = r.last_reply();
+      c  = r.reply_for('create', sn);
+      c2 = r.reply_for('create', sn_2);
+      c3 = r.reply_for('create', sn_3);
       done();
     });
   });

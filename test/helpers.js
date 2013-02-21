@@ -1,3 +1,9 @@
+var _      = require('underscore')
+, Customer = require('okdoki/lib/Customer').Customer
+, River    = require('okdoki/lib/River').River
+, PG    = require('okdoki/lib/PG').PG
+;
+
 var reltime = require('reltime');
 
 exports.throw_it = function () {
@@ -30,3 +36,33 @@ exports.ago = function (english) {
   };
   return reltime.parse((new Date), english);
 }
+
+
+Customer.delete_all = function (flow) {
+
+  River.new(flow)
+  .job('clear previous', function (j) {
+    PG.new('clear customers', j)
+    .delete_all('customers')
+    .delete_all('screen_names')
+    .run()
+  })
+  .run();
+
+}; // end .delete_all
+
+Customer.create_sample = function (sn, flow) {
+
+  var o = {
+    screen_name         : sn,
+    pass_phrase         : "this is a pass",
+    confirm_pass_phrase : "this is a pass",
+    ip                  : '000.00.000'
+  };
+
+  River.new(flow)
+  .job('create customer', [Customer, 'create', o])
+  .run();
+
+}; // end .create_sample
+

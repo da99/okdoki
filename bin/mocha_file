@@ -5,5 +5,4 @@
 set -e
 set -u
 
-
-NODE_ENV=production mocha --timeout 2000 --colors "$@"
+IS_TESTING=true NODE_ENV=production mocha --timeout 2000 --colors "$@"
