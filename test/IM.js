@@ -9,6 +9,10 @@ var _      = require('underscore')
 , h        = require('okdoki/test/helpers')
 ;
 
+function ids(arr) {
+  return _.pluck(arr, 'id');
+}
+
 describe( 'IM', function () {
 
   var sn   = 'im_auth_1';
@@ -103,9 +107,18 @@ describe( 'IM', function () {
 
   describe( 'read_list:', function () {
 
-    it.skip( 'retrieves list ims read_able by intended customer.', function (done) {
+    it( 'retrieves list ims read_able by intended customer.', function (done) {
 
-
+      River.new()
+      .job('read', 'c',  function (j) { IM.read_list(c, j); })
+      .job('read', 'c2', function (j) { IM.read_list(c2, j); })
+      .job('read', 'c3', function (j) { IM.read_list(c3, j); })
+      .run_and_on_finish(function (r) {
+        assert.equal(r.reply_for('read', 'c').length, 0);
+        assert.deepEqual(ids(r.reply_for('read', 'c2')), [im3.data.id]);
+        assert.deepEqual(ids(r.reply_for('read', 'c3')), [im2.data.id]);
+        done();
+      });
     });
   }); // === describe
 
