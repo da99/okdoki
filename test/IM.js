@@ -61,7 +61,7 @@ describe( 'IM', function () {
     });
   });
 
-  describe( 'create_im:', function () {
+  describe( 'create:', function () {
     it( 'saves im', function (done) {
 
       River.new()
