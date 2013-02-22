@@ -36,7 +36,7 @@ describe( 'Home_Page', function () {
     .job('contact', 'c2->c3', function (j) { Contact.create({from: c2, to: sn_3}, j); })
     .job('protect', 'c2',     function (j) { Screen_Name.update({owner: c2, screen_name: sn_2, read_able: 'P'}, j); })
     .job('protect', 'c3',     function (j) { Screen_Name.update({owner: c3, screen_name: sn_3, read_able: 'N'}, j); })
-    .run_and_on_finish(function (r) {
+    .run(function (r) {
       done();
     });
   });
@@ -44,7 +44,7 @@ describe( 'Home_Page', function () {
   describe( 'create', function (done) {
     it( 'is not created after screen name is created', function (done) {
       PG.new().q(SQL.select('*').from(Home_Page.TABLE_NAME).where('owner_id', sn_1))
-      .run_and_on_finish(function (rows) {
+      .run(function (rows) {
         assert.equal(rows.length, 0);
         done();
       });
@@ -63,7 +63,7 @@ describe( 'Home_Page', function () {
       .job('read', sn_1, function (j) {
         read(c1, sn_1, j)
       })
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         assert.equal(r.last_reply().data.about, about);
         done();
       });

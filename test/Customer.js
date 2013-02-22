@@ -26,23 +26,18 @@ describe( 'Customer', function () {
     var vals = {screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'};
 
     River.new(null)
-    .job('clear data', function (j) {
-      PG.new('delete data')
-      .delete_all('screen_names')
-      .delete_all('customers')
-      .run_and_on_finish(j.finish);
-    })
+    .job('clear data', [Customer, 'delete_all'])
     .job('create:', screen_name, [Customer, 'create', vals])
     .job('read:', screen_name, function (j) {
       customer_id = j.river.last_reply().sanitized_data.id;
       Customer.read_by_id(customer_id, j);
     })
-    .run_and_on_finish(function (r) {
+    .on_finish(function (r) {
       customer       = r.last_reply();
       screen_name_id = customer.screen_name_id(screen_name);
       done();
     })
-    ;
+    .run();
 
   }); // === end before
 
@@ -55,9 +50,10 @@ describe( 'Customer', function () {
         done();
       })
       .job('create', 'w missing name', [Customer, 'create', opts])
-      .run_and_on_finish(function (r) {
+      .on_finish(function (r) {
         throw new Error('Unreachable.');
-      });
+      })
+      .run();
     });
 
     it( 'checks max length of screen_name', function (done) {
@@ -76,7 +72,7 @@ describe( 'Customer', function () {
       .job(function (j) {
         Customer.create(opts, j);
       })
-      .run_and_on_finish(h.throw_it);
+      .run(h.throw_it);
     });
 
     it( 'saves screen_name to Customer object', function () {
@@ -103,7 +99,7 @@ describe( 'Customer', function () {
     it( 'reads Customer from DB using customer id', function (done) {
       River.new(null)
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var c = r.last_reply();
         assert.equal(c.data.id, customer_id);
         done();
@@ -113,7 +109,7 @@ describe( 'Customer', function () {
     it( 'reads screen-names', function (done) {
       River.new(null)
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var c = r.last_reply();
         assert.deepEqual(c.screen_names(), [screen_name.toUpperCase()]);
         done();
@@ -127,7 +123,7 @@ describe( 'Customer', function () {
         done();
       })
       .job('read empty:', 'no-id', [Customer, 'read_by_id', 'no-id'])
-      .run_and_on_finish(h.throw_it);
+      .run(h.throw_it);
     });
 
   }); // === describe read_by_id
@@ -137,7 +133,7 @@ describe( 'Customer', function () {
     it( 'reads customer if passed screen-name as string', function (done) {
       River.new('read by screen name')
       .job('read:', screen_name, [Customer, 'read_by_screen_name', screen_name])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var c = r.last_reply();
         assert.equal(customer_id, c.data.id);
         done();
@@ -147,7 +143,7 @@ describe( 'Customer', function () {
     it( 'reads customer if passed a hash with: screen_name', function (done) {
       River.new('read by screen name')
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name}])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var c = r.last_reply();
         assert.equal(customer_id, c.data.id);
         done();
@@ -158,7 +154,7 @@ describe( 'Customer', function () {
       River.new('read by screen name', null)
       .on_job('not_found', h.throw_it)
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var c = r.last_reply();
         assert.equal(customer_id, c.data.id);
         done();
@@ -172,7 +168,7 @@ describe( 'Customer', function () {
         done();
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
-      .run_and_on_finish(h.throw_it);
+      .run(h.throw_it);
     });
 
   }); // === describe read_by_screen_name
@@ -190,7 +186,7 @@ describe( 'Customer', function () {
         j.finish(customer.data.email);
       })
       .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         assert.equal(r.last_reply().data.email, new_email);
         done();
       });
@@ -209,7 +205,7 @@ describe( 'Customer', function () {
         j.finish(customer);
       })
       .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var c = r.last_reply();
         assert.equal(h.is_recent(c.data.trashed_at), true);
         done();
@@ -225,19 +221,17 @@ describe( 'Customer', function () {
 
       River.new(null)
       .job('update trashed_at', function (j) {
-        PG.new()
+        PG.new(j)
         .q(SQL
            .update(Customer.TABLE_NAME)
            .set({trashed_at: trashed_at})
            .where('id', customer_id)
           )
-        .run_and_on_finish(function (row) {
-          j.finish(row)
-        });
+        .run();
       })
       .job('delete customers', [Customer, 'delete_trashed'])
       .job('read customer', [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var age = h.utc_diff(r.last_reply().data.trashed_at);
         var almost_2_days = h.utc_diff(h.ago('-1d -22h'));
         assert.equal( (age - almost_2_days) < 1000, true);
@@ -254,7 +248,7 @@ describe( 'Customer', function () {
           .from(Screen_Name.TABLE_NAME)
           .where('owner_id', customer_id)
           )
-        .run_and_on_finish(function (rows) {
+        .run(function (rows) {
           assert.equal(rows.length, 0);
           done();
         });
@@ -262,15 +256,13 @@ describe( 'Customer', function () {
 
       River.new(null)
       .job('update trashed_at', function (j) {
-        PG.new()
+        PG.new(j)
         .q(SQL
            .update(Customer.TABLE_NAME)
            .set({trashed_at: h.ago('-3d')})
            .where('id', customer_id)
           )
-        .run_and_on_finish(function (row) {
-          j.finish(row)
-        });
+        .run();
       })
       .job('delete customers', [Customer, 'delete_trashed'])
       .on_job('not_found', function (msg, r) {
@@ -278,7 +270,7 @@ describe( 'Customer', function () {
         sn_river.run();
       })
       .job('read customer', [Customer, 'read_by_id', customer_id])
-      .run_and_on_finish(h.throw_it);
+      .run(h.throw_it);
     }); // it
 
   }); // === describe delete

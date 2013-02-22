@@ -15,16 +15,11 @@ var sn_updated = 'SN_1_UPDATED';
 describe( 'Screen_Name', function () {
 
   before(function (done) {
-    PG.new('delete all screen_names and customers')
-    .delete_all('screen_names')
-    .delete_all('customers')
-    .run_and_on_finish(function (meta) {
+    River.new(arguments)
+    .job('delete customers', [Customer, 'delete_all'])
+    .run(function (meta) {
       done();
     });
-  });
-
-  after(function (done) {
-    done();
   });
 
   describe( 'create:', function () {
@@ -46,7 +41,7 @@ describe( 'Screen_Name', function () {
 
       })
 
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         var sn = r.last_reply();
         assert.equal(sn.screen_name, 'mem1'.toUpperCase());
         done();
@@ -69,7 +64,7 @@ describe( 'Screen_Name', function () {
 
       River.new(null)
       .job('create', 'customer', [Customer, 'create', c_opts])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         c = r.last_reply();
         done();
       });
@@ -89,7 +84,7 @@ describe( 'Screen_Name', function () {
         Screen_Name.update(c, j);
       })
 
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         assert.deepEqual(c.screen_names(), [sn_updated]);
         sn = sn_updated;
         done();
@@ -105,7 +100,7 @@ describe( 'Screen_Name', function () {
       var f = '%Y-%m-%dT%H:%M';
       River.new(null)
       .job('trash', sn, [Screen_Name, 'trash', c.screen_name_id(sn)])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         assert.equal(h.is_recent(r.last_reply().trashed_at), true);
         done();
       });
@@ -118,17 +113,17 @@ describe( 'Screen_Name', function () {
     it( 'it deletes screen-name record of more than 2 days old', function (done) {
       River.new(null)
       .job('age', 'trashed screen name', function (j) {
-        PG.new()
+        PG.new(j)
         .q(SQL
            .update(Screen_Name.TABLE_NAME)
            .set({trashed_at: h.ago('-3d')})
            .where('screen_name', sn)
           )
-        .run_and_on_finish(j.finish);
+        .run();
       })
       .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
       .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         assert.equal(r.last_reply().screen_names().length, 0);
         done();
       });

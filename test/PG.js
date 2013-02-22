@@ -33,7 +33,7 @@ describe( 'PG', function () {
           j.finish(rows);
         });
       })
-      .run_and_on_finish(function () {
+      .run(function () {
         done();
       });
     });
@@ -51,8 +51,7 @@ describe( 'PG', function () {
       })
       .q('SELECT now() AS TIME')
       .q('SELECT * FROM "no-table";')
-      .run_and_on_finish(function () { throw new Error('Not suppose to reach here.') })
-      ;
+      .run(function () { throw new Error('Not suppose to reach here.') }) ;
     });
 
     it( 'runs both on_error functions and River.job.error', function (done) {

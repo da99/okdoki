@@ -43,7 +43,7 @@ describe( 'River', function () {
       Redis.client.lpop('job-keys', fin(j));
     })
 
-    .run_and_on_finish(function () {
+    .run(function () {
       assert.deepEqual([null, 1, '1'], _.flatten(r.replys.slice(1), 1));
       done();
     })
@@ -107,7 +107,7 @@ describe( 'River', function () {
       .job('runs', 4, function (j) {
         j.finish(j.id)
       })
-      .run_and_on_finish(function () {
+      .run(function () {
         throw new Error('This is not suppose to run.');
       });
       assert.deepEqual(_.flatten(r.replys, 1), [1,2]);
@@ -130,7 +130,7 @@ describe( 'River', function () {
       .job('emit error', 2, function (j) {
         j.error("done");
       })
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         throw new Error('This is not supposed to be run after .error().');
       });
       assert.deepEqual(results, [[1, 'done']]);
@@ -153,7 +153,7 @@ describe( 'River', function () {
       .job('emit error', 2, function (j) {
         throw new Error('This is not supposed to be run after .not_found().');
       })
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         throw new Error('This is not supposed to be run after .not_found().');
       });
       assert.deepEqual(results, [[1, 'done']]);
@@ -202,7 +202,7 @@ describe( 'River', function () {
     // Parent job's .finish has to be called manually because the .on_finish
     //   callbacks might run other async jobs. Example:
     //
-    //     .run_and_on_finish(function () {
+    //     .run(function () {
     //        Redis.client.hgetall(function () {
     //            original_job.finish(arguments);
     //        });
@@ -217,11 +217,10 @@ describe( 'River', function () {
         .job(function (new_j) {
           new_j.finish();
         })
-        .run_and_on_finish(function (r) {
-        });
+        .run(function (r) {});
 
       })
-      .run_and_on_finish(function (r) {
+      .run(function (r) {
         ++val;
       });
 
@@ -241,7 +240,7 @@ describe( 'River', function () {
           j.finish();
           new_j.finish();
         })
-        .run_and_on_finish(function (r) {
+        .run(function (r) {
           throw new Error('Should not be reached.');
         });
 
