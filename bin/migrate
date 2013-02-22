@@ -110,7 +110,7 @@ created_at          timestamp default " + now + ",  \
 screen_name         varchar(15) NOT NULL UNIQUE,  \
 display_name        varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
-read_able           varchar(1) default 'W', \
+read_able           varchar(1) default 'N', \
 read_able_list      varchar(100) ARRAY,   \
 un_read_able_list   varchar(100) ARRAY,   \
 about               text default null    \
