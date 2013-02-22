@@ -1,10 +1,17 @@
-var _      = require('underscore')
-, Customer = require('okdoki/lib/Customer').Customer
-, River    = require('okdoki/lib/River').River
-, PG    = require('okdoki/lib/PG').PG
+var _         = require('underscore')
+, Customer    = require('okdoki/lib/Customer').Customer
+, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, River       = require('okdoki/lib/River').River
+, PG          = require('okdoki/lib/PG').PG
 ;
 
 var reltime = require('reltime');
+
+exports.open_screen_names = function (j) {
+  PG.new(j)
+  .q('UPDATE ' + Screen_Name.TABLE_NAME + ' SET read_able = $1 RETURNING id ;', ['W'])
+  .run()
+};
 
 exports.throw_it = function () {
   throw new Error(arguments[0].toString());

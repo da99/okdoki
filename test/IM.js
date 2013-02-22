@@ -1,12 +1,13 @@
-var _      = require('underscore')
-, assert   = require('assert')
-, IM       = require('okdoki/lib/IM').IM
-, SQL      = require('okdoki/lib/SQL').SQL
-, PG       = require('okdoki/lib/PG').PG
-, River    = require('okdoki/lib/River').River
-, Customer = require('okdoki/lib/Customer').Customer
-, Contact  = require('okdoki/lib/Contact').Contact
-, h        = require('okdoki/test/helpers')
+var _         = require('underscore')
+, assert      = require('assert')
+, IM          = require('okdoki/lib/IM').IM
+, SQL         = require('okdoki/lib/SQL').SQL
+, PG          = require('okdoki/lib/PG').PG
+, River       = require('okdoki/lib/River').River
+, Customer    = require('okdoki/lib/Customer').Customer
+, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, Contact     = require('okdoki/lib/Contact').Contact
+, h           = require('okdoki/test/helpers')
 ;
 
 function ids(arr) {
@@ -27,6 +28,7 @@ describe( 'IM', function () {
     .job('create', sn,   [Customer, 'create_sample', sn])
     .job('create', sn_3, [Customer, 'create_sample', sn_3])
     .job('create', sn_2, [Customer, 'create_sample', sn_2])
+    .job('update', 'privacy', [h, 'open_screen_names'])
     .job('update', 'vars', function (j) {
       var r = j.river;
       c   = r.reply_for('create', sn);

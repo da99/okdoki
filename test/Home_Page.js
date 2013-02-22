@@ -26,6 +26,7 @@ describe( 'Home_Page', function () {
     .job('create','c1', [Customer, 'create_sample', sn_1])
     .job('create','c2', [Customer, 'create_sample', sn_2])
     .job('create','c3', [Customer, 'create_sample', sn_3])
+    .job('update', 'privacy', [h, 'open_screen_names'])
     .job('update', 'vars', function (j) {
       c1 = j.river.reply_for('create', 'c1');
       c2 = j.river.reply_for('create', 'c2');
