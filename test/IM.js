@@ -22,7 +22,7 @@ describe( 'IM', function () {
   var c, c2, c3, im1, im2, im3, test_river;
 
   before(function (done) {
-    River.new()
+    River.new(null)
     .job('clear',  [Customer, 'delete_all'])
     .job('create', sn,   [Customer, 'create_sample', sn])
     .job('create', sn_3, [Customer, 'create_sample', sn_3])
@@ -64,7 +64,7 @@ describe( 'IM', function () {
   describe( 'create:', function () {
     it( 'saves im', function (done) {
 
-      River.new()
+      River.new(null)
       .job('read', function (j) {
         PG.new(j)
         .q(SQL.select('*').from(IM.TABLE_NAME).where('id', im1.data.id).limit(1))
@@ -80,7 +80,7 @@ describe( 'IM', function () {
 
     it( 'sets created_at', function (done) {
 
-      River.new()
+      River.new(null)
       .job('read', 'IM', function (j) {
         PG.new(j)
         .q(SQL.select('created_at').from(IM.TABLE_NAME)
@@ -109,7 +109,7 @@ describe( 'IM', function () {
 
     it( 'retrieves list ims read_able by intended customer.', function (done) {
 
-      River.new()
+      River.new(null)
       .job('read', 'c',  function (j) { IM.read_list(c, j); })
       .job('read', 'c2', function (j) { IM.read_list(c2, j); })
       .job('read', 'c3', function (j) { IM.read_list(c3, j); })

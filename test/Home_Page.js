@@ -21,7 +21,7 @@ describe( 'Home_Page', function () {
   var c1, c2, c3;
 
   before(function (done) {
-    River.new()
+    River.new(null)
     .job('clear', 'data', [Customer, 'delete_all'])
     .job('create','c1', [Customer, 'create_sample', sn_1])
     .job('create','c2', [Customer, 'create_sample', sn_2])
@@ -58,7 +58,7 @@ describe( 'Home_Page', function () {
 
     it( 'creates a home_page if it does not exist', function (done) {
       var about = 'This is a new about.';
-      River.new()
+      River.new(null)
       .job('update', sn_1, [Home_Page, 'update', {screen_name: sn_1, owner: c1, about: about}])
       .job('read', sn_1, function (j) {
         read(c1, sn_1, j)

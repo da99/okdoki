@@ -25,7 +25,7 @@ describe( 'Customer', function () {
     var pwp         = pass_phrase;
     var vals = {screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'};
 
-    River.new()
+    River.new(null)
     .job('clear data', function (j) {
       PG.new('delete data')
       .delete_all('screen_names')
@@ -49,7 +49,7 @@ describe( 'Customer', function () {
   describe( 'create:', function () {
     it( 'checks min length of screen_name', function (done) {
       var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
-      River.new()
+      River.new(null)
       .on_job('invalid', function (msg) {
         assert.equal(msg.indexOf('Screen name must be: '), 0);
         done();
@@ -68,7 +68,7 @@ describe( 'Customer', function () {
         confirm_pass_phrase: pass_phrase,
         ip: '00.000.000'
       };
-      River.new()
+      River.new(null)
       .on_job('invalid', function (msg) {
         assert.equal(msg.indexOf('Screen name must be: '), 0);
         done();
@@ -101,7 +101,7 @@ describe( 'Customer', function () {
   describe( 'read_by_id:', function () {
 
     it( 'reads Customer from DB using customer id', function (done) {
-      River.new()
+      River.new(null)
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
       .run_and_on_finish(function (r) {
         var c = r.last_reply();
@@ -111,7 +111,7 @@ describe( 'Customer', function () {
     });
 
     it( 'reads screen-names', function (done) {
-      River.new()
+      River.new(null)
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
       .run_and_on_finish(function (r) {
         var c = r.last_reply();
@@ -121,7 +121,7 @@ describe( 'Customer', function () {
     });
 
     it( 'executes not_found func', function (done) {
-      River.new()
+      River.new(null)
       .on_job('not_found', function (msg) {
         assert.equal(msg, 'Not found: no-id');
         done();
@@ -155,7 +155,7 @@ describe( 'Customer', function () {
     });
 
     it( 'reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
-      River.new('read by screen name')
+      River.new('read by screen name', null)
       .on_job('not_found', h.throw_it)
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
       .run_and_on_finish(function (r) {
@@ -166,7 +166,7 @@ describe( 'Customer', function () {
     });
 
     it( 'does not reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
-      River.new('read by screen name')
+      River.new('read by screen name', null)
       .on_job('not_found', function (msg) {
         assert.equal(msg, 'Not found: ' + screen_name);
         done();
@@ -182,7 +182,7 @@ describe( 'Customer', function () {
 
     it('updates Customer email', function (done) {
       var new_email = 'new-e\'mail@i-hate-all.com';
-      River.new()
+      River.new(null)
       .on_job('invalid', h.throw_it)
       .job('update customer', new_email, [customer, 'update', {'email': new_email}])
       .job('assert new email', function (j) {
@@ -202,7 +202,7 @@ describe( 'Customer', function () {
 
     it( 'it updates Customer trashed_at date.', function (done) {
       var f = '%Y-%m-%dT%H:%M';
-      River.new('trash customer')
+      River.new('trash customer', null)
       .job('trash customer', customer_id, [customer, 'trash'])
       .job('assert trashed_at changed', function (j) {
         assert.equal(h.is_recent(customer.data.trashed_at), true);
@@ -223,7 +223,7 @@ describe( 'Customer', function () {
     it( 'it does not delete Customer records less than 2 days old', function (done) {
       var trashed_at = h.ago('-1d -22h');
 
-      River.new()
+      River.new(null)
       .job('update trashed_at', function (j) {
         PG.new()
         .q(SQL
@@ -246,7 +246,7 @@ describe( 'Customer', function () {
     }); // it
 
     it( 'it deletes Customer and Screen-Names records more than 2 days old', function (done) {
-      var sn_river = River.new()
+      var sn_river = River.new(null)
       .job('read screen names', function (j) {
         PG.new()
         .q(SQL
@@ -260,7 +260,7 @@ describe( 'Customer', function () {
         });
       });
 
-      River.new()
+      River.new(null)
       .job('update trashed_at', function (j) {
         PG.new()
         .q(SQL

@@ -20,7 +20,7 @@ describe( 'PG', function () {
       var opts_1 = _.extend( _.clone(opts), {screen_name: 'r_0_1'});
       var opts_2 = _.extend( _.clone(opts), {screen_name: 'r_0_2'});
 
-      River.new()
+      River.new(null)
       .job('create' , '1', [Customer, 'create', opts_1])
       .job('create' , '2', [Customer, 'create', opts_2])
       .job('read', 'customers', function (j) {
@@ -57,7 +57,7 @@ describe( 'PG', function () {
 
     it( 'runs both on_error functions and River.job.error', function (done) {
       var val = null;
-      River.new()
+      River.new(null)
       .on_error(function (err) {
         assert.equal(err.toString(), "error: relation \"no-table\" does not exist");
         assert.equal(val, 'reached');

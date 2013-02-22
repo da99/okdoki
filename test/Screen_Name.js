@@ -30,7 +30,7 @@ describe( 'Screen_Name', function () {
   describe( 'create:', function () {
     it( 'saves screen_name to datastore', function (done) {
       var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
-      River.new()
+      River.new(null)
       .job('create sn', 'mem1', function (j) {
         Screen_Name.create(c, j);
       })
@@ -67,7 +67,7 @@ describe( 'Screen_Name', function () {
         ip                  : '000.00.000'
       };
 
-      River.new()
+      River.new(null)
       .job('create', 'customer', [Customer, 'create', c_opts])
       .run_and_on_finish(function (r) {
         c = r.last_reply();
@@ -82,7 +82,7 @@ describe( 'Screen_Name', function () {
         screen_name     : sn_updated.toLowerCase()
       };
 
-      River.new()
+      River.new(null)
 
       .job('update', 'screen name', function (j) {
         c.new_data = sn_opts;
@@ -103,7 +103,7 @@ describe( 'Screen_Name', function () {
 
     it( 'it updates screen-name\'s trashed_at column', function (done) {
       var f = '%Y-%m-%dT%H:%M';
-      River.new()
+      River.new(null)
       .job('trash', sn, [Screen_Name, 'trash', c.screen_name_id(sn)])
       .run_and_on_finish(function (r) {
         assert.equal(h.is_recent(r.last_reply().trashed_at), true);
@@ -116,7 +116,7 @@ describe( 'Screen_Name', function () {
   describe( 'delete', function () {
 
     it( 'it deletes screen-name record of more than 2 days old', function (done) {
-      River.new()
+      River.new(null)
       .job('age', 'trashed screen name', function (j) {
         PG.new()
         .q(SQL

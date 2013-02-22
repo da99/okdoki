@@ -13,7 +13,7 @@ describe( 'River', function () {
   });
 
   it( 'runs job after the previous one finishes', function (done) {
-    var r = River.new();
+    var r = River.new(null);
     var results = [];
 
     var fin = function (job) {
@@ -55,7 +55,7 @@ describe( 'River', function () {
 
     it( 'runs event only in job', function (done) {
       var results = [];
-      var r = River.new();
+      var r = River.new(null);
       r
       .on_job('invalid', function (msg, j) {
         assert.equal(j.invalid_msg, 'done');
@@ -69,7 +69,7 @@ describe( 'River', function () {
 
     it( 'throws Error if no invalid handler defined', function (done) {
       var results = [];
-      var r = River.new();
+      var r = River.new(null);
       r
       .job('throw', 'done', function (j) {
         var e = null;
@@ -88,7 +88,7 @@ describe( 'River', function () {
 
   describe( '.invalid', function () {
     it( 'stops river', function (done) {
-      var r = River.new();
+      var r = River.new(null);
       var job = null;
       r
       .job('runs', 1, function (j) {
@@ -119,7 +119,7 @@ describe( 'River', function () {
   describe( '.error', function () {
     it( 'stops river', function (done) {
       var results = [];
-      var r = River.new();
+      var r = River.new(null);
       r
       .on('error', function (err, j) {
         results.push([j.id, j.error_msg]);
@@ -142,7 +142,7 @@ describe( 'River', function () {
   describe( '.not_found', function () {
     it( 'stops river', function (done) {
       var results = [];
-      var r = River.new();
+      var r = River.new(null);
       r
       .on_job('not_found', function (msg, j) {
         results.push([j.id, j.not_found_msg]);
@@ -164,7 +164,7 @@ describe( 'River', function () {
   describe( 'group/id', function () {
     it( 'group/id are optional', function (done) {
       var val = null;
-      River.new()
+      River.new(null)
       .job(function (j) {
         val = j.group + ' ' + j.id;
         j.finish(val);
@@ -181,7 +181,7 @@ describe( 'River', function () {
   describe( 'inheriting a job', function () {
 
     it( 'runs the events of the previous job.river', function (done) {
-      River.new()
+      River.new(null)
       .on_error(function (msg) {
         assert.equal(msg, 'reached');
         done();
@@ -210,7 +210,7 @@ describe( 'River', function () {
     //
     it( 'parent job\'s .finish has to be called manually', function () {
       var val = 0;
-      River.new()
+      River.new(null)
       .job(function (j) {
 
         River.new(j)
@@ -230,7 +230,7 @@ describe( 'River', function () {
 
     it( 'stops running if parent job has finished', function () {
       var val = 0;
-      River.new()
+      River.new(null)
       .on_finish(function (r) {
         ++val;
       })
