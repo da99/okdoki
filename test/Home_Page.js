@@ -12,7 +12,7 @@ var _         = require('underscore')
 ;
 
 function read(from, to, flow) {
-  return Home_Page.read({from: from, to: to}, flow);
+  return Home_Page.read({from: from, screen_name: to}, flow);
 }
 
 describe( 'Home_Page', function () {
@@ -59,7 +59,7 @@ describe( 'Home_Page', function () {
     it( 'creates a home_page if it does not exist', function (done) {
       var about = 'This is a new about.';
       River.new()
-      .job('update', sn_1, [Home_Page, 'update', {screen_name: sn_1, from: c1, about: about}])
+      .job('update', sn_1, [Home_Page, 'update', {screen_name: sn_1, owner: c1, about: about}])
       .job('read', sn_1, function (j) {
         read(c1, sn_1, j)
       })
