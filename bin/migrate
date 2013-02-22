@@ -134,8 +134,7 @@ url                 text default null    \
 
 ok.q( " \
 CREATE TABLE IF NOT EXISTS home_pages ( \
-id                  varchar(15) PRIMARY KEY,   \
-owner_id            varchar(15) NOT NULL, \
+owner_id            varchar(15) PRIMARY KEY, \
 title               text default null,  \
 about               text default null    \
 )");

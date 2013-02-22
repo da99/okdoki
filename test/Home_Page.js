@@ -1,13 +1,14 @@
-var _       = require('underscore')
-, assert    = require('assert')
-, IM        = require('okdoki/lib/IM').IM
-, SQL       = require('okdoki/lib/SQL').SQL
-, PG        = require('okdoki/lib/PG').PG
-, River     = require('okdoki/lib/River').River
-, Customer  = require('okdoki/lib/Customer').Customer
-, Home_Page = require('okdoki/lib/Home_Page').Home_Page
-, Contact   = require('okdoki/lib/Contact').Contact
-, h         = require('okdoki/test/helpers')
+var _         = require('underscore')
+, assert      = require('assert')
+, IM          = require('okdoki/lib/IM').IM
+, SQL         = require('okdoki/lib/SQL').SQL
+, PG          = require('okdoki/lib/PG').PG
+, River       = require('okdoki/lib/River').River
+, Customer    = require('okdoki/lib/Customer').Customer
+, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, Home_Page   = require('okdoki/lib/Home_Page').Home_Page
+, Contact     = require('okdoki/lib/Contact').Contact
+, h           = require('okdoki/test/helpers')
 ;
 
 function read(from, to, flow) {
@@ -33,8 +34,8 @@ describe( 'Home_Page', function () {
     })
     .job('contact', 'c1->c2', function (j) { Contact.create({from: c1, to: sn_2}, j); })
     .job('contact', 'c2->c3', function (j) { Contact.create({from: c2, to: sn_3}, j); })
-    .job('protect', 'c2',     function (j) { Home_Page.update({owner: c2, read_able: 'C'}, j); })
-    .job('protect', 'c3',     function (j) { Home_Page.update({owner: c3, read_able: 'N'}, j); })
+    .job('protect', 'c2',     function (j) { Screen_Name.update({owner: c2, screen_name: sn_2, read_able: 'C'}, j); })
+    .job('protect', 'c3',     function (j) { Screen_Name.update({owner: c3, screen_name: sn_3, read_able: 'N'}, j); })
     .run_and_on_finish(function (r) {
       done();
     });
@@ -55,26 +56,16 @@ describe( 'Home_Page', function () {
 
   describe( 'update', function () {
 
-    it( 'is creates a home_page if it does not exist', function (done) {
+    it( 'creates a home_page if it does not exist', function (done) {
       var about = 'This is a new about.';
       River.new()
-      .job('update', sn_1, [Home_Page, 'update', {from: c1, about: about}])
+      .job('update', sn_1, [Home_Page, 'update', {screen_name: sn_1, from: c1, about: about}])
       .job('read', sn_1, function (j) {
         read(c1, sn_1, j)
       })
       .run_and_on_finish(function (r) {
         assert.equal(r.last_reply().data.about, about);
         done();
-      });
-    });
-
-    it.skip( 'updates homepage title', function (done) {
-      var expected = 'This is for: ' + screen_name_2;
-      customer.update_screen_name(screen_name_2, {"homepage_title": expected}, function (meta) {
-        customer.read_homepage(screen_name_2,  function (data) {
-          assert.equal(data.details.title, expected);
-          done();
-        });
       });
     });
 

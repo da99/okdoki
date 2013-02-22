@@ -45,6 +45,7 @@ Customer.delete_all = function (flow) {
     PG.new('clear customers', j)
     .delete_all('customers')
     .delete_all('screen_names')
+    .delete_all('home_pages')
     .run()
   })
   .run();
