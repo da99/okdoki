@@ -174,6 +174,16 @@ describe( 'Validate', function () {
     });
   }); // === describe
 
+  describe( '.found_in', function () {
+    it( 'sets error if value not found in array', function () {
+      var o = {new_data: {name: "pet"}};
+      Validate.new('.found_in', function (v) {
+        v.define('name', function (v) { v.found_in(['a', 'b']); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must be one of the following: a, b');
+    });
+  }); // === describe
+
 }); // === describe
 
 
