@@ -42,7 +42,7 @@ describe( 'Home_Page', function () {
     });
   });
 
-  describe( 'create', function (done) {
+  describe( 'create', function () {
     it( 'is not created after screen name is created', function (done) {
       PG.new().q(SQL.select('*').from(Home_Page.TABLE_NAME).where('owner_id', sn_1))
       .run(function (rows) {
