@@ -48,12 +48,17 @@ exports.ago = function (english) {
 Customer.delete_all = function (flow) {
 
   River.new(flow)
-  .job('clear previous', function (j) {
-    PG.new('clear customers', j)
-    .delete_all('customers')
-    .delete_all('screen_names')
-    .delete_all('home_pages')
-    .run()
+  .job('delete customers', function (j) {
+    Arango.new(Customer.TABLE_NAME).delete_collection(j);
+  })
+  .job('create customers coll', function (j) {
+    Arango.new(Customer.TABLE_NAME).create_collection(j);
+  })
+  .job('delete screen_names', function (j) {
+    Arango.new(Screen_Name.TABLE_NAME).delete_collection(j);
+  })
+  .job('create screen names coll', function (j) {
+    Arango.new(Screen_Name.TABLE_NAME).create_collection(j);
   })
   .run();
 

@@ -14,12 +14,16 @@ var colls = _.uniq(_s.words(" \
   subscribes \
   articles   \
   comments   \
+  screen_names \
 \
   users \
   subs  \
   posts  \
   learn_it  \
 "));
+
+var indexs = {'screen_names': {type: 'hash', fields: ['screen_name'], unique: true}};
+var indexs_count = [];
 
 function err(msg, res) {
   console.log(msg);
@@ -68,12 +72,35 @@ var flow_for_delete = function (c) {
       c.create_collection(flow_for_create(c));
     }
   };
-}
+};
+
+var flow_for_index_create = function (c) {
+  return {
+    error : err,
+    finish : function (data) {
+      console.log(data);
+      index_count.pop();
+      if (index_count.length)
+        del();
+      else
+        console.log('Finished reseting db.');
+
+    }
+  };
+};
 
 function del() {
   var next_table = colls.pop();
   if (!next_table) {
-    return console.log('Finished reseting db.');
+
+    _.map(indexs, function (data, coll) {
+      indexs_count.push(coll);
+      return coll;
+    });
+
+    _.map(indexs, function (data, coll) {
+      return A.new(coll).create_index(data, flow_for_index_create(c));
+    });
   }
 
   var c = A.new(next_table);
