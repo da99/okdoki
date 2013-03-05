@@ -11,7 +11,6 @@
     "passport"       : "0.x.x",
     "passport-local" : "0.x.x",
     "password-hash"  : "1.x.x",
-    "shortid"        : "1.x.x",
     "validator"      : "0.x.x",
     "underscore"     : "1.x.x",
     "uri-js"         : "1.x.x"

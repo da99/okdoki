@@ -61,10 +61,11 @@ describe( 'Screen_Name', function () {
 
       River.new(null)
       .job('create', 'customer', [Customer, 'create', c_opts])
-      .run(function (r) {
-        c = r.last_reply();
+      .reply(function (last) {
+        c = last;
         done();
-      });
+      })
+      .run();
     });
 
     it( 'updates screen name', function (done) {
