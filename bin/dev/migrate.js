@@ -38,7 +38,7 @@ var indexs = [ {coll: 'screen_names', type: 'hash', fields: ['screen_name'], uni
 var indexs_count = indexs.slice();
 var create_count = [];
 var delete_count = [];
-var reset_count  = _.pluck(indexs, 'coll');
+var reset_count  = [];
 
 function err(msg, res) {
   log(msg);
@@ -87,7 +87,8 @@ function create_indexs() {
     A.new(next_index.coll).create_index(next_index, {
       error: err,
       finish: function (data) {
-        log('created index:' + JSON.stringify(data))
+        if (data.code === 201)
+          log('created index:' + JSON.stringify(data))
       }
     });
   });

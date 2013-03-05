@@ -1,4 +1,5 @@
 var _         = require('underscore')
+, Arango      = require('okdoki/lib/ArangoDB').ArangoDB
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
 , River       = require('okdoki/lib/River').River
@@ -49,16 +50,10 @@ Customer.delete_all = function (flow) {
 
   River.new(flow)
   .job('delete customers', function (j) {
-    Arango.new(Customer.TABLE_NAME).delete_collection(j);
-  })
-  .job('create customers coll', function (j) {
-    Arango.new(Customer.TABLE_NAME).create_collection(j);
+    Arango.new(Customer.TABLE_NAME).delete_all(j);
   })
   .job('delete screen_names', function (j) {
-    Arango.new(Screen_Name.TABLE_NAME).delete_collection(j);
-  })
-  .job('create screen names coll', function (j) {
-    Arango.new(Screen_Name.TABLE_NAME).create_collection(j);
+    Arango.new(Screen_Name.TABLE_NAME).delete_all(j);
   })
   .run();
 

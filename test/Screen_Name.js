@@ -1,10 +1,9 @@
 var _         = require('underscore')
 , assert      = require('assert')
+, Arango      = require('okdoki/lib/ArangoDB').ArangoDB
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
 , River       = require('okdoki/lib/River').River
-, PG          = require('okdoki/lib/PG').PG
-, SQL         = require('okdoki/lib/SQL').SQL
 , h           = require('okdoki/test/helpers')
 ;
 
@@ -24,6 +23,7 @@ describe( 'Screen_Name', function () {
 
   describe( 'create:', function () {
     it( 'saves screen_name to datastore', function (done) {
+
       var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
       River.new(null)
       .job('create sn', 'mem1', function (j) {
@@ -31,21 +31,18 @@ describe( 'Screen_Name', function () {
       })
 
       .job('read sn', 'mem1', function (j) {
-
-        PG.run(j, SQL
-               .select('*')
-               .from('screen_names')
-               .where('screen_name = UPPER( $1 )', [j.id])
-               .limit(1)
-              );
-
+        Arango.new(Screen_Name.TABLE_NAME).read_by_example({
+          screen_name: 'mem1'.toUpperCase()
+        }, j);
       })
 
-      .run(function (r) {
-        var sn = r.last_reply();
+      .reply(function (reply, river) {
+        var sn = reply[0];
         assert.equal(sn.screen_name, 'mem1'.toUpperCase());
         done();
-      });
+      })
+
+      .run();
     }); // it
 
   }); // === describe create
