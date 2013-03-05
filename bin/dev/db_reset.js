@@ -44,64 +44,6 @@ function err(msg, res) {
   log(msg);
 }
 
-function succ(res, data) {
-  data = JSON.parse(data || '{}');
-
-  if (data.error && data.errorMessage.indexOf("unknown collection '") === 0) {
-    // log("Already deleted: " + data.errorMessage.replace("unknown collection ", ''));
-    return del();
-  }
-
-  if (data.error) {
-    log('error: ', data.code, ':', data.errorMessage );
-    return false;
-  }
-
-  log("data: ", JSON.stringify(data));
-  return del();
-}
-
-function complete(err, res, data) {
-  if (err)
-    return err(err, res, data);
-  else
-    return succ(res, data);
-}
-
-
-var flow_for_create = function (c) {
-  return {
-    error  : err,
-    finish : function (data) {
-      return del();
-    }
-  };
-}
-
-var flow_for_delete = function (c) {
-  return {
-    error  : err,
-    finish : function (data) {
-      if (!(data.code === 200 && data.error === false) && (data.errorMessage || '').indexOf('unknown collection') === -1)
-        log("data: ", JSON.stringify(data));
-      c.create_collection(flow_for_create(c));
-    }
-  };
-};
-
-var flow_for_index_create = function (c) {
-  return {
-    error : err,
-    finish : function (data) {
-      indexs_count.pop();
-      if (indexs_count.length)
-        del();
-      else
-        log('Finished reseting db.');
-
-    }
-  };
-};
 
 function del() {
 
