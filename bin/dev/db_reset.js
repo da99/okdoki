@@ -7,42 +7,57 @@ var _           = require('underscore')
 , A             = require('okdoki/lib/ArangoDB').ArangoDB
 ;
 
-var colls = _.uniq(_s.words(" \
+var log = function () {
+  if (process.env.QUIET)
+    return false;
+  console.log.apply(console, arguments);
+}
+
+var creates = _.uniq(_s.words(" \
   customers  \
   labels     \
   labelings  \
   subscribes \
-  articles   \
+  posts      \
   comments   \
   screen_names \
-\
-  users \
-  subs  \
-  posts  \
+"));
+
+var deletes = _.uniq(_s.words(" \
+  users     \
+  subs      \
+  articles  \
   learn_it  \
 "));
 
-var indexs = {'screen_names': {type: 'hash', fields: ['screen_name'], unique: true}};
-var indexs_count = [];
+var common = _.intersection(creates, deletes);
+if (common.length)
+  throw new Error("Names found in both creates and deletes: " + common.join(', '));
+
+var indexs = [ {coll: 'screen_names', type: 'hash', fields: ['screen_name'], unique: true} ];
+var indexs_count = indexs.slice();
+var create_count = [];
+var delete_count = [];
+var reset_count  = _.pluck(indexs, 'coll');
 
 function err(msg, res) {
-  console.log(msg);
+  log(msg);
 }
 
 function succ(res, data) {
   data = JSON.parse(data || '{}');
 
   if (data.error && data.errorMessage.indexOf("unknown collection '") === 0) {
-    // console.log("Already deleted: " + data.errorMessage.replace("unknown collection ", ''));
+    // log("Already deleted: " + data.errorMessage.replace("unknown collection ", ''));
     return del();
   }
 
   if (data.error) {
-    console.log('error: ', data.code, ':', data.errorMessage );
+    log('error: ', data.code, ':', data.errorMessage );
     return false;
   }
 
-  console.log("data: ", JSON.stringify(data));
+  log("data: ", JSON.stringify(data));
   return del();
 }
 
@@ -68,7 +83,7 @@ var flow_for_delete = function (c) {
     error  : err,
     finish : function (data) {
       if (!(data.code === 200 && data.error === false) && (data.errorMessage || '').indexOf('unknown collection') === -1)
-        console.log("data: ", JSON.stringify(data));
+        log("data: ", JSON.stringify(data));
       c.create_collection(flow_for_create(c));
     }
   };
@@ -78,34 +93,83 @@ var flow_for_index_create = function (c) {
   return {
     error : err,
     finish : function (data) {
-      console.log(data);
-      index_count.pop();
-      if (index_count.length)
+      indexs_count.pop();
+      if (indexs_count.length)
         del();
       else
-        console.log('Finished reseting db.');
+        log('Finished reseting db.');
 
     }
   };
 };
 
 function del() {
-  var next_table = colls.pop();
-  if (!next_table) {
 
-    _.map(indexs, function (data, coll) {
-      indexs_count.push(coll);
-      return coll;
-    });
+  var next_coll = delete_count.pop();
 
-    _.map(indexs, function (data, coll) {
-      return A.new(coll).create_index(data, flow_for_index_create(c));
-    });
-  }
+  // create collection
+  if (!next_coll)
+    return create();;
 
-  var c = A.new(next_table);
-  console.log('deleteing:', next_table);
-  c.delete_collection(flow_for_delete(c));
+  var c = A.new(next_coll);
+  c.delete_collection({
+    error : err,
+    finish : function (data) {
+      log('Deleted: ', next_coll, data);
+      del();
+    }
+  });
+  return true;
 }
 
-del();
+function create() {
+  var next_coll = create_count.pop();
+  if (!next_coll)
+    return create_indexs();;
+  var c = A.new(next_coll);
+  c.create_collection({
+    error : err,
+    finish : function (data) {
+      log('Created: ', next_coll, data);
+      create();
+    }
+  });
+}
+
+function create_indexs() {
+
+  if (!indexs_count.length)
+    return ;
+
+  _.each(indexs_count, function (next_index) {
+    A.new(next_index.coll).create_index(next_index, {
+      error: err,
+      finish: function (data) {
+        log('created index:' + JSON.stringify(data))
+      }
+    });
+  });
+
+}
+
+// get collection list
+A.read_list({error: err, finish: function (data) {
+
+  var alives = _.filter(_.keys(data.names), function(name) { return name.indexOf('_') !== 0; });
+  create_count = _.uniq( create_count.concat(_.difference(creates, alives)) ).concat(reset_count);
+  delete_count = _.uniq( _.intersection(alives, deletes) ).concat(reset_count);
+
+  del();
+}});
+
+
+
+
+
+
+
+
+
+
+
+
