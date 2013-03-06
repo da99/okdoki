@@ -44,7 +44,7 @@ exports.ago = function (english) {
     default:
       throw new Error('Unknown: ' + english);
   };
-  return reltime.parse((new Date), english);
+  return reltime.parse((new Date), english).getTime();
 }
 
 

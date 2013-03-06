@@ -26,7 +26,8 @@ function create_test_customer(done) {
   .job('create', 'customer', [Customer, 'create', c_opts])
   .reply(function (last) {
     c = last;
-    done();
+    if (done)
+      done();
   })
   .run();
 }
@@ -142,6 +143,7 @@ describe( 'Screen_Name', function () {
   describe( 'delete', function () {
 
     before(function (done) {
+      create_test_customer();
       create_test_customer(done);
     });
 
@@ -150,7 +152,7 @@ describe( 'Screen_Name', function () {
       .job('age', 'trashed screen name', function (j) {
         Arango
         .new(Screen_Name.TABLE_NAME)
-        .update(SOME_ID, {trashed_at: h.ago('-3d')}, j)
+        .update(c.screen_name_id(sn), {trashed_at: h.ago('-3d')}, j)
       })
       .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
       .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])
