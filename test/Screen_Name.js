@@ -111,13 +111,9 @@ describe( 'Screen_Name', function () {
     it( 'it deletes screen-name record of more than 2 days old', function (done) {
       River.new(null)
       .job('age', 'trashed screen name', function (j) {
-        PG.new(j)
-        .q(SQL
-           .update(Screen_Name.TABLE_NAME)
-           .set({trashed_at: h.ago('-3d')})
-           .where('screen_name', sn)
-          )
-        .run();
+        Arango
+        .new(Screen_Name.TABLE_NAME)
+        .update(SOME_ID, {trashed_at: h.ago('-3d')}, j)
       })
       .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
       .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])

@@ -34,7 +34,10 @@ var common = _.intersection(creates, deletes);
 if (common.length)
   throw new Error("Names found in both creates and deletes: " + common.join(', '));
 
-var indexs = [ {coll: 'screen_names', type: 'hash', fields: ['screen_name'], unique: true} ];
+var indexs = [
+  {coll: 'screen_names', type: 'hash', fields: ['screen_name'], unique: true},
+  {coll: 'screen_names', type: 'hash', fields: ['owner_id']}
+];
 var indexs_count = indexs.slice();
 var create_count = [];
 var delete_count = [];
