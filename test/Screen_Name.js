@@ -7,11 +7,14 @@ var _         = require('underscore')
 , h           = require('okdoki/test/helpers')
 ;
 
-var c = null;
-var sn = 'SN_1';
-var sn_updated = 'SN_1_UPDATED';
+var counter = 0;
+var c  = null;
+var sn = null;
+var sn_updated = null;
 
 function create_test_customer(done) {
+  sn = "SN_" + counter++;
+  sn_updated = "SN_" + counter + "_UPDATED";
   var c_opts = {
     screen_name         : sn.toLowerCase(),
     pass_phrase         : "this is a pass phrase",
@@ -100,7 +103,7 @@ describe( 'Screen_Name', function () {
       create_test_customer(done);
     });
 
-    it( 'it updates screen-name\'s trashed_at column', function (done) {
+    it( 'it updates screen-name\'s :trashed_at to UTC now', function (done) {
       var f = '%Y-%m-%dT%H:%M';
       River.new(null)
       .job('trash', sn, [Screen_Name, 'trash', c.screen_name_id(sn)])
@@ -113,6 +116,28 @@ describe( 'Screen_Name', function () {
     });
 
   }); // === describe trash
+
+  describe( 'untrash', function () {
+
+    before(function (done) {
+      create_test_customer(done);
+    });
+
+    it( 'it updates screen-name\'s :trashed_at to null', function (done) {
+      var f = '%Y-%m-%dT%H:%M';
+      River.new(null)
+      .job('trash',   sn, [Screen_Name, 'trash',      c.screen_name_id(sn)])
+      .job('untrash', sn, [Screen_Name, 'untrash',    c.screen_name_id(sn)])
+      .job('read',    sn, [Screen_Name, 'read_by_id', c.screen_name_id(sn)])
+      .reply(function (new_sn, river) {
+        assert.equal(new_sn.data.trashed_at, null);
+      })
+      .run(function (r) {
+        done();
+      });
+    });
+
+  }); // === describe untrash
 
   describe( 'delete', function () {
 
