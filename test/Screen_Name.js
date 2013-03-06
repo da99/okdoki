@@ -11,6 +11,23 @@ var c = null;
 var sn = 'SN_1';
 var sn_updated = 'SN_1_UPDATED';
 
+function create_test_customer(done) {
+  var c_opts = {
+    screen_name         : sn.toLowerCase(),
+    pass_phrase         : "this is a pass phrase",
+    confirm_pass_phrase : "this is a pass phrase",
+    ip                  : '000.00.000'
+  };
+
+  River.new(null)
+  .job('create', 'customer', [Customer, 'create', c_opts])
+  .reply(function (last) {
+    c = last;
+    done();
+  })
+  .run();
+}
+
 describe( 'Screen_Name', function () {
 
   before(function (done) {
@@ -50,22 +67,8 @@ describe( 'Screen_Name', function () {
 
   describe( 'update:', function () {
 
-
     before(function (done) {
-      var c_opts = {
-        screen_name         : sn.toLowerCase(),
-        pass_phrase         : "this is a pass phrase",
-        confirm_pass_phrase : "this is a pass phrase",
-        ip                  : '000.00.000'
-      };
-
-      River.new(null)
-      .job('create', 'customer', [Customer, 'create', c_opts])
-      .reply(function (last) {
-        c = last;
-        done();
-      })
-      .run();
+      create_test_customer(done);
     });
 
     it( 'updates screen name', function (done) {
@@ -93,13 +96,18 @@ describe( 'Screen_Name', function () {
 
   describe( 'trash', function () {
 
+    before(function (done) {
+      create_test_customer(done);
+    });
 
     it( 'it updates screen-name\'s trashed_at column', function (done) {
       var f = '%Y-%m-%dT%H:%M';
       River.new(null)
       .job('trash', sn, [Screen_Name, 'trash', c.screen_name_id(sn)])
+      .reply(function (trashed_at, river) {
+        assert.equal(h.is_recent(trashed_at), true);
+      })
       .run(function (r) {
-        assert.equal(h.is_recent(r.last_reply().trashed_at), true);
         done();
       });
     });
@@ -107,6 +115,10 @@ describe( 'Screen_Name', function () {
   }); // === describe trash
 
   describe( 'delete', function () {
+
+    before(function (done) {
+      create_test_customer(done);
+    });
 
     it( 'it deletes screen-name record of more than 2 days old', function (done) {
       River.new(null)

@@ -28,6 +28,8 @@ exports.utc_diff = function (date) {
   return exports.utc_timestamp() - (date).getTime();
 }
 exports.is_recent = function (date) {
+  if (_.isNumber(date) && !_.isNaN(date))
+    return ((new Date()).getTime() - date) < 500;
   return exports.utc_diff(date) < 1000;
 }
 
