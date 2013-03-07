@@ -20,11 +20,11 @@
     , "duration"   : "0.x.x"
     , "redis"      : "0.x.x"
     , "request"    : "2.x.x"
-    , "arango.client"  : "0.x.x"
     , "underscore.string" : "x.x.x"
+    , "strftime" : "x.x.x"
   },
+
   "devDependencies": {
-    "strftime" : "x.x.x"
   },
 
   "engines": {

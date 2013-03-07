@@ -1,6 +1,6 @@
 
 var _      = require('underscore')
-, PG       = require('okdoki/lib/PG').PG
+, Topogo       = require('okdoki/lib/Topogo').Topogo
 , River    = require('okdoki/lib/River').River
 , SQL      = require('okdoki/lib/SQL').SQL
 , Customer = require('okdoki/lib/Customer').Customer

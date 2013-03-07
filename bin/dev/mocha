@@ -4,18 +4,18 @@
 
 set -e
 
-if [ -z "$NO_DB_RESET" ];
-then bin/dev/migrate.js reset_with_data;
-else
+# if [ -z "$NO_DB_RESET" ];
+# then bin/dev/migrate.js reset_with_data;
+# else
   echo "Skipping db reset";
-fi
+# fi
 
 set -u
 echo ""
 
+  # test/PG.js          \
 bin/dev/mocha_file        \
   test/IM.js          \
-  test/PG.js          \
   test/River.js       \
   test/SQL.js         \
   test/Validate.js    \

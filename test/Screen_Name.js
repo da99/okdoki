@@ -1,6 +1,6 @@
 var _         = require('underscore')
 , assert      = require('assert')
-, Arango      = require('okdoki/lib/ArangoDB').ArangoDB
+, Topogo      = require('okdoki/lib/Topogo').Topogo
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
 , River       = require('okdoki/lib/River').River

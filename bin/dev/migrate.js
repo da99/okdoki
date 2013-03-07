@@ -2,7 +2,7 @@
 
 // Create databases: okdoki
 
-var PG     = require('okdoki/lib/PG').PG
+var Topogo = require('okdoki/lib/Topogo').Topogo
 , SQL      = require('okdoki/lib/SQL').SQL
 , Customer = require('okdoki/lib/Customer').Customer
 , Chat_Bot = require('okdoki/lib/Chat_Bot').Chat_Bot
