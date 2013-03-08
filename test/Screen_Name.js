@@ -46,13 +46,14 @@ describe( 'Screen_Name', function () {
     it( 'saves screen_name to datastore', function (done) {
 
       var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
+
       River.new(null)
-      .job('create sn', 'mem1', function (j) {
-        Screen_Name.create(c, j);
-      })
+
+      .job('create sn', 'mem1', [Screen_Name, 'create', c])
 
       .job('read sn', 'mem1', function (j) {
-        Topogo.new(Screen_Name.TABLE_NAME).read_one_by_example({
+        Topogo.new(Screen_Name.TABLE_NAME)
+        .read_one_by_example({
           screen_name: 'mem1'.toUpperCase()
         }, j);
       })
