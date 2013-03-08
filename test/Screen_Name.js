@@ -157,11 +157,12 @@ describe( 'Screen_Name', function () {
     });
 
     it( 'it deletes screen-name record of more than 2 days old', function (done) {
+      var id = c.screen_name_id(sn);
       River.new(null)
       .job('age', 'trashed screen name', function (j) {
-        Arango
+        Topogo
         .new(Screen_Name.TABLE_NAME)
-        .update(c.screen_name_id(sn), {trashed_at: h.ago('-3d')}, j)
+        .update(id, {trashed_at: h.ago('-3d')}, j)
       })
       .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
       .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])
