@@ -23,22 +23,40 @@ if (!is_up && !is_down) {
   process.exit(1);
 }
 
-var ok = PG.new();
+var ok = {
+  list : [],
+  q: function (string) {
+    this.list.push(string);
+    return this;
+  }
+};
 
-function down(names) {
+function down(names, flow) {
+  var public = [];
+  var r = River.new(arguments);
+
   if (!is_down)
-    return true;
+    return flow.finish(public);
 
   _.each(names, function (n, i) {
     if (n.indexOf('public.') === 0 ) {
-      ok.q('DROP TABLE ' + n + '' );
+      public.push(n);
+      r.job('drop', n, function (j) {
+        Topogo.new(n).drop(j);
+      });
     };
   });
+
+  r.reply('public tables', function (reply, river) {
+    return public;
+  });
+
+  r.run();
 }
 
-function up() {
+function up(flow) {
   if (!is_up)
-    return true;
+    return flow.finish();
 
   // ok.q("CREATE EXTENSION IF NOT EXISTS pgcrypto");
 
@@ -94,8 +112,7 @@ function up() {
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS customers ( \
-id varchar(15) PRIMARY KEY, \
-created_at timestamp default " + now +",  \
+id varchar(" + Topogo.id_size + ") PRIMARY KEY, \
 trashed_at timestamp default null,   \
 email text,                 \
 pass_phrase_hash varchar(150) NOT NULL \
@@ -103,9 +120,8 @@ pass_phrase_hash varchar(150) NOT NULL \
 
 ok.q( " \
 CREATE TABLE IF NOT EXISTS screen_names ( \
-id                  varchar(15) PRIMARY KEY,   \
-owner_id            varchar(15) NOT NULL, \
-created_at          timestamp default " + now + ",  \
+id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,   \
+owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
 screen_name         varchar(15) NOT NULL UNIQUE,  \
 display_name        varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
@@ -120,8 +136,8 @@ ok.q("CREATE INDEX ON screen_names (owner_id)");
 
 ok.q( " \
 CREATE TABLE IF NOT EXISTS bots         ( \
-id                  varchar(15) PRIMARY KEY,   \
-owner_id            varchar(15) NOT NULL, \
+id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,   \
+owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
 name                varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
 read_able           varchar(1) default 'W', \
@@ -133,34 +149,32 @@ url                 text default null    \
 
 ok.q( " \
 CREATE TABLE IF NOT EXISTS home_pages ( \
-owner_id            varchar(15) PRIMARY KEY, \
+owner_id            varchar(" + Topogo.id_size + ") PRIMARY KEY, \
 title               text default null,  \
 about               text default null    \
 )");
 
 ok.q(" \
  CREATE TABLE IF NOT EXISTS comments ( \
- id                varchar(30) NOT NULL UNIQUE, \
- author_id         varchar(15) NULL, \
- conv_id           varchar(30) NOT NULL UNIQUE, \
- ref_id            varchar(30) NOT NULL UNIQUE, \
+ id                varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
+ author_id         varchar(" + Topogo.id_size + ") NULL, \
+ conv_id           varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
+ ref_id            varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
  settings          text default null,       \
  details           text default null,       \
  body              text NOT NULL,         \
- created_at        timestamp default " + now + ",  \
  updated_at        timestamp default null, \
  trashed_at        timestamp default null  \
  )");
 
  ok.q(" \
 CREATE TABLE IF NOT EXISTS follows  ( \
-id                varchar(30) PRIMARY KEY, \
-pub_id            varchar(15) NULL, \
-follower_id       varchar(15) NULL, \
+id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
+pub_id            varchar(" + Topogo.id_size + ") NULL, \
+follower_id       varchar(" + Topogo.id_size + ") NULL, \
 settings          text default null,       \
 details           text default null,       \
 body              text,         \
-created_at        timestamp default " + now + ",  \
 trashed_at        timestamp default null \
 )");
 
@@ -168,63 +182,58 @@ ok.q("CREATE INDEX ON follows (follower_id)");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS contacts ( \
-id                varchar(30) PRIMARY KEY, \
-\"from_id\"          varchar(15) NULL, \
-\"to_id\"            varchar(15) NULL, \
-created_at        timestamp default " + now + ",  \
+id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
+\"from_id\"          varchar(" + Topogo.id_size + ") NULL, \
+\"to_id\"            varchar(" + Topogo.id_size + ") NULL, \
 trashed_at        timestamp default null \
 , CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
 )");
 
 ok.q(" \
 CREATE UNLOGGED TABLE IF NOT EXISTS online_customers ( \
-id                varchar(30) PRIMARY KEY, \
-customer_id       varchar(15) NULL, \
-screen_name_id    varchar(15) NULL, \
-last_seen_at      timestamp default " + now + ",  \
-created_at        timestamp default " + now + "  \
+id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
+customer_id       varchar(" + Topogo.id_size + ") NULL, \
+screen_name_id    varchar(" + Topogo.id_size + ") NULL, \
+last_seen_at      timestamp default " + now + "  \
 , CONSTRAINT unique_customer_id_to_screen_name_id UNIQUE (customer_id, screen_name_id) \
 )");
 
 ok.q(" \
 CREATE UNLOGGED TABLE IF NOT EXISTS ims ( \
-id              varchar(15) PRIMARY KEY,     \
-client_id       varchar(15) default NULL,    \
-re_id           varchar(15) default NULL,    \
-re_client_id    varchar(15) default NULL,    \
-\"from_id\"        varchar(15) NOT NULL,        \
-\"to_id\"          varchar(15) default 'W',     \
+id              varchar(" + Topogo.id_size + ") PRIMARY KEY,     \
+client_id       varchar(" + Topogo.id_size + ") default NULL,    \
+re_id           varchar(" + Topogo.id_size + ") default NULL,    \
+re_client_id    varchar(" + Topogo.id_size + ") default NULL,    \
+\"from_id\"        varchar(" + Topogo.id_size + ") NOT NULL,        \
+\"to_id\"          varchar(" + Topogo.id_size + ") default 'W',     \
 labels          varchar(15) ARRAY,    \
-body            text,                 \
-created_at      timestamp default " + now + "  \
+body            text                  \
 )");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS labels   ( \
-id                varchar(30) NOT NULL UNIQUE, \
-owner_id          varchar(15) NULL, \
+id                varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
+owner_id          varchar(" + Topogo.id_size + ") NULL, \
 label             varchar(40) NULL, \
-created_at        timestamp default " + now + ",  \
 trashed_at        timestamp default null \
 , UNIQUE (owner_id, label) \
 )");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS labelings ( \
-id              varchar(30) NOT NULL UNIQUE, \
-pub_id          varchar(15) NOT NULL,        \
-label_id        varchar(30) NOT NULL, \
-created_at      timestamp default " + now + ",  \
+id              varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
+pub_id          varchar(" + Topogo.id_size + ") NOT NULL,        \
+label_id        varchar(" + Topogo.id_size + ") NOT NULL, \
 trashed_at      timestamp default null   \
 , UNIQUE (pub_id, label_id) \
 )");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS posts ( \
-  id                  varchar(30) PRIMARY KEY,     \
-  pub_id              varchar(30) NOT NULL,        \
-  re_id               varchar(30) NOT NULL,        \
-  author_id           varchar(30) NOT NULL,        \
+  id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,     \
+  pub_id              varchar(" + Topogo.id_size + ") NOT NULL,        \
+  re_id               varchar(" + Topogo.id_size + ") NOT NULL,        \
+  author_id           varchar(" + Topogo.id_size + ") NOT NULL,        \
   section_id          smallint NOT NULL,           \
   title               varchar(100) default null,   \
   body                text,                        \
@@ -232,17 +241,25 @@ CREATE TABLE IF NOT EXISTS posts ( \
   read_able           varchar(1) default 'W',      \
   read_able_list      varchar(100) ARRAY,          \
   un_read_able_list   varchar(100) ARRAY,          \
-  created_at          timestamp default " + now + ",  \
   trashed_at          timestamp default null       \
 )");
 
-ok.q(" CREATE INDEX ON posts (created_at DESC); ");
-}
 
-function create(meta) {
+  var r = River.new(flow);
+
+  _.each(ok.list, function(v) {
+    r.job('query', function (j) {
+      Topogo.run(Topogo.new('unknown table'), v, [], j);
+    });
+  });
+
+  r.run();
+} // end func up
+
+function create(flow) {
   console.log('Finished migrating the main db.');
   if (!is_reset_user) {
-    return;
+    return flow.finish();
   }
 
   var p     = "pass phrase";
@@ -252,7 +269,7 @@ function create(meta) {
 
   var c_opts = {pass_phrase: p, confirm_pass_phrase: p, ip: '000.000.00'};
 
-  var r = River.new();
+  var r = River.new(arguments);
   r.for_each_finish(report);
   r.job('create:', 'go99', function (j) {
     Customer.create(_.extend({screen_name: j.id}, c_opts), (j));
@@ -286,17 +303,16 @@ function create(meta) {
 
 };
 
-PG.show_tables(function (tables) {
-  down(tables);
-  up();
-  ok.on_finish(create);
-  ok.run();
-});
+// ==========================================================================================
+
+River.new(null)
+.job('get table list'      , function (j) { Topogo.show_tables(j); })
+.job('migrate down'        , function (j) { down(j.river.last_reply(), j); })
+.job('migrate up'          , function (j) { up(j); })
+.job('create default data' , function (j) { create(j); })
+.run();
 
 
 // ==========================================================================================
-// console.log('Process id: ' + process.pid);
-
-
 
 

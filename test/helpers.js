@@ -48,7 +48,7 @@ exports.ago = function (english) {
 
 Topogo.prototype.delete_all = function (flow) {
   var sql = 'DELETE FROM ' + this.table + ' ;';
-  return this.run(sql, {}, flow);
+  return Topogo.run(this, sql, [], flow);
 };
 
 Customer.delete_all = function (flow) {
