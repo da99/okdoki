@@ -131,12 +131,16 @@ describe( 'Screen_Name', function () {
 
     it( 'it updates screen-name\'s :trashed_at to null', function (done) {
       var f = '%Y-%m-%dT%H:%M';
+      var id = c.screen_name_id(sn);
       River.new(null)
-      .job('trash',   sn, [Screen_Name, 'trash',      c.screen_name_id(sn)])
-      .job('untrash', sn, [Screen_Name, 'untrash',    c.screen_name_id(sn)])
-      .job('read',    sn, [Screen_Name, 'read_by_id', c.screen_name_id(sn)])
+      .job('trash',   sn, [Screen_Name, 'trash',      id])
+      .job('untrash', sn, [Screen_Name, 'untrash',    id])
+      .job('read', function (j) {
+        Topogo.new(Screen_Name.TABLE_NAME)
+        .read_by_id(id, j)
+      })
       .reply(function (new_sn, river) {
-        assert.equal(new_sn.data.trashed_at, null);
+        assert.equal(new_sn.trashed_at, null);
       })
       .run(function (r) {
         done();
