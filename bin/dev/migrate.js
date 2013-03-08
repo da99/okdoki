@@ -113,7 +113,7 @@ function up(flow) {
 ok.q(" \
 CREATE TABLE IF NOT EXISTS customers ( \
 id varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-trashed_at timestamp default null,   \
+trashed_at bigint default null,   \
 email text,                 \
 pass_phrase_hash varchar(150) NOT NULL \
 )");
@@ -129,7 +129,7 @@ read_able           varchar(1) default 'N', \
 read_able_list      varchar(100) ARRAY,   \
 un_read_able_list   varchar(100) ARRAY,   \
 about               text default null    \
-, trashed_at        timestamp default NULL \
+, trashed_at        bigint  default NULL \
 )");
 
 ok.q("CREATE INDEX ON screen_names (owner_id)");
@@ -144,7 +144,7 @@ read_able           varchar(1) default 'W', \
 read_able_list      varchar(100) ARRAY,   \
 un_read_able_list   varchar(100) ARRAY,   \
 url                 text default null    \
-, trashed_at        timestamp default NULL \
+, trashed_at        bigint  default NULL \
 )");
 
 ok.q( " \
@@ -164,7 +164,7 @@ ok.q(" \
  details           text default null,       \
  body              text NOT NULL,         \
  updated_at        timestamp default null, \
- trashed_at        timestamp default null  \
+ trashed_at        bigint  default null  \
  )");
 
  ok.q(" \
@@ -175,7 +175,7 @@ follower_id       varchar(" + Topogo.id_size + ") NULL, \
 settings          text default null,       \
 details           text default null,       \
 body              text,         \
-trashed_at        timestamp default null \
+trashed_at        bigint  default null \
 )");
 
 ok.q("CREATE INDEX ON follows (follower_id)");
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
 \"from_id\"          varchar(" + Topogo.id_size + ") NULL, \
 \"to_id\"            varchar(" + Topogo.id_size + ") NULL, \
-trashed_at        timestamp default null \
+trashed_at        bigint  default null \
 , CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
 )");
 
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS labels   ( \
 id                varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
 owner_id          varchar(" + Topogo.id_size + ") NULL, \
 label             varchar(40) NULL, \
-trashed_at        timestamp default null \
+trashed_at        bigint  default null \
 , UNIQUE (owner_id, label) \
 )");
 
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS labelings ( \
 id              varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
 pub_id          varchar(" + Topogo.id_size + ") NOT NULL,        \
 label_id        varchar(" + Topogo.id_size + ") NOT NULL, \
-trashed_at      timestamp default null   \
+trashed_at      bigint  default null   \
 , UNIQUE (pub_id, label_id) \
 )");
 
@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS posts ( \
   read_able           varchar(1) default 'W',      \
   read_able_list      varchar(100) ARRAY,          \
   un_read_able_list   varchar(100) ARRAY,          \
-  trashed_at          timestamp default null       \
+  trashed_at          bigint  default null       \
 )");
 
 

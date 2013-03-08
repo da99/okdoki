@@ -106,15 +106,19 @@ describe( 'Screen_Name', function () {
     });
 
     it( 'it updates screen-name\'s :trashed_at to UTC now', function (done) {
-      var f = '%Y-%m-%dT%H:%M';
+      var f  = '%Y-%m-%dT%H:%M';
+      var id = c.screen_name_id(sn);
       River.new(null)
-      .job('trash', sn, [Screen_Name, 'trash', c.screen_name_id(sn)])
-      .reply(function (trashed_at, river) {
-        assert.equal(h.is_recent(trashed_at), true);
+      .job('trash', sn, [Screen_Name, 'trash', id])
+      .job('read', function (j) {
+        Topogo.new(Screen_Name.TABLE_NAME)
+        .read_by_id(id, j)
       })
-      .run(function (r) {
+      .reply(function (reply, river) {
+        assert.equal(h.is_recent(reply.trashed_at), true);
         done();
-      });
+      })
+      .run();
     });
 
   }); // === describe trash
