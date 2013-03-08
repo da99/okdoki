@@ -52,13 +52,13 @@ describe( 'Screen_Name', function () {
       })
 
       .job('read sn', 'mem1', function (j) {
-        Arango.new(Screen_Name.TABLE_NAME).read_by_example({
+        Topogo.new(Screen_Name.TABLE_NAME).read_one_by_example({
           screen_name: 'mem1'.toUpperCase()
         }, j);
       })
 
       .reply(function (reply, river) {
-        var sn = reply[0];
+        var sn = reply;
         assert.equal(sn.screen_name, 'mem1'.toUpperCase());
         done();
       })
