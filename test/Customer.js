@@ -119,7 +119,7 @@ describe( 'Customer', function () {
     it( 'executes not_found func', function (done) {
       River.new(null)
       .on_job('not_found', function (msg) {
-        assert.equal(msg, 'Not found: no-id');
+        assert.equal(msg, 'Customer, no-id, not found.');
         done();
       })
       .job('read empty:', 'no-id', [Customer, 'read_by_id', 'no-id'])
