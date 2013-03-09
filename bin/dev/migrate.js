@@ -2,11 +2,13 @@
 
 // Create databases: okdoki
 
-var Topogo = require('okdoki/lib/Topogo').Topogo
+var River  = require('okdoki/lib/River').River
+, Topogo   = require('okdoki/lib/Topogo').Topogo
 , SQL      = require('okdoki/lib/SQL').SQL
 , Customer = require('okdoki/lib/Customer').Customer
 , Chat_Bot = require('okdoki/lib/Chat_Bot').Chat_Bot
-, River    = require('okdoki/lib/River').River;
+, h        = require('okdoki/test/helpers')
+;
 
 var _      = require('underscore');
 
@@ -125,9 +127,8 @@ owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
 screen_name         varchar(15) NOT NULL UNIQUE,  \
 display_name        varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
-read_able           varchar(1) default 'N', \
-read_able_list      varchar(100) ARRAY,   \
-un_read_able_list   varchar(100) ARRAY,   \
+read_able           varchar(100) ARRAY,   \
+un_read_able        varchar(100) ARRAY,   \
 about               text default null    \
 , trashed_at        bigint  default NULL \
 )");
@@ -140,9 +141,8 @@ id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,   \
 owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
 name                varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
-read_able           varchar(1) default 'W', \
-read_able_list      varchar(100) ARRAY,   \
-un_read_able_list   varchar(100) ARRAY,   \
+read_able           varchar(100) ARRAY,   \
+un_read_able        varchar(100) ARRAY,   \
 url                 text default null    \
 , trashed_at        bigint  default NULL \
 )");
@@ -238,10 +238,9 @@ CREATE TABLE IF NOT EXISTS posts ( \
   title               varchar(100) default null,   \
   body                text,                        \
   extra               text default '{}',           \
-  read_able           varchar(1) default 'W',      \
-  read_able_list      varchar(100) ARRAY,          \
-  un_read_able_list   varchar(100) ARRAY,          \
-  trashed_at          bigint  default null       \
+  read_able           varchar(100) ARRAY,          \
+  un_read_able        varchar(100) ARRAY,          \
+  trashed_at          bigint  default null         \
 )");
 
 
@@ -303,16 +302,16 @@ function create(flow) {
 
 };
 
-// ==========================================================================================
+// // ==========================================================================================
 
 River.new(null)
 .job('get table list'      , function (j) { Topogo.show_tables(j); })
 .job('migrate down'        , function (j) { down(j.river.last_reply(), j); })
 .job('migrate up'          , function (j) { up(j); })
 .job('create default data' , function (j) { create(j); })
-.run();
+.run(Topogo.close);
 
 
-// ==========================================================================================
+// // ==========================================================================================
 
 
