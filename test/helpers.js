@@ -24,7 +24,9 @@ exports.utc_timestamp = function () {
 }
 
 exports.utc_diff = function (date) {
-  return exports.utc_timestamp() - (date).getTime();
+  if (date && date.getTime)
+    date = date.getTime();
+  return exports.utc_timestamp() - date;
 }
 exports.is_recent = function (date) {
   if (_.isNumber(date) && !_.isNaN(date))

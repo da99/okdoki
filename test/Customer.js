@@ -220,13 +220,8 @@ describe( 'Customer', function () {
 
       River.new(null)
       .job('update trashed_at', function (j) {
-        PG.new(j)
-        .q(SQL
-           .update(Customer.TABLE_NAME)
-           .set({trashed_at: trashed_at})
-           .where('id', customer_id)
-          )
-        .run();
+        Topogo.new(Customer.TABLE_NAME)
+        .update(customer_id, { trashed_at: trashed_at }, j)
       })
       .job('delete customers', [Customer, 'delete_trashed'])
       .job('read customer', [Customer, 'read_by_id', customer_id])
@@ -239,37 +234,37 @@ describe( 'Customer', function () {
     }); // it
 
     it( 'it deletes Customer and Screen-Names records more than 2 days old', function (done) {
-      var sn_river = River.new(null)
-      .job('read screen names', function (j) {
-        PG.new()
-        .q(SQL
-          .select('*')
-          .from(Screen_Name.TABLE_NAME)
-          .where('owner_id', customer_id)
-          )
-        .run(function (rows) {
-          assert.equal(rows.length, 0);
-          done();
-        });
-      });
 
       River.new(null)
+
       .job('update trashed_at', function (j) {
-        PG.new(j)
-        .q(SQL
-           .update(Customer.TABLE_NAME)
-           .set({trashed_at: h.ago('-3d')})
-           .where('id', customer_id)
-          )
+        Topogo.new(Customer.TABLE_NAME)
+        .update(customer_id, {trashed_at: h.ago('-3d')}, j)
+      })
+
+      .job('delete customers', [Customer, 'delete_trashed'])
+
+      .on_job('not_found', function (msg, r) {
+
+        assert.equal(msg, "Customer, " + customer_id + ', not found.');
+
+        River.new(null)
+        .job('read screen names', function (j) {
+          Topogo.new(Screen_Name.TABLE_NAME)
+          .read_list_by_example({owner_id: customer_id}, j);
+        })
+        .reply(function (rows) {
+          assert.equal(rows.length, 0);
+          done();
+        })
         .run();
       })
-      .job('delete customers', [Customer, 'delete_trashed'])
-      .on_job('not_found', function (msg, r) {
-        assert.equal(msg, "Not found: " + customer_id);
-        sn_river.run();
-      })
+
       .job('read customer', [Customer, 'read_by_id', customer_id])
-      .run(h.throw_it);
+
+      .run(function () {
+        throw new Error('Should not be reached.');
+      });
     }); // it
 
   }); // === describe delete
