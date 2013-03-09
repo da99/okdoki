@@ -150,9 +150,8 @@ describe( 'Customer', function () {
       });
     });
 
-    it( 'reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
+    it( 'reads customer if passed a hash with: screen_name, correct pass_phrase', function (done) {
       River.new('read by screen name', null)
-      .on_job('not_found', h.throw_it)
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
       .run(function (r) {
         var c = r.last_reply();
@@ -161,20 +160,20 @@ describe( 'Customer', function () {
       });
     });
 
-    it( 'does not reads customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
+    it( 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name', null)
       .on_job('not_found', function (msg) {
-        assert.equal(msg, 'Not found: ' + screen_name);
+        assert.equal(msg, 'Customer, ' + screen_name + ', not found.');
         done();
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
-      .run(h.throw_it);
+      .run(function(){ throw new Error('this is not supposed to be reached.');});
     });
 
   }); // === describe read_by_screen_name
 
 
-  describe( 'Customer update', function () {
+  describe( 'update:', function () {
 
     it('updates Customer email', function (done) {
       var new_email = 'new-e\'mail@i-hate-all.com';
