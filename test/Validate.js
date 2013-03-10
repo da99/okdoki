@@ -184,6 +184,16 @@ describe( 'Validate', function () {
     });
   }); // === describe
 
+  describe( '.contains_only', function () {
+    it( 'sets error if array contains a disallowed value', function () {
+      var o = {new_data: {name: ['human', "pet"]}};
+      Validate.new('.contains_only', function (v) {
+        v.define('name', function (v) { v.contains_only(['human']); });
+      }).validate(o);
+      assert.equal(o.errors, 'name must only contain the following: human');
+    });
+  }); // === describe
+
 }); // === describe
 
 
