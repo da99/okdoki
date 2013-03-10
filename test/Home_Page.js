@@ -1,8 +1,6 @@
 var _         = require('underscore')
 , assert      = require('assert')
-, IM          = require('okdoki/lib/IM').IM
-, SQL         = require('okdoki/lib/SQL').SQL
-, Topogo          = require('okdoki/lib/Topogo').Topogo
+, Topogo      = require('okdoki/lib/Topogo').Topogo
 , River       = require('okdoki/lib/River').River
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
@@ -22,12 +20,12 @@ describe( 'Home_Page', function () {
 
   before(function (done) {
     River.new(null)
-    .job('clear', 'data', [Customer, 'delete_all'])
-    .job('create','c1', [Customer, 'create_sample', sn_1])
-    .job('create','c2', [Customer, 'create_sample', sn_2])
-    .job('create','c3', [Customer, 'create_sample', sn_3])
-    .job('update', 'privacy', [h, 'open_screen_names'])
-    .job('update', 'vars', function (j) {
+    .job('clear'  , 'data', [Customer, 'delete_all'])
+    .job('create' , 'c1',   [Customer, 'create_sample', sn_1])
+    .job('create' , 'c2',   [Customer, 'create_sample', sn_2])
+    .job('create' , 'c3',   [Customer, 'create_sample', sn_3])
+    .job('update' , 'privacy', [h, 'open_screen_names'])
+    .job('update' , 'vars', function (j) {
       c1 = j.river.reply_for('create', 'c1');
       c2 = j.river.reply_for('create', 'c2');
       c3 = j.river.reply_for('create', 'c3');
@@ -35,8 +33,8 @@ describe( 'Home_Page', function () {
     })
     .job('contact', 'c1->c2', function (j) { Contact.create({from: c1, to: sn_2}, j); })
     .job('contact', 'c2->c3', function (j) { Contact.create({from: c2, to: sn_3}, j); })
-    .job('protect', 'c2',     function (j) { Screen_Name.update({owner: c2, screen_name: sn_2, read_able: 'P'}, j); })
-    .job('protect', 'c3',     function (j) { Screen_Name.update({owner: c3, screen_name: sn_3, read_able: 'N'}, j); })
+    .job('protect', 'c2',     function (j) { Screen_Name.update({owner: c2, screen_name: sn_2, read_able: ['@P']}, j); })
+    .job('protect', 'c3',     function (j) { Screen_Name.update({owner: c3, screen_name: sn_3, read_able: ['@N']}, j); })
     .run(function (r) {
       done();
     });
@@ -44,11 +42,15 @@ describe( 'Home_Page', function () {
 
   describe( 'create', function () {
     it( 'is not created after screen name is created', function (done) {
-      PG.new().q(SQL.select('*').from(Home_Page.TABLE_NAME).where('owner_id', sn_1))
-      .run(function (rows) {
+      River.new(null)
+      .job( 'read', function (j) {
+        Home_Page.TABLE.read_list_by_example({owner_id: sn_1}, j);
+      })
+      .reply(function (rows) {
         assert.equal(rows.length, 0);
         done();
-      });
+      })
+      .run();
     });
   }); // === end desc create
 

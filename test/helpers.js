@@ -8,9 +8,9 @@ var _         = require('underscore')
 var reltime = require('reltime');
 
 exports.open_screen_names = function (j) {
-  PG.new(j)
-  .q('UPDATE ' + Screen_Name.TABLE_NAME + ' SET read_able = $1 RETURNING id ;', ['W'])
-  .run()
+  var sql = "UPDATE " + Screen_Name.TABLE_NAME + " SET read_able = ARRAY[ '@W' ] RETURNING id ; ";
+  var vals = [];
+  Topogo.run( Topogo.new(Screen_Name.TABLE_NAME), sql, vals, j);
 };
 
 exports.throw_it = function () {
@@ -50,7 +50,7 @@ exports.ago = function (english) {
 
 Topogo.prototype.drop = function (flow) {
   var me = this;
-  return T.run(me, "DROP TABLE " + me.table + '; ', [], flow);
+  return Topogo.run(me, "DROP TABLE " + me.table + '; ', [], flow);
 };
 
 Topogo.prototype.delete_all = function (flow) {

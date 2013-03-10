@@ -128,7 +128,7 @@ screen_name         varchar(15) NOT NULL UNIQUE,  \
 display_name        varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
 read_able           varchar(100) ARRAY,   \
-un_read_able        varchar(100) ARRAY,   \
+non_read_able        varchar(100) ARRAY,   \
 about               text default null    \
 , trashed_at        bigint  default NULL \
 )");
@@ -142,7 +142,7 @@ owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
 name                varchar(15) NOT NULL UNIQUE,  \
 nick_name           varchar(30) default NULL,  \
 read_able           varchar(100) ARRAY,   \
-un_read_able        varchar(100) ARRAY,   \
+non_read_able        varchar(100) ARRAY,   \
 url                 text default null    \
 , trashed_at        bigint  default NULL \
 )");
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS posts ( \
   body                text,                        \
   extra               text default '{}',           \
   read_able           varchar(100) ARRAY,          \
-  un_read_able        varchar(100) ARRAY,          \
+  non_read_able        varchar(100) ARRAY,          \
   trashed_at          bigint  default null         \
 )");
 
