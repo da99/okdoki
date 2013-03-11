@@ -36,5 +36,34 @@ describe( 'Emitter', function () {
 
   }); // === end desc
 
+  describe( 'before/middle/after positioning', function () {
+    it( 'runs methods in order', function (done) {
+      var em = Emitter.new('something');
+      var counter = 0;
+
+      em.on('before something', function (name, arg) {
+        assert.equal(name, 'something');
+        assert.equal(counter,  0);
+        counter++;
+      });
+
+      em.on('after something', function (name, arg) {
+        assert.equal(name, 'something');
+        assert.equal(counter,  2);
+        done();
+      });
+
+      em.on('something', function (name, arg) {
+        assert.equal(name, 'something');
+        assert.equal(counter,  1);
+        counter++;
+      });
+
+      em.emit('something');
+    });
+  }); // === end desc
+
+
+
 }); // === end desc
 
