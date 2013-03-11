@@ -53,25 +53,27 @@ describe( 'River', function () {
 
   describe( 'on_job', function () {
 
-    it( 'runs event only in job', function (done) {
+    it( 'runs event only in job', function (d) {
       var results = [];
       var r = River.new(null);
       r
       .on_job('invalid', function (msg, j) {
-        assert.equal(j.invalid_msg, 'done');
-        done();
+        assert.equal(msg, 'don');
+        assert.equal(j.is_job, true);
+        d();
       })
-      .job('push', 'done', function (j) {
-        j.invalid('done');
+      .job('push', 'don', function (j) {
+        j.invalid('don');
       })
       .run();
     });
 
-    it( 'throws Error if no invalid handler defined', function (done) {
+    it( 'throws Error if no invalid handler defined', function () {
       var results = [];
       var r = River.new(null);
       r
       .job('throw', 'done', function (j) {
+
         var e = null;
         try {
           j.invalid('done');
@@ -79,7 +81,6 @@ describe( 'River', function () {
           e = err;
         }
         assert(e.message, 'done');
-        done();
       })
       .run();
     });
@@ -87,9 +88,14 @@ describe( 'River', function () {
   }); // === describe
 
   describe( '.invalid', function () {
-    it( 'stops river', function (done) {
+    it( 'stops river', function () {
       var r = River.new(null);
       var job = null;
+      r
+      .on('before', 'job', function (j) {
+        // console.log('***: ', j.id)
+      });
+
       r
       .job('runs', 1, function (j) {
         j.finish(j.id);
@@ -98,7 +104,7 @@ describe( 'River', function () {
         j.finish(j.id)
       })
 
-      .on_job('invalid', function () { return;})
+      .on_job('invalid', function (msg) { assert(msg, 3); })
       .job('runs', 3, function (j) {
         job = j;
         j.invalid(j.id);
@@ -110,9 +116,9 @@ describe( 'River', function () {
       .run(function () {
         throw new Error('This is not suppose to run.');
       });
+
       assert.deepEqual(_.flatten(r.replys, 1), [1,2]);
-      assert.equal(job.invalid_msg, 3);
-      done();
+      assert.equal(job.about_error.msg, 3);
     });
   }); // === describe
 
@@ -122,7 +128,7 @@ describe( 'River', function () {
       var r = River.new(null);
       r
       .on('error', function (err, j) {
-        results.push([j.id, j.error_msg]);
+        results.push([j.id, j.about_error.msg]);
       })
       .job('emit error', 1, function (j) {
         j.error("done");
@@ -144,10 +150,10 @@ describe( 'River', function () {
       var results = [];
       var r = River.new(null);
       r
-      .on_job('not_found', function (msg, j) {
-        results.push([j.id, j.not_found_msg]);
+      .on_job('not found', function (msg, j) {
+        results.push([j.id, j.about_error.msg]);
       })
-      .job('emit not_found', 1, function (j) {
+      .job('emit not found', 1, function (j) {
         j.not_found("done");
       })
       .job('emit error', 2, function (j) {
@@ -169,7 +175,7 @@ describe( 'River', function () {
         val = j.group + ' ' + j.id;
         j.finish(val);
       })
-      .on_finish(function (r) {
+      .on('finish', function (r) {
         assert.equal(val, 'no group 1');
         done();
       })
@@ -180,11 +186,10 @@ describe( 'River', function () {
 
   describe( 'inheriting a job', function () {
 
-    it( 'runs the events of the previous job.river', function (done) {
+    it( 'runs the events of the previous job.river', function () {
       River.new(null)
-      .on_error(function (msg) {
-        assert.equal(msg, 'reached');
-        done();
+      .on('error', function (err) {
+        assert.equal(err.message, 'reached');
       })
       .job(function (j) {
 
@@ -227,28 +232,7 @@ describe( 'River', function () {
       assert.equal(val, 0);
     });
 
-    it( 'stops running if parent job has finished', function () {
-      var val = 0;
-      River.new(null)
-      .on_finish(function (r) {
-        ++val;
-      })
-      .job(function (j) {
 
-        River.new(j)
-        .job(function (new_j) {
-          j.finish();
-          new_j.finish();
-        })
-        .run(function (r) {
-          throw new Error('Should not be reached.');
-        });
-
-      })
-      .run();
-
-      assert.equal(val, 1);
-    });
   }); // === describe
 
 }); // === describe
