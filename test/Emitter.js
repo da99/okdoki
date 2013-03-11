@@ -6,6 +6,29 @@ var _     = require('underscore')
 
 describe( 'Emitter', function () {
 
+  describe( 'ordering of methods', function () {
+    it( 'runs method in order specified', function (done) {
+      var em = Emitter.new('something');
+      var counter = 1;
+      em.on('something', function () {
+        assert.equal(counter, 1);
+        counter = 2;
+      });
+
+      em.on('something', function () {
+        assert.equal(counter, 2);
+        counter = 3;
+      });
+
+      em.on('something', function () {
+        assert.equal(counter, 3);
+        done();
+      });
+
+      em.emit('something');
+    });
+  }); // === end desc
+
   describe( 'invalid event name', function () {
 
     it( 'throw if no events specified', function (done) {
@@ -63,7 +86,28 @@ describe( 'Emitter', function () {
     });
   }); // === end desc
 
+  describe( 'stop propagation', function () {
+    it( 'does not run other events after calling stop.', function (done) {
 
+      var em = Emitter.new('something');
+      var counter = 1;
+      em.on('something', function () {
+        assert.equal(counter, 1);
+      });
+
+      em.on('something', function () {
+        assert.equal(counter, 1);
+        this.stop();
+      });
+
+      em.on('something', function () {
+        throw new Error('should not get here');
+      });
+
+      em.emit('something');
+      done();
+    });
+  }); // === end desc
 
 }); // === end desc
 
