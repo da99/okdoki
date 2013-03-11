@@ -42,14 +42,14 @@ describe( 'Emitter', function () {
         error = e;
       }
 
-      assert.equal(error.message, "Invalid event name: method: on, name: something else");
+      assert.equal(error.message, "invalid event name: name: something else");
       done();
     });
 
     it( 'runs specified event', function (done) {
       var em = Emitter.new('something');
       em.on('invalid event name', function (msg) {
-        assert.equal(msg, "method: on, name: something else");
+        assert.equal(msg, "name: something else");
         done();
       });
 
@@ -63,12 +63,12 @@ describe( 'Emitter', function () {
       var em = Emitter.new('something');
       var counter = 0;
 
-      em.on('before something', function (arg) {
+      em.on('before', 'something', function (arg) {
         assert.equal(counter,  0);
         counter++;
       });
 
-      em.on('after something', function (arg) {
+      em.on('after', 'something', function (arg) {
         assert.equal(counter,  2);
         done();
       });
@@ -85,10 +85,10 @@ describe( 'Emitter', function () {
   describe( 'run "before event" only', function () {
     it( 'does not run middle or after events', function (done) {
       var em = Emitter.new('job');
-      em.on('before job', function (arg) { assert.equal(arg, 1); });
+      em.on('before', 'job', function (arg) { assert.equal(arg, 1); });
       em.on('job', function (arg) { throw new Error('should not get here'); });
-      em.on('after job', function (arg) { throw new Error('should not get here'); });
-      em.emit('before job', 1);
+      em.on('after', 'job', function (arg) { throw new Error('should not get here'); });
+      em.emit('before', 'job', 1);
       done();
     });
   }); // === end desc
@@ -96,10 +96,10 @@ describe( 'Emitter', function () {
   describe( 'run "middle event" only', function () {
     it( 'does not run before or after events', function (done) {
       var em = Emitter.new('job');
-      em.on('before job', function (arg) { throw new Error('should not get here'); });
+      em.on('before', 'job', function (arg) { throw new Error('should not get here'); });
       em.on('job', function (arg) { assert.equal(arg, 1); });
-      em.on('after job', function (arg) { throw new Error('should not get here'); });
-      em.emit('middle job', 1);
+      em.on('after', 'job', function (arg) { throw new Error('should not get here'); });
+      em.emit('middle', 'job', 1);
       done();
     });
   }); // === end desc
@@ -107,10 +107,10 @@ describe( 'Emitter', function () {
   describe( 'run "after event" only', function () {
     it( 'does not run before or middle events', function (done) {
       var em = Emitter.new('job');
-      em.on('before job', function (arg) { throw new Error('should not get here'); });
+      em.on('before', 'job', function (arg) { throw new Error('should not get here'); });
       em.on('job', function (arg) { throw new Error('should not get here'); });
-      em.on('after job', function (arg) { assert.equal(arg, 1); });
-      em.emit('after job', 1);
+      em.on('after', 'job', function (arg) { assert.equal(arg, 1); });
+      em.emit('after', 'job', 1);
       done();
     });
   }); // === end desc
