@@ -48,8 +48,7 @@ describe( 'Emitter', function () {
 
     it( 'runs specified event', function (done) {
       var em = Emitter.new('something');
-      em.on('invalid event name', function (name, msg) {
-        assert.equal(name, "invalid event name");
+      em.on('invalid event name', function (msg) {
         assert.equal(msg, "method: on, name: something else");
         done();
       });
@@ -64,20 +63,17 @@ describe( 'Emitter', function () {
       var em = Emitter.new('something');
       var counter = 0;
 
-      em.on('before something', function (name, arg) {
-        assert.equal(name, 'something');
+      em.on('before something', function (arg) {
         assert.equal(counter,  0);
         counter++;
       });
 
-      em.on('after something', function (name, arg) {
-        assert.equal(name, 'something');
+      em.on('after something', function (arg) {
         assert.equal(counter,  2);
         done();
       });
 
-      em.on('something', function (name, arg) {
-        assert.equal(name, 'something');
+      em.on('something', function (arg) {
         assert.equal(counter,  1);
         counter++;
       });
@@ -85,6 +81,40 @@ describe( 'Emitter', function () {
       em.emit('something');
     });
   }); // === end desc
+
+  describe( 'run "before event" only', function () {
+    it( 'does not run middle or after events', function (done) {
+      var em = Emitter.new('job');
+      em.on('before job', function (arg) { assert.equal(arg, 1); });
+      em.on('job', function (arg) { throw new Error('should not get here'); });
+      em.on('after job', function (arg) { throw new Error('should not get here'); });
+      em.emit('before job', 1);
+      done();
+    });
+  }); // === end desc
+
+  describe( 'run "middle event" only', function () {
+    it( 'does not run before or after events', function (done) {
+      var em = Emitter.new('job');
+      em.on('before job', function (arg) { throw new Error('should not get here'); });
+      em.on('job', function (arg) { assert.equal(arg, 1); });
+      em.on('after job', function (arg) { throw new Error('should not get here'); });
+      em.emit('middle job', 1);
+      done();
+    });
+  }); // === end desc
+
+  describe( 'run "after event" only', function () {
+    it( 'does not run before or middle events', function (done) {
+      var em = Emitter.new('job');
+      em.on('before job', function (arg) { throw new Error('should not get here'); });
+      em.on('job', function (arg) { throw new Error('should not get here'); });
+      em.on('after job', function (arg) { assert.equal(arg, 1); });
+      em.emit('after job', 1);
+      done();
+    });
+  }); // === end desc
+
 
   describe( 'event run', function () {
     it( 'includes name of current event', function (done) {
