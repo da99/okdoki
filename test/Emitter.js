@@ -86,6 +86,26 @@ describe( 'Emitter', function () {
     });
   }); // === end desc
 
+  describe( 'event run', function () {
+    it( 'includes name of current event', function (done) {
+      var em = Emitter.new('my_run');
+      em.on('my_run', function () {
+        assert.equal('my_run', this.name);
+        done();
+      });
+      em.emit('my_run');
+    });
+
+    it( 'includes emitter', function (done) {
+      var em = Emitter.new('my_run');
+      em.on('my_run', function () {
+        assert.equal(em, this.emitter);
+        done();
+      });
+      em.emit('my_run');
+    });
+  }); // === end desc
+
   describe( 'stop propagation', function () {
     it( 'does not run other events after calling stop.', function (done) {
 
