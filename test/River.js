@@ -135,7 +135,8 @@ describe( 'River', function () {
       var results = [];
       var r = River.new(null);
       r
-      .on('error', function (river) {
+      .on('error', function (flow) {
+        var river = flow.river;
         results.push([river.about_error.type, river.about_error.msg]);
       })
 
@@ -197,7 +198,8 @@ describe( 'River', function () {
 
     it( 'runs the events of the previous job.river', function () {
       River.new(null)
-      .on('error', function (r) {
+      .on('error', function (flow) {
+        var r = flow.river;
         assert.equal(r.about_error.msg, 'reached');
       })
       .job(function (j) {
