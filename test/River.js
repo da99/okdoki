@@ -5,6 +5,17 @@ var _     = require('underscore')
 , Redis   = require('okdoki/lib/Redis').Redis
 ;
 
+function vals(river) {
+  if (_.isArray(river))
+    var arr = river;
+  else
+    var arr = river.replys;
+
+  return _.map(arr, function (v) {
+    return v.val;
+  });
+}
+
 describe( 'River', function () {
 
   before(function (done) {
@@ -19,7 +30,7 @@ describe( 'River', function () {
     var fin = function (job) {
       return function (err, reply) {
         if(err)
-          return job.error(err, reply);
+          return job.finish(err, reply);
         job.finish(reply)
       };
     };
@@ -44,26 +55,26 @@ describe( 'River', function () {
     })
 
     .run(function () {
-      assert.deepEqual([null, 1, '1'], _.flatten(r.replys.slice(1), 1));
+      assert.deepEqual([null, 1, '1'], vals(_.flatten(r.replys.slice(1), 1)));
       done();
     })
     ;
 
   });
 
-  describe( 'on_job', function () {
+  describe( 'job.on', function () {
 
     it( 'runs event only in job', function (d) {
       var results = [];
       var r = River.new(null);
       r
-      .on_job('invalid', function (msg, j) {
-        assert.equal(msg, 'don');
-        assert.equal(j.is_job, true);
-        d();
-      })
       .job('push', 'don', function (j) {
-        j.invalid('don');
+        j.on('invalid', function (j) {
+          assert.equal(j.job.about_error.msg, 'don');
+          assert.equal(j.job.is_job, true);
+          d();
+        })
+        j.finish('invalid', 'don');
       })
       .run();
     });
@@ -76,11 +87,11 @@ describe( 'River', function () {
 
         var e = null;
         try {
-          j.invalid('done');
+          j.finish('something', 'done');
         } catch(err) {
           e = err;
         }
-        assert(e.message, 'done');
+        assert.equal(e.message, 'something: done');
       })
       .run();
     });
@@ -92,11 +103,6 @@ describe( 'River', function () {
       var r = River.new(null);
       var job = null;
       r
-      .on('before', 'job', function (j) {
-        // console.log('***: ', j.id)
-      });
-
-      r
       .job('runs', 1, function (j) {
         j.finish(j.id);
       })
@@ -104,57 +110,61 @@ describe( 'River', function () {
         j.finish(j.id)
       })
 
-      .on_job('invalid', function (msg) { assert(msg, 3); })
       .job('runs', 3, function (j) {
+        j.on('invalid', function (j) {
+          assert(j.job.about_error.msg, 3);
+        });
         job = j;
-        j.invalid(j.id);
-        j.finish(j.id);
+        j.finish('not_valid', j.id);
       })
       .job('runs', 4, function (j) {
         j.finish(j.id)
       })
       .run(function () {
-        throw new Error('This is not suppose to run.');
+        throw new Error('Should not get here.');
       });
 
-      assert.deepEqual(_.flatten(r.replys, 1), [1,2]);
+      assert.deepEqual(vals(r.replys), [1,2]);
       assert.equal(job.about_error.msg, 3);
     });
   }); // === describe
 
-  describe( '.error', function () {
+  describe( 'job.error', function () {
+
     it( 'stops river', function (done) {
       var results = [];
       var r = River.new(null);
       r
-      .on('error', function (err, j) {
-        results.push([j.id, j.about_error.msg]);
+      .on('error', function (river) {
+        results.push([river.about_error.type, river.about_error.msg]);
       })
+
       .job('emit error', 1, function (j) {
-        j.error("done");
+        j.finish('error', "done");
       })
       .job('emit error', 2, function (j) {
-        j.error("done");
+        j.finish('error', "done " + j.id);
       })
       .run(function (r) {
         throw new Error('This is not supposed to be run after .error().');
       });
-      assert.deepEqual(results, [[1, 'done']]);
+      assert.deepEqual(results, [['error', 'done']]);
       done();
     });
   }); // === describe
 
 
   describe( '.not_found', function () {
-    it( 'stops river', function (done) {
+    it( 'stops river', function () {
       var results = [];
       var r = River.new(null);
       r
-      .on_job('not found', function (msg, j) {
-        results.push([j.id, j.about_error.msg]);
-      })
       .job('emit not found', 1, function (j) {
-        j.not_found("done");
+        j.on('not_found', function (flow) {
+          var j = flow.job;
+          results.push([j.id, j.about_error.msg]);
+        })
+        j.finish('not_found', "done");
       })
       .job('emit error', 2, function (j) {
         throw new Error('This is not supposed to be run after .not_found().');
@@ -163,7 +173,6 @@ describe( 'River', function () {
         throw new Error('This is not supposed to be run after .not_found().');
       });
       assert.deepEqual(results, [[1, 'done']]);
-      done();
     });
   }); // === describe
 
@@ -188,14 +197,14 @@ describe( 'River', function () {
 
     it( 'runs the events of the previous job.river', function () {
       River.new(null)
-      .on('error', function (err) {
-        assert.equal(err.message, 'reached');
+      .on('error', function (r) {
+        assert.equal(r.about_error.msg, 'reached');
       })
       .job(function (j) {
 
         River.new(j)
         .job(function (j) {
-          j.error('reached');
+          j.finish('error', 'reached');
         })
         .run();
 
@@ -203,36 +212,44 @@ describe( 'River', function () {
       .run();
     });
 
-    //
-    // Parent job's .finish has to be called manually because the .on_finish
-    //   callbacks might run other async jobs. Example:
-    //
-    //     .run(function () {
-    //        Redis.client.hgetall(function () {
-    //            original_job.finish(arguments);
-    //        });
-    //     })
-    //
-    it( 'parent job\'s .finish has to be called manually', function () {
+    it( 'stops finishing if any ancesotors have stopped in error', function () {
       var val = 0;
-      River.new(null)
-      .job(function (j) {
 
-        River.new(j)
-        .job(function (new_j) {
-          new_j.finish();
+      var b = River.new(null)
+      .on('error', function (err) {
+        ++val;
+      })
+      .job(function (j) {
+        ++val;
+        j.finish(val);
+      })
+      .job(function (top_j) {
+
+        var a = River.new(top_j)
+        .job(function (j) {
+          ++val;
+          top_j.finish('error', 'reached');
+          top_j.finish(val);
+          j.finish(val);
         })
-        .run(function (r) {});
+        .job(function (j) {
+          ++val;
+        })
+        .run();
+
+        assert.equal(a.replys.length, 0);
 
       })
-      .run(function (r) {
-        ++val;
-      });
+      .run();
 
-      assert.equal(val, 0);
+      assert.deepEqual(vals(b.replys), [1]);
     });
 
 
   }); // === describe
 
+  describe.skip( '.finish', function () {
+    it("raises error if called 1+ for one job")
+    it("finds stopped parent by walking up tree: .parent()")
+  }); // === end desc
 }); // === describe
