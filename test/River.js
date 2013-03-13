@@ -275,6 +275,40 @@ describe( 'River', function () {
         .run();
         assert.equal(rep, v);
       });
+
+    });
+
+    it( 'does not run if reply is less than 0', function () {
+      var rep = "none";
+      River.new(null).next_empty(function (j, last_reply) {
+        rep = 'ran';
+        j.finish(rep)
+      })
+      .job(function (j) { j.finish(-1) })
+      .run();
+      assert.equal(rep, 'none');
+    });
+
+    it( 'runs on whitespace string', function () {
+      var rep = "none";
+      River.new(null).next_empty(function (j, last_reply) {
+        rep = 'ran';
+        j.finish(rep)
+      })
+      .job(function (j) { j.finish("  ") })
+      .run();
+      assert.equal(rep, 'ran');
+    });
+
+    it( 'does not run on object', function () {
+      var rep = "none";
+      River.new(null).next_empty(function (j, last_reply) {
+        rep = 'ran';
+        j.finish(rep)
+      })
+      .job(function (j) { j.finish({}) })
+      .run();
+      assert.equal(rep, 'none');
     });
 
   }); // === end desc
