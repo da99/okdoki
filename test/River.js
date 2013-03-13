@@ -68,12 +68,12 @@ describe( 'River', function () {
       var results = [];
       var r = River.new(null);
       r
+      .on_next('invalid', function (j) {
+        assert.equal(j.job.about_error.msg, 'don');
+        assert.equal(j.job.is_job, true);
+        d();
+      })
       .job('push', 'don', function (j) {
-        j.on('invalid', function (j) {
-          assert.equal(j.job.about_error.msg, 'don');
-          assert.equal(j.job.is_job, true);
-          d();
-        })
         j.finish('invalid', 'don');
       })
       .run();
@@ -110,10 +110,11 @@ describe( 'River', function () {
         j.finish(j.id)
       })
 
+      .on_next('invalid', function (j) {
+        assert(j.job.about_error.msg, 3);
+      })
+
       .job('runs', 3, function (j) {
-        j.on('invalid', function (j) {
-          assert(j.job.about_error.msg, 3);
-        });
         job = j;
         j.finish('not_valid', j.id);
       })
@@ -250,8 +251,4 @@ describe( 'River', function () {
 
   }); // === describe
 
-  describe.skip( '.finish', function () {
-    it("raises error if called 1+ for one job")
-    it("finds stopped parent by walking up tree: .parent()")
-  }); // === end desc
 }); // === describe
