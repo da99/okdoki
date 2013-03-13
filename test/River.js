@@ -423,4 +423,40 @@ describe( 'River', function () {
       assert.equal(results.message, 'This is error.');
     });
   }); // === end desc
+
+  describe( 'job .concat', function () {
+
+    it( 'runs function before original function', function () {
+      var r = [];
+      River.new(null)
+      .job(function (j) {
+        j.concat(function (j) {
+          r.push(j.result);
+          j.finish(2);
+        });
+
+        j.finish(1);
+      }).run();
+
+      assert.deepEqual(r, [1]);
+    });
+
+    it( 'saves each value to replys Array', function () {
+      var r = [];
+      River.new(null)
+      .job(function (j) {
+        j.concat(function (j) {
+          r.push(j.result);
+          j.finish(2);
+        });
+
+        j.finish(1);
+      })
+      .job(function (j, last) {
+        r.push(last);
+      })
+      .run();
+      assert.deepEqual(r, [1, 2]);
+    });
+  }); // === end desc
 }); // === describe
