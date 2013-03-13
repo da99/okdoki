@@ -102,6 +102,59 @@ describe( 'River', function () {
     });
   }); // === end desc
 
+  describe( '.finish error', function () {
+
+    it( 'stops river', function (done) {
+      var results = [];
+      var r = River.new(null);
+      r
+      .set('error', function (flow) {
+        var river = flow.river;
+        results.push([river.about_error.type, river.about_error.msg]);
+      })
+
+      .job('emit error', 1, function (j) { j.finish('error', "done"); })
+      .job('emit error', 2, function (j) { j.finish('error', "done " + j.id); })
+      .run(function (r) {
+        throw new Error('This is not supposed to be run after .error().');
+      });
+      assert.deepEqual(results, [['error', 'done']]);
+      done();
+    });
+  }); // === describe
+
+  describe( '.finish not_valid', function () {
+
+    it( 'runs if error is of type .not_valid', function () {
+      var results = [];
+      var r = River.new(null);
+      r
+      .set('not_valid', function (flow) {
+        var river = flow.river;
+        results.push([river.about_error.type, river.about_error.msg]);
+      })
+
+      .job('emit error', 1, function (j) { j.finish('not_valid', "done"); })
+      .run(function (r) {
+        throw new Error('This is not supposed to be run after .error().');
+      });
+      assert.deepEqual(results, [['not_valid', 'done']]);
+    });
+
+    it( 'it does not run "error" handler', function () {
+      var results = "...";
+      River.new(null)
+      .set('error'      , function (j) { results += "reached error"; })
+      .set('not_valid'  , function (j) { results += "reached not valid"; })
+      .job('emit error' , function (j) { j.finish('not_valid', "done"); })
+      .run(function (r) {
+        throw new Error('This is not supposed to be run after .error().');
+      });
+
+      assert.deepEqual(results, '...reached not valid');
+    });
+  }); // === describe
+
   describe( '.next', function () {
 
     it( 'runs event only in job', function (d) {
@@ -119,7 +172,7 @@ describe( 'River', function () {
 
   }); // === describe
 
-  describe( '.finish invalid', function () {
+  describe( 'job .finish invalid', function () {
     it( 'stops river', function () {
       var r = River.new(null);
       var job = null;
@@ -147,29 +200,8 @@ describe( 'River', function () {
     });
   }); // === describe
 
-  describe( '.finish error', function () {
 
-    it( 'stops river', function (done) {
-      var results = [];
-      var r = River.new(null);
-      r
-      .set('error', function (flow) {
-        var river = flow.river;
-        results.push([river.about_error.type, river.about_error.msg]);
-      })
-
-      .job('emit error', 1, function (j) { j.finish('error', "done"); })
-      .job('emit error', 2, function (j) { j.finish('error', "done " + j.id); })
-      .run(function (r) {
-        throw new Error('This is not supposed to be run after .error().');
-      });
-      assert.deepEqual(results, [['error', 'done']]);
-      done();
-    });
-  }); // === describe
-
-
-  describe( '.finish not_found', function () {
+  describe( 'job .finish not_found', function () {
     it( 'stops river', function () {
       var results = [];
       var r = River.new(null);
