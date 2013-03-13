@@ -286,6 +286,17 @@ describe( 'River', function () {
       assert.equal(rep, 'none');
     });
 
+    it( 'does not runs on empty function', function () {
+      var rep = "none";
+      River.new(null).next_empty(function (j, last_reply) {
+        rep = 'ran';
+        j.finish(rep)
+      })
+      .job(function (j) { j.finish(function () {}) })
+      .run();
+      assert.equal(rep, 'ran');
+    });
+
     it( 'runs on whitespace string', function () {
       var rep = "none";
       River.new(null).next_empty(function (j, last_reply) {
