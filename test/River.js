@@ -68,7 +68,7 @@ describe( 'River', function () {
       var results = [];
       var r = River.new(null);
       r
-      .on_next('invalid', function (j) {
+      .next('invalid', function (j) {
         assert.equal(j.job.about_error.msg, 'don');
         assert.equal(j.job.is_job, true);
         d();
@@ -110,7 +110,7 @@ describe( 'River', function () {
         j.finish(j.id)
       })
 
-      .on_next('invalid', function (j) {
+      .next('invalid', function (j) {
         assert(j.job.about_error.msg, 3);
       })
 
