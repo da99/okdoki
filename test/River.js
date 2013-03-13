@@ -256,14 +256,23 @@ describe( 'River', function () {
     _.each([null, undefined, false, 0], function (v) {
       it( 'runs function on a "' + v + '" response.', function () {
         var rep = "none";
-        River.new(null)
-        .next_empty(function (j, last_reply) {
+        River.new(null).next_empty(function (j, last_reply) {
+          rep = 'empty';
+          j.finish(rep)
+        })
+        .job(function (j) { j.finish(v) })
+        .run();
+        assert.equal(rep, 'empty');
+      });
+
+      it( 'passes last reply to user-defined callback', function () {
+        var rep = "none";
+        River.new(null).next_empty(function (j, last_reply) {
           rep = last_reply;
           j.finish(rep)
         })
-        .job(function (j) {
-          j.finish(v)
-        }).run();
+        .job(function (j) { j.finish(v) })
+        .run();
         assert.equal(rep, v);
       });
     });
