@@ -251,4 +251,45 @@ describe( 'River', function () {
 
   }); // === describe
 
+  describe( '.next_empty', function () {
+
+    _.each([null, undefined, false, 0], function (v) {
+      it( 'runs function on a "' + v + '" response.', function () {
+        var rep = "none";
+        River.new(null)
+        .next_empty(function (j, last_reply) {
+          rep = last_reply;
+          j.finish(rep)
+        })
+        .job(function (j) {
+          j.finish(v)
+        }).run();
+        assert.equal(rep, v);
+      });
+    });
+
+  }); // === end desc
+
+  describe( '.first_reply', function () {
+    it( 'returns .val of first reply of .replys', function () {
+      var r = River.new(null)
+      .job(function (j) { j.finish(1); })
+      .job(function (j) { j.finish(2); })
+      .job(function (j) { j.finish(3); })
+      .run();
+      assert.equal(r.first_reply(), 1);
+    });
+  }); // === end desc
+
+  describe( '.last_reply', function () {
+    it( 'returns .val of last reply of .replys', function () {
+      var r = River.new(null)
+      .job(function (j) { j.finish(1); })
+      .job(function (j) { j.finish(2); })
+      .job(function (j) { j.finish(3); })
+      .run();
+      assert.equal(r.last_reply(), 3);
+    });
+  }); // === end desc
+
 }); // === describe
