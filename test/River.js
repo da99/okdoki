@@ -74,7 +74,7 @@ describe( 'River', function () {
       } catch(err) {
         e = err;
       }
-      assert.equal(e.message, 'something: done');
+      assert.equal(e.type + ': ' + e.message, 'something: done');
     })
     .run();
   });
@@ -110,7 +110,7 @@ describe( 'River', function () {
       r
       .set('error', function (flow) {
         var river = flow.river;
-        results.push([river.about_error.type, river.about_error.msg]);
+        results.push([river.about_error.type, river.about_error.msg.message]);
       })
 
       .job('emit error', 1, function (j) { j.finish('error', "done"); })
@@ -131,7 +131,7 @@ describe( 'River', function () {
       r
       .set('not_valid', function (flow) {
         var river = flow.river;
-        results.push([river.about_error.type, river.about_error.msg]);
+        results.push([river.about_error.type, river.about_error.msg.message]);
       })
 
       .job('emit error', 1, function (j) { j.finish('not_valid', "done"); })
@@ -162,7 +162,7 @@ describe( 'River', function () {
       var r = River.new(null);
       r
       .next('invalid', function (j) {
-        assert.equal(j.job.about_error.msg, 'don');
+        assert.equal(j.job.about_error.msg.message, 'don');
         assert.equal(j.job.is_job, true);
         d();
       })
@@ -196,7 +196,7 @@ describe( 'River', function () {
       });
 
       assert.deepEqual(vals(r.replys), [1,2]);
-      assert.equal(job.about_error.msg, 3);
+      assert.equal(job.about_error.msg.message, 3);
     });
   }); // === describe
 
@@ -209,7 +209,7 @@ describe( 'River', function () {
       .job('emit not found', 1, function (j) {
         j.set('not_found', function (flow) {
           var j = flow.job;
-          results.push([j.id, j.about_error.msg]);
+          results.push([j.id, j.about_error.msg.message]);
         })
         j.finish('not_found', "done");
       })
@@ -246,7 +246,7 @@ describe( 'River', function () {
       River.new(null)
       .set('error', function (flow) {
         var r = flow.river;
-        assert.equal(r.about_error.msg, 'reached');
+        assert.equal(r.about_error.msg.message, 'reached');
       })
       .job(function (j) {
 
@@ -409,4 +409,18 @@ describe( 'River', function () {
     });
   }); // === end desc
 
+  describe( 'job .finish', function () {
+    it( 'turns string msg into an Error', function () {
+      var results = null;
+      River.new(null)
+      .set('error', function (flow) {
+        results = flow.river.about_error.msg;
+      })
+      .job(function (j) { j.finish(1); })
+      .job(function (j) { j.finish('error', "This is error."); })
+      .job(function (j) { j.finish(3); })
+      .run();
+      assert.equal(results.message, 'This is error.');
+    });
+  }); // === end desc
 }); // === describe
