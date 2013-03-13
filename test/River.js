@@ -275,6 +275,17 @@ describe( 'River', function () {
       assert.equal(rep, 'none');
     });
 
+    it( 'does not run on object', function () {
+      var rep = "none";
+      River.new(null).next_empty(function (j, last_reply) {
+        rep = 'ran';
+        j.finish(rep)
+      })
+      .job(function (j) { j.finish({a: 'b'}) })
+      .run();
+      assert.equal(rep, 'none');
+    });
+
     it( 'runs on whitespace string', function () {
       var rep = "none";
       River.new(null).next_empty(function (j, last_reply) {
@@ -286,7 +297,18 @@ describe( 'River', function () {
       assert.equal(rep, 'ran');
     });
 
-    it( 'does not run on object', function () {
+    it( 'runs on empty Array', function () {
+      var rep = "none";
+      River.new(null).next_empty(function (j, last_reply) {
+        rep = 'ran';
+        j.finish(rep)
+      })
+      .job(function (j) { j.finish([]) })
+      .run();
+      assert.equal(rep, 'ran');
+    });
+
+    it( 'runs on empty Object: {}', function () {
       var rep = "none";
       River.new(null).next_empty(function (j, last_reply) {
         rep = 'ran';
@@ -294,7 +316,7 @@ describe( 'River', function () {
       })
       .job(function (j) { j.finish({}) })
       .run();
-      assert.equal(rep, 'none');
+      assert.equal(rep, 'ran');
     });
 
   }); // === end desc
