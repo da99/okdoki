@@ -79,7 +79,30 @@ describe( 'River', function () {
     .run();
   });
 
-  describe( 'job.next', function () {
+  describe( '.before_each', function () {
+
+    it( 'runs callback before each job', function () {
+      var replys = [];
+      River.new(null)
+      .job('a', 1, function (j) { j.finish("a"); })
+      .job('a', 9, function (j) { j.finish("a"); })
+      .before_each(function (j) { replys.push(j.id); })
+      .run();
+      assert.deepEqual(replys, [1,9]);
+    });
+
+    it( 'passes job to callback', function () {
+      var replys = [];
+      River.new(null)
+      .job('a', 1, function (j) { j.finish("a"); })
+      .job('a', 9, function (j) { j.finish("a"); })
+      .before_each(function (j) { replys.push(j.is_job); })
+      .run();
+      assert.deepEqual(replys, [true, true]);
+    });
+  }); // === end desc
+
+  describe( '.next', function () {
 
     it( 'runs event only in job', function (d) {
       var results = [];
@@ -130,7 +153,7 @@ describe( 'River', function () {
       var results = [];
       var r = River.new(null);
       r
-      .on('error', function (flow) {
+      .set('error', function (flow) {
         var river = flow.river;
         results.push([river.about_error.type, river.about_error.msg]);
       })
@@ -152,7 +175,7 @@ describe( 'River', function () {
       var r = River.new(null);
       r
       .job('emit not found', 1, function (j) {
-        j.on('not_found', function (flow) {
+        j.set('not_found', function (flow) {
           var j = flow.job;
           results.push([j.id, j.about_error.msg]);
         })
@@ -176,7 +199,7 @@ describe( 'River', function () {
         val = j.group + ' ' + j.id;
         j.finish(val);
       })
-      .on('finish', function (r) {
+      .set('finish', function (r) {
         assert.equal(val, 'no group 1');
         done();
       })
@@ -189,7 +212,7 @@ describe( 'River', function () {
 
     it( 'runs the events of the previous job.river', function () {
       River.new(null)
-      .on('error', function (flow) {
+      .set('error', function (flow) {
         var r = flow.river;
         assert.equal(r.about_error.msg, 'reached');
       })
@@ -207,7 +230,7 @@ describe( 'River', function () {
       var val = 0;
 
       var b = River.new(null)
-      .on('error', function (err) {
+      .set('error', function (err) {
         ++val;
       })
       .job(function (j) {
