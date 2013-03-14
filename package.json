@@ -7,7 +7,7 @@
   "dependencies": {
     "express"        : "3.x.x"
     , "jade"              : "0.x.6"
-    , "pg"                : "0.x.x"
+    , "topogo"            : "0.x.x"
     , "any-db"            : "0.x.x"
     , "passport"          : "0.x.x"
     , "passport-local"    : "0.x.x"
