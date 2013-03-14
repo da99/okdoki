@@ -13,8 +13,6 @@ set -e
 set -u
 echo ""
 
-  # test/PG.js          \
-  # test/SQL.js         \
 bin/dev/mocha_file    \
   test/Validate.js    \
   test/Screen_Name.js \
