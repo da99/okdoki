@@ -16,8 +16,6 @@ echo ""
   # test/PG.js          \
   # test/SQL.js         \
 bin/dev/mocha_file    \
-  test/Emitter.js     \
-  test/River.js       \
   test/Validate.js    \
   test/Screen_Name.js \
   test/Customer.js    \
