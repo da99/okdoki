@@ -424,15 +424,15 @@ describe( 'River', function () {
     });
   }); // === end desc
 
-  describe( 'job .concat', function () {
+  describe( 'job .reply', function () {
 
-    it( 'runs function before original function', function () {
+    it( 'runs function before finish function', function () {
       var r = [];
       River.new(null)
       .job(function (j) {
-        j.concat(function (j) {
-          r.push(j.result);
-          j.finish(2);
+        j.reply(function (j, result) {
+          r.push(result);
+          return j.finish(2);
         });
 
         j.finish(1);
@@ -443,20 +443,24 @@ describe( 'River', function () {
 
     it( 'saves each value to replys Array', function () {
       var r = [];
+
       River.new(null)
+
       .job(function (j) {
-        j.concat(function (j) {
-          r.push(j.result);
-          j.finish(2);
+
+        j.reply(function (j, result) {
+          r.push(result);
+          return j.finish(2);
         });
 
         j.finish(1);
       })
-      .job(function (j, last) {
-        r.push(last);
-      })
+
+      .job(function (j, last) { r.push(last); })
       .run();
+
       assert.deepEqual(r, [1, 2]);
     });
   }); // === end desc
+
 }); // === describe
