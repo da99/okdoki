@@ -1,7 +1,7 @@
 
 var _              = require('underscore');
 var assert         = require('assert');
-var River          = require('okdoki/lib/River').River;
+var River          = require('da_river').River;
 var Customer       = require('okdoki/lib/Customer').Customer;
 var Screen_Name    = require('okdoki/lib/Screen_Name').Screen_Name;
 var Topogo             = require('okdoki/lib/Topogo').Topogo;

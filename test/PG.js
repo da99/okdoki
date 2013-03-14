@@ -1,7 +1,7 @@
 
 var _      = require('underscore')
 , Topogo       = require('okdoki/lib/Topogo').Topogo
-, River    = require('okdoki/lib/River').River
+, River    = require('da_river').River
 , SQL      = require('okdoki/lib/SQL').SQL
 , Customer = require('okdoki/lib/Customer').Customer
 , assert   = require('assert')

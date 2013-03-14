@@ -1,7 +1,7 @@
 var _         = require('underscore')
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
-, River       = require('okdoki/lib/River').River
+, River       = require('da_river').River
 , Topogo      = require('okdoki/lib/Topogo').Topogo
 ;
 
