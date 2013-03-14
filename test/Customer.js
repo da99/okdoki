@@ -32,28 +32,27 @@ describe( 'Customer', function () {
       customer_id = j.river.last_reply().sanitized_data.id;
       Customer.read_by_id(customer_id, j);
     })
-    .on_finish(function (r) {
+    .run(function (r) {
       customer       = r.last_reply();
       screen_name_id = customer.screen_name_id(screen_name);
       done();
-    })
-    .run();
+    });
 
   }); // === end before
 
   describe( 'create:', function () {
+
     it( 'checks min length of screen_name', function (done) {
       var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
       River.new(null)
-      .on_job('invalid', function (msg) {
+      .next('invalid', function (msg) {
         assert.equal(msg.indexOf('Screen name must be: '), 0);
         done();
       })
       .job('create', 'w missing name', [Customer, 'create', opts])
-      .on_finish(function (r) {
+      .run(function (r) {
         throw new Error('Unreachable.');
-      })
-      .run();
+      });
     });
 
     it( 'checks max length of screen_name', function (done) {
@@ -64,14 +63,13 @@ describe( 'Customer', function () {
         confirm_pass_phrase: pass_phrase,
         ip: '00.000.000'
       };
+
       River.new(null)
-      .on_job('invalid', function (msg) {
+      .next('invalid', function (msg) {
         assert.equal(msg.indexOf('Screen name must be: '), 0);
         done();
       })
-      .job(function (j) {
-        Customer.create(opts, j);
-      })
+      .job(function (j) { Customer.create(opts, j); })
       .run(h.throw_it);
     });
 
@@ -116,9 +114,9 @@ describe( 'Customer', function () {
       });
     });
 
-    it( 'executes not_found func', function (done) {
+    it( 'executes not found func', function (done) {
       River.new(null)
-      .on_job('not_found', function (msg) {
+      .next('not found', function (msg) {
         assert.equal(msg, 'Customer, no-id, not found.');
         done();
       })
@@ -162,7 +160,7 @@ describe( 'Customer', function () {
 
     it( 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name', null)
-      .on_job('not_found', function (msg) {
+      .next('not found', function (msg) {
         assert.equal(msg, 'Customer, ' + screen_name + ', not found.');
         done();
       })
@@ -178,7 +176,7 @@ describe( 'Customer', function () {
     it('updates Customer email', function (done) {
       var new_email = 'new-e\'mail@i-hate-all.com';
       River.new(null)
-      .on_job('invalid', h.throw_it)
+      .next('invalid', h.throw_it)
       .job('update customer', new_email, [customer, 'update', {'email': new_email}])
       .job('assert new email', function (j) {
         assert.equal(customer.data.email, new_email);
@@ -244,7 +242,7 @@ describe( 'Customer', function () {
 
       .job('delete customers', [Customer, 'delete_trashed'])
 
-      .on_job('not_found', function (msg, r) {
+      .next('not found', function (msg, r) {
 
         assert.equal(msg, "Customer, " + customer_id + ', not found.');
 

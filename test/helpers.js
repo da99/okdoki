@@ -7,6 +7,10 @@ var _         = require('underscore')
 
 var reltime = require('reltime');
 
+process.on('SIGTERM', Topogo.close);
+process.on('SIGINT',  Topogo.close);
+process.on('exit',    Topogo.close);
+
 exports.open_screen_names = function (j) {
   var sql = "UPDATE " + Screen_Name.TABLE_NAME + " SET read_able = ARRAY[ '@W' ] RETURNING id ; ";
   var vals = [];

@@ -15,13 +15,14 @@ echo ""
 
   # test/PG.js          \
   # test/SQL.js         \
-bin/dev/mocha_file        \
-  test/IM.js          \
+bin/dev/mocha_file    \
+  test/Emitter.js     \
   test/River.js       \
   test/Validate.js    \
   test/Screen_Name.js \
   test/Customer.js    \
   test/Home_Page.js   \
+  test/IM.js          \
   "$@"
 
 # NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
