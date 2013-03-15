@@ -4,11 +4,10 @@ var assert         = require('assert');
 var River          = require('da_river').River;
 var Customer       = require('okdoki/lib/Customer').Customer;
 var Screen_Name    = require('okdoki/lib/Screen_Name').Screen_Name;
-var Topogo             = require('okdoki/lib/Topogo').Topogo;
-var SQL            = require('okdoki/lib/SQL').SQL;
+var Topogo         = require('topogo').Topogo;
 var strftimeUTC    = require('strftime').strftimeUTC;
 var strftime       = require('strftime').strftime;
-var reltime        = require('reltime');
+
 var customer_id    = null;
 var customer       = null;
 var screen_name    = 'mem1';

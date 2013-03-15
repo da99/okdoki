@@ -2,14 +2,17 @@ var _         = require('underscore')
 , Customer    = require('okdoki/lib/Customer').Customer
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
 , River       = require('da_river').River
-, Topogo      = require('okdoki/lib/Topogo').Topogo
+, Topogo      = require('topogo').Topogo
 ;
 
-var reltime = require('reltime');
 
-process.on('SIGTERM', Topogo.close);
-process.on('SIGINT',  Topogo.close);
-process.on('exit',    Topogo.close);
+function close() {
+  Topogo.close();
+};
+
+process.on('SIGTERM', close);
+process.on('SIGINT',  close);
+process.on('exit',    close);
 
 exports.open_screen_names = function (j) {
   var sql = "UPDATE " + Screen_Name.TABLE_NAME + " SET read_able = ARRAY[ '@W' ] RETURNING id ; ";
@@ -41,15 +44,14 @@ exports.is_recent = function (date) {
 exports.ago = function (english) {
   switch (english) {
     case '-1d -22h':
-      exports.utc_timestamp() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 *22);
+      return exports.utc_timestamp() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 *22);
       break;
     case '-3d':
-      exports.utc_timestamp() - (1000 * 60 * 60 * 24 * 3);
+      return exports.utc_timestamp() - (1000 * 60 * 60 * 24 * 3);
       break;
     default:
       throw new Error('Unknown: ' + english);
   };
-  return reltime.parse((new Date), english).getTime();
 };
 
 Topogo.prototype.drop = function (flow) {

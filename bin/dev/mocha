@@ -14,7 +14,6 @@ set -u
 echo ""
 
 bin/dev/mocha_file    \
-  test/Validate.js    \
   test/Screen_Name.js \
   test/Customer.js    \
   test/Home_Page.js   \
