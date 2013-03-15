@@ -44,9 +44,9 @@ describe( 'Home_Page', function () {
     it( 'is not created after screen name is created', function (done) {
       River.new(null)
       .job( 'read', function (j) {
-        Home_Page.TABLE.read_list_by_example({owner_id: sn_1}, j);
+        Home_Page.TABLE.read_list({owner_id: sn_1}, j);
       })
-      .reply(function (rows) {
+      .job(function (j, rows) {
         assert.equal(rows.length, 0);
         done();
       })

@@ -24,7 +24,7 @@ function create_test_customer(done) {
 
   River.new(null)
   .job('create', 'customer', [Customer, 'create', c_opts])
-  .reply(function (last) {
+  .job(function (j, last) {
     c = last;
     if (done)
       done();
@@ -53,12 +53,12 @@ describe( 'Screen_Name', function () {
 
       .job('read sn', 'mem1', function (j) {
         Topogo.new(Screen_Name.TABLE_NAME)
-        .read_one_by_example({
+        .read_one({
           screen_name: 'mem1'.toUpperCase()
         }, j);
       })
 
-      .reply(function (reply, river) {
+      .job(function (j, reply) {
         var sn = reply;
         assert.equal(sn.screen_name, 'mem1'.toUpperCase());
         done();
@@ -114,7 +114,7 @@ describe( 'Screen_Name', function () {
         Topogo.new(Screen_Name.TABLE_NAME)
         .read_by_id(id, j)
       })
-      .reply(function (reply, river) {
+      .job(function (j, reply) {
         assert.equal(h.is_recent(reply.trashed_at), true);
         done();
       })
@@ -139,8 +139,9 @@ describe( 'Screen_Name', function () {
         Topogo.new(Screen_Name.TABLE_NAME)
         .read_by_id(id, j)
       })
-      .reply(function (new_sn, river) {
+      .job(function (j, new_sn) {
         assert.equal(new_sn.trashed_at, null);
+        j.finish(new_sn);
       })
       .run(function (r) {
         done();

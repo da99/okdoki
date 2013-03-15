@@ -32,7 +32,7 @@ describe( 'Customer', function () {
       Customer.read_by_id(customer_id, j);
     })
     .run(function (r) {
-      customer       = r.last_reply();
+      customer       = r.river.last_reply();
       screen_name_id = customer.screen_name_id(screen_name);
       done();
     });
@@ -44,8 +44,8 @@ describe( 'Customer', function () {
     it( 'checks min length of screen_name', function (done) {
       var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
       River.new(null)
-      .next('invalid', function (msg) {
-        assert.equal(msg.indexOf('Screen name must be: '), 0);
+      .next('invalid', function (j) {
+        assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);
         done();
       })
       .job('create', 'w missing name', [Customer, 'create', opts])
@@ -64,8 +64,8 @@ describe( 'Customer', function () {
       };
 
       River.new(null)
-      .next('invalid', function (msg) {
-        assert.equal(msg.indexOf('Screen name must be: '), 0);
+      .next('invalid', function (j) {
+        assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);
         done();
       })
       .job(function (j) { Customer.create(opts, j); })
@@ -97,7 +97,7 @@ describe( 'Customer', function () {
       River.new(null)
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
       .run(function (r) {
-        var c = r.last_reply();
+        var c = r.river.last_reply();
         assert.equal(c.data.id, customer_id);
         done();
       });
@@ -106,8 +106,8 @@ describe( 'Customer', function () {
     it( 'reads screen-names', function (done) {
       River.new(null)
       .job('read', customer_id, [Customer, 'read_by_id', customer_id])
-      .run(function (r) {
-        var c = r.last_reply();
+      .run(function (r, last) {
+        var c = last;
         assert.deepEqual(c.screen_names(), [screen_name.toUpperCase()]);
         done();
       });
@@ -115,8 +115,8 @@ describe( 'Customer', function () {
 
     it( 'executes not found func', function (done) {
       River.new(null)
-      .next('not found', function (msg) {
-        assert.equal(msg, 'Customer, no-id, not found.');
+      .next('not_found', function (j) {
+        assert.equal(j.job.error.message, 'Customer, no-id, not found.');
         done();
       })
       .job('read empty:', 'no-id', [Customer, 'read_by_id', 'no-id'])
@@ -248,9 +248,9 @@ describe( 'Customer', function () {
         River.new(null)
         .job('read screen names', function (j) {
           Topogo.new(Screen_Name.TABLE_NAME)
-          .read_list_by_example({owner_id: customer_id}, j);
+          .read_list({owner_id: customer_id}, j);
         })
-        .reply(function (rows) {
+        .job(function (j, rows) {
           assert.equal(rows.length, 0);
           done();
         })
