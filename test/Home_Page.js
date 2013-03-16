@@ -66,8 +66,8 @@ describe( 'Home_Page', function () {
       .job('read', sn_1, function (j) {
         read(c1, sn_1, j)
       })
-      .run(function (r) {
-        assert.equal(r.last_reply().data.about, about);
+      .run(function (j, last) {
+        assert.equal(last.data.about, about);
         done();
       });
     });
