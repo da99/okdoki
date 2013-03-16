@@ -4,7 +4,6 @@ var _         = require('underscore')
 , Redis       = require('okdoki/lib/Redis').Redis
 , Chat_Bot    = require('okdoki/lib/Chat_Bot').Chat_Bot
 , Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
-, Jobs        = require('okdoki/lib/Jobs').Jobs
 ;
 
 

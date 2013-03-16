@@ -14,9 +14,12 @@ set -u
 echo ""
 
 bin/dev/mocha_file    \
-  test/Screen_Name.js \
   test/Customer.js    \
+  test/Screen_Name.js \
+  test/Chat_Bot.js    \
+  test/Contact.js     \
   test/Home_Page.js   \
+  test/Post.js        \
   test/IM.js          \
   "$@"
 
