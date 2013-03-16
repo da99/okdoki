@@ -31,8 +31,8 @@ describe( 'Customer', function () {
       customer_id = j.river.last_reply().sanitized_data.id;
       Customer.read_by_id(customer_id, j);
     })
-    .run(function (r) {
-      customer       = r.river.last_reply();
+    .run(function (r, last) {
+      customer       = last;
       screen_name_id = customer.screen_name_id(screen_name);
       done();
     });
@@ -130,8 +130,8 @@ describe( 'Customer', function () {
     it( 'reads customer if passed screen-name as string', function (done) {
       River.new('read by screen name')
       .job('read:', screen_name, [Customer, 'read_by_screen_name', screen_name])
-      .run(function (r) {
-        var c = r.last_reply();
+      .run(function (r, last) {
+        var c = last;
         assert.equal(customer_id, c.data.id);
         done();
       });
@@ -140,8 +140,8 @@ describe( 'Customer', function () {
     it( 'reads customer if passed a hash with: screen_name', function (done) {
       River.new('read by screen name')
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name}])
-      .run(function (r) {
-        var c = r.last_reply();
+      .run(function (r, last) {
+        var c = last;
         assert.equal(customer_id, c.data.id);
         done();
       });
@@ -150,8 +150,8 @@ describe( 'Customer', function () {
     it( 'reads customer if passed a hash with: screen_name, correct pass_phrase', function (done) {
       River.new('read by screen name', null)
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
-      .run(function (r) {
-        var c = r.last_reply();
+      .run(function (r, last) {
+        var c = last;
         assert.equal(customer_id, c.data.id);
         done();
       });
@@ -159,8 +159,8 @@ describe( 'Customer', function () {
 
     it( 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name', null)
-      .next('not found', function (msg) {
-        assert.equal(msg, 'Customer, ' + screen_name + ', not found.');
+      .next('not_found', function (j, err) {
+        assert.equal(err.message, 'Customer, ' + screen_name + ', not found.');
         done();
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
@@ -182,8 +182,8 @@ describe( 'Customer', function () {
         j.finish(customer.data.email);
       })
       .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
-      .run(function (r) {
-        assert.equal(r.last_reply().data.email, new_email);
+      .run(function (r, last) {
+        assert.equal(last.data.email, new_email);
         done();
       });
     }); // it
@@ -201,8 +201,8 @@ describe( 'Customer', function () {
         j.finish(customer);
       })
       .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
-      .run(function (r) {
-        var c = r.last_reply();
+      .run(function (r, last) {
+        var c = last;
         assert.equal(h.is_recent(c.data.trashed_at), true);
         done();
       });
@@ -222,8 +222,8 @@ describe( 'Customer', function () {
       })
       .job('delete customers', [Customer, 'delete_trashed'])
       .job('read customer', [Customer, 'read_by_id', customer_id])
-      .run(function (r) {
-        var age = h.utc_diff(r.last_reply().data.trashed_at);
+      .run(function (r, last) {
+        var age = h.utc_diff(last.data.trashed_at);
         var almost_2_days = h.utc_diff(h.ago('-1d -22h'));
         assert.equal( (age - almost_2_days) < 1000, true);
         done();
@@ -241,9 +241,9 @@ describe( 'Customer', function () {
 
       .job('delete customers', [Customer, 'delete_trashed'])
 
-      .next('not found', function (msg, r) {
+      .next('not_found', function (j, err) {
 
-        assert.equal(msg, "Customer, " + customer_id + ', not found.');
+        assert.equal(err.message, "Customer, " + customer_id + ', not found.');
 
         River.new(null)
         .job('read screen names', function (j) {
