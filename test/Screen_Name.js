@@ -167,8 +167,8 @@ describe( 'Screen_Name', function () {
       })
       .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
       .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])
-      .run(function (r) {
-        assert.equal(r.last_reply().screen_names().length, 0);
+      .run(function (r, last) {
+        assert.equal(last.screen_names().length, 0);
         done();
       });
     });
