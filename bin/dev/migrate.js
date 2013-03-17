@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
+var _ = require('underscore')
+;
+
 // Create databases: okdoki
 
-var River  = require('okdoki/lib/River').River
-, Topogo   = require('okdoki/lib/Topogo').Topogo
-, SQL      = require('okdoki/lib/SQL').SQL
+var River  = require('da_river').River
+, Topogo   = require('topogo').Topogo
 , Customer = require('okdoki/lib/Customer').Customer
 , Chat_Bot = require('okdoki/lib/Chat_Bot').Chat_Bot
 , h        = require('okdoki/test/helpers')
@@ -17,7 +19,6 @@ var cmd         = (process.argv[2] || 'nothing')
 , is_reset      = cmd === 'reset' || is_reset_user
 , is_up         = is_reset || cmd === 'up'
 , is_down       = is_reset || cmd === 'down'
-, now           = SQL.now
 ;
 
 if (!is_up && !is_down) {
@@ -28,7 +29,10 @@ if (!is_up && !is_down) {
 var ok = {
   list : [],
   q: function (string) {
-    this.list.push(string);
+    this.list.push(string
+                   .replace(/\$id_size/g, Topogo.id_size)
+                   .replace(/\$trashed_at/, " trashed_at  bigint  default null ")
+                  );
     return this;
   }
 };
@@ -49,8 +53,8 @@ function down(names, flow) {
     };
   });
 
-  r.reply('public tables', function (reply, river) {
-    return public;
+  r.job('public tables', function (j, last) {
+    return j.finish(public);
   });
 
   r.run();
@@ -113,24 +117,24 @@ function up(flow) {
 // ");
 
 ok.q(" \
-CREATE TABLE IF NOT EXISTS customers ( \
+CREATE TABLE IF NOT EXISTS customers (          \
 id varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-trashed_at bigint default null,   \
-email text,                 \
-pass_phrase_hash varchar(150) NOT NULL \
+$trashed_at ,                                   \
+email text,                                     \
+pass_phrase_hash varchar(150) NOT NULL          \
 )");
 
 ok.q( " \
 CREATE TABLE IF NOT EXISTS screen_names ( \
-id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,   \
-owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
+id                  varchar($id_size) PRIMARY KEY,   \
+owner_id            varchar($id_size) NOT NULL,   \
 screen_name         varchar(15) NOT NULL UNIQUE,  \
 display_name        varchar(15) NOT NULL UNIQUE,  \
-nick_name           varchar(30) default NULL,  \
+nick_name           varchar(30) default NULL,     \
 read_able           varchar(100) ARRAY,   \
-non_read_able        varchar(100) ARRAY,   \
-about               text default null    \
-, trashed_at        bigint  default NULL \
+non_read_able       varchar(100) ARRAY,   \
+about               text default null     \
+, $trashed_at                             \
 )");
 
 ok.q("CREATE INDEX ON screen_names (owner_id)");
@@ -144,7 +148,7 @@ nick_name           varchar(30) default NULL,  \
 read_able           varchar(100) ARRAY,   \
 non_read_able        varchar(100) ARRAY,   \
 url                 text default null    \
-, trashed_at        bigint  default NULL \
+, $trashed_at                             \
 )");
 
 ok.q( " \
@@ -164,7 +168,7 @@ ok.q(" \
  details           text default null,       \
  body              text NOT NULL,         \
  updated_at        timestamp default null, \
- trashed_at        bigint  default null  \
+ $trashed_at                              \
  )");
 
  ok.q(" \
@@ -175,7 +179,7 @@ follower_id       varchar(" + Topogo.id_size + ") NULL, \
 settings          text default null,       \
 details           text default null,       \
 body              text,         \
-trashed_at        bigint  default null \
+$trashed_at                             \
 )");
 
 ok.q("CREATE INDEX ON follows (follower_id)");
@@ -183,9 +187,9 @@ ok.q("CREATE INDEX ON follows (follower_id)");
 ok.q(" \
 CREATE TABLE IF NOT EXISTS contacts ( \
 id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-\"from_id\"          varchar(" + Topogo.id_size + ") NULL, \
-\"to_id\"            varchar(" + Topogo.id_size + ") NULL, \
-trashed_at        bigint  default null \
+\"from_id\"       varchar(" + Topogo.id_size + ") NULL,     \
+\"to_id\"         varchar(" + Topogo.id_size + ") NULL,     \
+$trashed_at                                                  \
 , CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
 )");
 
@@ -194,7 +198,7 @@ CREATE UNLOGGED TABLE IF NOT EXISTS online_customers ( \
 id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
 customer_id       varchar(" + Topogo.id_size + ") NULL, \
 screen_name_id    varchar(" + Topogo.id_size + ") NULL, \
-last_seen_at      timestamp default " + now + "  \
+last_seen_at      bigint default 0  \
 , CONSTRAINT unique_customer_id_to_screen_name_id UNIQUE (customer_id, screen_name_id) \
 )");
 
@@ -215,7 +219,7 @@ CREATE TABLE IF NOT EXISTS labels   ( \
 id                varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
 owner_id          varchar(" + Topogo.id_size + ") NULL, \
 label             varchar(40) NULL, \
-trashed_at        bigint  default null \
+$trashed_at                             \
 , UNIQUE (owner_id, label) \
 )");
 
@@ -224,25 +228,25 @@ CREATE TABLE IF NOT EXISTS labelings ( \
 id              varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
 pub_id          varchar(" + Topogo.id_size + ") NOT NULL,        \
 label_id        varchar(" + Topogo.id_size + ") NOT NULL, \
-trashed_at      bigint  default null   \
+$trashed_at                             \
 , UNIQUE (pub_id, label_id) \
 )");
 
 ok.q(" \
 CREATE TABLE IF NOT EXISTS posts ( \
-  id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,     \
-  pub_id              varchar(" + Topogo.id_size + ") NOT NULL,        \
-  re_id               varchar(" + Topogo.id_size + ") NOT NULL,        \
-  author_id           varchar(" + Topogo.id_size + ") NOT NULL,        \
-  section_id          smallint NOT NULL,           \
-  title               varchar(100) default null,   \
-  body                text,                        \
-  extra               text default '{}',           \
-  read_able           varchar(100) ARRAY,          \
-  non_read_able        varchar(100) ARRAY,          \
-  trashed_at          bigint  default null         \
+  id                  varchar($id_size) PRIMARY KEY,     \
+  pub_id              varchar($id_size) NOT NULL,        \
+  origin_id           varchar($id_size) NOT NULL,        \
+  parent_id           varchar($id_size) NOT NULL,        \
+  author_id           varchar($id_size) NOT NULL,        \
+  section_id          smallint NOT NULL,                 \
+  title               varchar(100) default null,         \
+  body                text,                              \
+  extra               text default '{}',                 \
+  read_able           varchar(100) ARRAY,                \
+  non_read_able       varchar(100) ARRAY,                \
+  $trashed_at          \
 )");
-
 
   var r = River.new(flow);
 
@@ -305,13 +309,45 @@ function create(flow) {
 // // ==========================================================================================
 
 River.new(null)
-.job('get table list'      , function (j) { Topogo.show_tables(j); })
+// .job('get table list'      , function (j) { Topogo.show_tables(j); })
 .job('migrate down'        , function (j) { down(j.river.last_reply(), j); })
 .job('migrate up'          , function (j) { up(j); })
 .job('create default data' , function (j) { create(j); })
-.run(Topogo.close);
+.run(function () { Topogo.close() });
 
 
 // // ==========================================================================================
+
+
+// ****************************************************************
+// ****************** SQL Helpers *********************************
+// ****************************************************************
+
+var trashed_at = " trashed_at bigint default NULL ";
+
+function varchar(o) { return " varchar( " + o + " ) "; }
+var primary_key = " PRIMARY KEY ";
+var serial      = " serial ";
+var not_null    = " NOT NULL ";
+var unique      = " unique ";
+var bigint      = " bigint ";
+var default_null= "default null";
+
+function create_table(name, f) {
+  var vals = [];
+  var sql = function () {
+    vals.push(_.toArray(arguments));
+  };
+
+  f(sql);
+
+  return "CREATE TABLE IF NOT EXISTS " + name + " ( \n" + to_sql(vals) + " \n ); ";
+}
+
+function to_sql(vals) {
+  var lines = _.map(vals, function (row) { return row.join( ' ' ); });
+  return lines.join(", \n");
+}
+
 
 
