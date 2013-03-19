@@ -173,13 +173,16 @@ ok.q(" \
 
  ok.q(" \
 CREATE TABLE IF NOT EXISTS follows  ( \
-id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-pub_id            varchar(" + Topogo.id_size + ") NULL, \
-follower_id       varchar(" + Topogo.id_size + ") NULL, \
-settings          text default null,       \
-details           text default null,       \
-body              text,         \
-$trashed_at                             \
+id                varchar($id_size) PRIMARY KEY, \
+pub_id            varchar($id_size) NULL,        \
+follower_id       varchar($id_size) NULL,        \
+ok_score          smallint NOT NULL, DEFAULT 0,  \
+sn_score          smallint NOT NULL, DEFAULT 0,  \
+settings          text default null,             \
+details           text default null,             \
+body              text,                          \
+last_post_id      varchar($id_size)              \
+$trashed_at                                      \
 )");
 
 ok.q("CREATE INDEX ON follows (follower_id)");
@@ -240,6 +243,7 @@ CREATE TABLE IF NOT EXISTS posts ( \
   parent_id           varchar($id_size) NOT NULL,        \
   author_id           varchar($id_size) NOT NULL,        \
   section_id          smallint NOT NULL,                 \
+  ok_score            smallint NOT NULL DEFAULT 0,       \
   title               varchar(100) default null,         \
   body                text,                              \
   extra               text default '{}',                 \

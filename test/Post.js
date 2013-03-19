@@ -2,29 +2,39 @@ var _      = require('underscore')
 , assert   = require('assert')
 , Customer = require('okdoki/lib/Customer').Customer
 , Post     = require('okdoki/lib/Post').Post
+, River    = require('da_river').River
 ;
 
 
 describe( 'Post', function () {
 
+  var customer, customer_id, screen_name_id, pwp;
+
   before(function (done) {
 
+    // Reset sample data.
+    pwp             = 'This is my pass_phrase';
     var screen_name = 'mem1';
-    var pwp         = pass_phrase;
     var vals = ({screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'});
 
-    Customer.create(vals, function (mem) {
-      customer_id = mem.sanitized_data.id;
-      Customer.read(customer_id, function (c) {
-        c.read_screen_names( function (csn) {
-          customer = csn;
-          screen_name_id = customer.data.screen_name_rows[0].id;
-          done();
-
-        });
-      });
+    River.new(null)
+    .job('clear data', [Customer, 'delete_all'])
+    .job('create:', vals.screen_name, [Customer, 'create', vals])
+    .job('record id', function (j, last) {
+      customer_id = last.sanitized_data.id;
+      j.finish(customer_id);
+    })
+    .job('read', vals.screen_name, function (j) {
+      Customer.read_by_id(customer_id, j);
+    })
+    .job('save values', function (j, last) {
+      customer = last;
+      screen_name_id = _.first(_.values(customer.data.screen_name_rows)).id;
+      j.finish();
+    })
+    .run(function () {
+      done();
     });
-
   });
 
   describe( 'Customer feed', function () {
