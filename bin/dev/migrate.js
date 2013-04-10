@@ -176,12 +176,12 @@ CREATE TABLE IF NOT EXISTS follows  ( \
 id                varchar($id_size) PRIMARY KEY, \
 pub_id            varchar($id_size) NULL,        \
 follower_id       varchar($id_size) NULL,        \
-ok_score          smallint NOT NULL, DEFAULT 0,  \
-sn_score          smallint NOT NULL, DEFAULT 0,  \
+ok_score          smallint NOT NULL  default 0,  \
+sn_score          smallint NOT NULL  default 0,  \
 settings          text default null,             \
 details           text default null,             \
 body              text,                          \
-last_post_id      varchar($id_size)              \
+last_post_id      varchar($id_size),             \
 $trashed_at                                      \
 )");
 
@@ -239,8 +239,8 @@ ok.q(" \
 CREATE TABLE IF NOT EXISTS posts ( \
   id                  varchar($id_size) PRIMARY KEY,     \
   pub_id              varchar($id_size) NOT NULL,        \
-  origin_id           varchar($id_size) NOT NULL,        \
-  parent_id           varchar($id_size) NOT NULL,        \
+  origin_id           varchar($id_size) default NULL,    \
+  parent_id           varchar($id_size) default NULL,    \
   author_id           varchar($id_size) NOT NULL,        \
   section_id          smallint NOT NULL,                 \
   ok_score            smallint NOT NULL DEFAULT 0,       \
@@ -313,7 +313,7 @@ function create(flow) {
 // // ==========================================================================================
 
 River.new(null)
-// .job('get table list'      , function (j) { Topogo.show_tables(j); })
+.job('get table list'      , function (j) { Topogo.show_tables(j); })
 .job('migrate down'        , function (j) { down(j.river.last_reply(), j); })
 .job('migrate up'          , function (j) { up(j); })
 .job('create default data' , function (j) { create(j); })

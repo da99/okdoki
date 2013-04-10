@@ -2,13 +2,17 @@ var _      = require('underscore')
 , assert   = require('assert')
 , Customer = require('okdoki/lib/Customer').Customer
 , Post     = require('okdoki/lib/Post').Post
+, Follow   = require('okdoki/lib/Follow').Follow
 , River    = require('da_river').River
+, Topogo   = require('topogo').Topogo
 ;
 
 
 describe( 'Post', function () {
 
   var customer, customer_id, screen_name_id, pwp;
+  var follows = Topogo.new('follows');
+  var posts   = Topogo.new('posts');
 
   before(function (done) {
 
@@ -18,7 +22,9 @@ describe( 'Post', function () {
     var vals = ({screen_name: screen_name, pass_phrase: pwp, confirm_pass_phrase: pwp, ip: '000.00.000'});
 
     River.new(null)
-    .job('clear data', [Customer, 'delete_all'])
+    .job('clear customers', [Customer, 'delete_all'])
+    .job('clear follows', [follows, 'delete_all'])
+    .job('clear posts', [posts, 'delete_all'])
     .job('create:', vals.screen_name, [Customer, 'create', vals])
     .job('record id', function (j, last) {
       customer_id = last.sanitized_data.id;
@@ -37,20 +43,19 @@ describe( 'Post', function () {
     });
   });
 
-  describe( 'Customer feed', function () {
+  describe( 'feed', function () {
 
     it( 'grabs feed of items meant for the world', function (done) {
-      var db = new pg.query();
-      db.q('INSERT INTO follows (id, pub_id, screen_name_id) VALUES ( $1, $2, $3 );', ['a1', 'mag1', screen_name_id]);
-      db.q('INSERT INTO posts (id, pub_id, section_id, allow, body, author_id) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p1', 'mag1', '1', '{}', 'post 1', screen_name_id]);
-      db.q('INSERT INTO posts (id, pub_id, section_id, allow, body, author_id) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p5', 'mag1', '4', '{}', 'post 5', screen_name_id ]);
-      db.q('INSERT INTO posts (id, pub_id, section_id, allow, body, author_id) VALUES ( $1, $2, $3, $4, $5, $6 );', ['p2', 'mag1', '2', '{"@"}', 'post 2', screen_name_id ]);
-      db.run_and_then(function (meta) {
-        customer.read_feed(function (raw_rows) {
-          var rows = _.map(raw_rows, function (r, i) { return r.id;});
-          assert.deepEqual(rows, ['p2']);
-          done();
-        });
+      River.new(null)
+      .job([Follow, 'create',  screen_name_id, 'mag1'])
+      .job([Post, 'create_by', screen_name_id, {pub_id: 'mag1', section: 'random', body: 'post 1' }])
+      .job([Post, 'create_by', screen_name_id, {pub_id: 'mag1', section: 'emergency', body: 'post 5'}])
+      .job([Post, 'create_by', screen_name_id, {pub_id: 'mag1', section: 'status', body: 'post 2'}])
+      .job([Post, 'read_feed'])
+      .run(function (river, raw_rows) {
+        var rows = _.map(raw_rows, function (r, i) { return r.id;});
+        assert.deepEqual(rows, ['p2']);
+        done();
       });
     });
 
