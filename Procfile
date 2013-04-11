@@ -1,2 +1,2 @@
-web: node lib/app.js
+web: node lib/app_heroku.js
 

@@ -3,7 +3,7 @@
   "description" : "node/express version of okdoki",
   "version"     : "0.0.1",
   "private"     : true,
-  "main"        : "lib/app_heroku.js",
+  "main"        : "lib/app.js",
   "dependencies": {
     "express"        : "3.x.x"
     , "jade"              : "0.x.6"
