@@ -18,9 +18,11 @@ body {
 
 h1.title {
   text-shadow: black 0.1em 0.1em 0.2em;
-  background-color: rgba(0,0,0,0.1);
-  font-family: 'Knewave';
+  background-color: rgba(0,0,0,0.2);
+  font-family: 'Fanwood Text';
+  font-family: "ubuntu condensed";
   font-family: 'Rancho';
+  font-family: 'Lenka';
   font-weight: 400;
   font-size: 24pt;
   width: 400px;
@@ -40,6 +42,7 @@ span.main {
   font-weight: bold;
   font-style: italic;
   padding-right: 5px;
+  text-transform: uppercase;
 }
 
 span.sub {
