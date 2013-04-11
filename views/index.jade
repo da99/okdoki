@@ -13,6 +13,33 @@ block content
   include _log_out
 
   if !logged_in
+
+
+    h1.title
+      | <span class="main">ok</span><span class="sub">doki</span>
+
+    div(id='intro')
+      p
+        | <span class="about">On-line Chat Network</span>
+        | <br />
+        | A new way to chat with busy friends.
+      p
+        | <strong>COMING THIS YEAR.</strong>
+
+    div.intro
+
+      div(id='footer')
+        p
+          | (c) 2012-2013 OKdoki.com. Some rights reserved.
+        p
+          | All other copyrights belong to their respective owners.
+        p
+          | Photo:
+          | Bikes in Montreal by
+          | <a href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388">Galina Barskaya</a>.
+
+
+  else
     div(id='forms')
       p(id='show_sign_in')
         a(href="#sign_in") Log-In
@@ -62,33 +89,6 @@ block content
             div.field.buttons
               input.field(type='hidden', name="_csrf", value="#{token}")
               button.submit(id='submit_form_create_account') Create Account
-
-
-    h1.title
-      | <span class="main">ok</span><span class="sub">doki</span>
-
-    div(id='intro')
-      p
-        | <span class="about">WWW Chat</span>
-        | <br />
-        | A brand-new way to <strong>chat</strong> with your friends
-        | <br />
-        | even when you are busy.
-
-    div.intro
-
-      div(id='footer')
-        p
-          | (c) 2012-2013 OKdoki.com. Some rights reserved.
-        p
-          | All other copyrights belong to their respective owners.
-        p
-          | Photo:
-          | Bikes in Montreal by
-          | <a href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388">Galina Barskaya</a>.
-
-
-  else
     div(id='intro')
       include _keywords
 
