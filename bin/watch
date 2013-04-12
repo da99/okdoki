@@ -11,6 +11,8 @@ var wait_msg_shown = false;
 
 var ons = [ ];
 
+var exec = require('child_process').exec;
+
 function is_running() { return river.ops.length > 0; }
 
 var river = {
@@ -104,6 +106,18 @@ watch("public", function (filename) {
 watch("bin/watch", function (file_name) {
   console.log("File bin/watch has changed. Exiting.");
   process.exit(0);
+});
+
+watch("stylus_css", function (file_name, river) {
+  exec("stylus " + file_name + " -o public/assets/css/", function (err, so, se) {
+    if ((so + '').length)
+      console.log(so);
+    if ((se + '').length)
+      console.log(se);
+    if (err)
+      return river.err(err);
+    river.fin();
+  });
 });
 
 console.log("Watching: ", watched.join(', '), "\n");
