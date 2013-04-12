@@ -25,6 +25,7 @@
   },
 
   "devDependencies": {
+    "ok_dev_watch" : "x.x.x"
   },
 
   "engines": {
