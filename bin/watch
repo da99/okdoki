@@ -17,13 +17,21 @@ function is_running() { return river.ops.length > 0; }
 
 var river = {
   ops: [],
-  fin: function () {
+  push: function (func) {
+    river.ops.push(func);
+  },
+  start: function () {
+    river.next();
+  },
+  next: function () {
     if (!river.ops.length)
       return;
     river.ops.shift()();
   },
+  fin: function () {
+    river.next();
+  },
   err: function (msg) {
-    console.log("Error: " + msg);
     river.ops = [];
   }
 };
@@ -42,7 +50,6 @@ function watch(str_or_list, func) {
 }
 
 function files_changed(dir, file_name) {
-
   if (is_running()) {
     if (dir || file_name) {
       if (!wait_msg_shown) {
@@ -69,19 +76,34 @@ function files_changed(dir, file_name) {
       var pattern = pair[0];
       var func    = pair[1];
       if (dir === pattern || (_.isArray(pattern) && _.contains(pattern, dir))) {
-        river.ops.push((function (file, on_change) {
+
+        // Print a new line  before running on_change funcs.
+        // if (!river.ops.length)
+          // console.log("");
+
+        river.push((function (file, on_change) {
           return function () { on_change(file, river); };
         })(dir + '/' + changes[dir], func))
+
       }
     }
     delete changes[dir];
   }
 
-  river.fin();
-
+  river.start();
 }
 
-
+function shell(cmd, func) {
+  exec(cmd, function (err, so, se) {
+    if ((so + '').length)
+      console.log(so.trim());
+    if ((se + '').length)
+      console.log(se);
+    if (err)
+      return river.ops = [];
+    func();
+  });
+}
 
 // ****************************************************************
 // ****************** Start watching... ***************************
@@ -108,16 +130,21 @@ watch("bin/watch", function (file_name) {
   process.exit(0);
 });
 
+var public = "public/assets/css";
+
 watch("stylus_css", function (file_name, river) {
-  exec("stylus " + file_name + " -o public/assets/css/", function (err, so, se) {
-    if ((so + '').length)
-      console.log(so);
-    if ((se + '').length)
-      console.log(se);
-    if (err)
-      return river.err(err);
+  shell("stylus " + file_name + " -o " + public, river.fin);
+});
+
+watch(public, function (style, river) {
+  var css    = style.replace(".stylus.css", ".css").replace(".styl", ".css");
+  if (style !== css) {
+    shell("mv " + style + " " + css, function () {
+      console.log("moved:   " + css, "\n");
+      river.fin();
+    });
+  } else
     river.fin();
-  });
 });
 
 console.log("Watching: ", watched.join(', '), "\n");
