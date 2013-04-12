@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u
+
+bin/stop
+bin/start

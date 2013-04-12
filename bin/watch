@@ -1,172 +1,56 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
-var _  = require('underscore');
+var watch = require('ok_dev_watch');
+var exec  = require("child_process").exec;
+var spawn = require("child_process").spawn;
 
-var last_change = 0;
-var changes     = {};
-var dirs        = [];
-var watched     = [];
-var wait_msg_shown = false;
-
-var ons = [ ];
-
-var exec = require('child_process').exec;
-var spawn = require('child_process').spawn;
-
-function is_running() { return river.ops.length > 0; }
-
-var river = {
-  ops: [],
-  push: function (func) {
-    river.ops.push(func);
-  },
-  start: function () {
-    river.next();
-  },
-  next: function () {
-    if (!river.ops.length)
-      return;
-    river.ops.shift()();
-  },
-  fin: function () {
-    river.next();
-  },
-  err: function (msg) {
-    river.ops = [];
-  }
-};
-
-
-function watch(str_or_list, func) {
-  dirs.push(str_or_list);
-  dirs = _.uniq(_.flatten(dirs));
-  ons.push([str_or_list, func]);
-  _.each(dirs, function (name) {
-    if (_.contains(watched, name))
-      return false;
-    fs.watch(name, function (event, file_name) { files_changed(name, file_name); });
-    watched.push(name);
-  });
-}
-
-function files_changed(dir, file_name) {
-  if (is_running()) {
-    if (dir || file_name) {
-      if (!wait_msg_shown) {
-        console.log("Still waiting for other funcs to finish.");
-        wait_msg_shown = true;
-      }
-    }
-    return;
-  }
-
-  if (dir || file_name) {
-    changes[dir] = file_name;
-    last_change = (new Date).getTime();
-    return files_changed();
-  }
-
-  var too_early = ((new Date).getTime() - last_change) < 99;
-  if (too_early)
-    return setTimeout(files_changed, 100);
-
-  for (var dir in changes) {
-    for (var i in ons) {
-      var pair    = ons[i];
-      var pattern = pair[0];
-      var func    = pair[1];
-      if (dir === pattern || (_.isArray(pattern) && _.contains(pattern, dir))) {
-
-        // Print a new line  before running on_change funcs.
-        // if (!river.ops.length)
-          // console.log("");
-
-        river.push((function (file, on_change) {
-          return function () { on_change(file, river); };
-        })(dir + '/' + changes[dir], func))
-
-      }
-    }
-    delete changes[dir];
-  }
-
-  river.start();
-}
-
-function print_stdio(so, se) {
-  if ( !so ) so = '';
-  if ( !se ) se = '';
-
-  if (so.length)
-    console.log(so.trim());
-  if (se.length) {
-    console.log("=== stderr: ===");
-    console.log(se);
-  }
-}
-function shell(cmd, func) {
-  exec(cmd, function (err, so, se) {
-    print_stdio(so, se);
-    if (err) {
-      console.log("Stopping funcs in queue because: " + err);
-      return river.ops = [];
-    }
-    func();
-  });
-}
+var shell = watch.shell;
 
 // ****************************************************************
 // ****************** Start watching... ***************************
 // ****************************************************************
 
 
-watch( ["lib", "views"], function (filename, river) {
+watch.dir( ["lib", "views"], function (filename, river) {
   console.log("changed: " + filename);
   shutdown_server(function () {
-    console.log("Re-starting server...");
-    start_server(river.fin);
+    console.log("\nRe-starting server...");
+    restart_server(river.fin);
   });
 });
 
-watch("test", function (filename) {
+watch.dir("test", function (filename) {
   console.log("test: " + filename);
   river.fin();
 });
 
-watch("public", function (filename) {
-  console.log("public: " + filename);
-  river.fin();
-});
-
-watch("bin/watch", function (file_name) {
-  console.log("File bin/watch has changed. Exiting.");
+watch.dir("bin/watch", function (file_name) {
+  console.log("\nFile bin/watch has changed. Exiting.");
   shutdown();
 });
 
 var public = "public/assets/css";
 
-watch("stylus_css", function (file_name, river) {
-  shell("stylus " + file_name + " -o " + public, river.fin);
+watch.dir("stylus_css", function (file_name, river) {
+  watch.shell("stylus " + file_name + " -o " + public, river.fin);
 });
 
-watch(public, function (style, river) {
+watch.dir(public, function (style, river) {
   var css    = style.replace(".stylus.css", ".css").replace(".styl", ".css");
   if (style !== css) {
     shell("mv " + style + " " + css, function () {
-      console.log("moved:   " + css, "\n");
+      console.log("  moved to:" + css, "\n");
       river.fin();
     });
   } else
     river.fin();
 });
 
-console.log("Watching: ", watched.join(', '), "\n");
+console.log("Watching: ", watch.dirs.join(', '), "\n");
 
 function shutdown_server(func) {
-  exec('pkill --signal INT -f "node lib/app"', function (err, so, se) {
-    if (so) console.log(so);
-    if (se) console.log(se);
+  exec('bin/stop', function (err, so, se) {
+    watch.print_stdio(so, se);
     if (err && !err.message.indexOf("no process found")) {
       console.log("Exiting because: " + err);
       process.exit(1);
@@ -175,9 +59,9 @@ function shutdown_server(func) {
   });
 }
 
-function start_server(func) {
+function restart_server(func) {
 
-  var server = spawn("bin/start");
+  var server = spawn("bin/restart");
   server.stdout.on('data', function (data) {
     process.stdout.write("" + data);
   });
@@ -194,14 +78,16 @@ function start_server(func) {
     func();
 }
 
-shutdown_server(start_server);
+restart_server();
 
 function shutdown() {
   shutdown_server(function () {
     process.exit(0);
   });
 }
-process.on('SIGINT', shutdown);
+
+process.on('SIGINT',  shutdown);
+process.on('SIGTERM', shutdown);
 
 
 
