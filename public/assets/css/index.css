@@ -1,23 +1,15 @@
 html {
-  /* background              : url("/assets/img/horse_at_fence.jpg") no-repeat bottom right fixed; */
-  /* background              : url("/assets/img/gone_fishing.jpg") no-repeat bottom right fixed; */
-  /* background              : url("/assets/img/happy_cow_01.jpg") no-repeat top left fixed; */
-  /* background              : url("/assets/img/lonely_beach_01.jpg") no-repeat bottom right fixed; */
-  background              : url("/assets/img/bikes_02.jpg") no-repeat bottom right fixed;
-  -webkit-background-size : cover;
-  -o-background-size      : cover;
-  -moz-background-size    : cover;
-  background-size         : cover;
+  background: url("/assets/img/bikes_02.jpg") no-repeat bottom right fixed;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
 }
-
 body {
-  /* [> background: #fff url("http://megauni.s3.amazonaws.com/bg.gif") repeat -125px 0; <] */
   background-color: transparent;
 }
-
-
 h1.title {
-  text-shadow: black 0.1em 0.1em 0.1em;
+  text-shadow: #000 0.1em 0.1em 0.1em;
   font-family: 'Fanwood Text';
   font-family: "ubuntu condensed";
   font-family: 'Rancho';
@@ -30,12 +22,10 @@ h1.title {
   line-height: 1.5;
   padding: 10px 0 7px 0;
 }
-
 span.about {
-  color: #FF7800;
+  color: #ff7800;
   font-weight: bold;
 }
-
 span.main {
   color: rgba(255,255,255,0.9);
   font-weight: bold;
@@ -43,18 +33,12 @@ span.main {
   padding-right: 5px;
   text-transform: uppercase;
 }
-
 span.sub {
-  /* color: rgba(255,255,255,0.7); */
-  /* color: rgba(248,93,149,0.7); */
   font-size: 20pt;
-  color: #F85D95;
+  color: #f85d95;
   color: rgba(248,93,149,0.9);
 }
-
-
 #forms {
-  /* background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif') repeat -37px 0; */
   background-color: rgba(0,0,0,0.8);
   width: 200px;
   position: absolute;
@@ -65,259 +49,209 @@ span.sub {
   border-top: 0;
   border-radius: 0 0 5px 5px;
 }
-
-  #forms ul.nav_bar {
-    text-align: left;
-    padding-top: 100px;
-  }
-
-  #forms input {
-    width: 90%;
-  }
-
-  div.form {
-    margin: 0 10px;
-  }
-    div.form h2 {
-      color: #185DAD;
-    }
-    div.form a.cancel {
-      margin-left: 10px;
-    }
-
-  #show_sign_in {
-    padding: 0;
-    margin: 0;
-  }
-
-  #sign_in {
-    padding: 0;
-    display: none;
-  }
-
-  #or_create_account {
-    margin: 0;
-    padding: 10px 0;
-    font-style: italic;
-    font-family: serif;
-    color: #65758A;
-  }
-
-  #create_account {
-    padding-top: 0;
-  }
-    #create_account span.label {
-      background: transparent;
-      color: #78A8E7;
-    }
-
-    #create_account h2 {
-      color: #FF721A;
-
-    }
-
-#intro, div.intro {
-  background : #000;
-  color      : #E1EEFF;
-  text-align : center;
-  width      : 400px;
+#forms ul.nav_bar {
+  text-align: left;
+  padding-top: 100px;
 }
-
-  #intro {
-    padding    : 10px 0 10px 0 ;
-    margin        : 0px 0 0 0;
-    border-radius : 0 0px 0 0;
-  }
-
-  div.intro {
-    padding    : 2px 0 10px 0 ;
-    margin        : 10px 0 0 0;
-    border-radius : 0 0 5px 0;
-  }
-
-  #intro h2 {
-    font-family : serif;
-    font-size   : 250%;
-    font-style  : italic;
-    font-weight : normal;
-    color       : #FF721A;
-    padding     : 0;
-    margin      : 0;
-    line-height : 1.3em;
-  }
-
-  #intro p {
-    margin: 0;
-    padding: 0 30px;
-  }
-
-
-  #intro strong {
-    background: #185DAD;
-    color: #fff;
-  }
-
+#forms input {
+  width: 90%;
+}
+div.form {
+  margin: 0 10px;
+}
+div.form div.form h2 {
+  color: #185dad;
+}
+div.form div.form a.cancel {
+  margin-left: 10px;
+}
+#show_sign_in {
+  padding: 0;
+  margin: 0;
+}
+#sign_in {
+  padding: 0;
+  display: none;
+}
+#or_create_account {
+  margin: 0;
+  padding: 10px 0;
+  font-style: italic;
+  font-family: serif;
+  color: #65758a;
+}
+#create_account {
+  padding-top: 0;
+}
+#create_account #create_account span.label {
+  background: transparent;
+  color: #78a8e7;
+}
+#create_account #create_account h2 {
+  color: #ff721a;
+}
+#intro,
+div.intro {
+  background: #000;
+  color: #e1eeff;
+  text-align: center;
+  width: 400px;
+}
+#intro {
+  padding: 10px 0 10px 0;
+  margin: 0px 0 0 0;
+  border-radius: 0 0px 0 0;
+}
+#intro h2 {
+  font-family: serif;
+  font-size: 250%;
+  font-style: italic;
+  font-weight: normal;
+  color: #ff721a;
+  padding: 0;
+  margin: 0;
+  line-height: 1.3em;
+}
+#intro p {
+  margin: 0;
+  padding: 0 30px;
+}
+#intro strong {
+  background: #185dad;
+  color: #fff;
+}
+div.intro {
+  padding: 2px 0 10px 0;
+  margin: 10px 0 0 0;
+  border-radius: 0 0 5px 0;
+}
 div.intro {
   text-align: center;
 }
-  div.intro p {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-
-  div.intro strong {
-    background: #185DAD;
-    color: #fff;
-  }
-
+div.intro p {
+  max-width: 400px;
+  margin: 0 auto;
+}
+div.intro strong {
+  background: #185dad;
+  color: #fff;
+}
 #footer {
   padding-top: 8px;
   font-size: 75%;
-  color: #92999C;
+  color: #92999c;
 }
-  #footer p {
-    margin: 0;
-    padding: 0;
-    line-height: 16px;
-  }
-
+#footer p {
+  margin: 0;
+  padding: 0;
+  line-height: 16px;
+}
 #keyword {
   margin-top: 0;
   padding-top: 20px;
   padding-bottom: 30px;
+button
 }
-  #keyword div.label {
-    background: transparent;
-    color: #B7D850;
-    font-weight: bold;
-    padding: 0;
-    display: block;
-    padding-right: 25px;
-    padding-bottom: 4px;
-  }
-
-  #keyword input {
-    font-family: monospace;
-    font-weight: bold;
-    margin: 0px;
-  }
-
-  #keyword button {
-  }
-
+#keyword div.label {
+  background: transparent;
+  color: #b7d850;
+  font-weight: bold;
+  padding: 0;
+  display: block;
+  padding-right: 25px;
+  padding-bottom: 4px;
+}
+#keyword input {
+  font-family: monospace;
+  font-weight: bold;
+  margin: 0px;
+}
 body.logged_in {
   padding: 0 0 0 310px;
-  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif');
+  background: #fff url("http://megauni.s3.amazonaws.com/bg_overlay.gif");
 }
-
-
-  body.logged_in #intro {
-    background: transparent url('http://megauni.s3.amazonaws.com/bg.gif') repeat-y -305px 300px;
-    height: 100%;
-    width: 300px;
-    padding: 60px 0 0 0;
-    margin: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
-  body.logged_in #intro p {
-    padding: 0;
-  }
-
-  body.logged_in #keyword {
-    border-radius: 0 ;
-    padding: 10px 0 5px 0;
-    background: #000;
-  }
-
-  body.logged_in #intro h2 {
-    font-size: 180%;
-    padding: 0 4px 10px 4px;
-    background: #000;
-    border-radius: 0 0 7px 0;
-  }
-
-  body.logged_in #latest.loading {
-  }
-
-    body.logged_in #latest.loading div.body {
-      padding-top: 38px;
-      background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
-    }
-
+body.logged_in #intro {
+  background: transparent url("http://megauni.s3.amazonaws.com/bg.gif") repeat-y -305px 300px;
+  height: 100%;
+  width: 300px;
+  padding: 60px 0 0 0;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+body.logged_in #intro p {
+  padding: 0;
+}
+body.logged_in #intro h2 {
+  font-size: 180%;
+  padding: 0 4px 10px 4px;
+  background: #000;
+  border-radius: 0 0 7px 0;
+}
+body.logged_in #keyword {
+  border-radius: 0;
+  padding: 10px 0 5px 0;
+  background: #000;
+}
+body.logged_in #latest.loading div.body {
+  padding-top: 38px;
+  background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
+}
 #blocks {
   overflow: auto;
   padding: 0;
   float: left;
 }
-
-  div.block {
-    float: left;
-    width: 300px;
-    margin: 5px 5px 10px 5px;
-  }
-
-    #latest div.body {
-      padding-top: 0;
-    }
-
-    #create_screen_name {
-    }
-
-      #create_screen_name input[type='text'] {
-        width: 250px;
-      }
-
-#trash_e {
+#blocks div.block {
+  float: left;
+  width: 300px;
+  margin: 5px 5px 10px 5px;
 }
-  #trash_e div.buttons {
-    text-align: center;
-  }
-
-#contacts {
+#blocks div.block #latest div.body {
+  padding-top: 0;
 }
-
-  #contacts div.contact {
-    padding: 0 0 5px 0;
-  }
-
-  #contacts span.value {
-    font-size: 90%;
-  }
-
+#blocks div.block #create_screen_name input[type='text'] {
+  width: 250px;
+}
+#trash_e div.buttons {
+  text-align: center;
+}
+#contacts div.contact {
+  padding: 0 0 5px 0;
+}
+#contacts span.value {
+  font-size: 90%;
+}
 div.item {
   padding: 9px 0 4px 0;
-  border: 1px dashed red;
+  border: 1px dashed #f00;
   border-width: 0 0 1px 0;
 }
-  div.item span.time {
-    font-size: 70%;
-    font-style: italic;
-    color: #5F7483;
-    line-height: 15px;
-  }
-  div.item span.value {
-    display: block;
-  }
-  div.item span.label {
-    text-transform: lowercase;
-    font-size: 70%;
-    font-weight: normal;
-  }
-  div.item span.by {
-    font-size: 70%;
-    font-style: italic;
-    color: #5F7483;
-    line-height: 15px;
-  }
-
-a.author, a.read_more {
+div.item span.time {
+  font-size: 70%;
+  font-style: italic;
+  color: #5f7483;
+  line-height: 15px;
+}
+div.item span.value {
+  display: block;
+}
+div.item span.label {
+  text-transform: lowercase;
+  font-size: 70%;
+  font-weight: normal;
+}
+div.item span.by {
+  font-size: 70%;
+  font-style: italic;
+  color: #5f7483;
+  line-height: 15px;
+}
+a.author,
+a.read_more {
   font-size: 80%;
 }
-
 a.author {
   text-transform: none;
 }

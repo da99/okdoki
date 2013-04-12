@@ -12,6 +12,7 @@ var wait_msg_shown = false;
 var ons = [ ];
 
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 
 function is_running() { return river.ops.length > 0; }
 
@@ -93,14 +94,24 @@ function files_changed(dir, file_name) {
   river.start();
 }
 
+function print_stdio(so, se) {
+  if ( !so ) so = '';
+  if ( !se ) se = '';
+
+  if (so.length)
+    console.log(so.trim());
+  if (se.length) {
+    console.log("=== stderr: ===");
+    console.log(se);
+  }
+}
 function shell(cmd, func) {
   exec(cmd, function (err, so, se) {
-    if ((so + '').length)
-      console.log(so.trim());
-    if ((se + '').length)
-      console.log(se);
-    if (err)
+    print_stdio(so, se);
+    if (err) {
+      console.log("Stopping funcs in queue because: " + err);
       return river.ops = [];
+    }
     func();
   });
 }
@@ -112,7 +123,10 @@ function shell(cmd, func) {
 
 watch( ["lib", "views"], function (filename, river) {
   console.log("changed: " + filename);
-  river.fin();
+  shutdown_server(function () {
+    console.log("Re-starting server...");
+    start_server(river.fin);
+  });
 });
 
 watch("test", function (filename) {
@@ -127,7 +141,7 @@ watch("public", function (filename) {
 
 watch("bin/watch", function (file_name) {
   console.log("File bin/watch has changed. Exiting.");
-  process.exit(0);
+  shutdown();
 });
 
 var public = "public/assets/css";
@@ -149,10 +163,45 @@ watch(public, function (style, river) {
 
 console.log("Watching: ", watched.join(', '), "\n");
 
+function shutdown_server(func) {
+  exec('pkill --signal INT -f "node lib/app"', function (err, so, se) {
+    if (so) console.log(so);
+    if (se) console.log(se);
+    if (err && !err.message.indexOf("no process found")) {
+      console.log("Exiting because: " + err);
+      process.exit(1);
+    }
+    func();
+  });
+}
 
+function start_server(func) {
 
+  var server = spawn("bin/start");
+  server.stdout.on('data', function (data) {
+    process.stdout.write("" + data);
+  });
 
+  server.stderr.on('data', function (data) {
+    process.stdout.write("" + data);
+  });
 
+  server.on('close', function (code) {
+    console.log('server closed: ' + code);
+  });
+
+  if (func)
+    func();
+}
+
+shutdown_server(start_server);
+
+function shutdown() {
+  shutdown_server(function () {
+    process.exit(0);
+  });
+}
+process.on('SIGINT', shutdown);
 
 
 
