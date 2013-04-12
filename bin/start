@@ -11,4 +11,4 @@ fi
 
 set -u
 
-NODE_ENV=production USE_LOGGER=true PORT=$PORT node lib/app.js $PORT
+NODE_ENV=production PORT=$PORT node lib/app.js $PORT
