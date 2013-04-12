@@ -20,7 +20,8 @@
     , "topogo"            : "0.x.x"
     , "da_river"          : "0.x.x"
     , "da_check"          : "0.x.x"
-    , "dot"               : "x.x.x"
+    , "stylus"            : "x.x.x"
+    , "nib"               : "x.x.x"
   },
 
   "devDependencies": {

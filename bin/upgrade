@@ -4,17 +4,32 @@
 
 set -u
 set -e
+set -o pipefail
+set -x
 
-sudo apt-get update
-sudo apt-get upgrade
+if [ "skip_os" != "$@" ]
+then
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo npm update
+fi
+
+npm install
+npm update
 
 # If you use hiredis, be sure to rebuild it
 # whenever you upgrade your version of node.
 # There are mysterious failures that can happen
 # between node and native code modules after a
 # node upgrade.
-npm rebuild hiredis
+# npm rebuild hiredis
 
+sortE="public/assets/js/jquery.sortElements.js"
+if [ -f "$sortE" ];
+then rm "$sortE";
+fi
 
+wget -O "$sortE" https://github.com/padolsey/jQuery-Plugins/blob/master/sortElements/jquery.sortElements.js
 
+is_done="true"
 
