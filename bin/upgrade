@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 set -x
 
-if [ "skip_os" != "$@" ]
+if [[ "skip_os" != "$@" ]]
 then
   sudo apt-get update
   sudo apt-get upgrade
@@ -26,15 +26,17 @@ npm update
 
 js="public/assets/js"
 function re_download {
-  if [ -f "$1" ];
-  then rm "$1";
-  fi
-
+  rm -f "$1"
   wget -O "$1" "$2"
 }
 
-re_download "$js/jquery.sortElements.js" "https://raw.github.com/padolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js"
-re_download "$js/underscore-min.js"      "https://raw.github.com/documentcloud/underscore/master/underscore-min.js"
+re_download "$js/underscore.js"     "https://raw.github.com/documentcloud/underscore/master/underscore-min.js"
+re_download "$js/jquery.js"   "http://code.jquery.com/jquery-1.9.1.min.js"
+
+# "https://raw.github.com/padolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js"
+rm -f "$js/jquery.sortElements.js"
+rm -f "$js/underscore-min.js"
+
 
 is_done="true"
 
