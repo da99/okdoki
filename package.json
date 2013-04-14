@@ -22,7 +22,6 @@
     , "da_check"          : "0.x.x"
     , "stylus"            : "x.x.x"
     , "nib"               : "x.x.x"
-    , "plates"            : "x.x.x"
   },
 
   "devDependencies": {
