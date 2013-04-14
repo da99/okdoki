@@ -168,7 +168,7 @@ form
   padding: 0;
   margin: 0;
 
-  form.loading
+  &.loading
     background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
 
 

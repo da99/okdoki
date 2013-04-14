@@ -132,13 +132,13 @@ form {
   padding: 0;
   margin: 0;
 }
-form form.loading {
+form.loading {
   background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
 }
-form form.loading div.fields {
+form.loading div.fields {
   visibility: hidden;
 }
-form form.loading div.field {
+form.loading div.field {
   padding-bottom: 10px;
 }
 form input[type="password"],

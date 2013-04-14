@@ -39,7 +39,8 @@ span.sub {
   color: rgba(248,93,149,0.9);
 }
 #forms {
-  background-color: rgba(0,0,0,0.8);
+  background: #000;
+  background: rgba(0,0,0,0.8);
   width: 200px;
   position: absolute;
   top: 0;
@@ -90,19 +91,31 @@ div.form div.form a.cancel {
 #create_account #create_account h2 {
   color: #ff721a;
 }
-#intro,
-div.intro {
+#header,
+#footer {
   background: #000;
+  background: rgba(0,0,0,0.8);
   color: #e1eeff;
   text-align: center;
   width: 400px;
+  text-align: center;
 }
-#intro {
+#header p,
+#footer p {
+  max-width: 400px;
+  margin: 0 auto;
+}
+#header strong,
+#footer strong {
+  background: #185dad;
+  color: #fff;
+}
+#header {
   padding: 10px 0 10px 0;
   margin: 0px 0 0 0;
   border-radius: 0 0px 0 0;
 }
-#intro h2 {
+#header h2 {
   font-family: serif;
   font-size: 250%;
   font-style: italic;
@@ -112,32 +125,18 @@ div.intro {
   margin: 0;
   line-height: 1.3em;
 }
-#intro p {
+#header strong {
+  background: #185dad;
+  color: #fff;
+}
+#header p {
   margin: 0;
   padding: 0 30px;
 }
-#intro strong {
-  background: #185dad;
-  color: #fff;
-}
-div.intro {
-  padding: 2px 0 10px 0;
+#footer {
   margin: 10px 0 0 0;
   border-radius: 0 0 5px 0;
-}
-div.intro {
-  text-align: center;
-}
-div.intro p {
-  max-width: 400px;
-  margin: 0 auto;
-}
-div.intro strong {
-  background: #185dad;
-  color: #fff;
-}
-#footer {
-  padding-top: 8px;
+  padding: 8px 0 10px 0;
   font-size: 75%;
   color: #92999c;
 }

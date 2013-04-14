@@ -50,7 +50,8 @@ span
 
 
 #forms
-  background-color : rgba(0,0,0,0.8)
+  background       : #000
+  background       : rgba(0,0,0,0.8)
   width            : 200px
   position         : absolute
   top              : 0
@@ -110,15 +111,25 @@ div.form
 
 
 
-#intro, div.intro
-  background : #000
+#header, #footer
+  background: #000;
+  background: rgba(0,0,0,0.8)
   color      : #E1EEFF
   text-align : center
   width      : 400px
+  text-align: center
+
+  p
+    max-width: 400px
+    margin: 0 auto
+
+  strong
+    background: #185DAD
+    color: #fff
 
 
-#intro
-  padding    : 10px 0 10px 0
+#header
+  padding       : 10px 0 10px 0
   margin        : 0px 0 0 0
   border-radius : 0 0px 0 0
 
@@ -132,6 +143,9 @@ div.form
     margin      : 0
     line-height : 1.3em
 
+  strong
+    background: #185DAD
+    color: #fff
 
   p
     margin: 0
@@ -139,34 +153,13 @@ div.form
 
 
 
-  strong
-    background: #185DAD
-    color: #fff
-
-
-div.intro
-  padding    : 2px 0 10px 0
-  margin        : 10px 0 0 0
-  border-radius : 0 0 5px 0
-
-
-
-div.intro
-  text-align: center
-
-  p
-    max-width: 400px
-    margin: 0 auto
-
-  strong
-    background: #185DAD
-    color: #fff
-
 
 #footer
-  padding-top: 8px
-  font-size: 75%
-  color: #92999C
+  margin        : 10px 0 0 0
+  border-radius : 0 0 5px 0
+  padding       : 8px 0 10px 0
+  font-size     : 75%
+  color         : #92999C
 
   p
     margin: 0
