@@ -12,55 +12,6 @@ block content
 
   include _log_out
 
-  div(id='forms')
-    p(id='show_sign_in')
-      a(href="#sign_in") Log-In
-
-    div.form(id='sign_in')
-      h2 Log-in
-      form(id='form_sign_in', action='/sign-in', method='post')
-        div.fields
-          div.field.screen_name
-            div
-              span.label Screen name:
-            input.field(type='text', name="screen_name", value="")
-          div.field.passphrase
-            div
-              span.label Passphrase
-            input.field(type='password', name="passphrase", value="")
-          div.field.buttons
-            input.field(type='hidden', name="_csrf", value="#{token}")
-            button.submit(id='submit_form_sign_in') Log-In
-            a.cancel(href="#cancel") Cancel
-
-
-    p(id='or_create_account')
-      | ~ or ~
-
-    div.form(id='create_account')
-      h2 Create Account
-      form(id='form_create_account', action='/create-account', method='post')
-        div.fields
-          div.field.screen_name
-            div
-              span.label Screen name:
-            input.field(type='text', name="screen_name", value="")
-          div.field.passphrase
-            div
-              span.label Passphrase:
-            input.field(type='password', name="passphrase", value="")
-          div.field.confirm-passphrase
-            div
-              span.label Confirm Passphrase:
-            input.field(type='password', name="confirm_passphrase", value="")
-          div.field.email
-            div
-              span.label Email:
-              span.value  (in case you forget your password)
-            input.field(type='text', name="email", value="")
-          div.field.buttons
-            input.field(type='hidden', name="_csrf", value="#{token}")
-            button.submit(id='submit_form_create_account') Create Account
   div(id='intro')
     include _keywords
 
