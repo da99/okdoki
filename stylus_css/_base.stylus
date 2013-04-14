@@ -172,12 +172,12 @@ form
     background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
 
 
-  div.fields
-    visibility: hidden;
+    div.fields
+      visibility: hidden;
 
 
-  div.field
-    padding-bottom: 10px;
+    div.field
+      padding-bottom: 10px;
 
 
   input[type="password"], input[type="text"]
