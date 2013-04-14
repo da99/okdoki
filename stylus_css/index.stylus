@@ -2,10 +2,12 @@
 // /* [> background: #fff url("http://megauni.s3.amazonaws.com/bg.gif") repeat -125px 0; <] */
 // /* background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif') repeat -37px 0 */
 
-$orange = #FF7800
-$pink   = #F85D95
-$black  = #000
-$dark_blue = #185DAD
+$orange             = #FF7800
+$pink               = #F85D95
+$black              = #000
+$light_blue         = #E1EEFF
+$dark_blue          = #185DAD
+$downlight_on_black = #65758A
 
 background-size()
   -webkit-background-size : arguments
@@ -100,7 +102,7 @@ div.form
   padding: 10px 0
   font-style: italic
   font-family: serif
-  color: #65758A
+  color: $downlight_on_black 
 
 
 #create_account
@@ -119,7 +121,6 @@ div.form
 #header, #footer
   background: #000;
   background: rgba(0,0,0,0.7)
-  color      : #E1EEFF
   text-align : center
   width      : 400px
   text-align: center
@@ -137,6 +138,7 @@ div.form
   padding       : 10px 0 10px 0
   margin        : 0px 0 0 0
   border-radius : 0 0px 0 0
+  color         : $light_blue
 
   h2
     font-family : serif

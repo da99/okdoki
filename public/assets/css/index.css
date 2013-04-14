@@ -95,7 +95,6 @@ div.form div.form a.cancel {
 #footer {
   background: #000;
   background: rgba(0,0,0,0.7);
-  color: #e1eeff;
   text-align: center;
   width: 400px;
   text-align: center;
@@ -114,6 +113,7 @@ div.form div.form a.cancel {
   padding: 10px 0 10px 0;
   margin: 0px 0 0 0;
   border-radius: 0 0px 0 0;
+  color: #e1eeff;
 }
 #header h2 {
   font-family: serif;
