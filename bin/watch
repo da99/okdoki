@@ -43,6 +43,7 @@ dir("stylus_css").on('change', function (file_name) {
   watch.shell("stylus " + file_name + " -o " + public, function () {});
 }).on('unlink', function (style) {
   var css = stylus_to_css(style);
+  console.log(style);
   shell("trash-put " + css, function () {
     console.log("  removed: " + css, "\n");
   });
