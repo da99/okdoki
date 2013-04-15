@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
-var watch = require('ok_dev_watch');
-var exec  = require("child_process").exec;
-var spawn = require("child_process").spawn;
+var chokidar = require('chokidar');
+var watch    = require('ok_dev_watch');
+var exec     = require("child_process").exec;
+var spawn    = require("child_process").spawn;
+var _        = require('underscore');
 
 var shell = watch.shell;
 
@@ -10,43 +12,56 @@ var shell = watch.shell;
 // ****************** Start watching... ***************************
 // ****************************************************************
 
+var watchers = [];
+var dir = function (paths) {
+  var w = chokidar.watch(paths, {ignored: /^\./, persistent: true});
+  watchers.push(w);
+  return w;
+};
 
-watch.dir( ["lib", "views", "lib/routes"], function (filename, river) {
+
+dir( ["lib", "routes", "templates"] ).on('change', function (filename) {
   console.log("changed: " + filename);
   shutdown_server(function () {
     console.log("\nRe-starting server...");
-    restart_server(river.fin);
+    restart_server();
   });
 });
 
-watch.dir("test", function (filename) {
+dir(["test"]).on('change', function (filename) {
   console.log("test: " + filename);
-  river.fin();
 });
 
-watch.dir("bin/watch", function (file_name) {
+dir(["bin/watch"]).on('change', function () {
   console.log("\nFile bin/watch has changed. Exiting.");
   shutdown();
 });
 
 var public = "public/assets/css";
 
-watch.dir("stylus_css", function (file_name, river) {
-  watch.shell("stylus " + file_name + " -o " + public, river.fin);
+dir("stylus_css").on('change', function (file_name) {
+  watch.shell("stylus " + file_name + " -o " + public, function () {});
+}).on('unlink', function (style) {
+  var css = stylus_to_css(style);
+  shell("trash-put " + css, function () {
+    console.log("  removed: " + css, "\n");
+  });
 });
 
-watch.dir(public, function (style, river) {
-  var css    = style.replace(".stylus.css", ".css").replace(".styl", ".css");
+dir(public).on('change', function (style) {
+  var css    = stylus_to_css(style);
   if (style !== css) {
     shell("mv " + style + " " + css, function () {
       console.log("  moved to:" + css, "\n");
-      river.fin();
     });
-  } else
-    river.fin();
+  }
 });
 
-console.log("Watching: ", watch.dirs.join(', '), "\n");
+// console.log("Watching: ", watch.dirs.join(', '), "\n");
+
+function stylus_to_css(style) {
+  return style.replace(".stylus.css", ".css").replace(".styl", ".css");
+}
 
 function shutdown_server(func) {
   exec('bin/stop', function (err, so, se) {
@@ -78,14 +93,16 @@ function restart_server(func) {
     func();
 }
 
-restart_server();
-
 function shutdown() {
   shutdown_server(function () {
-    process.exit(0);
+    _.each(watchers, function (w) {
+      w.close();
+    });
+    // process.exit(0);
   });
 }
 
+restart_server();
 process.on('SIGINT',  shutdown);
 process.on('SIGTERM', shutdown);
 

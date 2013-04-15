@@ -1,14 +1,14 @@
 
 var _         = require('underscore')
-, OK          = require('okdoki/lib/routes/router').OK
-, Views       = require('okdoki/lib/helpers/Views').Views
+, OK          = require('./router').OK
+, Views       = require('../lib/helpers/Views').Views
 , crypto      = require('crypto')
 ;
 
 
 OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
-  var opts = Views.default_opts('index', req, resp)
+  var opts = Views.default_opts('Site/index', req, resp)
   if (opts.logged_in) {
     opts.view_name = 'index-logged_in';
     opts['title'] = "Your OKdoki Homepage(s)";
