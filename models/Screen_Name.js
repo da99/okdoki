@@ -1,9 +1,9 @@
 var Refresh = 4 // seconds
 , _         = require('underscore')
-, IM        = require('okdoki/lib/IM').IM
+, IM        = require('./IM').IM
 , Check     = require('da_check').Check
 , Topogo    = require('topogo').Topogo
-, UID       = require('okdoki/lib/UID').UID
+, UID       = require('../lib/UID').UID
 , River     = require('da_river').River
 ;
 

@@ -10,10 +10,9 @@ OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
   var opts = Views.default_opts('Site/index', req, resp)
   if (opts.logged_in) {
-    opts.view_name = 'index-logged_in';
+    opts.view_name = opts.view_name + '-logged_in';
     opts['title'] = "Your OKdoki Homepage(s)";
   } else {
-    opts.view_name = 'index';
     opts['title'] = 'OkDoki.com';
   };
 
@@ -30,6 +29,7 @@ OK.get('/keywords/:keywords', function (req, resp, next) {
   opts.results                    = [ {href: '/info/go99/id/2', title: 'result 1', abstract: 'Summary'}, {href: '/info/go99/id/3', title: 'result 2', abstract: 'Summary 2'}];
   resp.render(opts['view_name'], opts);
 });
+
 
 
 // ****************************************************************

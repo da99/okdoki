@@ -1,8 +1,8 @@
 var _      = require('underscore')
 , assert   = require('assert')
-, Customer = require('okdoki/lib/Customer').Customer
-, Post     = require('okdoki/lib/Post').Post
-, Follow   = require('okdoki/lib/Follow').Follow
+, Customer = require('okdoki/models/Customer').Customer
+, Post     = require('okdoki/models/Post').Post
+, Follow   = require('okdoki/models/Follow').Follow
 , River    = require('da_river').River
 , Topogo   = require('topogo').Topogo
 ;

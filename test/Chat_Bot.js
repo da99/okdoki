@@ -1,9 +1,9 @@
 
 var _         = require('underscore')
 , assert      = require('assert')
-, Redis       = require('okdoki/lib/Redis').Redis
-, Chat_Bot    = require('okdoki/lib/Chat_Bot').Chat_Bot
-, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, Redis       = require('okdoki/models/Redis').Redis
+, Chat_Bot    = require('okdoki/models/Chat_Bot').Chat_Bot
+, Screen_Name = require('okdoki/models/Screen_Name').Screen_Name
 ;
 
 

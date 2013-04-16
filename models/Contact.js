@@ -3,8 +3,8 @@ var _         = require('underscore')
 , Topogo          = require('topogo').Topogo
 , UID         = require('okdoki/lib/UID').UID
 , River       = require('da_river').River
-, Customer    = require('okdoki/lib/Customer').Customer
-, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, Customer    = require('./Customer').Customer
+, Screen_Name = require('./Screen_Name').Screen_Name
 ;
 
 var Contact    = exports.Contact = function () {};

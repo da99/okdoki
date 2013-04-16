@@ -61,11 +61,11 @@ F.create = function (life_id, pub_id) {
 // ****************** Read ****************************************
 // ****************************************************************
 
-S.prototype.is_world_read_able = function () {
+F.prototype.is_world_read_able = function () {
   return _.contains(this.data.read_able || [], WORLD); 
 };
 
-S.read_by_id = function (id, flow) {
+F.read_by_id = function (id, flow) {
   River.new(arguments)
   .job('read screen name id:', id, function (j) {
     Topogo.new(TABLE_NAME).read_by_id(id, j);
@@ -76,7 +76,7 @@ S.read_by_id = function (id, flow) {
   .run();
 };
 
-S.read_by_screen_name = function (n, flow) {
+F.read_by_screen_name = function (n, flow) {
   River.new(arguments)
   .job('read screen name:', n, function (j) {
     Topogo.new(TABLE_NAME).read_one({screen_name: n.toUpperCase()}, j)
@@ -87,7 +87,7 @@ S.read_by_screen_name = function (n, flow) {
   .run();
 };
 
-S.read_list = function (c, flow) {
+F.read_list = function (c, flow) {
   River.new(arguments)
   .job('read screen names', c.data.id, function (j) {
     Topogo.new(TABLE_NAME).read_list({owner_id: j.id}, j)
@@ -101,7 +101,7 @@ S.read_list = function (c, flow) {
   .run();
 };
 
-S.prototype.read_screen_names = function (flow) {
+F.prototype.read_screen_names = function (flow) {
   var me = this;
 
   River.new(arguments)
@@ -132,14 +132,14 @@ S.prototype.read_screen_names = function (flow) {
 // ****************************************************************
 
 
-S.prototype.edit_homepage_title = function (val) {
+F.prototype.edit_homepage_title = function (val) {
   var new_val = val.toString().trim();
   if (new_val.length === 0)
     new_val = null;
   this.push_sanitized_data('homepage_title', new_val);
 };
 
-S.prototype.edit_about = function (val) {
+F.prototype.edit_about = function (val) {
   var new_val = val.toString().trim();
   if (new_val.length === 0)
     new_val = null;
@@ -147,13 +147,13 @@ S.prototype.edit_about = function (val) {
 };
 
 
-S.prototype.edit_homepage_allow = function (val) {
+F.prototype.edit_homepage_allow = function (val) {
   this.validator.check(val, "'allow' must be an array.").isArray();
   this.push_sanitized_data('homepage_allow', val);
 };
 
 
-S.prototype.edit_screen_name = function (n) {
+F.prototype.edit_screen_name = function (n) {
 
   var old = this.new_data.old_screen_name;
 
@@ -167,7 +167,7 @@ S.prototype.edit_screen_name = function (n) {
 };
 
 
-S.prototype.edit_read_able = function (v) {
+F.prototype.edit_read_able = function (v) {
   switch (v) {
     case 'W':
       break;
@@ -182,7 +182,7 @@ S.prototype.edit_read_able = function (v) {
   this.push_sanitized_data('read_able', v);
 }
 
-S.prototype.edit_read_able_list = function (v) {
+F.prototype.edit_read_able_list = function (v) {
   if (this.sanitized_data.read_able !== 'S')
     return false;
 
@@ -199,19 +199,19 @@ S.prototype.edit_read_able_list = function (v) {
     this.push_sanitized_data('read_able_list', list);
 }
 
-S.prototype.edit_at_url = function (v) {
+F.prototype.edit_at_url = function (v) {
   return edit_bot_url(this, 'at_url', v);
 };
 
-S.prototype.edit_at_pass_phrase = function (v) {
+F.prototype.edit_at_pass_phrase = function (v) {
   return edit_bot_pass_phrase(this, 'at_pass_phrase', v);
 };
 
-S.prototype.edit_bot_url = function (v) {
+F.prototype.edit_bot_url = function (v) {
   return edit_bot_url(this, 'bot_url', v);
 };
 
-S.prototype.edit_bot_pass_phrase = function (v) {
+F.prototype.edit_bot_pass_phrase = function (v) {
   return edit_bot_pass_phrase(this, 'bot_pass_phrase', v);
 };
 
@@ -246,7 +246,7 @@ var Validate_Update = Check.new('update screen name', function (vu) {
 
 });
 
-S.update = function ( customer, flow ) {
+F.update = function ( customer, flow ) {
   var me      = S.new();
   if (customer.new_data) {
     me.new_data = customer.new_data;

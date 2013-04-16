@@ -1,11 +1,11 @@
 var _         = require('underscore')
 , assert      = require('assert')
-, IM          = require('okdoki/lib/IM').IM
+, IM          = require('okdoki/models/IM').IM
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
-, Customer    = require('okdoki/lib/Customer').Customer
-, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
-, Contact     = require('okdoki/lib/Contact').Contact
+, Customer    = require('okdoki/models/Customer').Customer
+, Screen_Name = require('okdoki/models/Screen_Name').Screen_Name
+, Contact     = require('okdoki/models/Contact').Contact
 , h           = require('okdoki/test/helpers')
 ;
 

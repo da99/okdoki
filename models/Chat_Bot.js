@@ -6,11 +6,11 @@ var _          = require('underscore')
 , log          = require('okdoki/lib/base').log
 , warn         = require('okdoki/lib/base').warn
 , error        = require('okdoki/lib/base').error
-, Customer     = require('okdoki/lib/Customer').Customer
-, Screen_Name  = require('okdoki/lib/Screen_Name').Screen_Name
+, Customer     = require('./Customer').Customer
+, Screen_Name  = require('./Screen_Name').Screen_Name
 , Topogo       = require('topogo').Topogo
 , UID          = require('okdoki/lib/UID').UID
-, IM           = require('okdoki/lib/IM').IM
+, IM           = require('./IM').IM
 , River        = require('da_river').River
 , MAX_IM_BATCH_COUNT = 250
 ;

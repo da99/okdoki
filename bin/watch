@@ -41,19 +41,19 @@ watch("bin/watch")
 .on('error', throw_err);
 ;
 
-watch( ["lib", "templates", "routes"] )
+watch( ["lib", "templates", "routes", 'models'] )
 .on('add', function (f) {
   if (!server_started)
     return;
-  console.log("added: " + f);
+  console.log("\nadded: " + f);
   restart_server();
 })
-.on('changed', function (filename) {
-  console.log("changed: " + filename);
+.on('change', function (filename) {
+  console.log("\nchanged: " + filename);
   restart_server();
 })
 .on('unlink', function (filename) {
-  console.log("deleted: " + filename);
+  console.log("\ndeleted: " + filename);
   restart_server();
 })
 .on('error', throw_err);
@@ -72,7 +72,28 @@ watch( private_stylus )
 .on('unlink', function (f) { stylus_changed(f, 'unlink'); })
 ;
 
+watch(['test', 'models', 'lib'])
+.on('add', function (f) {
+  if (!server_started)
+    return;
+  run_tests(f);
+})
+.on('change', run_tests)
+.on('change', run_tests)
+;
+
+
 console.log("Watching: ", _.flatten(watched_dirs).join(', '), "\n");
+
+function run_tests(f) {
+  console.log("  changed: " + f);
+  exec("bin/dev/mocha", function (err, o, e) {
+    if (o) process.stdout.write(o);
+    if (e) process.stdout.write(e);
+    if (err)
+      process.stdout.write("Error message: " + err.message);
+  });
+}
 
 function stylus_changed(file_name, event) {
   var css       = stylus_to_css(file_name);
@@ -146,7 +167,7 @@ function restart_server(func) {
   });
 
   server.on('close', function (code) {
-    console.log('server closed: ' + code);
+    console.log('server closed: ' + code, "\n");
   });
 
   if (func)

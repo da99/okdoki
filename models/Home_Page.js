@@ -3,8 +3,8 @@ var _         = require('underscore')
 , Check       = require('da_check').Check
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
-, Customer    = require('okdoki/lib/Customer').Customer
-, Screen_Name = require('okdoki/lib/Screen_Name').Screen_Name
+, Customer    = require('./Customer').Customer
+, Screen_Name = require('./Screen_Name').Screen_Name
 , h           = require('okdoki/lib/base')
 ;
 

@@ -1,7 +1,7 @@
 
 var _              = require('underscore');
 var assert         = require('assert');
-var Redis          = require('okdoki/lib/Redis').Redis;
+var Redis          = require('okdoki/models/Redis').Redis;
 
 describe( 'Redis', function () {
 

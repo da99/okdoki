@@ -11,13 +11,13 @@ var _         = require('underscore')
 , River       = require('da_river').River
 ;
 
-var Customer  = require('../models/Customer').Customer
-, Screen_Name = require('../models/Screen_Name').Screen_Name
-, Chat_Bot    = require('../models/Chat_Bot').Chat_Bot
-, OK          = require('../routes/router').OK
+var Customer  = require('./Customer').Customer
+, Screen_Name = require('./Screen_Name').Screen_Name
+, Chat_Bot    = require('./Chat_Bot').Chat_Bot
 , log         = require('./base').log
 , write       = require('./helpers/write').write
 , homepage    = require('./helpers/homepage').homepage
+, OK          = require('../routes/router').OK
 ;
 
 
