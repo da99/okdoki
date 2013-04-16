@@ -1,58 +1,99 @@
 #!/usr/bin/env node
 
-var _     = require('underscore');
-var watch = require('ok_dev_watch');
-var exec  = require("child_process").exec;
-var spawn = require("child_process").spawn;
-var shell = watch.shell;
+var _        = require('underscore');
+var chokidar = require('chokidar');
+var exec     = require("child_process").exec;
+var spawn    = require("child_process").spawn;
+var throw_err= function (err) {
+  throw err;
+};
+var shell    = function (cmd, func) {
+  return exec(cmd, function (err, o, e) {
+    if (err) throw err;
+    if ( o ) process.stdout.write(o);
+    if ( e ) process.stdout.write(e);
+    if (func)
+      func(o, e);
+  });
+};
 
 // ****************************************************************
 // ****************** Start watching... ***************************
 // ****************************************************************
 
+var watchers = [];
+var watched_dirs  = [];
+var server_started = false
 
-watch.dir( ["lib", "templates", "routes"], function (filename, river) {
-  console.log("changed: " + filename);
-  shutdown_server(function () {
-    console.log("\nRe-starting server...");
-    restart_server(river.fin);
-  });
-});
+function watch(dirs, func) {
+  watched_dirs.push(dirs);
+  var w = chokidar.watch(dirs,  {ignored: /^\./, persistent: true, interval: 190});
+  watchers.push(w);
+  return w;
+}
 
-watch.dir("test", function (filename) {
-  console.log("test: " + filename);
-  river.fin();
-});
-
-watch.dir("bin/watch", function (file_name) {
+watch("bin/watch")
+.on('change', function (f) {
   console.log("\nFile bin/watch has changed. Exiting.");
-  shutdown();
-});
+  shutdown_all();
+})
+.on('error', throw_err);
+;
+
+watch( ["lib", "templates", "routes"] )
+.on('add', function (f) {
+  if (!server_started)
+    return;
+  console.log("added: " + f);
+  restart_server();
+})
+.on('changed', function (filename) {
+  console.log("changed: " + filename);
+  restart_server();
+})
+.on('unlink', function (filename) {
+  console.log("deleted: " + filename);
+  restart_server();
+})
+.on('error', throw_err);
+;
 
 var public_css = "public/assets/css";
 var private_stylus = "stylus_css"
 
-watch.dir( private_stylus, function (file_name, river, event) {
+watch( private_stylus )
+.on('add', function (f) {
+  if (!server_started)
+    return;
+  stylus_changed(f, 'change');
+})
+.on('change', function (f) { stylus_changed(f, 'change'); })
+.on('unlink', function (f) { stylus_changed(f, 'unlink'); })
+;
+
+console.log("Watching: ", _.flatten(watched_dirs).join(', '), "\n");
+
+function stylus_changed(file_name, event) {
   var css       = stylus_to_css(file_name);
   var folder    = template_family(file_name);
   var base_name = file_name.split('/').pop();
   var compiled  = [public_css, folder, base_name + '.css'].join('/');
   var public_folder = _.compact([public_css , folder]).join('/');
-  if (event === 'change')
+  if (event === 'unlink') {
+    console.log("  deleted:  " + file_name);
+    console.log("  deleting: " + css);
+    shell("trash-put -f " + css);
+  } else {
     shell("mkdir -p " + public_folder, function () {
+      console.log("");
       shell("stylus " + file_name + " -o " + public_folder, function () {
         shell("mv " + compiled + " " + css, function () {
-          console.log("  moved to:" + css, "\n");
-          river.fin();
+          console.log("  moved to:" + css);
         });
       });
     });
-  else {
-    console.log("  deleted:  " + file_name);
-    console.log("  deleting: " + css);
-    shell("rm -f " + css, river.fin);
   }
-});
+};
 
 function template_family(stylus) {
   var pieces = stylus.split('/');
@@ -72,11 +113,10 @@ function stylus_to_css(stylus) {
   ;
 }
 
-console.log("Watching: ", watch.dirs.join(', '), "\n");
-
 function shutdown_server(func) {
   exec('bin/stop', function (err, so, se) {
-    watch.print_stdio(so, se);
+    if (so) console.log(so);
+    if (se) console.log(se);
     if (err && !err.message.indexOf("no process found")) {
       console.log("Exiting because: " + err);
       process.exit(1);
@@ -89,6 +129,7 @@ function restart_server(func) {
 
   var server = spawn("bin/restart");
   server.stdout.on('data', function (data) {
+    server_started = true;
     process.stdout.write("" + data);
   });
 
@@ -104,16 +145,25 @@ function restart_server(func) {
     func();
 }
 
-restart_server();
-
-function shutdown() {
+function shutdown_all() {
   shutdown_server(function () {
-    process.exit(0);
+    close();
   });
 }
 
-process.on('SIGINT',  shutdown);
-process.on('SIGTERM', shutdown);
+function close() {
+  var w = watchers.pop();
+  if (w) {
+    w.close();
+    close();
+  } else {
+    process.exit(0);
+  }
+}
+
+restart_server();
+process.on('SIGINT',  shutdown_all);
+process.on('SIGTERM', shutdown_all);
 
 
 
