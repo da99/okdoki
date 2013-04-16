@@ -2,6 +2,7 @@ var _         = require('underscore')
 , assert      = require('assert')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
+, Check       = require('da_check').Check
 , Customer    = require('okdoki/models/Customer').Customer
 , Screen_Name = require('okdoki/models/Screen_Name').Screen_Name
 , Home_Page   = require('okdoki/models/Home_Page').Home_Page

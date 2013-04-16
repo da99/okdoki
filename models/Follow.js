@@ -1,6 +1,7 @@
 var _    = require('underscore')
 , Topogo = require('topogo').Topogo
 , River  = require('da_river').River
+, Check  = require('da_check').Check
 ;
 
 // ****************************************************************
