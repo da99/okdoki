@@ -4,14 +4,15 @@ var _        = require('underscore');
 var chokidar = require('chokidar');
 var exec     = require("child_process").exec;
 var spawn    = require("child_process").spawn;
+var fs       = require("fs");
 var throw_err= function (err) {
   throw err;
 };
 var shell    = function (cmd, func) {
   return exec(cmd, function (err, o, e) {
-    if (err) throw err;
     if ( o ) process.stdout.write(o);
     if ( e ) process.stdout.write(e);
+    if (err) throw err;
     if (func)
       func(o, e);
   });
@@ -79,13 +80,19 @@ function stylus_changed(file_name, event) {
   var base_name = file_name.split('/').pop();
   var compiled  = [public_css, folder, base_name + '.css'].join('/');
   var public_folder = _.compact([public_css , folder]).join('/');
+
+  console.log("");
+
   if (event === 'unlink') {
     console.log("  deleted:  " + file_name);
     console.log("  deleting: " + css);
-    shell("trash-put -f " + css);
+
+    // For some reason the file is sometimes deleted,
+    // after the folder. Using a conditional
+    // prevents an warning from being printed.
+    shell(' if [ -e ' + css + ' ] ; then trash-put ' + css + ' ; fi ');
   } else {
     shell("mkdir -p " + public_folder, function () {
-      console.log("");
       shell("stylus " + file_name + " -o " + public_folder, function () {
         shell("mv " + compiled + " " + css, function () {
           console.log("  moved to:" + css);
@@ -93,7 +100,8 @@ function stylus_changed(file_name, event) {
       });
     });
   }
-};
+
+} // function
 
 function template_family(stylus) {
   var pieces = stylus.split('/');
