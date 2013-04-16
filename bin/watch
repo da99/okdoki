@@ -11,7 +11,7 @@ var shell = watch.shell;
 // ****************************************************************
 
 
-watch.dir( ["lib", "views", "lib/routes"], function (filename, river) {
+watch.dir( ["lib", "templates", "routes"], function (filename, river) {
   console.log("changed: " + filename);
   shutdown_server(function () {
     console.log("\nRe-starting server...");
