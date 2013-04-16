@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+var _     = require('underscore');
 var watch = require('ok_dev_watch');
 var exec  = require("child_process").exec;
 var spawn = require("child_process").spawn;
-
 var shell = watch.shell;
 
 // ****************************************************************
@@ -29,22 +29,48 @@ watch.dir("bin/watch", function (file_name) {
   shutdown();
 });
 
-var public = "public/assets/css";
+var public_css = "public/assets/css";
+var private_stylus = "stylus_css"
 
-watch.dir("stylus_css", function (file_name, river) {
-  watch.shell("stylus " + file_name + " -o " + public, river.fin);
-});
-
-watch.dir(public, function (style, river) {
-  var css    = style.replace(".stylus.css", ".css").replace(".styl", ".css");
-  if (style !== css) {
-    shell("mv " + style + " " + css, function () {
-      console.log("  moved to:" + css, "\n");
-      river.fin();
+watch.dir( private_stylus, function (file_name, river, event) {
+  var css       = stylus_to_css(file_name);
+  var folder    = template_family(file_name);
+  var base_name = file_name.split('/').pop();
+  var compiled  = [public_css, folder, base_name + '.css'].join('/');
+  var public_folder = _.compact([public_css , folder]).join('/');
+  if (event === 'change')
+    shell("mkdir -p " + public_folder, function () {
+      shell("stylus " + file_name + " -o " + public_folder, function () {
+        shell("mv " + compiled + " " + css, function () {
+          console.log("  moved to:" + css, "\n");
+          river.fin();
+        });
+      });
     });
-  } else
-    river.fin();
+  else {
+    console.log("  deleted:  " + file_name);
+    console.log("  deleting: " + css);
+    shell("rm -f " + css, river.fin);
+  }
 });
+
+function template_family(stylus) {
+  var pieces = stylus.split('/');
+  pieces.shift();
+  pieces.pop();
+  if (pieces.length)
+    return pieces.join('/');
+  return null;
+}
+
+function stylus_to_css(stylus) {
+  return stylus
+  .replace(private_stylus, public_css)
+  .replace(/\.stylus$/i, ".css")
+  .replace(/\.styl$/i, ".css")
+  .replace(/.stylus.css$/i, ".css")
+  ;
+}
 
 console.log("Watching: ", watch.dirs.join(', '), "\n");
 
