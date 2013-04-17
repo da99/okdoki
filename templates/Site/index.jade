@@ -58,23 +58,28 @@ block content
 
       form(id='create_account', action='/create-account', method='post')
         div.fields
+
           div.field.screen_name
             div
               span.label Screen name:
             input.field(type='text', name="screen_name", value="")
-          div.field.passphrase
-            div
-              span.label Passphrase:
-            input.field(type='password', name="passphrase", value="")
-          div.field.confirm-passphrase
-            div
-              span.label Confirm Passphrase:
-            input.field(type='password', name="confirm_passphrase", value="")
+
           div.field.email
             div
               span.label Email:
               span.value  (in case you forget your password)
             input.field(type='text', name="email", value="")
+
+          div.field.passphrase
+            div
+              span.label Passphrase:
+            input.field(type='password', name="passphrase", value="")
+
+          div.field.confirm-passphrase
+            div
+              span.label Confirm Passphrase:
+            input.field(type='password', name="confirm_passphrase", value="")
+
           div.field.buttons
             input.field(type='hidden', name="_csrf", value="#{token}")
             button.submit(id='submit_form_create_account') Create Account

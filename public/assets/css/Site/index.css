@@ -252,6 +252,9 @@ a.author {
   border-radius: 0 3px 3px 0;
   color: #d6d6d6;
 }
+#forms form div.buttons {
+  padding: 20px 0 0 0;
+}
 #forms span {
   background: rgba(0,0,0,0.7);
   display: block;
