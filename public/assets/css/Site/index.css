@@ -250,7 +250,7 @@ a.author {
   display: none;
   padding: 10px 5px 20px 0;
   border-radius: 0 3px 3px 0;
-  color: #d6d6d6;
+  color: #92999c;
 }
 #forms form div.buttons {
   padding: 20px 0 0 0;
@@ -264,7 +264,7 @@ a.author {
 #forms span.or {
   font-size: 90%;
   font-style: italic;
-  color: #e1eeff;
+  color: #92999c;
 }
 #forms span.label {
   display: block;

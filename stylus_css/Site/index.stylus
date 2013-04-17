@@ -10,6 +10,7 @@ $white              = #fff
 $light_blue         = #E1EEFF
 $dark_blue          = #185DAD
 $downlight_on_black = #D6D6D6
+$downlight_on_black = #92999C
 
 background-size()
   -webkit-background-size : arguments
@@ -130,8 +131,7 @@ div.form
   border-radius : 0 0 5px 0
   padding       : 8px 0 10px 0
   font-size     : 75%
-  color         : #92999C
-
+  color         : $downlight_on_black
   p
     margin: 0
     padding: 0
@@ -311,7 +311,7 @@ a.author
     &.or
       font-size: 90%
       font-style: italic
-      color: $light_blue
+      color: $downlight_on_black
   span.label
     display: block
     padding: 15px 0 0 0
