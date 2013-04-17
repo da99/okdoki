@@ -271,58 +271,50 @@ a.author
 // Forms =======================================
 
 #forms
-  position   : relative
-  // top     : 0
-  // left    : 420px
   margin     : 10px 0 0 0
   text-align : center
   width      : 400px
+  background    : rgba(0,0,0,0.8)
 
   div.tabs
-    width      : 150px
-    padding: 9px 0 0 0
+    padding: 9px 0
     a
-      display: block
-      background : rgba(0,0,0,0.7)
-      padding    : 10px 0 10px 0
       &.selected
-        background      : rgba(0,0,0,0.9)
         text-decoration : none
         color           : $light_blue
+        &:hover
+          background: transparent
+          cursor: default
+    span.or
+      font-size  : 90%
+      font-style : italic
+      color      : $downlight_on_black
+      display    : inline-block
+      padding    : 0 8px
   form
-    width         : 250px
-    position      : absolute
-    top           : 0
-    left          : 150px
-    background    : rgba(0,0,0,0.9)
     display       : none
-    padding       : 10px 5px 20px 0
+    padding       : 0 5px 20px 0
     border-radius : 0 3px 3px 0
     color         : $downlight_on_black
-
+    h2
+      color: #FF721A
+    span
+      display: block
+      margin      : 0
+      padding     : 0 10px
+    div.field
+      padding: 0 0 15px 0
+      span.label
+        display    : block
+        color      : $light_blue
+        background : transparent
+      span.value
+        display    : block
+        color      : $orange
+        font-style : normal
+        font-size  : 90%;
     div.buttons
       padding: 20px 0 0 0
-
-  span
-    background  : rgba(0,0,0,0.7)
-    display     : block
-    margin      : 0
-    padding     : 0 10px
-    &.or
-      font-size: 90%
-      font-style: italic
-      color: $downlight_on_black
-  span.label
-    display: block
-    padding: 15px 0 0 0
-    color: $light_blue
-    background: transparent
-  span.value
-    color         : $orange
-    font-style : normal
-    font-size: 90%;
-  h2
-    color: #FF721A
 
 
 

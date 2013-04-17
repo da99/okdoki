@@ -222,61 +222,57 @@ a.author {
   text-transform: none;
 }
 #forms {
-  position: relative;
   margin: 10px 0 0 0;
   text-align: center;
   width: 400px;
+  background: rgba(0,0,0,0.8);
 }
 #forms div.tabs {
-  width: 150px;
-  padding: 9px 0 0 0;
-}
-#forms div.tabs a {
-  display: block;
-  background: rgba(0,0,0,0.7);
-  padding: 10px 0 10px 0;
+  padding: 9px 0;
 }
 #forms div.tabs a.selected {
-  background: rgba(0,0,0,0.9);
   text-decoration: none;
   color: #e1eeff;
 }
+#forms div.tabs a.selected:hover {
+  background: transparent;
+  cursor: default;
+}
+#forms div.tabs span.or {
+  font-size: 90%;
+  font-style: italic;
+  color: #92999c;
+  display: inline-block;
+  padding: 0 8px;
+}
 #forms form {
-  width: 250px;
-  position: absolute;
-  top: 0;
-  left: 150px;
-  background: rgba(0,0,0,0.9);
   display: none;
-  padding: 10px 5px 20px 0;
+  padding: 0 5px 20px 0;
   border-radius: 0 3px 3px 0;
   color: #92999c;
 }
-#forms form div.buttons {
-  padding: 20px 0 0 0;
+#forms form h2 {
+  color: #ff721a;
 }
-#forms span {
-  background: rgba(0,0,0,0.7);
+#forms form span {
   display: block;
   margin: 0;
   padding: 0 10px;
 }
-#forms span.or {
-  font-size: 90%;
-  font-style: italic;
-  color: #92999c;
+#forms form div.field {
+  padding: 0 0 15px 0;
 }
-#forms span.label {
+#forms form div.field span.label {
   display: block;
-  padding: 15px 0 0 0;
   color: #e1eeff;
   background: transparent;
 }
-#forms span.value {
+#forms form div.field span.value {
+  display: block;
   color: #ff721a;
   font-style: normal;
   font-size: 90%;
 }
-#forms h2 {
-  color: #ff721a;
+#forms form div.buttons {
+  padding: 20px 0 0 0;
 }
