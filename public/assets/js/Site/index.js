@@ -4,16 +4,26 @@ var latest = null;
 var latest_body = null;
 $(function () {
 
-  $('#show_sign_in a').click(function (e) {
+  $('#forms a.sign_in').click(function (e) {
     e.preventDefault();
-    $('#show_sign_in').hide();
+    $('#forms form').hide();
     $('#sign_in').show();
+    $('#forms a').removeClass("selected");
+    $(this).addClass("selected");
   });
 
-  $('#sign_in a.cancel').click(function (e) {
+  $('#forms a.create_account').click(function (e) {
     e.preventDefault();
-    $('#show_sign_in').show();
-    $('#sign_in').hide();
+    $('#forms form').hide();
+    $('#create_account').show();
+    $('#forms a').removeClass("selected");
+    $(this).addClass("selected");
+  });
+
+  $('#forms a.cancel').click(function (e) {
+    e.preventDefault();
+    $('#forms form').hide();
+    $('#forms a').removeClass("selected");
   });
 
   Forms.Submit_Button('#submit_form_create_screen_name', {

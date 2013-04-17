@@ -222,32 +222,58 @@ a.author {
   text-transform: none;
 }
 #forms {
-  background: rgba(0,0,0,0.8);
-  width: 290px;
+  position: relative;
+  margin: 10px 0 0 0;
+  text-align: center;
+  width: 400px;
+}
+#forms div.tabs {
+  width: 150px;
+  padding: 9px 0 0 0;
+}
+#forms div.tabs a {
+  display: block;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 0 10px 0;
+}
+#forms div.tabs a.selected {
+  background: rgba(0,0,0,0.9);
+  text-decoration: none;
+  color: #e1eeff;
+}
+#forms form {
+  width: 250px;
   position: absolute;
   top: 0;
-  left: 420px;
-  text-align: center;
-  padding: 10px 0 10px 0;
-  border-top: 0;
-  border-radius: 0 0 5px 5px;
+  left: 150px;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  padding: 10px 5px 20px 0;
+  border-radius: 0 3px 3px 0;
+  color: #d6d6d6;
 }
-#forms div.tabs span.or {
-  display: inline-block;
+#forms span {
+  background: rgba(0,0,0,0.7);
+  display: block;
   margin: 0;
   padding: 0 10px;
+}
+#forms span.or {
+  font-size: 90%;
   font-style: italic;
-  font-family: serif;
-  color: #65758a;
+  color: #e1eeff;
 }
-#sign_in,
-#create_account {
-  display: none;
-}
-#create_account span.label {
+#forms span.label {
+  display: block;
+  padding: 15px 0 0 0;
+  color: #e1eeff;
   background: transparent;
-  color: #78a8e7;
 }
-#create_account h2 {
+#forms span.value {
+  color: #ff721a;
+  font-style: normal;
+  font-size: 90%;
+}
+#forms h2 {
   color: #ff721a;
 }

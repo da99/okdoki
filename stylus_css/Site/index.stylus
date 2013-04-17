@@ -6,9 +6,10 @@ $orange             = #FF7800
 $orange             = #FF721A
 $pink               = #F85D95
 $black              = #000
+$white              = #fff
 $light_blue         = #E1EEFF
 $dark_blue          = #185DAD
-$downlight_on_black = #65758A
+$downlight_on_black = #D6D6D6
 
 background-size()
   -webkit-background-size : arguments
@@ -270,40 +271,56 @@ a.author
 // Forms =======================================
 
 #forms
-  background       : rgba(0,0,0,0.8)
-  width            : 290px
-  position         : absolute
-  top              : 0
-  left             : 420px
-  text-align       : center
-  padding          : 10px 0 10px 0
-  border-top       : 0
-  border-radius    : 0 0 5px 5px
+  position   : relative
+  // top     : 0
+  // left    : 420px
+  margin     : 10px 0 0 0
+  text-align : center
+  width      : 400px
 
   div.tabs
-    span.or
-      display     : inline-block
-      margin      : 0
-      padding     : 0 10px
-      font-style  : italic
-      font-family : serif
-      color       : $downlight_on_black
-
-
-#sign_in, #create_account
-  display: none
-
-
-
-#create_account
-
+    width      : 150px
+    padding: 9px 0 0 0
+    a
+      display: block
+      background : rgba(0,0,0,0.7)
+      padding    : 10px 0 10px 0
+      &.selected
+        background      : rgba(0,0,0,0.9)
+        text-decoration : none
+        color           : $light_blue
+  form
+    width         : 250px
+    position      : absolute
+    top           : 0
+    left          : 150px
+    background    : rgba(0,0,0,0.9)
+    display       : none
+    padding       : 10px 5px 20px 0
+    border-radius : 0 3px 3px 0
+    color         : $downlight_on_black
+  span
+    background  : rgba(0,0,0,0.7)
+    display     : block
+    margin      : 0
+    padding     : 0 10px
+    &.or
+      font-size: 90%
+      font-style: italic
+      color: $light_blue
   span.label
+    display: block
+    padding: 15px 0 0 0
+    color: $light_blue
     background: transparent
-    color: #78A8E7
-
-
+  span.value
+    color         : $orange
+    font-style : normal
+    font-size: 90%;
   h2
     color: #FF721A
+
+
 
 
 
