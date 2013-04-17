@@ -72,15 +72,15 @@ watch( private_stylus )
 .on('unlink', function (f) { stylus_changed(f, 'unlink'); })
 ;
 
-watch(['test', 'models', 'lib'])
-.on('add', function (f) {
-  if (!server_started)
-    return;
-  run_tests(f);
-})
-.on('change', run_tests)
-.on('change', run_tests)
-;
+// watch(['test', 'models', 'lib'])
+// .on('add', function (f) {
+  // if (!server_started)
+    // return;
+  // run_tests(f);
+// })
+// .on('change', run_tests)
+// .on('change', run_tests)
+// ;
 
 
 console.log("Watching: ", _.flatten(watched_dirs).join(', '), "\n");

@@ -95,7 +95,7 @@ App.prototype.route = function (method, path, other_args) {
       }
       , template: function (data) {
         this.last_modified_now();
-        return resp.render(data.view_name, data || {});
+        return resp.render(data.template_name, data || {});
       }
 
     });

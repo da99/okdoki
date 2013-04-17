@@ -97,7 +97,7 @@ require_log_in();
   opts.lifes = req.user.screen_names();
   opts.title = "Chat";
   resp.header('CSRF-TOKEN', req.session._csrf);
-  resp.render(opts['view_name'], opts);
+  resp.render(opts['template_name'], opts);
 });
 
 
