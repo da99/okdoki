@@ -41,7 +41,7 @@ watch("bin/watch")
 .on('error', throw_err);
 ;
 
-watch( ["lib", "templates", "routes", 'models'] )
+watch( ["lib", "templates", "public/assets/applets", "routes", 'models'] )
 .on('add', function (f) {
   if (!server_started)
     return;

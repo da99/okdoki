@@ -1,7 +1,6 @@
 var _ = require('underscore')
 , fs  = require('fs')
-, Plates = require('plates')
-, crypto = require('crypto')
+, jade = require('jade')
 ;
 
 var App = exports.App = function () { }
@@ -91,11 +90,17 @@ App.prototype.route = function (method, path, other_args) {
         resp.set('Last-Modified', (new Date).toUTCString());
       }
       , ETag_from : function (data) {
-        resp.set('ETag', crypto.createHash('md5').update(data).digest('hex'));
+        resp.set('ETag', (new Date).getTime().toString());
       }
       , template: function (data) {
+        // app.set('view engine', 'jade');
+        // app.set('views', app_dir + '/public/assets/applets');
+        // return resp.render(data.template_name, data || {});
+        //
         this.last_modified_now();
-        return resp.render(data.template_name, data || {});
+        var path = 'public/assets/applets' + '/' + data.template_name;
+        var fn = jade.compile(jade_content(path);, {filename: path});
+        return resp.send(fn(data || {}));
       }
 
     });
@@ -107,6 +112,22 @@ App.prototype.route = function (method, path, other_args) {
   return me;
 };
 
+var jade_cache = {};
+function jade_content(path) {
+  if(!jade_cache[path]) {
+    var raw          = fs.readFileSync(path);
+    jade_cache[path] = _.map(raw.split("\n"), function (line) {
+      if (line.trim().indexOf('applet') === 0) {
+        var name   = line.replace('applet', '').trim();
+        var match  = line.match(/[^\s]/);
+        var indent = (match) ?  line.substring(0, match.index) : "";
+        return indent + "include " + name + "\n" + indent + '- applets.push("' + name + '")';
+      }
+    }).join("\n");
+  }
+console.log(jade_cache[path]);
+  return jade_cache[path];
+}
 
 
 

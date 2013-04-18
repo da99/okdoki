@@ -1,0 +1,52 @@
+
+div(id='forms')
+  div.tabs
+    a.sign_in(href="#sign_in") Log-In
+    span.or ~ or ~
+    a.create_account(href="#create_account") Create New Account
+
+  form(id='sign_in', action='/sign-in', method='post')
+    div.fields
+      div.field.screen_name
+        div
+          span.label Screen name:
+        input.field(type='text', name="screen_name", value="")
+      div.field.passphrase
+        div
+          span.label Passphrase
+        input.field(type='password', name="passphrase", value="")
+      div.field.buttons
+        input.field(type='hidden', name="_csrf", value="#{token}")
+        button.submit(id='submit_form_sign_in') Log-In
+        a.cancel(href="#cancel") Cancel
+
+
+  form(id='create_account', action='/create-account', method='post')
+    div.fields
+
+      div.field.screen_name
+        div
+          span.label Screen name:
+        input.field(type='text', name="screen_name", value="")
+
+      div.field.email
+        div
+          span.label Email:
+          span.value  (in case you forget your password)
+        input.field(type='text', name="email", value="")
+
+      div.field.passphrase
+        div
+          span.label Passphrase:
+        input.field(type='password', name="passphrase", value="")
+
+      div.field.confirm-passphrase
+        div
+          span.label Confirm Passphrase:
+        input.field(type='password', name="confirm_passphrase", value="")
+
+      div.field.buttons
+        input.field(type='hidden', name="_csrf", value="#{token}")
+        button.submit(id='submit_form_create_account') Create Account
+        a.cancel(href="#cancel") Cancel
+

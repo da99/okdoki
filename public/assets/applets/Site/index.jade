@@ -1,0 +1,37 @@
+extends ./layout
+
+block footer
+  script(src='/assets/js/_base.js')
+  script(src='/assets/js/Forms.js')
+  script(src='/assets/js/#{template_name}.js')
+
+block content
+
+
+  h1.title
+    | <span class="main">ok</span><span class="sub">doki</span>
+
+  div(id='header')
+    p
+      | <span class="about">On-line Chat Network</span>
+      | <br />
+      | Chat with busy friends.
+    p
+      | <strong>COMING THIS YEAR.</strong>
+
+  div(id='footer')
+    p
+      | (c) 2012-2013 OKdoki.com. Some rights reserved.
+    p
+      | All other copyrights belong to their respective owners.
+    p
+      | Cover Photo:
+      | <a href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388">Bikes in Montreal</a>
+    p
+      | Logo font:
+      | <a href="http://lenkavomelova.com/">Lenka Stabilo</a>
+
+  //- include ../../public/assets/applets/Site/log_in_or_create_account/body
+  applet Site/log_in_or_create_account
+
+
