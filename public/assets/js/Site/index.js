@@ -186,4 +186,14 @@ function print_news_feed_item(o) {
 
 
 
-
+$(function () {
+  var i = 0;
+  Sammy('span.or', function () {
+    this.get('/', function () {
+      this.$element().html('Hiya buddy: '  + (++i));
+    });
+    this.get('#/lifes', function () {
+      this.$element().html('Hiya buddy, again: '  + (++i));
+    });
+  }).run();
+});

@@ -30,8 +30,9 @@ function re_download {
   wget -O "$1" "$2"
 }
 
-re_download "$js/underscore.js"     "https://raw.github.com/documentcloud/underscore/master/underscore-min.js"
-re_download "$js/jquery.js"   "http://code.jquery.com/jquery-1.9.1.min.js"
+re_download "$js/underscore.js"  "https://raw.github.com/documentcloud/underscore/master/underscore-min.js"
+re_download "$js/jquery.js"      "http://code.jquery.com/jquery-1.9.1.min.js"
+re_download "$js/Sammy.js"       "https://raw.github.com/quirkey/sammy/master/lib/sammy.js"
 
 # "https://raw.github.com/padolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js"
 rm -f "$js/jquery.sortElements.js"
