@@ -169,7 +169,7 @@ Forms.vals = function (form) {
 Forms.Default_Ajax_Options = function (selector) {
   var form = $(selector).closest('form');
   var obj  = Forms.vals(form);
-  var action = window.location.origin + form.attr('action');
+  var action = window.location.href + form.attr('action');
 
   return { type: 'POST',
     url         : action,
