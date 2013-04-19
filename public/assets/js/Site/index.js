@@ -4,6 +4,11 @@ var latest = null;
 var latest_body = null;
 $(function () {
 
+  if ($(window).width() > 800) {
+    var prop = $('html').css('background-image');
+    $('html').css('background-image', prop.replace('_small.jpg', '_huge.jpg'));
+  }
+
   latest = $('body.logged_in #latest');
   latest_body = latest.find('div.body');
   latest.each(function(i, ele) {

@@ -94,7 +94,7 @@ $(function () {
 
     var o = {
       type        : 'POST',
-      url         : window.location.origin + $(form).attr('action'),
+      url         : window.location.href + $(form).attr('action'),
       cache       : false,
       contentType : 'application/json',
       data        : JSON.stringify(obj),
@@ -247,7 +247,7 @@ function ajax_error(xhr, textStatus, errorThrown) {
 function default_ajax_options(request_type, succ, err) {
   var o = {
     type        : 'POST',
-    url         : window.location.origin + "/ask",
+    url         : window.location.href + "ask",
     cache       : false,
     contentType : 'application/json',
     data        : JSON.stringify({date: (max_msg_date || (new Date).getTime() ), is_dev : is_dev, 'request_type': request_type, '_csrf': $('#csrf_token').val()}),

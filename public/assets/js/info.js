@@ -188,7 +188,7 @@ Records.no_rows = function (selector, msg) {
 
 Records.default_ajax_options = function (url, selector, callback) {
   return { type : 'GET',
-    url         : window.location.origin + url,
+    url         : window.location.href + url,
     cache       : false,
     dataType    : 'json',
     success     : function (resp, stat) {
