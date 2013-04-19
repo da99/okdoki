@@ -19,6 +19,12 @@ html(lang='en')
     //- meta(http-equiv="pragma", content="no-cache" )
 
 
+  function applet(name)
+    - var html = "../" + name + "/body.blade"
+    include html
+    append scripts
+      script(src="/assets/applets/#{name}/body.js")
+
 
   body
     block content
