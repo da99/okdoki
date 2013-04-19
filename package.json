@@ -6,7 +6,6 @@
   "main"        : "lib/app.js",
   "dependencies": {
     "express"        : "3.x.x"
-    , "jade"              : "0.x.6"
     , "passport"          : "0.x.x"
     , "passport-local"    : "0.x.x"
     , "password-hash"     : "1.x.x"
@@ -23,6 +22,7 @@
     , "stylus"            : "x.x.x"
     , "nib"               : "x.x.x"
     , "chokidar"          : "x.x.x"
+    , "blade"             : "x.x.x"
   },
 
   "devDependencies": {
