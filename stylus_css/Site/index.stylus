@@ -19,7 +19,7 @@ background-size()
   background-size         : arguments
 
 html
-  background: url('/assets/img/bikes_small.jpg') no-repeat top left fixed;
+  background: url('/assets/img/bikes_small.jpg?') no-repeat top left fixed;
   background-size: cover
 
 body
@@ -277,14 +277,17 @@ a.author
   background    : rgba(0,0,0,0.8)
 
   div.tabs
-    padding: 9px 0
+    padding: 7px 0
     a
       &.selected
         text-decoration : none
-        color           : $light_blue
+        background: $light_blue
+        border-radius: 2px 2px 0 0
+        color: $black
+        padding-bottom: 9px
         &:hover
-          background: transparent
-          cursor: default
+          background: $light_blue
+          color: $black
     span.or
       font-size  : 90%
       font-style : italic
@@ -293,8 +296,8 @@ a.author
       padding    : 0 8px
   form
     display       : none
-    padding       : 0 5px 20px 0
-    border-radius : 0 3px 3px 0
+    padding       : 10px 0 20px 0
+    border-top: 1px solid $light_blue
     color         : $downlight_on_black
     h2
       color: #FF721A

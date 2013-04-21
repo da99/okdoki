@@ -1,5 +1,5 @@
 html {
-  background: url("/assets/img/bikes_small.jpg") no-repeat top left fixed;
+  background: url("/assets/img/bikes_small.jpg?") no-repeat top left fixed;
   -webkit-background-size: cover;
   -o-background-size: cover;
   -moz-background-size: cover;
@@ -228,15 +228,18 @@ a.author {
   background: rgba(0,0,0,0.8);
 }
 #forms div.tabs {
-  padding: 9px 0;
+  padding: 7px 0;
 }
 #forms div.tabs a.selected {
   text-decoration: none;
-  color: #e1eeff;
+  background: #e1eeff;
+  border-radius: 2px 2px 0 0;
+  color: #000;
+  padding-bottom: 9px;
 }
 #forms div.tabs a.selected:hover {
-  background: transparent;
-  cursor: default;
+  background: #e1eeff;
+  color: #000;
 }
 #forms div.tabs span.or {
   font-size: 90%;
@@ -247,8 +250,8 @@ a.author {
 }
 #forms form {
   display: none;
-  padding: 0 5px 20px 0;
-  border-radius: 0 3px 3px 0;
+  padding: 10px 0 20px 0;
+  border-top: 1px solid #e1eeff;
   color: #92999c;
 }
 #forms form h2 {
