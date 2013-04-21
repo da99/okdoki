@@ -13,3 +13,17 @@ function log(msg) {
 
   return null;
 };
+
+
+var Msg_Bus = {};
+_.extend(Msg_Bus, Backbone.Events);
+
+
+
+
+
+
+
+
+
+

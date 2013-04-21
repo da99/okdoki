@@ -1,27 +1,32 @@
 "use strict";
 
 $(function () {
-  $('#forms a.sign_in').click(function (e) {
-    e.preventDefault();
-    $('#forms form').hide();
-    $('#sign_in').show();
-    $('#forms a').removeClass("selected");
-    $(this).addClass("selected");
-  });
 
-  $('#forms a.create_account').click(function (e) {
-    e.preventDefault();
-    $('#forms form').hide();
-    $('#create_account').show();
-    $('#forms a').removeClass("selected");
-    $(this).addClass("selected");
-  });
+  function only(func, _args_) {
+    var args = $(arguments).toArray();
+    args.shift();
+    return function (e) {
+      e.preventDefault();
+      func.apply(null, args);
+    };
+  }
 
-  $('#forms a.cancel').click(function (e) {
-    e.preventDefault();
+  function reset_forms() {
     $('#forms form').hide();
     $('#forms a').removeClass("selected");
-  });
+  }
+
+  function show_form( name ) {
+    reset_forms();
+
+    // show
+    $('#' + name).show();
+    $('#forms a.' + name).addClass("selected");
+  }
+
+  $('#forms a.sign_in').click(only(show_form, 'sign_in'));
+  $('#forms a.create_account').click(only(show_form, 'create_account'));
+  $('#forms a.cancel').click(only(reset_forms));
 
   Forms.Submit_Button('#submit_form_create_screen_name', {
     after_success: function (o) {
@@ -53,16 +58,6 @@ $(function () {
     }
   });
 
-
-  var i = 0;
-  Sammy('span.or', function () {
-    this.get('/', function () {
-      this.$element().html('Hiya buddy: '  + (++i) + '<a href="#/lifes">go</a>');
-    });
-    this.get('#/lifes', function () {
-      this.$element().html('Hiya buddy, again: '  + (++i));
-    });
-  }).run();
 
 
 }); // $(function) ======================================
