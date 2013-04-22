@@ -7,15 +7,30 @@ append content
 
   div.col#control_center
     script#lifes(type="text/x-handlebars-template")
-      div.block
+      div.block#Watched
         h3 Handlebars
         div.content
-          | {{msg}}
+          P
+            | {{msg}}
+          span.display
+          span
+            | Text Value:
+          input(type="text", publish-to="span.display", value="Hello")
+          p
+            | Text:
+            span.get_tag
+              | ---
+          input.tag(type="text")
+          button(on-click="publish_tag")
+            | Add
+          ul(list="tags")
+            li
+              | name: {{name}}, num: {{num}}
 
     div.block
       h3 Temp
       div.content
-        | Hello, from blade.
+        | {{msg}}
 
   div.sidebar#sidebar
 

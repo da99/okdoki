@@ -16,14 +16,14 @@ $(function () {
   latest_body = latest.find('div.body');
   latest.each(function(i, ele) {
     $.ajax({
-      type        : 'GET',
-      url         : '/news-feed',
-      cache       : true,
-      accepts : 'application/json',
+      type     : 'GET',
+      url      : '/news-feed',
+      cache    : true,
+      accepts  : 'application/json',
       contents : 'application/json',
-      // data        : JSON.stringify({}),
-      dataType    : 'json',
-      success     : function (resp, stat) {
+      // data  : JSON.stringify({}),
+      dataType : 'json',
+      success  : function (resp, stat) {
         return print_news_feed(resp);
       },
       error       : function (xhr, textStatus, errThrown) {

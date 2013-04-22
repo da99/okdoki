@@ -30,10 +30,18 @@ $(function () {
   App.on('submit:sign_in', function () {
     hide_forms();
     $('#control_center').show();
-    var source = $('#lifes').html();
-    var tmpl   = Handlebars.compile(source);
-    var html = tmpl({msg: "Hi from handlebars"});
-    $('#control_center').append(html);
+    var html = $('#lifes').html();
+    $('#control_center').append(Listenize(html, {
+      publish_tag : function (e) {
+        var form = $(this).parents('div.content');
+        var span = form.find('span.get_tag');
+        var input = form.find('input.tag');
+        span.text(input.val());
+        return false;
+      },
+      tags: [{name: 'a', num: 2}, {name: 'b', num: 3}],
+      msg: "Hi, from doT"
+    }));
   });
 
   return;
