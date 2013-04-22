@@ -2,6 +2,10 @@
 
 $(function () {
 
+  var hide_forms = function () {
+    $('#forms').hide();
+  };
+
   var reset_forms = function () {
     $('#forms form').hide();
     $('#forms a').removeClass("selected");
@@ -19,7 +23,13 @@ $(function () {
 
   $('#forms a.sign_in').click( func(show_form, 'sign_in'));
   $('#forms a.create_account').click( func(show_form, 'create_account'));
+
   $('#forms a.cancel').click(reset_forms);
+  $('#forms button.submit').click(submit);
+
+  App.on('submit:sign_in', function () {
+    hide_forms();
+  });
 
   return;
   Forms.Submit_Button('#submit_form_create_screen_name', {
