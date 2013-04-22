@@ -2,32 +2,26 @@
 
 $(function () {
 
-  function only(func, _args_) {
-    var args = $(arguments).toArray();
-    args.shift();
-    return function (e) {
-      e.preventDefault();
-      func.apply(null, args);
-    };
-  }
-
-  function reset_forms() {
+  var reset_forms = function () {
     $('#forms form').hide();
     $('#forms a').removeClass("selected");
-  }
+    return false;
+  };
 
-  function show_form( name ) {
+  var show_form = function ( name ) {
     reset_forms();
 
     // show
     $('#' + name).show();
     $('#forms a.' + name).addClass("selected");
+    return false;
   }
 
-  $('#forms a.sign_in').click(only(show_form, 'sign_in'));
-  $('#forms a.create_account').click(only(show_form, 'create_account'));
-  $('#forms a.cancel').click(only(reset_forms));
+  $('#forms a.sign_in').click( func(show_form, 'sign_in'));
+  $('#forms a.create_account').click( func(show_form, 'create_account'));
+  $('#forms a.cancel').click(reset_forms);
 
+  return;
   Forms.Submit_Button('#submit_form_create_screen_name', {
     after_success: function (o) {
       if (!o.screen_name)

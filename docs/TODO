@@ -13,3 +13,5 @@
 
 - When customer updates their info/profile, update their redis cache.
   - example: one window open to /chat, another edits their profile.
+
+- Check for memory leaks in the client side.

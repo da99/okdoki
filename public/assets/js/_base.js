@@ -14,8 +14,20 @@ function log(msg) {
   return null;
 };
 
+// ****************************************************************
+// ****************** Forms ***************************************
+// ****************************************************************
 
-var Msg_Bus = _.clone(Backbone.Events);
+function submit() {
+  log('submitting: ' + $(this));
+  return false;
+}
+
+function func() {
+  return _.partial.apply(_, arguments);
+}
+
+var Msg_Bus = _.extend({}, Backbone.Events);
 
 
 

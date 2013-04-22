@@ -1,8 +1,16 @@
 "use strict";
 
+Msg_Bus.on('init:forms', function () {
+  $('form a.submit, form button.submit').click(submit);
+  $('form a.cancel, form button.cancel').click(false);
+});
+
 var latest = null;
 var latest_body = null;
+
 $(function () {
+
+  Msg_Bus.trigger('init:forms');
 
   $(window).load(function () {
     if (screen.width > 970) {
