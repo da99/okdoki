@@ -15,8 +15,7 @@ function log(msg) {
 };
 
 
-var Msg_Bus = {};
-_.extend(Msg_Bus, Backbone.Events);
+var Msg_Bus = _.clone(Backbone.Events);
 
 
 

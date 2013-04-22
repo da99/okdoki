@@ -19,7 +19,7 @@ background-size()
   background-size         : arguments
 
 html
-  background: url('/assets/img/bikes_small.jpg?') no-repeat top left fixed;
+  background: $black url('/assets/img/bikes_small.jpg?') no-repeat top left fixed;
   background-size: cover
 
 body
