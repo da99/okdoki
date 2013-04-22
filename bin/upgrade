@@ -37,7 +37,7 @@ function re_download {
 re_download "$js/underscore.js"  "https://raw.github.com/documentcloud/underscore/master/underscore-min.js"
 re_download "$js/jquery.js"      "http://code.jquery.com/jquery-1.9.1.min.js"
 re_download "$js/backbone.js"    "http://backbonejs.org/backbone-min.js"
-re_download "$js/handlebars.js"  "https://raw.github.com/wycats/handlebars.js/master/dist/handlebars.runtime.js"
+re_download "$js/handlebars.js"  "https://raw.github.com/wycats/handlebars.js/master/dist/handlebars.js"
 
 # re_download "$js/Sammy.js"       "https://raw.github.com/quirkey/sammy/master/lib/sammy.js"
 # "https://raw.github.com/padolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js"

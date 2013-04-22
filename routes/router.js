@@ -71,14 +71,14 @@ App.prototype.route = function (method, path, other_args) {
       }
       , html:  function (str) {
         this.last_modified_now();
-        this.ETag_from(data);
+        this.ETag_from(str);
         resp.send(str);
       }
-      , text: function (data) {
+      , text: function (str) {
         resp.set('Content-Type', 'text/plain');
         this.last_modified_now();
-        this.ETag_from(data);
-        return resp.send(data);
+        this.ETag_from(str);
+        return resp.send(str);
       }
       , json: function (data) {
         this.last_modified_now();

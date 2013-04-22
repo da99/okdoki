@@ -69,13 +69,13 @@ span.label_mild {
   color: #008eed;
   border-radius: 0;
 }
-div.block h2 {
+div.block h3 {
   background: #008eed;
   color: #fff;
   padding: 2px 10px 2px 6px;
   font-size: 80%;
 }
-div.block div.body {
+div.block div.content {
   background: #fff;
   padding: 10px;
   border: 1px solid #008eed;

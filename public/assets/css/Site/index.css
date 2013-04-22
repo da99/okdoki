@@ -1,5 +1,5 @@
 html {
-  background: url("/assets/img/bikes_small.jpg?") no-repeat top left fixed;
+  background: #000 url("/assets/img/bikes_small.jpg?") no-repeat top left fixed;
   -webkit-background-size: cover;
   -o-background-size: cover;
   -moz-background-size: cover;
@@ -278,4 +278,11 @@ a.author {
 }
 #forms form div.buttons {
   padding: 20px 0 0 0;
+}
+#sidebar {
+  float: left;
+}
+#control_center {
+  display: none;
+  float: right;
 }

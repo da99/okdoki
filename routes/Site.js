@@ -2,7 +2,7 @@
 var _         = require('underscore')
 , OK          = require('./router').OK
 , Views       = require('../lib/helpers/Views').Views
-, crypto      = require('crypto')
+, blade       = require('blade')
 ;
 
 
@@ -16,7 +16,6 @@ OK.get( '/' , function (i) {
     opts['title'] = 'OkDoki.com';
   };
 
-  // resp.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   return i.template(opts);
 });
 

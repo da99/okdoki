@@ -30,7 +30,11 @@ function func() {
 function submit(e) {
   var form = $(this).parents('form');
   var id = $(form).attr('id');
+  try {
   App.trigger('submit:' + id, {id: id});
+  } catch (e) {
+    log(e);
+  }
   return false;
 }
 

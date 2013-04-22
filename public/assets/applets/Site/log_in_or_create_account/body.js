@@ -29,6 +29,11 @@ $(function () {
 
   App.on('submit:sign_in', function () {
     hide_forms();
+    $('#control_center').show();
+    var source = $('#lifes').html();
+    var tmpl   = Handlebars.compile(source);
+    var html = tmpl({msg: "Hi from handlebars"});
+    $('#control_center').append(html);
   });
 
   return;

@@ -90,14 +90,14 @@ div.label_mild, span.label_mild
 
 div.block
 
-  h2
+  h3
     background: #008EED;
     color: #fff;
     padding: 2px 10px 2px 6px;
     font-size: 80%;
 
 
-  div.body
+  div.content
     background: #fff;
     padding: 10px;
     border: 1px solid #008EED;
