@@ -7,16 +7,19 @@ set -e
 set -o pipefail
 set -x
 
-if [[ "skip_os" != "$@" ]]
+if [[ ! "$@" == *skip_os* ]]
 then
   sudo apt-get update
   sudo apt-get upgrade
   sudo npm update
 fi
 
-npm prune
-npm install
-npm update
+if [[ ! "$@" == *skip_npm* ]]
+then
+  npm prune
+  npm install
+  npm update
+fi
 
 # If you use hiredis, be sure to rebuild it
 # whenever you upgrade your version of node.
@@ -33,9 +36,10 @@ function re_download {
 
 re_download "$js/underscore.js"  "https://raw.github.com/documentcloud/underscore/master/underscore-min.js"
 re_download "$js/jquery.js"      "http://code.jquery.com/jquery-1.9.1.min.js"
-re_download "$js/Sammy.js"       "https://raw.github.com/quirkey/sammy/master/lib/sammy.js"
 re_download "$js/backbone.js"    "http://backbonejs.org/backbone-min.js"
+re_download "$js/handlebars.js"  "https://github.com/wycats/handlebars.js/blob/master/dist/handlebars.runtime.js"
 
+# re_download "$js/Sammy.js"       "https://raw.github.com/quirkey/sammy/master/lib/sammy.js"
 # "https://raw.github.com/padolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js"
 # rm -f "$js/jquery.sortElements.js"
 # rm -f "$js/underscore-min.js"
