@@ -17,3 +17,5 @@
 - Check for memory leaks in the client side.
 
 - Anti-framing: http://simonholywell.com/post/2013/04/three-things-i-set-on-new-servers.html
+
+- rotate logs
