@@ -46,6 +46,7 @@ var tell = function () { log(' ---- '); };
 
 var app_dir = __dirname.split('/');
 app_dir.pop();
+app_dir.pop();
 app_dir = app_dir.join('/');
 
 var port    = process.env.PORT || 5555;

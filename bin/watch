@@ -41,7 +41,7 @@ watch("bin/watch")
 .on('error', throw_err);
 ;
 
-watch( ["lib", "templates", "public/assets/applets", "routes", 'models'] )
+watch( ["Server/", "Client/applets"] )
 .on('add', function (f) {
   if (!server_started)
     return;
@@ -59,8 +59,7 @@ watch( ["lib", "templates", "public/assets/applets", "routes", 'models'] )
 .on('error', throw_err);
 ;
 
-var public_css = "public/assets/css";
-var private_stylus = "stylus_css"
+var private_stylus = "Client/applets"
 
 watch( private_stylus )
 .on('add', function (f) {
@@ -99,8 +98,6 @@ function stylus_changed(file_name, event) {
   var css       = stylus_to_css(file_name);
   var folder    = template_family(file_name);
   var base_name = file_name.split('/').pop();
-  var compiled  = [public_css, folder, base_name + '.css'].join('/');
-  var public_folder = _.compact([public_css , folder]).join('/');
 
   console.log("");
 
@@ -113,12 +110,8 @@ function stylus_changed(file_name, event) {
     // prevents an warning from being printed.
     shell(' if [ -e ' + css + ' ] ; then trash-put ' + css + ' ; fi ');
   } else {
-    shell("mkdir -p " + public_folder, function () {
-      shell("stylus " + file_name + " -o " + public_folder, function () {
-        shell("mv " + compiled + " " + css, function () {
-          console.log("  moved to:" + css);
-        });
-      });
+    shell("stylus " + file_name + " >  " + css, function () {
+      console.log("  compiled:" + css);
     });
   }
 
@@ -135,7 +128,6 @@ function template_family(stylus) {
 
 function stylus_to_css(stylus) {
   return stylus
-  .replace(private_stylus, public_css)
   .replace(/\.stylus$/i, ".css")
   .replace(/\.styl$/i, ".css")
   .replace(/.stylus.css$/i, ".css")
