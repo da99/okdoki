@@ -1,10 +1,10 @@
 var Refresh = 4 // seconds
 , _         = require('underscore')
-, IM        = require('./IM').IM
 , Check     = require('da_check').Check
-, Topogo    = require('topogo').Topogo
-, UID       = require('../lib/UID').UID
 , River     = require('da_river').River
+, Topogo    = require('topogo').Topogo
+, UID       = require('../App/UID').UID
+, IM        = require('../IM/IM').IM
 ;
 
 var WORLD = '@W';

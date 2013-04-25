@@ -1,8 +1,8 @@
 var _         = require('underscore')
-, UID         = require('../lib/UID').UID
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
-, Screen_Name = require('./Screen_Name').Screen_Name
+, UID         = require('../App/UID').UID
+, Screen_Name = require('../Screen_Name/Screen_Name').Screen_Name
 ;
 
 var IM = exports.IM = function () {};

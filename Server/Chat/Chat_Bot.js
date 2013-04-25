@@ -3,15 +3,15 @@ var _          = require('underscore')
 , https        = require('https')
 , url          = require('url')
 , request      = require('request')
-, log          = require('okdoki/lib/base').log
-, warn         = require('okdoki/lib/base').warn
-, error        = require('okdoki/lib/base').error
-, Customer     = require('./Customer').Customer
-, Screen_Name  = require('./Screen_Name').Screen_Name
-, Topogo       = require('topogo').Topogo
-, UID          = require('okdoki/lib/UID').UID
-, IM           = require('./IM').IM
 , River        = require('da_river').River
+, Topogo       = require('topogo').Topogo
+, log          = require('../App/base').log
+, warn         = require('../App/base').warn
+, error        = require('../App/base').error
+, UID          = require('../App/UID').UID
+, Customer     = require('../Customer/Customer').Customer
+, Screen_Name  = require('../Screen_Name/Screen_Name').Screen_Name
+, IM           = require('../IM/IM').IM
 , MAX_IM_BATCH_COUNT = 250
 ;
 

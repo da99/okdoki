@@ -1,7 +1,7 @@
 
 var _         = require('underscore')
-, OK          = require('./router').OK
-, Views       = require('../lib/helpers/Views').Views
+, OK          = require('../App/router').OK
+, Views       = require('../App/helpers/Views').Views
 , blade       = require('blade')
 ;
 

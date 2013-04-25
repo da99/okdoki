@@ -11,10 +11,12 @@ var _         = require('underscore')
 , River       = require('da_river').River
 ;
 
-var Customer  = require('../models/Customer').Customer
-, Screen_Name = require('../models/Screen_Name').Screen_Name
-, Chat_Bot    = require('../models/Chat_Bot').Chat_Bot
-, OK          = require('../routes/router').OK
+var Customer  = require('../Customer/Customer').Customer
+, Screen_Name = require('../Screen_Name/Screen_Name').Screen_Name
+, Chat_Bot    = require('../Chat/Chat_Bot').Chat_Bot
+;
+
+var OK          = require('./router').OK
 , log         = require('./base').log
 , write       = require('./helpers/write').write
 , homepage    = require('./helpers/homepage').homepage
@@ -63,7 +65,7 @@ app.configure(function () {
 
   // Settings:
   app.set('view engine', 'blade');
-  app.set('views', app_dir + '/public/assets/applets');
+  app.set('views', app_dir + '/Client/applets');
   app.locals.pretty = true;
 
   // ================================================================
@@ -188,7 +190,7 @@ var require_log_in = function (req, resp, next) {
   // resp.header("Last-Modified", "Thu, 16 Nov 1995 04:59:09 GMT");
   // resp.send(200, "huuuml");
 // });
-require('../routes/Site');
+require('../Site/routes');
 
 // ================================================================
 // ==================== HOMEPAGE ==================================
