@@ -1,7 +1,7 @@
-include "../layout.blade"
+include "../App/layout.blade"
 
 append scripts
-  script(src="/applets/Site/index.js")
+  script(src="/Site/index.js")
 
 append content
 
@@ -65,6 +65,5 @@ append content
         a(href="http://lenkavomelova.com/")
           | Lenka Stabilo
 
-    //- include ../../public/assets/applets/Site/log_in_or_create_account/body
     call applet("Site/log_in_or_create_account")
 
