@@ -25,6 +25,7 @@ var shell    = function (cmd, func) {
 var watchers = [];
 var watched_dirs  = [];
 var server_started = false
+var ignore  = /\.(stylus|css|cssus|js)$/;
 
 function watch(dirs, func) {
   watched_dirs.push(dirs);
@@ -43,25 +44,34 @@ watch("bin/watch")
 
 watch( ["Server/", "Client/applets"] )
 .on('add', function (f) {
+  if (f.match(ignore))
+    return;
+
   if (!server_started)
     return;
+
   console.log("\nadded: " + f);
   restart_server();
 })
 .on('change', function (filename) {
+  if (filename.match(ignore))
+    return;
+
   console.log("\nchanged: " + filename);
   restart_server();
 })
 .on('unlink', function (filename) {
+  if (filename.match(ignore))
+    return;
+
   console.log("\ndeleted: " + filename);
   restart_server();
 })
 .on('error', throw_err);
 ;
 
-var private_stylus = "Client/applets"
 
-watch( private_stylus )
+watch( "Client/applets" )
 .on('add', function (f) {
   if (!server_started)
     return;
@@ -95,6 +105,8 @@ function run_tests(f) {
 }
 
 function stylus_changed(file_name, event) {
+  if (!file_name.match(/\.stylus$/))
+    return;
   var css       = stylus_to_css(file_name);
   var folder    = template_family(file_name);
   var base_name = file_name.split('/').pop();
@@ -110,8 +122,10 @@ function stylus_changed(file_name, event) {
     // prevents an warning from being printed.
     shell(' if [ -e ' + css + ' ] ; then trash-put ' + css + ' ; fi ');
   } else {
-    shell("stylus " + file_name + " >  " + css, function () {
-      console.log("  compiled:" + css);
+    shell("stylus " + file_name , function () {
+      shell("mv " + css + 'us ' + css, function ()  {
+        console.log("  moved to " + css);
+      });
     });
   }
 

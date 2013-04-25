@@ -5,5 +5,5 @@ set -o pipefail
 set -e
 set -u
 
-pkill --signal INT -f "node lib/app"
+pkill --signal INT -f "node Server/App/app"
 
