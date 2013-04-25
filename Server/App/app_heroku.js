@@ -79,7 +79,7 @@ app.get('/', function (req, resp) {
     opts['title'] = 'OkDoki.com';
   };
 
-  resp.render(opts['view_name'], opts);
+  resp.render(opts['template_name'], opts);
 });
 
 
@@ -127,11 +127,11 @@ function screen_names(arr) {
 
 function default_view_opts(name, req, resp) {
   var opts = { homepage_belongs_to_viewer: false,
-    view_name    : name,
-    logged_in    : !!req.user,
-    customer     : req.user,
-    screen_names : [],
-    aud          : req.user
+    template_name : name,
+    logged_in     : !!req.user,
+    customer      : req.user,
+    screen_names  : [],
+    aud           : req.user
   };
 
   if (opts.logged_in)
