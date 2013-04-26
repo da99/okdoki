@@ -26,7 +26,9 @@
   },
 
   "devDependencies": {
-    "ok_dev_watch" : "x.x.x"
+    "ok_dev_watch" : "x.x.x",
+    "redis"        : "x.x.x",
+    "hiredis"      : "x.x.x"
   },
 
   "engines": {

@@ -19,14 +19,15 @@ then
   npm prune
   npm install
   npm update
-fi
+  npm rebuild
 
-# If you use hiredis, be sure to rebuild it
-# whenever you upgrade your version of node.
-# There are mysterious failures that can happen
-# between node and native code modules after a
-# node upgrade.
-# npm rebuild hiredis
+  # If you use hiredis, be sure to rebuild it
+  # whenever you upgrade your version of node.
+  # There are mysterious failures that can happen
+  # between node and native code modules after a
+  # node upgrade.
+  # npm rebuild hiredis
+fi
 
 js="Client/js"
 function re_download {
