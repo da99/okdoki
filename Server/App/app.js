@@ -191,7 +191,11 @@ var require_log_in = function (req, resp, next) {
   // resp.header("Last-Modified", "Thu, 16 Nov 1995 04:59:09 GMT");
   // resp.send(200, "huuuml");
 // });
+
 require('../Site/routes');
+
+if (process.env.IS_TESTING)
+  require('../Test/routes');
 
 // ================================================================
 // ==================== HOMEPAGE ==================================

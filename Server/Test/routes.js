@@ -1,9 +1,13 @@
 
 var _         = require('underscore')
-, OK          = require('okdoki/lib/routes/router').OK
-, Views       = require('okdoki/lib/helpers/Views').Views
+, OK          = require('../App/router').OK
+, Views       = require('../App/helpers/Views').Views
+, Akui        = require('akui')
 ;
 
+
+if (process.env.IS_TESTING) {
+  OK.engine.use(Akui("test/ui"));
 
 OK.get('/disconnect', function (req, resp) {
   setTimeout(function () {
@@ -37,6 +41,7 @@ OK.get('/now', function (req, resp) {
 
 });
 
+} // ======================================= if
 
 
 
