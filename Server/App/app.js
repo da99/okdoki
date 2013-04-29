@@ -66,7 +66,7 @@ app.configure(function () {
 
   // Settings:
   app.set('view engine', 'blade');
-  app.set('views', app_dir + '/Client/applets');
+  app.set('views', app_dir + '/Client');
   app.locals.pretty = true;
 
   // ================================================================
