@@ -19,3 +19,8 @@
 - Anti-framing: http://simonholywell.com/post/2013/04/three-things-i-set-on-new-servers.html
 
 - rotate logs
+
+- Security headers: http://blog.liftsecurity.io/post/37388272578/writing-secure-express-js-apps
+
+- Server tokens: http://arstechnica.com/gadgets/2012/11/how-to-set-up-a-safe-and-secure-web-server/4/
+
