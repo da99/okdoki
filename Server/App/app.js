@@ -192,10 +192,10 @@ var require_log_in = function (req, resp, next) {
   // resp.send(200, "huuuml");
 // });
 
-require('../Site/routes');
-
 if (process.env.IS_TESTING)
   require('../Test/routes');
+
+require('../Site/routes');
 
 // ================================================================
 // ==================== HOMEPAGE ==================================

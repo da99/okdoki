@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+if (process.argv.indexOf('test') > 0)
+  process.env.IS_TESTING = true;
+
 var _        = require('underscore');
 var chokidar = require('chokidar');
 var exec     = require("child_process").exec;
@@ -30,7 +33,6 @@ var stop_stream = false;
 
 function stream_results() {
   akui.stream_results(function (r, is_fin, stat) {
-
     if (stop_stream)
       return;
 
@@ -69,6 +71,12 @@ var watched_dirs  = [];
 var server_started = false
 var ignore  = /\.(stylus|css|cssus|js)$/;
 
+function upgrade() {
+  shell("bin/upgrade skip_npm skip_os", function () {
+    console.log("JS files re-downloaded.");
+  });
+}
+
 function watch(dirs, func) {
   watched_dirs.push(dirs);
   var w = chokidar.watch(dirs,  {ignored: /^\./, persistent: true, interval: 190});
@@ -84,7 +92,14 @@ watch("bin/watch")
 .on('error', throw_err);
 ;
 
-watch( ["Server/", "Client/applets"] )
+watch( ["Client/js/_base.js"] )
+.on('change', function (filename) {
+  upgrade();
+})
+.on('error', throw_err);
+;
+
+watch( ["Server/", "Client/"] )
 .on('add', function (f) {
   if (f.match(ignore))
     return;
