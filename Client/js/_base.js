@@ -7,9 +7,8 @@ App.on('all', function (name) {
   log("event: " + name);
 });
 
-function csrf_token_val() {
-  var csrf_token = $('#csrf_token').val()
-  return csrf_token;
+function _csrf() {
+  return $.trim($('#_csrf').text());
 }
 
 function log(msg) {

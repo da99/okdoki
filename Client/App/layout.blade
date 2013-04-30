@@ -32,24 +32,13 @@ html(lang='en')
     block footer
     block other
 
-    //- script(src='/js/jquery.js')
-    //- script(src='/js/underscore.js')
-    //- script(src='/js/backbone.js')
-    //- script(src='/js/doT.js')
-    //- script(src='/js/Hyper_JS.js')
+    script(type="text/_csrf", id="_csrf")
+      | #{_csrf}
 
-    script(src='/js/BASE.js')
-
-    script(src='/js/jquery-ui-1.9.1.custom.min.js')
-
-    script(src='/js/_base.js')
-
+    script(src='/js/okdoki.js')
     block scripts
 
     - if(is_testing)
-      script(type="text/_csrf", id="_csrf")
-        | #{_csrf}
-
       script(src='/akui_tests/akui.js')
 
 
