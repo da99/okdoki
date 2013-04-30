@@ -45,12 +45,15 @@ function stream_results() {
           var file = pair[0];
           var results = pair[1];
           var fail_color = (results.fail.length) ? "%r" : "%w";
-          console.log(file, term.green("pass: " + results.pass.length), term.red("fail: " + results.fail.length));
+          var msg = file + ' ' + term.green("pass: " + results.pass.length);
+          if (results.fail.length)
+            msg += term.red("fail: " + results.fail.length);
+          console.log(msg);
         });
       }
 
       if (is_fin) {
-        console.log(term.bold("Finished fetching results."));
+        console.log(term.bold("UI testing done."));
         return;
       }
     }
@@ -69,7 +72,10 @@ if (process.env.IS_TESTING)
 var watchers = [];
 var watched_dirs  = [];
 var server_started = false
-var ignore  = /\.(stylus|css|cssus|js)$/;
+
+function is_static(f) {
+  return !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
+}
 
 function upgrade() {
   shell("bin/upgrade skip_npm skip_os", function () {
@@ -99,9 +105,9 @@ watch( ["Client/js/_base.js"] )
 .on('error', throw_err);
 ;
 
-watch( ["Server/", "Client/"] )
+watch( ["Server/", "Client/", 'test/ui'] )
 .on('add', function (f) {
-  if (f.match(ignore))
+  if (is_static)
     return;
 
   if (!server_started)
@@ -111,14 +117,14 @@ watch( ["Server/", "Client/"] )
   restart_server();
 })
 .on('change', function (filename) {
-  if (filename.match(ignore))
+  if (is_static(filename))
     return;
 
   console.log("\nchanged: " + filename);
   restart_server();
 })
 .on('unlink', function (filename) {
-  if (filename.match(ignore))
+  if (is_static(filename))
     return;
 
   console.log("\ndeleted: " + filename);

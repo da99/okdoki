@@ -3,6 +3,7 @@
 #
 set -u
 set -e
+set -o pipefail
 
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
@@ -14,10 +15,6 @@ bold_white=$(tput bold)${white}
 echo ""
 echo "Resetting db..."
 bin/migrate reset
-
-echo ""
-echo "Running phantomjs/casperjs tests..."
-bin/casper
 
 echo ""
 echo "Running nodejs/mocha tests..."
