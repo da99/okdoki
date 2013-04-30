@@ -39,6 +39,9 @@ html(lang='en')
     //- script(src='/js/Hyper_JS.js')
 
     - if(is_testing)
+      script(type="text/_csrf", id="_csrf")
+        | #{_csrf}
+
       script(src='/akui_tests/akui.js')
 
     script(src='/js/BASE.js')

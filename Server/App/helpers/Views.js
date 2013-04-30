@@ -8,6 +8,7 @@ V.default_opts = function default_view_opts(name, req, resp) {
     customer      : req.user,
     screen_names  : [],
     token         : req.session._csrf,
+    _csrf         : req.session._csrf,
     aud           : req.user,
     is_testing    : !!process.env.IS_TESTING
   };
