@@ -2,7 +2,7 @@ var _         = require('underscore')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
 , UID         = require('../App/UID').UID
-, Screen_Name = require('../Screen_Name/Screen_Name').Screen_Name
+, Screen_Name = require('../Screen_Name/model').Screen_Name
 ;
 
 var IM = exports.IM = function () {};

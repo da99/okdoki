@@ -9,9 +9,9 @@ var _          = require('underscore')
 , warn         = require('../App/base').warn
 , error        = require('../App/base').error
 , UID          = require('../App/UID').UID
-, Customer     = require('../Customer/Customer').Customer
-, Screen_Name  = require('../Screen_Name/Screen_Name').Screen_Name
-, IM           = require('../IM/IM').IM
+, Customer     = require('../Customer/model').Customer
+, Screen_Name  = require('../Screen_Name/model').Screen_Name
+, IM           = require('../IM/model').IM
 , MAX_IM_BATCH_COUNT = 250
 ;
 

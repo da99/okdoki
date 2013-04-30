@@ -4,7 +4,7 @@ var Refresh = 4 // seconds
 , River     = require('da_river').River
 , Topogo    = require('topogo').Topogo
 , UID       = require('../App/UID').UID
-, IM        = require('../IM/IM').IM
+, IM        = require('../IM/model').IM
 ;
 
 var WORLD = '@W';

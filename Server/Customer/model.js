@@ -4,7 +4,7 @@ var _         = require('underscore')
 , Check       = require('da_check').Check
 , River       = require('da_river').River
 , Topogo      = require('topogo').Topogo
-, Screen_Name = require('../Screen_Name/Screen_Name').Screen_Name
+, Screen_Name = require('../Screen_Name/model').Screen_Name
 , UID         = require('../App/UID').UID
 , warn        = require('../App/base').warn
 ;

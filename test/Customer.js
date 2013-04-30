@@ -2,11 +2,12 @@
 var _              = require('underscore');
 var assert         = require('assert');
 var River          = require('da_river').River;
-var Customer       = require('../Server/Customer/model').Customer;
-var Screen_Name    = require('../Server/Screen_Name/model').Screen_Name;
 var Topogo         = require('topogo').Topogo;
 var strftimeUTC    = require('strftime').strftimeUTC;
 var strftime       = require('strftime').strftime;
+
+var Customer       = require('../Server/Customer/model').Customer;
+var Screen_Name    = require('../Server/Screen_Name/model').Screen_Name;
 
 var customer_id    = null;
 var customer       = null;
