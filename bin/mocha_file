@@ -2,7 +2,6 @@
 # -*- bash -*-
 #
 
-set -e
-set -u
+set -e -u -o pipefail
 
-IS_TESTING=true NODE_ENV=production mocha --timeout 2000 --colors "test/$@.js"
+IS_TESTING=true NODE_ENV=production mocha --timeout 2000 --colors "$@"

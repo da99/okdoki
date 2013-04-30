@@ -2,18 +2,10 @@
 # -*- bash -*-
 #
 
-set -e
-
-# if [ -z "$NO_DB_RESET" ];
-# then bin/dev/migrate.js reset_with_data;
-# else
-  echo "Skipping db reset";
-# fi
-
-set -u
+set -e -u -o pipefail
 echo ""
 
-bin/dev/mocha_file    \
+bin/mocha_file    \
   test/Customer.js    \
   test/Screen_Name.js \
   test/Chat_Bot.js    \
