@@ -1,7 +1,4 @@
 
-var Topogo = require("topogo").Topogo;
-var River  = require("da_river").River;
-
 var table = '"Comment"';
 var m     = module.exports = {};
 
@@ -9,7 +6,7 @@ m.migrate = function (dir, r) {
 
   if (dir === 'down') {
 
-    Topogo.run('DROP TABLE IF EXISTS ' + table +  ';', [], r);
+    r.drop(table);
 
   } else {
 
@@ -24,7 +21,7 @@ m.migrate = function (dir, r) {
  updated_at    bigint DEFAULT NULL,   \
  trashed_at    bigint DEFAULT NULL    \
 );";
-    Topogo.run(sql, [], r);
+    r.create(sql);
 
   }
 };

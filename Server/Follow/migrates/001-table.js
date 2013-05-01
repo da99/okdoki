@@ -1,7 +1,4 @@
 
-var Topogo = require("topogo").Topogo;
-var River  = require("da_river").River;
-
 var table = '"Follow"';
 var m     = module.exports = {};
 
@@ -9,7 +6,7 @@ m.migrate = function (dir, r) {
 
   if (dir === 'down') {
 
-    Topogo.run('DROP TABLE IF EXISTS ' + table +  ';', [], r);
+    r.drop(table);
 
   } else {
 
@@ -25,13 +22,6 @@ body              text,                          \
 last_post_id      int,                           \
 trashed_at        bigint DEFAULT NULL            \
     );";
-    River.new(r)
-    .job(function (j) {
-      Topogo.run(sql, [], j);
-    })
-    .job(function (j) {
-      Topogo.run("CREATE INDEX ON " + table + " (follower_id);", [], j);
-    })
-    .run();
+      r.create(sql, "CREATE INDEX ON " + table + " (follower_id);");
   }
 };

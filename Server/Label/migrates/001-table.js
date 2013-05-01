@@ -1,7 +1,4 @@
 
-var Topogo = require("topogo").Topogo;
-var River  = require("da_river").River;
-
 var table = '"Label"';
 var m     = module.exports = {};
 
@@ -9,7 +6,7 @@ m.migrate = function (dir, r) {
 
   if (dir === 'down') {
 
-    Topogo.run('DROP TABLE IF EXISTS ' + table +  ';', [], r);
+    r.drop(table);
 
   } else {
 
@@ -20,7 +17,7 @@ label        varchar(40) NULL,     \
 trashed_at   bigint DEFAULT NULL   \
 , UNIQUE (owner_id, label)         \
     );";
-    Topogo.run(sql, [], r);
+    r.create(sql);
 
   }
 };

@@ -1,10 +1,9 @@
-var Topogo = require("topogo").Topogo;
 
 var table = '"Customer"';
 module.exports = {};
 module.exports.migrate = function (dir, r) {
   if (dir === 'down') {
-    Topogo.run("DROP TABLE IF EXISTS " + table + ";", [], r);
+    r.drop(table);
   } else {
     var sql = " \
     CREATE TABLE IF NOT EXISTS " + table + " (          \
@@ -13,6 +12,6 @@ module.exports.migrate = function (dir, r) {
     email text,                                     \
     pass_phrase_hash varchar(150) NOT NULL          \
     )";
-    Topogo.run(sql, [], r);
+    r.create(sql);
   }
 };

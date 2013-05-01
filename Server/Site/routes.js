@@ -19,6 +19,14 @@ OK.get( '/' , function (i) {
   return i.template(opts);
 });
 
+OK.post('/create-account', function (req, resp, next) {
+  var session = App.new(req.body);
+  session.on('error', next);
+  session.on('end', function () {
+    resp.json({success: false});
+  });
+  session.trigger('create:customer');
+});
 
 OK.get('/keywords/:keywords', function (req, resp, next) {
   var opts                        = default_view_opts('keywords', req, resp);

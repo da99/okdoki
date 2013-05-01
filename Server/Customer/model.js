@@ -9,6 +9,34 @@ var _         = require('underscore')
 , warn        = require('../App/base').warn
 ;
 
+// ================================================================
+// =============== Settings =======================================
+// ================================================================
+
+
+var TABLE_NAME = 'Customer';
+
+// ================================================================
+// =============== Main Object ====================================
+// ================================================================
+
+var Customer = exports.Customer = function () {
+  this.is_new         = true;
+  this.data           = {};
+  this.sanitized_data = {};
+  this.new_data       = {};
+};
+
+Customer.new = function () {
+  var mem = new Customer();
+  return mem;
+};
+
+Customer.TABLE_NAME = TABLE_NAME;
+
+// ================================================================
+// =============== Helper Methods==================================
+// ================================================================
 
 function encode_pass_phrase ( seed, pass_phrase ) {
   return crypto.createHash('sha512').update(seed + pass_phrase).digest('hex');
@@ -45,33 +73,6 @@ function human_durs(durs) {
 
   return msg.join(', ');
 }
-
-// ================================================================
-// =============== Main Object ====================================
-// ================================================================
-
-
-var Customer = exports.Customer = function () {
-  this.is_new         = true;
-  this.data           = {};
-  this.sanitized_data = {};
-  this.new_data       = {};
-};
-
-Customer.new = function () {
-  var mem = new Customer();
-  return mem;
-};
-
-// ================================================================
-// =============== Settings =======================================
-// ================================================================
-
-var TABLE_NAME = Customer.TABLE_NAME = 'Customer';
-
-// ================================================================
-// =============== Helper Methods==================================
-// ================================================================
 
 Customer.prototype.is = function (name) {
   return !!this.find_screen_name_row(name);
@@ -275,7 +276,6 @@ Customer.create = function (new_vals, flow) {
   if (!me.is_new)
     return flow.error('Can\'t create an already existing record.');
 
-  me.data.id = customer_id;
 
   River.new(flow)
 
@@ -291,14 +291,13 @@ Customer.create = function (new_vals, flow) {
     Topogo
     .new(Customer.TABLE_NAME)
     .create({
-      id               : customer_id,
       pass_phrase_hash : encode_pass_phrase( customer_id, me.sanitized_data.pass_phrase)
     }, j);
   })
 
-  .job(function (c_flow) {
+  .job(function (c_flow, last) {
     me.is_new              = false;
-    me.sanitized_data.id   = customer_id;
+    me.sanitized_data.id   = last[0].id;
     me.sanitized_data.seed = seed;
 
     return c_flow.finish(me);
