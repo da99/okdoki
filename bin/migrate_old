@@ -117,111 +117,6 @@ function up(flow) {
 // ");
 
 
-
-
-ok.q(" \
- CREATE TABLE IF NOT EXISTS comments ( \
- id                varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
- author_id         varchar(" + Topogo.id_size + ") NULL, \
- conv_id           varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
- ref_id            varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
- settings          text default null,       \
- details           text default null,       \
- body              text NOT NULL,         \
- updated_at        timestamp default null, \
- $trashed_at                              \
- )");
-
- ok.q(" \
-CREATE TABLE IF NOT EXISTS follows  ( \
-id                varchar($id_size) PRIMARY KEY, \
-pub_id            varchar($id_size) NULL,        \
-follower_id       varchar($id_size) NULL,        \
-ok_score          smallint NOT NULL  default 0,  \
-sn_score          smallint NOT NULL  default 0,  \
-settings          text default null,             \
-details           text default null,             \
-body              text,                          \
-last_post_id      varchar($id_size),             \
-$trashed_at                                      \
-)");
-
-ok.q("CREATE INDEX ON follows (follower_id)");
-
-ok.q(" \
-CREATE TABLE IF NOT EXISTS contacts ( \
-id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-\"from_id\"       varchar(" + Topogo.id_size + ") NULL,     \
-\"to_id\"         varchar(" + Topogo.id_size + ") NULL,     \
-$trashed_at                                                  \
-, CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
-)");
-
-ok.q(" \
-CREATE UNLOGGED TABLE IF NOT EXISTS online_customers ( \
-id                varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-customer_id       varchar(" + Topogo.id_size + ") NULL, \
-screen_name_id    varchar(" + Topogo.id_size + ") NULL, \
-last_seen_at      bigint default 0  \
-, CONSTRAINT unique_customer_id_to_screen_name_id UNIQUE (customer_id, screen_name_id) \
-)");
-
-ok.q(" \
-CREATE UNLOGGED TABLE IF NOT EXISTS ims ( \
-id              varchar(" + Topogo.id_size + ") PRIMARY KEY,     \
-client_id       varchar(" + Topogo.id_size + ") default NULL,    \
-re_id           varchar(" + Topogo.id_size + ") default NULL,    \
-re_client_id    varchar(" + Topogo.id_size + ") default NULL,    \
-\"from_id\"        varchar(" + Topogo.id_size + ") NOT NULL,        \
-\"to_id\"          varchar(" + Topogo.id_size + ") default 'W',     \
-labels          varchar(15) ARRAY,    \
-body            text                  \
-)");
-
-ok.q(" \
-CREATE TABLE IF NOT EXISTS labels   ( \
-id                varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
-owner_id          varchar(" + Topogo.id_size + ") NULL, \
-label             varchar(40) NULL, \
-$trashed_at                             \
-, UNIQUE (owner_id, label) \
-)");
-
-ok.q(" \
-CREATE TABLE IF NOT EXISTS labelings ( \
-id              varchar(" + Topogo.id_size + ") NOT NULL UNIQUE, \
-pub_id          varchar(" + Topogo.id_size + ") NOT NULL,        \
-label_id        varchar(" + Topogo.id_size + ") NOT NULL, \
-$trashed_at                             \
-, UNIQUE (pub_id, label_id) \
-)");
-
-ok.q(" \
-CREATE TABLE IF NOT EXISTS posts ( \
-  id                  varchar($id_size) PRIMARY KEY,     \
-  pub_id              varchar($id_size) NOT NULL,        \
-  origin_id           varchar($id_size) default NULL,    \
-  parent_id           varchar($id_size) default NULL,    \
-  author_id           varchar($id_size) NOT NULL,        \
-  section_id          smallint NOT NULL,                 \
-  ok_score            smallint NOT NULL DEFAULT 0,       \
-  title               varchar(100) default null,         \
-  body                text,                              \
-  extra               text default '{}',                 \
-  read_able           varchar(100) ARRAY,                \
-  non_read_able       varchar(100) ARRAY,                \
-  $trashed_at          \
-)");
-
-  var r = River.new(flow);
-
-  _.each(ok.list, function(v) {
-    r.job('query', function (j) {
-      Topogo.run(Topogo.new('unknown table'), v, [], j);
-    });
-  });
-
-  r.run();
 } // end func up
 
 function create(flow) {
@@ -272,14 +167,6 @@ function create(flow) {
 };
 
 // // ==========================================================================================
-
-River.new(null)
-.job('get table list'      , function (j) { Topogo.show_tables(j); })
-.job('migrate down'        , function (j) { down(j.river.last_reply(), j); })
-.job('migrate up'          , function (j) { up(j); })
-.job('create default data' , function (j) { create(j); })
-.run(function () { Topogo.close() });
-
 
 // // ==========================================================================================
 

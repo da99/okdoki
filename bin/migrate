@@ -4,7 +4,7 @@
 cmd="$1"
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Chat Home_Page )
+mods=( Customer Screen_Name Chat Home_Page Comment Follow Contact IM Label Post )
 
 bin="../../node_modules/duck_duck_duck/bin/duck_duck_duck"
 
