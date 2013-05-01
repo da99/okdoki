@@ -1,5 +1,5 @@
 
-var table = '"IM"';
+var table = 'IM';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -10,7 +10,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE UNLOGGED TABLE IF NOT EXISTS ' + table + " ( \
+    var sql = 'CREATE UNLOGGED TABLE IF NOT EXISTS \"' + table + "\" ( \
 id              serial PRIMARY KEY,     \
 client_id       int default NULL,    \
 re_id           int default NULL,    \

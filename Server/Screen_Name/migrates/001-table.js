@@ -1,5 +1,5 @@
 
-var table = '"Screen_Name"';
+var table = 'Screen_Name';
 var m = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -11,7 +11,7 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = " \
-    CREATE TABLE IF NOT EXISTS " + table + " ( \
+    CREATE TABLE IF NOT EXISTS \"" + table + "\" ( \
     id                  serial PRIMARY KEY,   \
     owner_id            int,                  \
     screen_name         varchar(15) NOT NULL UNIQUE,  \
@@ -23,7 +23,7 @@ m.migrate = function (dir, r) {
     trashed_at          bigint default NULL   \
     )";
 
-    r.create(sql, "CREATE INDEX ON " + table + " (owner_id)");
+    r.create(sql, "CREATE INDEX ON \"" + table + "\" (owner_id)");
   }
 
 };

@@ -1,5 +1,5 @@
 
-var table = '"Chat_Bot"';
+var table = 'Chat_Bot';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -10,7 +10,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \n" + '\
+    var sql = 'CREATE TABLE IF NOT EXISTS "' + table + '" ( \
 id            serial PRIMARY KEY,           \n\
 owner_id      int NOT NULL,                 \n\
 name          varchar(15) NOT NULL UNIQUE,  \n\

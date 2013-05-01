@@ -1,5 +1,5 @@
 
-var table = '"Follow"';
+var table = 'Follow';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -10,7 +10,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \
+    var sql = 'CREATE TABLE IF NOT EXISTS "' + table + '" ( \
 id                serial PRIMARY KEY,            \
 pub_id            int DEFAULT NULL,              \
 follower_id       int DEFAULT NULL,              \
@@ -21,7 +21,7 @@ details           text default null,             \
 body              text,                          \
 last_post_id      int,                           \
 trashed_at        bigint DEFAULT NULL            \
-    );";
-      r.create(sql, "CREATE INDEX ON " + table + " (follower_id);");
+    );';
+      r.create(sql, "CREATE INDEX ON \"" + table + "\" (follower_id);");
   }
 };

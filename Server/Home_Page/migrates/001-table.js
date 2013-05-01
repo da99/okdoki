@@ -1,5 +1,5 @@
 
-var table = '"Home_Page"';
+var table = 'Home_Page';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -10,7 +10,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \n" +
+    var sql = 'CREATE TABLE IF NOT EXISTS \"' + table + "\" ( \n" +
 "owner_id  int PRIMARY KEY,    \
 title      text default null,  \
 about      text default null" +

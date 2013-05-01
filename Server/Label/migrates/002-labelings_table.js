@@ -1,5 +1,5 @@
 
-var table = '"Labeling"';
+var table = 'Labeling';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -10,7 +10,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \
+    var sql = 'CREATE TABLE IF NOT EXISTS \"' + table + "\" ( \
 id              serial PRIMARY KEY,     \
 pub_id          int NOT NULL,           \
 label_id        int NOT NULL,           \
