@@ -28,7 +28,6 @@
   },
 
   "devDependencies": {
-    "ok_dev_watch" : "x.x.x",
     "redis"        : "x.x.x",
     "hiredis"      : "x.x.x",
     "cli-color"    : "x.x.x",
