@@ -9,7 +9,7 @@ var Refresh = 4 // seconds
 
 var WORLD = '@W';
 
-var TABLE_NAME = 'screen_names';
+var TABLE_NAME = 'Screen_Name';
 var banned_screen_names = [
   '^megauni',
   '^okdoki',

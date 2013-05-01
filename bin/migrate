@@ -4,8 +4,8 @@
 cmd="$1"
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Home_Page );
 mods=( Customer Screen_Name Home_Page Chat Comment Follow Contact IM Label Post )
+mods=( Customer Screen_Name Home_Page );
 
 bin="../../node_modules/duck_duck_duck/bin/duck_duck_duck"
 

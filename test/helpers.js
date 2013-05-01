@@ -56,11 +56,11 @@ exports.ago = function (english) {
 
 Topogo.prototype.drop = function (flow) {
   var me = this;
-  return Topogo.run(me, "DROP TABLE " + me.table + '; ', [], flow);
+  return Topogo.run(me, "DROP TABLE \"" + me.table + '"; ', [], flow);
 };
 
 Topogo.prototype.delete_all = function (flow) {
-  var sql = 'DELETE FROM ' + this.table + ' ;';
+  var sql = 'DELETE FROM \"' + this.table + '\" ;';
   return Topogo.run(this, sql, [], flow);
 };
 

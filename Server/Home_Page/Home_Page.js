@@ -9,7 +9,7 @@ var _         = require('underscore')
 ;
 
 var Home_Page  = exports.Home_Page = function () {};
-var TABLE_NAME = Home_Page.TABLE_NAME = 'home_pages';
+var TABLE_NAME = Home_Page.TABLE_NAME = 'Home_Page';
 var TABLE      = Home_Page.TABLE = Topogo.new(TABLE_NAME);
 
 Home_Page.new = function (row) {
