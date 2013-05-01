@@ -28,10 +28,19 @@ then
 
 else
 
+  if [[ "$cmd" == "down" ]]
+  then
+    if [ ! -n "${IS_DEV+x}" ]
+    then
+      echo "This is not a dev machine."
+      exit 1
+    fi
+  fi
+
   for m in "${mods[@]}"
   do
     cd "Server/$m"
-    pwd
+    echo "$m"
     $bin $@
     cd ../..
   done

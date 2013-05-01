@@ -7,7 +7,7 @@ module.exports.migrate = function (dir, r) {
   } else {
     var sql = " \
     CREATE TABLE IF NOT EXISTS customers (          \
-    id serial,                                      \
+    id serial primary key,                          \
     trashed_at bigint default null,                 \
     email text,                                     \
     pass_phrase_hash varchar(150) NOT NULL          \

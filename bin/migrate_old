@@ -117,39 +117,7 @@ function up(flow) {
 // ");
 
 
-ok.q( " \
-CREATE TABLE IF NOT EXISTS screen_names ( \
-id                  varchar($id_size) PRIMARY KEY,   \
-owner_id            varchar($id_size) NOT NULL,   \
-screen_name         varchar(15) NOT NULL UNIQUE,  \
-display_name        varchar(15) NOT NULL UNIQUE,  \
-nick_name           varchar(30) default NULL,     \
-read_able           varchar(100) ARRAY,   \
-non_read_able       varchar(100) ARRAY,   \
-about               text default null     \
-, $trashed_at                             \
-)");
 
-ok.q("CREATE INDEX ON screen_names (owner_id)");
-
-ok.q( " \
-CREATE TABLE IF NOT EXISTS bots         ( \
-id                  varchar(" + Topogo.id_size + ") PRIMARY KEY,   \
-owner_id            varchar(" + Topogo.id_size + ") NOT NULL, \
-name                varchar(15) NOT NULL UNIQUE,  \
-nick_name           varchar(30) default NULL,  \
-read_able           varchar(100) ARRAY,   \
-non_read_able        varchar(100) ARRAY,   \
-url                 text default null    \
-, $trashed_at                             \
-)");
-
-ok.q( " \
-CREATE TABLE IF NOT EXISTS home_pages ( \
-owner_id            varchar(" + Topogo.id_size + ") PRIMARY KEY, \
-title               text default null,  \
-about               text default null    \
-)");
 
 ok.q(" \
  CREATE TABLE IF NOT EXISTS comments ( \
