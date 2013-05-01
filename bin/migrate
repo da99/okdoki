@@ -4,7 +4,7 @@
 cmd="$1"
 set -u -e -o pipefail
 
-mods=( Customer )
+mods=( Customer Screen_Name Chat Home_Page )
 
 bin="../../node_modules/duck_duck_duck/bin/duck_duck_duck"
 
@@ -16,6 +16,12 @@ fi
 if [[ "$cmd" == "create" ]]
 then
 
+  if [[ ! "${mods[@]}" == *"$2"* ]]
+  then
+    echo "$2 not in list."
+    exit 1
+  fi
+
   cd "Server/$2"
   $bin create $3
   cd ../..
@@ -25,6 +31,7 @@ else
   for m in "${mods[@]}"
   do
     cd "Server/$m"
+    pwd
     $bin $@
     cd ../..
   done
