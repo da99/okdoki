@@ -16,13 +16,15 @@
     , "request"           : "2.x.x"
     , "underscore.string" : "x.x.x"
     , "strftime"          : "x.x.x"
-    , "topogo"            : "0.x.x"
-    , "da_river"          : "0.x.x"
-    , "da_check"          : "0.x.x"
     , "stylus"            : "x.x.x"
     , "nib"               : "x.x.x"
     , "chokidar"          : "x.x.x"
     , "blade"             : "x.x.x"
+
+    , "topogo"            : "0.x.x"
+    , "da_river"          : "0.x.x"
+    , "da_check"          : "0.x.x"
+    , "duck_duck_duck"    : "x.x.x"
   },
 
   "devDependencies": {
