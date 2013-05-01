@@ -1,8 +1,9 @@
 
+
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 
-var table = '"Label"';
+var table = "";
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -14,11 +15,7 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \
-id           serial PRIMARY KEY,   \
-owner_id     int DEFAULT NULL,     \
-label        varchar(40) NULL,     \
-trashed_at   bigint DEFAULT NULL   \
-, UNIQUE (owner_id, label)         \
+\
     );";
     Topogo.run(sql, [], r);
 

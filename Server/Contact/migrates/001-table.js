@@ -2,7 +2,7 @@
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 
-var table = "contacts";
+var table = '"Contact"';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -13,9 +13,13 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \n" +
-      " \n" +
-    ');';
+    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " (  \
+id            serial PRIMARY KEY,                       \
+\"from_id\"   int DEFAULT NULL,                         \
+\"to_id\"     int DEFAULT NULL,                         \
+trashed_at    bigint DEFAULT NULL                       \
+, CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
+    );";
     Topogo.run(sql, [], r);
 
   }

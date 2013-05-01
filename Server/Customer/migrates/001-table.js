@@ -1,12 +1,13 @@
 var Topogo = require("topogo").Topogo;
 
+var table = '"Customer"';
 module.exports = {};
 module.exports.migrate = function (dir, r) {
   if (dir === 'down') {
-    Topogo.run("DROP TABLE IF EXISTS customers;", [], r);
+    Topogo.run("DROP TABLE IF EXISTS " + table + ";", [], r);
   } else {
     var sql = " \
-    CREATE TABLE IF NOT EXISTS customers (          \
+    CREATE TABLE IF NOT EXISTS " + table + " (          \
     id serial primary key,                          \
     trashed_at bigint default null,                 \
     email text,                                     \

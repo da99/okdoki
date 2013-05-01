@@ -2,7 +2,7 @@
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 
-var table = "labelings";
+var table = '"Labeling"';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {

@@ -1,7 +1,7 @@
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 
-var table = "screen_names";
+var table = '"Screen_Name"';
 var m = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -31,7 +31,7 @@ m.migrate = function (dir, r) {
       Topogo.run(sql, [], j);
     })
     .job(function (j) {
-      Topogo.run("CREATE INDEX ON screen_names (owner_id)", [], j);
+      Topogo.run("CREATE INDEX ON " + table + " (owner_id)", [], j);
     })
     .run();
 

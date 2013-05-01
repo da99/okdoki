@@ -2,7 +2,7 @@
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 
-var table = "follows";
+var table = '"Follow"';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -30,7 +30,7 @@ trashed_at        bigint DEFAULT NULL            \
       Topogo.run(sql, [], j);
     })
     .job(function (j) {
-      Topogo.run("CREATE INDEX ON follows (follower_id);", [], j);
+      Topogo.run("CREATE INDEX ON " + table + " (follower_id);", [], j);
     })
     .run();
   }
