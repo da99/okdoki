@@ -10,11 +10,11 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS \"' + table + "\" ( \n" +
-"owner_id  int PRIMARY KEY,    \
+    var sql = 'CREATE TABLE IF NOT EXISTS \"' + table + "\" ( \n\
+owner_id  int PRIMARY KEY,     \
 title      text default null,  \
-about      text default null" +
-');';
+about      text default null   \
+);";
     r.create(sql);
 
   }

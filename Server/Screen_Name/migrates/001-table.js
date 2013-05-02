@@ -19,8 +19,9 @@ m.migrate = function (dir, r) {
     nick_name           varchar(30) default NULL,     \
     read_able           varchar(100) ARRAY,   \
     non_read_able       varchar(100) ARRAY,   \
-    about               text default NULL,    \
-    trashed_at          bigint default NULL   \
+    about               text DEFAULT null,    \
+    created_at          $now, \
+    trashed_at          timestamptz DEFAULT NULL   \
     )";
 
     r.create(sql, "CREATE INDEX ON \"" + table + "\" (owner_id)");

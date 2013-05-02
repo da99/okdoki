@@ -11,8 +11,10 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + " ( \
-\
+    var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
+    created_at          $now, \n\
+    updated_at          timestamptz DEFAULT NULL,               \n\
+    trashed_at          timestamptz DEFAULT NULL                \n\
     );";
     r.create(sql);
 
