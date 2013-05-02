@@ -1,10 +1,10 @@
 var _         = require('underscore')
 , assert      = require('assert')
-, Customer    = require('okdoki/models/Customer').Customer
-, Screen_Name = require('okdoki/models/Screen_Name').Screen_Name
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
-, h           = require('okdoki/test/helpers')
+, Customer    = require('../Server/Customer/model').Customer
+, Screen_Name = require('../Server/Screen_Name/model').Screen_Name
+, h           = require('./helpers')
 ;
 
 var counter = 0;
@@ -45,7 +45,7 @@ describe( 'Screen_Name', function () {
   describe( 'create:', function () {
     it( 'saves screen_name to datastore', function (done) {
 
-      var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: 'C1'}, push_screen_name_row: function (r) { this.row = r;}};
+      var c = {new_data: {ip: '000000', screen_name: 'mem1'}, data: {id: '0'}, push_screen_name_row: function (r) { this.row = r;}};
 
       River.new(null)
 

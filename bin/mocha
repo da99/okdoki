@@ -7,9 +7,9 @@ echo ""
 
 bin/mocha_file    \
   test/Customer.js    \
+  test/Screen_Name.js \
   "$@"
 
-  # test/Screen_Name.js \
   # test/Chat_Bot.js    \
   # test/Contact.js     \
   # test/Home_Page.js   \
