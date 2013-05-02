@@ -271,7 +271,6 @@ Customer.create = function (new_vals, flow) {
 
   // var ucs  = punycode.ucs2.decode(this.screen_name).join('');
   var seed        = UID.to_float(me.new_data.ip + '' + (new Date).getTime());
-  var customer_id = UID.create_id(seed);
 
   if (!me.is_new)
     return flow.error('Can\'t create an already existing record.');
@@ -291,7 +290,7 @@ Customer.create = function (new_vals, flow) {
     Topogo
     .new(Customer.TABLE_NAME)
     .create({
-      pass_phrase_hash : encode_pass_phrase( customer_id, me.sanitized_data.pass_phrase),
+      pass_phrase_hash : encode_pass_phrase( me.sanitized_data.id, me.sanitized_data.pass_phrase),
       id : me.sanitized_data.id
     }, j);
   })
@@ -318,12 +317,13 @@ Customer.read_by_screen_name = function (opts, flow) {
 
   var c_opts = _.pick(opts, 'screen_name', 'pass_phrase');
 
-  River.new(arguments)
+  River.new(flow)
   .job_must_find('Screen_name', opts.screen_name, function (j) {
     Screen_Name.read_by_screen_name(j.id, j);
   })
   .job_must_find('Customer', opts.screen_name, function (j) {
-    c_opts.id = j.river.last_reply().data.owner_id;
+    var last = j.river.last_reply();
+    c_opts.id = last.data.owner_id;
     Customer.read_by_id(c_opts, j);
   })
   .run();

@@ -117,10 +117,10 @@ describe( 'Customer', function () {
     it( 'executes not found func', function (done) {
       River.new(null)
       .next('not_found', function (j) {
-        assert.equal(j.job.error.message, 'Customer, no-id, not found.');
+        assert.equal(j.job.error.message, 'Customer, 0, not found.');
         done();
       })
-      .job('read empty:', 'no-id', [Customer, 'read_by_id', 'no-id'])
+      .job('read empty:', 'no-id', [Customer, 'read_by_id', '0'])
       .run(h.throw_it);
     });
 

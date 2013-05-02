@@ -190,7 +190,7 @@ S.read_by_id = function (id, flow) {
 };
 
 S.read_by_screen_name = function (n, flow) {
-  River.new(arguments)
+  River.new(flow)
   .job('read screen name:', n, function (j) {
     Topogo.new(TABLE_NAME).read_one({screen_name: n.toUpperCase()}, j)
   })
