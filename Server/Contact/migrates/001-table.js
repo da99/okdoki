@@ -10,11 +10,11 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS ' + table + '" (  \
+    var sql = 'CREATE TABLE IF NOT EXISTS \"' + table + '" (  \
 id            serial PRIMARY KEY,                       \
 \"from_id\"   int DEFAULT NULL,                         \
 \"to_id\"     int DEFAULT NULL,                         \
-trashed_at    bigint DEFAULT NULL                       \
+trashed_at    $null_tz                                  \
 , CONSTRAINT unique_from_id UNIQUE (\"from_id\", \"to_id\") \
     );';
     r.create(sql);

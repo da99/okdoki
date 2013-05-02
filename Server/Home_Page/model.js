@@ -3,9 +3,9 @@ var _         = require('underscore')
 , Check       = require('da_check').Check
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
-, Customer    = require('./Customer').Customer
-, Screen_Name = require('./Screen_Name').Screen_Name
-, h           = require('okdoki/lib/base')
+, Customer    = require('../Customer/model').Customer
+, Screen_Name = require('../Screen_Name/model').Screen_Name
+, h           = require('../App/base')
 ;
 
 var Home_Page  = exports.Home_Page = function () {};
@@ -31,9 +31,9 @@ Home_Page.new = function (row) {
 };
 
 
-// ****************************************************************
-// ****************** Create **************************************
-// ****************************************************************
+// ================================================================
+// ================== Create ======================================
+// ================================================================
 
 var Validate_Create = Check.new('create home page', function (vc) {
   vc.define('title', function (vador) {
@@ -77,9 +77,9 @@ Home_Page.create = function (vals, flow) {
 };
 
 
-// ****************************************************************
-// ****************** Read ****************************************
-// ****************************************************************
+// ================================================================
+// ================== Read ========================================
+// ================================================================
 
 Home_Page.read = function (vals, flow) {
   var from        = vals.from;
@@ -111,18 +111,18 @@ Home_Page.read = function (vals, flow) {
   var vals = [screen_name];
   var sql = "\
     SELECT home_page.title, home_page.about        \
-    FROM $sn LEFT JOIN home_pages         \
-      ON $sn.id = home_pages.owner_id     \
-        AND $sn.screen_name = UPPER($1)   \
-      LEFT JOIN $sn from                  \
+    FROM \"$sn\" LEFT JOIN home_pages         \
+      ON \"$sn\".id = home_pages.owner_id     \
+        AND \"$sn\".screen_name = UPPER($1)   \
+      LEFT JOIN \"$sn\" from                  \
         ON from.screen_name = UPPER($2)            \
     WHERE                                          \
       (                                            \
-         $sn.read_able = 'W'                       \
+         \"$sn\".read_able = 'W'                       \
          OR                                        \
-         from.id = ANY $sn.read_able_list          \
+         from.id = ANY \"$sn\".read_able_list          \
       )                                            \
-      AND from.id != ANY $sn.un_read_able_list     \
+      AND from.id != ANY \"$sn\".un_read_able_list     \
     LIMIT 1                                        \
   ;".replace(/\$sn/g, Screen_Name.TABLE_NAME);
 
@@ -135,9 +135,9 @@ Home_Page.read = function (vals, flow) {
 };
 
 
-// ****************************************************************
-// ****************** Update **************************************
-// ****************************************************************
+// ================================================================
+// ================== Update ======================================
+// ================================================================
 
 var Validate_Update = Check.new('update home page', function (vc) {
   vc.define('owner', Validate_Create);

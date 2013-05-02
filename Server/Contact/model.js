@@ -1,14 +1,14 @@
 
 var _         = require('underscore')
 , Topogo          = require('topogo').Topogo
-, UID         = require('okdoki/lib/UID').UID
 , River       = require('da_river').River
-, Customer    = require('./Customer').Customer
-, Screen_Name = require('./Screen_Name').Screen_Name
+, Customer    = require('../Customer/model').Customer
+, Screen_Name = require('../Screen_Name/model').Screen_Name
+, UID         = require('../App/UID').UID
 ;
 
 var Contact    = exports.Contact = function () {};
-var TABLE_NAME = Contact.TABLE_NAME = 'contacts';
+var TABLE_NAME = Contact.TABLE_NAME = 'Contact';
 var TABLE      = Contact.TABLE = Topogo.new(TABLE_NAME);
 var WORLD      = '@W';
 
@@ -78,7 +78,7 @@ Contact.create = function (new_vals, flow) {
     if (existing && existing.trashed_at)
       return Contact.new(existing).update({trashed_at: null}, j);
 
-    var insert_vals = {id: UID.create_id(), from_id: from_id, to_id: to_id};
+    var insert_vals = {from_id: from_id, to_id: to_id};
     TABLE.create(insert_vals, j);
   })
 

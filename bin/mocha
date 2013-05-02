@@ -5,14 +5,14 @@
 set -e -u -o pipefail
 echo ""
 
-bin/mocha_file    \
+bin/mocha_file        \
   test/Customer.js    \
   test/Screen_Name.js \
+  test/Home_Page.js   \
   "$@"
 
   # test/Chat_Bot.js    \
   # test/Contact.js     \
-  # test/Home_Page.js   \
   # test/Post.js        \
   # test/IM.js          \
 # NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"

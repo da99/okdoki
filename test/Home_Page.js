@@ -3,11 +3,11 @@ var _         = require('underscore')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
 , Check       = require('da_check').Check
-, Customer    = require('okdoki/models/Customer').Customer
-, Screen_Name = require('okdoki/models/Screen_Name').Screen_Name
-, Home_Page   = require('okdoki/models/Home_Page').Home_Page
-, Contact     = require('okdoki/models/Contact').Contact
-, h           = require('okdoki/test/helpers')
+, Customer    = require('../Server/Customer/model').Customer
+, Screen_Name = require('../Server/Screen_Name/model').Screen_Name
+, Home_Page   = require('../Server/Home_Page/model').Home_Page
+, Contact     = require('../Server/Contact/model').Contact
+, h           = require('./helpers')
 ;
 
 function read(from, to, flow) {

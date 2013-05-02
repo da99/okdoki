@@ -15,7 +15,7 @@ process.on('SIGINT',  close);
 process.on('exit',    close);
 
 exports.open_screen_names = function (j) {
-  var sql = "UPDATE " + Screen_Name.TABLE_NAME + " SET read_able = ARRAY[ '@W' ] RETURNING id ; ";
+  var sql = "UPDATE \"" + Screen_Name.TABLE_NAME + "\" SET read_able = ARRAY[ '@W' ] RETURNING id ; ";
   var vals = [];
   Topogo.run( Topogo.new(Screen_Name.TABLE_NAME), sql, vals, j);
 };
