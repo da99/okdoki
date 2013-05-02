@@ -5,7 +5,10 @@
 set -u
 set -e
 set -o pipefail
-set -x
+
+flips="$@"
+js="Client/js"
+base_file="$js/okdoki.js"
 
 if [[ ! "$@" == *skip_os* ]]
 then
@@ -29,12 +32,15 @@ then
   # npm rebuild hiredis
 fi
 
-js="Client/js"
-base_file="$js/okdoki.js"
+
 function re_download {
+set +x
+if [[ ! "$flips" == *skip_download* ]]
+then
   rm -f "$1"
   wget -O "$1" "$2"
-  cat "$1"   >> "$base_file"
+fi
+cat "$1"   >> "$base_file"
 }
 
 echo "" > "$base_file"

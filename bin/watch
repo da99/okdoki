@@ -78,8 +78,8 @@ function is_static(f) {
 }
 
 function upgrade() {
-  shell("bin/upgrade skip_npm skip_os", function () {
-    console.log("JS files re-downloaded.");
+  shell("bin/upgrade skip_npm skip_os skip_download", function () {
+    console.log("JS files re-combined.\n");
   });
 }
 
