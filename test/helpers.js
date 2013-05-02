@@ -36,18 +36,16 @@ exports.utc_diff = function (date) {
   return exports.utc_timestamp() - date;
 }
 exports.is_recent = function (date) {
-  if (_.isNumber(date) && !_.isNaN(date))
-    return ((new Date()).getTime() - date) < 500;
-  return exports.utc_diff(date) < 1000;
+  return ((new Date).getTime() - date.getTime()) < 80;
 }
 
 exports.ago = function (english) {
   switch (english) {
     case '-1d -22h':
-      return exports.utc_timestamp() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 *22);
+      return (new Date( (new Date).getTime() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 *22) ));
       break;
     case '-3d':
-      return exports.utc_timestamp() - (1000 * 60 * 60 * 24 * 3);
+      return (new Date( (new Date).getTime() - (1000 * 60 * 60 * 24 * 3) ));
       break;
     default:
       throw new Error('Unknown: ' + english);

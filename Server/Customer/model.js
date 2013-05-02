@@ -472,14 +472,7 @@ Customer.delete_trashed = function (flow) {
 
     final.customers = rows;
 
-    var sql = "DELETE FROM " + Screen_Name.TABLE_NAME +
-      " WHERE owner_id IN ( " + _.map(rows, function (n, i) {
-      return "$" + (i + 1);
-    }).join(', ') + " ) RETURNING * ;"
-
-    Topogo
-    .run(Topogo.new(TABLE_NAME), sql, _.pluck(rows, 'id'), j);
-
+    Screen_Name.delete_by_owner_ids(_.pluck(rows, 'id'), j);
   })
 
   .job(function (j, sn_rows) {

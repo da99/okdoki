@@ -77,7 +77,7 @@ describe( 'Customer', function () {
       assert.deepEqual(customer.screen_names(), [screen_name.toUpperCase()]);
     });
 
-    it( 'saves Customer id to Customer ovject', function (done) {
+    it( 'saves Customer id to Customer object', function (done) {
       var c = customer;
 
       // Has the customer id been saved?
@@ -193,11 +193,11 @@ describe( 'Customer', function () {
 
   describe( 'trash', function () {
 
-    it( 'it updates Customer trashed_at date.', function (done) {
+    it( 'it updates Customer trashed_at date', function (done) {
       var f = '%Y-%m-%dT%H:%M';
       River.new('trash customer', null)
       .job('trash customer', customer_id, [customer, 'trash'])
-      .job('assert trashed_at changed', function (j) {
+      .job('assert trashed_at changed', function (j, last) {
         assert.equal(h.is_recent(customer.data.trashed_at), true);
         j.finish(customer);
       })

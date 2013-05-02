@@ -12,13 +12,13 @@ var WORLD = '@W';
 var TABLE_NAME = 'Screen_Name';
 var banned_screen_names = [
   '^megauni',
+  '^miniuni',
   '^okdoki',
   '^pet-',
+  '^bot-',
   '^(online|contact|info|official|about|news|home)$',
   '^(undefined|def|sex|sexy|xxx|ted|larry)$',
-  '^coke$',
-  '^[.]+-cola$',
-  'pepsi'
+  '^[.]+-cola$'
 ];
 
 // ================================================================
@@ -175,7 +175,7 @@ S.create = function (customer, job) {
 // ================================================================
 
 S.prototype.is_world_read_able = function () {
-  return _.contains(this.data.read_able || [], WORLD); 
+  return _.contains(this.data.read_able || [], WORLD);
 };
 
 S.read_by_id = function (id, flow) {
@@ -438,6 +438,14 @@ S.delete_trashed = function (flow) {
   .delete_trashed(flow);
 };
 
+S.delete_by_owner_ids = function (arr, flow) {
+  var sql = "DELETE FROM \"" + TABLE_NAME + "\" WHERE owner_id IN ( " +
+    _.map(arr, function (n, i) { return "$" + (i + 1); }).join(', ') + 
+    " ) RETURNING * ;";
+
+  Topogo
+  .run(sql, arr, flow);
+};
 
 
 

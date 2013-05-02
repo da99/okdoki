@@ -21,9 +21,9 @@
     , "chokidar"          : "x.x.x"
     , "blade"             : "x.x.x"
 
-    , "topogo"            : "0.x.x"
-    , "da_river"          : "0.x.x"
-    , "da_check"          : "0.x.x"
+    , "topogo"            : "x.x.x"
+    , "da_river"          : "x.x.x"
+    , "da_check"          : "x.x.x"
     , "duck_duck_duck"    : "x.x.x"
   },
 
