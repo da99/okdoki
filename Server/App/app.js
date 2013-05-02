@@ -11,8 +11,8 @@ var _         = require('underscore')
 , River       = require('da_river').River
 ;
 
-var Customer  = require('../Customer/Customer').Customer
-, Screen_Name = require('../Screen_Name/Screen_Name').Screen_Name
+var Customer  = require('../Customer/model').Customer
+, Screen_Name = require('../Screen_Name/model').Screen_Name
 , Chat_Bot    = require('../Chat/Chat_Bot').Chat_Bot
 ;
 

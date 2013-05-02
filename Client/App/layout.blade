@@ -34,7 +34,9 @@ html(lang='en')
 
     script(type="text/_csrf", id="_csrf")
       | #{_csrf}
-    script(src='/akui_tests/window.onerror.js')
+
+    - if(is_testing)
+      script(src='/akui_tests/window.onerror.js')
 
     script(src='/js/okdoki.js')
     block scripts

@@ -8,7 +8,6 @@ echo ""
 bin/mocha_file        \
   test/Customer.js    \
   test/Screen_Name.js \
-  test/Home_Page.js   \
   "$@"
 
   # test/Chat_Bot.js    \
