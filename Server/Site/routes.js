@@ -20,12 +20,9 @@ OK.get( '/' , function (i) {
 });
 
 OK.post('/create-account', function (req, resp, next) {
-  var session = App.new(req.body);
-  session.on('error', next);
-  session.on('end', function () {
-    resp.json({success: false});
-  });
-  session.trigger('create:customer');
+  var vals = req.body;
+  vals.success = false;
+  resp.json(vals);
 });
 
 OK.get('/keywords/:keywords', function (req, resp, next) {

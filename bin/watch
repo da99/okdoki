@@ -74,7 +74,7 @@ var watched_dirs  = [];
 var server_started = false
 
 function is_static(f) {
-  return !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
+  return !f.match('Server/') && !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
 }
 
 function upgrade() {
@@ -107,7 +107,7 @@ watch( ["Client/js/_base.js"] )
 
 watch( ["Server/", "Client/", 'test/ui'] )
 .on('add', function (f) {
-  if (is_static)
+  if (is_static(f))
     return;
 
   if (!server_started)

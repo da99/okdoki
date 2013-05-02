@@ -12,20 +12,30 @@ $(function () {
     return false;
   };
 
-  var show_form = function ( name ) {
+  var show_form = function ( e ) {
+    e.stopPropagation();
     reset_forms();
 
     // show
-    $('#' + name).show();
-    $('#forms a.' + name).addClass("selected");
+    var sel = $(this).attr('href');
+    $(sel).show();
+    $(this).addClass("selected");
     return false;
   }
 
-  $('#forms a.sign_in').click( func(show_form, 'sign_in'));
-  $('#forms a.create_account').click( func(show_form, 'create_account'));
+  on_click('#forms a.show', show_form );
+  on_click('#forms a.cancel', reset_forms);
 
-  $('#forms a.cancel').click(reset_forms);
-  $('#forms button.submit').click(submit);
+  on_response('#create_account', function (f) {
+
+    f.on_success(function (data) {
+      console.log("success", data);
+    });
+
+    f.on_invalid(function (data) {
+      console.log('invalid', data);
+    });
+  });
 
   App.on('submit:sign_in', function () {
     hide_forms();
@@ -44,7 +54,9 @@ $(function () {
     }));
   });
 
+
   return;
+
   Forms.Submit_Button('#submit_form_create_screen_name', {
     after_success: function (o) {
       if (!o.screen_name)

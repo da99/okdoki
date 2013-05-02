@@ -288,7 +288,21 @@ Hyper_JS.prototype.delete_where = function (field, new_model) {
 
 
 
+/*
+ *  Copyright 2012-2013 (c) Pierre Duquesne <stackp@online.fr>
+ *  Licensed under the New BSD License.
+ *  https://github.com/stackp/promisejs
+ */
+(function(a){function b(a,b){return function(){return a.apply(b,arguments);};}function c(){this._callbacks=[];}c.prototype.then=function(a,c){var d=b(a,c);if(this._isdone)d(this.error,this.result);else this._callbacks.push(d);};c.prototype.done=function(a,b){this._isdone=true;this.error=a;this.result=b;for(var c=0;c<this._callbacks.length;c++)this._callbacks[c](a,b);this._callbacks=[];};function d(a){var b=a.length;var d=0;var e=new c();var f=[];var g=[];function h(a){return function(c,h){d+=1;f[a]=c;g[a]=h;if(d===b)e.done(f,g);};}for(var i=0;i<b;i++)a[i]().then(h(i));return e;}function e(a,b,d){var f=new c();if(a.length===0)f.done(b,d);else a[0](b,d).then(function(b,c){a.splice(0,1);e(a,b,c).then(function(a,b){f.done(a,b);});});return f;}function f(a){var b="";if(typeof a==="string")b=a;else{var c=encodeURIComponent;for(var d in a)if(a.hasOwnProperty(d))b+='&'+c(d)+'='+c(a[d]);}return b;}function g(){var a;if(window.XMLHttpRequest)a=new XMLHttpRequest();else if(window.ActiveXObject)try{a=new ActiveXObject("Msxml2.XMLHTTP");}catch(b){a=new ActiveXObject("Microsoft.XMLHTTP");}return a;}function h(b,d,e,h){var i=new c();var j,k;e=e||{};h=h||{};try{j=g();}catch(l){i.done(-1,"");return i;}k=f(e);if(b==='GET'&&k){d+='?'+k;k=null;}j.open(b,d);j.setRequestHeader('Content-type','application/x-www-form-urlencoded');for(var m in h)if(h.hasOwnProperty(m))j.setRequestHeader(m,h[m]);function n(){j.abort();i.done(a.promise.ETIMEOUT,"");};var o=a.promise.ajaxTimeout;if(o)var p=setTimeout(n,o);j.onreadystatechange=function(){if(o)clearTimeout(p);if(j.readyState===4)if(j.status===200)i.done(null,j.responseText);else i.done(j.status,j.responseText);};j.send(k);return i;}function i(a){return function(b,c,d){return h(a,b,c,d);};}var j={Promise:c,join:d,chain:e,ajax:h,get:i('GET'),post:i('POST'),put:i('PUT'),del:i('DELETE'),ENOXHR:1,ETIMEOUT:2,ajaxTimeout:0};if(typeof define==='function'&&define.amd)define(function(){return j;});else a.promise=j;})(this);/*!
+  SerializeJSON jQuery plugin.
+  https://github.com/marioizquierdo/jquery.serializeJSON
+  version 1.0.1 (Aug 20, 2012)
 
+  Copyright (c) 2012 Mario Izquierdo
+  Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
+  and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+*/
+(function(b){b.fn.serializeJSON=function(){var d,c;d={};c=this.serializeArray();b.each(c,function(g,e){var f,j,h;f=e.name;j=e.value;h=b.map(f.split("["),function(i){var k;k=i[i.length-1];return k==="]"?i.substring(0,i.length-1):i});if(h[0]===""){h.shift()}b.deepSet(d,h,j)});return d};var a=function(c){return c===Object(c)};b.deepSet=function(c,k,g){if(!k||k.length===0){throw new Error("ArgumentError: keys param expected to be an array with least one key")}var i,d,f,h,j,e;i=k[0];d=k[1];if(d!==undefined&&d!==null){f=k.slice(1);if(i===""){j=c.length-1;e=c[c.length-1];if(a(e)&&!e[d]){i=j}else{c.push({});i=j+1}}if(c[i]===undefined){h=(d===""||!isNaN(parseInt(d,10)))?[]:{};c[i]=h}b.deepSet(c[i],f,g)}else{if(i===""){c.push(g)}else{c[i]=g}}}}(jQuery));
 var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
 var base_url = window.location.href.replace(/\/$/, '');
 var App  = _.extend({}, Backbone.Events);
@@ -297,7 +311,12 @@ App.on('all', function (name) {
   log("event: " + name);
 });
 
-function _csrf() {
+function _csrf(obj) {
+  if (obj) {
+    obj['X-CSRF-Token'] = _csrf();
+    obj['_csrf'] = _csrf();
+    return obj;
+  }
   return $.trim($('#_csrf').text());
 }
 
@@ -312,7 +331,122 @@ function func() {
   return _.partial.apply(_, arguments);
 }
 
+// ================================================================
+// ================== DSL =========================================
+// ================================================================
+
+var form_meta = {};
+
+function on_response(selector, func) {
+  if (!form_meta[selector]) {
+    form_meta[selector] = {
+      error: function (err, result) {
+        log("http error:", err, result);
+      },
+      success: function (result) {
+        log("success: ", result);
+      },
+      invalid: function (result) {
+        log('invalid: ', result);
+      }
+    };
+
+    $(selector).find('button.submit').click(function (e) {
+      e.stopPropagation();
+
+      var form = $($(this).closest('form'));
+      var url = form.attr('action');
+      post(url, form_to_json(form), function (err, result) {
+        if (err) {
+          form_meta[selector].error(err, result);
+        } else  {
+          if (result.success)
+            form_meta[selector].success(result);
+          else
+            form_meta[selector].invalid(result);
+        }
+      });
+
+      return false;
+    });
+  }
+
+  func({
+    on_success: function (on_s) {
+      form_meta[selector].success = function (result) {
+        on_s(result);
+      };
+    },
+    on_error: function (on_e) {
+      form_meta[selector].error = function (err, result) {
+        on_e(result);
+      };
+    },
+    on_invalid: function (on_i) {
+      form_meta[selector].invalid = function (result) {
+        on_i(result);
+      };
+    }
+  });
+
+  return null;
+}
+
+function on_click(selector, func) {
+  var e = $(selector);
+  if (!e.length) {
+    log("None found for: " + selector);
+  }
+
+  e.click(function (ev) {
+    func.apply(this, arguments);
+    return false;
+  });
+
+  return e;
+}
+
+
+// ==========================================================
+// Example:
+//
+//   post(url, data, [headers], function ([err], result) {});
+//
+// ==========================================================
+function post() {
+  var args = _.toArray(arguments);
+  var func = args.pop();
+  var new_func = function (err, results) {
+    if (func.length === 2) {
+      func(err, results);
+    } else {
+      if (err)
+        log(err);
+      else
+        func(results);
+      return;
+    }
+  };
+  var prom = promise.post.apply(promise, args);
+  return prom.then(new_func);
+}
+
+function form_to_json(selector) {
+  var e = $(selector).closest('form');
+  if (!e.length) {
+    log("No form found for: " + selector);
+    return;
+  }
+  return _csrf( $(e).serializeJSON() );
+}
+
+// ================================================================
+// ================== Old Code ====================================
+// ================================================================
+
+
 function List() {}
+
 List.new = function (arr, ele, funcs) {
   var a   = new List;
   var me  = a;
@@ -327,6 +461,7 @@ List.new = function (arr, ele, funcs) {
   });
   return a;
 };
+
 List.prototype.push = function (e) {
   this.list.push(e);
   $(this.ele).append(this.html);

@@ -1,9 +1,9 @@
 
 div(id='forms')
   div.tabs
-    a.sign_in(href="#sign_in") Log-In
+    a.show(href="#sign_in") Log-In
     span.or ~ or ~
-    a.create_account(href="#create_account") Create New Account
+    a.show(href="#create_account") Create New Account
 
   form(id='sign_in', action='/sign-in', method='post')
     div.fields
