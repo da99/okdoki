@@ -134,7 +134,7 @@ watch( ["Server/", "Client/", 'test/ui'] )
 ;
 
 
-watch( "Client/applets" )
+watch( "Client/" )
 .on('add', function (f) {
   if (!server_started)
     return;

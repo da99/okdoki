@@ -7,6 +7,56 @@ App.on('all', function (name) {
   log("event: " + name);
 });
 
+function do_nothing() { }
+
+function trigger() {
+  return App.trigger.apply(App, arguments);
+}
+
+function on() {
+  return App.on.apply(App, arguments);
+}
+
+function log_length(se, orig) {
+  var e = $(se);
+  if (!e.length)
+    log('None found for: ' + (orig || se));
+  return e;
+}
+
+function show(se) {
+  return log_length(se).show();
+}
+
+function hide(se) {
+  return log_length(se).hide();
+}
+
+// ================================================================
+// ================== Templates ===================================
+// ================================================================
+
+function pull_template(se) {
+  return $($('#templates').html()).closest(se);
+}
+
+function draw_collection(se) {
+  var e = $(se);
+  if (!e.length) {
+    return {to: function (target) {
+      log('Drawing: ' + se);
+      $(target).append(pull_template(se));
+    }};
+  }
+
+  return {to: do_nothing};
+}
+
+// ================================================================
+// ================== Etc. ========================================
+// ================================================================
+
+
 function _csrf(obj) {
   if (obj) {
     obj['X-CSRF-Token'] = _csrf();
@@ -33,7 +83,7 @@ function func() {
 
 var form_meta = {};
 
-function on_response(selector, func) {
+function form(selector, func) {
   if (!form_meta[selector]) {
     form_meta[selector] = {
       error: function (err, result) {
@@ -52,14 +102,21 @@ function on_response(selector, func) {
 
       var form = $($(this).closest('form'));
       var url = form.attr('action');
-      post(url, form_to_json(form), function (err, result) {
+      var data = form_to_json(form);
+      var headers = {
+        'X-CSRF-Token': _csrf(),
+        'Accept': 'application/json',
+        'Accept-Charset': 'utf-8'
+      };
+      post(url, data, headers, function (err, raw) {
         if (err) {
-          form_meta[selector].error(err, result);
+          form_meta[selector].error(err, raw);
         } else  {
-          if (result.success)
-            form_meta[selector].success(result);
+          var data = (typeof raw === 'string') ? JSON.parse(raw) : raw;
+          if (data.success)
+            form_meta[selector].success(data);
           else
-            form_meta[selector].invalid(result);
+            form_meta[selector].invalid(data);
         }
       });
 
@@ -67,25 +124,29 @@ function on_response(selector, func) {
     });
   }
 
-  func({
-    on_success: function (on_s) {
-      form_meta[selector].success = function (result) {
-        on_s(result);
-      };
-    },
-    on_error: function (on_e) {
-      form_meta[selector].error = function (err, result) {
-        on_e(result);
-      };
-    },
-    on_invalid: function (on_i) {
-      form_meta[selector].invalid = function (result) {
-        on_i(result);
-      };
-    }
-  });
+  var e = $(selector);
 
-  return null;
+  e.on_success = function (on_s) {
+    form_meta[selector].success = function (result) {
+      on_s(result);
+    };
+  };
+
+  e.on_error = function (on_e) {
+    form_meta[selector].error = function (err, result) {
+      on_e(result);
+    };
+  };
+
+  e.on_invalid = function (on_i) {
+    form_meta[selector].invalid = function (result) {
+      on_i(result);
+    };
+  }
+
+  func(e);
+
+  return e;
 }
 
 function on_click(selector, func) {

@@ -282,7 +282,6 @@ a.author {
 #sidebar {
   float: left;
 }
-#control_center {
-  display: none;
+#content {
   float: right;
 }

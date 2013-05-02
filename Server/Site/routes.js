@@ -20,9 +20,7 @@ OK.get( '/' , function (i) {
 });
 
 OK.post('/create-account', function (req, resp, next) {
-  var vals = req.body;
-  vals.success = false;
-  resp.json(vals);
+  resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});
 });
 
 OK.get('/keywords/:keywords', function (req, resp, next) {
