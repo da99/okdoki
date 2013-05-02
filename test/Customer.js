@@ -15,7 +15,7 @@ var screen_name    = 'mem1';
 var pass_phrase    = "this is my password";
 var screen_name_2  = 'go2';
 var screen_name_id = null;
-var h = require('okdoki/test/helpers');
+var h = require('./helpers');
 
 describe( 'Customer', function () {
 
@@ -28,8 +28,8 @@ describe( 'Customer', function () {
     River.new(null)
     .job('clear data', [Customer, 'delete_all'])
     .job('create:', screen_name, [Customer, 'create', vals])
-    .job('read:', screen_name, function (j) {
-      customer_id = j.river.last_reply().sanitized_data.id;
+    .job('read:', screen_name, function (j, last) {
+      customer_id = last.data.id;
       Customer.read_by_id(customer_id, j);
     })
     .run(function (r, last) {

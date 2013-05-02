@@ -291,13 +291,13 @@ Customer.create = function (new_vals, flow) {
     Topogo
     .new(Customer.TABLE_NAME)
     .create({
-      pass_phrase_hash : encode_pass_phrase( customer_id, me.sanitized_data.pass_phrase)
+      pass_phrase_hash : encode_pass_phrase( customer_id, me.sanitized_data.pass_phrase),
+      id : me.sanitized_data.id
     }, j);
   })
 
   .job(function (c_flow, last) {
     me.is_new              = false;
-    me.sanitized_data.id   = last[0].id;
     me.sanitized_data.seed = seed;
 
     return c_flow.finish(me);
@@ -332,7 +332,7 @@ Customer.read_by_screen_name = function (opts, flow) {
 
 Customer.read_by_id = function (opts, flow) {
 
-  if (_.isString(opts))
+  if (_.isString(opts) || _.isNumber(opts))
     opts = {id: opts};
 
   var me          = new Customer();

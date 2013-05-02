@@ -24,3 +24,6 @@
 
 - Server tokens: http://arstechnica.com/gadgets/2012/11/how-to-set-up-a-safe-and-secure-web-server/4/
 
+- Ensure tiemzone of postgrsql "/etc/postgresql/9.2/main/postgresql.conf"
+  is: timezone = 'UTC'
+  http://justatheory.com/computers/databases/postgresql/use-timestamptz.html

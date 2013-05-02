@@ -149,7 +149,18 @@ S.create = function (customer, job) {
     Topogo.new(TABLE_NAME).create(insert_data, j);
 
   })
-
+  .job(function (j, r) {
+    if (customer.data.id)
+      return j.finish(r);
+    River.new()
+    .job(function (j) {
+      Topogo.new(TABLE_NAME).update(r.id, {owner_id: r.id}, j);
+    })
+    .run(function () {
+      customer.data.id = customer.sanitized_data.id = r.id;
+      j.finish(r);
+    });
+  })
   .job(function (j, r) {
     customer.push_screen_name_row(_.extend(insert_data, r));
     return j.finish(customer);
