@@ -70,10 +70,12 @@ $(function () {
 
       hide('#forms');
 
-      create_unless('#screen_names') .in(sidebar);
-      $('#screen_names div.content').text('dEmO_' + $('#sign_in div.screen_name input').val() + '_' + $('#create_account div.screen_name input').val());
+      create_unless('#screen_names') .in(sidebar, function () {
+        $('#screen_names div.content')
+        .text('dEmO_' + $('#sign_in div.screen_name input').val() + '_' + $('#create_account div.screen_name input').val());
+      });
 
-      create_unless('#Write') .in(The_Box, function () {
+      create_unless('#Write') .in(sidebar, function () {
         $('#Write button.submit').click(function () {
           log('Post button clicked.');
           $('#Write textarea').text((parseInt(Math.random() * 200)) + ' ::: ' + $($('#IMs div.box div.content')[parseInt(Math.random() * 3)]).text());
