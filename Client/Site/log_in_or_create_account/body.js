@@ -64,7 +64,8 @@ $(function () {
   on_click('#forms a.show', show_form );
   on_click('#forms a.cancel', reset_forms);
 
-  form('#create_account', function (f) {
+
+  var demo_func = function (f) {
 
     f.on_success(function (data) {
 
@@ -93,7 +94,10 @@ $(function () {
       console.log('invalid', data);
     });
 
-  });
+  };
+
+  form('#sign_in', demo_func);
+  form('#create_account', demo_func);
 
   function publish_im(data) {
     var div = $('<div class="box"><div class="content"></div></div>');

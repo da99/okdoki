@@ -31,8 +31,10 @@ OK.get( '/' , function (i) {
   return i.template(opts);
 });
 
-OK.post('/account', function (req, resp, next) {
-  resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});
+_.each(['/account', '/sign-in'], function (url) {
+  OK.post(url, function (req, resp, next) {
+    resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});
+  });
 });
 
 OK.get('/IMs', function (req, resp, next) {
