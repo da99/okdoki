@@ -100,8 +100,10 @@ app.configure(function () {
 
 
   // Static files:
-  // app.use(express.favicon(app_dir + '/public/favicon.ico'));
-  // app.use('/assets', express.static(app_dir + '/public/assets' ));
+  if (process.env.IS_HEROKU) {
+    app.use(express.favicon(app_dir + '/Client/favicon.ico'));
+    app.use('/', express.static(app_dir + '/Client' ));
+  }
 
   // Dynamic stuff:
   app.use(express.bodyParser());
