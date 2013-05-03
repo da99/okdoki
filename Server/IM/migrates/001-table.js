@@ -18,7 +18,7 @@ re_client_id    int default NULL,    \
 \"from_id\"     int NOT NULL,        \
 \"to_id\"       text default 'W',     \
 labels          varchar(15) ARRAY,    \
-body            text                  \
+body            text NOT NULL         \
     );";
     r.create(sql);
   }

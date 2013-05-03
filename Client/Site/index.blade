@@ -27,10 +27,21 @@ append content
             li
               | name: {{name}}, num: {{num}}
 
-    div.box
-      h3 Temp
-      div.content
-        | {{msg}}
+    div.col#Write
+      div.box
+        h3 Write &amp; Post
+        div.content
+          form(action="/IM", method="GET")
+            div.fields
+              div.field
+                textarea
+              div.field.buttons
+                button.submit Post
+
+    div.col#IMs
+      div.box
+        div.content
+          | {{msg}}
 
   div.sidebar#sidebar
 

@@ -3,8 +3,11 @@ var _         = require('underscore')
 , OK          = require('../App/router').OK
 , Views       = require('../App/helpers/Views').Views
 , blade       = require('blade')
+, Topogo      = require('topogo').Topogo
 ;
 
+var MESS = {
+};
 
 OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
@@ -19,8 +22,22 @@ OK.get( '/' , function (i) {
   return i.template(opts);
 });
 
-OK.post('/create-account', function (req, resp, next) {
+OK.post('/account', function (req, resp, next) {
   resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});
+});
+
+OK.get('/IMs', function (req, resp, next) {
+  _.each(MESS, function (im, id) {
+    if (id < ((new Date).getTime() - 6000))
+      delete MESS[id];
+  });
+  resp.json({success: true, ims: MESS});
+});
+
+OK.post('/IM', function (req, resp, next) {
+  var id = (new Date()).getTime();
+  MESS[id] = {body: req.body};
+  resp.json({success: true});
 });
 
 OK.get('/keywords/:keywords', function (req, resp, next) {

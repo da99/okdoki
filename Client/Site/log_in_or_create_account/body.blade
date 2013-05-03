@@ -20,12 +20,11 @@ div(id='forms')
           span.label Passphrase
         input.field(type='password', name="passphrase", value="")
       div.field.buttons
-        input.field(type='hidden', name="_csrf", value="#{token}")
-        button.submit(id='submit_form_sign_in') Log-In
+        button.submit Log-In
         a.cancel(href="#cancel") Cancel
 
 
-  form(id='create_account', action='/create-account', method='post')
+  form(id='create_account', action='/account', method='post')
     div.fields
 
       div.field.screen_name
@@ -50,7 +49,6 @@ div(id='forms')
         //- input.field(type='password', name="confirm_passphrase", value="")
 
       div.field.buttons
-        input.field(type='hidden', name="_csrf", value="#{token}")
-        button.submit(id='submit_form_create_account') Create Account
+        button.submit Create Account
         a.cancel(href="#cancel") Cancel
 
