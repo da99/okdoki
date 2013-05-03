@@ -70,8 +70,8 @@ $(function () {
 
       hide('#forms');
 
-      draw_collection('#screen_names')
-      .to(col());
+      create_unless('#screen_names')
+      .in(col());
 
       trigger('read:screen_name', data);
     });

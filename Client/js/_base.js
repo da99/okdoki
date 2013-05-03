@@ -40,16 +40,16 @@ function pull_template(se) {
   return $($('#templates').html()).closest(se);
 }
 
-function draw_collection(se) {
+function create_unless(se) {
   var e = $(se);
   if (!e.length) {
-    return {to: function (target) {
+    return {'in': function (target) {
       log('Drawing: ' + se);
       $(target).append(pull_template(se));
     }};
   }
 
-  return {to: do_nothing};
+  return {'in': do_nothing};
 }
 
 // ================================================================

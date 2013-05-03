@@ -16,7 +16,6 @@ h1.title {
   font-family: 'Lenka';
   font-weight: 400;
   font-size: 24pt;
-  width: 400px;
   text-align: center;
   margin: 0 0 0;
   line-height: 1.5;
@@ -63,7 +62,6 @@ div.form div.form a.cancel {
   background: #000;
   background: rgba(0,0,0,0.7);
   text-align: center;
-  width: 400px;
   text-align: center;
 }
 #header p,
@@ -280,8 +278,17 @@ a.author {
   padding: 20px 0 0 0;
 }
 #sidebar {
-  float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+}
+#sidebar div.intro {
+  background: transparent;
 }
 #content {
-  float: right;
+  padding: 10px 10px 0 410px;
+}
+#content div.block {
+  max-width: 400px;
 }
