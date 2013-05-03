@@ -20,6 +20,7 @@
     , "nib"               : "x.x.x"
     , "chokidar"          : "x.x.x"
     , "blade"             : "x.x.x"
+    , "Faker"             : "x.x.x"
 
     , "topogo"            : "x.x.x"
     , "da_river"          : "x.x.x"

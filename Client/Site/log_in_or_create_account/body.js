@@ -81,7 +81,33 @@ $(function () {
 
   });
 
+  function publish_im(data) {
+    var div = $('<div class="box"><div class="content"></div></div>');
+    div.find('div.content').text(data.body);
+    var BOX = $('#IMs');
+    BOX.prepend(div);
+    if ($('#IMs div.box').length > 10) {
+      $('#IMs div.box').last().remove();
+      log('removed last');
+    }
+  }
 
+  function read_ims() {
+    log('Getting more ims...');
+    promise.get('/IMs', {}, {'Accept': 'application/json' }).then(function (err, result) {
+      if (err) {
+        log('HTTP GET AJAX error: ', err, result);
+        return;
+      }
+      var obj = JSON.parse(result);
+      _.each(obj.ims, function (im) {
+        publish_im(im);
+      });
+      setTimeout(read_ims, 3000);
+    });
+  }
+
+  read_ims();
 
 
 

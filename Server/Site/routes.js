@@ -3,11 +3,20 @@ var _         = require('underscore')
 , OK          = require('../App/router').OK
 , Views       = require('../App/helpers/Views').Views
 , blade       = require('blade')
+, Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
 ;
 
 var MESS = {
 };
+
+function sample_im() {
+  var id = (new Date).getTime();
+  MESS[id] = {okid: 'm' + id, from_id: 0, from: 'OKDOKI.com',
+    body: Faker.Name.firstName() + ' :: ' + Faker.Lorem.paragraph()
+  };
+  return MESS;
+}
 
 OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
@@ -28,9 +37,12 @@ OK.post('/account', function (req, resp, next) {
 
 OK.get('/IMs', function (req, resp, next) {
   _.each(MESS, function (im, id) {
-    if (id < ((new Date).getTime() - 6000))
+    if (id < ((new Date).getTime() - 3000)) {
+      console.log('Deleting: ', id);
       delete MESS[id];
+    }
   });
+  sample_im();
   resp.json({success: true, ims: MESS});
 });
 
