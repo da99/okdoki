@@ -6,9 +6,8 @@ $(function () {
   // ================== Helpers =====================================
   // ================================================================
 
-  function col() {
-    return $('#content');
-  }
+  var content = $('#content');
+  var sidebar = $('#sidebar');
 
   var hide_forms = function () {
     $('#forms').hide();
@@ -42,9 +41,9 @@ $(function () {
 
   on('submit:sign_in', function () {
     hide_forms();
-    col().show();
+    content.show();
     var html = $('#lifes').html();
-    col().append(Listenize(html, {
+    content.append(Listenize(html, {
       publish_tag : function (e) {
         var form = $(this).parents('div.content');
         var span = form.find('span.get_tag');
@@ -71,7 +70,7 @@ $(function () {
       hide('#forms');
 
       create_unless('#screen_names')
-      .in(col());
+      .in(sidebar);
 
       trigger('read:screen_name', data);
     });

@@ -69,37 +69,40 @@ span.label_mild {
   color: #008eed;
   border-radius: 0;
 }
-div.block {
+div.box {
   padding: 0 0 10px 0;
+  text-align: right;
 }
-div.block h3 {
+div.box h3 {
   background: #008eed;
-  background: rgba(0,142,237,0.6);
+  background: rgba(0,142,237,0.8);
   color: #fff;
-  padding: 5px 15px 8px 15px;
-  font-size: 140%;
+  padding: 2px 20px;
+  font-size: 110%;
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   font-weight: normal;
   margin: 0;
-  border-radius: 5px 5px 0 0;
-  text-align: right;
+  border-radius: 10px 0 0 0;
+  display: inline-block;
 }
-div.block div.content {
+div.box div.content {
   background: #fff;
   padding: 10px;
-  margin: 0 1px 10px 1px;
+  margin: 0;
   border: 0;
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 0;
+  text-align: left;
+  font-size: 140%;
 }
-div.block div.fieldset {
+div.box div.fieldset {
   text-align: right;
 }
-div.block input[type='text'],
-div.block input[type='password'] {
+div.box input[type='text'],
+div.box input[type='password'] {
   width: 90%;
   text-align: left;
 }
-div.block button {
+div.box button {
   margin-top: 5px;
 }
 #intro {

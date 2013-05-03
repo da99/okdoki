@@ -167,15 +167,15 @@ body.logged_in #latest.loading div.body {
   padding: 0;
   float: left;
 }
-#blocks div.block {
+#blocks div.box {
   float: left;
   width: 300px;
   margin: 5px 5px 10px 5px;
 }
-#blocks div.block #latest div.body {
+#blocks div.box #latest div.body {
   padding-top: 0;
 }
-#blocks div.block #create_screen_name input[type='text'] {
+#blocks div.box #create_screen_name input[type='text'] {
   width: 250px;
 }
 #trash_e div.buttons {
@@ -286,9 +286,21 @@ a.author {
 #sidebar div.intro {
   background: transparent;
 }
+#sidebar div.box {
+  margin-top: 10px;
+}
+#sidebar div.box h3 {
+  margin: 0;
+}
+#sidebar div.box div.content {
+  border-radius: 0 0 4px 0;
+  margin: 0;
+}
 #content {
   padding: 10px 10px 0 410px;
 }
-#content div.block {
-  max-width: 400px;
+#content div.box {
+  min-width: 400px;
+  max-width: 500px;
+  float: left;
 }

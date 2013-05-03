@@ -203,7 +203,7 @@ body.logged_in
   float: left
 
 
-  div.block
+  div.box
     float: left
     width: 300px
     margin: 5px 5px 10px 5px
@@ -325,13 +325,23 @@ a.author
   width: $sidebar_width
   div.intro
     background: transparent;
+  div.box
+    margin-top: 10px
+    h3
+      margin: 0
+    div.content
+      border-radius: 0 0 4px 0
+      margin: 0
+
 
 
 
 #content
   padding: 10px 10px 0 ($sidebar_width + 10px)
-  div.block
-    max-width: 400px
+  div.box
+    min-width: 400px
+    max-width: 500px
+    float: left
 
 
 
