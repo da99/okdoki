@@ -43,9 +43,11 @@ function pull_template(se) {
 function create_unless(se) {
   var e = $(se);
   if (!e.length) {
-    return {'in': function (target) {
+    return {'in': function (target, func) {
       log('Drawing: ' + se);
       $(target).append(pull_template(se));
+      if (func)
+        func($(target));
     }};
   }
 

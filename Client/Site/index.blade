@@ -3,6 +3,28 @@ include "../App/layout.blade"
 append scripts
   script(src="/Site/index.js")
 
+append templates
+  div.col#Write
+    div.box
+      h3 Write &amp; Post
+      div.content
+        form(action="/IM", method="GET")
+          div.fields
+            div.field
+              textarea
+                | This does not work yet...
+            div.field.buttons
+              button.submit Post
+
+  div.col#IMs
+    div.box
+      div.content
+        | Sit back and relax. I will
+        | go and stream you the latest news
+        | from smart and/or funny and/or slightly
+        | cRaZaY people.
+
+
 append content
 
   div.col#content
@@ -26,26 +48,6 @@ append content
           ul(list="tags")
             li
               | name: {{name}}, num: {{num}}
-
-    div.col#Write
-      div.box
-        h3 Write &amp; Post
-        div.content
-          form(action="/IM", method="GET")
-            div.fields
-              div.field
-                textarea
-              div.field.buttons
-                button.submit Post
-
-    div.col#IMs
-      div.box
-        div.content
-          | Sit back and relax. I will
-          | go and stream you the latest news
-          | from smart and/or funny and/or slightly
-          | cRaZaY people.
-
   div.sidebar#sidebar
 
     h1.title

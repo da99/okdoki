@@ -313,6 +313,7 @@ a.author {
 }
 #Write div.box div.content textarea {
   width: 270px;
+  min-height: 180px;
 }
 #IMs {
   width: 380px;

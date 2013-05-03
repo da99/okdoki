@@ -350,6 +350,7 @@ $box_margin      = 10px
       padding: $box_margin 0
       textarea
         width: ($write_col_width - ($box_margin * 3))
+        min-height: 180px;
 
 #IMs
   width: 380px;

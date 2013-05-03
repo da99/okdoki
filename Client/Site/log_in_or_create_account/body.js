@@ -6,8 +6,8 @@ $(function () {
   // ================== Helpers =====================================
   // ================================================================
 
-  var content = $('#content');
   var sidebar = $('#sidebar');
+  var The_Box = $('#content');
 
   var hide_forms = function () {
     $('#forms').hide();
@@ -41,9 +41,9 @@ $(function () {
 
   on('submit:sign_in', function () {
     hide_forms();
-    content.show();
+    The_Box.show();
     var html = $('#lifes').html();
-    content.append(Listenize(html, {
+    The_Box.append(Listenize(html, {
       publish_tag : function (e) {
         var form = $(this).parents('div.content');
         var span = form.find('span.get_tag');
@@ -60,6 +60,7 @@ $(function () {
   // ================== DOM EVENTS ==================================
   // ================================================================
 
+
   on_click('#forms a.show', show_form );
   on_click('#forms a.cancel', reset_forms);
 
@@ -69,10 +70,21 @@ $(function () {
 
       hide('#forms');
 
-      create_unless('#screen_names')
-      .in(sidebar);
+      create_unless('#screen_names') .in(sidebar);
+      $('#screen_names div.content').text('dEmO_' + $('#sign_in div.screen_name input').val() + '_' + $('#create_account div.screen_name input').val());
+
+      create_unless('#Write') .in(The_Box, function () {
+        $('#Write button.submit').click(function () {
+          log('Post button clicked.');
+          $('#Write textarea').text((parseInt(Math.random() * 200)) + ' ::: ' + $($('#IMs div.box div.content')[parseInt(Math.random() * 3)]).text());
+          return false;
+        });
+      });
+
+      create_unless('#IMs') .in(The_Box);
 
       trigger('read:screen_name', data);
+      read_ims();
     });
 
     f.on_invalid(function (data) {
@@ -106,8 +118,6 @@ $(function () {
       setTimeout(read_ims, 3000);
     });
   }
-
-  read_ims();
 
 
 
