@@ -38,11 +38,17 @@ else
     fi
   fi
 
+  if [[ ! "$cmd" == "up" ]]
+  then
+    echo "Unknown command: $cmd"
+    exit 1
+  fi
+
   for m in "${mods[@]}"
   do
     cd "Server/$m"
     echo "$m"
-    $bin $@
+    $bin up $@
     cd ../..
   done
 
