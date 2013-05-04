@@ -8,13 +8,13 @@ var _         = require('underscore')
 , h           = require('../App/base')
 ;
 
-var Home_Page  = exports.Home_Page = function () {};
-var TABLE_NAME = Home_Page.TABLE_NAME = 'Home_Page';
-var TABLE      = Home_Page.TABLE = Topogo.new(TABLE_NAME);
+var Uni  = exports.Uni = function () {};
+var TABLE_NAME = Uni.TABLE_NAME = 'Uni';
+var TABLE      = Uni.TABLE = Topogo.new(TABLE_NAME);
 
-Home_Page.new = function (row) {
+Uni.new = function (row) {
 
-  var hp = new Home_Page();
+  var hp = new Uni();
   hp.data = {id: null, owner_id: null, title: null, about: null, };
 
   if (row) {
@@ -55,8 +55,8 @@ var Validate_Create = Check.new('create home page', function (vc) {
   });
 });
 
-Home_Page.create = function (vals, flow) {
-  var me = Home_Page.new();
+Uni.create = function (vals, flow) {
+  var me = Uni.new();
   me.new_data = vals;
 
   if (!Validate_Create.run(me))
@@ -71,7 +71,7 @@ Home_Page.create = function (vals, flow) {
     TABLE.create(new_data, j);
   })
   .job('read table', id_data.screen_name, function (j, row) {
-    Home_Page.read( _.extend({from: id_data['owner']}, id_data, new_data, row), j );
+    Uni.read( _.extend({from: id_data['owner']}, id_data, new_data, row), j );
   })
   .run();
 };
@@ -81,17 +81,17 @@ Home_Page.create = function (vals, flow) {
 // ================== Read ========================================
 // ================================================================
 
-Home_Page.read = function (vals, flow) {
+Uni.read = function (vals, flow) {
   var from        = vals.from;
   var screen_name = vals.screen_name;
 
   if (from.is(screen_name)) {
     var to_id = from.screen_name_id(screen_name);
     var sql = " \
-      SELECT home_page.*         \
-      FROM home_pages            \
+      SELECT *                   \
+      FROM \"" + TABLE_NAME + "\"                  \
       WHERE                      \
-        home_pages.owner_id = $1 \
+          owner_id = $1          \
       LIMIT 1                    \
     ;";
 
@@ -101,7 +101,7 @@ Home_Page.read = function (vals, flow) {
     })
     .job(function (j, row) {
       var new_vals = _.extend({from: from}, row || {});
-      return j.finish(Home_Page.new(new_vals));
+      return j.finish(Uni.new(new_vals));
     })
     .run();
 
@@ -110,26 +110,29 @@ Home_Page.read = function (vals, flow) {
 
   var vals = [screen_name];
   var sql = "\
-    SELECT home_page.title, home_page.about        \
-    FROM \"$sn\" LEFT JOIN home_pages         \
-      ON \"$sn\".id = home_pages.owner_id     \
-        AND \"$sn\".screen_name = UPPER($1)   \
-      LEFT JOIN \"$sn\" from                  \
+    SELECT $uni.title, $uni.about        \
+    FROM $sn LEFT JOIN $uni               \
+      ON $sn.id = $uni.owner_id     \
+        AND $sn.screen_name = UPPER($1)   \
+      LEFT JOIN $sn from                  \
         ON from.screen_name = UPPER($2)            \
     WHERE                                          \
       (                                            \
-         \"$sn\".read_able = 'W'                       \
+         $sn.read_able = 'W'                       \
          OR                                        \
-         from.id = ANY \"$sn\".read_able_list          \
+         from.id = ANY $sn.read_able_list          \
       )                                            \
-      AND from.id != ANY \"$sn\".un_read_able_list     \
+      AND from.id != ANY $sn.un_read_able_list     \
     LIMIT 1                                        \
-  ;".replace(/\$sn/g, Screen_Name.TABLE_NAME);
+  ;"
+  .replace(/\$sn/g, '"' + Screen_Name.TABLE_NAME + '"')
+  .replace(/\$uni/g, '"' + Uni.TABLE_NAME + '"')
+  ;
 
   PG.new(flow)
   .q({sql: sql, vals: vals, limit_1: true})
   .reply(function (row) {
-    return Home_Page.new(row);
+    return Uni.new(row);
   })
   .run();
 };
@@ -146,8 +149,8 @@ var Validate_Update = Check.new('update home page', function (vc) {
   vc.define('about', Validate_Create);
 });
 
-Home_Page.update = function (vals, flow) {
-  var me = Home_Page.new();
+Uni.update = function (vals, flow) {
+  var me = Uni.new();
   me.new_data = vals;
 
   if(!Validate_Update.run(me))
@@ -167,13 +170,13 @@ Home_Page.update = function (vals, flow) {
   .job('create if no found', where.screen_name, function (j) {
     var last_reply = j.river.last_reply();
     if (last_reply.length === 0)
-      Home_Page.create(_.extend({}, where, updated_vals), j);
+      Uni.create(_.extend({}, where, updated_vals), j);
     else
       j.finish(last_reply[0]);
   })
 
   .job(function (j, last) {
-    j.finish( Home_Page.new(last) );
+    j.finish( Uni.new(last) );
   })
 
   .run();
