@@ -5,9 +5,10 @@ cmd="$1"
 set -u -e -o pipefail
 
 mods=( Customer Screen_Name Home_Page Contact Chat Comment Follow Label Post )
-mods=( Customer Screen_Name Home_Page Contact IM );
+mods=( Customer Screen_Name Uni Contact IM );
 
-bin="../../node_modules/duck_duck_duck/bin/duck_duck_duck"
+export DUCK_TEMPLATE=$(pwd)/Server/App/duck_template.js
+bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"
 
 if [[ "$cmd" == "" ]]
 then
