@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u -e -o pipefail
+
+
+git checkout heroku
+git merge master
+npm update
+
+stat="$(git status)"
+if [[ ! "$stat" == *nothing to commit, working directory clean* ]]
+then
+  git_update
+  git commit -m "npm update"
+fi
+
+git push heroku heroku:master
+
+
