@@ -11,7 +11,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = "ALTER TABLE \"" + table + "\" \n\
+    var sql = "ALTER TABLE \"Screen_Name\" \n\
       ADD COLUMN type_id smallint DEFAULT 1 NOT NULL  \n\
     ;";
     r.create(sql);

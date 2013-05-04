@@ -2,6 +2,7 @@
 # -*- bash -*-
 #
 cmd="$1"
+full_cmd="$@"
 set -u -e -o pipefail
 
 mods=( Customer Screen_Name Home_Page Contact Chat Comment Follow Label Post )
@@ -10,10 +11,13 @@ mods=( Customer Screen_Name Uni Contact IM );
 export DUCK_TEMPLATE=$(pwd)/Server/App/duck_template.js
 bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"
 
+
 if [[ "$cmd" == "" ]]
 then
   cmd="up"
+  full_cmd="up $full_cmd"
 fi
+
 
 if [[ "$cmd" == "create" ]]
 then
@@ -37,19 +41,19 @@ else
       echo "This is not a dev machine."
       exit 1
     fi
-  fi
-
-  if [[ ! "$cmd" == "up" ]]
-  then
-    echo "Unknown command: $cmd"
-    exit 1
+  else
+    if [[ ! "$cmd" == "up" ]]
+    then
+      echo "Unknown command: $cmd"
+      exit 1
+    fi
   fi
 
   for m in "${mods[@]}"
   do
     cd "Server/$m"
     echo "$m"
-    $bin up $@
+    $bin $full_cmd
     cd ../..
   done
 
