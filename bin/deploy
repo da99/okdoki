@@ -23,6 +23,5 @@ fi
 
 git push heroku heroku:master
 git checkout master
-git branch
 
 
