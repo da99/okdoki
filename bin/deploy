@@ -4,14 +4,17 @@
 set -u -e -o pipefail
 
 
+mv node_modules /tmp/okdoki_node_modules
+
 git checkout heroku
 git merge master
-npm update
+mv  /tmp/okdoki_node_modules node_modules
 
 stat="$(git status)"
 if [[  "$stat" != *"nothing to commit, working directory clean"* ]]
 then
-  git_update
+  git add .
+  git add -u
   git commit -m "npm update"
 fi
 
