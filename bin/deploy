@@ -4,11 +4,14 @@
 set -u -e -o pipefail
 
 
-mv node_modules /tmp/okdoki_node_modules
+folder="node_modules"
+mv $folder /tmp/okdoki_$folder
 
 git checkout heroku
 git merge master
-mv  /tmp/okdoki_node_modules node_modules
+
+rm -rf $folder
+mv  /tmp/okdoki_$folder $folder
 
 stat="$(git status)"
 if [[  "$stat" != *"nothing to commit, working directory clean"* ]]
