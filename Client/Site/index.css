@@ -300,13 +300,6 @@ a.author {
   padding: 0 0 50px 0;
   overflow: auto;
 }
-#Write {
-  width: 300px;
-  float: left;
-}
-#Write div.box {
-  margin: 10px 10px 0 0;
-}
 #Write div.box div.content {
   text-align: center;
   padding: 10px 0;
@@ -317,17 +310,34 @@ a.author {
 }
 #IMs {
   width: 380px;
-  background-color: rgba(0,0,0,0.7);
-  text-align: center;
+  background: #fff;
   float: left;
-  border-radius: 0 0 5px 5px;
-  padding: 0 0 15px 0;
+  border-radius: 5px;
+  margin: 10px 0 0 0;
 }
 #IMs div.box {
-  margin: auto;
-  padding: 10px 0;
-  width: 350px;
+  border-bottom: 1px dashed #185dad;
+  margin: 0;
+  padding: 3px 7px;
+  border-radius: 5px 5px 0 0;
 }
 #IMs div.box div.content {
-  border-radius: 4px;
+  border-radius: 0;
+  background: transparent;
+  padding: 5px;
+  margin: 0;
+}
+#IMs div.box:last-child {
+  border: 0;
+}
+#IMs div.highlight_up {
+  background: #fff06a;
+  -webkit-transition: background-color 0.9s linear;
+  -moz-transition: background-color 0.9s linear;
+  -ms-transition: background-color 0.9s linear;
+  -o-transition: background-color 0.9s linear;
+  transition: background-color 0.9s linear;
+}
+#IMs div.highlight_down {
+  background: transparent;
 }

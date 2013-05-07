@@ -104,6 +104,10 @@ $(function () {
     div.find('div.content').text(data.body);
     var BOX = $('#IMs');
     BOX.prepend(div);
+    div.addClass('highlight_up');
+    setTimeout(function () {
+      div.addClass('highlight_down');
+    }, 100);
     if ($('#IMs div.box').length > 10) {
       $('#IMs div.box').last().remove();
       log('removed last');
