@@ -13,46 +13,56 @@ div(id='forms')
     span.or ~ or ~
     a.show(href="#create_account") Create New Account
 
-  form(id='sign_in', action='/sign-in', method='post')
-    div.fields
-      div.field.screen_name
-        div
-          span.label Screen name:
-        input.field(type='text', name="screen_name", value="demo")
-      div.field.passphrase
-        div
-          span.label Passphrase
-        input.field(type='password', name="passphrase", value="demo")
-      div.field.buttons
-        button.submit Log-In
-        a.cancel(href="#cancel") Cancel
 
 
-  form(id='create_account', action='/account', method='post')
-    div.fields
 
-      div.field.screen_name
-        div
-          span.label Screen name:
-        input.field(type='text', name="screen_name", value="This does not...")
 
-      div.field.email
-        div
-          span.label Email:
-          span.value  (in case you forget your password)
-        input.field(type='text', name="email", value="work...")
+div.box
+  h3 Log-In
+  div.content
+    form(id='sign_in', action='/sign-in', method='post')
+      div.fields
+        div.field.screen_name
+          div
+            span.label Screen name:
+          input.field(type='text', name="screen_name", value="demo")
+        div.field.passphrase
+          div
+            span.label Passphrase
+          input.field(type='password', name="passphrase", value="demo")
+        div.field.buttons
+          button.submit Log-In
+          a.cancel(href="#cancel") Cancel
 
-      div.field.passphrase
-        div
-          span.label Passphrase:
-        input.field(type='password', name="passphrase", value="demo")
+div.box
+  h3 Create a New Account
+  div.content
+    form(id='create_account', action='/account', method='post')
+      div.fields
 
-      //- div.field.confirm-passphrase
-        //- div
-          //- span.label Confirm Passphrase:
-        //- input.field(type='password', name="confirm_passphrase", value="")
+        div.field.screen_name
+          div
+            span.label Screen name:
+          input.field(type='text', name="screen_name", value="This does not...")
 
-      div.field.buttons
-        button.submit Create Account
-        a.cancel(href="#cancel") Cancel
+        div.field.email
+          div
+            span.label Email:
+            span.value  (in case you forget your password)
+          input.field(type='text', name="email", value="work...")
+
+        div.field.passphrase
+          div
+            span.label Passphrase:
+          input.field(type='password', name="passphrase", value="demo")
+
+        //- div.field.confirm-passphrase
+          //- div
+            //- span.label Confirm Passphrase:
+          //- input.field(type='password', name="confirm_passphrase", value="")
+
+        div.field.buttons
+          button.submit Create Account
+          a.cancel(href="#cancel") Cancel
+
 

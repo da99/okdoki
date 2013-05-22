@@ -9,6 +9,10 @@
 // /* yellows: */
 // /* #FFF175; */
 
+$black              = #000
+$dark_blue          = #185DAD
+$light_blue = #E1EEFF
+$light_black = #6D6D6D
 $sans-serif = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
 html, body
@@ -99,11 +103,12 @@ div.box
     background: #008EED;
     background: rgba(0, 142, 237, 0.8);
     color: #fff;
-    padding: 2px 20px
+    padding: 2px 20px 4px 20px
     font-size: 110%
     font-family: $sans-serif
     font-weight: normal
-    margin: 0 
+    font-style: italic
+    margin: 0
     border-radius: 10px 0 0 0
     display: inline-block
   div.content
@@ -162,6 +167,16 @@ form
   &.trashed div.undo
     display: block;
 
+  div.field
+    padding: 0 0 6px 0
+    span.label, span.value
+      background: transparent
+      color: $dark_blue
+      font-weight: bold
+      font-size: 60%
+      text-transform: uppercase
+    span.value
+      color: $light_black
 
 textarea, select, option
   color: #000;

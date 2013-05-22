@@ -77,10 +77,11 @@ div.box h3 {
   background: #008eed;
   background: rgba(0,142,237,0.8);
   color: #fff;
-  padding: 2px 20px;
+  padding: 2px 20px 4px 20px;
   font-size: 110%;
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   font-weight: normal;
+  font-style: italic;
   margin: 0;
   border-radius: 10px 0 0 0;
   display: inline-block;
@@ -129,6 +130,20 @@ form.trashed div.fields {
 }
 form.trashed div.undo {
   display: block;
+}
+form div.field {
+  padding: 0 0 6px 0;
+}
+form div.field span.label,
+form div.field span.value {
+  background: transparent;
+  color: #185dad;
+  font-weight: bold;
+  font-size: 60%;
+  text-transform: uppercase;
+}
+form div.field span.value {
+  color: #6d6d6d;
 }
 textarea,
 select,
