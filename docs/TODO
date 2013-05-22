@@ -1,4 +1,6 @@
 
+- international domains
+
 - strip all non-okid screen names in im body, then send to bot.
 - add template vars to response IMs from bots:
   @{{SCREEN NAME}}
