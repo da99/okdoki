@@ -176,6 +176,7 @@ form
       font-size: 60%
       text-transform: uppercase
     span.value
+      display: block
       color: $light_black
 
 textarea, select, option

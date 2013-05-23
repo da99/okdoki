@@ -25,7 +25,7 @@ html
 
 body
   background-color: transparent
-  padding: 0 0 0 ($sidebar_width + 10px)
+  padding: 0
 
 h1.title
   text-shadow: black 0.1em 0.1em 0.1em
@@ -319,10 +319,9 @@ a.author
       padding: 20px 0 0 0
 
 #sidebar
-  position: absolute;
-  top: 0;
-  left: 0;
+  float: left
   width: $sidebar_width
+  margin-right: 10px
   div.intro
     background: transparent;
   div.box
@@ -333,9 +332,8 @@ a.author
       border-radius: 0 0 4px 0
       margin: 0
 
-
 #content
-  padding: 0 0 50px 0
+  padding: 0
   overflow: auto
 
 $write_col_width = 300px
@@ -377,5 +375,18 @@ $box_margin      = 10px
   div.highlight_down
     background: transparent;
 
+#Why
+  float: left
+  width: 300px
+  background: rgba(0,0,0,0.7)
+  color: $light_blue
+  padding: 0 0 30px 0
+  h3
+    text-align : center
+    color      : $orange
+    margin-bottom     : 0
+    padding-bottom    : 0
+  div.content
+    margin: 0 15px
 
 

@@ -1,3 +1,4 @@
+
 append templates
   div#screen_names.box
     h3 My Screen Names &amp; Channels
@@ -6,15 +7,6 @@ append templates
     h3 Other Channels
     div.content
       | None... yet.
-
-div(id='forms')
-  div.tabs
-    a.show(href="#sign_in") Log-In
-    span.or ~ or ~
-    a.show(href="#create_account") Create New Account
-
-
-
 
 
 div.box
@@ -28,11 +20,10 @@ div.box
           input.field(type='text', name="screen_name", value="demo")
         div.field.passphrase
           div
-            span.label Passphrase
+            span.label Pass phrase:
           input.field(type='password', name="passphrase", value="demo")
         div.field.buttons
           button.submit Log-In
-          a.cancel(href="#cancel") Cancel
 
 div.box
   h3 Create a New Account
@@ -45,16 +36,22 @@ div.box
             span.label Screen name:
           input.field(type='text', name="screen_name", value="This does not...")
 
-        div.field.email
-          div
-            span.label Email:
-            span.value  (in case you forget your password)
-          input.field(type='text', name="email", value="work...")
+        //- div.field.email
+          //- div
+            //- span.label Email:
+            //- span.value  (in case you forget your password)
+          //- input.field(type='text', name="email", value="work...")
 
         div.field.passphrase
           div
-            span.label Passphrase:
+            span.label Pass phrase:
+            span.value  (for better security, use spaces and words)
           input.field(type='password', name="passphrase", value="demo")
+
+        div.field.confirm_passphrase
+          div
+            span.label Re-type the pass phrase:
+          input.field(type='password', name="confirm_passphrase", value="demo")
 
         //- div.field.confirm-passphrase
           //- div
@@ -63,6 +60,5 @@ div.box
 
         div.field.buttons
           button.submit Create Account
-          a.cancel(href="#cancel") Cancel
 
 

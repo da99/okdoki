@@ -143,6 +143,7 @@ form div.field span.value {
   text-transform: uppercase;
 }
 form div.field span.value {
+  display: block;
   color: #6d6d6d;
 }
 textarea,
