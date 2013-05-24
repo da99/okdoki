@@ -56,32 +56,36 @@ function create_unless(se) {
 
 function after(se) {
   var e = $(se);
-  if (!e.length) {
-    log("Not found: ", se);
-    return false;
-  }
+  var parent = e.parent();
 
-  return {
-    find : function (se) {
-      var e_find = e.find(se);
-      var meths = {
-        draw_text : function (txt) {
-          if (e_find.length)
-            return false;
-          var pieces = se.split('.');
-          var tag = pieces[0];
-          var css = pieces[1];
-          var new_e = $('<' + tag + ' class="' + css + '"></' + tag + '>' );
-          new_e.text(txt);
-          log('drawing--', new_e[0].outerHTML)
-          e.after(new_e);
-          return this;
-        }
-      };
+  var meths = {
+    draw : function (se, txt) {
+      var e_find = parent.find(se);
+      if (e_find.length) {
+        e_find.show();
+        return e_find;
+      }
 
-      return meths;
+      var pieces = se.split('.');
+      var tag = pieces[0];
+      var css = pieces[1];
+      var new_e = $('<' + tag + ' class="' + css + '"></' + tag + '>' );
+      new_e.text(txt);
+      log('drawing:', se, txt);
+      e.after(new_e);
+
+      return new_e;
     }
   };
+
+  if (!e.length) {
+    log('Not found: ', se);
+    _.each(meths, function (v, k) {
+      meths[k] = do_nothing;
+    });
+  }
+
+  return meths;
 }
 
 // ================================================================
@@ -121,21 +125,12 @@ function form(selector, func) {
     return false;
   }
 
+  var loaded = function () {
+    $(selector).find('div.buttons').show();
+    $(selector).find('div.loading').hide();
+  };
+
   form_meta[selector] = {
-    error: function (err, result) {
-      $(selector).find('div.buttons').show();
-      log("http error:", err, result);
-    },
-
-    success: function (result) {
-      $(selector).find('div.buttons').show();
-      log("success: ", result);
-    },
-
-    invalid: function (result) {
-      $(selector).find('div.buttons').show();
-      log('invalid: ', result);
-    }
   };
 
   $(selector).find('button.submit').click(function (e) {
@@ -151,11 +146,11 @@ function form(selector, func) {
     };
 
     $(selector).find('div.buttons').hide();
-    after($(selector).find('div.buttons'))
-    .find('div.loading')
-    .draw_text('processing...');
 
-    return false;
+    after($(selector).find('div.buttons'))
+    .draw('div.loading', 'processing...')
+    ;
+
     post(url, data, headers, function (err, raw) {
       if (err) {
         form_meta[selector].error(err, raw);
@@ -175,21 +170,36 @@ function form(selector, func) {
 
   e.on_success = function (on_s) {
     form_meta[selector].success = function (result) {
+      loaded();
       on_s(result);
     };
   };
 
   e.on_error = function (on_e) {
     form_meta[selector].error = function (err, result) {
+      loaded();
       on_e(result);
     };
   };
 
   e.on_invalid = function (on_i) {
     form_meta[selector].invalid = function (result) {
+      loaded();
       on_i(result);
     };
   }
+
+  e.on_error(function (err, result) {
+    log("http error:", err, result);
+  });
+
+  e.on_success(function (result) {
+    log("success: ", result);
+  });
+
+  e.on_invalid(function (result) {
+    log('invalid: ', result);
+  });
 
   func(e);
 
