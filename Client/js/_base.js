@@ -59,10 +59,9 @@ function after(se) {
   var parent = e.parent();
 
   var meths = {
-    draw : function (se, txt) {
+    draw_if_not_found : function (se, txt) {
       var e_find = parent.find(se);
       if (e_find.length) {
-        e_find.show();
         return e_find;
       }
 
@@ -148,7 +147,8 @@ function form(selector, func) {
     $(selector).find('div.buttons').hide();
 
     after($(selector).find('div.buttons'))
-    .draw('div.loading', 'processing...')
+    .draw_if_not_found('div.loading', 'processing...')
+    .show()
     ;
 
     post(url, data, headers, function (err, raw) {

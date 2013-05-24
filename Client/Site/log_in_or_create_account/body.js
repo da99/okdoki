@@ -45,6 +45,7 @@ $(function () {
     f.on_success(function (data) {
 
       log('success');
+      window.location.href = '/me/' + f.find('input').val();
       return true;
 
       create_unless('#screen_names') .in(sidebar, function () {
