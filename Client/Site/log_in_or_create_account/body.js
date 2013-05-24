@@ -9,27 +9,6 @@ $(function () {
   var sidebar = $('#sidebar');
   var The_Box = $('#content');
 
-  var hide_forms = function () {
-    $('#forms').hide();
-  };
-
-  var reset_forms = function () {
-    $('#forms form').hide();
-    $('#forms a').removeClass("selected");
-    return false;
-  };
-
-  var show_form = function ( e ) {
-    e.stopPropagation();
-    reset_forms();
-
-    // show
-    var sel = $(this).attr('href');
-    $(sel).show();
-    $(this).addClass("selected");
-    return false;
-  }
-
 
   // ================================================================
   // ================== EVENTS ======================================
@@ -61,15 +40,12 @@ $(function () {
   // ================================================================
 
 
-  on_click('#forms a.show', show_form );
-  on_click('#forms a.cancel', reset_forms);
-
-
   var demo_func = function (f) {
 
     f.on_success(function (data) {
 
-      hide('#forms');
+      log('success');
+      return true;
 
       create_unless('#screen_names') .in(sidebar, function () {
         $('#screen_names div.content')

@@ -54,6 +54,36 @@ function create_unless(se) {
   return {'in': do_nothing};
 }
 
+function after(se) {
+  var e = $(se);
+  if (!e.length) {
+    log("Not found: ", se);
+    return false;
+  }
+
+  return {
+    find : function (se) {
+      var e_find = e.find(se);
+      var meths = {
+        draw_text : function (txt) {
+          if (e_find.length)
+            return false;
+          var pieces = se.split('.');
+          var tag = pieces[0];
+          var css = pieces[1];
+          var new_e = $('<' + tag + ' class="' + css + '"></' + tag + '>' );
+          new_e.text(txt);
+          log('drawing--', new_e[0].outerHTML)
+          e.after(new_e);
+          return this;
+        }
+      };
+
+      return meths;
+    }
+  };
+}
+
 // ================================================================
 // ================== Etc. ========================================
 // ================================================================
@@ -70,7 +100,7 @@ function _csrf(obj) {
 
 function log(msg) {
   if (is_dev)
-    return console.log(msg);
+    return console.log.apply(console, arguments);
 
   return null;
 };
@@ -86,45 +116,60 @@ function func() {
 var form_meta = {};
 
 function form(selector, func) {
-  if (!form_meta[selector]) {
-    form_meta[selector] = {
-      error: function (err, result) {
-        log("http error:", err, result);
-      },
-      success: function (result) {
-        log("success: ", result);
-      },
-      invalid: function (result) {
-        log('invalid: ', result);
-      }
+  if (form_meta[selector]) {
+    log('Already formed: ', selector);
+    return false;
+  }
+
+  form_meta[selector] = {
+    error: function (err, result) {
+      $(selector).find('div.buttons').show();
+      log("http error:", err, result);
+    },
+
+    success: function (result) {
+      $(selector).find('div.buttons').show();
+      log("success: ", result);
+    },
+
+    invalid: function (result) {
+      $(selector).find('div.buttons').show();
+      log('invalid: ', result);
+    }
+  };
+
+  $(selector).find('button.submit').click(function (e) {
+    e.stopPropagation();
+
+    var form    = $($(this).closest('form'));
+    var url     = form.attr('action');
+    var data    = form_to_json(form);
+    var headers = {
+      'X-CSRF-Token': _csrf(),
+      'Accept': 'application/json'
+      // 'Accept-Charset': 'utf-8'
     };
 
-    $(selector).find('button.submit').click(function (e) {
-      e.stopPropagation();
+    $(selector).find('div.buttons').hide();
+    after($(selector).find('div.buttons'))
+    .find('div.loading')
+    .draw_text('processing...');
 
-      var form = $($(this).closest('form'));
-      var url = form.attr('action');
-      var data = form_to_json(form);
-      var headers = {
-        'X-CSRF-Token': _csrf(),
-        'Accept': 'application/json',
-        'Accept-Charset': 'utf-8'
-      };
-      post(url, data, headers, function (err, raw) {
-        if (err) {
-          form_meta[selector].error(err, raw);
-        } else  {
-          var data = (typeof raw === 'string') ? JSON.parse(raw) : raw;
-          if (data.success)
-            form_meta[selector].success(data);
-          else
-            form_meta[selector].invalid(data);
-        }
-      });
-
-      return false;
+    return false;
+    post(url, data, headers, function (err, raw) {
+      if (err) {
+        form_meta[selector].error(err, raw);
+      } else  {
+        var data = (typeof raw === 'string') ? JSON.parse(raw) : raw;
+        if (data.success)
+          form_meta[selector].success(data);
+        else
+          form_meta[selector].invalid(data);
+      }
     });
-  }
+
+    return false;
+  });
 
   var e = $(selector);
 
