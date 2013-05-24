@@ -18,6 +18,13 @@ function sample_im() {
   return MESS;
 }
 
+OK.get('/me/:name', function (i) {
+  var req = i.req, resp = i.resp;
+  var opts = Views.default_opts('Screen_Names/me', req, resp)
+  opts['title'] = 'The life of... ' + i.req.params.name;
+  return i.template(opts);
+});
+
 OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
   var opts = Views.default_opts('Site/index', req, resp)
