@@ -4,9 +4,8 @@ body
   padding: 0
   background: #fff url('/img/doodle.gif') repeat-x;
 
-#Me
+#Me, #Create
   width: 300px
-  margin-right: 10px
   h3
     font-family: 'Lenka'
     font-size: 200%
@@ -21,27 +20,33 @@ body
     text-align: center
     font-size: 85%
 
+#Create
+    margin: 0 0 10px 0
+    width: 300px
+    background: rgba(0,0,0,0.6)
+    a:link
+      display: block
+      padding: 1px 3px 5px 7px
+
+
 div.boxs
   overflow: auto
-  padding: 10px 0 0 10px
 
-div.box
-  float: left
-  margin: 0 15px 0 0
-  div.content
-    width: 150px
-    height: 150px
-    background: #FFEA74
-    border-radius: 0 0 10px 0
-    font-size: small
-    text-align: center
-    padding: 0
-    div.buttons
-      background: rgba(0,0,0,0.8)
-      padding: 5px
-      font-size: 80%
-      text-transform: uppercase
+  div.box
+    float: left
+    margin: 0 0 0 15px
+    div.content
+      width: 150px
+      height: 150px
+      background: #FFEA74
+      border-radius: 0 0 10px 0
+      font-size: small
+      text-align: center
+      padding: 0
+      div.buttons
+        background: rgba(0,0,0,0.8)
+        padding: 5px
+        font-size: 80%
+        text-transform: uppercase
 
 
-div.box:last-child
-  margin-right: 0

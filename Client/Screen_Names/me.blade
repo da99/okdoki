@@ -2,18 +2,16 @@ include "../App/layout.blade"
 
 append content
 
-  div.col#Me
+  div#Me
     h3  The life of... #{name}
     div.content
       | Bits and pieces from #{name}'s life.
 
-  div.boxs
+  div#Create
+    a(href="#create_folder") Create a New Folder
 
-    div.box
-      h3 Add Folder
-      div.content
-        div.buttons
-          a(href="/me/#{name}/folder/create") Create a New Folder
+
+  div.boxs
 
     div.box
       h3 Conversations

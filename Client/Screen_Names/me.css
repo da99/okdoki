@@ -2,11 +2,12 @@ body {
   padding: 0;
   background: #fff url("/img/doodle.gif") repeat-x;
 }
-#Me {
+#Me,
+#Create {
   width: 300px;
-  margin-right: 10px;
 }
-#Me h3 {
+#Me h3,
+#Create h3 {
   font-family: 'Lenka';
   font-size: 200%;
   font-style: italic;
@@ -14,22 +15,31 @@ body {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-#Me div.content {
+#Me div.content,
+#Create div.content {
   background: rgba(0,0,0,0.6);
   padding: 2px 5px 4px 5px;
   color: #fff;
   text-align: center;
   font-size: 85%;
 }
+#Create {
+  margin: 0 0 10px 0;
+  width: 300px;
+  background: rgba(0,0,0,0.6);
+}
+#Create a:link {
+  display: block;
+  padding: 1px 3px 5px 7px;
+}
 div.boxs {
   overflow: auto;
-  padding: 10px 0 0 10px;
 }
-div.box {
+div.boxs div.box {
   float: left;
-  margin: 0 15px 0 0;
+  margin: 0 0 0 15px;
 }
-div.box div.content {
+div.boxs div.box div.content {
   width: 150px;
   height: 150px;
   background: #ffea74;
@@ -38,12 +48,9 @@ div.box div.content {
   text-align: center;
   padding: 0;
 }
-div.box div.content div.buttons {
+div.boxs div.box div.content div.buttons {
   background: rgba(0,0,0,0.8);
   padding: 5px;
   font-size: 80%;
   text-transform: uppercase;
-}
-div.box:last-child {
-  margin-right: 0;
 }
