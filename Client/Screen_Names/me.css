@@ -5,5 +5,31 @@ body {
 #Me {
   width: 300px;
   margin-right: 10px;
-  background: rgba(255,255,255,0.9);
+}
+#Me h3 {
+  font-family: 'Lenka';
+  font-size: 200%;
+  font-style: italic;
+  text-align: center;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+#Me div.content {
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  color: #e1eeff;
+}
+div.boxs {
+  overflow: auto;
+  padding: 10px;
+}
+div.box {
+  float: left;
+  margin: 0 10px 0 0;
+}
+div.box div.content {
+  width: 150px;
+  height: 150px;
+  background: #ffea74;
+  border-radius: 0 0 10px 0;
 }
