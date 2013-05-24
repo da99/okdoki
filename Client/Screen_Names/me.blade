@@ -3,29 +3,32 @@ include "../App/layout.blade"
 append content
 
   div.col#Me
-    h3= title
+    h3  The life of... #{name}
     div.content
-      | After creating web pages, you can organize them with
-      | folders.
+      | Bits and pieces from #{name}'s life.
 
   div.boxs
 
     div.box
       h3 Add Folder
       div.content
-        | Create
+        div.buttons
+          a(href="/me/#{name}/folder/create") Create a New Folder
 
     div.box
       h3 Conversations
       div.content
-        | Create
+        div.buttons
+          a(href="/me/#{name}/folder/1") Open
 
     div.box
       h3 Q&amp;A
       div.content
-        | Create
+        div.buttons
+          a(href="/me/#{name}/folder/2") Open
 
     div.box
       h3 RaNdoM StuFF
       div.content
-        | Create
+        div.buttons
+          a(href="/me/#{name}/folder/3") Open

@@ -15,21 +15,35 @@ body {
   margin-bottom: 0;
 }
 #Me div.content {
-  background: rgba(0,0,0,0.8);
-  padding: 10px;
-  color: #e1eeff;
+  background: rgba(0,0,0,0.6);
+  padding: 2px 5px 4px 5px;
+  color: #fff;
+  text-align: center;
+  font-size: 85%;
 }
 div.boxs {
   overflow: auto;
-  padding: 10px;
+  padding: 10px 0 0 10px;
 }
 div.box {
   float: left;
-  margin: 0 10px 0 0;
+  margin: 0 15px 0 0;
 }
 div.box div.content {
   width: 150px;
   height: 150px;
   background: #ffea74;
   border-radius: 0 0 10px 0;
+  font-size: small;
+  text-align: center;
+  padding: 0;
+}
+div.box div.content div.buttons {
+  background: rgba(0,0,0,0.8);
+  padding: 5px;
+  font-size: 80%;
+  text-transform: uppercase;
+}
+div.box:last-child {
+  margin-right: 0;
 }

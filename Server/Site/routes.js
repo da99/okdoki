@@ -21,7 +21,8 @@ function sample_im() {
 OK.get('/me/:name', function (i) {
   var req = i.req, resp = i.resp;
   var opts = Views.default_opts('Screen_Names/me', req, resp)
-  opts['title'] = 'The life of... ' + i.req.params.name;
+  opts['title'] = i.req.params.name;
+  opts['name'] = req.params.name;
   return i.template(opts);
 });
 
