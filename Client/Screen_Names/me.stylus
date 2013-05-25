@@ -1,10 +1,11 @@
 $light_blue = #E1EEFF
+$padding_create = 7px
 
 body
   padding: 0
   background: #fff url('/img/doodle.gif') repeat-x;
 
-#Me, #Create
+#Me
   width: 300px
   h3
     font-family: 'Lenka'
@@ -21,15 +22,27 @@ body
     font-size: 85%
 
 #Create
-    margin: 0 0 10px 0
-    width: 300px
-    background: rgba(0,0,0,0.6)
-    a:link
-      display: block
-      padding: 1px 3px 5px 7px
+  width: 300px
+  background: rgba(0,0,0,0.6)
+  overflow: auto
+  div.loading
+    background-color: #fff
+    padding-top: 3px
+    padding-bottom: 3px
+  div.errors
+    color: #F50000
+    padding: 3px $padding_create
+  a:link
+    display: block
+    padding: 1px $padding_create 5px $padding_create
+    float: left
+    clear: both
+
+
 
 
 div.boxs
+  padding: 10px 0 0 0
   overflow: auto
 
   div.box

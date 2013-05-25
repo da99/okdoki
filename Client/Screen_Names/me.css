@@ -2,12 +2,10 @@ body {
   padding: 0;
   background: #fff url("/img/doodle.gif") repeat-x;
 }
-#Me,
-#Create {
+#Me {
   width: 300px;
 }
-#Me h3,
-#Create h3 {
+#Me h3 {
   font-family: 'Lenka';
   font-size: 200%;
   font-style: italic;
@@ -15,8 +13,7 @@ body {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-#Me div.content,
-#Create div.content {
+#Me div.content {
   background: rgba(0,0,0,0.6);
   padding: 2px 5px 4px 5px;
   color: #fff;
@@ -24,15 +21,27 @@ body {
   font-size: 85%;
 }
 #Create {
-  margin: 0 0 10px 0;
   width: 300px;
   background: rgba(0,0,0,0.6);
+  overflow: auto;
+}
+#Create div.loading {
+  background-color: #fff;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+#Create div.errors {
+  color: #f50000;
+  padding: 3px 7px;
 }
 #Create a:link {
   display: block;
-  padding: 1px 3px 5px 7px;
+  padding: 1px 7px 5px 7px;
+  float: left;
+  clear: both;
 }
 div.boxs {
+  padding: 10px 0 0 0;
   overflow: auto;
 }
 div.boxs div.box {

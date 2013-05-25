@@ -363,10 +363,9 @@ function after(se) {
   var parent = e.parent();
 
   var meths = {
-    draw : function (se, txt) {
+    draw_if_not_found : function (se, txt) {
       var e_find = parent.find(se);
       if (e_find.length) {
-        e_find.show();
         return e_find;
       }
 
@@ -452,7 +451,8 @@ function form(selector, func) {
     $(selector).find('div.buttons').hide();
 
     after($(selector).find('div.buttons'))
-    .draw('div.loading', 'processing...')
+    .draw_if_not_found('div.loading', 'processing...')
+    .show()
     ;
 
     post(url, data, headers, function (err, raw) {
@@ -509,6 +509,25 @@ function form(selector, func) {
 
   return e;
 }
+
+function min_sec(v) {
+  var min = parseInt(v/1000/60);
+  var sec = parseInt( (v - (min * 1000 * 60)) / 1000 );
+  return min + ':' + ((sec < 10) ? '0' + sec : sec);
+}
+
+function countdown(se, func) {
+  var start = (new Date).getTime();
+  var update = function () {
+    var target = $(se);
+    if (!target.length)
+      return;
+    if( func(target, (new Date).getTime() - start ) )
+      setTimeout(update, 1000);
+  };
+
+  update();
+};
 
 function on_click(selector, func) {
   var e = $(selector);

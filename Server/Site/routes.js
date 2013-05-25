@@ -26,6 +26,10 @@ OK.get('/me/:name', function (i) {
   return i.template(opts);
 });
 
+OK.post('/me/:name/create/folder', function (req, resp, next) {
+  resp.json({success: true, location: "/me/" + req.params.name + "/folder/1"});
+});
+
 OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
   var opts = Views.default_opts('Site/index', req, resp)

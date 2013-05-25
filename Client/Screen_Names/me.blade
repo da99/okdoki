@@ -1,5 +1,8 @@
 include "../App/layout.blade"
 
+append scripts
+  script(src="/Screen_Names/me.js")
+
 append content
 
   div#Me
@@ -9,6 +12,7 @@ append content
 
   div#Create
     a(href="#create_folder") Create a New Folder
+    a(href="/") okdoki.com
 
 
   div.boxs
