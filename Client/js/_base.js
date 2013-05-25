@@ -206,25 +206,6 @@ function form(selector, func) {
   return e;
 }
 
-function min_sec(v) {
-  var min = parseInt(v/1000/60);
-  var sec = parseInt( (v - (min * 1000 * 60)) / 1000 );
-  return min + ':' + ((sec < 10) ? '0' + sec : sec);
-}
-
-function countdown(se, func) {
-  var start = (new Date).getTime();
-  var update = function () {
-    var target = $(se);
-    if (!target.length)
-      return;
-    if( func(target, (new Date).getTime() - start ) )
-      setTimeout(update, 1000);
-  };
-
-  update();
-};
-
 function on_click(selector, func) {
   var e = $(selector);
   if (!e.length) {
@@ -325,9 +306,9 @@ function Listenize(html, funcs) {
   return eles;
 }
 
-// ****************************************************************
-// ****************** Forms ***************************************
-// ****************************************************************
+// ================================================================
+// ================== Forms =======================================
+// ================================================================
 
 function submit(e) {
   var form = $(this).parents('form');
@@ -340,6 +321,29 @@ function submit(e) {
   return false;
 }
 
+
+// ================================================================
+// ================== Time ========================================
+// ================================================================
+
+function min_sec(v) {
+  var min = parseInt(v/1000/60);
+  var sec = parseInt( (v - (min * 1000 * 60)) / 1000 );
+  return min + ':' + ((sec < 10) ? '0' + sec : sec);
+}
+
+function every_sec(se, func) {
+  var start = (new Date).getTime();
+  var update = function () {
+    var target = $(se);
+    if (!target.length)
+      return;
+    if( func(target, (new Date).getTime() - start ) )
+      setTimeout(update, 1000);
+  };
+
+  update();
+};
 
 
 

@@ -21,7 +21,7 @@ $(function () {
         var err_id = 'create_folder_error';
         var min_15  = (1000 * 60 * 15);
         link.after($('<div class="errors ' + err_id + '">Error occurred. Try again in...</div>'));
-        countdown($(parent).find('div.' + err_id), function (target, since) {
+        every_sec($(parent).find('div.' + err_id), function (target, since) {
           if (since > min_15) {
             link.show();
             target.remove();
