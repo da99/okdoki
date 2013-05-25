@@ -24,19 +24,20 @@ body
 #Create
   width: 300px
   background: rgba(0,0,0,0.6)
-  overflow: auto
+  div.link
+    padding: 0 2px $padding_create 0
+  a:link
+    padding: 1px $padding_create 5px $padding_create
   div.loading
     background-color: #fff
     padding-top: 3px
     padding-bottom: 3px
+  div.success
+    background: #fff
+    padding: 3px $padding_create
   div.errors
     color: #F50000
     padding: 3px $padding_create
-  a:link
-    display: block
-    padding: 1px $padding_create 5px $padding_create
-    float: left
-    clear: both
 
 
 

@@ -35,6 +35,9 @@ $(function () {
       }
 
       link.show();
+      var succ = $('<div class="success">Your new folder is: <a href="HREF">HREF</a></div>'.replace(/HREF/g, results.location));
+      link.after(succ);
+      log(typeof results);
     });
 
     log(orig_text);

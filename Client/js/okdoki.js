@@ -442,11 +442,6 @@ function form(selector, func) {
     var form    = $($(this).closest('form'));
     var url     = form.attr('action');
     var data    = form_to_json(form);
-    var headers = {
-      'X-CSRF-Token': _csrf(),
-      'Accept': 'application/json'
-      // 'Accept-Charset': 'utf-8'
-    };
 
     $(selector).find('div.buttons').hide();
 
@@ -455,7 +450,7 @@ function form(selector, func) {
     .show()
     ;
 
-    post(url, data, headers, function (err, raw) {
+    post(url, data, function (err, raw) {
       if (err) {
         form_meta[selector].error(err, raw);
       } else  {
@@ -528,20 +523,37 @@ function on_click(selector, func) {
 // ==========================================================
 // Example:
 //
-//   post(url, data, [headers], function ([err], result) {});
+//   post(url, [data], function ([err], result) {});
 //
 // ==========================================================
 function post() {
   var args = _.toArray(arguments);
   var func = args.pop();
+
+  if (args.length === 1) {
+    args.push({});
+  }
+
+  if (args.length === 2) {
+    args.push({
+      'X-CSRF-Token': _csrf(),
+      'Accept': 'application/json'
+      // 'Accept-Charset': 'utf-8'
+    });
+  }
+
   var new_func = function (err, results) {
+    if (!err && typeof(results) === 'string')
+      results = JSON.parse(results);
+
     if (func.length === 2) {
       func(err, results);
     } else {
       if (err)
         log(err);
-      else
-        func(results);
+      else {
+        func(JSON.parse(results));
+      }
       return;
     }
   };

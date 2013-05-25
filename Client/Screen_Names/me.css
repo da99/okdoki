@@ -23,22 +23,25 @@ body {
 #Create {
   width: 300px;
   background: rgba(0,0,0,0.6);
-  overflow: auto;
+}
+#Create div.link {
+  padding: 0 2px 7px 0;
+}
+#Create a:link {
+  padding: 1px 7px 5px 7px;
 }
 #Create div.loading {
   background-color: #fff;
   padding-top: 3px;
   padding-bottom: 3px;
 }
+#Create div.success {
+  background: #fff;
+  padding: 3px 7px;
+}
 #Create div.errors {
   color: #f50000;
   padding: 3px 7px;
-}
-#Create a:link {
-  display: block;
-  padding: 1px 7px 5px 7px;
-  float: left;
-  clear: both;
 }
 div.boxs {
   padding: 10px 0 0 0;
