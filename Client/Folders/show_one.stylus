@@ -13,7 +13,7 @@ h1
   font-size: 30pt
   font-style: italic
   text-align: left
-  padding: 0 0 4px 10px
+  padding: 0 0 8px 10px
   margin-bottom: 0
 
 #Me
@@ -84,7 +84,6 @@ h1
 
 div.boxs
   padding: 10px 0 0 0
-  overflow: auto
 
   div.box
     float: left
@@ -94,12 +93,13 @@ div.boxs
       height: 200px
       background: $yellow
       border-radius: 10px 0
-      text-align: center
+      text-align: left
       padding: 0
+      overflow: auto
       div.title, div.buttons
         color: #fff
         background: rgba(0,0,0,0.6)
-        padding: 5px
+        padding: 5px 1px 5px 7px
         font-size: 80%
         text-transform: uppercase
       div.title
