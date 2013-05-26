@@ -50,7 +50,7 @@ body
   div.link
     display: inline-block
   div.active
-    background: #000
+    background: rgba(0,0,0,0.5)
     border-radius: 3px 3px 0 0
     a:link, a:hover
       color: $yellow
@@ -65,7 +65,7 @@ body
     color: $yellow
     display: none
     padding: 4px 10px 8px 10px
-    background: #000
+    background: rgba(0,0,0,0.8)
     div.ele input
       width: 95%;
     div.ele textarea
