@@ -1,0 +1,97 @@
+body {
+  padding: 0;
+  background: #fff url("/img/doodle.gif") repeat-x;
+}
+#Me {
+  width: 300px;
+}
+#Me h3 {
+  font-family: 'Lenka';
+  font-size: 200%;
+  font-style: italic;
+  text-align: center;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+#Me div.content {
+  background: rgba(0,0,0,0.6);
+  padding: 2px 5px 4px 5px;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+#Create {
+  width: 300px;
+  background: rgba(0,0,0,0.6);
+}
+#Create div.link {
+  padding: 0 2px 7px 0;
+}
+#Create a:link {
+  padding: 1px 7px 5px 7px;
+}
+#Create div.loading {
+  background-color: #fff;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+#Create div.success {
+  background: #fff;
+  padding: 3px 7px;
+}
+#Create div.errors {
+  color: #f50000;
+  padding: 3px 7px;
+}
+#Create div.create {
+  display: inline-block;
+  padding: 0 7px;
+  color: #fff;
+  font-size: 90%;
+  text-transform: lowercase;
+}
+#Create div.link {
+  display: inline-block;
+}
+#Create div.active {
+  background: #32a3ef;
+  border-radius: 3px 3px 0 0;
+}
+#Create div.active a:link,
+#Create div.active a:hover {
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+  cursor: default;
+}
+#Creates {
+  width: 300px;
+}
+#Creates div.create {
+  display: none;
+  padding: 4px 10px 8px 10px;
+  background: #32a3ef;
+}
+div.boxs {
+  padding: 10px 0 0 0;
+  overflow: auto;
+}
+div.boxs div.box {
+  float: left;
+  margin: 0 0 0 15px;
+}
+div.boxs div.box div.content {
+  width: 150px;
+  height: 150px;
+  background: #ffea74;
+  border-radius: 0 0 10px 0;
+  font-size: small;
+  text-align: center;
+  padding: 0;
+}
+div.boxs div.box div.content div.buttons {
+  background: rgba(0,0,0,0.8);
+  padding: 5px;
+  font-size: 80%;
+  text-transform: uppercase;
+}

@@ -1,0 +1,89 @@
+$light_blue = #E1EEFF
+$blue = #32A3EF
+$padding_create = 7px
+$grey_on_black = #CFCAB6
+$yellow = #FFEA74
+
+body
+  padding: 0
+  background: #fff url('/img/doodle.gif') repeat-x;
+
+#Me
+  width: 300px
+  h3
+    font-family: 'Lenka'
+    font-size: 200%
+    font-style: italic
+    text-align: center
+    padding-bottom: 0
+    margin-bottom: 0
+  div.content
+    background: rgba(0,0,0,0.6)
+    padding: 2px 5px 4px 5px
+    color: #fff
+    text-align: center
+    font-weight: bold
+
+#Create
+  width: 300px
+  background: rgba(0,0,0,0.6)
+  div.link
+    padding: 0 2px $padding_create 0
+  a:link
+    padding: 1px $padding_create 5px $padding_create
+  div.loading
+    background-color: #fff
+    padding-top: 3px
+    padding-bottom: 3px
+  div.success
+    background: #fff
+    padding: 3px $padding_create
+  div.errors
+    color: #F50000
+    padding: 3px $padding_create
+  div.create
+    display: inline-block
+    padding: 0 $padding_create
+    color: #fff
+    font-size: 90%
+    text-transform: lowercase
+  div.link
+    display: inline-block
+  div.active
+    background: $blue
+    border-radius: 3px 3px 0 0
+    a:link, a:hover
+      color: #fff
+      text-decoration: none
+      background: transparent
+      cursor: default
+
+#Creates
+  width: 300px
+  div.create
+    display: none
+    padding: 4px 10px 8px 10px
+    background: $blue
+
+div.boxs
+  padding: 10px 0 0 0
+  overflow: auto
+
+  div.box
+    float: left
+    margin: 0 0 0 15px
+    div.content
+      width: 150px
+      height: 150px
+      background: $yellow
+      border-radius: 0 0 10px 0
+      font-size: small
+      text-align: center
+      padding: 0
+      div.buttons
+        background: rgba(0,0,0,0.8)
+        padding: 5px
+        font-size: 80%
+        text-transform: uppercase
+
+

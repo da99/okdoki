@@ -31,6 +31,16 @@ OK.post('/me/:name/create/folder', function (req, resp, next) {
   resp.json({success: true, location: "/me/" + req.params.name + "/folder/" + num, name: "Folder #" + num});
 });
 
+OK.get('/me/:name/folder/:num', function (i) {
+  var req = i.req, resp = i.resp;
+  var num = parseInt(req.params.num);
+  var opts = Views.default_opts('Folders/show_one', req, resp)
+  opts['title'] = "Folder #" + num;
+  opts['name'] = req.params.num;
+  opts['about'] = "Stuff about #" + num;
+  return i.template(opts);
+});
+
 OK.get( '/' , function (i) {
   var req = i.req, resp = i.resp;
   var opts = Views.default_opts('Site/index', req, resp)

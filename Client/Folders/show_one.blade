@@ -1,0 +1,60 @@
+include "../App/layout.blade"
+
+append scripts
+  script(src="/Folders/show_one.js")
+
+append templates
+  div.box.item
+    h3 {TITLE}
+    div.content
+      div.buttons
+        a.open(href="{LOCATION}") Open
+
+append content
+
+  div#Me
+    h3  #{name}
+    div.content
+      | #{about}
+
+  div#Create
+    div.create Attach:
+    div.link
+      a(href="#Photo") Photo
+    div.link
+      a(href="#Video") Video
+    div.link
+      a(href="#Text") Text
+    div.link
+      a(href="#Link") Link
+
+
+  div#Creates
+    div.create#Photo
+      | new photo
+    div.create#Video
+      | new video... ooooo
+    div.create#Text
+      | new text... type type type
+    div.create#Link
+      | new link... go go go
+
+  div.boxs
+
+    div.box.item
+      h3 Item 1
+      div.content
+        div.buttons
+          a(href="#edit") Edit
+
+    div.box.item
+      h3 Item 2
+      div.content
+        div.buttons
+          a(href="#edit") Edit
+
+    div.box.item
+      h3 Item 3
+      div.content
+        div.buttons
+          a(href="#edit") Edit
