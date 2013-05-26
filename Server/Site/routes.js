@@ -55,6 +55,12 @@ OK.get( '/' , function (i) {
   return i.template(opts);
 });
 
+_.each(['photo', 'video', 'text', 'link'], function (type) {
+  OK.post("/folder/:num/attach_"+type, function (req, resp, next) {
+    resp.json({success: true, msg: 'Created: ' + type});
+  });
+});
+
 _.each(['/account', '/sign-in'], function (url) {
   OK.post(url, function (req, resp, next) {
     resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});

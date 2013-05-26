@@ -66,6 +66,9 @@ body
     display: none
     padding: 4px 10px 8px 10px
     background: rgba(0,0,0,0.8)
+    div.success
+      color: $yellow
+      border: 0
     div.ele input
       width: 95%;
     div.ele textarea

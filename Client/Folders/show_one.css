@@ -74,6 +74,10 @@ body {
   padding: 4px 10px 8px 10px;
   background: rgba(0,0,0,0.8);
 }
+#Creates div.create div.success {
+  color: #ffea74;
+  border: 0;
+}
 #Creates div.create div.ele input {
   width: 95%;
 }

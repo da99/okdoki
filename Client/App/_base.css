@@ -185,8 +185,7 @@ form div.success {
   border: 1px dashed #d60600;
   border-width: 1px 0;
   font-style: italic;
-  font-family: serif;
-  font-size: 120%;
+  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   padding: 4px;
   border-radius: 0 0 3px 3px;
   color: #072700;

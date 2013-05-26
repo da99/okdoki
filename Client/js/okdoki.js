@@ -488,13 +488,22 @@ function form(selector, func) {
   e.on_success = function (on_s) {
     form_meta[selector].success = function (result) {
       loaded();
+      var form = $($(selector))[0];
+      form && form.reset();
+      if (result.msg) {
+        log(result.msg)
+        after($(selector).find('div.buttons'))
+        .draw_if_not_found('div.success', result.msg)
+        .show();
+        $(selector).find('div.success').text(result.msg);
+      }
       on_s(result);
     };
   };
 
   e.on_error = function (on_e) {
     form_meta[selector].error = function (err, result) {
-      loaded();
+      loaded(err);
       on_e(result);
     };
   };
@@ -502,13 +511,14 @@ function form(selector, func) {
   e.on_invalid = function (on_i) {
     form_meta[selector].invalid = function (result) {
       loaded();
+      loaded(result.msg || "Unknown error. Try again later.");
       on_i(result);
     };
   }
 
+  // default handlers
   e.on_error(function (err, result) {
     log("http error:", err, result);
-    loaded(err);
   });
 
   e.on_success(function (result) {
@@ -517,9 +527,9 @@ function form(selector, func) {
 
   e.on_invalid(function (result) {
     log('invalid: ', result);
-    loaded(result.msg || "Unknown error. Try again later.");
   });
 
+  // Add custom handlers.
   func(e);
 
   return e;
