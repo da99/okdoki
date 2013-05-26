@@ -54,12 +54,13 @@ body {
   display: inline-block;
 }
 #Create div.active {
-  background: #32a3ef;
+  background: #000;
   border-radius: 3px 3px 0 0;
 }
 #Create div.active a:link,
 #Create div.active a:hover {
-  color: #fff;
+  color: #ffea74;
+  font-weight: bold;
   text-decoration: none;
   background: transparent;
   cursor: default;
@@ -68,9 +69,22 @@ body {
   width: 300px;
 }
 #Creates div.create {
+  color: #ffea74;
   display: none;
   padding: 4px 10px 8px 10px;
-  background: #32a3ef;
+  background: #000;
+}
+#Creates div.create div.ele input {
+  width: 95%;
+}
+#Creates div.create div.ele textarea {
+  width: 95%;
+  min-height: 100px;
+}
+#Creates div.create span.sub {
+  display: inline-block;
+  padding: 0 0 0 4px;
+  color: #bbb;
 }
 div.boxs {
   padding: 10px 0 0 0;

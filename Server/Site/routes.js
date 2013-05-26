@@ -38,6 +38,7 @@ OK.get('/me/:name/folder/:num', function (i) {
   opts['title'] = "Folder #" + num;
   opts['name'] = req.params.num;
   opts['about'] = "Stuff about #" + num;
+  opts['folder_id'] = num;
   return i.template(opts);
 });
 

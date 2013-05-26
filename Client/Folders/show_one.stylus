@@ -1,7 +1,7 @@
 $light_blue = #E1EEFF
 $blue = #32A3EF
 $padding_create = 7px
-$grey_on_black = #CFCAB6
+$grey_on_black = #BBB
 $yellow = #FFEA74
 
 body
@@ -50,10 +50,11 @@ body
   div.link
     display: inline-block
   div.active
-    background: $blue
+    background: #000
     border-radius: 3px 3px 0 0
     a:link, a:hover
-      color: #fff
+      color: $yellow
+      font-weight: bold
       text-decoration: none
       background: transparent
       cursor: default
@@ -61,9 +62,19 @@ body
 #Creates
   width: 300px
   div.create
+    color: $yellow
     display: none
     padding: 4px 10px 8px 10px
-    background: $blue
+    background: #000
+    div.ele input
+      width: 95%;
+    div.ele textarea
+      width: 95%;
+      min-height: 100px
+    span.sub
+      display: inline-block
+      padding: 0 0 0 4px
+      color: $grey_on_black
 
 div.boxs
   padding: 10px 0 0 0

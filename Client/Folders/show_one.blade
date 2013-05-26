@@ -31,13 +31,73 @@ append content
 
   div#Creates
     div.create#Photo
-      | new photo
+      form(action="/folder/#{folder_id}/attach_photo", method="POST")
+        div.fields
+          div.field.location
+            label Location:
+            div.ele
+              input.field(type='text', name="location", value="")
+          div.field.desc
+            label Description:
+            span.sub (optional)
+            div.ele
+              textarea
+        div.buttons
+          button Attach
+          a.cancel(href="#cancel") Cancel
+
     div.create#Video
-      | new video... ooooo
+      form(action="/folder/#{folder_id}/attach_video", method="POST")
+        div.fields
+          div.field.location
+            label Location:
+            div.ele
+              input.field(type='text', name="location", value="")
+          div.field.desc
+            label Description:
+            span.sub (optional)
+            div.ele
+              textarea
+        div.buttons
+          button Attach
+          a.cancel(href="#cancel") Cancel
+
     div.create#Text
-      | new text... type type type
+      form(action="/folder/#{folder_id}/attach_text", method="POST")
+        div.fields
+          div.field.title
+            label Title:
+            span.sub (optional)
+            div.ele
+              input.field(type='text', name="title", value="")
+          div.field.content
+            label Content:
+            div.ele
+              textarea
+        div.buttons
+          button Attach
+          a.cancel(href="#cancel") Cancel
+
     div.create#Link
-      | new link... go go go
+      form(action="/folder/#{folder_id}/attach_link", method="POST")
+        div.fields
+          div.field.photo_location
+            label Covor photo location:
+            span.sub (optional)
+            div.ele
+              input.field(type='text', name="cover_photo_location", value="")
+          div.field.location
+            label Link Address:
+            div.ele
+              input.field(type='text', name="location", value="")
+          div.field.desc
+            label Description:
+            span.sub (optional)
+            div.ele
+              textarea
+        div.buttons
+          button Attach
+          a.cancel(href="#cancel") Cancel
 
   div.boxs
 
