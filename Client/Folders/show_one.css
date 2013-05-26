@@ -2,16 +2,16 @@ body {
   padding: 0;
   background: #fff url("/img/doodle.gif") repeat-x;
 }
-#Me {
-  width: 300px;
-}
-#Me h3 {
+h1 {
   font-family: 'Lenka';
-  font-size: 200%;
+  font-size: 30pt;
   font-style: italic;
-  text-align: center;
-  padding-bottom: 0;
+  text-align: left;
+  padding: 0 0 4px 10px;
   margin-bottom: 0;
+}
+#Me {
+  width: 350px;
 }
 #Me div.content {
   background: rgba(0,0,0,0.6);
@@ -21,7 +21,7 @@ body {
   font-weight: bold;
 }
 #Create {
-  width: 300px;
+  width: 350px;
   background: rgba(0,0,0,0.6);
 }
 #Create div.link {
@@ -66,7 +66,7 @@ body {
   cursor: default;
 }
 #Creates {
-  width: 300px;
+  width: 350px;
 }
 #Creates div.create {
   color: #ffea74;
@@ -102,17 +102,25 @@ div.boxs div.box {
   margin: 0 0 0 15px;
 }
 div.boxs div.box div.content {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   background: #ffea74;
-  border-radius: 0 0 10px 0;
-  font-size: small;
+  border-radius: 10px 0;
   text-align: center;
   padding: 0;
 }
+div.boxs div.box div.content div.title,
 div.boxs div.box div.content div.buttons {
-  background: rgba(0,0,0,0.8);
+  color: #fff;
+  background: rgba(0,0,0,0.6);
   padding: 5px;
   font-size: 80%;
   text-transform: uppercase;
+}
+div.boxs div.box div.content div.title {
+  border-radius: 6px 0 0 0;
+}
+div.boxs div.box div.content div.buttons {
+  padding: 0 0 5px 0;
+  display: none;
 }

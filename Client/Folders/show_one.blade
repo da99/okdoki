@@ -12,8 +12,9 @@ append templates
 
 append content
 
+  h1 #{title}
+
   div#Me
-    h3  #{name}
     div.content
       | #{about}
 
@@ -102,19 +103,19 @@ append content
   div.boxs
 
     div.box.item
-      h3 Item 1
       div.content
+        div.title Item 1
         div.buttons
           a(href="#edit") Edit
 
     div.box.item
-      h3 Item 2
       div.content
+        div.title Item 2
         div.buttons
           a(href="#edit") Edit
 
     div.box.item
-      h3 Item 3
       div.content
+        div.title Item 3
         div.buttons
           a(href="#edit") Edit

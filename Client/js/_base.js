@@ -139,16 +139,22 @@ function form(selector, func) {
     $(selector).find('div.buttons').show();
     $(selector).find('div.loading').hide();
     $(selector).find('div.errors').hide();
+    $(selector).find('div.success').hide();
 
     if (msg) {
       after($(selector).find('div.buttons'))
-      .draw_if_not_found('div.errors', msg)
+      .draw_if_not_found('div.errors', "Okdoki.com is having some trouble processing your request. Try again later in a few minutes.")
       .show()
       ;
     }
   };
 
   form_meta[selector] = {};
+
+  $(selector).find('a.cancel').click(function (e) {
+    loaded();
+    return false;
+  });
 
   $(selector).find('button.submit').click(function (e) {
     e.stopPropagation();
