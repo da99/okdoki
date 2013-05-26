@@ -10,17 +10,7 @@ $(function () {
 
   on_click($(creates).find('a.cancel'), reset_creates);
 
-  $(creates).each(function (i, e) {
-    form('#' + $(e).attr('id') + ' form', function (f) {
-    });
-  });
-
-  on_click($(creates).find('button'), function () {
-    var parent = $(this).parents('div.create');
-    var id     = $(parent).attr('id');
-    var form   = $(this).parents('form');
-  });
-
+  // === show links
   on_click($(create_links), function (e) {
     var l = $(this);
     var parent = $(l.parent());
@@ -35,4 +25,14 @@ $(function () {
     parent.addClass('active');
     $(l.attr('href')).show();
   });
+
+  // === forms
+  $(creates).each(function (i, e) {
+    form('#' + $(e).attr('id') + ' form', function (f) {
+      f.on_success(function (result) {
+        log('DONE');
+      });
+    });
+  });
+
 });
