@@ -75,6 +75,8 @@ body
       display: inline-block
       padding: 0 0 0 4px
       color: $grey_on_black
+    button
+      margin: 0 20px 0 0
 
 div.boxs
   padding: 10px 0 0 0

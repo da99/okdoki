@@ -135,13 +135,20 @@ function form(selector, func) {
     return false;
   }
 
-  var loaded = function () {
+  var loaded = function (msg) {
     $(selector).find('div.buttons').show();
     $(selector).find('div.loading').hide();
+    $(selector).find('div.errors').hide();
+
+    if (msg) {
+      after($(selector).find('div.buttons'))
+      .draw_if_not_found('div.errors', msg)
+      .show()
+      ;
+    }
   };
 
-  form_meta[selector] = {
-  };
+  form_meta[selector] = {};
 
   $(selector).find('button.submit').click(function (e) {
     e.stopPropagation();
@@ -197,6 +204,7 @@ function form(selector, func) {
 
   e.on_error(function (err, result) {
     log("http error:", err, result);
+    loaded(err);
   });
 
   e.on_success(function (result) {
@@ -205,6 +213,7 @@ function form(selector, func) {
 
   e.on_invalid(function (result) {
     log('invalid: ', result);
+    loaded(result.msg || "Unknown error. Try again later.");
   });
 
   func(e);
