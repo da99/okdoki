@@ -340,8 +340,19 @@ function hide(se) {
 // ================== Templates ===================================
 // ================================================================
 
-function pull_template(se) {
-  return $($('#templates').html()).closest(se);
+function compile_template(se, data) {
+  var t = read_template(se);
+  _.each(data, function (v, k) {
+    t = t.replace( new RegExp('{' + k + '}', 'g'), v );
+  });
+  return $(t);
+}
+
+function read_template(se) {
+  var t = $($('#templates').html()).closest(se);
+  if (!t.length)
+    return "";
+  return $(t).wrap('<p>').parent().html();
 }
 
 function create_unless(se) {

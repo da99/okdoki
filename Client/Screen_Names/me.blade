@@ -3,6 +3,13 @@ include "../App/layout.blade"
 append scripts
   script(src="/Screen_Names/me.js")
 
+append templates
+  div.box.folder
+    h3 {TITLE}
+    div.content
+      div.buttons
+        a.open(href="{LOCATION}") Open
+
 append content
 
   div#Me
@@ -19,19 +26,19 @@ append content
 
   div.boxs
 
-    div.box
+    div.box.folder
       h3 Conversations
       div.content
         div.buttons
           a(href="/me/#{name}/folder/1") Open
 
-    div.box
+    div.box.folder
       h3 Q&amp;A
       div.content
         div.buttons
           a(href="/me/#{name}/folder/2") Open
 
-    div.box
+    div.box.folder
       h3 RaNdoM StuFF
       div.content
         div.buttons

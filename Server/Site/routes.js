@@ -27,7 +27,8 @@ OK.get('/me/:name', function (i) {
 });
 
 OK.post('/me/:name/create/folder', function (req, resp, next) {
-  resp.json({success: true, location: "/me/" + req.params.name + "/folder/1"});
+  var num = parseInt(Math.random() * 10)
+  resp.json({success: true, location: "/me/" + req.params.name + "/folder/" + num, name: "Folder #" + num});
 });
 
 OK.get( '/' , function (i) {

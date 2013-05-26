@@ -35,9 +35,11 @@ $(function () {
       }
 
       link.show();
-      var succ = $('<div class="success">Your new folder is: <a href="HREF">HREF</a></div>'.replace(/HREF/g, results.location));
+      var succ = $('<div class="success">Your new folder is at: <a href="HREF">HREF</a></div>'.replace(/HREF/g, results.location));
       link.after(succ);
-      log(typeof results);
+
+      var new_folder = compile_template('div.folder', {'TITLE': results.name, 'LOCATION': results.location});
+      $('div.boxs').prepend(new_folder);
     });
 
     log(orig_text);
