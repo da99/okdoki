@@ -1,11 +1,13 @@
 body {
-  padding: 0;
+  padding: 0 0 100px 0;
   background: #fff url("/img/doodle.gif") repeat-x;
 }
-#Me {
+#Me,
+#Other_Screen_Names {
   width: 300px;
 }
-#Me h3 {
+#Me h3,
+#Other_Screen_Names h3 {
   font-family: 'Lenka';
   font-size: 200%;
   font-style: italic;
@@ -13,12 +15,27 @@ body {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-#Me div.content {
+#Me div.content,
+#Other_Screen_Names div.content {
   background: rgba(0,0,0,0.6);
   padding: 2px 5px 4px 5px;
   color: #fff;
   text-align: center;
   font-size: 85%;
+}
+#Other_Screen_Names {
+  margin-top: 10px;
+}
+#Other_Screen_Names div.content {
+  text-align: left;
+}
+#Other_Screen_Names div.content ul,
+#Other_Screen_Names div.content ol {
+  margin-left: 0;
+  padding-left: 20px;
+}
+#Other_Screen_Names div.content a {
+  font-weight: bold;
 }
 #Create {
   width: 300px;
@@ -60,11 +77,17 @@ div.create_boxs div.box h3 {
 div.create_boxs div.box div.content {
   background-color: #ffea74;
 }
-div.create_boxs div.box div.content div.field span.label {
+div.create_boxs div.box div.content div.field span {
   display: block;
+}
+div.create_boxs div.box div.content div.field input {
+  width: 98%;
 }
 div.create_boxs div.box div.content div.buttons {
   text-align: right;
+}
+#Create_Website {
+  max-width: 300px;
 }
 div.boxs {
   padding: 10px 0 0 0;

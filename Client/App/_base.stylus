@@ -169,7 +169,7 @@ form
 
   div.field
     padding: 0 0 6px 0
-    span.label, span.value
+    span.label, span.value, span.optional, span.info
       background: transparent
       color: $dark_blue
       font-weight: bold

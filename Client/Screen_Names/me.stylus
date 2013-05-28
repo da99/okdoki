@@ -3,10 +3,10 @@ $yellow     = #FFEA74
 $padding_create = 7px
 
 body
-  padding: 0
+  padding: 0 0 100px 0
   background: #fff url('/img/doodle.gif') repeat-x;
 
-#Me
+#Me, #Other_Screen_Names
   width: 300px
   h3
     font-family: 'Lenka'
@@ -21,6 +21,16 @@ body
     color: #fff
     text-align: center
     font-size: 85%
+
+#Other_Screen_Names
+  margin-top: 10px
+  div.content
+    text-align: left
+    ul, ol
+      margin-left: 0
+      padding-left: 20px
+    a
+      font-weight: bold
 
 #Create
   width: 300px
@@ -55,10 +65,15 @@ div.create_boxs
     div.content
       background-color: $yellow
       div.field
-        span.label
+        span
           display: block
+        input
+          width: 98%
       div.buttons
         text-align: right
+
+#Create_Website
+  max-width: 300px
 
 div.boxs
   padding: 10px 0 0 0
