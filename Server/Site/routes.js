@@ -57,7 +57,7 @@ OK.get( '/' , function (i) {
 
 _.each(['photo', 'video', 'text', 'link'], function (type) {
   OK.post("/folder/:num/attach_"+type, function (req, resp, next) {
-    resp.json({success: true, msg: 'Created: ' + type});
+    resp.json({success: true, msg: 'Created: ' + type, record: req.body});
   });
 });
 

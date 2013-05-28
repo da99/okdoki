@@ -25,9 +25,15 @@ append content
     div.link
       a(href="#Video") Video
     div.link
+      a(href="#Link") Link
+    div.link
       a(href="#Text") Text
     div.link
-      a(href="#Link") Link
+      a(href="#Page") Page
+    div.link
+      a(href="#Quote") Quote
+    div.link
+      a(href="#Person") Person
 
 
   div#Creates
@@ -96,6 +102,51 @@ append content
             span.sub (optional)
             div.ele
               textarea
+        div.buttons
+          button.submit Attach
+          a.cancel(href="#cancel") Cancel
+
+    div.create#Page
+      form(action="/folder/#{folder_id}/attach_page", method="POST")
+        div.fields
+          div.field.title
+            label Title:
+            div.ele
+              input.field(type='text', name="title", value="")
+        div.buttons
+          button.submit Attach
+          a.cancel(href="#cancel") Cancel
+
+    div.create#Quote
+      form(action="/folder/#{folder_id}/attach_quote", method="POST")
+        div.fields
+          div.field.body
+            label body:
+            div.ele
+              textarea(name="body")
+          div.field.by
+            label Author:
+            div.ele
+              textarea(name="by")
+        div.buttons
+          button.submit Attach
+          a.cancel(href="#cancel") Cancel
+
+    div.create#Person
+      form(action="/folder/#{folder_id}/attach_person", method="POST")
+        div.fields
+          div.field.first_name
+            label First Name:
+            div.ele
+              input.field(type='text', name="first_name", value="")
+          div.field.last_name
+            label Last Name:
+            div.ele
+              input.field(type='text', name="last_name", value="")
+          div.field.comment
+            label Comment:
+            div.ele
+              textarea(name="comment")
         div.buttons
           button.submit Attach
           a.cancel(href="#cancel") Cancel

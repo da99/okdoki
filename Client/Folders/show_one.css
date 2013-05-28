@@ -11,7 +11,7 @@ h1 {
   margin-bottom: 0;
 }
 #Me {
-  width: 350px;
+  width: 400px;
 }
 #Me div.content {
   background: rgba(0,0,0,0.6);
@@ -21,14 +21,14 @@ h1 {
   font-weight: bold;
 }
 #Create {
-  width: 350px;
+  width: 400px;
   background: rgba(0,0,0,0.6);
 }
 #Create div.link {
-  padding: 0 2px 7px 0;
+  padding: 0 2px 5px 0;
 }
 #Create a:link {
-  padding: 1px 7px 5px 7px;
+  padding: 1px 5px 5px 5px;
 }
 #Create div.loading {
   background-color: #fff;
@@ -37,15 +37,15 @@ h1 {
 }
 #Create div.success {
   background: #fff;
-  padding: 3px 7px;
+  padding: 3px 5px;
 }
 #Create div.errors {
   color: #f50000;
-  padding: 3px 7px;
+  padding: 3px 5px;
 }
 #Create div.create {
   display: inline-block;
-  padding: 0 7px;
+  padding: 0 5px;
   color: #fff;
   font-size: 90%;
   text-transform: lowercase;
@@ -66,7 +66,7 @@ h1 {
   cursor: default;
 }
 #Creates {
-  width: 350px;
+  width: 400px;
 }
 #Creates div.create {
   color: #ffea74;

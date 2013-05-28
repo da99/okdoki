@@ -129,6 +129,13 @@ function func() {
 
 var form_meta = {};
 
+function reset_forms(selector) {
+  $(selector).find('div.buttons').show();
+  $(selector).find('div.loading').hide();
+  $(selector).find('div.errors').hide();
+  $(selector).find('div.success').hide();
+}
+
 function form(selector, func) {
   if (form_meta[selector]) {
     log('Already formed: ', selector);
@@ -136,10 +143,7 @@ function form(selector, func) {
   }
 
   var loaded = function (msg) {
-    $(selector).find('div.buttons').show();
-    $(selector).find('div.loading').hide();
-    $(selector).find('div.errors').hide();
-    $(selector).find('div.success').hide();
+    reset_forms(selector);
 
     if (msg) {
       after($(selector).find('div.buttons'))

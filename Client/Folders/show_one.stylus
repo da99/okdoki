@@ -1,8 +1,9 @@
 $light_blue = #E1EEFF
 $blue = #32A3EF
-$padding_create = 7px
+$padding_create = 5px
 $grey_on_black = #BBB
 $yellow = #FFEA74
+$col_width = 400px
 
 body
   padding: 0
@@ -17,7 +18,7 @@ h1
   margin-bottom: 0
 
 #Me
-  width: 350px
+  width: $col_width
   div.content
     background: rgba(0,0,0,0.6)
     padding: 2px 5px 4px 5px
@@ -26,7 +27,7 @@ h1
     font-weight: bold
 
 #Create
-  width: 350px
+  width: $col_width
   background: rgba(0,0,0,0.6)
   div.link
     padding: 0 2px $padding_create 0
@@ -61,7 +62,7 @@ h1
       cursor: default
 
 #Creates
-  width: 350px
+  width: $col_width
   div.create
     color: $yellow
     display: none

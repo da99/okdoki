@@ -6,6 +6,7 @@ $(function () {
   var reset_creates = function () {
     $(create_links).parent().removeClass('active');
     $(creates).hide();
+    reset_forms(creates + ' form');
   };
 
   on_click($(creates).find('a.cancel'), reset_creates);
@@ -28,9 +29,11 @@ $(function () {
 
   // === forms
   $(creates).each(function (i, e) {
-    form('#' + $(e).attr('id') + ' form', function (f) {
+    var form_se = '#' + $(e).attr('id') + ' form';
+    form(form_se, function (f) {
       f.on_success(function (result) {
-        log('DONE');
+        reset_creates();
+        log(result);
       });
     });
   });
