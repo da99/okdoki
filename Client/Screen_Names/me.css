@@ -43,6 +43,29 @@ body {
   color: #f50000;
   padding: 3px 7px;
 }
+div.create_boxs {
+  padding: 10px 0 0 0;
+  overflow: auto;
+}
+div.create_boxs div.box {
+  float: left;
+  margin: 0 0 0 10px;
+}
+div.create_boxs div.box h3 {
+  border-radius: 0;
+  display: block;
+  text-align: left;
+  padding-left: 10px;
+}
+div.create_boxs div.box div.content {
+  background-color: #ffea74;
+}
+div.create_boxs div.box div.content div.field span.label {
+  display: block;
+}
+div.create_boxs div.box div.content div.buttons {
+  text-align: right;
+}
 div.boxs {
   padding: 10px 0 0 0;
   overflow: auto;

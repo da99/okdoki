@@ -17,11 +17,38 @@ append content
     div.content
       | Bits and pieces from #{name}'s life.
 
-  div#Create
-    div.link
-      a(href="#create_folder") Create a New Folder
-    div.link
-      a(href="/") okdoki.com
+  div.create_boxs
+    div.box
+      h3 Create a new screen name.
+      div.content
+        form(id="create_screen_name", action="/me/#{name}/screen_name/create", method="POST")
+          div.fields
+            div.field.screen_name
+              span.label Screen Name:
+              input(type="text", value="", name="screen_name")
+          div.buttons
+            button Create
+
+    div.box
+      h3 Create a new folder.
+      div.content
+        form(id="create_screen_name", action="/me/#{name}/screen_name/create", method="POST")
+          div.fields
+            div.field.title
+              span.label Title:
+              input(type="text", value="", name="title")
+            div.field.acts_like
+              span.label It acts like:
+              select
+                option a folder (ie I DON'T CARE).
+                option a book.
+                option a magazine.
+                option a personal journal.
+                option a scrap book (aka pin board).
+                option a psyche-note binder.
+          div.buttons
+            button Create
+
 
 
   div.boxs

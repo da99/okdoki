@@ -1,4 +1,5 @@
 $light_blue = #E1EEFF
+$yellow     = #FFEA74
 $padding_create = 7px
 
 body
@@ -40,7 +41,24 @@ body
     padding: 3px $padding_create
 
 
-
+div.create_boxs
+  padding: 10px 0 0 0
+  overflow: auto
+  div.box
+    float: left
+    margin: 0 0 0 10px
+    h3
+      border-radius: 0
+      display: block
+      text-align: left
+      padding-left: 10px
+    div.content
+      background-color: $yellow
+      div.field
+        span.label
+          display: block
+      div.buttons
+        text-align: right
 
 div.boxs
   padding: 10px 0 0 0
@@ -52,7 +70,7 @@ div.boxs
     div.content
       width: 150px
       height: 150px
-      background: #FFEA74
+      background: $yellow
       border-radius: 0 0 10px 0
       font-size: small
       text-align: center
