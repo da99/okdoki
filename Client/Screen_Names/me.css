@@ -95,16 +95,21 @@ div.boxs {
 }
 div.boxs div.box {
   float: left;
-  margin: 0 0 0 15px;
+  margin: 0 0 0 10px;
+  width: 150px;
+}
+div.boxs div.box h3 {
+  padding-right: 5px;
+  padding-left: 5px;
 }
 div.boxs div.box div.content {
-  width: 150px;
   height: 150px;
   background: #ffea74;
   border-radius: 0 0 10px 0;
   font-size: small;
   text-align: center;
   padding: 0;
+  margin: 0;
 }
 div.boxs div.box div.content div.buttons {
   background: rgba(0,0,0,0.8);

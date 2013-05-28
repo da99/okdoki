@@ -48,10 +48,10 @@ append content
 
   div.create_boxs
 
-    div.box
+    div.box#Create_Folder
       h3 Create a new folder.
       div.content
-        form(id="create_screen_name", action="/me/#{name}/screen_name/create/folder", method="POST")
+        form(action="/me/#{name}/create/folder", method="POST")
           div.fields
             div.field.title
               span.label Title:
@@ -66,28 +66,28 @@ append content
                 option a scrap book (aka pin board).
                 option a psyche-note binder.
           div.buttons
-            button Create
+            button.submit Create
 
-    div.box
+    div.box#Create_Screen_Name
       h3 Create a new screen name.
       div.content
-        form(id="create_screen_name", action="/me/#{name}/screen_name/create", method="POST")
+        form(action="/screen_name/create", method="POST")
           div.fields
             div.field.screen_name
               span.label Screen Name:
               input(type="text", value="", name="screen_name")
           div.buttons
-            button Create
+            button.submit Create
 
     div.box#Create_Website
       h3 Create a new website.
       div.content
-        form(id="create_screen_name", action="/me/#{name}/screen_name/create/website", method="POST")
+        form(action="/me/#{name}/create/website", method="POST")
           div.fields
             div.field.title
               span.label Title:
               input(type="text", value="", name="title")
           div.buttons
-            button Create
+            button.submit Create
 
 

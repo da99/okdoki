@@ -81,15 +81,19 @@ div.boxs
 
   div.box
     float: left
-    margin: 0 0 0 15px
+    margin: 0 0 0 10px
+    width: 150px
+    h3
+      padding-right: 5px
+      padding-left: 5px
     div.content
-      width: 150px
       height: 150px
       background: $yellow
       border-radius: 0 0 10px 0
       font-size: small
       text-align: center
       padding: 0
+      margin: 0
       div.buttons
         background: rgba(0,0,0,0.8)
         padding: 5px
