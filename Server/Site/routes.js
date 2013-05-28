@@ -28,17 +28,16 @@ OK.get('/me/:name', function (i) {
 
 OK.post('/me/:name/create/folder', function (req, resp, next) {
   var num = parseInt(Math.random() * 10)
-  console.log(req.body);
   resp.json({success: true, location: "/me/" + req.params.name + "/folder/" + num, name: req.body.title});
 });
 
-OK.get('/me/:name/folder/:num', function (i) {
-  var req = i.req, resp = i.resp;
-  var num = parseInt(req.params.num);
-  var opts = Views.default_opts('Folders/show_one', req, resp)
-  opts['title'] = "Folder #" + num;
-  opts['name'] = req.params.num;
-  opts['about'] = "Stuff about #" + num;
+OK.get('/me/:screen_name/folder/:num', function (i) {
+  var req           = i.req, resp = i.resp;
+  var num           = parseInt(req.params.num);
+  var opts          = Views.default_opts('Folders/show_one', req, resp)
+  opts['title']     = "Folder #" + num;
+  opts['name']      = req.params.num;
+  opts['about']     = "Stuff about #" + num;
   opts['folder_id'] = num;
   return i.template(opts);
 });
@@ -54,6 +53,14 @@ OK.get( '/' , function (i) {
   };
 
   return i.template(opts);
+});
+
+OK.post("/me/:screen_name/folder/:num/create/page", function (req, resp, next) {
+  var o      = _.clone(req.body);
+  var num    = parseInt(Math.random() * 10)
+  o.location = "/me/" + req.params.screen_name + "/folder/" + req.params.num + '/page/' + num;
+  o.created_at = (new Date).getTime();
+  resp.json({success: true, msg: 'Created: ' + req.body.title, record: o});
 });
 
 _.each(['photo', 'video', 'text', 'link'], function (type) {

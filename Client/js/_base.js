@@ -33,6 +33,24 @@ function hide(se) {
 }
 
 // ================================================================
+// ================== Time ========================================
+// ================================================================
+
+// Modified From: http://stackoverflow.com/questions/6637574/how-to-format-now-with-jquery
+function time_for_humans(t) {
+  var now = (new Date).getTime();
+  var diff = (now - t);
+  var hours = (diff / 1000);
+  if (hours < 1)
+    return "<1 hr ago";
+  if (hours === 1)
+    return "1 hr ago";
+  if (hours < 24)
+    return hours + " hrs ago";
+  return (hours / 24) + " days ago";
+}
+
+// ================================================================
 // ================== Templates ===================================
 // ================================================================
 

@@ -90,11 +90,18 @@ h1 {
   padding: 0 0 0 4px;
   color: #bbb;
 }
+#Creates div.create div.buttons {
+  text-align: right;
+}
 #Creates div.create button {
-  margin: 0 20px 0 0;
+  margin: 0 0 0 10px;
+}
+#Pages {
+  padding: 10px;
 }
 div.boxs {
   padding: 10px 0 0 0;
+  display: none;
 }
 div.boxs div.box {
   float: left;

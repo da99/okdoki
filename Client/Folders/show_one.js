@@ -28,14 +28,13 @@ $(function () {
   });
 
   // === forms
-  $(creates).each(function (i, e) {
-    var form_se = '#' + $(e).attr('id') + ' form';
-    form(form_se, function (f) {
-      f.on_success(function (result) {
-        reset_creates();
-        log(result);
-      });
+  form( '#Page form', function (f) {
+    f.on_success(function (result) {
+      reset_forms(f);
+      // $(f).find('button').parent().append(compile_template('div.page_created', {HREF: result.record.location}));
+      $('#Pages').prepend(compile_template('div.page', {TITLE: result.record.title, HREF: result.record.location, TIME: time_for_humans(result.record.created_at)}));
+      log(result);
     });
-  });
+  })
 
 });

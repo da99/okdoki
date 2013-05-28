@@ -9,6 +9,15 @@ append templates
     div.content
       div.buttons
         a.open(href="{LOCATION}") Open
+  div.success.page_created
+    | Your new page is located at:
+    a(href="{HREF}")
+      | {HREF}
+  div.page
+    span.time {TIME}
+    span.divider &nbsp; -&nbsp;
+    a(href="{HREF}") {TITLE}
+
 
 append content
 
@@ -19,21 +28,21 @@ append content
       | #{about}
 
   div#Create
-    div.create Attach:
+    div.create Create:
     div.link
-      a(href="#Photo") Photo
-    div.link
-      a(href="#Video") Video
-    div.link
-      a(href="#Link") Link
-    div.link
-      a(href="#Text") Text
-    div.link
-      a(href="#Page") Page
-    div.link
-      a(href="#Quote") Quote
-    div.link
-      a(href="#Person") Person
+      a(href="#Page") New Page
+    //- div.link
+      //- a(href="#Photo") Photo
+    //- div.link
+      //- a(href="#Video") Video
+    //- div.link
+      //- a(href="#Link") Link
+    //- div.link
+      //- a(href="#Text") Text
+    //- div.link
+      //- a(href="#Quote") Quote
+    //- div.link
+      //- a(href="#Person") Person
 
 
   div#Creates
@@ -107,15 +116,16 @@ append content
           a.cancel(href="#cancel") Cancel
 
     div.create#Page
-      form(action="/folder/#{folder_id}/attach_page", method="POST")
+      form(action="/me/#{screen_name}/folder/#{folder_id}/create/page", method="POST")
         div.fields
           div.field.title
             label Title:
             div.ele
               input.field(type='text', name="title", value="")
         div.buttons
-          button.submit Attach
+          input(type="hidden", name="stuff_type", value="page")
           a.cancel(href="#cancel") Cancel
+          button.submit Create
 
     div.create#Quote
       form(action="/folder/#{folder_id}/attach_quote", method="POST")
@@ -151,8 +161,9 @@ append content
           button.submit Attach
           a.cancel(href="#cancel") Cancel
 
-  div.boxs
+  div#Pages
 
+  div.boxs
     div.box.item
       div.content
         div.title
@@ -162,14 +173,4 @@ append content
         div.buttons
           a(href="#edit") Edit
 
-    div.box.item
-      div.content
-        div.title Item 2
-        div.buttons
-          a(href="#edit") Edit
 
-    div.box.item
-      div.content
-        div.title Item 3
-        div.buttons
-          a(href="#edit") Edit
