@@ -96,8 +96,14 @@ h1 {
 #Creates div.create button {
   margin: 0 0 0 10px;
 }
+#Creates div#Page {
+  display: block;
+}
 #Pages {
   padding: 10px;
+}
+#Pages div.page {
+  padding: 0 0 5px 0;
 }
 div.boxs {
   padding: 10px 0 0 0;

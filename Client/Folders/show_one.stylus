@@ -84,10 +84,13 @@ h1
       text-align: right
     button
       margin: 0 0 0 10px
+  div#Page
+    display: block
 
 #Pages
   padding: 10px
-
+  div.page
+    padding: 0 0 5px 0
 div.boxs
   padding: 10px 0 0 0
   display: none

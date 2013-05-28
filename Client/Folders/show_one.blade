@@ -29,7 +29,7 @@ append content
 
   div#Create
     div.create Create:
-    div.link
+    div.link.active
       a(href="#Page") New Page
     //- div.link
       //- a(href="#Photo") Photo
@@ -124,7 +124,6 @@ append content
               input.field(type='text', name="title", value="")
         div.buttons
           input(type="hidden", name="stuff_type", value="page")
-          a.cancel(href="#cancel") Cancel
           button.submit Create
 
     div.create#Quote
