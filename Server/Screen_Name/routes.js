@@ -9,6 +9,17 @@ var _         = require('underscore')
 exports.route = function (mod) {
 
   var OK = mod.app;
+  var app = mod.app;
+
+  app.get('/me/:name', function (req, resp, next) {
+    var OK        = mod.New_Request(arguments);
+    var data      = OK.template_data('Screen_Names/me')
+    data['title'] = req.params.name;
+    data['name']  = req.params.name;
+    return OK.render_template();
+  });
+
+
   OK.put('/screen_names/:name', function (req, resp, next) {
     var n = req.params.name;
     var new_vals = _.pick(req.body,

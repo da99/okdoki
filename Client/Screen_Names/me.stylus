@@ -4,7 +4,7 @@ $padding_create = 7px
 
 body
   padding: 0 0 100px 0
-  background: #fff url('/img/doodle.gif') repeat-x;
+  background: #FCFCFC url('/img/doodle.gif') repeat-x;
 
 #Me, #Other_Screen_Names
   width: 300px

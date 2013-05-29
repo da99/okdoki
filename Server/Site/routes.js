@@ -21,14 +21,17 @@ function sample_im() {
 exports.route = function (mod) {
   var app = mod.app;
 
-  app.get('/me/:name', function (req, resp, next) {
-    var OK        = mod.New_Request(arguments);
-    var data      = OK.template_data('Screen_Names/me')
-    data['title'] = req.params.name;
-    data['name']  = req.params.name;
+  app.get( '/' , function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    var opts = OK.template_data('Site/index')
+    if (opts.logged_in) {
+      opts['title'] = "Your OKdoki Homepage(s)";
+    } else {
+      opts['title'] = 'OkDoki.com';
+    };
+
     return OK.render_template();
   });
-
   app.post('/me/:name/create/folder', function (req, resp, next) {
     var num = parseInt(Math.random() * 10)
     resp.json({success: true, location: "/me/" + req.params.name + "/folder/" + num, name: req.body.title});
@@ -45,18 +48,6 @@ exports.route = function (mod) {
     return i.template(opts);
   });
 
-  app.get( '/' , function (i) {
-    var req = i.req, resp = i.resp;
-    var opts = Views.default_opts('Site/index', req, resp)
-    if (opts.logged_in) {
-      opts.template_name = opts.template_name + '-logged_in';
-      opts['title'] = "Your OKdoki Homepage(s)";
-    } else {
-      opts['title'] = 'OkDoki.com';
-    };
-
-    return i.template(opts);
-  });
 
   app.get("/me/:screen_name/folder/:num/page/:page_num", function (i) {
     var req           = i.req, resp = i.resp;
