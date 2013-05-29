@@ -16,8 +16,7 @@ var Customer  = require('../Customer/model').Customer
 , Chat_Bot    = require('../Chat/Chat_Bot').Chat_Bot
 ;
 
-var OK          = require('./router').OK
-, log         = require('./base').log
+var log       = require('./base').log
 , write       = require('./helpers/write').write
 , homepage    = require('./helpers/homepage').homepage
 ;
@@ -34,13 +33,103 @@ var app     = module.exports.app = express();
 
 OK.engine(app);
 
-var New_River = function (req, resp, next) {
+// ================================================================
+// ================== Helpers =====================================
+// ================================================================
+
+
+var New_River = exports.New_River = function (req, resp, next) {
   var r = River.new(null);
   r.next('invalid', function (j) {
     resp.json({success: false, msg: j.job.error.message});
   });
   return r;
 };
+
+var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) {
+  var args = _.compact([_.toArray(raw_args), raw_resp, raw_next]);
+  var req = args[0], resp = args[1], next = args[2];
+
+  return {
+    status : function (code) {
+      if (code)
+        this._status = code;
+      return this._status || 200;
+    },
+    html:  function (str) {
+      this.last_modified_now();
+      this.ETag_from(str);
+      resp.send(str);
+    },
+    text: function (str) {
+      resp.set('Content-Type', 'text/plain');
+      this.last_modified_now();
+      this.ETag_from(str);
+      return resp.send(str);
+    },
+    json: function (data) {
+      this.last_modified_now();
+      this.ETag_from(data);
+      resp.json(data);
+    },
+    json_success: function (resp, msg, o) {
+      if (!o)
+        o = {};
+      o.msg     = msg;
+      o.success = true;
+      write.json(resp, o);
+    },
+    json_fail: function (resp, msg, stat, o) {
+      if (!o)
+        o = {};
+      o.msg     = msg;
+      o.success = false;
+      write.json(resp, o, (stat || 404));
+    },
+    default_data : function (name, req, resp) {
+      var opts = { homepage_belongs_to_viewer: false,
+        template_name : name,
+        logged_in     : !!req.user,
+        customer      : req.user,
+        screen_name   : req.params.screen_name,
+        screen_names  : [],
+        token         : req.session._csrf,
+        _csrf         : req.session._csrf,
+        aud           : req.user,
+        is_testing    : !!process.env.IS_TESTING
+      };
+
+      if (opts.logged_in)
+        opts.screen_names = req.user.screen_names();
+
+      if (!opts.screen_name)
+        opts.screen_name = opts.screen_names[0]
+
+      return opts;
+    },
+    template_data : function (name, data) {
+      if (!this._template_data)
+        this._template_data = this.default_data(name, req, resp);
+      if (data)
+        _.extend(this._template_data, data);
+      return this._template_data;
+    },
+    last_modified_now : function () {
+      resp.set('Last-Modified', (new Date).toUTCString());
+    },
+    ETag_from : function (data) {
+      resp.set('ETag', (new Date).getTime().toString());
+    },
+    render_template: function (name, data) {
+      if (name)
+        this.template_data.apply(this, arguments);
+      this.last_modified_now();
+      return resp.render(this.template_data().template_name, this.template_data());
+    }
+  };
+};
+
+
 
 
 
