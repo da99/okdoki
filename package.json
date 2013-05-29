@@ -32,7 +32,8 @@
     "redis"        : "x.x.x",
     "hiredis"      : "x.x.x",
     "cli-color"    : "x.x.x",
-    "akui"         : "x.x.x"
+    "akui"         : "x.x.x",
+    "spooky"       : "x.x.x"
   },
 
   "engines": {
