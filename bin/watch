@@ -98,7 +98,7 @@ watch("bin/watch")
 .on('error', throw_err);
 ;
 
-watch( ["Client/App/_base.js", "bin/upgrade"] )
+watch( ["Client/App/js/_base.js", "bin/upgrade"] )
 .on('change', function (filename) {
   upgrade();
 })

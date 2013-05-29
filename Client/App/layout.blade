@@ -6,9 +6,9 @@ html(lang='en')
     meta(http-equiv="Content-Type", content="text/html charet=UTF-8" )
 
     link(rel='shortcut icon', href='/favicon.ico')
-    link(href="/css/lenka-stabilo.css", rel="stylesheet", type="text/css")
-    link(href='/css/vanilla.reset.css', rel='stylesheet', media='screen')
-    link(href="/App/_base.css", rel='stylesheet', media='screen')
+    link(href="/App/css/lenka-stabilo.css", rel="stylesheet", type="text/css")
+    link(href='/App/css/vanilla.reset.css', rel='stylesheet', media='screen')
+    link(href="/App/css/_base.css", rel='stylesheet', media='screen')
 
     block styles
 
@@ -45,7 +45,7 @@ html(lang='en')
     - if(is_testing)
       script(src='/akui_tests/window.onerror.js')
 
-    script(src='/App/okdoki.js')
+    script(src='/App/js/okdoki.js')
     script#templates(type="text/x-okdoki")
       block templates
 
