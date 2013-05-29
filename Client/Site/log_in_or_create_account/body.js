@@ -74,7 +74,14 @@ $(function () {
   };
 
   form('#sign_in', demo_func);
-  form('#create_account', demo_func);
+  form('#create_account', function (f) {
+    f.on_success(function (result) {
+      reset_forms(f);
+      f.find('div.buttons').after(compile_template('div.screen_name_created', {HREF: result.location}));
+      log(result);
+      document.location.href = result.location;
+    });
+  });
 
   function publish_im(data) {
     var div = $('<div class="box"><div class="content"></div></div>');

@@ -1,5 +1,8 @@
 
 append templates
+  div.screen_name_created.success_msg
+    | The website for your screen name is at:
+    a(href="{HREF}") {HREF}
   div#screen_names.box
     h3 My Screen Names &amp; Channels
     div.content
@@ -34,7 +37,7 @@ div.box
         div.field.screen_name
           div
             span.label Screen name:
-          input.field(type='text', name="screen_name", value="This does not...")
+          input.field(type='text', name="screen_name", value="")
 
         //- div.field.email
           //- div
@@ -46,12 +49,12 @@ div.box
           div
             span.label Pass phrase:
             span.value  (for better security, use spaces and words)
-          input.field(type='password', name="passphrase", value="demo")
+          input.field(type='password', name="pass_phrase", value="")
 
         div.field.confirm_passphrase
           div
             span.label Re-type the pass phrase:
-          input.field(type='password', name="confirm_passphrase", value="demo")
+          input.field(type='password', name="confirm_pass_phrase", value="")
 
         //- div.field.confirm-passphrase
           //- div

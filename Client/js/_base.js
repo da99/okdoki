@@ -91,6 +91,7 @@ function after(se) {
     draw_if_not_found : function (se, txt) {
       var e_find = parent.find(se);
       if (e_find.length) {
+        e_find.text(txt);
         return e_find;
       }
 
@@ -165,7 +166,7 @@ function form(selector, func) {
 
     if (msg) {
       after($(selector).find('div.buttons'))
-      .draw_if_not_found('div.errors', "Okdoki.com is having some trouble processing your request. Try again later in a few minutes.")
+      .draw_if_not_found('div.errors', msg)
       .show()
       ;
     }
@@ -253,7 +254,7 @@ function form(selector, func) {
   e.on_invalid = function (on_i) {
     form_meta[selector].invalid = function (result) {
       loaded();
-      loaded(result.msg || "Unknown error. Try again later.");
+      loaded(result.msg || "Okdoki.com is having some trouble processing your request. Try again later in a few minutes.");
       on_i(result);
     };
   }

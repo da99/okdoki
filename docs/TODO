@@ -29,3 +29,5 @@
 - Ensure tiemzone of postgrsql "/etc/postgresql/9.2/main/postgresql.conf"
   is: timezone = 'UTC'
   http://justatheory.com/computers/databases/postgresql/use-timestamptz.html
+
+- SEND runtime error report

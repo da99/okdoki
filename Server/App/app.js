@@ -198,6 +198,7 @@ if (process.env.IS_TESTING)
   require('../Test/routes');
 
 require('../Site/routes');
+require('../Screen_Name/routes');
 
 // ================================================================
 // ==================== HOMEPAGE ==================================

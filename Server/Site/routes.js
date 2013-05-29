@@ -2,12 +2,22 @@
 var _         = require('underscore')
 , OK          = require('../App/router').OK
 , Views       = require('../App/helpers/Views').Views
+, Customer    = require('../Customer/model').Customer
 , blade       = require('blade')
 , Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
+, River       = require('da_river').River
 ;
 
 var MESS = {
+};
+
+var New_River = function (req, resp, next) {
+  var r = River.new(null);
+  r.next('invalid', function (j) {
+    resp.json({success: false, msg: j.job.error.message});
+  });
+  return r;
 };
 
 function sample_im() {
@@ -93,7 +103,25 @@ _.each(['photo', 'video', 'text', 'link'], function (type) {
   });
 });
 
-_.each(['/account', '/sign-in'], function (url) {
+OK.post('/account', function (req, resp, next) {
+  var r = New_River(req, resp, next);
+  r.job(function (j) {
+    console.log(req.body)
+    Customer.create({
+      screen_name         : req.body.screen_name,
+      display_name        : req.body.screen_name,
+      ip                  : req.ip,
+      pass_phrase         : req.body.pass_phrase,
+      confirm_pass_phrase : req.body.confirm_pass_phrase
+    }, j);
+  })
+  .run(function (r, last) {
+    var sn = last.screen_names()[0];
+    resp.json({success: true, screen_name: sn, location: '/me/' + sn});
+  });
+});
+
+_.each(['/sign-in'], function (url) {
   OK.post(url, function (req, resp, next) {
     resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});
   });

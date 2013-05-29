@@ -77,7 +77,7 @@ describe( 'Customer', function () {
       assert.deepEqual(customer.screen_names(), [screen_name.toUpperCase()]);
     });
 
-    it( 'saves Customer id to Customer object', function (done) {
+    it( 'saves Customer id to Customer object', function () {
       var c = customer;
 
       // Has the customer id been saved?
@@ -85,8 +85,6 @@ describe( 'Customer', function () {
 
       // Has the screen name been saved?
       assert.deepEqual([screen_name.toUpperCase()], c.screen_names());
-
-      done();
     });
 
   }); // === describe create
