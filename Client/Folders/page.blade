@@ -1,0 +1,57 @@
+include "../App/layout.blade"
+
+append styles
+  link(rel="stylesheet", media="screen", href="/Folders/show_one.css")
+
+append scripts
+  script(src="/Folders/page.js")
+
+append templates
+  div.item
+    div {BODY}
+  div.item.with_title
+    h3 {TITLE}
+    div {BODY}
+
+append content
+
+  h1 #{title}
+
+  div#Me
+    div.content
+      | #{about}
+
+  div.items#Items
+    - var i = 0
+    foreach items as item
+      div.item(id="page_item_#{i++}")
+        - if(item[0])
+          h3 #{item[0]}
+        div #{item[1]}
+
+  div#Create
+    div.create Add:
+    div.link.active
+      a(href="#Page") More Text
+  div#Creates
+    div.create#Page
+      form(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}/create/text", method="POST")
+        div.fields
+          div.field.title
+            label Title:
+            span.value (optional)
+            div.ele
+              input.field(type='text', name="title", value="")
+          div.field.content
+            label Text:
+            div.ele
+              textarea(name="body")
+        div.buttons
+          input(type="hidden", name="stuff_type", value="page")
+          button.submit Create
+
+
+
+
+
+

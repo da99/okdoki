@@ -1,0 +1,16 @@
+#Items {
+  max-width: 400px;
+  padding: 0 0 20px 0;
+}
+#Items div.item {
+  padding: 0 5px 5px 5px;
+}
+#Items div.item h3 {
+  padding: 0;
+  margin: 0;
+}
+#Creates label,
+#Creates span.value {
+  display: inline;
+  padding: 0 5px 0 0;
+}
