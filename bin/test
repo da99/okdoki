@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-set -u
-set -e
-set -o pipefail
+set -e -u -o pipefail
 
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
@@ -18,7 +16,12 @@ bold_white=$(tput bold)${white}
 
 echo ""
 echo "Running nodejs/mocha tests..."
-bin/mocha
+bin/mocha_file        \
+  test/Customer.js    \
+  test/Screen_Name.js \
+  "$@"
+
+# NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
 
 # echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
 
