@@ -59,21 +59,28 @@ div.form div.form a.cancel {
   margin: 0;
 }
 #header,
-#footer {
+#footer,
+#Screen_Names {
   background: #000;
   background: rgba(0,0,0,0.7);
   text-align: center;
   text-align: center;
 }
 #header p,
-#footer p {
+#footer p,
+#Screen_Names p {
   max-width: 400px;
   margin: 0 auto;
 }
 #header strong,
-#footer strong {
+#footer strong,
+#Screen_Names strong {
   background: #185dad;
   color: #fff;
+}
+#Screen_Names {
+  color: #e1eeff;
+  padding: 7px 0 10px 0;
 }
 #header {
   padding: 10px 0 10px 0;

@@ -84,7 +84,8 @@ div.form
   margin: 0
 
 
-#header, #footer
+
+#header, #footer, #Screen_Names
   background: #000;
   background: rgba(0,0,0,0.7)
   text-align : center
@@ -98,6 +99,9 @@ div.form
     background: #185DAD
     color: #fff
 
+#Screen_Names
+  color: $light_blue
+  padding: 7px 0 10px 0
 
 #header
   padding       : 10px 0 10px 0

@@ -51,13 +51,23 @@ append content
 
   div.sidebar#sidebar
 
+    - if (logged_in)
+      div#Screen_Names
+        - if (screen_names.length === 1)
+          span Your screen name:
+        - else
+          span Your screen names:
+        foreach screen_names as sn
+          div
+            a(href="/me/#{sn}") #{sn}
+
     h1.title
       span.main
         | ok
       span.sub
         | doki
 
-    div(id='header')
+    div#header
       p
         span.about
           | Create websites...
@@ -82,7 +92,8 @@ append content
         a(href="http://lenkavomelova.com/")
           | Lenka Stabilo
 
-    call applet("Site/log_in_or_create_account")
+    - if (!logged_in)
+      call applet("Site/log_in_or_create_account")
 
 append content
   div.col#Why
