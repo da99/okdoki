@@ -17,14 +17,15 @@ append content
     div.content
       | Bits and pieces from #{name}'s life.
 
-  div#Other_Screen_Names
-    div.content
-      span Your other screen names:
-      ul
-        li
-          a(href="/me/name-1") name-1
-        li
-          a(href="/me/name-2") name-2
+
+  - if (logged_in && screen_names.length > 1)
+    div#Other_Screen_Names
+      div.content
+        span Your other screen names:
+        ul
+          foreach screen_names as sn
+            li
+              a(href="/me/#{sn}") #{sn}
 
   div.boxs
 

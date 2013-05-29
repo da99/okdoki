@@ -34,6 +34,14 @@ var app     = express();
 
 OK.engine(app);
 
+var New_River = function (req, resp, next) {
+  var r = River.new(null);
+  r.next('invalid', function (j) {
+    resp.json({success: false, msg: j.job.error.message});
+  });
+  return r;
+};
+
 
 
 // ================================================================
@@ -145,24 +153,33 @@ passport.serializeUser(function (user, done) { done(null, user.data.id); });
 
 passport.deserializeUser(function (id, done) {
   var on_err = function (err) {
-    done(null, false, {message: "Not found."});
   };
 
-  Customer.read(id, function (c) {
-    c.read_screen_names(function () {
-      done(null, c);
-    }, on_err);
-  }, on_err);
+  River.new(null)
+  .next('not_found', function (j) {
+    done(null, false, {success: false, msg: "Not found."});
+  })
+  .job(function (j) {
+    Customer.read_by_id(id, j);
+  })
+  .job(function (j, last) {
+    done(null, last);
+  })
+  .run();
 });
 
 passport.use(new LocalStrategy( { usernameField: 'screen_name', passwordField: 'pass_phrase' }, function (screen_name, pass_phrase, done) {
-  Customer.read({screen_name: screen_name, pass_phrase: pass_phrase }, function (c) {
-    c.read_screen_names(function () {
-      done(null, c);
-    });
-  }, function () {
-    done(null, false, {message: "Not found."});
-  });
+  River.new(null)
+  .next('not_found', function (j) {
+    done(null, false, {success:false, message: "Not found."});
+  })
+  .job(function (j) {
+    Customer.read_by_screen_name({screen_name: screen_name, pass_phrase: pass_phrase }, j);
+  })
+  .job(function (j, c) {
+    done(null, c);
+  })
+  .run();
 }));
 
 // ================================================================
@@ -274,6 +291,68 @@ app.get('/info/:name/id/:id', function (req, resp) {
 });
 
 
+// ================================================================
+// ================== Sign-In =====================================
+// ================================================================
+
+app.get('/log-out', function (req, resp, next) {
+  req.logout();
+  resp.redirect('/');
+});
+
+app.post('/account', function (req, resp, next) {
+  var r = New_River(req, resp, next);
+  r.job(function (j) {
+    console.log(req.body)
+    Customer.create({
+      screen_name         : req.body.screen_name,
+      display_name        : req.body.screen_name,
+      ip                  : req.ip,
+      pass_phrase         : req.body.pass_phrase,
+      confirm_pass_phrase : req.body.confirm_pass_phrase
+    }, j);
+  })
+  .run(function (r, last) {
+    var sn = last.screen_names()[0];
+    sign_in(req, resp, next);
+  });
+});
+
+app.post('/sign-in', function (req, resp, next) {
+
+  if (!req.body.screen_name || req.body.screen_name.trim().length == 0 )
+    return resp.json( { msg: "Screen name is required.", success: false } );
+
+  if (!req.body.pass_phrase || req.body.pass_phrase.trim().length == 0 )
+    return resp.json( { msg: "Password is required.", success: false } );
+
+  sign_in(req, resp, next);
+
+  return false;
+});
+
+var sign_in = function (req, resp, next) {
+  return passport.authenticate('local', function(err, user, info) {
+    if (err)
+      return next(err);
+
+    if (!user) {
+      return resp.json( { msg: "Screen name or pass phrase was wrong. Check your spelling.", success: false } );
+    }
+
+    req.login(user, function(err) {
+      if (err)
+        return next(err);
+      resp.json({
+        msg         : "You are now sign-ed in. Please wait as page reloads...",
+        success     : true,
+        screen_name : req.body.screen_name,
+        location    : "/me/" + req.body.screen_name
+      });
+    });
+
+  })(req, resp, next);
+};
 
 
 

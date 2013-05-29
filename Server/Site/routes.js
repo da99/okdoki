@@ -12,14 +12,6 @@ var _         = require('underscore')
 var MESS = {
 };
 
-var New_River = function (req, resp, next) {
-  var r = River.new(null);
-  r.next('invalid', function (j) {
-    resp.json({success: false, msg: j.job.error.message});
-  });
-  return r;
-};
-
 function sample_im() {
   var id = (new Date).getTime();
   MESS[id] = {okid: 'm' + id, from_id: 0, from: 'OKDOKI.com',
@@ -103,30 +95,6 @@ _.each(['photo', 'video', 'text', 'link'], function (type) {
   });
 });
 
-OK.post('/account', function (req, resp, next) {
-  var r = New_River(req, resp, next);
-  r.job(function (j) {
-    console.log(req.body)
-    Customer.create({
-      screen_name         : req.body.screen_name,
-      display_name        : req.body.screen_name,
-      ip                  : req.ip,
-      pass_phrase         : req.body.pass_phrase,
-      confirm_pass_phrase : req.body.confirm_pass_phrase
-    }, j);
-  })
-  .run(function (r, last) {
-    var sn = last.screen_names()[0];
-    resp.json({success: true, screen_name: sn, location: '/me/' + sn});
-  });
-});
-
-_.each(['/sign-in'], function (url) {
-  OK.post(url, function (req, resp, next) {
-    resp.json({success: true, screen_name: 'go99', display_name: 'Go99'});
-  });
-});
-
 OK.get('/IMs', function (req, resp, next) {
   _.each(MESS, function (im, id) {
     if (id < ((new Date).getTime() - 3000)) {
@@ -159,38 +127,6 @@ OK.get('/keywords/:keywords', function (req, resp, next) {
 // ****************** Authentication ******************************
 // ****************************************************************
 
-OK.get('/log-out', function (req, resp, next) {
-  req.logout();
-  resp.redirect('/');
-});
-
-OK.post('/sign-in', function (req, resp, next) {
-
-  if (!req.body.screen_name || req.body.screen_name.trim().length == 0 )
-    return write.json( resp, { msg: "Screen name is required.", success: false } );
-
-  if (!req.body.pass_phrase || req.body.pass_phrase.trim().length == 0 )
-    return write.json( resp, { msg: "Password is required.", success: false } );
-
-  passport.authenticate('local', function(err, user, info) {
-
-    if (err)
-      return next(err);
-
-    if (!user) {
-      return write.json( resp, { msg: "Screen name/pass phrase was wrong. Check your spelling.", success: false } );
-    }
-
-    req.login(user, function(err) {
-      if (err)
-        return next(err);
-      write.json( resp, { msg: "You are now sign-ed in. Please wait as page reloads...", success: true } );
-    });
-
-  })(req, resp, next);
-
-  return false;
-});
 
 
 

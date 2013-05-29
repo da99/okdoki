@@ -31,3 +31,4 @@
   http://justatheory.com/computers/databases/postgresql/use-timestamptz.html
 
 - SEND runtime error report
+- handle dup names, records

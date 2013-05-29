@@ -236,7 +236,7 @@ var Validate_Create = Check.new('create customer', function (vc) {
 
   vc.define('pass_phrase', function (validator) {
     validator
-    .between(10, 100)
+    .between(6, 100)
     .at_least_2_words('Pass phrase must be two words or more... with spaces.')
     ;
   });

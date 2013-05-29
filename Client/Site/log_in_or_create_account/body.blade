@@ -1,5 +1,7 @@
 
 append templates
+  div.sign_in_success
+    | Please wait as page loads...
   div.screen_name_created.success_msg
     | The website for your screen name is at:
     a(href="{HREF}") {HREF}
@@ -20,11 +22,11 @@ div.box
         div.field.screen_name
           div
             span.label Screen name:
-          input.field(type='text', name="screen_name", value="demo")
+          input.field(type='text', name="screen_name", value="")
         div.field.passphrase
           div
             span.label Pass phrase:
-          input.field(type='password', name="passphrase", value="demo")
+          input.field(type='password', name="pass_phrase", value="")
         div.field.buttons
           button.submit Log-In
 
