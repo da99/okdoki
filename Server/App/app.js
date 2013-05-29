@@ -17,7 +17,6 @@ var Customer  = require('../Customer/model').Customer
 ;
 
 var log       = require('./base').log
-, write       = require('./helpers/write').write
 , homepage    = require('./helpers/homepage').homepage
 ;
 
@@ -30,8 +29,6 @@ var password_hash = require('password-hash')
 var express = require('express');
 var toobusy = require('toobusy');
 var app     = module.exports.app = express();
-
-OK.engine(app);
 
 // ================================================================
 // ================== Helpers =====================================
@@ -47,7 +44,7 @@ var New_River = exports.New_River = function (req, resp, next) {
 };
 
 var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) {
-  var args = _.compact([_.toArray(raw_args), raw_resp, raw_next]);
+  var args = _.flatten(_.compact([_.toArray(raw_args), raw_resp, raw_next]));
   var req = args[0], resp = args[1], next = args[2];
 
   return {
@@ -331,8 +328,8 @@ module.exports.sign_in = function (req, resp, next) {
 
 
 require('../Site/session_routes').route(module.exports);
-require('../Site/routes');
-require('../Screen_Name/routes');
+require('../Site/routes').route(module.exports);
+require('../Screen_Name/routes').route(module.exports);
 
 // ================================================================
 // ==================== HOMEPAGE ==================================

@@ -1,6 +1,5 @@
 
 var _         = require('underscore')
-, Views       = require('../App/helpers/Views').Views
 , Customer    = require('../Customer/model').Customer
 , blade       = require('blade')
 , Faker       = require('Faker')
@@ -27,7 +26,7 @@ exports.route = function (mod) {
     var data      = OK.template_data('Screen_Names/me')
     data['title'] = req.params.name;
     data['name']  = req.params.name;
-    return mod.render_template();
+    return OK.render_template();
   });
 
   app.post('/me/:name/create/folder', function (req, resp, next) {

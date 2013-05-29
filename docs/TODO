@@ -32,3 +32,5 @@
 
 - SEND runtime error report
 - handle dup names, records
+- Why 130 error code when bin/watch closes server?
+
