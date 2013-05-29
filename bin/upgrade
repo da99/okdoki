@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 
 flips="$@"
-js="Client/js"
+js="Client/App"
 base_file="$js/okdoki.js"
 
 if [[ ! "$@" == *skip_os* ]]
