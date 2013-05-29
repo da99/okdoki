@@ -1,7 +1,8 @@
 
 append templates
   div.sign_in_success
-    | Please wait as page loads...
+    | You are now sign-ed in. Go to...
+    a(href="{HREF}") {HREF}
   div.screen_name_created.success_msg
     | The website for your screen name is at:
     a(href="{HREF}") {HREF}

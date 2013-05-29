@@ -30,7 +30,7 @@ var password_hash = require('password-hash')
 
 var express = require('express');
 var toobusy = require('toobusy');
-var app     = express();
+var app     = module.exports.app = express();
 
 OK.engine(app);
 
@@ -213,6 +213,35 @@ var require_log_in = function (req, resp, next) {
 if (process.env.IS_TESTING)
   require('../Test/routes');
 
+// ================================================================
+// ================== Sign-In =====================================
+// ================================================================
+
+module.exports.sign_in = function (req, resp, next) {
+  return passport.authenticate('local', function(err, user, info) {
+    if (err)
+      return next(err);
+
+    if (!user) {
+      return resp.json( { msg: "Screen name or pass phrase was wrong. Check your spelling.", success: false } );
+    }
+
+    req.login(user, function(err) {
+      if (err)
+        return next(err);
+      resp.json({
+        msg         : "You are now sign-ed in. Please wait as page reloads...",
+        success     : true,
+        screen_name : req.body.screen_name,
+        location    : "/me/" + req.body.screen_name
+      });
+    });
+
+  })(req, resp, next);
+};
+
+
+require('../Site/session_routes').route(module.exports);
 require('../Site/routes');
 require('../Screen_Name/routes');
 
@@ -288,70 +317,6 @@ app.get('/info/:name/id/:id', function (req, resp) {
   opts.logged_in = false;
   resp.render(opts['template_name'], opts);
 });
-
-
-// ================================================================
-// ================== Sign-In =====================================
-// ================================================================
-
-app.get('/log-out', function (req, resp, next) {
-  req.logout();
-  resp.redirect('/');
-});
-
-app.post('/account', function (req, resp, next) {
-  var r = New_River(req, resp, next);
-  r.job(function (j) {
-    console.log(req.body)
-    Customer.create({
-      screen_name         : req.body.screen_name,
-      display_name        : req.body.screen_name,
-      ip                  : req.ip,
-      pass_phrase         : req.body.pass_phrase,
-      confirm_pass_phrase : req.body.confirm_pass_phrase
-    }, j);
-  })
-  .run(function (r, last) {
-    var sn = last.screen_names()[0];
-    sign_in(req, resp, next);
-  });
-});
-
-app.post('/sign-in', function (req, resp, next) {
-
-  if (!req.body.screen_name || req.body.screen_name.trim().length == 0 )
-    return resp.json( { msg: "Screen name is required.", success: false } );
-
-  if (!req.body.pass_phrase || req.body.pass_phrase.trim().length == 0 )
-    return resp.json( { msg: "Password is required.", success: false } );
-
-  sign_in(req, resp, next);
-
-  return false;
-});
-
-var sign_in = function (req, resp, next) {
-  return passport.authenticate('local', function(err, user, info) {
-    if (err)
-      return next(err);
-
-    if (!user) {
-      return resp.json( { msg: "Screen name or pass phrase was wrong. Check your spelling.", success: false } );
-    }
-
-    req.login(user, function(err) {
-      if (err)
-        return next(err);
-      resp.json({
-        msg         : "You are now sign-ed in. Please wait as page reloads...",
-        success     : true,
-        screen_name : req.body.screen_name,
-        location    : "/me/" + req.body.screen_name
-      });
-    });
-
-  })(req, resp, next);
-};
 
 
 

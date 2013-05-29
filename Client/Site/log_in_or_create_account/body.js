@@ -76,7 +76,8 @@ $(function () {
   form('#sign_in', function (f) {
     f.on_success(function (result) {
       reset_forms(f);
-      f.find('div.buttons').after(compile_template('div.sign_in_success', {}));
+      f.find('div.buttons').after(compile_template('div.sign_in_success', {HREF: result.location}));
+      document.location.href = result.location;
     });
   });
 
@@ -85,7 +86,7 @@ $(function () {
       reset_forms(f);
       f.find('div.buttons').after(compile_template('div.screen_name_created', {HREF: result.location}));
       log(result);
-      document.location.href = result.location:
+      document.location.href = result.location;
     });
   });
 
