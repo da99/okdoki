@@ -11,9 +11,10 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = " \
-    CREATE TABLE IF NOT EXISTS \"" + table + "\" ( \
-    id                  serial PRIMARY KEY,   \
-    owner_id            int,                  \
+    CREATE TABLE IF NOT EXISTS \"" + table + "\" (    \
+    id                  serial PRIMARY KEY,           \
+    type_id             smallint DEFAULT 1 NOT NULL   \
+    owner_id            int,                          \
     screen_name         varchar(15) NOT NULL UNIQUE,  \
     display_name        varchar(15) NOT NULL UNIQUE,  \
     nick_name           varchar(30) default NULL,     \
