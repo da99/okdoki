@@ -1,6 +1,8 @@
 
 $(function () {
   form( '#Creates form', function (f) {
+    f.at_least_one_not_empty('input[name="title"]', 'textarea[name="body"]');
+
     f.on_success(function (result) {
       reset_forms(f);
       var last_id  = $('#Items div.item').last().attr('id');

@@ -5,7 +5,7 @@ cmd="$1"
 full_cmd="$@"
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Uni Contact IM );
+mods=( Customer Screen_Name );
 
 export DUCK_TEMPLATE=$(pwd)/Server/App/duck_template.js
 bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"

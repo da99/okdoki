@@ -180,10 +180,20 @@ function form(selector, func) {
 
   $(selector).find('button.submit').click(function (e) {
     e.stopPropagation();
-
     var form    = $($(this).closest('form'));
     var url     = form.attr('action');
     var data    = form_to_json(form);
+
+    if (!form_meta[selector].only_if(form))
+      return false;
+
+    if (form_meta[selector].at_least_one_not_empty) {
+      var ls = _.uniq(_.map(form_meta[selector].at_least_one_not_empty, function (v) {
+        return $.trim(form.find(v).val()).length > 0;
+      }));
+      if (!_.contains(ls, true))
+        return false;
+    }
 
     $(selector).find('div.buttons').hide();
 
@@ -208,6 +218,14 @@ function form(selector, func) {
   });
 
   var e = $(selector);
+
+  e.only_if = function (func) {
+    form_meta[selector].only_if = func;
+  };
+
+  e.at_least_one_not_empty = function () {
+    form_meta[selector].at_least_one_not_empty = _.toArray(arguments);
+  };
 
   e.on_success = function (on_s) {
     form_meta[selector].success = function (result) {
@@ -240,7 +258,11 @@ function form(selector, func) {
     };
   }
 
+  //
   // default handlers
+  //
+  e.only_if(function () { return true; });
+
   e.on_error(function (err, result) {
     log("http error:", err, result);
   });
