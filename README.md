@@ -1,25 +1,13 @@
 
 
-How to Make a Bot
+What is Okdoki?
 -----------------
 
-All commands are regular HTTP POST ajax requests. The bot (ie web app)
-gets sent a FORM params. Your web app (ie bot) returns mime-type:
+Turn your life into a website. Your
+friends help you manage it.
 
-    application/json
 
-Content of HTTP response is valid JSON:
+Disclaimer:
+-----------
+This software is not ready for human consumption.
 
-    JSON.stringify({ msg: "....", success: true });
-
-Set `success` to `false` for failures:
-
-    JSON.stringify({ msg: "Dude?! No idea what you saying... check spelling...", success: false });
-
-To ask to have robot listed, send the following command. Your request will be put on a queue to be reviewed, tested, and accepted/rejected/hiatus.
-
-    @okdoki Please publish: HTTP_ADDRESS Contact: EMAIL_or_TWITTER
-
-To check status of your bot listing request:
-
-    @okdoki Status for: HTTP_ADDRESS
