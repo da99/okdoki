@@ -132,8 +132,7 @@ app.configure(function () {
     if (req.accepts('html')) {
       resp.set("Expires", "Tue, 03 Jul 2001 06:00:00 GMT");
       resp.set("Last-Modified", "Wed, 15 Nov 1995 04:58:08 GMT");
-      resp.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-      resp.set("Cache-Control", "post-check=0, pre-check=0");
+      resp.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
       resp.set("Pragma", "no-cache");
     }
     next();
