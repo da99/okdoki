@@ -31,6 +31,10 @@ html(lang='en')
 
   body
 
+    - if (logged_in)
+      div.logout
+        a(href="/log-out") Log-out
+
     block content
     block footer
     block other
