@@ -9,15 +9,16 @@ body
   background: #FCFCFC url('/App/img/ps_neutral_@2X.png');
 
 #Me, #Other_Screen_Names
-  width: 300px
   h3
     font-family: 'Lenka'
-    font-size: 200%
+    font-size: 320%
     font-style: italic
-    text-align: center
+    text-align: left
+    padding-left: 10px
     padding-bottom: 0
     margin-bottom: 0
   div.content
+    width: 300px
     background: rgba(0,0,0,0.6)
     padding: 2px 5px 4px 5px
     color: #fff
@@ -53,9 +54,10 @@ body
     padding: 3px $padding_create
 
 
-div.create_boxs
+#Create_Boxs
   padding: 10px 0 0 0
   overflow: auto
+  float: left
   div.box
     float: left
     margin: 0 0 0 10px
@@ -110,7 +112,6 @@ div.boxs
 #Folders
   padding: 10px 0 0 10px
   float: left
-  clear: right
   h3
     padding: 0
     margin: 0
@@ -118,19 +119,13 @@ div.boxs
     font-style: italic
     text-transform: lowercase
   div.folder
-    padding: 3px 0 5px 8px
+    padding: 3px 15px 5px 8px
     font-size: 140%
+    font-weight: bold
     a.open
       text-transform: lowercase
+      font-size: 90%
     span.title
       padding: 0 0 0 3px
   div.folder:hover
     background: #fff
-    font-weight: bold
-    a.open
-      text-transform: uppercase
-    span.title
-      padding: 0 0 0 9px
-
-#Create_Boxs
-  float: left

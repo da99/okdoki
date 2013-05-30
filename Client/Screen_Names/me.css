@@ -3,21 +3,19 @@ body {
   background: #fcfcfc url("/img/doodle.gif") repeat-x;
   background: #fcfcfc url("/App/img/ps_neutral_@2X.png");
 }
-#Me,
-#Other_Screen_Names {
-  width: 300px;
-}
 #Me h3,
 #Other_Screen_Names h3 {
   font-family: 'Lenka';
-  font-size: 200%;
+  font-size: 320%;
   font-style: italic;
-  text-align: center;
+  text-align: left;
+  padding-left: 10px;
   padding-bottom: 0;
   margin-bottom: 0;
 }
 #Me div.content,
 #Other_Screen_Names div.content {
+  width: 300px;
   background: rgba(0,0,0,0.6);
   padding: 2px 5px 4px 5px;
   color: #fff;
@@ -61,15 +59,16 @@ body {
   color: #f50000;
   padding: 3px 7px;
 }
-div.create_boxs {
+#Create_Boxs {
   padding: 10px 0 0 0;
   overflow: auto;
+  float: left;
 }
-div.create_boxs div.box {
+#Create_Boxs div.box {
   float: left;
   margin: 0 0 0 10px;
 }
-div.create_boxs div.box h3 {
+#Create_Boxs div.box h3 {
   border-radius: 0;
   display: block;
   text-align: left;
@@ -77,21 +76,21 @@ div.create_boxs div.box h3 {
   color: #ffdf2c;
   background: rgba(0,0,0,0.8);
 }
-div.create_boxs div.box div.content {
+#Create_Boxs div.box div.content {
   color: #ffdf2c;
   background: rgba(0,0,0,0.8);
 }
-div.create_boxs div.box div.content label,
-div.create_boxs div.box div.content span.label {
+#Create_Boxs div.box div.content label,
+#Create_Boxs div.box div.content span.label {
   color: #ffdf2c;
 }
-div.create_boxs div.box div.content div.field span {
+#Create_Boxs div.box div.content div.field span {
   display: block;
 }
-div.create_boxs div.box div.content div.field input {
+#Create_Boxs div.box div.content div.field input {
   width: 98%;
 }
-div.create_boxs div.box div.content div.buttons {
+#Create_Boxs div.box div.content div.buttons {
   text-align: right;
 }
 #Create_Website {
@@ -128,7 +127,6 @@ div.boxs div.box div.content div.buttons {
 #Folders {
   padding: 10px 0 0 10px;
   float: left;
-  clear: right;
 }
 #Folders h3 {
   padding: 0;
@@ -138,25 +136,17 @@ div.boxs div.box div.content div.buttons {
   text-transform: lowercase;
 }
 #Folders div.folder {
-  padding: 3px 0 5px 8px;
+  padding: 3px 15px 5px 8px;
   font-size: 140%;
+  font-weight: bold;
 }
 #Folders div.folder a.open {
   text-transform: lowercase;
+  font-size: 90%;
 }
 #Folders div.folder span.title {
   padding: 0 0 0 3px;
 }
 #Folders div.folder:hover {
   background: #fff;
-  font-weight: bold;
-}
-#Folders div.folder:hover a.open {
-  text-transform: uppercase;
-}
-#Folders div.folder:hover span.title {
-  padding: 0 0 0 9px;
-}
-#Create_Boxs {
-  float: left;
 }
