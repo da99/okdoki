@@ -74,16 +74,15 @@ div.box {
   text-align: right;
 }
 div.box h3 {
-  background: #008eed;
   background: rgba(0,142,237,0.8);
   color: #fff;
   padding: 2px 20px 4px 20px;
-  font-size: 110%;
+  font-size: 90%;
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   font-weight: normal;
   font-style: italic;
   margin: 0;
-  border-radius: 10px 0 0 0;
+  border-radius: 6px 0 0 0;
   display: inline-block;
 }
 div.box div.content {

@@ -1,6 +1,7 @@
 body {
   padding: 0 0 100px 0;
   background: #fcfcfc url("/img/doodle.gif") repeat-x;
+  background: #fcfcfc url("/App/img/ps_neutral_@2X.png");
 }
 #Me,
 #Other_Screen_Names {
@@ -75,7 +76,7 @@ div.create_boxs div.box h3 {
   padding-left: 10px;
 }
 div.create_boxs div.box div.content {
-  background-color: #ffea74;
+  background-color: #ffdf2c;
 }
 div.create_boxs div.box div.content div.field span {
   display: block;

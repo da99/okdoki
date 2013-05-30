@@ -223,7 +223,6 @@ app.configure(function () {
 
   app.use(app.router)
 
-
 });
 
 
@@ -327,6 +326,7 @@ module.exports.sign_in = function (req, resp, next) {
 require('../Site/session_routes').route(module.exports);
 require('../Site/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
+require('../Folder/routes').route(module.exports);
 
 // ================================================================
 // ==================== HOMEPAGE ==================================
