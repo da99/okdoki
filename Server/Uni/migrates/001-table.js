@@ -12,10 +12,11 @@ m.migrate = function (dir, r) {
 
     var sql = 'CREATE TABLE \"' + table + "\" ( \n\
 id             serial PRIMARY KEY, \
-owner_id       int,                \
+type_id        smallint NOT NULL,  \
+owner_id       int NOT NULL,       \
+folder_seq     smallint DEFAULT 0 NOT NULL,   \
 title          text default null,  \
 about          text default null,  \
-folder_seq     smallint DEFAULT 0 NOT NULL,   \
 $created_at    ,          \
 $trashed_at               \
 );";
