@@ -6,17 +6,48 @@ var _    = require('underscore')
 
 var TABLE_NAME = 'Folder';
 
+function not_empty() {
+  var args = _.toArray(arguments);
+  return _.detect(args, function (v) {
+    var val = (v || "").trim();
+    if (val.length)
+      return val;
+  });
+}
 
 // ================================================================
 // ================== Main Stuff ==================================
 // ================================================================
 
+var Folder = exports.Folder = function () {
+};
+
+Folder.new = function () {
+  var f = new Folder();
+  return f;
+};
 
 // ================================================================
 // ================== Create ======================================
 // ================================================================
 
-
+Folder.create = function (data, flow) {
+  var f = Folder.new();
+  River.new(flow)
+  .job(function (j) {
+    Counter.upsert('website', data.website_id, 'folders', 0, j);
+  })
+  .job(function (j, NUM) {
+    Topogo.new(TABLE_NAME)
+    .create({
+      num        : NUM,
+      website_id : data.website_id,
+      owner_id   : data.owner_id,
+      title      : not_empty(data.title, "New Folder #" + NUM)
+    }, j);
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Read ========================================
