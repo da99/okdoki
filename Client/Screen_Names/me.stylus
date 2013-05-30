@@ -64,8 +64,13 @@ div.create_boxs
       display: block
       text-align: left
       padding-left: 10px
+      color: $yellow_med
+      background: rgba(0,0,0,0.8)
     div.content
-      background-color: $yellow_med
+      color: $yellow_med
+      background: rgba(0,0,0,0.8)
+      label, span.label
+        color: $yellow_med
       div.field
         span
           display: block

@@ -74,9 +74,16 @@ div.create_boxs div.box h3 {
   display: block;
   text-align: left;
   padding-left: 10px;
+  color: #ffdf2c;
+  background: rgba(0,0,0,0.8);
 }
 div.create_boxs div.box div.content {
-  background-color: #ffdf2c;
+  color: #ffdf2c;
+  background: rgba(0,0,0,0.8);
+}
+div.create_boxs div.box div.content label,
+div.create_boxs div.box div.content span.label {
+  color: #ffdf2c;
 }
 div.create_boxs div.box div.content div.field span {
   display: block;
