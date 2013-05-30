@@ -107,4 +107,30 @@ div.boxs
         font-size: 80%
         text-transform: uppercase
 
+#Folders
+  padding: 10px 0 0 10px
+  float: left
+  clear: right
+  h3
+    padding: 0
+    margin: 0
+    font-weight: normal
+    font-style: italic
+    text-transform: lowercase
+  div.folder
+    padding: 3px 0 5px 8px
+    font-size: 140%
+    a.open
+      text-transform: lowercase
+    span.title
+      padding: 0 0 0 3px
+  div.folder:hover
+    background: #fff
+    font-weight: bold
+    a.open
+      text-transform: uppercase
+    span.title
+      padding: 0 0 0 9px
 
+#Create_Boxs
+  float: left

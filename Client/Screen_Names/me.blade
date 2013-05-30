@@ -27,27 +27,23 @@ append content
             li
               a(href="/me/#{sn}") #{sn}
 
-  div.boxs
+  div#Folders
+    h3
+      | Folders:
+    div.folder
+      a.open(href="/me/#{name}/folder/1") Open:
+      span.title Guest Book
+    div.folder
+      a.open(href="/me/#{name}/folder/2") Open:
+      span.title RaNdOm StUFF
+    div.folder
+      a.open(href="/me/#{name}/folder/3") Open:
+      span.title News
+    div.folder
+      a.open(href="/me/#{name}/folder/4") Open:
+      span.title My Journal
 
-    div.box.folder
-      h3 Conversations
-      div.content
-        div.buttons
-          a(href="/me/#{name}/folder/1") Open
-
-    div.box.folder
-      h3 Q&amp;A
-      div.content
-        div.buttons
-          a(href="/me/#{name}/folder/2") Open
-
-    div.box.folder
-      h3 RaNdoM StuFF
-      div.content
-        div.buttons
-          a(href="/me/#{name}/folder/3") Open
-
-  div.create_boxs
+  div.create_boxs#Create_Boxs
 
     div.box#Create_Folder
       h3 Create a new folder.

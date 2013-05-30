@@ -125,3 +125,38 @@ div.boxs div.box div.content div.buttons {
   font-size: 80%;
   text-transform: uppercase;
 }
+#Folders {
+  padding: 10px 0 0 10px;
+  float: left;
+  clear: right;
+}
+#Folders h3 {
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  font-style: italic;
+  text-transform: lowercase;
+}
+#Folders div.folder {
+  padding: 3px 0 5px 8px;
+  font-size: 140%;
+}
+#Folders div.folder a.open {
+  text-transform: lowercase;
+}
+#Folders div.folder span.title {
+  padding: 0 0 0 3px;
+}
+#Folders div.folder:hover {
+  background: #fff;
+  font-weight: bold;
+}
+#Folders div.folder:hover a.open {
+  text-transform: uppercase;
+}
+#Folders div.folder:hover span.title {
+  padding: 0 0 0 9px;
+}
+#Create_Boxs {
+  float: left;
+}
