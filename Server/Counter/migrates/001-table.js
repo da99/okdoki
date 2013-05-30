@@ -16,12 +16,13 @@ m.migrate = function (dir, r) {
 
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,                          \n\
-    owner_type_id  smallint DEFAULT 0 NOT NULL,                 \n\
-    owner_id       int DEFAULT 0 NOT NULL,                      \n\
-    target_id      int DEFAULT 0 NOT NULL,                      \n\
+    parent_type_id smallint DEFAULT 0 NOT NULL,                 \n\
+    parent_id      int DEFAULT 0 NOT NULL,                      \n\
+    child_type_id  smallint DEFAULT 0 NOT NULL,                 \n\
+    child_id       int DEFAULT 0 NOT NULL,                      \n\
     count          smallint DEFAULT 0 NOT NULL                  \n\
     );";
-    r.create(sql, "ALTER TABLE \"" + table + "\" ADD CONSTRAINT item_count UNIQUE (owner_type_id, owner_id, target_id)");
+    r.create(sql, "ALTER TABLE \"" + table + "\" ADD CONSTRAINT item_count UNIQUE (parent_type_id, parent_id, child_type_id, child_id)");
 
   }
 };
