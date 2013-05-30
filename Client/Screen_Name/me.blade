@@ -1,7 +1,7 @@
 include "../App/layout.blade"
 
 append scripts
-  script(src="/Screen_Names/me.js")
+  script(src="/Screen_Name/me.js")
 
 append templates
   div.box.folder
@@ -42,6 +42,13 @@ append content
     div.folder
       a.open(href="/me/#{name}/folder/4") Open:
       span.title My Journal
+    div.folder
+      a.open(href="/me/#{name}/folder/5") Open:
+      span.title My Wish List
+    div.folder
+      a.open(href="/me/#{name}/folder/6") Open:
+      span.title Quotes
+
 
   div.create_boxs#Create_Boxs
 
