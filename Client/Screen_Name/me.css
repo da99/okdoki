@@ -86,6 +86,7 @@ body {
 }
 #Create_Boxs div.box div.content div.field span {
   display: block;
+  text-transform: none;
 }
 #Create_Boxs div.box div.content div.field input {
   width: 98%;
@@ -93,8 +94,12 @@ body {
 #Create_Boxs div.box div.content div.buttons {
   text-align: right;
 }
+#Create_Screen_Name {
+  display: none;
+}
 #Create_Website {
   max-width: 300px;
+  display: none;
 }
 div.boxs {
   padding: 10px 0 0 0;

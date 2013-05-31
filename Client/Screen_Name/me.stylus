@@ -76,13 +76,18 @@ body
       div.field
         span
           display: block
+          text-transform: none
         input
           width: 98%
       div.buttons
         text-align: right
 
+#Create_Screen_Name
+  display: none
+
 #Create_Website
   max-width: 300px
+  display: none
 
 div.boxs
   padding: 10px 0 0 0

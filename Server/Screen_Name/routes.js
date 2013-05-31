@@ -13,7 +13,7 @@ exports.route = function (mod) {
 
   app.get('/me/:name', function (req, resp, next) {
     var OK        = mod.New_Request(arguments);
-    var data      = OK.template_data('Screen_Names/me')
+    var data      = OK.template_data('Screen_Name/me')
     data['title'] = req.params.name;
     data['name']  = req.params.name;
     return OK.render_template();
