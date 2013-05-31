@@ -8,6 +8,9 @@ body
   background: #FCFCFC url('/img/doodle.gif') repeat-x;
   background: #FCFCFC url('/App/img/ps_neutral_@2X.png');
 
+select, option
+  font-size: 120%
+
 #Me, #Other_Screen_Names
   h3
     font-family: 'Lenka'

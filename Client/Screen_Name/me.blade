@@ -53,7 +53,7 @@ append content
   div.create_boxs#Create_Boxs
 
     div.box#Create_Folder
-      h3 Create a new folder.
+      h3 Create a new folder:
       div.content
         form(action="/me/#{name}/create/folder", method="POST")
           div.fields
@@ -61,19 +61,19 @@ append content
               span.label Title:
               input(type="text", value="", name="title")
             div.field.acts_like
-              span.label This new folder will act like:
+              span.label This new folder will act like a:
               select
-                option a folder (ie I DON'T CARE).
-                option a book.
-                option a magazine.
-                option a personal journal.
-                option a scrap book (aka pin board).
-                option a psyche-note binder.
+                option folder (ie I DON'T CARE).
+                option book.
+                option journal (eg blog).
+                option scrap book (aka pin board).
+                option play activity w/friends.
+                option something serious for co-workers/class mates.
           div.buttons
             button.submit Create
 
     div.box#Create_Screen_Name
-      h3 Create a new screen name.
+      h3 Create a new screen name:
       div.content
         form(action="/screen_name/create", method="POST")
           div.fields
@@ -84,7 +84,7 @@ append content
             button.submit Create
 
     div.box#Create_Website
-      h3 Create a new website.
+      h3 Create a new website:
       div.content
         form(action="/me/#{name}/create/website", method="POST")
           div.fields
