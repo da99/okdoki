@@ -13,8 +13,7 @@ option {
   font-size: 320%;
   font-style: italic;
   text-align: left;
-  padding-left: 10px;
-  padding-bottom: 0;
+  padding: 20px 10px 0 10px;
   margin-bottom: 0;
 }
 #Me div.content,

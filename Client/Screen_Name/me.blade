@@ -9,6 +9,10 @@ append templates
     div.content
       div.buttons
         a.open(href="{LOCATION}") Open
+  div.msg
+    div.meta
+      span.folder_name {FOLDER_NAME}
+    div.content {MSG}
 
 append content
 
@@ -65,8 +69,7 @@ append content
         div.field.folder_id
           span.label Folder:
           select(name="folder_id")
-            option(value="1") Daily
-            option(value="2") RaNdom Fun
+            option(value="2") Random
             option(value="3") Bf/Gf Stuff
             option(value="4") Chit Chat Games
             option(value="5") Quotes
@@ -79,9 +82,7 @@ append content
   div#Folders
     h3 chit chat Folders:
     div.folder
-      a.open(href="/me/#{name}/chit/1") Daily
-    div.folder
-      a.open(href="/me/#{name}/chit/2") RaNdOm Fun
+      a.open(href="/me/#{name}/chit/2") Random
     div.folder
       a.open(href="/me/#{name}/chit/3") Bf/Gf Stuff
     div.folder
