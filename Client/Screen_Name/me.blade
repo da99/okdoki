@@ -22,18 +22,33 @@ append content
       | Bits and pieces from #{name}'s life.
 
 
-  - if (logged_in && screen_names.length > 1)
-    div#Other_Screen_Names
-      div.content
-        span Your other screen names:
-        ul
-          foreach screen_names as sn
-            li
-              a(href="/me/#{sn}") #{sn}
+  //- - if (logged_in && screen_names.length > 1)
+  div#Control_Panel
+    h3 Control Panel
+    div.content
+      div.screen_names
+        span My Lifes:
+          ul
+            foreach screen_names as sn
+              li
+                a(href="/me/#{sn}") #{sn}
 
   div#Chit_Chat
     h3
-      | All my chit chat:
+      | Message Board:
+
+    div.show.show_write
+      a(href="#Write_Message") Write A New Message.
+
+    form#Write_Message(action="/chit_chat", method="post")
+      div.fields
+        div.field
+          span.label Message:
+          textarea(name="body")
+      div.buttons
+        button.submit Publish
+        a.cancel(href="#cancel") Cancel
+
     div.msgs
       div.msg
         div.meta
@@ -61,23 +76,6 @@ append content
         div.content
           | TGIF... amirite?!
 
-
-  div#Write
-    h3 Write new chit chat:
-    form(action="/chit_chat", method="post")
-      div.fields
-        div.field.folder_id
-          span.label Folder:
-          select(name="folder_id")
-            option(value="2") Random
-            option(value="3") Bf/Gf Stuff
-            option(value="4") Chit Chat Games
-            option(value="5") Quotes
-        div.field
-          span.label Message:
-          textarea(name="body")
-      div.buttons
-        button.submit Publish
 
   div#Folders
     h3 chit chat Folders:

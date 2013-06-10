@@ -16,6 +16,7 @@ exports.route = function (mod) {
     var data      = OK.template_data('Screen_Name/me')
     data['title'] = req.params.name;
     data['name']  = req.params.name;
+    data['screen_names'] = ['GO99', 'disco_jonny'];
     return OK.render_template();
   });
 

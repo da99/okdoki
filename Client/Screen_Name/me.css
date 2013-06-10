@@ -25,6 +25,29 @@ option {
   text-align: center;
   font-size: 85%;
 }
+#Control_Panel {
+  margin: 10px;
+}
+#Control_Panel div.content {
+  background: #fffdd2;
+  padding: 10px;
+}
+#Control_Panel div.screen_names ul {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+#Control_Panel div.screen_names li {
+  list-style: none;
+  margin: 0;
+  display: inline;
+}
+#Control_Panel div.screen_names li:after {
+  content: ", ";
+}
+#Control_Panel div.screen_names li:last-child:after {
+  content: "";
+}
 #Other_Screen_Names {
   margin-top: 10px;
 }
@@ -147,6 +170,12 @@ h3 {
   float: left;
   min-width: 300px;
 }
+#Chit_Chat div.show_write {
+  margin: 0 0 5px 0;
+  background: #fffdd2;
+  text-align: center;
+  padding: 5px;
+}
 #Chit_Chat div.msgs div.msg {
   background: #fff;
   padding: 0 5px 5px 5px;
@@ -163,20 +192,24 @@ h3 {
   text-transform: lowercase;
   font-style: italic;
 }
-#Write {
-  float: left;
-  padding: 10px 0 5px 10px;
-}
-#Write form {
+#Write_Message {
+  display: none;
+  margin: 0 0 5px 0;
   background: #fff;
   padding: 5px;
 }
-#Write span.label {
+#Write_Message span.label {
   display: block;
 }
-#Write textarea {
-  min-width: 200px;
+#Write_Message textarea {
+  width: 95%;
   min-height: 100px;
+}
+#Write_Message div.buttons {
+  text-align: right;
+}
+#Write_Message div.buttons button {
+  margin: 0 15px 0 0;
 }
 #Folders {
   padding: 10px 0 0 10px;

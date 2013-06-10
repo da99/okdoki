@@ -1,5 +1,8 @@
 
 $(function () {
+
+  toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
+
   form('#Create_Folder form', function (f) {
     f.on_success(function (result) {
       log(result);

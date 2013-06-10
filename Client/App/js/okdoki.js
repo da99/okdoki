@@ -600,6 +600,21 @@ function on_click(selector, func) {
   return e;
 }
 
+function toggles(show, hide) {
+  var target = $($(show).attr('href'));
+  var origin = $(show).parents('div.show');
+  on_click(show, function (e) {
+    target.show();
+    origin.hide();
+    return false;
+  });
+
+  on_click(hide, function (e) {
+    target.hide();
+    origin.show();
+    return false;
+  });
+}
 
 // ==========================================================
 // Example:

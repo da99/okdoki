@@ -1,4 +1,5 @@
 $light_blue = #E1EEFF
+$light_yellow = #FFFDD2
 $yellow     = #FFEA74
 $yellow_med = #FFDF2C
 $padding_create = 7px
@@ -27,6 +28,24 @@ select, option
     text-align: center
     font-size: 85%
 
+#Control_Panel
+  margin: 10px
+  div.content
+    background: $light_yellow
+    padding: 10px
+  div.screen_names
+    ul
+      margin: 0
+      padding: 0
+      display: inline
+    li
+      list-style: none
+      margin: 0
+      display: inline
+    li:after
+      content: ", "
+    li:last-child:after
+      content: ""
 #Other_Screen_Names
   margin-top: 10px
   div.content
@@ -130,6 +149,11 @@ h3
   padding: 10px 0 0 10px
   float: left
   min-width: 300px
+  div.show_write
+    margin: 0 0 5px 0
+    background: $light_yellow
+    text-align: center
+    padding: 5px
   div.msgs
     div.msg
       div.meta
@@ -145,17 +169,21 @@ h3
       font-size: 120%
       border-radius: 0 6px 0 6px
 
-#Write
-  float: left
-  padding: 10px 0 5px 10px
-  form
-    background: #fff
-    padding: 5px
+#Write_Message
+  display: none
+  margin: 0 0 5px 0
+  background: #fff
+  padding: 5px
   span.label
     display: block
   textarea
-    min-width: 200px
+    width: 95%
     min-height: 100px
+  div.buttons
+    text-align: right
+    button
+      margin: 0 15px 0 0
+
 
 #Folders
   padding: 10px 0 0 10px
