@@ -29,7 +29,7 @@ append content
 
   div#Chit_Chat
     h3
-      | All my chit chat mail:
+      | All my chit chat:
     div.msgs
       div.msg
         div.meta
@@ -59,16 +59,16 @@ append content
 
 
   div#Write
-    h3 Write new chit chat mail:
+    h3 Write new chit chat:
     form(action="/chit_chat", method="post")
       div.fields
         div.field.folder_id
           span.label Folder:
           select(name="folder_id")
-            option(value="1") Main
-            option(value="2") RaNdom Stuff
+            option(value="1") Daily
+            option(value="2") RaNdom Fun
             option(value="3") Bf/Gf Stuff
-            option(value="4") Meet My Friend...
+            option(value="4") Chit Chat Games
             option(value="5") Quotes
         div.field
           span.label Message:
@@ -77,15 +77,15 @@ append content
         button.submit Publish
 
   div#Folders
-    h3 chit chat mail Folders:
+    h3 chit chat Folders:
     div.folder
-      a.open(href="/me/#{name}/chit/1") Main
+      a.open(href="/me/#{name}/chit/1") Daily
     div.folder
-      a.open(href="/me/#{name}/chit/2") RaNdOm Stuff
+      a.open(href="/me/#{name}/chit/2") RaNdOm Fun
     div.folder
       a.open(href="/me/#{name}/chit/3") Bf/Gf Stuff
     div.folder
-      a.open(href="/me/#{name}/chit/4") Meet My Friend...
+      a.open(href="/me/#{name}/chit/4") Chit Chat Games
     div.folder
       a.open(href="/me/#{name}/chit/5") Quotes
 
