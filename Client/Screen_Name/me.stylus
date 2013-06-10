@@ -164,8 +164,8 @@ h3
           text-transform: lowercase
           font-style: italic
       background: #fff
-      padding: 0 5px 5px 5px
-      margin: 0 0 5px 0
+      padding: 5px
+      margin: 0 0 8px 0
       font-size: 120%
       border-radius: 0 6px 0 6px
 
@@ -184,8 +184,21 @@ h3
     button
       margin: 0 15px 0 0
 
+#Chat_Room
+  padding: 0 0 0 10px
+  float: left
+  min-width: 300px
+  div.content
+    padding: 30px
+    background: #fff
+    text-align: center
+    font-size: 130%
+    a:link
+      padding: 10px
+      border-radius: 5px
 
 #Folders
+  display: none
   padding: 10px 0 0 10px
   float: left
   div.folder
