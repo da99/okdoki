@@ -174,7 +174,7 @@ form
       background: transparent
       color: $dark_blue
       font-weight: bold
-      font-size: 60%
+      font-size: 80%
       text-transform: uppercase
     span.value
       display: block

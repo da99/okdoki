@@ -105,6 +105,9 @@ option {
   max-width: 300px;
   display: none;
 }
+#Create_Folder {
+  display: none;
+}
 div.boxs {
   padding: 10px 0 0 0;
   overflow: auto;
@@ -133,29 +136,62 @@ div.boxs div.box div.content div.buttons {
   font-size: 80%;
   text-transform: uppercase;
 }
-#Folders {
-  padding: 10px 0 0 10px;
-  float: left;
-}
-#Folders h3 {
+h3 {
   padding: 0;
   margin: 0;
   font-weight: normal;
   font-style: italic;
   text-transform: lowercase;
 }
+#Chit_Chat {
+  padding: 10px 0 0 10px;
+  float: left;
+  min-width: 300px;
+}
+#Chit_Chat div.msgs div.msg {
+  background: #fff;
+  padding: 0 5px 5px 5px;
+  margin: 0 0 5px 0;
+  font-size: 120%;
+  border-radius: 0 6px 0 6px;
+}
+#Chit_Chat div.msgs div.msg div.meta {
+  text-align: right;
+  color: #505050;
+}
+#Chit_Chat div.msgs div.msg div.meta span.folder_name {
+  font-size: 80%;
+  text-transform: lowercase;
+  font-style: italic;
+}
+#Write {
+  float: left;
+  padding: 10px 0 5px 10px;
+}
+#Write form {
+  background: #fff;
+  padding: 5px;
+}
+#Write span.label {
+  display: block;
+}
+#Write textarea {
+  min-width: 200px;
+  min-height: 100px;
+}
+#Folders {
+  padding: 10px 0 0 10px;
+  float: left;
+}
 #Folders div.folder {
   padding: 3px 15px 5px 8px;
   font-size: 140%;
   font-weight: bold;
+  background: #fff;
 }
 #Folders div.folder a.open {
-  text-transform: lowercase;
   font-size: 90%;
 }
 #Folders div.folder span.title {
   padding: 0 0 0 3px;
-}
-#Folders div.folder:hover {
-  background: #fff;
 }

@@ -92,6 +92,9 @@ select, option
   max-width: 300px
   display: none
 
+#Create_Folder
+  display: none
+
 div.boxs
   padding: 10px 0 0 0
   overflow: auto
@@ -117,23 +120,53 @@ div.boxs
         font-size: 80%
         text-transform: uppercase
 
+h3
+  padding: 0
+  margin: 0
+  font-weight: normal
+  font-style: italic
+  text-transform: lowercase
+
+#Chit_Chat
+  padding: 10px 0 0 10px
+  float: left
+  min-width: 300px
+  div.msgs
+    div.msg
+      div.meta
+        text-align: right
+        color: #505050
+        span.folder_name
+          font-size: 80%
+          text-transform: lowercase
+          font-style: italic
+      background: #fff
+      padding: 0 5px 5px 5px
+      margin: 0 0 5px 0
+      font-size: 120%
+      border-radius: 0 6px 0 6px
+
+#Write
+  float: left
+  padding: 10px 0 5px 10px
+  form
+    background: #fff
+    padding: 5px
+  span.label
+    display: block
+  textarea
+    min-width: 200px
+    min-height: 100px
+
 #Folders
   padding: 10px 0 0 10px
   float: left
-  h3
-    padding: 0
-    margin: 0
-    font-weight: normal
-    font-style: italic
-    text-transform: lowercase
   div.folder
     padding: 3px 15px 5px 8px
     font-size: 140%
     font-weight: bold
+    background: #fff
     a.open
-      text-transform: lowercase
       font-size: 90%
     span.title
       padding: 0 0 0 3px
-  div.folder:hover
-    background: #fff

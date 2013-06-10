@@ -27,27 +27,67 @@ append content
             li
               a(href="/me/#{sn}") #{sn}
 
-  div#Folders
+  div#Chit_Chat
     h3
-      | Folders:
+      | All my chit chat mail:
+    div.msgs
+      div.msg
+        div.meta
+          span.folder_name Main
+        div.content
+          | I hate mondays.
+      div.msg
+        div.meta
+          span.folder_name Main
+        div.content
+          | I hate tuesdays.
+      div.msg
+        div.meta
+          span.folder_name Main
+        div.content
+          | I hate wednesdays.
+      div.msg
+        div.meta
+          span.folder_name Main
+        div.content
+          | I hate thursdays.
+      div.msg
+        div.meta
+          span.folder_name Main
+        div.content
+          | TGIF... amirite?!
+
+
+  div#Write
+    h3 Write new chit chat mail:
+    form(action="/chit_chat", method="post")
+      div.fields
+        div.field.folder_id
+          span.label Folder:
+          select(name="folder_id")
+            option(value="1") Main
+            option(value="2") RaNdom Stuff
+            option(value="3") Bf/Gf Stuff
+            option(value="4") Meet My Friend...
+            option(value="5") Quotes
+        div.field
+          span.label Message:
+          textarea(name="body")
+      div.buttons
+        button.submit Publish
+
+  div#Folders
+    h3 chit chat mail Folders:
     div.folder
-      a.open(href="/me/#{name}/folder/1") Open:
-      span.title Guest Book
+      a.open(href="/me/#{name}/chit/1") Main
     div.folder
-      a.open(href="/me/#{name}/folder/2") Open:
-      span.title RaNdOm StUFF
+      a.open(href="/me/#{name}/chit/2") RaNdOm Stuff
     div.folder
-      a.open(href="/me/#{name}/folder/3") Open:
-      span.title News
+      a.open(href="/me/#{name}/chit/3") Bf/Gf Stuff
     div.folder
-      a.open(href="/me/#{name}/folder/4") Open:
-      span.title My Journal
+      a.open(href="/me/#{name}/chit/4") Meet My Friend...
     div.folder
-      a.open(href="/me/#{name}/folder/5") Open:
-      span.title My Wish List
-    div.folder
-      a.open(href="/me/#{name}/folder/6") Open:
-      span.title Quotes
+      a.open(href="/me/#{name}/chit/5") Quotes
 
 
   div.create_boxs#Create_Boxs
