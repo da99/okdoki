@@ -233,11 +233,10 @@ h3 {
   display: inline-block;
   padding-right: 7px;
 }
-#Chat_Room #Interacts,
-#Chat_Room #Chats {
-  width: 50%;
-  min-width: 300px;
+#Chat_Room #Interacts {
+  min-width: 250px;
   float: left;
+  width: 40%;
 }
 #Chat_Room #Interacts div.show_say {
   text-align: center;
@@ -251,6 +250,9 @@ h3 {
   padding: 10px 10px 10px 0;
 }
 #Chat_Room #Chats {
+  min-width: 250px;
+  width: 60%;
+  float: left;
   padding: 10px 0 0 0;
 }
 #Chat_Room #Chats div.chat_msg {

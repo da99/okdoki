@@ -21,12 +21,27 @@ $(function () {
     return false;
   });
 
-  form('#Create_Folder form', function (f) {
-    f.on_success(function (result) {
-      log(result);
-      var new_folder = compile_template('div.folder', {'TITLE': result.name, 'LOCATION': result.location});
-      $('div.boxs').prepend(new_folder);
-    });
+  // Enter the Chat Room...
+
+});
+
+
+
+
+
+
+
+
+
+
+// ========= OLD CODE =================
+//
+  // form('#Create_Folder form', function (f) {
+    // f.on_success(function (result) {
+      // log(result);
+      // var new_folder = compile_template('div.folder', {'TITLE': result.name, 'LOCATION': result.location});
+      // $('div.boxs').prepend(new_folder);
+    // });
 
     // var path          = window.location.pathname;
     // var parent        = $(this).parent();
@@ -68,5 +83,10 @@ $(function () {
     // });
 
     // log(orig_text);
-  });
-});
+  // });
+
+
+
+
+
+
