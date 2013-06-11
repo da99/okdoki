@@ -195,9 +195,8 @@ h3
       font-family: $cursive
       font-size: 120%
       text-transform: none
-      display: inline
-    a:link
-      float: right
+      display: inline-block
+      padding-right: 7px
   #Interacts, #Chats
     width: 49%
     min-width: 300px
