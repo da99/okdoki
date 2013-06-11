@@ -185,6 +185,9 @@ h3
       margin: 0 15px 0 0
 
 #Chat_Room
+  display: none
+
+#Enter_Chat_Room
   padding: 0 0 0 10px
   float: left
   min-width: 300px

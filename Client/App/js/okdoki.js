@@ -600,6 +600,18 @@ function on_click(selector, func) {
   return e;
 }
 
+function swap_display(show, hide) {
+  var s = $(show);
+  var h = $(hide);
+  if (s.is(':visible')) {
+    s.hide();
+    h.show();
+  } else {
+    s.show();
+    h.hide();
+  };
+}
+
 function toggles(show, hide) {
   var target = $($(show).attr('href'));
   var origin = $(show).parents('div.show');

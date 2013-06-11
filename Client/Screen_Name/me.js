@@ -3,6 +3,17 @@ $(function () {
 
   toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
 
+  // Chat Room Toggles
+  on_click("#Enter_Chat_Room a", function (e) {
+    swap_display('#Home_Page', '#Chat_Room');
+    return false;
+  });
+
+  on_click("#Leave_Chat_Room a", function (e) {
+    swap_display('#Home_Page', '#Chat_Room');
+    return false;
+  });
+
   form('#Create_Folder form', function (f) {
     f.on_success(function (result) {
       log(result);
