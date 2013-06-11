@@ -189,12 +189,15 @@ h3
 #Chat_Room
   display: none
   div.header
+    background: $light_yellow
+    padding: 7px 0 3px 3px
     h3
       font-family: $cursive
-      background: $light_yellow
-      padding: 7px 0 3px 3px
       font-size: 120%
       text-transform: none
+      display: inline
+    a:link
+      float: right
 
 #Enter_Chat_Room
   padding: 0 0 0 10px
