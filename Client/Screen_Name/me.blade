@@ -19,7 +19,23 @@ append content
   div#Chat_Room
     div.header#Leave_Chat_Room
       h3 The Chat Room of #{name}.
-      a(href="#Leave_Chat_Room") Leave Chat Room.
+      a(href="#Leave_Chat_Room") Leave.
+
+    div#Interacts
+
+      div.show.show_say
+        a(href="#Write_To_Chat_Room") Say Something.
+
+      form#Write_To_Chat_Room(action="/chat_room/msgs", method="post")
+        div.fields
+          div.field
+            span.label Message:
+            textarea(name="body")
+        div.buttons
+          button.submit Say it.
+          a.cancel(href="#cancel") Cancel
+    div#Chats
+      | Chat Space
 
   div#Home_Page
     div#Me

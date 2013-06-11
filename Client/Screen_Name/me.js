@@ -2,6 +2,7 @@
 $(function () {
 
   toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
+  toggles("div.show_say a", "#Write_To_Chat_Room a.cancel");
 
   // Chat Room Toggles
   on_click("#Enter_Chat_Room a", function (e) {

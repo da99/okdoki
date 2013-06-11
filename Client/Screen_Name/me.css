@@ -192,23 +192,28 @@ h3 {
   text-transform: lowercase;
   font-style: italic;
 }
-#Write_Message {
+#Write_Message,
+#Write_To_Chat_Room {
   display: none;
   margin: 0 0 5px 0;
   background: #fff;
   padding: 5px;
 }
-#Write_Message span.label {
+#Write_Message span.label,
+#Write_To_Chat_Room span.label {
   display: block;
 }
-#Write_Message textarea {
+#Write_Message textarea,
+#Write_To_Chat_Room textarea {
   width: 95%;
   min-height: 100px;
 }
-#Write_Message div.buttons {
+#Write_Message div.buttons,
+#Write_To_Chat_Room div.buttons {
   text-align: right;
 }
-#Write_Message div.buttons button {
+#Write_Message div.buttons button,
+#Write_To_Chat_Room div.buttons button {
   margin: 0 15px 0 0;
 }
 #Chat_Room {
@@ -226,6 +231,12 @@ h3 {
 }
 #Chat_Room div.header a:link {
   float: right;
+}
+#Chat_Room #Interacts,
+#Chat_Room #Chats {
+  width: 49%;
+  min-width: 300px;
+  float: left;
 }
 #Enter_Chat_Room {
   padding: 0 0 0 10px;

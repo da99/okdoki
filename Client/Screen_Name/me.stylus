@@ -171,7 +171,7 @@ h3
       font-size: 120%
       border-radius: 0 6px 0 6px
 
-#Write_Message
+#Write_Message, #Write_To_Chat_Room
   display: none
   margin: 0 0 5px 0
   background: #fff
@@ -198,6 +198,11 @@ h3
       display: inline
     a:link
       float: right
+  #Interacts, #Chats
+    width: 49%
+    min-width: 300px
+    float: left
+
 
 #Enter_Chat_Room
   padding: 0 0 0 10px
