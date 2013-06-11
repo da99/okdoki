@@ -16,18 +16,20 @@ append templates
 
 append content
 
-  div#Me
-    h3  The life of... #{name}
-    div.content
-      | Bits and pieces from #{name}'s life.
-
-
   div#Chat_Room
+    div.header
+      h3 The Chat Room of #{name}.
     div#Leave_Chat_Room
       | Tada.
       a(href="#Leave_Chat_Room") Leave Chat Room.
 
   div#Home_Page
+    div#Me
+      h3  The life of... #{name}
+      div.content
+        | Bits and pieces from #{name}'s life.
+
+
     //- - if (logged_in && screen_names.length > 1)
     div#Control_Panel
       h3 Control Panel

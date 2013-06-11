@@ -9,11 +9,11 @@
 // /* yellows: */
 // /* #FFF175; */
 
-$black              = #000
-$dark_blue          = #185DAD
-$light_blue = #E1EEFF
+$black       = #000
+$dark_blue   = #185DAD
+$light_blue  = #E1EEFF
 $light_black = #6D6D6D
-$sans-serif = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+$sans-serif  = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
 html, body
   margin   : 0;

@@ -29,9 +29,6 @@ body
 
 h1.title
   text-shadow: black 0.1em 0.1em 0.1em
-  font-family: 'Fanwood Text'
-  font-family: "ubuntu condensed"
-  font-family: 'Rancho'
   font-family: 'Lenka'
   font-weight: 400
   font-size: 24pt

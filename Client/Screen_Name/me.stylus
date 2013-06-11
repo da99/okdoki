@@ -1,8 +1,10 @@
-$light_blue = #E1EEFF
-$light_yellow = #FFFDD2
-$yellow     = #FFEA74
-$yellow_med = #FFDF2C
+$light_blue     = #E1EEFF
+$light_yellow   = #FFFDD2
+$yellow         = #FFEA74
+$yellow_med     = #FFDF2C
 $padding_create = 7px
+$sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+$cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
 body
   padding: 0 0 100px 0
@@ -186,6 +188,13 @@ h3
 
 #Chat_Room
   display: none
+  div.header
+    h3
+      font-family: $cursive
+      background: $light_yellow
+      padding: 7px 0 3px 3px
+      font-size: 120%
+      text-transform: none
 
 #Enter_Chat_Room
   padding: 0 0 0 10px

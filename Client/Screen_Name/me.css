@@ -214,6 +214,13 @@ h3 {
 #Chat_Room {
   display: none;
 }
+#Chat_Room div.header h3 {
+  font-family: 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+  background: #fffdd2;
+  padding: 7px 0 3px 3px;
+  font-size: 120%;
+  text-transform: none;
+}
 #Enter_Chat_Room {
   padding: 0 0 0 10px;
   float: left;
