@@ -9,10 +9,20 @@ append templates
     div.content
       div.buttons
         a.open(href="{LOCATION}") Open
+
   div.msg
     div.meta
       span.folder_name {FOLDER_NAME}
     div.content {MSG}
+
+  div.official.chat_msg
+    div.content {body}
+
+  div.chat_msg
+    div.meta
+      span.author {author_screen_name}
+      span.said  said:
+    div.content {body}
 
 append content
 
@@ -22,20 +32,21 @@ append content
       a(href="#Leave_Chat_Room") Leave.
 
     div#Interacts
+      div.Interacts_content
+        div.show.show_say
+          a(href="#Write_To_Chat_Room") Say Something.
 
-      div.show.show_say
-        a(href="#Write_To_Chat_Room") Say Something.
+        form#Write_To_Chat_Room(action="/chat_room/msgs", method="post")
+          div.fields
+            div.field
+              span.label Type your message to the room:
+              textarea(name="body")
+          div.buttons
+            button.submit Say it.
+            a.cancel(href="#cancel") Cancel
 
-      form#Write_To_Chat_Room(action="/chat_room/msgs", method="post")
-        div.fields
-          div.field
-            span.label Speak to the room:
-            textarea(name="body")
-        div.buttons
-          button.submit Say it.
-          a.cancel(href="#cancel") Cancel
     div#Chats
-      | Chat Space
+      div#Chat_Msgs
 
   div#Home_Page
     div#Me

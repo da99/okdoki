@@ -1,8 +1,11 @@
+$dark_blue      = #185DAD
 $light_blue     = #E1EEFF
 $light_yellow   = #FFFDD2
+$grey_on_light  = #727272
 $yellow         = #FFEA74
 $yellow_med     = #FFDF2C
 $padding_create = 7px
+$serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
@@ -179,12 +182,15 @@ h3
   span.label
     display: block
   textarea
-    width: 95%
+    width: 97%
     min-height: 100px
   div.buttons
     text-align: right
     button
       margin: 0 15px 0 0
+
+#Write_To_Chat_Room
+  padding: 5px 5px 10px 10px
 
 #Chat_Room
   display: none
@@ -198,9 +204,40 @@ h3
       display: inline-block
       padding-right: 7px
   #Interacts, #Chats
-    width: 49%
+    width: 50%
     min-width: 300px
     float: left
+
+  #Interacts
+    div.show_say
+      text-align: center
+      a:link
+        display: inline-block
+        padding: 10px
+        font-size: 130%
+    div.Interacts_content
+      padding: 10px 10px 10px 0
+
+  #Chats
+    padding: 10px 0 0 0
+    div.chat_msg
+      background: #fff
+      padding: 4px
+      margin: 0 0 10px 0
+      span.author
+        color: $dark_blue
+        font-weight: bold
+        font-size: 90%
+        font-style: italic
+      span.said
+        color: $grey_on_light
+        font-style: italic
+      div.content
+        font-size: 130%
+        font-family: $serif
+    div.official
+      background: $light_yellow
+      font-style: italic
 
 
 #Enter_Chat_Room
@@ -229,3 +266,5 @@ h3
       font-size: 90%
     span.title
       padding: 0 0 0 3px
+
+

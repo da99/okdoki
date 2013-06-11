@@ -7,11 +7,17 @@ $(function () {
   // Chat Room Toggles
   on_click("#Enter_Chat_Room a", function (e) {
     swap_display('#Home_Page', '#Chat_Room');
+    $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', {
+      body: "Entering chat room... please wait..."
+    }));
     return false;
   });
 
   on_click("#Leave_Chat_Room a", function (e) {
     swap_display('#Home_Page', '#Chat_Room');
+    $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', {
+      body: "Sending message that you are leaving..."
+    }));
     return false;
   });
 

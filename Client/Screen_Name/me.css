@@ -205,7 +205,7 @@ h3 {
 }
 #Write_Message textarea,
 #Write_To_Chat_Room textarea {
-  width: 95%;
+  width: 97%;
   min-height: 100px;
 }
 #Write_Message div.buttons,
@@ -215,6 +215,9 @@ h3 {
 #Write_Message div.buttons button,
 #Write_To_Chat_Room div.buttons button {
   margin: 0 15px 0 0;
+}
+#Write_To_Chat_Room {
+  padding: 5px 5px 10px 10px;
 }
 #Chat_Room {
   display: none;
@@ -232,9 +235,46 @@ h3 {
 }
 #Chat_Room #Interacts,
 #Chat_Room #Chats {
-  width: 49%;
+  width: 50%;
   min-width: 300px;
   float: left;
+}
+#Chat_Room #Interacts div.show_say {
+  text-align: center;
+}
+#Chat_Room #Interacts div.show_say a:link {
+  display: inline-block;
+  padding: 10px;
+  font-size: 130%;
+}
+#Chat_Room #Interacts div.Interacts_content {
+  padding: 10px 10px 10px 0;
+}
+#Chat_Room #Chats {
+  padding: 10px 0 0 0;
+}
+#Chat_Room #Chats div.chat_msg {
+  background: #fff;
+  padding: 4px;
+  margin: 0 0 10px 0;
+}
+#Chat_Room #Chats div.chat_msg span.author {
+  color: #185dad;
+  font-weight: bold;
+  font-size: 90%;
+  font-style: italic;
+}
+#Chat_Room #Chats div.chat_msg span.said {
+  color: #727272;
+  font-style: italic;
+}
+#Chat_Room #Chats div.chat_msg div.content {
+  font-size: 130%;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+#Chat_Room #Chats div.official {
+  background: #fffdd2;
+  font-style: italic;
 }
 #Enter_Chat_Room {
   padding: 0 0 0 10px;
