@@ -24,6 +24,9 @@ append templates
   div.official.chat_msg
     div.content {body}
 
+  div.official.chat_msg.error_msg
+    div.content {body}
+
 append content
 
   div#Chat_Room
@@ -103,6 +106,7 @@ append content
     div#Enter_Chat_Room
       div.content
         a.show(href="#Chat_Room") Enter The Chat Room of #{name}.
+        div.error_msg
 
     div#Folders
       h3 chit chat Folders:

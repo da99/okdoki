@@ -1,3 +1,4 @@
+$red            = #FF0000
 $dark_blue      = #185DAD
 $light_blue     = #E1EEFF
 $light_yellow   = #FFFDD2
@@ -195,7 +196,8 @@ h3
 #Chat_Room
   display: none
   div.header
-    background: $light_yellow
+    background: #000
+    color: #fff
     padding: 7px 0 3px 3px
     h3
       font-family: $cursive
@@ -209,6 +211,7 @@ h3
     float: left
     width: 40%
     div.show_say
+      display: none
       text-align: center
       a:link
         display: inline-block
@@ -241,20 +244,27 @@ h3
     div.official
       background: $light_yellow
       font-style: italic
+    div.error_msg
+      color: $red
 
 
 #Enter_Chat_Room
   padding: 0 0 0 10px
   float: left
-  min-width: 300px
+  width: 340px
   div.content
     padding: 30px
     background: #fff
     text-align: center
     font-size: 130%
     a:link
-      padding: 10px
+      padding: 6px 10px
       border-radius: 5px
+    div.error_msg
+      display: none
+      background: $light_yellow
+      color: $red
+      padding: 5px
 
 #Folders
   display: none

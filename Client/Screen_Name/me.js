@@ -1,13 +1,17 @@
 
+var Show_Say = $('#Chat_Room div.show_say');
+
 function official_chat_msg(msg) {
   $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', msg));
+}
+
+function official_error_chat_msg(msg) {
+  $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg.error_msg', msg));
 }
 
 function create_chat_msg(msg) {
   $('#Chat_Msgs').prepend( compile_template('div.chat_msg', msg));
 }
-
-var Show_Say = $('#Chat_Room div.show_say');
 
 $(function () {
 
@@ -19,7 +23,6 @@ $(function () {
   // ============================================
   on_click("#Enter_Chat_Room a", function (e) {
     swap_display('#Home_Page', '#Chat_Room');
-    Show_Say.hide();
     official_chat_msg({
       body: "Entering chat room... please wait..."
     });
@@ -28,11 +31,18 @@ $(function () {
     post("/chat_room/enter", {}, function (err, raw) {
       if (err) {
         log(err);
-        official_chat_msg({body: "Chat room not ready. Try again by clicking here in a few mins..."});
+        in_secs(5, function () {
+          official_error_chat_msg({body: "Your attempt to enter the chat room failed."});
+          $('#Home_Page').show();
+          $('#Chat_Room').hide();
+          $('#Enter_Chat_Room div.error_msg').text('Your attempt to enter the chat room failed. Try again in a few minutes.');
+          $('#Enter_Chat_Room div.error_msg').show();
+        });
         return false;
       }
 
       Show_Say.show();
+      $('#Enter_Chat_Room div.error_msg').hide();
       official_chat_msg({body: "You are now in the chat room ;)"});
     });
 
