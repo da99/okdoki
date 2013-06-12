@@ -223,8 +223,9 @@ h3
     float: left
     padding: 10px 0 0 0
     div.chat_msg
+      border-radius: 3px 0 0 3px
       background: #fff
-      padding: 4px
+      padding: 4px 2px 4px 5px
       margin: 0 0 10px 0
       span.author
         color: $dark_blue
@@ -235,7 +236,7 @@ h3
         color: $grey_on_light
         font-style: italic
       div.content
-        font-size: 130%
+        font-size: 120%
         font-family: $serif
     div.official
       background: $light_yellow

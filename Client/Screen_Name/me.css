@@ -256,8 +256,9 @@ h3 {
   padding: 10px 0 0 0;
 }
 #Chat_Room #Chats div.chat_msg {
+  border-radius: 3px 0 0 3px;
   background: #fff;
-  padding: 4px;
+  padding: 4px 2px 4px 5px;
   margin: 0 0 10px 0;
 }
 #Chat_Room #Chats div.chat_msg span.author {
@@ -271,7 +272,7 @@ h3 {
   font-style: italic;
 }
 #Chat_Room #Chats div.chat_msg div.content {
-  font-size: 130%;
+  font-size: 120%;
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 #Chat_Room #Chats div.official {

@@ -1,27 +1,64 @@
 
+function official_chat_msg(msg) {
+  $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', msg));
+}
+
+function create_chat_msg(msg) {
+  $('#Chat_Msgs').prepend( compile_template('div.chat_msg', msg));
+}
+
+var Show_Say = $('#Chat_Room div.show_say');
+
 $(function () {
 
   toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
   toggles("div.show_say a", "#Write_To_Chat_Room a.cancel");
 
-  // Chat Room Toggles
+  // ============================================
+  // ================ ENTER The Chat Room........
+  // ============================================
   on_click("#Enter_Chat_Room a", function (e) {
     swap_display('#Home_Page', '#Chat_Room');
-    $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', {
+    Show_Say.hide();
+    official_chat_msg({
       body: "Entering chat room... please wait..."
-    }));
+    });
+
+    // Enter the Chat Room...
+    post("/chat_room/enter", {}, function (err, raw) {
+      if (err) {
+        log(err);
+        official_chat_msg({body: "Chat room not ready. Try again by clicking here in a few mins..."});
+        return false;
+      }
+
+      Show_Say.show();
+      official_chat_msg({body: "You are now in the chat room ;)"});
+    });
+
     return false;
   });
 
+  // ============================================
+  // ================ LEAVE The Chat Room........
+  // ============================================
   on_click("#Leave_Chat_Room a", function (e) {
     swap_display('#Home_Page', '#Chat_Room');
-    $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', {
+    official_chat_msg({
       body: "Sending message that you are leaving..."
-    }));
+    });
+
+    // Enter the Chat Room...
+    post("/chat_room/leave", {}, function (err, raw) {
+      if (err) {
+        log(err);
+        return false;
+      }
+
+      official_chat_msg({body: "You are now OUT of the chat room."});
+    });
     return false;
   });
-
-  // Enter the Chat Room...
 
 });
 
