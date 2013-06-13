@@ -10,9 +10,15 @@ append templates
       div.buttons
         a.open(href="{LOCATION}") Open
 
-  div.msg.me_msg
+  div.msg
     div.meta
       span.author {author_screen_name}
+      span.said  said:
+    div.content {body}
+
+  div.msg.me_msg
+    div.meta
+      span.author {author_screen_name} (me)
       span.said  said:
     div.content {body}
 
@@ -92,21 +98,7 @@ append content
           a.cancel(href="#cancel") Cancel
 
       div.msgs
-        div.msg
-          div.content
-            | I hate mondays.
-        div.msg
-          div.content
-            | I hate tuesdays.
-        div.msg
-          div.content
-            | I hate wednesdays.
-        div.msg
-          div.content
-            | I hate thursdays.
-        div.msg
-          div.content
-            | TGIF... amirite?!
+
 
 
     div#Enter_Chat_Room

@@ -155,6 +155,7 @@ h3
   padding: 10px 0 0 10px
   float: left
   min-width: 300px
+  max-width: 50%
   div.show_write
     margin: 0 0 5px 0
     background: $light_yellow

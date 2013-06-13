@@ -13,6 +13,15 @@ function official_error_chat_msg(msg) {
   draw_chat_msg( 'div.official.chat_msg.error_msg', msg );
 }
 
+function me_mb_msg(o) {
+  $('#Message_Board').find('div.msgs').prepend( compile_template('div.me_msg', o) );
+}
+
+function mb_msg(o) {
+  $('#Message_Board').find('div.msgs').prepend( compile_template('div.msg', o) );
+}
+
+
 function me_chat_msg(msg) {
   draw_chat_msg( 'div.me_chat_msg', msg );
 }
@@ -40,7 +49,20 @@ $(function () {
     f.at_least_one_not_empty('textarea');
     f.on_success(function (result) {
       f.find('div.success').hide();
-      $('#Message_Board').find('div.msgs').prepend( compile_template('div.msg', result.mb_msg) );
+      me_mb_msg(result.mb_msg);
+    });
+  });
+
+  // ============================================
+  // ================ Grab message board msgs....
+  // ============================================
+  post('/message_board/msgs', {}, function (err, o) {
+    if (err) {
+      log(err);
+      return false;
+    }
+    _.each(o.list, function (m) {
+      mb_msg(m);
     });
   });
 

@@ -117,6 +117,15 @@ exports.route = function (mod) {
     OK.json({success: true, msg: "Message has been saved.", mb_msg: {author_screen_name: "GO99", body: req.body.body}});
   });
 
+  OK.post('/message_board/msgs', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    var list = [];
+      list = [
+        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()},
+        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()}
+      ];
+    OK.json({success: true, msg: "Message Board msgs for: " + req.body.after, list: list});
+  });
 
   // ================================================================
   // =============== Chat Room ======================================
