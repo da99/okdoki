@@ -132,7 +132,12 @@ exports.route = function (mod) {
 
   OK.post('/chat_room/enter', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: "You are now in the chat room."});
+    OK.json({success: true, msg: "HELLO: You're in the room."});
+  });
+
+  OK.post('/chat_room/leave', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    OK.json({success: true, msg: "BYE BYE: You're officially out of the room."});
   });
 
 

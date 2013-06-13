@@ -32,7 +32,6 @@ function draw_chat_msg(sel, msg) {
 $(function () {
 
   toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
-  toggles("div.show_say a", "#Write_To_Chat_Room a.cancel");
 
   every_secs(2, function () {
     if ( !IN_CHAT_ROOM )
@@ -103,14 +102,13 @@ $(function () {
       body: "Sending message that you are leaving..."
     });
 
-    // Enter the Chat Room...
-    post("/chat_room/leave", {}, function (err, raw) {
+    post("/chat_room/leave", {}, function (err, msg) {
       if (err) {
         log(err);
         return false;
       }
 
-      official_chat_msg({body: "You are now OUT of the chat room."});
+      official_chat_msg({body: msg.msg || "You are now OUT of the chat room."});
     });
     return false;
   });
