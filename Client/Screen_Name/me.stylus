@@ -161,6 +161,11 @@ h3
     background: $light_yellow
     text-align: center
     padding: 5px
+  div.msgs
+    div.error_msg
+      background: #fff
+      padding: 5px
+
 
 #Write_Message, #Write_To_Chat_Room
   margin: 0 0 5px 0

@@ -18,6 +18,13 @@ function me_mb_msg(o) {
 }
 
 function mb_msg(o) {
+  if (_.isArray(o)) {
+    _.each(o.slice().reverse(), function (m) {
+      mb_msg(m);
+    });
+    return false;
+  }
+
   $('#Message_Board').find('div.msgs').prepend( compile_template('div.msg', o) );
 }
 
@@ -50,6 +57,7 @@ $(function () {
     f.on_success(function (result) {
       f.find('div.success').hide();
       me_mb_msg(result.mb_msg);
+      f.find('a.cancel').click();
     });
   });
 
@@ -57,13 +65,18 @@ $(function () {
   // ================ Grab message board msgs....
   // ============================================
   post('/message_board/msgs', {}, function (err, o) {
+    var div_loading = $('#Message_Board div.msgs div.loading');
+
     if (err) {
       log(err);
+      div_loading.addClass('error_msg');
+      div_loading.removeClass('loading');
+      div_loading.text("Messages could not be retrieved at this time. Try again later by refreshing this page.");
       return false;
     }
-    _.each(o.list, function (m) {
-      mb_msg(m);
-    });
+
+    div_loading.remove();
+    mb_msg(o.list);
   });
 
   // ============================================

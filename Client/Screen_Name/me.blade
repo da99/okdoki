@@ -63,6 +63,10 @@ append content
     div#Chats
       div.msgs#Chat_Msgs
 
+
+  //- ===========================================================
+  //- ===========================================================
+  //- ===========================================================
   div#Home_Page
     div#Me
       h3  The life of... #{name}
@@ -70,6 +74,7 @@ append content
         | Bits and pieces from #{name}'s life.
 
 
+    //- ===========================================================
     //- - if (logged_in && screen_names.length > 1)
     div#Control_Panel
       h3 Control Panel
@@ -81,6 +86,7 @@ append content
                 li
                   a(href="/me/#{sn}") #{sn}
 
+    //- ===========================================================
     div#Message_Board
       h3
         | Message Board:
@@ -98,9 +104,10 @@ append content
           a.cancel(href="#cancel") Cancel
 
       div.msgs
+        div.loading Retrieving messages...
 
 
-
+    //- ===========================================================
     div#Enter_Chat_Room
       div.content
         a.show(href="#Chat_Room") Enter The Chat Room of #{name}.
