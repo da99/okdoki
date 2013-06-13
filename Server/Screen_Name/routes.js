@@ -107,6 +107,10 @@ exports.route = function (mod) {
     });
   });
 
+  OK.post('/chat_room/enter', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    OK.json({success: true, msg: "You are now in the chat room."});
+  });
 
 
 }; // end route

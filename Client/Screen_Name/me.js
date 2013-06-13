@@ -22,13 +22,14 @@ $(function () {
   // ================ ENTER The Chat Room........
   // ============================================
   on_click("#Enter_Chat_Room a", function (e) {
+    $('#Enter_Chat_Room div.error_msg').hide();
     swap_display('#Home_Page', '#Chat_Room');
     official_chat_msg({
       body: "Entering chat room... please wait..."
     });
 
     // Enter the Chat Room...
-    post("/chat_room/enter", {}, function (err, raw) {
+    post("/chat_room/enter", {}, function (err, o) {
       if (err) {
         log(err);
         in_secs(5, function () {
@@ -43,7 +44,7 @@ $(function () {
 
       Show_Say.show();
       $('#Enter_Chat_Room div.error_msg').hide();
-      official_chat_msg({body: "You are now in the chat room ;)"});
+      official_chat_msg({body: o.msg});
     });
 
     return false;
