@@ -165,32 +165,16 @@ h3 {
   font-style: italic;
   text-transform: lowercase;
 }
-#Chit_Chat {
+#Message_Board {
   padding: 10px 0 0 10px;
   float: left;
   min-width: 300px;
 }
-#Chit_Chat div.show_write {
+#Message_Board div.show_write {
   margin: 0 0 5px 0;
   background: #fffdd2;
   text-align: center;
   padding: 5px;
-}
-#Chit_Chat div.msgs div.msg {
-  background: #fff;
-  padding: 5px;
-  margin: 0 0 8px 0;
-  font-size: 120%;
-  border-radius: 0 6px 0 6px;
-}
-#Chit_Chat div.msgs div.msg div.meta {
-  text-align: right;
-  color: #505050;
-}
-#Chit_Chat div.msgs div.msg div.meta span.folder_name {
-  font-size: 80%;
-  text-transform: lowercase;
-  font-style: italic;
 }
 #Write_Message,
 #Write_To_Chat_Room {
@@ -221,6 +205,36 @@ h3 {
 #Write_To_Chat_Room {
   display: block;
   padding: 5px 5px 10px 10px;
+}
+div.msgs div.msg {
+  border-radius: 3px 0 0 3px;
+  background: #fff;
+  padding: 4px 2px 4px 5px;
+  margin: 0 0 10px 0;
+}
+div.msgs div.msg span.author {
+  color: #185dad;
+  font-weight: bold;
+  font-size: 90%;
+  font-style: italic;
+}
+div.msgs div.msg span.said {
+  color: #727272;
+  font-style: italic;
+}
+div.msgs div.msg div.content {
+  font-size: 120%;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+div.msgs div.official {
+  background: #fffdd2;
+  font-style: italic;
+}
+div.msgs div.me_chat_msg {
+  background: #fffdd2;
+}
+div.msgs div.error_msg {
+  color: #f00;
 }
 #Chat_Room {
   display: none;
@@ -259,36 +273,6 @@ h3 {
   width: 60%;
   float: left;
   padding: 10px 0 80px 0;
-}
-#Chat_Room #Chats div.chat_msg {
-  border-radius: 3px 0 0 3px;
-  background: #fff;
-  padding: 4px 2px 4px 5px;
-  margin: 0 0 10px 0;
-}
-#Chat_Room #Chats div.chat_msg span.author {
-  color: #185dad;
-  font-weight: bold;
-  font-size: 90%;
-  font-style: italic;
-}
-#Chat_Room #Chats div.chat_msg span.said {
-  color: #727272;
-  font-style: italic;
-}
-#Chat_Room #Chats div.chat_msg div.content {
-  font-size: 120%;
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-}
-#Chat_Room #Chats div.official {
-  background: #fffdd2;
-  font-style: italic;
-}
-#Chat_Room #Chats div.me_chat_msg {
-  background: #fffdd2;
-}
-#Chat_Room #Chats div.error_msg {
-  color: #f00;
 }
 #Enter_Chat_Room {
   padding: 0 0 0 10px;

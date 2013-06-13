@@ -151,7 +151,7 @@ h3
   font-style: italic
   text-transform: lowercase
 
-#Chit_Chat
+#Message_Board
   padding: 10px 0 0 10px
   float: left
   min-width: 300px
@@ -160,20 +160,6 @@ h3
     background: $light_yellow
     text-align: center
     padding: 5px
-  div.msgs
-    div.msg
-      div.meta
-        text-align: right
-        color: #505050
-        span.folder_name
-          font-size: 80%
-          text-transform: lowercase
-          font-style: italic
-      background: #fff
-      padding: 5px
-      margin: 0 0 8px 0
-      font-size: 120%
-      border-radius: 0 6px 0 6px
 
 #Write_Message, #Write_To_Chat_Room
   margin: 0 0 5px 0
@@ -195,6 +181,31 @@ h3
 #Write_To_Chat_Room
   display: block
   padding: 5px 5px 10px 10px
+
+div.msgs
+  div.msg
+    border-radius: 3px 0 0 3px
+    background: #fff
+    padding: 4px 2px 4px 5px
+    margin: 0 0 10px 0
+    span.author
+      color: $dark_blue
+      font-weight: bold
+      font-size: 90%
+      font-style: italic
+    span.said
+      color: $grey_on_light
+      font-style: italic
+    div.content
+      font-size: 120%
+      font-family: $serif
+  div.official
+    background: $light_yellow
+    font-style: italic
+  div.me_chat_msg
+    background: $light_yellow
+  div.error_msg
+    color: $red
 
 #Chat_Room
   display: none
@@ -228,29 +239,7 @@ h3
     width: 60%
     float: left
     padding: 10px 0 80px 0
-    div.chat_msg
-      border-radius: 3px 0 0 3px
-      background: #fff
-      padding: 4px 2px 4px 5px
-      margin: 0 0 10px 0
-      span.author
-        color: $dark_blue
-        font-weight: bold
-        font-size: 90%
-        font-style: italic
-      span.said
-        color: $grey_on_light
-        font-style: italic
-      div.content
-        font-size: 120%
-        font-family: $serif
-    div.official
-      background: $light_yellow
-      font-style: italic
-    div.me_chat_msg
-      background: $light_yellow
-    div.error_msg
-      color: $red
+
 
 
 #Enter_Chat_Room

@@ -31,8 +31,22 @@ function draw_chat_msg(sel, msg) {
 
 $(function () {
 
-  toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
+  toggles("#Message_Board div.show_write a", "#Write_Message a.cancel");
 
+  // ============================================
+  // ================ Post a message board msg...
+  // ============================================
+  form('#Write_Message', function (f) {
+    f.at_least_one_not_empty('textarea');
+    f.on_success(function (result) {
+      f.find('div.success').hide();
+      $('#Message_Board').find('div.msgs').prepend( compile_template('div.msg', result.mb_msg) );
+    });
+  });
+
+  // ============================================
+  // ================ Grab chat room msgs........
+  // ============================================
   every_secs(2, function () {
     if ( !IN_CHAT_ROOM )
       return false;
