@@ -1,5 +1,5 @@
 
-var Show_Say           = $('#Chat_Room div.show_say');
+var Show_Say           = $('#Write_To_Chat_Room');
 var IN_CHAT_ROOM       = false;
 var LAST_CHAT_MSG_DATE = null;
 var MAX_CHAT_MSG_TOTAL = 250;
@@ -97,6 +97,7 @@ $(function () {
   // ============================================
   on_click("#Leave_Chat_Room a", function (e) {
     IN_CHAT_ROOM = false;
+    Show_Say.hide();
     swap_display('#Home_Page', '#Chat_Room');
     official_chat_msg({
       body: "Sending message that you are leaving..."

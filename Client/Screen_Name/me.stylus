@@ -176,7 +176,6 @@ h3
       border-radius: 0 6px 0 6px
 
 #Write_Message, #Write_To_Chat_Room
-  display: none
   margin: 0 0 5px 0
   background: #fff
   padding: 5px
@@ -190,7 +189,11 @@ h3
     button
       margin: 0 15px 0 0
 
+#Write_Message
+  display: none
+
 #Write_To_Chat_Room
+  display: block
   padding: 5px 5px 10px 10px
 
 #Chat_Room
