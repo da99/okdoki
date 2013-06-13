@@ -51,6 +51,15 @@ $(function () {
   });
 
   // ============================================
+  // ================ Talk to the Chat Room......
+  // ============================================
+  form('#Write_To_Chat_Room', function (f) {
+    f.on_success(function (result) {
+      log(result);
+    });
+  });
+
+  // ============================================
   // ================ LEAVE The Chat Room........
   // ============================================
   on_click("#Leave_Chat_Room a", function (e) {

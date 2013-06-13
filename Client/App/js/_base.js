@@ -223,6 +223,7 @@ function form(selector, func) {
   });
 
   var e = $(selector);
+  var default_err = "Okdoki.com is having some trouble processing your request. Try again later in a few minutes.";
 
   e.only_if = function (func) {
     form_meta[selector].only_if = func;
@@ -250,7 +251,10 @@ function form(selector, func) {
 
   e.on_error = function (on_e) {
     form_meta[selector].error = function (err, result) {
-      loaded(err);
+      if (_.isNumber(err) && err > 0)
+        loaded(default_err);
+      else
+        loaded(err);
       on_e(result);
     };
   };
@@ -258,7 +262,7 @@ function form(selector, func) {
   e.on_invalid = function (on_i) {
     form_meta[selector].invalid = function (result) {
       loaded();
-      loaded(result.msg || "Okdoki.com is having some trouble processing your request. Try again later in a few minutes.");
+      loaded(result.msg || default_err);
       on_i(result);
     };
   }

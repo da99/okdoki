@@ -64,24 +64,26 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
       this.ETag_from(str);
       return resp.send(str);
     },
-    json: function (data) {
+    json: function (data, stat) {
       this.last_modified_now();
       this.ETag_from(data);
+      if (stat)
+        resp.status(stat);
       resp.json(data);
     },
-    json_success: function (resp, msg, o) {
+    json_success: function (msg, o) {
       if (!o)
         o = {};
       o.msg     = msg;
       o.success = true;
-      write.json(resp, o);
+      this.json(o);
     },
-    json_fail: function (resp, msg, stat, o) {
+    json_fail: function (msg, o, stat) {
       if (!o)
         o = {};
       o.msg     = msg;
       o.success = false;
-      write.json(resp, o, (stat || 404));
+      this.json(o, (stat || 404));
     },
     template_data : function (name, data) {
       if (!this._template_data) {
@@ -179,9 +181,10 @@ app.configure(function () {
   app.use(function (req, resp, next) { // must go on top of other middleware
     if (toobusy()) {
       log('Too busy to send: ' + req.path);
-      if (req.accepts('json'))
-        write.json_fail(resp, "Too busy", 503, {too_busy: true});
-      else
+      if (req.accepts('json')) {
+        var OK = New_Request(arguments);
+        OK.json_fail("Too busy", 503, {too_busy: true});
+      } else
         resp.send(503, "Website is busy right now. Try again later.");
     } else
       next();
@@ -415,7 +418,8 @@ app.post("/contacts/online", require_log_in, function (req, resp, next) {
   New_River(next)
   .job('contact is online', req.user.data.id, [Contact, 'is_online', req.user])
   .on_finish(function (r) {
-    return write.json_success(resp, 'FIN.', {contacts: r.last_reply()});
+    var OK = New_Request(arguments);
+    return OK.json_success('FIN.', {contacts: r.last_reply()});
   })
   .run();
 
@@ -431,7 +435,8 @@ app.put("/contacts/:contact_user_name", function (req, resp, next) {
   var r = New_River(next);
   r.job('update contact', new_vals.contact_screen_name, [Contact, 'update', req.user, new_vals]);
   r.run(function () {
-    write.json_success(resp, "Saved.");
+    var OK = New_Request(arguments);
+    OK.json_success("Saved.");
   });
 });
 
@@ -449,9 +454,10 @@ app.use(function (req, resp, next) {
     resp.writeHead(404, { "Content-Type": "text/html" });
     resp.end("<html><head><title>" + req.path + " : Not Found</title></head><body>Missing url. Check spelling of the address.</body></html>");
   } else {
-    if (req.accepts('application/json'))
-      write.json_fail(resp, "Page not found.", 404)
-    else {
+    if (req.accepts('application/json')) {
+      var OK = New_Request(arguments);
+      OK.json_fail("Page not found.", 404)
+    } else {
       resp.writeHead(404, { "Content-Type": "text/plain" });
       resp.end(req.path + " : Not Found. Check spelling of the address.");
     }
@@ -464,7 +470,8 @@ app.use(function (err, req, resp, next) {
   log(err);
 
   if (req.body && req.body.request_type == 'latest msgs') {
-    write.json( resp, { _csrf: req.session._csrf, success: false, msg: err.toString() } );
+    var OK = New_Request(req, resp, next);
+    this.json( { _csrf: req.session._csrf, success: false, msg: err.toString() } );
     return true;
   };
 
