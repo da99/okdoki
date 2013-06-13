@@ -255,7 +255,7 @@ h3 {
   min-width: 250px;
   width: 60%;
   float: left;
-  padding: 10px 0 0 0;
+  padding: 10px 0 80px 0;
 }
 #Chat_Room #Chats div.chat_msg {
   border-radius: 3px 0 0 3px;
@@ -280,6 +280,9 @@ h3 {
 #Chat_Room #Chats div.official {
   background: #fffdd2;
   font-style: italic;
+}
+#Chat_Room #Chats div.me_chat_msg {
+  background: #fffdd2;
 }
 #Chat_Room #Chats div.error_msg {
   color: #f00;

@@ -224,7 +224,7 @@ h3
     min-width: 250px
     width: 60%
     float: left
-    padding: 10px 0 0 0
+    padding: 10px 0 80px 0
     div.chat_msg
       border-radius: 3px 0 0 3px
       background: #fff
@@ -244,6 +244,8 @@ h3
     div.official
       background: $light_yellow
       font-style: italic
+    div.me_chat_msg
+      background: $light_yellow
     div.error_msg
       color: $red
 

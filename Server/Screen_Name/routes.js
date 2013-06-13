@@ -120,10 +120,14 @@ exports.route = function (mod) {
 
   OK.post('/chat_room/msgs', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: "Chat msgs for: " + req.body.after, list: [
-      {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()},
-      {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()}
-    ]});
+    var list = [];
+    if (parseInt(Math.random() * 10) % 2) {
+      list = [
+        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()},
+        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()}
+      ];
+    }
+    OK.json({success: true, msg: "Chat msgs for: " + req.body.after, list: list});
   });
 
   OK.post('/chat_room/enter', function (req, resp, next) {
