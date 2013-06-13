@@ -99,6 +99,7 @@ $(function () {
   // ================ Talk to the Chat Room......
   // ============================================
   form('#Write_To_Chat_Room', function (f) {
+    f.at_least_one_not_empty('textarea');
     f.on_success(function (result) {
       f.find('div.success').hide();
       me_chat_msg(result.chat_msg);

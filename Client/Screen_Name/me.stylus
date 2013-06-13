@@ -202,7 +202,7 @@ div.msgs
   div.official
     background: $light_yellow
     font-style: italic
-  div.me_chat_msg
+  div.me_chat_msg, div.me_msg
     background: $light_yellow
   div.error_msg
     color: $red

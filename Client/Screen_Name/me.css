@@ -230,7 +230,8 @@ div.msgs div.official {
   background: #fffdd2;
   font-style: italic;
 }
-div.msgs div.me_chat_msg {
+div.msgs div.me_chat_msg,
+div.msgs div.me_msg {
   background: #fffdd2;
 }
 div.msgs div.error_msg {
