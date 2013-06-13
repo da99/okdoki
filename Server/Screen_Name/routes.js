@@ -1,5 +1,6 @@
 
 var _         = require('underscore')
+, Faker       = require('Faker')
 ;
 
 exports.route = function (mod) {
@@ -115,6 +116,14 @@ exports.route = function (mod) {
   OK.post('/chat_room/msg', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     OK.json({success: true, msg: req.body.body, chat_msg: {author_screen_name: "GO99", body: req.body.body}});
+  });
+
+  OK.post('/chat_room/msgs', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    OK.json({success: true, msg: "Chat msgs for: " + req.body.after, list: [
+      {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()},
+      {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()}
+    ]});
   });
 
   OK.post('/chat_room/enter', function (req, resp, next) {

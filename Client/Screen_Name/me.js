@@ -1,22 +1,48 @@
 
-var Show_Say = $('#Chat_Room div.show_say');
+var Show_Say           = $('#Chat_Room div.show_say');
+var IN_CHAT_ROOM       = false;
+var LAST_CHAT_MSG_DATE = null;
+var MAX_CHAT_MSG_TOTAL = 250;
+var TOTAL_CHAT_MSG     = 0;
 
 function official_chat_msg(msg) {
-  $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg', msg));
+  draw_chat_msg( 'div.official.chat_msg', msg );
 }
 
 function official_error_chat_msg(msg) {
-  $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg.error_msg', msg));
+  draw_chat_msg( 'div.official.chat_msg.error_msg', msg );
 }
 
 function chat_msg(msg) {
-  $('#Chat_Msgs').prepend( compile_template('div.chat_msg', msg));
+  draw_chat_msg( 'div.chat_msg', msg );
+}
+
+function draw_chat_msg(sel, msg) {
+  TOTAL_CHAT_MSG += 1;
+  $('#Chat_Msgs').prepend( compile_template(sel, msg) );
+  if (TOTAL_CHAT_MSG > MAX_CHAT_MSG_TOTAL) {
+    $('#Chat_Msgs').find('div.chat_msg').last().remove();
+  }
 }
 
 $(function () {
 
   toggles("#Chit_Chat div.show_write a", "#Write_Message a.cancel");
   toggles("div.show_say a", "#Write_To_Chat_Room a.cancel");
+
+  every_secs(2, function () {
+    if ( !IN_CHAT_ROOM )
+      return false;
+    post("/chat_room/msgs", {after: LAST_CHAT_MSG_DATE}, function (err, o) {
+      if (err) {
+        log(err);
+        return false;
+      }
+      _.each(o.list, function (m) {
+        chat_msg(m);
+      });
+    });
+  });
 
   // ============================================
   // ================ ENTER The Chat Room........
@@ -30,6 +56,7 @@ $(function () {
 
     // Enter the Chat Room...
     post("/chat_room/enter", {}, function (err, o) {
+      IN_CHAT_ROOM = false;
       if (err) {
         log(err);
         in_secs(5, function () {
@@ -42,6 +69,7 @@ $(function () {
         return false;
       }
 
+      IN_CHAT_ROOM = true;
       Show_Say.show();
       $('#Enter_Chat_Room div.error_msg').hide();
       official_chat_msg({body: o.msg});
@@ -66,6 +94,7 @@ $(function () {
   // ================ LEAVE The Chat Room........
   // ============================================
   on_click("#Leave_Chat_Room a", function (e) {
+    IN_CHAT_ROOM = false;
     swap_display('#Home_Page', '#Chat_Room');
     official_chat_msg({
       body: "Sending message that you are leaving..."
