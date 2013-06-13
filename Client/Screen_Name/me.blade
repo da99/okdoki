@@ -11,8 +11,6 @@ append templates
         a.open(href="{LOCATION}") Open
 
   div.msg
-    div.meta
-      span.folder_name {FOLDER_NAME}
     div.content {MSG}
 
   div.chat_msg
@@ -39,7 +37,7 @@ append content
         div.show.show_say
           a(href="#Write_To_Chat_Room") Say Something.
 
-        form#Write_To_Chat_Room(action="/chat_room/msgs", method="post")
+        form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
           div.fields
             div.field
               span.label Type your message to the room:

@@ -9,7 +9,7 @@ function official_error_chat_msg(msg) {
   $('#Chat_Msgs').prepend( compile_template('div.official.chat_msg.error_msg', msg));
 }
 
-function create_chat_msg(msg) {
+function chat_msg(msg) {
   $('#Chat_Msgs').prepend( compile_template('div.chat_msg', msg));
 }
 
@@ -55,7 +55,10 @@ $(function () {
   // ============================================
   form('#Write_To_Chat_Room', function (f) {
     f.on_success(function (result) {
-      log(result);
+      f.find('div.success').hide();
+      var m = result.chat_msg;
+      m.author_screen_name = m.author_screen_name + ' (me)';
+      chat_msg(m);
     });
   });
 

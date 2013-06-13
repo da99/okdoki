@@ -2,10 +2,6 @@
 var _         = require('underscore')
 ;
 
-// ================================================================
-// =============== UPDATE =========================================
-// ================================================================
-
 exports.route = function (mod) {
 
   var OK = mod.app;
@@ -20,6 +16,10 @@ exports.route = function (mod) {
     return OK.render_template();
   });
 
+
+  // ================================================================
+  // =============== UPDATE =========================================
+  // ================================================================
 
   OK.put('/screen_names/:name', function (req, resp, next) {
     var n = req.params.name;
@@ -105,6 +105,16 @@ exports.route = function (mod) {
     .run(function () {
       write.json_success(resp, c.screen_name_row(name).trash_msg);
     });
+  });
+
+
+  // ================================================================
+  // =============== Chat Room ======================================
+  // ================================================================
+
+  OK.post('/chat_room/msg', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    OK.json({success: true, msg: req.body.body, chat_msg: {author_screen_name: "GO99", body: req.body.body}});
   });
 
   OK.post('/chat_room/enter', function (req, resp, next) {
