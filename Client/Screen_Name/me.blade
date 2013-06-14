@@ -128,11 +128,12 @@ append content
     div#Folders
       h3 Folders:
       div.content
-        div.folders
-          div.folder
+        ul.folders
+          foreach folders as folder
+          li
             a.open(href="/me/#{screen_name}/folder/5") My Journal
         h4 Create a new folder:
-        form(action="/folder", method="POST")
+        form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
           div.fields
             div.field.title
               span.label Title:
@@ -143,7 +144,7 @@ append content
 
     div.create_boxs#Create_Boxs
 
-      div.box#Create_Folder
+      div.box#OLD_Create_Folder
         h3 Create a new folder:
         div.content
           form(action="/me/#{screen_name}/create/folder", method="POST")

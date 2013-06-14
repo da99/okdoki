@@ -92,6 +92,7 @@ select, option
 
 
 #Create_Boxs
+  display: none
   padding: 10px 0 0 0
   overflow: auto
   float: left
@@ -121,9 +122,6 @@ select, option
 
 #Create_Website
   max-width: 300px
-  display: none
-
-#Create_Folder
   display: none
 
 div.boxs
@@ -251,9 +249,9 @@ div.msgs
 #Enter_Chat_Room
   padding: 0 0 0 10px
   float: left
-  width: 340px
+  width: 300px
   div.content
-    padding: 30px
+    padding: 20px 0
     background: #fff
     text-align: center
     font-size: 130%
@@ -267,11 +265,14 @@ div.msgs
       padding: 5px
 
 #Folders
-  padding: 0 0 0 10px
   float: left
+  max-width: 320px
+  h3
+    padding: 0 0 0 10px
   div.content
+    margin: 0 0 0 10px
+    padding: 5px 0 10px 10px
     background: #fff
-    padding: 5px
     div.folders
       div.folder
         padding: 3px 15px 5px 8px
@@ -283,8 +284,10 @@ div.msgs
           padding: 0 0 0 3px
     form
       span.label
-        padding: 0 10px 0 0
+        display: block
       input[type="text"]
         font-size: 190%
+        width: 95%
+
 
 

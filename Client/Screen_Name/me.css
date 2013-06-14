@@ -97,6 +97,7 @@ option {
   padding: 3px 7px;
 }
 #Create_Boxs {
+  display: none;
   padding: 10px 0 0 0;
   overflow: auto;
   float: left;
@@ -133,9 +134,6 @@ option {
 }
 #Create_Website {
   max-width: 300px;
-  display: none;
-}
-#Create_Folder {
   display: none;
 }
 div.boxs {
@@ -284,10 +282,10 @@ div.msgs div.error_msg {
 #Enter_Chat_Room {
   padding: 0 0 0 10px;
   float: left;
-  width: 340px;
+  width: 300px;
 }
 #Enter_Chat_Room div.content {
-  padding: 30px;
+  padding: 20px 0;
   background: #fff;
   text-align: center;
   font-size: 130%;
@@ -303,12 +301,16 @@ div.msgs div.error_msg {
   padding: 5px;
 }
 #Folders {
-  padding: 0 0 0 10px;
   float: left;
+  max-width: 320px;
+}
+#Folders h3 {
+  padding: 0 0 0 10px;
 }
 #Folders div.content {
+  margin: 0 0 0 10px;
+  padding: 5px 0 10px 10px;
   background: #fff;
-  padding: 5px;
 }
 #Folders div.content div.folders div.folder {
   padding: 3px 15px 5px 8px;
@@ -322,8 +324,9 @@ div.msgs div.error_msg {
   padding: 0 0 0 3px;
 }
 #Folders div.content form span.label {
-  padding: 0 10px 0 0;
+  display: block;
 }
 #Folders div.content form input[type="text"] {
   font-size: 190%;
+  width: 95%;
 }

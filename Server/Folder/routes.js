@@ -6,9 +6,9 @@ var _         = require('underscore')
 exports.route = function (mod) {
   var app = mod.app;
 
-  app.post('/me/:name/create/folder', function (req, resp, next) {
+  app.post('/me/:screen_name/folder', function (req, resp, next) {
     var num = parseInt(Math.random() * 10)
-    resp.json({success: true, location: "/me/" + req.params.name + "/folder/" + num, name: req.body.title});
+    resp.json({success: true, msg: "Folder was created.", location: "/me/" + req.params.name + "/folder/" + num, title: req.body.title});
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {

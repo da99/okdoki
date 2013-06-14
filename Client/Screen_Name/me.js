@@ -52,7 +52,17 @@ function screen_name(name) {
   li.find('a').text(name);
 
   parent.find('ul').prepend(li);
-  $('#Other_Screen_Names').show();
+  parent.show();
+}
+
+function folder(f) {
+  var parent = $('#Folders ul.folders');
+  var li = $('<li><a href=""></a></li>');
+  li.find('a').attr('href', f.location);
+  li.find('a').text(f.title);
+
+  parent.prepend(li);
+  parent.show();
 }
 
 $(function () {
@@ -198,7 +208,19 @@ $(function () {
     return false;
   });
 
-});
+  // ============================================
+  // ================ Create Folder..............
+  // ============================================
+  form('#Create_Folder', function (f) {
+    f.at_least_one_not_empty('input[type="text"]');
+    f.on_success(function (result) {
+      f.find('div.success').html("New folder is at: <a href=\"LOC\">LOC</a>".replace(/LOC/g, result.location));
+      folder(result);
+    });
+  });
+
+
+}); // ==== jquery on dom ready
 
 
 

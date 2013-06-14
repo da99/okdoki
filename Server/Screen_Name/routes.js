@@ -14,6 +14,7 @@ exports.route = function (mod) {
     data['title']        = req.params.screen_name;
     data['screen_name']  = req.params.screen_name;
     data['screen_names'] = ['GO99'];
+    data['folders']      = ['My Journal'];
     return OK.render_template();
   });
 
