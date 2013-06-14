@@ -8,12 +8,12 @@ exports.route = function (mod) {
   var OK = mod.app;
   var app = mod.app;
 
-  app.get('/me/:name', function (req, resp, next) {
-    var OK        = mod.New_Request(arguments);
-    var data      = OK.template_data('Screen_Name/me')
-    data['title'] = req.params.name;
-    data['name']  = req.params.name;
-    data['screen_names'] = ['GO99', 'disco_jonny'];
+  app.get('/me/:screen_name', function (req, resp, next) {
+    var OK               = mod.New_Request(arguments);
+    var data             = OK.template_data('Screen_Name/me')
+    data['title']        = req.params.screen_name;
+    data['screen_name']  = req.params.screen_name;
+    data['screen_names'] = ['GO99'];
     return OK.render_template();
   });
 

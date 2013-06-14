@@ -4,6 +4,10 @@ append scripts
   script(src="/Screen_Name/me.js")
 
 append templates
+  div.screen_names
+    | #{screen_names.join(" ")}
+  div.screen_name
+    | #{screen_name}
   div.box.folder
     h3 {TITLE}
     div.content
@@ -44,7 +48,7 @@ append content
 
   div#Chat_Room
     div.header#Leave_Chat_Room
-      h3 The Chat Room of #{name}.
+      h3 The Chat Room of #{screen_name}.
       a(href="#Leave_Chat_Room") Leave.
 
     div#Interacts
@@ -69,9 +73,9 @@ append content
   //- ===========================================================
   div#Home_Page
     div#Me
-      h3  The life of... #{name}
+      h3  The life of... #{screen_name}
       div.content
-        | Bits and pieces from #{name}'s life.
+        | Bits and pieces from #{screen_name}'s life.
 
 
     //- ===========================================================
@@ -79,11 +83,8 @@ append content
     div#Control_Panel
       div#Other_Screen_Names
         div.screen_names
-          span My Lifes:
+          span My Other Life(s):
             ul
-              foreach screen_names as sn
-                li
-                  a(href="/me/#{sn}") #{sn}
 
 
       div#New_Life
@@ -121,19 +122,19 @@ append content
     //- ===========================================================
     div#Enter_Chat_Room
       div.content
-        a.show(href="#Chat_Room") Enter The Chat Room of #{name}.
+        a.show(href="#Chat_Room") Enter The Chat Room of #{screen_name}.
         div.error_msg
 
     div#Folders
       h3 chit chat Folders:
       div.folder
-        a.open(href="/me/#{name}/chit/2") Random
+        a.open(href="/me/#{screen_name}/chit/2") Random
       div.folder
-        a.open(href="/me/#{name}/chit/3") Bf/Gf Stuff
+        a.open(href="/me/#{screen_name}/chit/3") Bf/Gf Stuff
       div.folder
-        a.open(href="/me/#{name}/chit/4") Chit Chat Games
+        a.open(href="/me/#{screen_name}/chit/4") Chit Chat Games
       div.folder
-        a.open(href="/me/#{name}/chit/5") Quotes
+        a.open(href="/me/#{screen_name}/chit/5") Quotes
 
 
     div.create_boxs#Create_Boxs
@@ -141,7 +142,7 @@ append content
       div.box#Create_Folder
         h3 Create a new folder:
         div.content
-          form(action="/me/#{name}/create/folder", method="POST")
+          form(action="/me/#{screen_name}/create/folder", method="POST")
             div.fields
               div.field.title
                 span.label Title:
@@ -162,7 +163,7 @@ append content
       div.box#Create_Website
         h3 Create a new website:
         div.content
-          form(action="/me/#{name}/create/website", method="POST")
+          form(action="/me/#{screen_name}/create/website", method="POST")
             div.fields
               div.field.title
                 span.label Title:

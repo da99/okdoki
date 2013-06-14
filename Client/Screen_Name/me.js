@@ -51,13 +51,26 @@ function screen_name(name) {
   li.find('a').attr('href', "/me/" + name);
   li.find('a').text(name);
 
-  parent.show();
   parent.find('ul').prepend(li);
+  $('#Other_Screen_Names').show();
 }
 
 $(function () {
 
   toggles("#Message_Board div.show_write a", "#Write_Message a.cancel");
+
+  // ============================================
+  // ================ Show lifes.................
+  // ============================================
+  if ($('#Other_Screen_Names').length) {
+    var lifes = $.trim($(read_template('div.screen_names')).text()).split(/\s+/);
+    var SN = $.trim($(read_template('div.screen_name')).text()).toUpperCase();
+
+    _.each(lifes, function (l) {
+      if (SN != l.toUpperCase())
+        screen_name(l);
+    });
+  }
 
   // ============================================
   // ================ Create life................

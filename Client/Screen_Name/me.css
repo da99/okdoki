@@ -49,8 +49,11 @@ option {
 #Control_Panel #Other_Screen_Names div.screen_names li:last-child:after {
   content: "";
 }
+#Other_Screen_Names {
+  display: none;
+  padding: 0 0 10px 0;
+}
 #New_Life {
-  padding: 10px 0 0 0;
   float: left;
 }
 #New_Life div.content {
