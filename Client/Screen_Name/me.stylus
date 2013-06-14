@@ -151,18 +151,11 @@ div.boxs
         font-size: 80%
         text-transform: uppercase
 
-h3
-  padding: 0
-  margin: 0
-  font-weight: normal
-  font-style: italic
-  text-transform: lowercase
-
 #Message_Board
   padding: 10px 0 0 10px
   float: left
   min-width: 300px
-  max-width: 50%
+  max-width: 600px
   div.show_write
     margin: 0 0 5px 0
     background: $light_yellow
@@ -274,17 +267,24 @@ div.msgs
       padding: 5px
 
 #Folders
-  display: none
-  padding: 10px 0 0 10px
+  padding: 0 0 0 10px
   float: left
-  div.folder
-    padding: 3px 15px 5px 8px
-    font-size: 140%
-    font-weight: bold
+  div.content
     background: #fff
-    a.open
-      font-size: 90%
-    span.title
-      padding: 0 0 0 3px
+    padding: 5px
+    div.folders
+      div.folder
+        padding: 3px 15px 5px 8px
+        font-size: 140%
+        font-weight: bold
+        a.open
+          font-size: 90%
+        span.title
+          padding: 0 0 0 3px
+    form
+      span.label
+        padding: 0 10px 0 0
+      input[type="text"]
+        font-size: 190%
 
 

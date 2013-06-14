@@ -166,18 +166,11 @@ div.boxs div.box div.content div.buttons {
   font-size: 80%;
   text-transform: uppercase;
 }
-h3 {
-  padding: 0;
-  margin: 0;
-  font-weight: normal;
-  font-style: italic;
-  text-transform: lowercase;
-}
 #Message_Board {
   padding: 10px 0 0 10px;
   float: left;
   min-width: 300px;
-  max-width: 50%;
+  max-width: 600px;
 }
 #Message_Board div.show_write {
   margin: 0 0 5px 0;
@@ -310,19 +303,27 @@ div.msgs div.error_msg {
   padding: 5px;
 }
 #Folders {
-  display: none;
-  padding: 10px 0 0 10px;
+  padding: 0 0 0 10px;
   float: left;
 }
-#Folders div.folder {
+#Folders div.content {
+  background: #fff;
+  padding: 5px;
+}
+#Folders div.content div.folders div.folder {
   padding: 3px 15px 5px 8px;
   font-size: 140%;
   font-weight: bold;
-  background: #fff;
 }
-#Folders div.folder a.open {
+#Folders div.content div.folders div.folder a.open {
   font-size: 90%;
 }
-#Folders div.folder span.title {
+#Folders div.content div.folders div.folder span.title {
   padding: 0 0 0 3px;
+}
+#Folders div.content form span.label {
+  padding: 0 10px 0 0;
+}
+#Folders div.content form input[type="text"] {
+  font-size: 190%;
 }

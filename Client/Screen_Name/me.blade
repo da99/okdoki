@@ -126,15 +126,19 @@ append content
         div.error_msg
 
     div#Folders
-      h3 chit chat Folders:
-      div.folder
-        a.open(href="/me/#{screen_name}/chit/2") Random
-      div.folder
-        a.open(href="/me/#{screen_name}/chit/3") Bf/Gf Stuff
-      div.folder
-        a.open(href="/me/#{screen_name}/chit/4") Chit Chat Games
-      div.folder
-        a.open(href="/me/#{screen_name}/chit/5") Quotes
+      h3 Folders:
+      div.content
+        div.folders
+          div.folder
+            a.open(href="/me/#{screen_name}/folder/5") My Journal
+        h4 Create a new folder:
+        form(action="/folder", method="POST")
+          div.fields
+            div.field.title
+              span.label Title:
+              input(type="text", name="title", value="")
+            div.buttons
+              button.submit Create
 
 
     div.create_boxs#Create_Boxs

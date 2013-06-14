@@ -50,6 +50,17 @@ h2
   padding: 0;
   margin: 0;
 
+h3
+  padding: 0
+  margin: 0
+  font-weight: normal
+  font-style: italic
+  text-transform: lowercase
+
+h4
+  padding: 0
+  margin: 0
+  color: $dark_blue
 
 code
   display: block;
