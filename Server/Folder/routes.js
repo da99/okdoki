@@ -32,24 +32,27 @@ exports.route = function (mod) {
       created_at: (new Date).getTime(),
       title: "Page 1"}
     ];
+
     return OK.render_template();
   });
 
 
-  app.get("/me/:screen_name/folder/:num/page/:page_num", function (i) {
-    var req           = i.req, resp = i.resp;
+  app.get("/me/:screen_name/folder/:num/page/:page_num", function (req, resp, next) {
+    var OK            = mod.New_Request(arguments);
     var num           = parseInt(req.params.num);
     var page_num      = parseInt(req.params.page_num);
-    var opts          = Views.default_opts('Folders/page', req, resp)
+    var opts          = OK.template_data('Folder/page')
     opts['title']     = "Page #" + page_num;
     opts['page_num']  = page_num;
     opts['folder_id'] = num;
+    opts['about']     = "ABOUT---"
     opts['items']     = _.map("Item 0,Item 1,Item 2 dsdf sfsdf sdfdsdf sfsdf sdfdsdf sfsdf sdf  dsdf sfsdf sdfdsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf   ,Item 3".split(','), function (v, i) {
       if (i == 2)
         return ['Title 3', v];
       return [null, v];
     });
-    return i.template(opts);
+
+    return OK.render_template();
   });
 
   app.post("/me/:screen_name/folder/:num/page", function (req, resp, next) {
