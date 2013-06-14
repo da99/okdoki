@@ -79,7 +79,7 @@ $(function () {
     form('#Create_Screen_Name', function (f) {
       f.at_least_one_not_empty('input[name="screen_name"]');
       f.on_success(function (result) {
-        f.find('div.success').hide();
+        f.find('div.success').html('Your new life is at: <a href="/me/SN">okdoki.com/me/SN</a>'.replace(/SN/g, result.screen_name));
         screen_name(result.screen_name);
       });
     });
