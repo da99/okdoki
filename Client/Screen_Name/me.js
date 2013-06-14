@@ -215,6 +215,7 @@ $(function () {
     f.at_least_one_not_empty('input[type="text"]');
     f.on_success(function (result) {
       f.find('div.success').html("New folder is at: <a href=\"LOC\">LOC</a>".replace(/LOC/g, result.location));
+      log(result)
       folder(result);
     });
   });
