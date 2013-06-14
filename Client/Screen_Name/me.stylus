@@ -35,32 +35,39 @@ select, option
     font-size: 85%
 
 #Control_Panel
+  overflow: auto
   margin: 10px
-  div.content
+  #Other_Screen_Names
     background: $light_yellow
     padding: 10px
-  div.screen_names
-    ul
-      margin: 0
-      padding: 0
-      display: inline
-    li
-      list-style: none
-      margin: 0
-      display: inline
-    li:after
-      content: ", "
-    li:last-child:after
-      content: ""
-#Other_Screen_Names
-  margin-top: 10px
+    div.screen_names
+      ul
+        margin: 0
+        padding: 0
+        display: inline
+      li
+        list-style: none
+        margin: 0
+        display: inline
+      li:after
+        content: ", "
+      li:last-child:after
+        content: ""
+
+#New_Life
+  padding: 10px 0 0 0
+  float: left
   div.content
-    text-align: left
-    ul, ol
-      margin-left: 0
-      padding-left: 20px
-    a
-      font-weight: bold
+    background: #fff
+    padding: 8px
+    span.label
+      padding: 0 10px 0 0
+    input[type="text"]
+      width: 200px
+      font-size: 190%
+      margin-right: 10px
+    div.fields, div.screen_name, div.buttons
+      display: inline-block
 
 #Create
   width: 300px
@@ -108,9 +115,6 @@ select, option
           width: 98%
       div.buttons
         text-align: right
-
-#Create_Screen_Name
-  display: none
 
 #Create_Website
   max-width: 300px

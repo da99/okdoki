@@ -45,9 +45,31 @@ function draw_chat_msg(sel, msg) {
   }
 }
 
+function screen_name(name) {
+  var parent = $('#Other_Screen_Names');
+  var li = $('<li><a href=""></a></li>');
+  li.find('a').attr('href', "/me/" + name);
+  li.find('a').text(name);
+
+  parent.show();
+  parent.find('ul').prepend(li);
+}
+
 $(function () {
 
   toggles("#Message_Board div.show_write a", "#Write_Message a.cancel");
+
+  // ============================================
+  // ================ Create life................
+  // ============================================
+  if ($('#New_Life').length)
+    form('#Create_Screen_Name', function (f) {
+      f.at_least_one_not_empty('input[name="screen_name"]');
+      f.on_success(function (result) {
+        f.find('div.success').hide();
+        screen_name(result.screen_name);
+      });
+    });
 
   // ============================================
   // ================ Post a message board msg...

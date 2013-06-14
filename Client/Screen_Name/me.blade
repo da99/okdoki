@@ -75,16 +75,27 @@ append content
 
 
     //- ===========================================================
-    //- - if (logged_in && screen_names.length > 1)
+    //- - if (logged_in && OWNER)
     div#Control_Panel
-      h3 Control Panel
-      div.content
+      div#Other_Screen_Names
         div.screen_names
           span My Lifes:
             ul
               foreach screen_names as sn
                 li
                   a(href="/me/#{sn}") #{sn}
+
+
+      div#New_Life
+        h3 Create a new life:
+        div.content
+          form#Create_Screen_Name(action="/me", method="POST")
+            div.fields
+              div.field.screen_name
+                span.label Screen Name:
+                input(type="text", value="", name="screen_name")
+            div.buttons
+              button.submit Create
 
     //- ===========================================================
     div#Message_Board
@@ -147,16 +158,6 @@ append content
             div.buttons
               button.submit Create
 
-      div.box#Create_Screen_Name
-        h3 Create a new screen name:
-        div.content
-          form(action="/screen_name/create", method="POST")
-            div.fields
-              div.field.screen_name
-                span.label Screen Name:
-                input(type="text", value="", name="screen_name")
-            div.buttons
-              button.submit Create
 
       div.box#Create_Website
         h3 Create a new website:
