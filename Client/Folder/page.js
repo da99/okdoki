@@ -24,14 +24,52 @@ $(function () {
   // ==============================================
   // ============= Edit This Page =================
   // ==============================================
-  on_click('#Me div.edit a', function (e) {
+  var button = $('#Me div.edit a');
+  on_click(button, function (e) {
+    $(button).parent().hide();
     $('#Update_Page').show();
     $('#Items div.list').hide();
   });
 
   on_click('#Update_Page a.cancel', function (e) {
+    $(button).parent().show();
     $('#Items div.list').show();
     $('#Update_Page').hide();
   });
 
-});
+  // ==============================================
+  // ============= Style this article. ============
+  // ==============================================
+  var The_Page = $('#The_Page_Content');
+  var content = $.trim(The_Page.text());
+  content = (content.replace( /\*(.+)\*\s+\[(.+)\]/ig, function (a , b , c) {
+    log(a, b, c)
+    var l = $('<a></a>');
+    l.attr('href', c);
+    l.text(b);
+    var p = $('<p></p>');
+    p.append(l);
+    return p.html();
+  }));
+  content = (content.replace( /^Section:\s+(.+)$/mig, function (a , b) {
+    log(a, b)
+    return "<h3>" + $.trim(b) + "</h3>";
+  }));
+  content = (content.replace( /\/(.+)\//g, function (a , b) {
+    log(a, b)
+    return "<i>" + b + "</i>";
+  }));
+  content = (content.replace( /\*(.+)\*/g, function (a , b) {
+    log(a, b)
+    return "<strong>" + b + "</strong>";
+  }));
+
+  The_Page.html(content);
+
+}); // ==== DOM ready
+
+
+
+
+
+

@@ -42,12 +42,8 @@ append content
           a.cancel(href="#cancel") Cancel
 
       div.list
-        - var i = 0
-        foreach items as item
-          div.item(id="page_item_#{i++}")
-            - if(item[0])
-              h3 #{item[0]}
-            div #{item[1]}
+        div.item#The_Page_Content
+          | #{item}
 
   div#Create
     div.create Add:

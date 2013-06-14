@@ -12,16 +12,16 @@ exports.route = function (mod) {
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {
-    var OK            = mod.New_Request(arguments);
-    var num           = parseInt(req.params.num);
-    var opts          = OK.template_data('Folder/show_one')
-    opts['title']     = "Folder #" + num;
-    opts['name']      = req.params.num;
-    opts['about']     = "Stuff about #" + num;
-    opts['folder_id'] = num;
+    var OK                   = mod.New_Request(arguments);
+    var num                  = parseInt(req.params.num);
+    var opts                 = OK.template_data('Folder/show_one')
+    opts['title']            = "Folder #" + num;
+    opts['name']             = req.params.num;
+    opts['about']            = "Stuff about #" + num;
+    opts['folder_id']        = num;
     opts['website_location'] = "/me/GO99";
     opts['website_title']    = "The life of: GO99";
-    opts['pages']     = [
+    opts['pages']            = [
       { location: "/me/GO99/folder/1/page/3",
       created_at: (new Date).getTime(),
       title: "Page 3"},
@@ -41,16 +41,14 @@ exports.route = function (mod) {
     var OK            = mod.New_Request(arguments);
     var num           = parseInt(req.params.num);
     var page_num      = parseInt(req.params.page_num);
-    var opts          = OK.template_data('Folder/page')
+    var opts          = OK.template_data('Folder/page');
     opts['title']     = "Page #" + page_num;
     opts['page_num']  = page_num;
     opts['folder_id'] = num;
-    opts['about']     = "ABOUT---"
-    opts['items']     = _.map("Item 0,Item 1,Item 2 dsdf sfsdf sdfdsdf sfsdf sdfdsdf sfsdf sdf  dsdf sfsdf sdfdsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf   ,Item 3".split(','), function (v, i) {
-      if (i == 2)
-        return ['Title 3', v];
-      return [null, v];
-    });
+    opts['about']     = "ABOUT---";
+    opts['item']      = "Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com]." +
+      "\nThis is *bold*.\n" +
+      "\nThis is /italic/.";
 
     return OK.render_template();
   });
