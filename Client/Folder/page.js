@@ -19,4 +19,19 @@ $(function () {
       $('div.items').append(new_e);
     });
   });
+
+
+  // ==============================================
+  // ============= Edit This Page =================
+  // ==============================================
+  on_click('#Me div.edit a', function (e) {
+    $('#Update_Page').show();
+    $('#Items div.list').hide();
+  });
+
+  on_click('#Update_Page a.cancel', function (e) {
+    $('#Items div.list').show();
+    $('#Update_Page').hide();
+  });
+
 });

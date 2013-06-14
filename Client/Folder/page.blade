@@ -21,14 +21,33 @@ append content
   div#Me
     div.content
       | #{about}
+    //- if (logged_in)
+    div.edit
+      a(href="#edit_this_page") Edit This Page.
 
   div.items#Items
-    - var i = 0
-    foreach items as item
-      div.item(id="page_item_#{i++}")
-        - if(item[0])
-          h3 #{item[0]}
-        div #{item[1]}
+    div.content
+
+      form#Update_Page(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}", method="POST")
+        div.fields
+          div.field.title
+            label Title:
+            input(type="text", name="title", value="#{title}")
+          div.field.body
+            label Body:
+            textarea
+        div.buttons
+          input(type="hidden", name="_method", value="PUT")
+          button.submit Save
+          a.cancel(href="#cancel") Cancel
+
+      div.list
+        - var i = 0
+        foreach items as item
+          div.item(id="page_item_#{i++}")
+            - if(item[0])
+              h3 #{item[0]}
+            div #{item[1]}
 
   div#Create
     div.create Add:

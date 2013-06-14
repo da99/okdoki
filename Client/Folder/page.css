@@ -1,13 +1,47 @@
+body {
+  text-align: center;
+}
+div.edit {
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  background: #fffdd2;
+  width: 160px;
+}
+label {
+  display: block;
+}
 #Items {
-  max-width: 400px;
-  padding: 0 0 20px 0;
+  margin: 0 auto;
+  max-width: 1200px;
+  font-size: 180%;
+}
+#Items div.content {
+  text-align: left;
+  padding: 20px 10px 30px 10px;
+  background: #fff;
 }
 #Items div.item {
-  padding: 0 5px 5px 5px;
+  padding: 8px 10px;
 }
 #Items div.item h3 {
   padding: 0;
   margin: 0;
+}
+#Items textarea {
+  width: 95%;
+  min-height: 500px;
+  font-size: 140%;
+}
+#Items button {
+  margin: 0 15px 0 0;
+}
+#Update_Page {
+  display: none;
+}
+#Create,
+#Creates {
+  display: none;
 }
 #Creates label,
 #Creates span.value {
