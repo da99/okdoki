@@ -1,5 +1,10 @@
 include "../App/layout.blade"
 
+function draw_page(page)
+  div.page
+    span.time #{page.created_at}
+    span.divider  -&nbsp;
+    a(href="#{page.location}") #{page.title}
 append styles
   link(rel="stylesheet", media="screen", href="/Screen_Name/me.css")
 
@@ -7,19 +12,19 @@ append scripts
   script(src="/Folder/show_one.js")
 
 append templates
+
+  call draw_page({created_at: "{TIME}", title: "{TITLE}", location: "{HREF}"})
+
   div.box.item
     h3 {TITLE}
     div.content
       div.buttons
         a.open(href="{LOCATION}") Open
+
   div.success.page_created
     | Your new page is located at:
     a(href="{HREF}")
       | {HREF}
-  div.page
-    span.time {TIME}
-    span.divider &nbsp; -&nbsp;
-    a(href="{HREF}") {TITLE}
 
 
 append content
@@ -176,6 +181,8 @@ append content
           a(href="#edit") Edit
 
   div#Pages
+    foreach pages as page
+      call draw_page(page)
 
 
 

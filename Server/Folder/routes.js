@@ -21,6 +21,17 @@ exports.route = function (mod) {
     opts['folder_id'] = num;
     opts['website_location'] = "/me/GO99";
     opts['website_title']    = "The life of: GO99";
+    opts['pages']     = [
+      { location: "/me/GO99/folder/1/page/3",
+      created_at: (new Date).getTime(),
+      title: "Page 3"},
+      { location: "/me/GO99/folder/1/page/2",
+      created_at: (new Date).getTime(),
+      title: "Page 2"},
+      { location: "/me/GO99/folder/1/page/1",
+      created_at: (new Date).getTime(),
+      title: "Page 1"}
+    ];
     return OK.render_template();
   });
 
