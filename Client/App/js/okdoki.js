@@ -344,15 +344,28 @@ function hide(se) {
 function time_for_humans(t) {
   var now = (new Date).getTime();
   var diff = (now - t);
-  var hours = (diff / 1000);
-  if (hours < 1) {
-    return "<1 hr ago";
-  }
-  if (hours === 1)
-    return "1 hr ago";
-  if (hours < 24)
-    return hours + " hrs ago";
-  return (hours / 24) + " days ago";
+
+  var vals = [
+    [(diff / 1000)               , 'sec'],
+    [(diff / 1000 / 60)          , 'min' ],
+    [(diff / 1000 / 60 / 60)     , 'hr'],
+    [(diff / 1000 / 60 / 60 / 24), 'day']
+  ];
+
+  var highest = _.detect(vals, function (pair) {
+    return pair[0] > 0;
+  }) || [0, 'sec'];
+
+  highest.push('ago');
+
+  if (highest[0] > 1)
+    highest[1] = highest[1] + 's';
+
+  if (highest[0] < 1)
+    highest[0] = "<1";
+
+  return highest.join(' ');
+
 }
 
 function in_secs(num, func) {
