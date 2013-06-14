@@ -345,8 +345,9 @@ function time_for_humans(t) {
   var now = (new Date).getTime();
   var diff = (now - t);
   var hours = (diff / 1000);
-  if (hours < 1)
+  if (hours < 1) {
     return "<1 hr ago";
+  }
   if (hours === 1)
     return "1 hr ago";
   if (hours < 24)

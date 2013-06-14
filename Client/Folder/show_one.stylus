@@ -20,11 +20,11 @@ h1
 #Me
   width: $col_width
   div.content
-    background: rgba(0,0,0,0.6)
-    padding: 2px 5px 4px 5px
+    background: #141414
+    padding: 6px 5px 8px 5px
     color: #fff
     text-align: center
-    font-weight: bold
+    font-size: 110%
 
 #Create
   padding: 10px 0 0 0

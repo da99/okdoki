@@ -19,6 +19,8 @@ exports.route = function (mod) {
     opts['name']      = req.params.num;
     opts['about']     = "Stuff about #" + num;
     opts['folder_id'] = num;
+    opts['website_location'] = "/me/GO99";
+    opts['website_title']    = "The life of: GO99";
     return OK.render_template();
   });
 
@@ -29,7 +31,6 @@ exports.route = function (mod) {
     var page_num      = parseInt(req.params.page_num);
     var opts          = Views.default_opts('Folders/page', req, resp)
     opts['title']     = "Page #" + page_num;
-    opts['about']     = "Stuff about Page #" + page_num;
     opts['page_num']  = page_num;
     opts['folder_id'] = num;
     opts['items']     = _.map("Item 0,Item 1,Item 2 dsdf sfsdf sdfdsdf sfsdf sdfdsdf sfsdf sdf  dsdf sfsdf sdfdsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf dsdf sfsdf sdf   ,Item 3".split(','), function (v, i) {

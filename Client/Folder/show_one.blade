@@ -28,7 +28,9 @@ append content
 
   div#Me
     div.content
-      | #{about}
+      div
+        | From:
+        a(href="#{website_location}") #{website_title}
 
   div#Create
     div.create Create:
@@ -163,8 +165,6 @@ append content
           button.submit Attach
           a.cancel(href="#cancel") Cancel
 
-  div#Pages
-
   div.boxs
     div.box.item
       div.content
@@ -174,5 +174,14 @@ append content
           | of miles to go.
         div.buttons
           a(href="#edit") Edit
+
+  div#Pages
+
+
+
+
+
+
+
 
 
