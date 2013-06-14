@@ -1,9 +1,10 @@
-$light_blue = #E1EEFF
-$blue = #32A3EF
+$light_blue     = #E1EEFF
+$dark_blue      = #185DAD
+$blue           = #32A3EF
 $padding_create = 5px
-$grey_on_black = #BBB
-$yellow = #FFEA74
-$col_width = 400px
+$grey_on_black  = #BBB
+$yellow         = #FFEA74
+$col_width      = 400px
 
 body
   padding: 0
@@ -26,8 +27,10 @@ h1
     font-weight: bold
 
 #Create
+  padding: 10px 0 0 0
   width: $col_width
-  background: rgba(0,0,0,0.6)
+  background: transparent
+  color: #000
   div.link
     padding: 0 2px $padding_create 0
   a:link
@@ -45,16 +48,15 @@ h1
   div.create
     display: inline-block
     padding: 0 $padding_create
-    color: #fff
     font-size: 90%
     text-transform: lowercase
   div.link
     display: inline-block
   div.active
-    background: rgba(0,0,0,0.5)
+    background: #fff
     border-radius: 3px 3px 0 0
     a:link, a:hover
-      color: $yellow
+      color: $dark_blue
       font-weight: bold
       text-decoration: none
       background: transparent
@@ -63,10 +65,9 @@ h1
 #Creates
   width: $col_width
   div.create
-    color: $yellow
     display: none
-    padding: 4px 10px 8px 10px
-    background: rgba(0,0,0,0.8)
+    background: #fff
+    padding: 5px
     div.success
       color: $yellow
       border: 0

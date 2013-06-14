@@ -40,7 +40,7 @@ exports.route = function (mod) {
     return i.template(opts);
   });
 
-  app.post("/me/:screen_name/folder/:num/create/page", function (req, resp, next) {
+  app.post("/me/:screen_name/folder/:num/page", function (req, resp, next) {
     var o      = _.clone(req.body);
     var num    = parseInt(Math.random() * 10)
     o.location = "/me/" + req.params.screen_name + "/folder/" + req.params.num + '/page/' + num;

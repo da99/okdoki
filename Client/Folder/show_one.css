@@ -20,8 +20,10 @@ h1 {
   font-weight: bold;
 }
 #Create {
+  padding: 10px 0 0 0;
   width: 400px;
-  background: rgba(0,0,0,0.6);
+  background: transparent;
+  color: #000;
 }
 #Create div.link {
   padding: 0 2px 5px 0;
@@ -45,7 +47,6 @@ h1 {
 #Create div.create {
   display: inline-block;
   padding: 0 5px;
-  color: #fff;
   font-size: 90%;
   text-transform: lowercase;
 }
@@ -53,12 +54,12 @@ h1 {
   display: inline-block;
 }
 #Create div.active {
-  background: rgba(0,0,0,0.5);
+  background: #fff;
   border-radius: 3px 3px 0 0;
 }
 #Create div.active a:link,
 #Create div.active a:hover {
-  color: #ffea74;
+  color: #185dad;
   font-weight: bold;
   text-decoration: none;
   background: transparent;
@@ -68,10 +69,9 @@ h1 {
   width: 400px;
 }
 #Creates div.create {
-  color: #ffea74;
   display: none;
-  padding: 4px 10px 8px 10px;
-  background: rgba(0,0,0,0.8);
+  background: #fff;
+  padding: 5px;
 }
 #Creates div.create div.success {
   color: #ffea74;

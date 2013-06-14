@@ -70,6 +70,7 @@ body.logged_in #okdoki_nav_bar a.home {
   top: 0;
   right: 10px;
 }
+label,
 div.label,
 span.label {
   background: #008eed;
@@ -145,6 +146,7 @@ form.trashed div.undo {
 form div.field {
   padding: 0 0 6px 0;
 }
+form div.field label,
 form div.field span.label,
 form div.field span.value,
 form div.field span.optional,

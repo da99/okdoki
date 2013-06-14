@@ -94,7 +94,7 @@ body.logged_in #okdoki_nav_bar a.home
   right: 10px;
 
 
-div.label, span.label
+label, div.label, span.label
   background: #008EED;
   color: #fff;
   border-radius: 0;
@@ -181,7 +181,7 @@ form
 
   div.field
     padding: 0 0 6px 0
-    span.label, span.value, span.optional, span.info
+    label, span.label, span.value, span.optional, span.info
       background: transparent
       color: $dark_blue
       font-weight: bold

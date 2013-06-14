@@ -1,3 +1,6 @@
+form input[type="text"] {
+  font-size: 190%;
+}
 body {
   padding: 0 0 100px 0;
   background: #fcfcfc url("/img/doodle.gif") repeat-x;
