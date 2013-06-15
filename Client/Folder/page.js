@@ -42,27 +42,6 @@ $(function () {
   // ==============================================
   var The_Page = $('#The_Page_Content');
   var content = $.trim(The_Page.text());
-  content = (content.replace( /\*(.+)\*\s+\[(.+)\]/ig, function (a , b , c) {
-    log(a, b, c)
-    var l = $('<a></a>');
-    l.attr('href', c);
-    l.text(b);
-    var p = $('<p></p>');
-    p.append(l);
-    return p.html();
-  }));
-  content = (content.replace( /^Section:\s+(.+)$/mig, function (a , b) {
-    log(a, b)
-    return "<h3>" + $.trim(b) + "</h3>";
-  }));
-  content = (content.replace( /\/(.+)\//g, function (a , b) {
-    log(a, b)
-    return "<i>" + b + "</i>";
-  }));
-  content = (content.replace( /\*(.+)\*/g, function (a , b) {
-    log(a, b)
-    return "<strong>" + b + "</strong>";
-  }));
 
   The_Page.html(content);
 
