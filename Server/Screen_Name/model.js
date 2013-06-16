@@ -136,17 +136,17 @@ S.create = function (customer, job) {
 
   .job('create', 'screen name', function (j) {
 
-    j.on_duplicate = function () {
-      return job.invalid('Screen name already exists: ' + sn.new_data.screen_name);
-    };
-
     insert_data = {
       owner_id     : customer.data.id,
       screen_name  : sn.sanitized_data.screen_name,
       display_name : sn.sanitized_data.screen_name
     };
 
-    Topogo.new(TABLE_NAME).create(insert_data, j);
+    Topogo.new(TABLE_NAME)
+    .on_dup("screen_name", function (name) {
+      j.finish('invalid', 'Screen name already taken: ' + sn.new_data.screen_name);
+    })
+    .create(insert_data, j);
 
   })
   .job(function (j, r) {

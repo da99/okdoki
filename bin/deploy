@@ -2,7 +2,7 @@
 # -*- bash -*-
 #
 set -u -e -o pipefail
-
+bin/npm_link ensure_none
 
 folder="node_modules"
 mv $folder /tmp/okdoki_$folder

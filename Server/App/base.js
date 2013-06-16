@@ -19,7 +19,8 @@ exports.log = function() {
     return ((_.isArray(arr) && arr.length > 5) ? 'Array: ' + arr.length : arr);;
   });
 
-  console['log'].apply(console, args);
+  if (process.env.IS_DEV)
+    console['log'].apply(console, args);
 };
 
 exports.warn = function() {

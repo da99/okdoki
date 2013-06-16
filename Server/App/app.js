@@ -467,7 +467,7 @@ app.use(function (req, resp, next) {
 
 
 app.use(function (err, req, resp, next) {
-  log(err);
+  log(err.stack);
 
   if (req.body && req.body.request_type == 'latest msgs') {
     var OK = New_Request(req, resp, next);

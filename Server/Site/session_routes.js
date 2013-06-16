@@ -1,3 +1,6 @@
+var _ = require("underscore"),
+Customer = require("../Customer/model").Customer
+;
 
 module.exports.route = function (mod) {
 
@@ -10,9 +13,8 @@ module.exports.route = function (mod) {
   });
 
   app.post('/account', function (req, resp, next) {
-    var r = New_River(req, resp, next);
+    var r = mod.New_River(req, resp, next);
     r.job(function (j) {
-      console.log(req.body)
       Customer.create({
         screen_name         : req.body.screen_name,
         display_name        : req.body.screen_name,
