@@ -1,6 +1,6 @@
 
 
-var table = "";
+var table = "Page";
 var m     = module.exports = {};
 
 var _     = require('underscore');
@@ -15,6 +15,12 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
+    id             serial PRIMARY KEY,     \n\
+    folder_id      int DEFAULT 0 NOT NULL, \n\
+    author_id      int DEFAULT 0 NOT NULL, \n\
+    title          varchar(180)          , \n\
+    body           text                  , \n\
+    html_body      text                  , \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
