@@ -195,7 +195,7 @@ S.read_by_screen_name = function (n, flow) {
     Topogo.new(TABLE_NAME).read_one({screen_name: n.toUpperCase()}, j)
   })
   .job(function (j, r) {
-    return j.finish(S.new(r));
+    j.finish(r && S.new(r));
   })
   .run();
 };

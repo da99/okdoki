@@ -13,7 +13,7 @@ module.exports.route = function (mod) {
   });
 
   app.post('/account', function (req, resp, next) {
-    var r = mod.New_River(req, resp, next);
+    var r = mod.New_River(arguments);
     r.job(function (j) {
       Customer.create({
         screen_name         : req.body.screen_name,

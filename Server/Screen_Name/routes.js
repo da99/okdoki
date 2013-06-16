@@ -1,6 +1,7 @@
 
 var _         = require('underscore')
 , Faker       = require('Faker')
+, Screen_Name = require('../Screen_Name/model').Screen_Name
 ;
 
 exports.route = function (mod) {
@@ -9,13 +10,22 @@ exports.route = function (mod) {
   var app = mod.app;
 
   app.get('/me/:screen_name', function (req, resp, next) {
-    var OK               = mod.New_Request(arguments);
-    var data             = OK.template_data('Screen_Name/me')
-    data['title']        = req.params.screen_name;
-    data['screen_name']  = req.params.screen_name;
-    data['screen_names'] = ['GO99'];
-    data['folders']      = ['My Journal'];
-    return OK.render_template();
+    var r = mod.New_River(req, resp, next);
+    r.job(function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, j);
+    })
+    .job(function (j, last) {
+      if (!last)
+        return next();
+      var OK               = mod.New_Request(req, resp, next);
+      var data             = OK.template_data('Screen_Name/me')
+      data['title']        = req.params.screen_name;
+      data['screen_name']  = req.params.screen_name;
+      data['screen_names'] = ['GO99'];
+      data['folders']      = ['My Journal'];
+      OK.render_template();
+    })
+    .run();
   });
 
 

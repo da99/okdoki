@@ -36,6 +36,11 @@ var app     = module.exports.app = express();
 
 
 var New_River = exports.New_River = function (req, resp, next) {
+  if (req.length) {
+    resp = req[1];
+    next = req[2];
+    req  = req[0];
+  }
   var r = River.new(null);
   r.next('invalid', function (j) {
     resp.json({success: false, msg: j.job.error.message});
@@ -44,8 +49,11 @@ var New_River = exports.New_River = function (req, resp, next) {
 };
 
 var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) {
-  var args = _.flatten(_.compact([_.toArray(raw_args), raw_resp, raw_next]));
-  var req = args[0], resp = args[1], next = args[2];
+  if (raw_args.length) {
+    var req = raw_args[0], resp = raw_args[1], next = raw_args[2];
+  } else {
+    var req = raw_args, resp = raw_resp, next = raw_next;
+  };
 
   return {
     status : function (code) {
@@ -452,7 +460,7 @@ app.use(function (req, resp, next) {
 
   if (req.accepts('html')) {
     resp.writeHead(404, { "Content-Type": "text/html" });
-    resp.end("<html><head><title>" + req.path + " : Not Found</title></head><body>Missing url. Check spelling of the address.</body></html>");
+    resp.end("<html><head><title>" + req.path + " : Not Found</title></head><body>Not found. Check spelling of the address.</body></html>");
   } else {
     if (req.accepts('application/json')) {
       var OK = New_Request(arguments);
