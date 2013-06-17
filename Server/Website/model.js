@@ -103,7 +103,7 @@ Uni.read = function (q, flow) {
 
 Uni.read_by_screen_name_id = function (o, flow) {
   if (typeof o !== 'object') {
-    o = {owner_id: o};
+    o = {owner_id: o, type_id: 1};
   };
 
   River.new(flow)
@@ -111,8 +111,8 @@ Uni.read_by_screen_name_id = function (o, flow) {
     TABLE.read_list(o, j);
   })
   .job(function (j, unis) {
-    j.finish(_.each(unis, function (u) {
-      Uni.new(u);
+    j.finish(_.map(unis, function (u) {
+      return Uni.new(u);
     }));
   })
   .run();

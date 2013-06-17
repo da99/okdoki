@@ -117,7 +117,6 @@ describe( 'Express App', function () {
       };
       post({url: '/customer', form: body}, function (err, resp, body) {
         assert.equal(null, err && err.message);
-        console.log(body)
         expect(JSON.parse(body).msg).match(/Account created./i);
         done();
       });

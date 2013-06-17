@@ -3,6 +3,7 @@ var _         = require('underscore')
 , Faker       = require('Faker')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Website     = require('../Website/model').Website
+, Folder      = require('../Folder/model').Folder
 ;
 
 exports.route = function (mod) {
@@ -25,14 +26,12 @@ exports.route = function (mod) {
       Website.read_by_screen_name_id(last.data.id, j);
     })
     .job(function (j, last) {
-      if (!last)
+      if (!last || !last.length)
         return next();
-      uni = last;
+      uni = last[0];
       data            = OK.template_data('Screen_Name/me')
       data['title']   = uni.data.title || req.params.screen_name;
-    })
-    .job(function (j) {
-      Folder.read_by_uni_id(uni.data.id, j)
+      Folder.read({website_id: uni.data.id}, j)
     })
     .job(function (j, last) {
       data['folders'] = last;

@@ -56,7 +56,16 @@ Folder.create = function (data, flow) {
 // ================================================================
 
 Folder.read = function (q, flow) {
-  TABLE.read_list(q, flow);
+  River.new(flow)
+  .job(function (j) {
+    TABLE.read_list(q, j);
+  })
+  .job(function (j, list) {
+    j.finish(_.map(list, function (r) {
+      return Folder.new(r);
+    }));
+  })
+  .run();
 };
 // ================================================================
 // ================== Update ======================================
