@@ -20,6 +20,7 @@ function post(data, func) {
 function get(uri, func) {
   uri = 'http://localhost:5009' + uri;
   return request(uri, function (err, resp, body) {
+    expect(body).not.match(/go99/i);
     var $ = cheerio.load(body);
     _csrf = $('#_csrf').text();
     if (func.length === 3)
@@ -108,9 +109,9 @@ describe( 'Express App', function () {
     it( 'allows customer to be created', function (done) {
       var body = {
         _csrf: _csrf,
-        screen_name: "go99",
-        pass_phrase: "JGS BOGGS MONEY MAN",
-        confirm_pass_phrase: "JGS BOGGS MONEY MAN"
+        screen_name: "ted_nelson",
+        pass_phrase: "i h8 u",
+        confirm_pass_phrase: "i h8 u"
       };
       post({url: '/customer', form: body}, function (err, resp, body) {
         assert.equal(null, err && err.message);
@@ -122,8 +123,8 @@ describe( 'Express App', function () {
     it( 'allows customer to be sign-ed in', function (done) {
       var body = {
         _csrf: _csrf,
-        screen_name: "go99",
-        pass_phrase: "JGS BOGGS MONEY MAN",
+        screen_name: "ted_nelson",
+        pass_phrase: "i h8 u",
       };
       post({url: '/sign-in', form: body}, function (err, resp, body) {
         assert.equal(null, err && err.message);
@@ -133,6 +134,14 @@ describe( 'Express App', function () {
     });
   }); // === end desc: Customer
 
+  describe( 'Screen Name', function () {
+    it( 'loads home page', function (done) {
+      get('/me/TeD_NelsOn', function (err, resp, body) {
+        expect(body).match(/the life of/i);
+        done();
+      });
+    });
+  }); // === end desc
 }); // === end desc
 
 

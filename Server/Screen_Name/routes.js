@@ -20,8 +20,6 @@ exports.route = function (mod) {
       var OK               = mod.New_Request(req, resp, next);
       var data             = OK.template_data('Screen_Name/me')
       data['title']        = req.params.screen_name;
-      data['screen_name']  = req.params.screen_name;
-      data['screen_names'] = ['GO99'];
       data['folders']      = ['My Journal'];
       OK.render_template();
     })
