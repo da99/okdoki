@@ -102,6 +102,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           customer      : req.user,
           screen_name   : req.params.screen_name,
           screen_names  : [],
+          is_owner      : false,
           token         : req.session._csrf,
           _csrf         : req.session._csrf,
           aud           : req.user,
@@ -111,8 +112,8 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
         if (opts.logged_in)
           opts.screen_names = req.user.screen_names();
 
-        if (!opts.screen_name)
-          opts.screen_name = opts.screen_names[0]
+        if (opts.logged_in && opts.screen_name)
+          opts.is_owner = req.user.is(opts.screen_name);
       }
       if (data)
         _.extend(this._template_data, data);

@@ -51,16 +51,6 @@ append content
 
   div.sidebar#sidebar
 
-    - if (logged_in)
-      div#Screen_Names
-        - if (screen_names.length === 1)
-          span Your screen name:
-        - else
-          span Your screen names:
-        foreach screen_names as sn
-          div
-            a(href="/me/#{sn}") #{sn}
-
     h1.title
       span.main
         | ok
@@ -70,7 +60,7 @@ append content
     div#header
       p
         span.about
-          | Create websites...
+          | Multi-Life Websites...
         br
         span
           | with the help of your friends.
@@ -98,18 +88,28 @@ append content
 append content
   div.col#Why
 
-    h3 Friends == Assistants
-    div.content
-      | Your friends and co-workers can be
-      | allowed to edit and contribute. Keep
-      | your sites updated even when you're
-      | busy with the help of the people in
-      | your life.
+    - if (logged_in)
+      div#Screen_Names
+        - if (screen_names.length === 1)
+          span Your screen name:
+        - else
+          span Your screen names:
+        foreach screen_names as sn
+          div
+            a(href="/me/#{sn}") #{sn}
+    - else
+      h3 Friends == Assistants
+      div.content
+        | Your friends and co-workers can be
+        | allowed to edit and contribute. Keep
+        | your sites updated even when you're
+        | busy with the help of the people in
+        | your life.
 
-    h3 Pages + Folders
-    div.content
-      | You can organize web pages into folders.
-      | Folders can look and act differently:
-      | wish lists, journal (aka blog), books,
-      | magazine, scrap book, etc.
+      h3 Pages + Folders
+      div.content
+        | You can organize web pages into folders.
+        | Folders can look and act differently:
+        | wish lists, journal (aka blog), books,
+        | magazine, scrap book, etc.
 

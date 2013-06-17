@@ -79,12 +79,12 @@ append content
 
 
     //- ===========================================================
-    //- - if (logged_in && OWNER)
-    div#Control_Panel
-      div#Other_Screen_Names
-        div.screen_names
-          span My Other Life(s):
-            ul
+    - if (is_owner)
+      div#Control_Panel
+        div#Other_Screen_Names
+          div.screen_names
+            span My Other Life(s):
+              ul
 
 
       div#New_Life
@@ -132,14 +132,15 @@ append content
           foreach folders as folder
           li
             a.open(href="/me/#{screen_name}/folder/5") My Journal
-        h4 Create a new folder:
-        form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
-          div.fields
-            div.field.title
-              span.label Title:
-              input(type="text", name="title", value="")
-            div.buttons
-              button.submit Create
+        - if (logged_in)
+          h4 Create a new folder:
+          form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
+            div.fields
+              div.field.title
+                span.label Title:
+                input(type="text", name="title", value="")
+              div.buttons
+                button.submit Create
 
 
     div.create_boxs#Create_Boxs
