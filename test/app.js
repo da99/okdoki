@@ -3,6 +3,7 @@ var _     = require("underscore")
 , request = require("request")
 , exec    = require("child_process").exec
 , spawn   = require("child_process").spawn
+, cheerio = require("cheerio")
 ;
 
 function get() {
@@ -53,8 +54,10 @@ describe( 'Express App', function () {
     get('/', function (err, resp, body) {
       assert.equal(null, err);
       assert.equal(true, body.indexOf('/customer') > 0);
+      cheerio.load(body).
       done();
     });
   });
+
 
 }); // === end desc

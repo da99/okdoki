@@ -21,7 +21,6 @@
     , "chokidar"          : "x.x.x"
     , "blade"             : "x.x.x"
     , "Faker"             : "x.x.x"
-    , "request"           : "x.x.x"
 
     , "topogo"            : "x.x.x"
     , "da_river"          : "x.x.x"
@@ -31,11 +30,13 @@
   },
 
   "devDependencies": {
-    "redis"        : "x.x.x",
-    "hiredis"      : "x.x.x",
-    "cli-color"    : "x.x.x",
-    "akui"         : "x.x.x",
-    "spooky"       : "x.x.x"
+    "redis"       : "x.x.x"
+    , "hiredis"   : "x.x.x"
+    , "cli-color" : "x.x.x"
+    , "akui"      : "x.x.x"
+    , "spooky"    : "x.x.x"
+    , "request"   : "x.x.x"
+    , "cheerio"   : "x.x.x"
   },
 
   "engines": {

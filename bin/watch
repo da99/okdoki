@@ -227,7 +227,8 @@ function restart_server(func) {
 
   var server = spawn("bin/restart");
   server.stdout.on('data', function (data) {
-    server_started = true;
+    if (data.toString().indexOf("isten") > 0)
+      server_started = true;
     process.stdout.write("" + data);
   });
 
