@@ -5,7 +5,7 @@ cmd="$1"
 full_cmd="$@"
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Uni Folder Page Follow Message_Board );
+mods=( Customer Screen_Name Website Folder Page Follow Message_Board );
 
 export DUCK_TEMPLATE=$(pwd)/Server/App/duck_template.js
 bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"
@@ -14,7 +14,7 @@ bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"
 if [[ "$cmd" == "" ]]
 then
   cmd="up"
-  full_cmd="up $full_cmd"
+  full_cmd="up"
 fi
 
 
@@ -53,7 +53,15 @@ case "$cmd" in
       echo "This is not a dev machine."
       exit 1
     fi
-    run_all
+    if [[ "$cmd" == "$full_cmd" ]]
+    then
+      run_all
+    else
+      cd "Server/$2"
+      echo "$2"
+      $bin down
+      cd ../..
+    fi
     ;;
 
   up)

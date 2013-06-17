@@ -1,5 +1,5 @@
 
-var table = 'Uni';
+var table = 'Website';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -14,7 +14,6 @@ m.migrate = function (dir, r) {
 id             serial PRIMARY KEY, \
 type_id        smallint NOT NULL,  \
 owner_id       int NOT NULL,       \
-folder_seq     smallint DEFAULT 0 NOT NULL,   \
 title          text default null,  \
 about          text default null,  \
 $created_at    ,          \

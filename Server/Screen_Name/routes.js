@@ -2,6 +2,7 @@
 var _         = require('underscore')
 , Faker       = require('Faker')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
+, Website     = require('../Website/model').Website
 ;
 
 exports.route = function (mod) {
@@ -10,17 +11,31 @@ exports.route = function (mod) {
   var app = mod.app;
 
   app.get('/me/:screen_name', function (req, resp, next) {
-    var r = mod.New_River(req, resp, next);
+    var OK     = mod.New_Request(req, resp, next);
+    var r      = mod.New_River(req, resp, next);
+    var data   = null;
+    var uni    = 0;
+
     r.job(function (j) {
       Screen_Name.read_by_screen_name(req.params.screen_name, j);
     })
     .job(function (j, last) {
       if (!last)
         return next();
-      var OK               = mod.New_Request(req, resp, next);
-      var data             = OK.template_data('Screen_Name/me')
-      data['title']        = req.params.screen_name;
-      data['folders']      = ['My Journal'];
+      Website.read_by_screen_name_id(last.data.id, j);
+    })
+    .job(function (j, last) {
+      if (!last)
+        return next();
+      uni = last;
+      data            = OK.template_data('Screen_Name/me')
+      data['title']   = uni.data.title || req.params.screen_name;
+    })
+    .job(function (j) {
+      Folder.read_by_uni_id(uni.data.id, j)
+    })
+    .job(function (j, last) {
+      data['folders'] = last;
       OK.render_template();
     })
     .run();

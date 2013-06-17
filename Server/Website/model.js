@@ -8,10 +8,11 @@ var _         = require('underscore')
 , h           = require('../App/base')
 ;
 
-var Uni  = exports.Uni = function () {};
-var TABLE_NAME = Uni.TABLE_NAME = 'Uni';
+var Uni  = exports.Website = function () {};
+var TABLE_NAME = Uni.TABLE_NAME = 'Website';
 var TABLE      = Uni.TABLE = Topogo.new(TABLE_NAME);
 
+Uni.TYPE_IDS = {1: "Screen Name Profile Website"};
 Uni.new = function (row) {
 
   var hp = new Uni();
@@ -137,6 +138,22 @@ Uni.read = function (vals, flow) {
   .run();
 };
 
+Uni.read_by_screen_name_id = function (o, flow) {
+  if (typeof o !== 'object') {
+    o = {owner_id: o};
+  };
+
+  River.new(flow)
+  .job(function (j) {
+    TABLE.read_list(o, j);
+  })
+  .job(function (j, unis) {
+    j.finish(_.each(unis, function (u) {
+      Uni.new(u);
+    }));
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================
