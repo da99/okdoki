@@ -3,10 +3,19 @@
 #
 set -o pipefail
 set -e
+PORT="$PORT"
+echo "$PORT"
+set -u
 
 
-if [ -z "$PORT" ];
-then PORT="5000";
+if [[ -z "$PORT" ]]
+then
+  PORT="5000";
+fi
+
+if [[ -n "$@" ]]
+then
+  PORT="$@"
 fi
 
 set -u

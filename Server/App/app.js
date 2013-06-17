@@ -321,8 +321,8 @@ var require_log_in = function (req, resp, next) {
   // resp.send(200, "huuuml");
 // });
 
-if (process.env.IS_TESTING)
-  require('../Test/routes');
+// if (process.env.IS_TESTING)
+  // require('../Test/routes');
 
 
 require('../Session/routes').route(module.exports);

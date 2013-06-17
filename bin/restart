@@ -2,5 +2,5 @@
 # -*- bash -*-
 #
 
-bin/stop
-bin/start
+bin/stop "$@"
+bin/start "$@"
