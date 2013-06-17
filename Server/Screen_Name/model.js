@@ -5,6 +5,8 @@ var Refresh = 4 // seconds
 , Topogo    = require('topogo').Topogo
 , UID       = require('../App/UID').UID
 , IM        = require('../IM/model').IM
+, Website   = require('../Website/model').Website
+, Folder    = require('../Folder/model').Folder
 ;
 
 var WORLD = '@W';
@@ -152,14 +154,28 @@ S.create = function (customer, job) {
   .job(function (j, r) {
     if (customer.data.id)
       return j.finish(r);
-    River.new()
-    .job(function (j) {
-      Topogo.new(TABLE_NAME).update(r.id, {owner_id: r.id}, j);
+    River.new(j)
+    .job(function (j2) {
+      Topogo.new(TABLE_NAME).update(r.id, {owner_id: r.id}, j2);
     })
-    .run(function () {
+    .job(function (j2, r) {
       customer.data.id = customer.sanitized_data.id = r.id;
       j.finish(r);
-    });
+    })
+    .run();
+  })
+  .job(function (j, r) {
+    River.new(j)
+    .job(function (j2) {
+      Website.create({type_id: 1, owner_id: r.id}, j2);
+    })
+    .job(function (j2, website) {
+      Folder.create({num: 1, website_id: website.data.id, owner_id: r.id, title: "My Journal"}, j2)
+    })
+    .job(function (j2) {
+      j.finish(r);
+    })
+    .run();
   })
   .job(function (j, r) {
     customer.push_screen_name_row(_.extend(insert_data, r));

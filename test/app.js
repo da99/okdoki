@@ -59,15 +59,17 @@ describe( 'Express App', function () {
         done();
       }
     }
-    server.stdout.on('data', function (data) {
-      // process.stdout.write("" + data);
-      if (data.toString().indexOf('isten') > 0)
+    server.stdout.on('data', function (raw_data) {
+      var data = raw_data + "";
+      if (!data.match(/(GET|POST) \//))
+          process.stdout.write(data);
+      if (data.indexOf('isten') > 0)
         fin();
     });
 
     server.stderr.on('data', function (data) {
-      fin();
       process.stdout.write("" + data);
+      fin();
     });
 
     server.on('close', function (code) {
@@ -115,6 +117,7 @@ describe( 'Express App', function () {
       };
       post({url: '/customer', form: body}, function (err, resp, body) {
         assert.equal(null, err && err.message);
+        console.log(body)
         expect(JSON.parse(body).msg).match(/Account created./i);
         done();
       });

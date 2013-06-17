@@ -5,6 +5,7 @@ var _    = require('underscore')
 ;
 
 var TABLE_NAME = 'Folder';
+var TABLE      = Topogo.new(TABLE_NAME);
 
 function not_empty() {
   var args = _.toArray(arguments);
@@ -22,8 +23,9 @@ function not_empty() {
 var Folder = exports.Folder = function () {
 };
 
-Folder.new = function () {
+Folder.new = function (row) {
   var f = new Folder();
+  f.data = row;
   return f;
 };
 
@@ -35,16 +37,16 @@ Folder.create = function (data, flow) {
   var f = Folder.new();
   River.new(flow)
   .job(function (j) {
-    Counter.upsert('website', data.website_id, 'folders', 0, j);
-  })
-  .job(function (j, NUM) {
-    Topogo.new(TABLE_NAME)
+    TABLE
     .create({
-      num        : NUM,
+      num        : data.num,
       website_id : data.website_id,
       owner_id   : data.owner_id,
-      title      : not_empty(data.title, "New Folder #" + NUM)
+      title      : not_empty(data.title, "New Folder #" + data.num)
     }, j);
+  })
+  .job(function (j, row) {
+    j.finish(Folder.new(row));
   })
   .run();
 };
@@ -53,6 +55,9 @@ Folder.create = function (data, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Folder.read = function (q, flow) {
+  TABLE.read_list(q, flow);
+};
 // ================================================================
 // ================== Update ======================================
 // ================================================================

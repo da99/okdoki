@@ -54,6 +54,15 @@ var Validate_Create = Check.new('create home page', function (vc) {
     if (vador.val)
       vador.sanitized('owner_id', vador.val.screen_name_id(vador.target.new_data['screen_name']));
   });
+
+  vc.define('type_id', function (vador) {
+    vador.between(1,100); //, "Invalid website type.");
+  });
+
+  vc.define('owner_id', function (vador) {
+    if (vador.val)
+      vador.not_empty("Invalid owner.");
+  });
 });
 
 Uni.create = function (vals, flow) {
@@ -61,18 +70,14 @@ Uni.create = function (vals, flow) {
   me.new_data = vals;
 
   if (!Validate_Create.run(me))
-    return flow.invalid(me.errors);
-
-  var id_data  = {};
-  var new_data = me.sanitized_data;
-  h.move_keys(id_data, new_data, 'owner', 'screen_name');
+    return flow.finish('invalid', me.errors);
 
   River.new(flow)
-  .job('create table', id_data.screen_name, function (j) {
-    TABLE.create(new_data, j);
+  .job('create', function (j) {
+    TABLE.create(me.sanitized_data, j);
   })
-  .job('read table', id_data.screen_name, function (j, row) {
-    Uni.read( _.extend({from: id_data['owner']}, id_data, new_data, row), j );
+  .job('read', function (j, row) {
+    Uni.read( row.id, j );
   })
   .run();
 };
@@ -82,58 +87,16 @@ Uni.create = function (vals, flow) {
 // ================== Read ========================================
 // ================================================================
 
-Uni.read = function (vals, flow) {
-  var from        = vals.from;
-  var screen_name = vals.screen_name;
+Uni.read = function (q, flow) {
+  if (!_.isObject(q))
+    q = {id: q};
 
-  if (from.is(screen_name)) {
-    var to_id = from.screen_name_id(screen_name);
-    var sql = " \
-      SELECT *                   \
-      FROM \"" + TABLE_NAME + "\"                  \
-      WHERE                      \
-          owner_id = $1          \
-      LIMIT 1                    \
-    ;";
-
-    River.new(arguments)
-    .job_must_find('Homepage', to_id, function (j) {
-      TABLE.read_one({owner_id: to_id}, j);
-    })
-    .job(function (j, row) {
-      var new_vals = _.extend({from: from}, row || {});
-      return j.finish(Uni.new(new_vals));
-    })
-    .run();
-
-    return;
-  }
-
-  var vals = [screen_name];
-  var sql = "\
-    SELECT $uni.title, $uni.about        \
-    FROM $sn LEFT JOIN $uni               \
-      ON $sn.id = $uni.owner_id     \
-        AND $sn.screen_name = UPPER($1)   \
-      LEFT JOIN $sn from                  \
-        ON from.screen_name = UPPER($2)            \
-    WHERE                                          \
-      (                                            \
-         $sn.read_able = 'W'                       \
-         OR                                        \
-         from.id = ANY $sn.read_able_list          \
-      )                                            \
-      AND from.id != ANY $sn.un_read_able_list     \
-    LIMIT 1                                        \
-  ;"
-  .replace(/\$sn/g, '"' + Screen_Name.TABLE_NAME + '"')
-  .replace(/\$uni/g, '"' + Uni.TABLE_NAME + '"')
-  ;
-
-  PG.new(flow)
-  .q({sql: sql, vals: vals, limit_1: true})
-  .reply(function (row) {
-    return Uni.new(row);
+  River.new(flow)
+  .job(function (j) {
+    TABLE.read_one(q, j);
+  })
+  .job(function (j, last) {
+    j.finish(Uni.new(last));
   })
   .run();
 };
@@ -202,3 +165,23 @@ Uni.update = function (vals, flow) {
 
 
 
+// ===== READ ONE
+  // var sql = "\
+    // SELECT $uni.title, $uni.about        \
+    // FROM $sn LEFT JOIN $uni               \
+      // ON $sn.id = $uni.owner_id     \
+        // AND $sn.screen_name = UPPER($1)   \
+      // LEFT JOIN $sn from                  \
+        // ON from.screen_name = UPPER($2)            \
+    // WHERE                                          \
+      // (                                            \
+         // $sn.read_able = 'W'                       \
+         // OR                                        \
+         // from.id = ANY $sn.read_able_list          \
+      // )                                            \
+      // AND from.id != ANY $sn.un_read_able_list     \
+    // LIMIT 1                                        \
+  // ;"
+  // .replace(/\$sn/g, '"' + Screen_Name.TABLE_NAME + '"')
+  // .replace(/\$uni/g, '"' + Uni.TABLE_NAME + '"')
+  // ;
