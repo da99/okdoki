@@ -14,7 +14,7 @@ function get() {
 describe( 'Express App', function () {
 
   before(function (done) {
-    var server = spawn("bin/restart 5009");
+    var server = spawn("bin/restart", ['5009']);
     var is_done = false;
     var fin = function () {
       if (!is_done) {
@@ -23,8 +23,9 @@ describe( 'Express App', function () {
       }
     }
     server.stdout.on('data', function (data) {
-      fin();
       // process.stdout.write("" + data);
+      if (data.toString().indexOf('isten') > 0)
+        fin();
     });
 
     server.stderr.on('data', function (data) {
@@ -50,6 +51,7 @@ describe( 'Express App', function () {
 
   it( 'runs', function (done) {
     get('/', function (err, resp, body) {
+      assert.equal(null, err);
       assert.equal(true, body.indexOf('/customer') > 0);
       done();
     });
