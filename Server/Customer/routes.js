@@ -19,7 +19,7 @@ module.exports.route = function (mod) {
     })
     .run(function (r, last) {
       var sn = last.screen_names()[0];
-      sign_in(req, resp, next);
+      mod.sign_in(req, resp, next, "Account created. Please wait as your profile page is loaded...");
     });
   });
 

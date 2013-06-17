@@ -274,7 +274,7 @@ passport.use(new LocalStrategy( { usernameField: 'screen_name', passwordField: '
   .run();
 }));
 
-module.exports.sign_in = function (req, resp, next) {
+module.exports.sign_in = function (req, resp, next, msg) {
   return passport.authenticate('local', function(err, user, info) {
     if (err)
       return next(err);
@@ -287,7 +287,7 @@ module.exports.sign_in = function (req, resp, next) {
       if (err)
         return next(err);
       resp.json({
-        msg         : "You are now sign-ed in. Please wait as page reloads...",
+        msg         : msg || "Success: Please wait as page reloads...",
         success     : true,
         screen_name : req.body.screen_name,
         location    : "/me/" + req.body.screen_name
