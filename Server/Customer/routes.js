@@ -6,7 +6,7 @@ module.exports.route = function (mod) {
 
   var app = mod.app;
 
-  app.post('/account', function (req, resp, next) {
+  app.post('/customer', function (req, resp, next) {
     var r = mod.New_River(arguments);
     r.job(function (j) {
       Customer.create({

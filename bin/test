@@ -16,10 +16,18 @@ bold_white=$(tput bold)${white}
 
 echo ""
 echo "Running nodejs/mocha tests..."
-bin/mocha_file        \
+files="$@"
+
+if [[ -z "$@" ]]
+then
+files="\
   test/Customer.js    \
   test/Screen_Name.js \
-  "$@"
+  test/app.js         \
+"
+fi
+
+IS_TESTING=true NODE_ENV=production mocha --timeout 2000 --colors $files
 
 # NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
 
