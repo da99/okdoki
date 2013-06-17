@@ -4,12 +4,19 @@ var _     = require("underscore")
 , exec    = require("child_process").exec
 , spawn   = require("child_process").spawn
 , cheerio = require("cheerio")
+, expect  = require("expect.js")
 ;
 
-function get() {
-  var args = _.toArray(arguments);
-  args[0] = 'http://localhost:5009' + args[0];
-  request.apply(null, args);
+function get(uri, func) {
+  uri = 'http://localhost:5009' + uri;
+  request(uri, function (err, resp, body) {
+    if (func.length === 3)
+      func(err, resp, body);
+    else
+      func(err, resp, body, {
+        _csrf: cheerio.load(body)('#_csrf').text()
+      });
+  });
 }
 
 describe( 'Express App', function () {
@@ -54,7 +61,13 @@ describe( 'Express App', function () {
     get('/', function (err, resp, body) {
       assert.equal(null, err);
       assert.equal(true, body.indexOf('/customer') > 0);
-      cheerio.load(body).
+      done();
+    });
+  });
+
+  it( 'includes a _csrf token', function (done) {
+    get('/', function (err, resp, body, extra) {
+      expect(extra._csrf).match(/[a-z0-9\_\-]{24}/i);
       done();
     });
   });

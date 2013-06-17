@@ -37,6 +37,7 @@
     , "spooky"    : "x.x.x"
     , "request"   : "x.x.x"
     , "cheerio"   : "x.x.x"
+    , "expect.js" : "x.x.x"
   },
 
   "engines": {
