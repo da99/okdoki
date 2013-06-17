@@ -131,8 +131,8 @@ append content
       div.content
         ul.folders
           foreach folders as folder
-          li
-            a.open(href="/me/#{screen_name}/folder/5") My Journal
+            li
+              a.open(href="/me/#{screen_name}/folder/#{folder.data.num}") #{folder.data.title}
         - if (logged_in)
           h4 Create a new folder:
           form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
