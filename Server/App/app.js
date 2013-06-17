@@ -17,7 +17,6 @@ var Customer  = require('../Customer/model').Customer
 ;
 
 var log       = require('./base').log
-, homepage    = require('./helpers/homepage').homepage
 ;
 
 
@@ -326,8 +325,9 @@ if (process.env.IS_TESTING)
   require('../Test/routes');
 
 
-require('../Site/session_routes').route(module.exports);
+require('../Session/routes').route(module.exports);
 require('../Site/routes').route(module.exports);
+require('../Customer/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
 require('../Folder/routes').route(module.exports);
 
