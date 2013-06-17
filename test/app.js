@@ -118,6 +118,19 @@ describe( 'Express App', function () {
         done();
       });
     });
+
+    it( 'allows customer to be sign-ed in', function (done) {
+      var body = {
+        _csrf: _csrf,
+        screen_name: "go99",
+        pass_phrase: "JGS BOGGS MONEY MAN",
+      };
+      post({url: '/sign-in', form: body}, function (err, resp, body) {
+        assert.equal(null, err && err.message);
+        expect(JSON.parse(body).msg).match(/Success: Please wait as page reload/i);
+        done();
+      });
+    });
   }); // === end desc: Customer
 
 }); // === end desc
