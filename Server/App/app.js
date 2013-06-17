@@ -239,7 +239,7 @@ app.configure(function () {
 
 
 // ================================================================
-// ================== Passport Config: ============================
+// ================== Session Config: =============================
 // ================================================================
 
 passport.serializeUser(function (user, done) { done(null, user.data.id); });
@@ -275,42 +275,6 @@ passport.use(new LocalStrategy( { usernameField: 'screen_name', passwordField: '
   .run();
 }));
 
-// ================================================================
-// ================== Helpers: ====================================
-// ================================================================
-
-var require_log_in = function (req, resp, next) {
-  if (!req.user)
-    return resp.redirect(307, "/");
-  next();
-};
-
-
-// ================================================================
-// ================== Routes: ====================================*
-// ================================================================
-
-
-// if (process.env.TESTING) {
-  // require('./routes/Test');
-// }
-
-// _.each(['Site', 'Chat', 'Posts', 'Screen_Names'], function (name) {
-  // require('./routes/' + name);
-// });
-// app.get('/', function (req, resp, next) {
-  // // resp.render('index', {title: "somet", template_name: "index", logged_in: false});
-  // resp.header("Last-Modified", "Thu, 16 Nov 1995 04:59:09 GMT");
-  // resp.send(200, "huuuml");
-// });
-
-if (process.env.IS_TESTING)
-  require('../Test/routes');
-
-// ================================================================
-// ================== Sign-In =====================================
-// ================================================================
-
 module.exports.sign_in = function (req, resp, next) {
   return passport.authenticate('local', function(err, user, info) {
     if (err)
@@ -334,120 +298,41 @@ module.exports.sign_in = function (req, resp, next) {
   })(req, resp, next);
 };
 
+// ================================================================
+// ================== Helpers: ====================================
+// ================================================================
+
+var require_log_in = function (req, resp, next) {
+  if (!req.user)
+    return resp.redirect(307, "/");
+  next();
+};
+
+
+// ================================================================
+// ================== Routes: ====================================*
+// ================================================================
+
+// _.each(['Site', 'Chat', 'Posts', 'Screen_Names'], function (name) {
+  // require('./routes/' + name);
+// });
+// app.get('/', function (req, resp, next) {
+  // // resp.render('index', {title: "somet", template_name: "index", logged_in: false});
+  // resp.header("Last-Modified", "Thu, 16 Nov 1995 04:59:09 GMT");
+  // resp.send(200, "huuuml");
+// });
+
+if (process.env.IS_TESTING)
+  require('../Test/routes');
+
 
 require('../Site/session_routes').route(module.exports);
 require('../Site/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
 require('../Folder/routes').route(module.exports);
 
-// ================================================================
-// ==================== HOMEPAGE ==================================
-// ================================================================
-
-app.get('/info/:name/list/qa', homepage.list({read: 'question', no_rows: "No questions/answers posted yet."}));
-app.get('/info/:name/list/cheers-boos', homepage.list({read: 'cheers/boos', no_rows: "No cheers/boos posted yet."}));
-app.get('/info/:name/list/posts', homepage.list({read: 'posts', no_rows: "No content posted yet."}));
-
-app.get('/info/:name', function (req, resp, next) {
-  var n = req.params.name;
-
-  New_River(next)
-  .job('read:', n, [Customer, 'read_by_screen_name', n])
-  .set('not_found', function (r) {
-    write.html(resp, "<html><body>Screen name not found: " + n + "</body></html>", 404);
-  })
-  .create_on('final finish', function (r) {
-    var opts              = default_view_opts('info', req, resp);
-    opts.owner            = owner;
-    opts.screen_name      = n;
-    opts.screen_name_info = owner.screen_name_row(n);
-    opts.title            = n;
-    opts.life_name        = n;
-    opts.contact_menu     = (req.user && req.user.data.contact_menu) || {};
-
-    var priv = homepage.priv(req.user, owner, opts.screen_name_info);
-    opts.homepage_belongs_to_viewer = priv.homepage_belongs_to_viewer;
-
-    if (priv.allow)
-      return resp.render(opts['template_name'], opts);
-
-    return write.html(resp, '<html><body>' + priv.msg + '</body></html', 404);
-  })
-  .set_finish(function (r) {
-    r.data.owner = r.reply_for('read:', n);
-
-    if (!req.user)
-      return r.emit('final finish');
-
-    New_River(next)
-    .job('read_contacts_for', r.data.owner.screen_name_id(n), function (j) {
-      req.user.read_contacts_for(j.id, j);
-    })
-    .set_finish(function (final_r) {
-      r.emit('final finish');
-    })
-    .run();
-
-  })
-  .run();
 
 
-});
-
-app.get('/info/:name/id/:id', function (req, resp) {
-  var article = {
-    'author'          : req.param('name'),
-    'title'           : "Some Title 1",
-    'post_type'       : 'emergency',
-    'body'            : "Body goes here.",
-    'created_at'      : (new Date).getTime(),
-    'custom_keywords' : 'some keyword',
-    'main_keyword'    : 'jokes',
-    'keywords'        : req.param('name') + ' some keyword'
-  };
-  var opts = default_view_opts('article', req, resp);
-  opts.article = article;
-  opts.title = article.title;
-  opts.homepage_belongs_to_viewer = false;
-  opts.logged_in = false;
-  resp.render(opts['template_name'], opts);
-});
-
-
-
-
-
-
-// ================================================================
-// ================== CONTACTS ====================================
-// ================================================================
-
-app.post("/contacts/online", require_log_in, function (req, resp, next) {
-
-  New_River(next)
-  .job('contact is online', req.user.data.id, [Contact, 'is_online', req.user])
-  .on_finish(function (r) {
-    var OK = New_Request(arguments);
-    return OK.json_success('FIN.', {contacts: r.last_reply()});
-  })
-  .run();
-
-});
-
-app.put("/contacts/:contact_user_name", function (req, resp, next) {
-  var new_vals = {
-    contact_screen_name: req.params.contact_screen_name,
-    as: req.body.as,
-    is_trashed: req.body.is_trashed
-  };
-
-  var r = New_River(next);
-  r.job('update contact', new_vals.contact_screen_name, [Contact, 'update', req.user, new_vals]);
-  r.run(function () {
-    var OK = New_Request(arguments);
-    OK.json_success("Saved.");
-  });
-});
 
 
 
@@ -489,7 +374,9 @@ app.use(function (err, req, resp, next) {
 
 
 
-// =================================================================================
+// ====================================================
+//                 The End
+// ====================================================
 app.listen(port, function () {
   log('Listening on: ' + port);
 });
