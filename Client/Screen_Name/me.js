@@ -18,9 +18,13 @@ function me_mb_msg(o) {
 }
 
 function mb_msg(o) {
+  var sn = screen_name().toUpperCase();
   if (_.isArray(o)) {
     _.each(o.slice().reverse(), function (m) {
-      mb_msg(m);
+      if (m.author_screen_name.toUpperCase() === sn)
+        me_mb_msg(m);
+      else
+        mb_msg(m);
     });
     return false;
   }
@@ -46,6 +50,9 @@ function draw_chat_msg(sel, msg) {
 }
 
 function screen_name(name) {
+  if (!name) {
+    return $(read_template('div.screen_name')).text();
+  }
   var parent = $('#Other_Screen_Names');
   var li = $('<li><a href=""></a></li>');
   li.find('a').attr('href', "/me/" + name);
