@@ -380,19 +380,22 @@ function every_secs(num, func) {
 // ================== Templates ===================================
 // ================================================================
 
+var _template_fns_ = {};
+var _templ_vars_ = /\{([^\}]+)\}/g;
+
 function compile_template(se, data) {
-  var t = read_template(se);
-  _.each(data, function (v, k) {
-    t = t.replace( new RegExp('{' + k + '}', 'g'), v );
-  });
-  return $(t);
+  if (!_template_fns_[se])
+    _template_fns_[se] = _.template(read_template(se));
+  return $(_template_fns_[se](data));
 }
 
 function read_template(se) {
   var t = $($('#templates').html()).closest(se);
   if (!t.length)
     return "";
-  return $(t).wrap('<p>').parent().html();
+  return $(t)
+  .wrap('<p>').parent().html()
+  .replace(_templ_vars_, "<%- $1 %>");
 }
 
 function create_unless(se) {

@@ -20,7 +20,8 @@ append templates
 
   div.msg
     div.meta
-      span.author {author_screen_name}
+      span.author
+        a(href="/me/{author_screen_name}") {author_screen_name}
       span.said  said:
     div.content {body}
 
