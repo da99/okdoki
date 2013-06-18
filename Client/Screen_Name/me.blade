@@ -2,6 +2,9 @@ include "../App/layout.blade"
 
 function input_website_id()
   input(type='hidden', name='website_id', value='#{website_id}')
+function folder(f)
+  li.folder
+    a.open(href="/me/#{screen_name}/folder/#{f.num}") #{f.title}
 
 append scripts
   script(src="/Screen_Name/me.js")
@@ -12,12 +15,7 @@ append templates
     | #{screen_names.join(" ")}
   div.screen_name
     | #{screen_name}
-  div.box.folder
-    h3 {TITLE}
-    div.content
-      div.buttons
-        a.open(href="{LOCATION}") Open
-
+  call folder({num: "{num}", title: "{title}"})
   div.msg
     div.meta
       span.author
@@ -138,8 +136,7 @@ append content
       div.content
         ul.folders
           foreach folders as folder
-            li
-              a.open(href="/me/#{screen_name}/folder/#{folder.data.num}") #{folder.data.title}
+            call folder(folder.data)
         - if (logged_in)
           h4 Create a new folder:
           form#Create_Folder(action="/folder", method="POST")

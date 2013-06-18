@@ -64,11 +64,7 @@ function screen_name(name) {
 
 function folder(f) {
   var parent = $('#Folders ul.folders');
-  var li = $('<li><a href=""></a></li>');
-  li.find('a').attr('href', f.location);
-  li.find('a').text(f.title);
-
-  parent.prepend(li);
+  parent.prepend(compile_template('li.folder', f));
   parent.show();
 }
 
