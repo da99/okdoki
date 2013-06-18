@@ -340,6 +340,7 @@ require('../Site/routes').route(module.exports);
 require('../Customer/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
 require('../Folder/routes').route(module.exports);
+require('../Message_Board/routes').route(module.exports);
 
 
 
