@@ -109,7 +109,7 @@ $(function () {
   // ============================================
   // ================ Grab message board msgs....
   // ============================================
-  get('/message_board/msgs', function (err, o) {
+  get('/message_board/msgs/' + $(read_template('div.website_id')).text(), function (err, o) {
     var div_loading = $('#Message_Board div.msgs div.loading');
 
     if (err) {

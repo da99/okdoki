@@ -1,5 +1,6 @@
-var _   = require('underscore')
-, Faker = require('Faker')
+var _           = require('underscore')
+, Faker         = require('Faker')
+, Message_Board = require('../Message_Board/model').Message_Board
 ;
 
 // ================================================================
@@ -15,14 +16,16 @@ exports.route = function (mod) {
     OK.json({success: true, msg: "Message has been saved.", mb_msg: {author_screen_name: "GO99", body: req.body.body}});
   });
 
-  app.get('/message_board/msgs', function (req, resp, next) {
+  app.get('/message_board/msgs/:website_id', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    var list = [];
-      list = [
-        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()},
-        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()}
-      ];
-    OK.json({success: true, msg: "Message Board msgs for: " + req.body.after, list: list});
+    mod.New_River(req, resp, next)
+    .job(function (j) {
+      Message_Board.read_by_website_id(req.params.website_id, j);
+    })
+    .job(function (j, list) {
+      OK.json({success: true, msg: "Message Board msgs for: " + req.params.website_id, list: list});
+    })
+    .run();
   });
 
 }; // === route

@@ -29,8 +29,9 @@ exports.route = function (mod) {
       if (!last || !last.length)
         return next();
       uni = last[0];
-      data            = OK.template_data('Screen_Name/me')
-      data['title']   = uni.data.title || req.params.screen_name;
+      data               = OK.template_data('Screen_Name/me')
+      data['title']      = uni.data.title || req.params.screen_name;
+      data['website_id'] = uni.data.id;
       Folder.read({website_id: uni.data.id}, j)
     })
     .job(function (j, last) {
