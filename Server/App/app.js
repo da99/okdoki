@@ -1,4 +1,5 @@
 var blade = require('blade');
+var e_e_e = require('escape_escape_escape').Sanitize.html;
 
 
 // ================================================================
@@ -207,7 +208,7 @@ app.configure(function () {
     app.use('/', express.static(app_dir + '/Client' ));
   }
 
-  // Dynamic stuff:
+  // Parsing stuff (JSON, form data, etc):
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -240,6 +241,18 @@ app.configure(function () {
 
     next();
   });
+
+
+  // Escape the data: ==============================================
+  app.all('*', function (req, resp, next) {
+    _.each("params query body cookies".split(" "), function (k, i) {
+      if (!req[k])
+        throw new Error("Unknown key: " + k);
+      req[k] = e_e_e(req[k]);
+    });
+    next();
+  });
+  // ==============================================================
 
   app.use(app.router)
 

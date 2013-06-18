@@ -27,6 +27,7 @@
     , "da_check"          : "x.x.x"
     , "duck_duck_duck"    : "x.x.x"
     , "bling_bling"       : "x.x.x"
+    , "escape_escape_escape" : "x.x.x"
   },
 
   "devDependencies": {

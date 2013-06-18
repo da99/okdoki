@@ -105,6 +105,11 @@ describe( 'Express App', function () {
       });
     });
 
+    it( 'escapes .body (form) data' );
+    it( 'escapes .params data' );
+    it( 'escapes .query data' );
+    it( 'escapes .cookie data' );
+
   }); // === end desc: the basices
 
   describe( 'Customer', function () {

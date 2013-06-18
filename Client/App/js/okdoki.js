@@ -395,7 +395,7 @@ function read_template(se) {
     return "";
   return $(t)
   .wrap('<p>').parent().html()
-  .replace(_templ_vars_, "<%- $1 %>");
+  .replace(_templ_vars_, "<%= $1 %>");
 }
 
 function create_unless(se) {
