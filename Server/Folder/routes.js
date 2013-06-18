@@ -8,7 +8,7 @@ exports.route = function (mod) {
 
   app.post('/me/:screen_name/folder', function (req, resp, next) {
     var num = parseInt(Math.random() * 10)
-    resp.json({success: true, msg: "Folder was created.", location: "/me/" + req.params.screen_name + "/folder/" + num, title: req.body.title});
+    resp.json({success: false, msg: "Folder was created.", location: "/me/" + req.params.screen_name + "/folder/" + num, title: req.body.title});
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {

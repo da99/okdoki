@@ -74,6 +74,17 @@ function human_durs(durs) {
   return msg.join(', ');
 }
 
+Customer.prototype.is_id = function (raw_id) {
+  var me = this;
+  var id = raw_id.toString();
+  var rows = me.data.screen_name_rows;
+  if (!rows)
+    throw new Error('Screen name rows not found.');
+  return _.find(rows, function (r) {
+    return r.id.toString() === id;
+  });
+};
+
 Customer.prototype.is = function (name) {
   return !!this.find_screen_name_row(name);
 };
@@ -133,13 +144,16 @@ Customer.prototype.push_screen_name_row = function (r) {
   return r;
 }
 
-Customer.prototype.screen_name_row = function (name) {
+Customer.prototype.screen_name_row = function (name, def) {
   var r = this.find_screen_name_row(name);
 
-  if (!r)
-    throw new Error('Id not found for customer, ' + this.data.id + ', and name: ' + name);
+  if (r)
+    return r;
 
-  return r;
+  if (def)
+    return def;
+
+  throw new Error('Id not found for customer, ' + this.data.id + ', and name: ' + name);
 };
 
 Customer.prototype.screen_names = function () {
@@ -160,6 +174,15 @@ Customer.prototype.screen_name_ids = function (arr) {
   return _.map(arr, function (v) {
     return me.screen_name_row(v).id;
   });
+};
+
+Customer.prototype.screen_name_menu = function () {
+  var me = this;
+  var menu = {};
+  _.each(me.data.screen_name_rows, function (r) {
+    menu[r.id] = r.screen_name;
+  });
+  return menu;
 };
 
 // ================================================================
