@@ -47,7 +47,16 @@ exports.route = function (mod) {
 
   OK.post('/me', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json_success("Created.", {screen_name: req.body.screen_name});
+    var r = mod.New_River(req, resp, next);
+    var c = req.user;
+    c.new_data = {screen_name: req.body.screen_name};
+    r.job(function (j) {
+      Screen_Name.create(c, j);
+    })
+    .job(function (j, last) {
+      OK.json_success("Created.", {screen_name: req.body.screen_name});
+    })
+    .run();
   });
 
   // ================================================================
