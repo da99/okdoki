@@ -13,7 +13,22 @@ exports.route = function (mod) {
 
   app.post('/message_board/msg', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: "Message has been saved.", mb_msg: {author_screen_name: "GO99", body: req.body.body}});
+    var data = req.body;
+    data.author_id = req.user.screen_name_id(data.as_this_life);
+
+    mod.New_River(req, resp, next)
+    .job(function (j) {
+      Message_Board.create(data, j);
+    })
+    .job(function (j, msg) {
+      msg.data.author_screen_name = req.body.as_this_life;
+      OK.json({
+        success: true,
+        msg: "Message has been saved.",
+        mb_msg: msg.data
+      });
+    })
+    .run();
   });
 
   app.get('/message_board/msgs/:website_id', function (req, resp, next) {

@@ -112,7 +112,9 @@ append content
           div.field
             span.label Message:
             textarea(name="body")
+        call as_this_life()
         div.buttons
+          input(type='hidden', name='website_id', value='#{website_id}')
           button.submit Publish
           a.cancel(href="#cancel") Cancel
 

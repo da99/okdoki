@@ -18,7 +18,7 @@ m.migrate = function (dir, r) {
     id             serial PRIMARY KEY,     \n\
     website_id     int DEFAULT 0 NOT NULL, \n\
     author_id      int DEFAULT 0 NOT NULL, \n\
-    title          varchar(180)          , \n\
+    title          varchar(180) DEFAULT NULL , \n\
     body           text                  , \n\
     html_body      text                  , \n\
     $created_at    ,                                            \n\

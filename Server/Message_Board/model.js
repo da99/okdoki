@@ -21,11 +21,40 @@ MB.new = function (data) {
 // ================================================================
 // ================== Helpers =====================================
 // ================================================================
+function empty_or (str, def) {
+  var d = (str || "").trim();
+  if (d.length)
+    return d;
+  return def;
+}
 
+function empty_or_null (str) {
+  var d = (str || "").trim();
+  if (d.length)
+    return d;
+  return null;
+}
 
 // ================================================================
 // ================== Create ======================================
 // ================================================================
+
+MB.create = function (raw_data, flow) {
+  var data = {
+    website_id : raw_data.website_id,
+    author_id  : raw_data.author_id, 
+    title      : empty_or_null(raw_data.title),
+    body       : empty_or(raw_data.body, "Stake it!")
+  };
+  River.new(flow)
+  .job(function (j) {
+    TABLE.create(data, j);
+  })
+  .job(function (j, r) {
+    j.finish(MB.new(r));
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Read ========================================
