@@ -654,6 +654,24 @@ function toggles(show, hide) {
   });
 }
 
+function json_then(func) {
+  return function (err, results) {
+    if (!err && typeof(results) === 'string')
+      results = JSON.parse(results);
+
+    if (func.length === 2) {
+      func(err, results);
+    } else {
+      if (err)
+        log(err);
+      else {
+        func(JSON.parse(results));
+      }
+      return;
+    }
+  };
+}
+
 // ==========================================================
 // Example:
 //
@@ -676,23 +694,18 @@ function post() {
     });
   }
 
-  var new_func = function (err, results) {
-    if (!err && typeof(results) === 'string')
-      results = JSON.parse(results);
-
-    if (func.length === 2) {
-      func(err, results);
-    } else {
-      if (err)
-        log(err);
-      else {
-        func(JSON.parse(results));
-      }
-      return;
-    }
-  };
   var prom = promise.post.apply(promise, args);
-  return prom.then(new_func);
+  return prom.then(json_then(func));
+}
+
+// ==========================================================
+// Example:
+//
+//   get(url, function ([err], result) {});
+//
+// ==========================================================
+function get(url, func) {
+  return promise.get(url).then(json_then(func));
 }
 
 function form_to_json(selector) {
