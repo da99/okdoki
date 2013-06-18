@@ -221,6 +221,7 @@ $(function () {
   form('#Create_Folder', function (f) {
     f.at_least_one_not_empty('input[type="text"]');
     f.on_success(function (result) {
+      result.location = "/me/" + screen_name() + '/folder/' + result.num;
       f.find('div.success').html("New folder is at: <a href=\"LOC\">LOC</a>".replace(/LOC/g, result.location));
       log(result)
       folder(result);

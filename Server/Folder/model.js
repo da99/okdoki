@@ -37,16 +37,20 @@ Folder.create = function (data, flow) {
   var f = Folder.new();
   River.new(flow)
   .job(function (j) {
-    TABLE
-    .create({
-      num        : data.num,
+    var new_data = {
       website_id : data.website_id,
       owner_id   : data.owner_id,
-      title      : not_empty(data.title, "New Folder #" + data.num)
-    }, j);
+      title      : not_empty(data.title, null),
+      def_title  : "New Folder #"
+    };
+    TABLE.run("\
+              WITH next_num AS (SELECT coalesce(MAX(num),0) + 1 as num FROM @table WHERE website_id = @website_id) \n\
+              INSERT INTO @table (num, website_id, owner_id, title) \n\
+              VALUES( (SELECT num FROM next_num) , @website_id, @owner_id, coalesce(@title, CONCAT(CAST (@def_title AS char(123)), (SELECT num FROM next_num))) ) \n\
+              RETURNING * ;", new_data, j);
   })
-  .job(function (j, row) {
-    j.finish(Folder.new(row));
+  .job(function (j, rows) {
+    j.finish(Folder.new(rows[0]));
   })
   .run();
 };

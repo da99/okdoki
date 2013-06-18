@@ -142,7 +142,7 @@ append content
               a.open(href="/me/#{screen_name}/folder/#{folder.data.num}") #{folder.data.title}
         - if (logged_in)
           h4 Create a new folder:
-          form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
+          form#Create_Folder(action="/folder", method="POST")
             div.fields
               div.field.title
                 span.label Title:

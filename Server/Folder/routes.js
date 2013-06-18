@@ -1,14 +1,30 @@
 
-var _         = require('underscore')
+var _    = require('underscore')
+, Folder = require("../Folder/model").Folder
 ;
 
 
 exports.route = function (mod) {
   var app = mod.app;
 
-  app.post('/me/:screen_name/folder', function (req, resp, next) {
-    var num = parseInt(Math.random() * 10)
-    resp.json({success: false, msg: "Folder was created.", location: "/me/" + req.params.screen_name + "/folder/" + num, title: req.body.title});
+  app.post('/folder', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job(function (j) {
+      Folder.create({
+        owner_id: req.user.data.id,
+        title: req.body.title,
+        website_id: req.body.website_id
+      }, j);
+    })
+    .job(function (j, f) {
+      resp.json({
+        success: true,
+        msg: "Folder was created.",
+        title: f.data.title,
+        num: f.data.num
+      });
+    })
+    .run();
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {

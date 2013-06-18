@@ -33,3 +33,4 @@
 - SEND runtime error report
 - Why 130 error code when bin/watch closes server?
 
+- put 123 char limit on titles, text inputs, etc.
