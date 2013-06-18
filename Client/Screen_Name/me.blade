@@ -1,5 +1,8 @@
 include "../App/layout.blade"
 
+function input_website_id()
+  input(type='hidden', name='website_id', value='#{website_id}')
+
 append scripts
   script(src="/Screen_Name/me.js")
 
@@ -114,7 +117,7 @@ append content
             textarea(name="body")
         call as_this_life()
         div.buttons
-          input(type='hidden', name='website_id', value='#{website_id}')
+          call input_website_id()
           button.submit Publish
           a.cancel(href="#cancel") Cancel
 
@@ -145,6 +148,7 @@ append content
                 input(type="text", name="title", value="")
               call as_this_life()
               div.buttons
+                call input_website_id()
                 button.submit Create
 
 

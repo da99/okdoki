@@ -38,7 +38,7 @@ exports.route = function (mod) {
       Message_Board.read_by_website_id(req.params.website_id, j);
     })
     .job(function (j, list) {
-      OK.json({success: true, msg: "Message Board msgs for: " + req.params.website_id, list: list});
+      OK.json({success: true, msg: "Message Board msgs for: " + req.params.website_id, list: _.pluck(list, 'data')});
     })
     .run();
   });
