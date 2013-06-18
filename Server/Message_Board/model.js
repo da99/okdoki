@@ -67,7 +67,8 @@ MB.read_by_website_id = function (id, flow) {
   FROM  @table INNER JOIN @screen_name_table            \
         ON @table.author_id = @screen_name_table.id     \
   WHERE @table.website_id = @website_id AND @table.trashed_at IS NULL \
-  LIMIT 10                                              \
+  ORDER BY id DESC                                      \
+  LIMIT 25                                              \
   ";
   River.new(flow)
   .job(function (j) {
