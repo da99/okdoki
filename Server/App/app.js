@@ -109,7 +109,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
         };
 
         if (opts.logged_in)
-          opts.screen_names = req.user.screen_names();
+          opts.screen_names = req.user.screen_names().slice().reverse();
 
         if (opts.logged_in && opts.screen_name)
           opts.is_owner = req.user.is(opts.screen_name);
@@ -295,6 +295,7 @@ module.exports.sign_in = function (req, resp, next, msg) {
     req.login(user, function(err) {
       if (err)
         return next(err);
+      req.session.pref_screen_name = req.body.screen_name;
       resp.json({
         msg         : msg || "Success: Please wait as page reloads...",
         success     : true,
