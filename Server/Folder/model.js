@@ -1,9 +1,10 @@
-var _    = require('underscore')
-, Check  = require('da_check').Check
-, River  = require('da_river').River
-, Topogo = require('topogo').Topogo
+var _     = require('underscore')
+, Check   = require('da_check').Check
+, River   = require('da_river').River
+, Topogo  = require('topogo').Topogo
+, Website = require('../Website/model').Website
+, Screen_Name = null
 ;
-
 var TABLE_NAME = 'Folder';
 var TABLE      = Topogo.new(TABLE_NAME);
 
@@ -21,6 +22,10 @@ function not_empty() {
 // ================================================================
 
 var Folder = exports.Folder = function () {
+};
+
+Folder.screen_name = function (e) {
+  Screen_Name = e.Screen_Name;
 };
 
 Folder.new = function (row) {
@@ -71,6 +76,49 @@ Folder.read = function (q, flow) {
   })
   .run();
 };
+
+Folder.read_by_screen_name_and_num = function (sn, num, flow) {
+  var f = null;
+  var sql = "\
+    SELECT @table.*                                          \
+    FROM (@table INNER JOIN @ws_table                        \
+      ON @table.website_id = @ws_table.id) INNER JOIN @sn_table \
+      ON @ws_table.owner_id = @sn_table.id                   \
+    WHERE num = @num AND @table.trashed_at IS NULL           \
+    LIMIT 1                                                  \
+  ";
+  River.new(flow)
+  .job(function (j) {
+    TABLE.run(sql, {
+      TABLES: {sn_table: Screen_Name.TABLE_NAME, ws_table: Website.TABLE_NAME},
+      num: num
+    }, j);
+  })
+  .job(function (j, rows) {
+    if (!rows.length)
+      return j.finish(null);
+    return j.finish(Folder.new(rows[0]));
+  })
+  .job(function (j, folder) {
+    f = folder;
+    var sql = "\
+    SELECT @page.*, @sn_table.screen_name AS author_screen_name   \
+    FROM @page INNER JOIN @sn_table               \
+      ON @page.author_id = @sn_table.id            \
+    WHERE folder_id = @f_id AND @page.trashed_at IS NULL \
+    ORDER BY id DESC;";
+    TABLE.run(sql, {
+      TABLES: {page: "Page", sn_table: Screen_Name.TABLE_NAME},
+      f_id: f.data.id
+    }, j);
+  })
+  .job(function (j, pages) {
+    f.data.pages = pages;
+    j.finish(f);
+  })
+  .run();
+};
+
 // ================================================================
 // ================== Update ======================================
 // ================================================================

@@ -28,28 +28,36 @@ exports.route = function (mod) {
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {
-    var OK                   = mod.New_Request(arguments);
-    var num                  = parseInt(req.params.num);
-    var opts                 = OK.template_data('Folder/show_one')
-    opts['title']            = "Folder #" + num;
-    opts['name']             = req.params.num;
-    opts['about']            = "Stuff about #" + num;
-    opts['folder_id']        = num;
-    opts['website_location'] = "/me/GO99";
-    opts['website_title']    = "The life of: GO99";
-    opts['pages']            = [
-      { location: "/me/GO99/folder/1/page/3",
-      created_at: (new Date).getTime(),
-      title: "Page 3"},
-      { location: "/me/GO99/folder/1/page/2",
-      created_at: (new Date).getTime(),
-      title: "Page 2"},
-      { location: "/me/GO99/folder/1/page/1",
-      created_at: (new Date).getTime(),
-      title: "Page 1"}
-    ];
+    var num  = parseInt(req.params.num);
+    var OK   = mod.New_Request(req, resp, next);
+    var opts = OK.template_data('Folder/show_one')
+    var sn   = req.params.screen_name;
 
-    return OK.render_template();
+    mod.New_River(req, resp, next)
+    .job(function (j, website) {
+      Folder.read_by_screen_name_and_num( sn, num, j);
+    })
+    .job(function (j, f) {
+      opts['title']            = f.title;
+      opts['name']             = num;
+      opts['about']            = "Stuff about #" + num;
+      opts['folder_id']        = num;
+      opts['website_location'] = "/me/" + sn;
+      opts['website_title']    = "/me/" + sn;
+      opts['pages']            = f.data.pages;
+        // { location: "/me/GO99/folder/1/page/3",
+          // created_at: (new Date).getTime(),
+          // title: "Page 3"},
+          // { location: "/me/GO99/folder/1/page/2",
+            // created_at: (new Date).getTime(),
+            // title: "Page 2"},
+            // { location: "/me/GO99/folder/1/page/1",
+              // created_at: (new Date).getTime(),
+              // title: "Page 1"}
+
+      OK.render_template();
+    })
+    .run();
   });
 
 

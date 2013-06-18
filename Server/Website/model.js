@@ -89,7 +89,7 @@ Uni.create = function (vals, flow) {
 
 Uni.read = function (q, flow) {
   if (!_.isObject(q))
-    q = {id: q};
+    q = {id: q, trashed_at: null};
 
   River.new(flow)
   .job(function (j) {
@@ -103,7 +103,7 @@ Uni.read = function (q, flow) {
 
 Uni.read_by_screen_name_id = function (o, flow) {
   if (typeof o !== 'object') {
-    o = {owner_id: o, type_id: 1};
+    o = {owner_id: o, type_id: 1, trashed_at: null};
   };
 
   River.new(flow)

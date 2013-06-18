@@ -50,6 +50,7 @@ function log() {
 
 var S = exports.Screen_Name = function () {
 };
+Folder.screen_name(exports);
 
 S.TABLE_NAME = TABLE_NAME;
 
