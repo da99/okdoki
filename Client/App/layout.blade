@@ -31,6 +31,8 @@ html(lang='en')
   function as_this_life()
     - if (screen_names.length < 2)
       input(type="hidden", name="as_this_life", value="#{screen_names[0]}")
+    - else if (is_owner && screen_name)
+      input(type="hidden", name="as_this_life", value="#{screen_name}")
     - else
       div.field.as_this_life
         span.label As:
