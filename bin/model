@@ -10,12 +10,13 @@ function compile_template {
   tmpl="Server/App/$1.template.js"
   new_file="Server/$model/$1.js"
 
-  if [[ ! -f "$new_file" ]]
+  if [[ -f "$new_file" ]]
   then
-    sed "s/MODEL/$model/g" "$tmpl_file" > "$new_file"
-    echo "$new_file"
+    echo "skipping creationg of file:"
+  else
+    sed "s/MODEL/$model/g" "$tmpl_file" >> "$new_file"
   fi
-  echo "skipping creationg of file:"
+
   echo "$new_file"
 }
 
@@ -24,7 +25,7 @@ case "$1" in
     compile_template "model"
     ;;
 
-  route)
+  routes)
     compile_template "routes"
     ;;
 
