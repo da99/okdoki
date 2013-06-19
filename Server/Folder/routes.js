@@ -38,12 +38,9 @@ exports.route = function (mod) {
       Folder.read_by_screen_name_and_num( sn, num, j);
     })
     .job(function (j, f) {
-      opts['title']            = f.title;
-      opts['name']             = num;
-      opts['about']            = "Stuff about #" + num;
-      opts['folder_id']        = num;
+      opts['title']            = f.data.title;
+      opts['folder_num']       = num;
       opts['website_location'] = "/me/" + sn;
-      opts['website_title']    = "/me/" + sn;
       opts['pages']            = f.data.pages;
         // { location: "/me/GO99/folder/1/page/3",
           // created_at: (new Date).getTime(),

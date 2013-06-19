@@ -35,7 +35,7 @@ append content
     div.content
       div
         | From:
-        a(href="#{website_location}") #{website_title}
+        a(href="#{website_location}") #{website_location}
 
   div#Create
     div.create Create:
@@ -57,7 +57,7 @@ append content
 
   div#Creates
     div.create#Photo
-      form(action="/folder/#{folder_id}/attach_photo", method="POST")
+      form(action="/folder/#{folder_num}/attach_photo", method="POST")
         div.fields
           div.field.location
             label Location:
@@ -73,7 +73,7 @@ append content
           a.cancel(href="#cancel") Cancel
 
     div.create#Video
-      form(action="/folder/#{folder_id}/attach_video", method="POST")
+      form(action="/folder/#{folder_num}/attach_video", method="POST")
         div.fields
           div.field.location
             label Location:
@@ -89,7 +89,7 @@ append content
           a.cancel(href="#cancel") Cancel
 
     div.create#Text
-      form(action="/folder/#{folder_id}/attach_text", method="POST")
+      form(action="/folder/#{folder_num}/attach_text", method="POST")
         div.fields
           div.field.title
             label Title:
@@ -105,7 +105,7 @@ append content
           a.cancel(href="#cancel") Cancel
 
     div.create#Link
-      form(action="/folder/#{folder_id}/attach_link", method="POST")
+      form(action="/folder/#{folder_num}/attach_link", method="POST")
         div.fields
           div.field.photo_location
             label Covor photo location:
@@ -126,7 +126,7 @@ append content
           a.cancel(href="#cancel") Cancel
 
     div.create#Page
-      form(action="/me/#{screen_name}/folder/#{folder_id}/page", method="POST")
+      form(action="/me/#{screen_name}/folder/#{folder_num}/page", method="POST")
         div.fields
           div.field.title
             label Title:
@@ -137,7 +137,7 @@ append content
           button.submit Create
 
     div.create#Quote
-      form(action="/folder/#{folder_id}/attach_quote", method="POST")
+      form(action="/folder/#{folder_num}/attach_quote", method="POST")
         div.fields
           div.field.body
             label body:
@@ -152,7 +152,7 @@ append content
           a.cancel(href="#cancel") Cancel
 
     div.create#Person
-      form(action="/folder/#{folder_id}/attach_person", method="POST")
+      form(action="/folder/#{folder_num}/attach_person", method="POST")
         div.fields
           div.field.first_name
             label First Name:
