@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+model=$2
+set -u -e -o pipefail
+
+function compile_template {
+  mkdir -p Server/$model
+
+  tmpl="Server/App/$1.template.js"
+  new_file="Server/$model/$1.js"
+
+  if [[ ! -f "$new_file" ]]
+  then
+    sed "s/MODEL/$model/g" "$tmpl_file" > "$new_file"
+    echo "$new_file"
+  fi
+  echo "skipping creationg of file:"
+  echo "$new_file"
+}
+
+case "$1" in
+  create)
+    compile_template "model"
+    ;;
+
+  route)
+    compile_template "routes"
+    ;;
+
+  *)
+    echo "Unknown command: $@"
+    exit 1
+    ;;
+
+esac
+
+
