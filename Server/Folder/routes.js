@@ -38,6 +38,7 @@ exports.route = function (mod) {
       Folder.read_by_screen_name_and_num( sn, num, j);
     })
     .job(function (j, f) {
+      console.log(f.data);
       opts['title']            = f.data.title;
       opts['folder_num']       = num;
       opts['website_location'] = "/me/" + sn;

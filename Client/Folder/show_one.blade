@@ -182,8 +182,9 @@ append content
           a(href="#edit") Edit
 
   div#Pages
-    foreach pages as page
-      call draw_page(page)
+    //- foreach pages as page
+      //- - if page.is_readable_by(user)
+        //- call draw_page(page)
 
 
 

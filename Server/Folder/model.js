@@ -24,6 +24,10 @@ function not_empty() {
 var Folder = exports.Folder = function () {
 };
 
+Folder.prototype.is_readable_by = function (customer) {
+  throw new Error("not implmented.");
+};
+
 Folder.screen_name = function (e) {
   Screen_Name = e.Screen_Name;
 };
@@ -80,32 +84,36 @@ Folder.read = function (q, flow) {
 Folder.read_by_screen_name_and_num = function (sn, num, flow) {
   var f = null;
   var sql = "\
-    SELECT @table.*                                          \
-    FROM (@table INNER JOIN @ws_table                        \
+    SELECT @table.*, '' AS \"sep\", @ws_table.*                             \n\
+    FROM (@table INNER JOIN @ws_table                        \n\
       ON @table.website_id = @ws_table.id) INNER JOIN @sn_table \
-      ON @ws_table.owner_id = @sn_table.id                   \
-    WHERE num = @num AND @table.trashed_at IS NULL           \
-    LIMIT 1                                                  \
+      ON @ws_table.owner_id = @sn_table.id                   \n\
+    WHERE num = @num AND @sn_table.screen_name = @upper_sn   \n\
+    LIMIT 1                                                  \n\
   ";
   River.new(flow)
   .job(function (j) {
     TABLE.run(sql, {
       TABLES: {sn_table: Screen_Name.TABLE_NAME, ws_table: Website.TABLE_NAME},
-      num: num
+      num: num,
+      upper_sn: sn.toUpperCase()
     }, j);
   })
   .job(function (j, rows) {
     if (!rows.length)
       return j.finish(null);
-    return j.finish(Folder.new(rows[0]));
+    return j.finish(rows[0] && Folder.new(rows[0]));
   })
   .job(function (j, folder) {
+    if (!folder)
+      return j.finish(null);
+
     f = folder;
     var sql = "\
-    SELECT @page.*, @sn_table.screen_name AS author_screen_name   \
-    FROM @page INNER JOIN @sn_table               \
-      ON @page.author_id = @sn_table.id            \
-    WHERE folder_id = @f_id AND @page.trashed_at IS NULL \
+    SELECT @page.*, @sn_table.screen_name AS author_screen_name   \n\
+    FROM @page INNER JOIN @sn_table               \n\
+      ON @page.author_id = @sn_table.id           \n\
+    WHERE folder_id = @f_id                       \n\
     ORDER BY id DESC;";
     TABLE.run(sql, {
       TABLES: {page: "Page", sn_table: Screen_Name.TABLE_NAME},
@@ -113,7 +121,7 @@ Folder.read_by_screen_name_and_num = function (sn, num, flow) {
     }, j);
   })
   .job(function (j, pages) {
-    f.data.pages = pages;
+    f.data.pages = _.map(pages, function (p) { return Page.new(p); });
     j.finish(f);
   })
   .run();
