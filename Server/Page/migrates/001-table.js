@@ -21,6 +21,8 @@ m.migrate = function (dir, r) {
     title          varchar(180)          , \n\
     body           text                  , \n\
     html_body      text                  , \n\
+    draft_body     text                  , \n\
+    draft_html_body text                 , \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
