@@ -4,7 +4,7 @@ var _         = require('underscore')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
 , Customer    = require('../Customer/model').Customer
-, Screen_Name = require('../Screen_Name/model').Screen_Name
+, Screen_Name = null
 , h           = require('../App/base')
 ;
 
@@ -13,6 +13,13 @@ var TABLE_NAME = Uni.TABLE_NAME = 'Website';
 var TABLE      = Uni.TABLE = Topogo.new(TABLE_NAME);
 
 Uni.TYPE_IDS = {1: "Screen Name Profile Website"};
+
+Uni.require = function (target) {
+  if (target.Screen_Name)
+    return Screen_Name = target.Screen_Name;
+  throw new Error("Unknown type: " + exports);
+};
+
 Uni.new = function (row) {
 
   var hp = new Uni();
@@ -101,14 +108,33 @@ Uni.read = function (q, flow) {
   .run();
 };
 
-Uni.read_by_screen_name_id = function (o, flow) {
-  if (typeof o !== 'object') {
-    o = {owner_id: o, type_id: 1, trashed_at: null};
+Uni.read_by_screen_name = function (sn, customer, flow) {
+  var vals = {
+    type_id: 1,
+    upper_sn: sn.toUpperCase(),
+    sn_ids: customer.screen_name_ids(),
+    TABLES: {
+      SN: Screen_Name.TABLE_NAME,
+      W: TABLE_NAME
+    }
   };
 
+  var sql = "\
+  SELECT                                                                   \n\
+    @W.*,                                                                  \n\
+    @SN.id AS screen_name_id                                               \n\
+  FROM                                                                     \n\
+    @W INNER JOIN @SN ON @W.owner_id = @SN.id                              \n\
+  WHERE                                                                    \n\
+    " + Topogo.where_readable(vals.TABLES) + "                             \n\
+    AND @SN.screen_name = @upper_sn                                        \n\
+    AND @W.type_id = @type_id                                              \n\
+                                                                           \n\
+  LIMIT 1                                                                  \n\
+  ";
   River.new(flow)
   .job(function (j) {
-    TABLE.read_list(o, j);
+    TABLE.run(sql, vals, j);
   })
   .job(function (j, unis) {
     j.finish(_.map(unis, function (u) {

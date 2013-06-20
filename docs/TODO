@@ -36,3 +36,6 @@
 - put 123 char limit on titles, text inputs, etc.
 
 - create indexes for Folder, Page, etc.
+
+- on MODEL.new:
+   set .is_new to false when .data is set

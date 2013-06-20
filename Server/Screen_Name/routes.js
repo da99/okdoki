@@ -19,22 +19,18 @@ exports.route = function (mod) {
     var data   = null;
     var uni    = 0;
 
-    r.job(function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, j);
+    r
+    .job('find website', function (j) {
+      Website.read_by_screen_name(req.params.screen_name, req.user, j);
     })
-    .job(function (j, last) {
-      if (!last)
-        return next();
-      Website.read_by_screen_name_id(last.data.id, j);
-    })
-    .job(function (j, last) {
+    .job('find folders', function (j, last) {
       if (!last || !last.length)
         return next();
       uni = last[0];
       data               = OK.template_data('Screen_Name/me')
       data['title']      = uni.data.title || req.params.screen_name;
       data['website_id'] = uni.data.id;
-      Folder.read({website_id: uni.data.id}, j)
+      Folder.read_list_by_website_id(data['website_id'], req.user, j)
     })
     .job(function (j, last) {
       data['folders'] = last;

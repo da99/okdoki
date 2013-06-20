@@ -24,10 +24,6 @@ function not_empty() {
 var Folder = exports.Folder = function () {
 };
 
-Folder.prototype.is_readable_by = function (customer) {
-  throw new Error("not implmented.");
-};
-
 Folder.screen_name = function (e) {
   Screen_Name = e.Screen_Name;
 };
@@ -68,48 +64,89 @@ Folder.create = function (data, flow) {
 // ================== Read ========================================
 // ================================================================
 
-Folder.read = function (q, customer, flow) {
-  if (arguments.length === 2) {
-    flow = customer;
-    customer = null;
-  }
-
+Folder.read_by_id = function (q, flow) {
   River.new(flow)
   .job(function (j) {
-    TABLE.read_list(q, j);
+    TABLE.read_one(q, j);
   })
-  .job(function (j, list) {
-    j.finish(_.compact(_.map(list, function (r) {
-      var f = Folder.new(r);
-      if (customer && !f.is_readable_by(customer))
-        return null;
-      return Folder.new(r);
-    })));
+  .job(function (j, r) {
+    return Folder.new(r);
   })
   .run();
 };
 
-Folder.read_by_screen_name_and_num = function (sn, num, flow) {
-  var f  = null
-    , T  = TABLE_NAME
-    , W  = Website.TABLE_NAME
-    , SN = Screen_Name.TABLE_NAME;
+Folder.read_list_by_website_id = function (website_id, customer, flow) {
+  var vals = {
+    website_id: website_id,
+    sn_ids : customer.screen_name_ids(),
+    TABLES : {
+      F: TABLE_NAME
+    }
+  };
 
-  var pair = Topogo
-  .select(
-    [T, '*'],
-    [W, 'owner_id', 'trashed_at'],
-    [SN, 'screen_name', 'trashed_at']
-  )
-  .from([T, 'website_id'], [W, 'id'], 'inner join', 
-        [SN, 'id'], [W, 'owner_id'], 'inner join')
-  .where([T,'num'], '=', num, 'AND', [SN, 'screen_name'], '=', sn.toUpperCase())
-  .limit(1)
-  .end();
+  var sql = "\
+    SELECT                                                               \n\
+      @F.*                                                               \n\
+                                                                         \n\
+    FROM                                                                 \n\
+      @F                                                                 \n\
+                                                                         \n\
+    WHERE                                                                \n\
+      " + Topogo.where_readable(vals.TABLES) + "                         \n\
+      AND website_id = @website_id                                       \n\
+                                                                         \n\
+    ORDER BY id DESC                                                     \n\
+                                                                         \n\
+                                                                         \n\
+  ";
 
   River.new(flow)
   .job(function (j) {
-    TABLE.run(pair[0], pair[1], j)
+    TABLE.run(sql, vals, j);
+  })
+  .job(function (j, rows) {
+    j.finish(_.map(rows, function (r) { return Folder.new(r); }));
+  })
+  .run();
+};
+
+Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
+  var f  = null
+    , F  = TABLE_NAME
+    , W  = Website.TABLE_NAME
+    , SN = Screen_Name.TABLE_NAME;
+
+  var vals = {
+    num      : num,
+    upper_sn : sn.toUpperCase(),
+    sn_ids   : customer.screen_name_ids(),
+    TABLES: {
+      F  : F,
+      W  : W,
+      SN : SN
+  }};
+
+  var sql = "\
+  SELECT                                                                          \n\
+    @F.*,                                                                         \n\
+    @W.title AS website_title,                                                    \n\
+    @SN.id   AS screen_name_id                                                    \n\
+                                                                                  \n\
+  FROM                                                                            \n\
+    @F INNER JOIN @W ON @F.website_id = @W.id                                     \n\
+      INNER JOIN @SN ON @SN.id = @W.owner_id                                      \n\
+                                                                                  \n\
+  WHERE                                                                           \n\
+    " + Topogo.where_readble(vals.TABLES) + "                                     \n\
+    AND @F.num          = @num                                                    \n\
+    AND @SN.screen_name = @upper_sn                                               \n\
+                                                                                  \n\
+  LIMIT 1                                                                         \n\
+  ;";
+
+  River.new(flow)
+  .job(function (j) {
+    TABLE.run(sql, vals, j)
   })
   .job(function (j, rows) {
     if (!rows.length)
@@ -121,16 +158,23 @@ Folder.read_by_screen_name_and_num = function (sn, num, flow) {
       return j.finish(null);
 
     f = folder;
-    var sql = "\
-    SELECT @page.*, @sn_table.screen_name AS author_screen_name   \n\
-    FROM @page INNER JOIN @sn_table               \n\
-      ON @page.author_id = @sn_table.id           \n\
-    WHERE folder_id = @f_id                       \n\
-    ORDER BY id DESC;";
-    TABLE.run(sql, {
-      TABLES: {page: "Page", sn_table: Screen_Name.TABLE_NAME},
+    var vals = {
+      TABLES: {
+        P: "Page",
+        SN: Screen_Name.TABLE_NAME
+      },
       f_id: f.data.id
-    }, j);
+    };
+    var sql = "\
+    SELECT                                          \n\
+      @P.*,                                         \n\
+      @SN.screen_name AS author_screen_name         \n\
+    FROM @P INNER JOIN @SN ON @P.author_id = @SN.id \n\
+    WHERE                                           \n\
+      " + Topogo.where_readble(vals.TABLES) +     " \n\
+      AND folder_id = @f_id                         \n\
+    ORDER BY id DESC;";
+    TABLE.run(sql, vals, j);
   })
   .job(function (j, pages) {
     f.data.pages = _.map(pages, function (p) { return Page.new(p); });
