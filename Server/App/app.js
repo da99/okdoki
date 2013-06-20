@@ -403,6 +403,12 @@ app.use(function (err, req, resp, next) {
 //                 The End
 // ====================================================
 
+Topogo.sql_proc(function (sql, vals) {
+  if (vals.hasOwnProperty('sn_ids'))
+    vals.sn_ids = (vals.sn_ids) ? vals.sn_ids.screen_name_ids : [0];
+  return [sql, vals];
+});
+
 River.new()
 .job(function (j) {
   Topogo.tables(j);

@@ -28,6 +28,7 @@ exports.route = function (mod) {
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {
+      console.log("a")
     var num  = parseInt(req.params.num);
     var OK   = mod.New_Request(req, resp, next);
     var opts = OK.template_data('Folder/show_one')

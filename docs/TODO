@@ -39,3 +39,6 @@
 
 - on MODEL.new:
    set .is_new to false when .data is set
+
+
+- when server restarts, a process is shon "Bad gateway"

@@ -112,7 +112,7 @@ Uni.read_by_screen_name = function (sn, customer, flow) {
   var vals = {
     type_id: 1,
     upper_sn: sn.toUpperCase(),
-    sn_ids: customer.screen_name_ids(),
+    sn_ids: customer,
     TABLES: {
       SN: Screen_Name.TABLE_NAME,
       W: TABLE_NAME

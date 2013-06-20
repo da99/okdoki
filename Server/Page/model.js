@@ -72,22 +72,22 @@ Page.read_list_by_folder_id = function (id, customer, flow) {
   .job(function (j) {
     var vals = {
       TABLES: {
-        P: TABLE_NAME,
-        SN: Screen_Name.TABLE_NAME,
-        F: Folder.TABLE_NAME
+        P: TABLE_NAME
       },
       f_id: f.data.id,
-      sn_ids: customer.screen_name_ids()
+      sn_ids: customer
     };
+
     var sql = "\
     SELECT                                          \n\
-      @P.*,                                         \n\
-      @SN.screen_name AS author_screen_name         \n\
-    FROM @P INNER JOIN @SN ON @P.author_id = @SN.id \n\
+      @P.*                                          \n\
+    FROM                                            \n\
+      @P                                            \n\
     WHERE                                           \n\
       " + Topogo.where_readable(vals.TABLES) +     "\n\
       AND folder_id = @f_id                         \n\
     ORDER BY id DESC;";
+
     TABLE.run(sql, vals, j);
   })
   .job(function (j, pages) {

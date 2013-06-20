@@ -78,7 +78,7 @@ Folder.read_by_id = function (q, flow) {
 Folder.read_list_by_website_id = function (website_id, customer, flow) {
   var vals = {
     website_id: website_id,
-    sn_ids : customer.screen_name_ids(),
+    sn_ids : customer,
     TABLES : {
       F: TABLE_NAME
     }
@@ -119,7 +119,7 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
   var vals = {
     num      : num,
     upper_sn : sn.toUpperCase(),
-    sn_ids   : customer.screen_name_ids(),
+    sn_ids   : customer,
     TABLES: {
       F  : F,
       W  : W,
