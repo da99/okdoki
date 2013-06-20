@@ -35,10 +35,9 @@ exports.route = function (mod) {
 
     mod.New_River(req, resp, next)
     .job(function (j, website) {
-      Folder.read_by_screen_name_and_num( sn, num, j);
+      Folder.read_by_screen_name_and_num( sn, num, req.user, j);
     })
     .job(function (j, f) {
-      console.log(f.data);
       opts['title']            = f.data.title;
       opts['folder_num']       = num;
       opts['website_location'] = "/me/" + sn;

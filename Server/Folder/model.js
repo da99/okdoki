@@ -137,7 +137,7 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
       INNER JOIN @SN ON @SN.id = @W.owner_id                                      \n\
                                                                                   \n\
   WHERE                                                                           \n\
-    " + Topogo.where_readble(vals.TABLES) + "                                     \n\
+    " + Topogo.where_readable(vals.TABLES) + "                                     \n\
     AND @F.num          = @num                                                    \n\
     AND @SN.screen_name = @upper_sn                                               \n\
                                                                                   \n\
@@ -163,7 +163,8 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
         P: "Page",
         SN: Screen_Name.TABLE_NAME
       },
-      f_id: f.data.id
+      f_id: f.data.id,
+      sn_ids: customer.screen_name_ids()
     };
     var sql = "\
     SELECT                                          \n\
@@ -171,7 +172,7 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
       @SN.screen_name AS author_screen_name         \n\
     FROM @P INNER JOIN @SN ON @P.author_id = @SN.id \n\
     WHERE                                           \n\
-      " + Topogo.where_readble(vals.TABLES) +     " \n\
+      " + Topogo.where_readable(vals.TABLES) +     " \n\
       AND folder_id = @f_id                         \n\
     ORDER BY id DESC;";
     TABLE.run(sql, vals, j);
