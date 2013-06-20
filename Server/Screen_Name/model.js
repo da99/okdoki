@@ -141,7 +141,7 @@ S.create = function (customer, job) {
   .job('create', 'screen name', function (j) {
 
     insert_data = {
-      owner_id     : customer.data.id,
+      owner_id     : customer.data.id || 0,
       screen_name  : sn.sanitized_data.screen_name,
       display_name : sn.sanitized_data.screen_name
     };

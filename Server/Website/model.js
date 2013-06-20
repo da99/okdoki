@@ -23,17 +23,8 @@ Uni.require = function (target) {
 Uni.new = function (row) {
 
   var hp = new Uni();
-  hp.data = {id: null, owner_id: null, title: null, about: null, };
-
-  if (row) {
-    hp.owner = row.owner;
-    _.each(row, function (v, k) {
-      if (hp.data.hasOwnProperty(k))
-        hp.data[k] = v;
-    });
-  }
-
-  hp.is_new = !!hp.data.id;
+  hp.data = row;
+  hp.is_new = !!hp.data;
   return hp;
 
 };
@@ -96,7 +87,7 @@ Uni.create = function (vals, flow) {
 
 Uni.read = function (q, flow) {
   if (!_.isObject(q))
-    q = {id: q, trashed_at: null};
+    q = {id: q};
 
   River.new(flow)
   .job(function (j) {
