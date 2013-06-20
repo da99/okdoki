@@ -153,34 +153,6 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
       return j.finish(null);
     return j.finish(rows[0] && Folder.new(rows[0]));
   })
-  .job(function (j, folder) {
-    if (!folder)
-      return j.finish(null);
-
-    f = folder;
-    var vals = {
-      TABLES: {
-        P: "Page",
-        SN: Screen_Name.TABLE_NAME
-      },
-      f_id: f.data.id,
-      sn_ids: customer.screen_name_ids()
-    };
-    var sql = "\
-    SELECT                                          \n\
-      @P.*,                                         \n\
-      @SN.screen_name AS author_screen_name         \n\
-    FROM @P INNER JOIN @SN ON @P.author_id = @SN.id \n\
-    WHERE                                           \n\
-      " + Topogo.where_readable(vals.TABLES) +     " \n\
-      AND folder_id = @f_id                         \n\
-    ORDER BY id DESC;";
-    TABLE.run(sql, vals, j);
-  })
-  .job(function (j, pages) {
-    f.data.pages = _.map(pages, function (p) { return Page.new(p); });
-    j.finish(f);
-  })
   .run();
 };
 

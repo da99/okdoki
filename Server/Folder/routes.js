@@ -37,15 +37,23 @@ exports.route = function (mod) {
     .job(function (j, website) {
       Folder.read_by_screen_name_and_num( sn, num, req.user, j);
     })
-    .job(function (j, f) {
+    .job(function (j, folder) {
+      f = folder;
+      if (!f)
+        return next();
+      opts['folder']           = f;
       opts['title']            = f.data.title;
       opts['folder_num']       = num;
       opts['website_location'] = "/me/" + sn;
-      opts['pages']            = f.data.pages;
+    })
+    .job(function (j) {
+      Page.read_list_by_folder_id(f.data.id, req.user, j);
+    })
+    .job(function (j, pages) {
+      opts['pages']  = pages;
         // { location: "/me/GO99/folder/1/page/3",
           // created_at: (new Date).getTime(),
           // title: "Page 3"},
-
       OK.render_template();
     })
     .run();

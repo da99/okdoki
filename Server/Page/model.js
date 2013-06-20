@@ -62,9 +62,42 @@ Page.create = function (raw_data, flow) {
   .run();
 };
 
+
 // ================================================================
 // ================== Read ========================================
 // ================================================================
+
+Page.read_list_by_folder_id = function (id, customer, flow) {
+  River.new(flow)
+  .job(function (j) {
+    var vals = {
+      TABLES: {
+        P: TABLE_NAME,
+        SN: Screen_Name.TABLE_NAME,
+        F: Folder.TABLE_NAME
+      },
+      f_id: f.data.id,
+      sn_ids: customer.screen_name_ids()
+    };
+    var sql = "\
+    SELECT                                          \n\
+      @P.*,                                         \n\
+      @SN.screen_name AS author_screen_name         \n\
+    FROM @P INNER JOIN @SN ON @P.author_id = @SN.id \n\
+    WHERE                                           \n\
+      " + Topogo.where_readable(vals.TABLES) +     "\n\
+      AND folder_id = @f_id                         \n\
+    ORDER BY id DESC;";
+    TABLE.run(sql, vals, j);
+  })
+  .job(function (j, pages) {
+    f.data.pages = _.map(pages, function (p) { return Page.new(p); });
+    j.finish(f);
+  })
+
+
+}; // ==== end read_list_by_folder_id
+
 Page.read_by_screen_name_and_folder_num_and_page_num = function (sn, folder_num, page_num, flow) {
   var data = {upper_sn: sn.toUpperCase(), folder_num: folder_num, page_num: page_num}
   var sql = "\
