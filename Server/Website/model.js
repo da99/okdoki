@@ -126,7 +126,7 @@ Uni.read_by_screen_name = function (sn, customer, flow) {
   FROM                                                                     \n\
     @W INNER JOIN @SN ON @W.owner_id = @SN.id                              \n\
   WHERE                                                                    \n\
-    " + Topogo.where_readable(vals.TABLES) + "                             \n\
+    @is_read_able                                                          \n\
     AND @SN.screen_name = @upper_sn                                        \n\
     AND @W.type_id = @type_id                                              \n\
                                                                            \n\

@@ -84,7 +84,7 @@ Page.read_list_by_folder_id = function (id, customer, flow) {
     FROM                                            \n\
       @P                                            \n\
     WHERE                                           \n\
-      " + Topogo.where_readable(vals.TABLES) +     "\n\
+      @is_read_able                                 \n\
       AND folder_id = @f_id                         \n\
     ORDER BY id DESC;";
 

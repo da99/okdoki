@@ -137,7 +137,7 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
       INNER JOIN @SN ON @SN.id = @W.owner_id                                      \n\
                                                                                   \n\
   WHERE                                                                           \n\
-    " + Topogo.where_readable(vals.TABLES) + "                                     \n\
+    @is_read_able                                                                 \n\
     AND @F.num          = @num                                                    \n\
     AND @SN.screen_name = @upper_sn                                               \n\
                                                                                   \n\

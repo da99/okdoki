@@ -403,9 +403,15 @@ app.use(function (err, req, resp, next) {
 //                 The End
 // ====================================================
 
+var _is_read_able_ = /@is_read_able/ig;
 Topogo.sql_proc(function (sql, vals) {
-  if (vals.hasOwnProperty('sn_ids'))
-    vals.sn_ids = (vals.sn_ids) ? vals.sn_ids.screen_name_ids : [0];
+  if (vals.TABLES) {
+    var orig = sql;
+    sql = sql.replace(_is_read_able_, Topogo.where_readable(vals.TABLES));
+    if (sql !== orig || (vals.hasOwnProperty('sn_ids') && !_.isArray(vals.sn_ids)))
+      vals.sn_ids = (vals.sn_ids) ? vals.sn_ids.screen_name_ids() : [0,0];
+
+  }
   return [sql, vals];
 });
 
