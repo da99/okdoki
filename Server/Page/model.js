@@ -7,7 +7,8 @@ River  = require("da_river").River
 
 
 var P = exports.Page = function () {};
-var TABLE_NAME = exports.P.TABLE_NAME = "Page";
+var Page = P;
+var TABLE_NAME = P.TABLE_NAME = "Page";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Page.new = function (data) {
@@ -94,12 +95,16 @@ Page.read_list_by_folder_id = function (id, customer, flow) {
     f.data.pages = _.map(pages, function (p) { return Page.new(p); });
     j.finish(f);
   })
-
+  .run();
 
 }; // ==== end read_list_by_folder_id
 
 Page.read_by_screen_name_and_folder_num_and_page_num = function (sn, folder_num, page_num, flow) {
-  var data = {upper_sn: sn.toUpperCase(), folder_num: folder_num, page_num: page_num}
+  var data = {
+    upper_sn: sn.toUpperCase(),
+    folder_num: folder_num,
+    page_num: page_num
+  };
   var sql = "\
     SELECT @table.*,                         \n\
      @f.title      AS folder_title,          \n\
@@ -110,12 +115,12 @@ Page.read_by_screen_name_and_folder_num_and_page_num = function (sn, folder_num,
       ON @table.folder_id = @f.id      \n\
         INNER JOIN @sn                 \n\
           ON @sn.id = @f.owner_id      \n\
-    WHERE
-      @table.num = @num AND
-      @f.num     = @folder_num AND
-      @sn.screen_name = @upper_sn
-    LIMIT 1
-  ";
+    WHERE                                    \n\
+      @table.num = @num AND                  \n\
+      @f.num     = @folder_num AND           \n\
+      @sn.screen_name = @upper_sn            \n\
+    LIMIT 1                                  \n\
+  ;";
   River.new(flow)
   .job(function (j) {
     TABLE.run(sql, data, j);

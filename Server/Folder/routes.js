@@ -1,6 +1,7 @@
 
 var _    = require('underscore')
 , Folder = require("../Folder/model").Folder
+, Page   = require("../Page/model").Page
 ;
 
 
@@ -28,7 +29,6 @@ exports.route = function (mod) {
   });
 
   app.get('/me/:screen_name/folder/:num', function (req, resp, next) {
-      console.log("a")
     var num  = parseInt(req.params.num);
     var OK   = mod.New_Request(req, resp, next);
     var opts = OK.template_data('Folder/show_one')
@@ -46,6 +46,7 @@ exports.route = function (mod) {
       opts['title']            = f.data.title;
       opts['folder_num']       = num;
       opts['website_location'] = "/me/" + sn;
+      j.finish();
     })
     .job(function (j) {
       Page.read_list_by_folder_id(f.data.id, req.user, j);
