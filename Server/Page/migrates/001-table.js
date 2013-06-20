@@ -17,7 +17,7 @@ m.migrate = function (dir, r) {
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,     \n\
     folder_id      int DEFAULT 0 NOT NULL, \n\
-    author_id      int DEFAULT 0 NOT NULL, \n\
+    $author_able   ,                       \n\
     title          varchar(180)          , \n\
     body           text                  , \n\
     html_body      text                  , \n\

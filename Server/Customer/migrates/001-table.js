@@ -10,8 +10,8 @@ module.exports.migrate = function (dir, r) {
     id           serial primary key,                            \n\
     email        text,                                          \n\
     pass_phrase_hash varchar(150) NOT NULL,                     \n\
-    created_at          $now_tz,                 \n\
-    trashed_at          $null_tz                 \n\
+    $created_at,                                                \n\
+    $trashed_at                                                 \n\
     )';
     r.create(sql);
   }
