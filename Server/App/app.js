@@ -15,6 +15,7 @@ var _         = require('underscore')
 var Customer  = require('../Customer/model').Customer
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Chat_Bot    = require('../Chat/Chat_Bot').Chat_Bot
+, H           = require('../App/Helpers').H
 ;
 
 var log       = require('./base').log
@@ -401,9 +402,18 @@ app.use(function (err, req, resp, next) {
 // ====================================================
 //                 The End
 // ====================================================
-app.listen(port, function () {
-  log('Listening on: ' + port);
-});
+
+River.new()
+.job(function (j) {
+  Topogo.tables(j);
+})
+.job(function (j, tables) {
+  app.listen(port, function () {
+    log('Listening on: ' + port);
+    j.finish();
+  });
+})
+.run();
 
 function screen_names(arr) {
   var names = {first: arr[0], list: arr, multi : (arr.length != 1) };

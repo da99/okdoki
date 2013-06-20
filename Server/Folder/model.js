@@ -68,36 +68,48 @@ Folder.create = function (data, flow) {
 // ================== Read ========================================
 // ================================================================
 
-Folder.read = function (q, flow) {
+Folder.read = function (q, customer, flow) {
+  if (arguments.length === 2) {
+    flow = customer;
+    customer = null;
+  }
+
   River.new(flow)
   .job(function (j) {
     TABLE.read_list(q, j);
   })
   .job(function (j, list) {
-    j.finish(_.map(list, function (r) {
+    j.finish(_.compact(_.map(list, function (r) {
+      var f = Folder.new(r);
+      if (customer && !f.is_readable_by(customer))
+        return null;
       return Folder.new(r);
-    }));
+    })));
   })
   .run();
 };
 
 Folder.read_by_screen_name_and_num = function (sn, num, flow) {
-  var f = null;
-  var sql = "\
-    SELECT @table.*, '' AS \"sep\", @ws_table.*                             \n\
-    FROM (@table INNER JOIN @ws_table                        \n\
-      ON @table.website_id = @ws_table.id) INNER JOIN @sn_table \
-      ON @ws_table.owner_id = @sn_table.id                   \n\
-    WHERE num = @num AND @sn_table.screen_name = @upper_sn   \n\
-    LIMIT 1                                                  \n\
-  ";
+  var f  = null
+    , T  = TABLE_NAME
+    , W  = Website.TABLE_NAME
+    , SN = Screen_Name.TABLE_NAME;
+
+  var pair = Topogo
+  .select(
+    [T, '*'],
+    [W, 'owner_id', 'trashed_at'],
+    [SN, 'screen_name', 'trashed_at']
+  )
+  .from([T, 'website_id'], [W, 'id'], 'inner join', 
+        [SN, 'id'], [W, 'owner_id'], 'inner join')
+  .where([T,'num'], '=', num, 'AND', [SN, 'screen_name'], '=', sn.toUpperCase())
+  .limit(1)
+  .end();
+
   River.new(flow)
   .job(function (j) {
-    TABLE.run(sql, {
-      TABLES: {sn_table: Screen_Name.TABLE_NAME, ws_table: Website.TABLE_NAME},
-      num: num,
-      upper_sn: sn.toUpperCase()
-    }, j);
+    TABLE.run(pair[0], pair[1], j)
   })
   .job(function (j, rows) {
     if (!rows.length)
