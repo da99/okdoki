@@ -510,6 +510,9 @@ function form(selector, func) {
 
   $(selector).find('button.submit').click(function (e) {
     e.stopPropagation();
+
+    reset_forms(selector);
+
     var form    = $($(this).closest('form'));
     var url     = form.attr('action');
     var data    = form_to_json(form);
