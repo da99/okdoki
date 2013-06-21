@@ -28,7 +28,10 @@ m.migrate = function (dir, r) {
     $updated_at    ,                                        \n\
     $trashed_at                                             \n\
     );";
-    r.create(sql);
+    r.create(sql,
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT folder_num    UNIQUE (folder_id, num)",
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT folder_title  UNIQUE (folder_id, title)"
+            );
 
   }
 };
