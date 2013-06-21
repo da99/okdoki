@@ -32,8 +32,8 @@ exports.route = function (mod) {
       resp.json({
         success : true,
         msg     : 'Created: ' + page.data.title,
-        page    : page,
-        location: "/me/" + req.params.screen_name + "/folder/" + req.params.num + '/page/' + num
+        page    : page.data,
+        location: "/me/" + req.params.screen_name + "/folder/" + req.params.folder_num + '/page/' + page.data.num
       });
     })
     .run();

@@ -7,7 +7,7 @@ function draw_page(page)
     - else
       span.time #{page.created_at}
     span.divider  -&nbsp;
-    a(href="#{page.location}") #{page.title}
+    a(href="/me/#{screen_name}/folder/#{folder_num}/page/#{page.num}") #{page.title}
 append styles
   link(rel="stylesheet", media="screen", href="/Screen_Name/me.css")
 
@@ -16,7 +16,7 @@ append scripts
 
 append templates
 
-  call draw_page({created_at: "{TIME}", title: "{TITLE}", location: "{HREF}"})
+  call draw_page({created_at: "{TIME}", title: "{TITLE}", num: "{NUM}"})
 
   div.box.item
     h3 {TITLE}

@@ -37,8 +37,12 @@ $(function () {
   form( '#Page form', function (f) {
     f.on_success(function (result) {
       reset_forms(f);
+      console.log(result);
       // $(f).find('button').parent().append(compile_template('div.page_created', {HREF: result.record.location}));
-      $('#Pages').prepend(compile_template('div.page', {TITLE: result.record.title, HREF: result.record.location, TIME: time_for_humans(result.record.created_at)}));
+      $('#Pages').prepend(compile_template('div.page', {
+        TITLE: result.page.title,
+        NUM: result.page.num,
+        TIME: time_for_humans((new Date(result.page.created_at)).getTime())}));
     });
   })
 

@@ -41,12 +41,17 @@ function time_for_humans(t) {
   var now = (new Date).getTime();
   var diff = (now - t);
 
+  if (diff < 5000) {
+    return "a few seconds ago";
+  }
+
   var vals = [
     [(diff / 1000 / 60 / 60 / 24), 'day'],
     [(diff / 1000 / 60 / 60)     , 'hr'],
     [(diff / 1000 / 60)          , 'min'],
     [(diff / 1000)               , 'sec'],
   ];
+
   var highest = _.detect(vals, function (pair) {
     return parseInt(pair[0]) > 0;
   }) || [0, 'sec'];
