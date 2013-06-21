@@ -24,18 +24,7 @@ label {
 #Items div.content div.edit_this form {
   padding: 10px 0 20px 10px;
 }
-#Items div.item {
-  padding: 8px 10px;
-}
-#Items div.item h3 {
-  padding: 0 4px 5px 0;
-  margin: 0;
-  font-weight: bold;
-}
-#Items div.item div.p {
-  padding: 0 5px 15px 10px;
-  font-size: 130%;
-}
+#Items div.item,
 #Items textarea {
   width: 95%;
   min-height: 500px;
@@ -48,7 +37,16 @@ label {
   margin: 0 15px 0 0;
 }
 #The_Page_Content {
-  padding: 0 10px 30px 10px;
+  padding: 0 10px 30px 30px;
+  line-height: 1.6;
+}
+#The_Page_Content h3 {
+  margin: 0;
+  font-weight: bold;
+  text-transform: none;
+  margin-left: -10px;
+  font-size: 90%;
+  padding-top: 10px;
 }
 #Update_Page {
   display: none;
