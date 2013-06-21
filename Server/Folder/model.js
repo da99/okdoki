@@ -28,10 +28,18 @@ Folder.screen_name = function (e) {
   Screen_Name = e.Screen_Name;
 };
 
-Folder.new = function (row) {
+Folder.new = function (row, website) {
   var f = new Folder();
   f.data = row;
+  if (website && website.is_website)
+    f.website(website);
   return f;
+};
+
+Folder.prototype.website = function (w) {
+  if (arguments.length)
+    this._website = w;
+  return this._website;
 };
 
 // ================================================================
@@ -110,7 +118,7 @@ Folder.read_list_by_website_id = function (website_id, customer, flow) {
   .run();
 };
 
-Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
+Folder.read_by_website_and_num = function (website, num, flow) {
   var f  = null
     , F  = TABLE_NAME
     , W  = Website.TABLE_NAME
@@ -118,28 +126,23 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
 
   var vals = {
     num      : num,
-    upper_sn : sn.toUpperCase(),
-    sn_ids   : customer,
+    website_id : website.data.id,
+    sn_ids   : website.screen_name().customer(),
     TABLES: {
-      F  : F,
-      W  : W,
-      SN : SN
+      F  : F
   }};
 
   var sql = "\
   SELECT                                                                          \n\
-    @F.*,                                                                         \n\
-    @W.title AS website_title,                                                    \n\
-    @SN.id   AS screen_name_id                                                    \n\
+    @F.*                                                                          \n\
                                                                                   \n\
   FROM                                                                            \n\
-    @F INNER JOIN @W ON @F.website_id = @W.id                                     \n\
-      INNER JOIN @SN ON @SN.id = @W.owner_id                                      \n\
+    @F                                                                            \n\
                                                                                   \n\
   WHERE                                                                           \n\
     @is_read_able                                                                 \n\
-    AND @F.num          = @num                                                    \n\
-    AND @SN.screen_name = @upper_sn                                               \n\
+    AND website_id = @website_id                                              \n\
+    AND num        = @num                                                     \n\
                                                                                   \n\
   LIMIT 1                                                                         \n\
   ;";
@@ -151,7 +154,7 @@ Folder.read_by_screen_name_and_num = function (sn, num, customer, flow) {
   .job(function (j, rows) {
     if (!rows.length)
       return j.finish(null);
-    return j.finish(rows[0] && Folder.new(rows[0]));
+    return j.finish(Folder.new(rows[0], website));
   })
   .run();
 };

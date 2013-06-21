@@ -42,10 +42,31 @@ var New_River = exports.New_River = function (req, resp, next) {
     next = req[2];
     req  = req[0];
   }
+
   var r = River.new(null);
+
   r.next('invalid', function (j) {
-    resp.json({success: false, msg: j.job.error.message});
+    if (req.accepts('json'))
+      resp.json({success: false, msg: j.job.error.message});
+    else
+      resp.send(j.job.error.message);
   });
+
+  r.read_one = function () {
+    var args = _.toArray(arguments);
+    var func = args.pop();
+    var name = args[0];
+    args.push(function (j, last) {
+      if (args.length === 2 && func.length ===2 && !last) {
+        log('Not found: ', name);
+        return j.finish(last);
+      }
+      return func.apply(null, arguments);
+    });
+    r.job.apply(r, args);
+    return r;
+  };
+
   return r;
 };
 
@@ -354,6 +375,7 @@ require('../Site/routes').route(module.exports);
 require('../Customer/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
 require('../Folder/routes').route(module.exports);
+require('../Page/routes').route(module.exports);
 require('../Message_Board/routes').route(module.exports);
 
 

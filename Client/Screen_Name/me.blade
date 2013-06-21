@@ -106,19 +106,20 @@ append content
       h3
         | Message Board:
 
-      div.show.show_write
-        a(href="#Write_Message") Write A New Message.
+      - if (logged_in)
+        div.show.show_write
+          a(href="#Write_Message") Write A New Message.
 
-      form#Write_Message(action="/message_board/msg", method="post")
-        div.fields
-          div.field
-            span.label Message:
-            textarea(name="body")
-        call as_this_life()
-        div.buttons
-          call input_website_id()
-          button.submit Publish
-          a.cancel(href="#cancel") Cancel
+        form#Write_Message(action="/message_board/msg", method="post")
+          div.fields
+            div.field
+              span.label Message:
+              textarea(name="body")
+          call as_this_life()
+          div.buttons
+            call input_website_id()
+            button.submit Publish
+            a.cancel(href="#cancel") Cancel
 
       div.msgs
         div.loading Retrieving messages...

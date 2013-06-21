@@ -40,5 +40,6 @@
 - on MODEL.new:
    set .is_new to false when .data is set
 
+- paging for pages in a folder;
 
 - when server restarts, a process is shon "Bad gateway"

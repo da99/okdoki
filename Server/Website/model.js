@@ -29,6 +29,15 @@ Uni.new = function (row) {
 
 };
 
+Uni.prototype.is_website = function () {
+  return true;
+}
+
+Uni.prototype.screen_name = function (sn) {
+  if (arguments.length)
+    this._sn = sn;
+  return this._sn;
+};
 
 // ================================================================
 // ================== Create ======================================
@@ -99,26 +108,25 @@ Uni.read = function (q, flow) {
   .run();
 };
 
-Uni.read_by_screen_name = function (sn, customer, flow) {
+Uni.read_by_screen_name = function (screen_name, flow) {
+  var sn = screen_name.data.screen_name;
   var vals = {
     type_id: 1,
-    upper_sn: sn.toUpperCase(),
-    sn_ids: customer,
+    sn_id:  screen_name.data.id,
+    sn_ids: screen_name.customer(),
     TABLES: {
-      SN: Screen_Name.TABLE_NAME,
       W: TABLE_NAME
     }
   };
 
   var sql = "\
   SELECT                                                                   \n\
-    @W.*,                                                                  \n\
-    @SN.id AS screen_name_id                                               \n\
+    @W.*                                                                   \n\
   FROM                                                                     \n\
-    @W INNER JOIN @SN ON @W.owner_id = @SN.id                              \n\
+    @W                                                                     \n\
   WHERE                                                                    \n\
     @is_read_able                                                          \n\
-    AND @SN.screen_name = @upper_sn                                        \n\
+    AND @W.owner_id = @sn_id                                               \n\
     AND @W.type_id = @type_id                                              \n\
                                                                            \n\
   LIMIT 1                                                                  \n\
@@ -128,9 +136,13 @@ Uni.read_by_screen_name = function (sn, customer, flow) {
     TABLE.run(sql, vals, j);
   })
   .job(function (j, unis) {
-    j.finish(_.map(unis, function (u) {
-      return Uni.new(u);
-    }));
+    var w = unis[0];
+    if (!w)
+      return j.finish();
+
+    var u = Uni.new(w);
+    u.screen_name(screen_name);
+    return j.finish(u);
   })
   .run();
 };

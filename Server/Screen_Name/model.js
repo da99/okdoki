@@ -71,6 +71,12 @@ S.new = function (n) {
   return s;
 };
 
+S.prototype.customer = function (c) {
+  if (arguments.length)
+    this._customer = c;
+  return this._customer;
+};
+
 S.prototype.heart_beep = function (on_fin) {
   var me = this;
   var n  = me.screen_name;
@@ -207,13 +213,22 @@ S.read_by_id = function (id, flow) {
   .run();
 };
 
-S.read_by_screen_name = function (n, flow) {
+S.read_by_screen_name = function (n, customer, flow) {
+  if (arguments.length === 2) {
+    flow = customer;
+    customer = null;
+  }
+
   River.new(flow)
   .job('read screen name:', n, function (j) {
     Topogo.new(TABLE_NAME).read_one({screen_name: n.toUpperCase()}, j)
   })
   .job(function (j, r) {
-    j.finish(r && S.new(r));
+    if (!r)
+      return j.finish();
+    var sn = S.new(r);
+    sn.customer(customer);
+    j.finish(S.new(r));
   })
   .run();
 };

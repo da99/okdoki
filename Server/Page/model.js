@@ -11,9 +11,11 @@ var Page = P;
 var TABLE_NAME = P.TABLE_NAME = "Page";
 var TABLE = Topogo.new(TABLE_NAME);
 
-Page.new = function (data) {
+Page.new = function (data, folder) {
   var p = new P();
   p.data = data;
+  if (folder && folder.is_folder)
+    p.folder(folder);
   return p
 };
 
@@ -24,6 +26,12 @@ function null_if_empty(str) {
     return null;
   return str;
 }
+
+Page.prototype.folder = function (f) {
+  if (arguments.length)
+    this._folder = f;
+  return this._folder;
+};
 
 Page.prototype.is_readable_by = function (customer) {
   throw new Error("not imolemented");
@@ -68,15 +76,15 @@ Page.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
-Page.read_list_by_folder_id = function (id, customer, flow) {
+Page.read_list_by_folder = function (folder, flow) {
   River.new(flow)
   .job(function (j) {
     var vals = {
       TABLES: {
         P: TABLE_NAME
       },
-      f_id: f.data.id,
-      sn_ids: customer
+      f_id: folder.data.id,
+      sn_ids: folder.website().screen_name().customer()
     };
 
     var sql = "\
@@ -92,8 +100,9 @@ Page.read_list_by_folder_id = function (id, customer, flow) {
     TABLE.run(sql, vals, j);
   })
   .job(function (j, pages) {
-    f.data.pages = _.map(pages, function (p) { return Page.new(p); });
-    j.finish(f);
+    folder.data.pages = _.map(pages, function (p) { return Page.new(p, folder); });
+    folder.data.pages.folder = folder;
+    j.finish(folder.data.pages);
   })
   .run();
 
