@@ -7,7 +7,7 @@ label {
 }
 #Items div.content {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1000px;
   text-align: left;
   background: #fff;
 }
@@ -46,7 +46,10 @@ label {
   text-transform: none;
   margin-left: -10px;
   font-size: 90%;
-  padding-top: 10px;
+  padding: 10px 0 0 0;
+}
+#The_Page_Content div.p {
+  padding: 5px 0 7px 0;
 }
 #Update_Page {
   display: none;

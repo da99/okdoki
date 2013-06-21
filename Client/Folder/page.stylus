@@ -8,7 +8,7 @@ label
   padding: 10px 0 0 0
   div.content
     margin: 0 auto
-    max-width: 1200px
+    max-width: 1000px
     text-align: left
     background: #fff
     div.edit_this
@@ -43,7 +43,9 @@ label
     text-transform: none
     margin-left: -10px
     font-size: 90%
-    padding-top: 10px
+    padding: 10px 0 0 0
+  div.p
+    padding: 5px 0 7px 0
 
 #Update_Page
   display: none
