@@ -1,12 +1,13 @@
 
 var _ = require("underscore")
 Folder = require("../Folder/model").Folder
+Ok_Model = require("../Ok/model").Model
 Topogo = require("topogo").Topogo
 River  = require("da_river").River
 ;
 
 
-var P = exports.Page = function () {};
+var P = exports.Page = Ok_Model.new(function () {});
 var Page = P;
 var TABLE_NAME = P.TABLE_NAME = "Page";
 var TABLE = Topogo.new(TABLE_NAME);
@@ -89,6 +90,10 @@ Page.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Page.prototype.public_data = function () {
+  return this.get_data('title', 'body', 'created_at', 'updated_at', 'trashed_at');
+};
+
 Page.read_list_by_folder = function (folder, flow) {
   River.new(flow)
   .job(function (j) {
@@ -151,6 +156,24 @@ Page.read_by_folder_and_num = function (folder, page_num, flow) {
 // ================================================================
 // ================== Update ======================================
 // ================================================================
+Page.prototype._update = function (raw_data, flow) {
+  var me = this;
+  var data = {
+    title: raw_data.title,
+    body: raw_data.body
+  };
+
+  River.new(flow)
+  .job(function (j) {
+    Topogo.update({id: me.data.id}, data, j);
+  })
+  .job(function (j, row) {
+    if (row)
+      me.data = row;
+    j.finish(row && me);
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Trash/Untrash ===============================
@@ -159,5 +182,19 @@ Page.read_by_folder_and_num = function (folder, page_num, flow) {
 // ================================================================
 // ================== Delete ======================================
 // ================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -72,10 +72,11 @@ exports.route = function (mod) {
         return next();
       var opts          = OK.template_data('Folder/page');
       opts['title']     = page.data.title;
-      opts['page']      = page;
+      opts['page']      = page.public_data();
       opts['page_num']  = page.data.num;
       opts['folder_num'] = page.folder().data.num;
       opts['folder_id'] = page.folder().data.id;
+      opts['is_update_able'] = page.is_update_able();
       opts['page_body'] = "Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com] ." +
         "\nThis is *bold*.   This is *bold*. " +
          "This is *bold*. " +
@@ -88,6 +89,38 @@ exports.route = function (mod) {
         "\n\nThis is /italic/.";
       opts['page_html_body'] = Bling_Bling.new(opts['page_body']).to_html();
       return OK.render_template();
+    });
+  });
+
+  // ================== UPDATE ======================================
+  app.put("/me/:screen_name/folder/:folder_num/page/:page_num", function (req, resp, next) {
+    var OK            = mod.New_Request(arguments);
+    var folder_num    = parseInt(req.params.folder_num);
+    var page_num      = parseInt(req.params.page_num);
+    var sn            = req.params.screen_name;
+
+    mod.New_River(req, resp, next)
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(sn, req.user, j);
+    })
+    .read_one('website', function (j, screen_name) {
+      Website.read_by_screen_name(screen_name, j);
+    })
+    .read_one('folder', function (j, website) {
+      Folder.read_by_website_and_num(website, folder_num, j);
+    })
+    .read_one('page', function (j, folder) {
+      Page.read_by_folder_and_num(folder, page_num, j);
+    })
+    .update_one('page', function (j, page) {
+      page.update(req.body, j);
+    })
+    .run(function (fin, page) {
+      if (!page)
+        return next();
+      var data = page.public_data();
+      data.html_body = Bling_Bling.new(page.data.body).to_html();
+      resp.json({success: true, msg: "Page has been updated.", page: data});
     });
   });
 

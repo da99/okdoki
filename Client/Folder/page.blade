@@ -22,14 +22,14 @@ append content
     div.content
       | From:
       a(href="/me/#{screen_name}/folder/#{folder_num}") /me/#{screen_name}/folder/#{folder_num}
-    - if (logged_in && page.is_update_able())
+    - if (logged_in && is_update_able)
       div.edit
         a(href="#edit_this_page") Edit This Page.
 
   div.items#Items
     div.content
 
-      - if (page.is_update_able())
+      - if (is_update_able)
         form#Update_Page(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}", method="POST")
           div.fields
             div.field.title
