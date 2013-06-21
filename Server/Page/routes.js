@@ -47,20 +47,39 @@ exports.route = function (mod) {
   });
 
   // ============ READ =================================================
-  app.get("/me/:screen_name/folder/:num/page/:page_num", function (req, resp, next) {
+  app.get("/me/:screen_name/folder/:folder_num/page/:page_num", function (req, resp, next) {
     var OK            = mod.New_Request(arguments);
-    var num           = parseInt(req.params.num);
+    var folder_num    = parseInt(req.params.folder_num);
     var page_num      = parseInt(req.params.page_num);
-    var opts          = OK.template_data('Folder/page');
-    opts['title']     = "Page #" + page_num;
-    opts['page_num']  = page_num;
-    opts['folder_id'] = num;
-    opts['about']     = "ABOUT---";
-    opts['item']      = "Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com]." +
-      "\nThis is *bold*.\n" +
-      "\nThis is /italic/.";
+    var sn            = req.params.screen_name;
 
-    return OK.render_template();
+    mod.New_River(req, resp, next)
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(sn, req.user, j);
+    })
+    .read_one('website', function (j, screen_name) {
+      Website.read_by_screen_name(screen_name, j);
+    })
+    .read_one('folder', function (j, website) {
+      Folder.read_by_website_and_num(website, folder_num, j);
+    })
+    .read_one('page', function (j, folder) {
+      Page.read_by_folder_and_num(folder, page_num, j);
+    })
+    .run(function (fin, page) {
+      if (!page)
+        return next();
+      var opts          = OK.template_data('Folder/page');
+      opts['title']     = page.data.title;
+      opts['page_num']  = page.data.num;
+      opts['folder_id'] = page.folder().data.id;
+      opts['page_body'] = "Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com]." +
+        "\nThis is *bold*.\n" +
+        "\nThis is /italic/.";
+      return OK.render_template();
+    });
+
+
   });
 
 }; // ==== exports.routes

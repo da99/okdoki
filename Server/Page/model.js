@@ -115,26 +115,22 @@ Page.read_list_by_folder = function (folder, flow) {
 
 }; // ==== end read_list_by_folder_id
 
-Page.read_by_screen_name_and_folder_num_and_page_num = function (sn, folder_num, page_num, flow) {
+Page.read_by_folder_and_num = function (folder, page_num, flow) {
   var data = {
-    upper_sn: sn.toUpperCase(),
-    folder_num: folder_num,
-    page_num: page_num
+    folder_id: folder.data.id,
+    page_num: page_num,
+    sn_ids: folder.website().screen_name().customer(),
+    TABLES: {
+      P: TABLE_NAME
+    }
   };
   var sql = "\
-    SELECT @table.*,                         \n\
-     @f.title      AS folder_title,          \n\
-     @f.num        AS folder_num             \n\
-     @f.trashed_at AS folder_trashed_at      \n\
-     @sn.trashed_at AS screen_name_trashed_at\n\
-    FROM @table INNER JOIN @f          \n\
-      ON @table.folder_id = @f.id      \n\
-        INNER JOIN @sn                 \n\
-          ON @sn.id = @f.owner_id      \n\
+    SELECT @P.*                          \n\
+    FROM @P                            \n\
     WHERE                                    \n\
-      @table.num = @num AND                  \n\
-      @f.num     = @folder_num AND           \n\
-      @sn.screen_name = @upper_sn            \n\
+      @is_read_able  AND                     \n\
+      @P.folder_id = @folder_id AND          \n\
+      @P.num     = @page_num                 \n\
     LIMIT 1                                  \n\
   ;";
   River.new(flow)
@@ -142,7 +138,7 @@ Page.read_by_screen_name_and_folder_num_and_page_num = function (sn, folder_num,
     TABLE.run(sql, data, j);
   })
   .job(function (j, rows) {
-    j.finish(rows[0] && Page.new(rows[0]));
+    j.finish(rows[0] && Page.new(rows[0], folder));
   })
   .run();
 };

@@ -20,10 +20,10 @@ append content
 
   div#Me
     div.content
-      | #{about}
-    //- if (logged_in)
-    div.edit
-      a(href="#edit_this_page") Edit This Page.
+      | ----
+    - if (logged_in)
+      div.edit
+        a(href="#edit_this_page") Edit This Page.
 
   div.items#Items
     div.content
@@ -43,7 +43,7 @@ append content
 
       div.list
         div.item#The_Page_Content
-          | #{item}
+          | #{page_body}
 
   div#Create
     div.create Add:
