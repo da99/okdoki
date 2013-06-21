@@ -42,6 +42,11 @@ Folder.prototype.website = function (w) {
   return this._website;
 };
 
+Folder.prototype.is_update_able = function () {
+  return _.contains( this.website().screen_name().customer().screen_name_ids(), this.data.owner_id) ||
+   this.website().is_update_able();
+};
+
 // ================================================================
 // ================== Create ======================================
 // ================================================================

@@ -36,6 +36,11 @@ Page.prototype.is_readable_by = function (customer) {
   throw new Error("not imolemented");
 };
 
+Page.prototype.is_update_able = function () {
+  return _.contains( this.folder().website().screen_name().customer().screen_name_ids(), this.data.author_id) ||
+   this.folder().is_update_able();
+};
+
 // ================================================================
 // ================== Create ======================================
 // ================================================================

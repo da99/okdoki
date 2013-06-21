@@ -22,29 +22,30 @@ append content
     div.content
       | From:
       a(href="/me/#{screen_name}/folder/#{folder_num}") /me/#{screen_name}/folder/#{folder_num}
-    - if (logged_in)
+    - if (logged_in && page.is_update_able())
       div.edit
         a(href="#edit_this_page") Edit This Page.
 
   div.items#Items
     div.content
 
-      form#Update_Page(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}", method="POST")
-        div.fields
-          div.field.title
-            label Title:
-            input(type="text", name="title", value="#{title}")
-          div.field.body
-            label Body:
-            textarea
-        div.buttons
-          input(type="hidden", name="_method", value="PUT")
-          button.submit Save
-          a.cancel(href="#cancel") Cancel
+      - if (page.is_update_able())
+        form#Update_Page(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}", method="POST")
+          div.fields
+            div.field.title
+              label Title:
+              input(type="text", name="title", value="#{title}")
+            div.field.body
+              label Body:
+              textarea #{page_body}
+          div.buttons
+            input(type="hidden", name="_method", value="PUT")
+            button.submit Save
+            a.cancel(href="#cancel") Cancel
 
       div.list
         div.item#The_Page_Content
-          | #{page_body}
+          | #{page_html_body}
 
   div#Create
     div.create Add:

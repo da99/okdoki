@@ -91,6 +91,11 @@ S.prototype.heart_beep = function (on_fin) {
   client.exec(on_fin);
 };
 
+
+S.prototype.is_update_able = function () {
+  return _.isEqual( this.customer().data.id, this.data.owner_id);
+};
+
 // ================================================================
 // ================== Create Validators ===========================
 // ================================================================

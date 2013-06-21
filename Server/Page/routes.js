@@ -72,10 +72,11 @@ exports.route = function (mod) {
         return next();
       var opts          = OK.template_data('Folder/page');
       opts['title']     = page.data.title;
+      opts['page']      = page;
       opts['page_num']  = page.data.num;
       opts['folder_num'] = page.folder().data.num;
       opts['folder_id'] = page.folder().data.id;
-      opts['page_body'] = Bling_Bling.new("Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com]." +
+      opts['page_body'] = "Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com] ." +
         "\nThis is *bold*.   This is *bold*. " +
          "This is *bold*. " +
          "This is *bold*. " +
@@ -83,13 +84,13 @@ exports.route = function (mod) {
          "This is *bold*. " +
          "This is *bold*. " +
          "This is *bold*. " +
-        "\n\nThis is a *link* [http://www.hanshoppe.com/] ." + 
-        "\n\nThis is /italic/.").to_html();
+        "\n\nThis is a *link* [http://www.hanshoppe.com/] ." +
+        "\n\nThis is /italic/.";
+      opts['page_html_body'] = Bling_Bling.new(opts['page_body']).to_html();
       return OK.render_template();
     });
-
-
   });
+
 
 }; // ==== exports.routes
 

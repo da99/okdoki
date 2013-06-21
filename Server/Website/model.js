@@ -39,6 +39,15 @@ Uni.prototype.screen_name = function (sn) {
   return this._sn;
 };
 
+
+Uni.prototype.is_update_able = function () {
+  if (this.data.type_id === 1)
+    return _.contains( this.screen_name().customer().screen_name_ids(), this.data.owner_id) ||
+    this.screen_name().is_update_able();
+  else
+    throw new Error("not implemented");
+};
+
 // ================================================================
 // ================== Create ======================================
 // ================================================================
