@@ -11,7 +11,7 @@ body
 
 h1
   font-family: 'Lenka'
-  font-size: 30pt
+  font-size: 300%
   font-style: italic
   text-align: left
   padding: 0 0 8px 10px

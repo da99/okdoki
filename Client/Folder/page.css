@@ -14,7 +14,6 @@ label {
 #Items {
   margin: 0 auto;
   max-width: 1200px;
-  font-size: 180%;
 }
 #Items div.content {
   text-align: left;
@@ -25,8 +24,13 @@ label {
   padding: 8px 10px;
 }
 #Items div.item h3 {
-  padding: 0;
+  padding: 0 4px 5px 0;
   margin: 0;
+  font-weight: bold;
+}
+#Items div.item div.p {
+  padding: 0 5px 15px 10px;
+  font-size: 130%;
 }
 #Items textarea {
   width: 95%;

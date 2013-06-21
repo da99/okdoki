@@ -20,7 +20,8 @@ append content
 
   div#Me
     div.content
-      | ----
+      | From:
+      a(href="/me/#{screen_name}/folder/#{folder_num}") /me/#{screen_name}/folder/#{folder_num}
     - if (logged_in)
       div.edit
         a(href="#edit_this_page") Edit This Page.
