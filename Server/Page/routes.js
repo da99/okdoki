@@ -1,25 +1,34 @@
 
-var _ = require("underscore")
-Page = require("./model").Page
+var _       = require("underscore")
+  , Page    = require("./model").Page
+  , Folder  = require("../Folder/model").Folder
+  , Website = require("../Website/model").Website
+  , Screen_Name = require("../Screen_Name/model").Screen_Name
 ;
 
 exports.route = function (mod) {
   var app = mod.app;
 
   // ============ CREATE ===============================================
-  app.post("/page", function (req, resp, next) {
+  app.post("/me/:screen_name/folder/:folder_num/page", function (req, resp, next) {
     var data = _.clone(req.body);
     data.author_id = req.body.life_id;
 
     mod
     .New_River(req, resp, next)
-    .job(function (j) {
-      Website.read_by_screen_name_and
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
-    .job(function (j) {
-      Page.create(data, j);
+    .read_one('website', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
     })
-    .job(function (j, page) {
+    .read_one('folder', function (j, website) {
+      Folder.read_by_website_and_num(website, req.params.folder_num, j);
+    })
+    .create_one('page', function (j, folder) {
+      Page.create_in_folder(folder, data, j);
+    })
+    .job('fin', function (j, page) {
       resp.json({
         success : true,
         msg     : 'Created: ' + page.data.title,

@@ -72,7 +72,7 @@ S.new = function (n) {
 };
 
 S.prototype.customer = function (c) {
-  if (arguments.length)
+  if (c)
     this._customer = c;
   return this._customer;
 };
@@ -228,7 +228,7 @@ S.read_by_screen_name = function (n, customer, flow) {
       return j.finish();
     var sn = S.new(r);
     sn.customer(customer);
-    j.finish(S.new(r));
+    j.finish(sn);
   })
   .run();
 };

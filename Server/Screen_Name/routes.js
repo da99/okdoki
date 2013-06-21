@@ -20,7 +20,7 @@ exports.route = function (mod) {
     var data   = null;
 
     mod.New_River(req, resp, next)
-    .read_one('screen name', function (j) {
+    .read_one('screen_name', function (j) {
       Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
     .read_one('website', function (j, sn) {
@@ -32,7 +32,7 @@ exports.route = function (mod) {
     .job(function (j, folder_arr) {
       if (!folder_arr)
         return req.next();
-      var uni = j.river.ans.website;
+      var uni = j.river.get('website');
       data               = OK.template_data('Screen_Name/me')
       data['title']      = uni.data.title || req.params.screen_name;
       data['website']    = uni;

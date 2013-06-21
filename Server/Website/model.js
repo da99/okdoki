@@ -34,7 +34,7 @@ Uni.prototype.is_website = function () {
 }
 
 Uni.prototype.screen_name = function (sn) {
-  if (arguments.length)
+  if (sn)
     this._sn = sn;
   return this._sn;
 };

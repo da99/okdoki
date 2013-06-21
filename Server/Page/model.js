@@ -14,8 +14,7 @@ var TABLE = Topogo.new(TABLE_NAME);
 Page.new = function (data, folder) {
   var p = new P();
   p.data = data;
-  if (folder && folder.is_folder)
-    p.folder(folder);
+  p.folder(folder);
   return p
 };
 
@@ -28,7 +27,7 @@ function null_if_empty(str) {
 }
 
 Page.prototype.folder = function (f) {
-  if (arguments.length)
+  if (f)
     this._folder = f;
   return this._folder;
 };
@@ -40,12 +39,18 @@ Page.prototype.is_readable_by = function (customer) {
 // ================================================================
 // ================== Create ======================================
 // ================================================================
+Page.create_in_folder = function (folder, data, flow) {
+  data.folder_id = folder.data.id;
+  data.folder = folder;
+  return Page.create(data, flow);
+};
+
 Page.create = function (raw_data, flow) {
   var data = {
     folder_id: raw_data.folder_id || 1,
     author_id: raw_data.author_id || 0,
-    title : null_if_empty(data.title) || "Rock on, daddy-o!",
-    body  : null_if_empty(data.body)  || "Rock on, Sweet Cheeks."
+    title : null_if_empty(raw_data.title) || "Rock on, daddy-o!",
+    body  : null_if_empty(raw_data.body)  || "Rock on, Sweet Cheeks."
   };
 
   if (!data.author_id)
@@ -66,7 +71,10 @@ Page.create = function (raw_data, flow) {
     TABLE.run(sql, data, j);
   })
   .job(function (j, rows) {
-    j.finish(Page.new(rows[0]));
+    console.log(rows)
+    if (!rows[0])
+      return j.finish();
+    return j.finish(Page.new(rows[0], raw_data.folder));
   })
   .run();
 };

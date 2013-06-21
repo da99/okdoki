@@ -168,7 +168,7 @@ Customer.prototype.screen_name_id = function (name) {
 Customer.prototype.screen_name_ids = function (arr) {
   var me = this;
 
-  if (arguments.length === 0)
+  if (!arguments.length)
     return _.pluck(me.data.screen_name_rows, 'id');
 
   return _.map(arr, function (v) {

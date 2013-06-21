@@ -65,7 +65,7 @@ _.each(IM.keys, function (v) {
   IM.prototype[v] = function () {
     var me = this;
     var this_name = v;
-    if (arguments.length === 0)
+    if (!arguments.length)
       return me.data[v];
     me.data[v] = arguments[0];
     return me;
@@ -74,7 +74,7 @@ _.each(IM.keys, function (v) {
 
 IM.prototype.body = function (v) {
   var me = this;
-  if (arguments.length === 0)
+  if (!arguments.length)
     return me.data.body;
 
   me.data.body = (v || "").trim();
@@ -86,7 +86,7 @@ _.each(['labels', 'to_id'], function(name){
   IM.prototype[name] = function () {
     var me = this;
     var k = name;
-    if (arguments.length === 0)
+    if (!arguments.length)
       return me.data[k];
     me.data[k] = IM.uniq_str(me.data[k], arguments[0]);
     return me;

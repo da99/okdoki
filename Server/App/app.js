@@ -44,7 +44,6 @@ var New_River = exports.New_River = function (req, resp, next) {
   }
 
   var r = River.new(null);
-  var ans = r.ans = {};
 
   r.next('invalid', function (j) {
     if (req.accepts('json'))
@@ -62,13 +61,21 @@ var New_River = exports.New_River = function (req, resp, next) {
         log('Not found: ', name);
         return j.finish(last);
       }
-      ans[name] = last;
       return func.apply(null, arguments);
     });
     r.job.apply(r, args);
     return r;
   };
 
+  r.create_one = function () {
+    return r.read_one.apply(r, arguments);
+  };
+
+  r.get = function (name) {
+    return _.find(r.replys, function (rep) {
+      return rep.group === name;
+    }).val;
+  };
   return r;
 };
 
@@ -432,9 +439,9 @@ Topogo.sql_proc(function (sql, vals) {
   if (vals.TABLES) {
     var orig = sql;
     sql = sql.replace(_is_read_able_, Topogo.where_readable(vals.TABLES));
-    if (sql !== orig || (vals.hasOwnProperty('sn_ids') && !_.isArray(vals.sn_ids)))
-      vals.sn_ids = (vals.sn_ids) ? vals.sn_ids.screen_name_ids() : [0,0];
-
+    if (sql !== orig || (vals.hasOwnProperty('sn_ids') && !_.isArray(vals.sn_ids))) {
+      vals.sn_ids = (vals.sn_ids) ? vals.sn_ids.screen_name_ids() : [0];
+    }
   }
   return [sql, vals];
 });

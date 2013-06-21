@@ -12,11 +12,17 @@ exports.route = function (mod) {
 
   // ================== Create ======================================
 
-  app.post('/folder', function (req, resp, next) {
+  app.post('/me/:screen_name', function (req, resp, next) {
     mod.New_River(req, resp, next)
-    .job(function (j) {
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user);
+    })
+    .read_one('website', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .create_one('folder', function (j) {
       Folder.create({
-        owner_id: req.user.data.id,
+        owner_id: req.body.life_id,
         title: req.body.title,
         website_id: req.body.website_id
       }, j);

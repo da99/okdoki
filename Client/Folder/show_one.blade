@@ -127,7 +127,7 @@ append content
             a.cancel(href="#cancel") Cancel
 
       div.create#Page
-        form(action="/page", method="POST")
+        form(action="/me/#{screen_name}/folder/#{folder_num}/page", method="POST")
           div.fields
             div.field.title
               label Title:
@@ -135,8 +135,6 @@ append content
                 input.field(type='text', name="title", value="")
           div.buttons
             input(type="hidden", name="stuff_type", value="page")
-            input(type="hidden", name="folder_num", value="#{folder_num}")
-            input(type="hidden", name="website_screen_name", value="#{screen_name}")
             call as_this_life()
             button.submit Create
 
