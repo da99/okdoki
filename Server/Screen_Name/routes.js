@@ -29,15 +29,15 @@ exports.route = function (mod) {
     .read_one('folders', function (j, website) {
       Folder.read_list_by_website(website, j)
     })
-    .job(function (j, folder_arr) {
-      if (!folder_arr)
+    .job(function (j, list) {
+      if (!list)
         return req.next();
-      var uni = j.river.get('website');
+      var uni = list.website;
       data               = OK.template_data('Screen_Name/me')
       data['title']      = uni.data.title || req.params.screen_name;
       data['website']    = uni;
       data['website_id'] = uni.data.id;
-      data['folders']    = folder_arr;
+      data['folders']    = list.list;
       OK.render_template();
     })
     .run();

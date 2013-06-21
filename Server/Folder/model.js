@@ -117,7 +117,10 @@ Folder.read_list_by_website = function (website, flow) {
     TABLE.run(sql, vals, j);
   })
   .job(function (j, rows) {
-    j.finish(_.map(rows, function (r) { return Folder.new(r, website); }));
+    j.finish({
+      list: _.map(rows, function (r) { return Folder.new(r, website); }),
+      website: website
+    });
   })
   .run();
 };

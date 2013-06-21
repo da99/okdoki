@@ -71,11 +71,6 @@ var New_River = exports.New_River = function (req, resp, next) {
     return r.read_one.apply(r, arguments);
   };
 
-  r.get = function (name) {
-    return _.find(r.replys, function (rep) {
-      return rep.group === name;
-    }).val;
-  };
   return r;
 };
 

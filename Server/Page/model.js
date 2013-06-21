@@ -109,8 +109,7 @@ Page.read_list_by_folder = function (folder, flow) {
   })
   .job(function (j, pages) {
     folder.data.pages = _.map(pages, function (p) { return Page.new(p, folder); });
-    folder.data.pages.folder = folder;
-    j.finish(folder.data.pages);
+    j.finish({list: folder.data.pages, folder: folder});
   })
   .run();
 

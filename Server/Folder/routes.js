@@ -60,20 +60,19 @@ exports.route = function (mod) {
     .read_one('page list', function (j, folder) {
       Page.read_list_by_folder(folder, j);
     })
-    .job('fin', function (j, page_arr) {
-      if (!page_arr)
+    .run(function (fin, list) {
+      if (!list)
         return next();
-      opts['folder']           = page_arr.folder;
-      opts['title']            = page_arr.folder.data.title;
+      opts['folder']           = list.folder;
+      opts['title']            = list.folder.data.title;
       opts['folder_num']       = num;
       opts['website_location'] = "/me/" + sn;
-      opts['pages']            = page_arr;
+      opts['pages']            = list.list;
         // { location: "/me/GO99/folder/1/page/3",
           // created_at: (new Date).getTime(),
           // title: "Page 3"},
       OK.render_template();
-    })
-    .run();
+    });
   });
 
 
