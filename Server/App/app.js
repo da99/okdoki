@@ -58,8 +58,9 @@ var New_River = exports.New_River = function (req, resp, next) {
     var name = args[0];
     args.push(function (j, last) {
       if (args.length === 2 && func.length ===2 && !last) {
+        console.log(last)
         log('Not found: ', name);
-        return j.finish(last);
+        return j.finish(null);
       }
       return func.apply(null, arguments);
     });

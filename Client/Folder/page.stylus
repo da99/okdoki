@@ -1,22 +1,28 @@
 $light_yellow   = #FFFDD2
-
-div.edit
-  padding: 5px
-  text-align: center
-  text-transform: uppercase
-  background: $light_yellow
-  width: 160px
+$light_black = #6D6D6D
 
 label
   display: block
 #Items
   text-align: center
+  padding: 10px 0 0 0
   div.content
     margin: 0 auto
     max-width: 1200px
     text-align: left
-    padding: 20px 10px 30px 10px
     background: #fff
+    div.edit_this
+      div.edit
+        a:link
+          text-transform: uppercase
+      div.success_msg
+        display: none
+        font-style: italic
+        background: $light_yellow
+        padding: 6px 10px 8px 10px
+        text-align: center
+      form
+        padding: 10px 0 20px 10px
   div.item
     padding: 8px 10px
     h3
@@ -31,8 +37,13 @@ label
     width: 95%
     min-height: 500px
     font-size: 140%
+  div.title input
+    width: 95%
   button
     margin: 0 15px 0 0
+
+#The_Page_Content
+  padding: 0 10px 30px 10px
 
 #Update_Page
   display: none

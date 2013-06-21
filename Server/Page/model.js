@@ -55,8 +55,8 @@ Page.create = function (raw_data, flow) {
   var data = {
     folder_id: raw_data.folder_id || 1,
     author_id: raw_data.author_id || 0,
-    title : null_if_empty(raw_data.title) || "Rock on, daddy-o!",
-    body  : null_if_empty(raw_data.body)  || "Rock on, Sweet Cheeks."
+    title : null_if_empty(raw_data.title) || "[Unknown Title]",
+    body  : null_if_empty(raw_data.body)  || "[Blank Page]"
   };
 
   if (!data.author_id)
@@ -157,6 +157,7 @@ Page.read_by_folder_and_num = function (folder, page_num, flow) {
 // ================== Update ======================================
 // ================================================================
 Page.prototype._update = function (raw_data, flow) {
+  console.log(raw_data)
   var me = this;
   var data = {
     title: raw_data.title,
@@ -165,7 +166,7 @@ Page.prototype._update = function (raw_data, flow) {
 
   River.new(flow)
   .job(function (j) {
-    Topogo.update({id: me.data.id}, data, j);
+    TABLE.update({id: me.data.id}, data, j);
   })
   .job(function (j, row) {
     if (row)

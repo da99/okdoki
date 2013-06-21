@@ -1,22 +1,28 @@
-div.edit {
-  padding: 5px;
-  text-align: center;
-  text-transform: uppercase;
-  background: #fffdd2;
-  width: 160px;
-}
 label {
   display: block;
 }
 #Items {
   text-align: center;
+  padding: 10px 0 0 0;
 }
 #Items div.content {
   margin: 0 auto;
   max-width: 1200px;
   text-align: left;
-  padding: 20px 10px 30px 10px;
   background: #fff;
+}
+#Items div.content div.edit_this div.edit a:link {
+  text-transform: uppercase;
+}
+#Items div.content div.edit_this div.success_msg {
+  display: none;
+  font-style: italic;
+  background: #fffdd2;
+  padding: 6px 10px 8px 10px;
+  text-align: center;
+}
+#Items div.content div.edit_this form {
+  padding: 10px 0 20px 10px;
 }
 #Items div.item {
   padding: 8px 10px;
@@ -35,8 +41,14 @@ label {
   min-height: 500px;
   font-size: 140%;
 }
+#Items div.title input {
+  width: 95%;
+}
 #Items button {
   margin: 0 15px 0 0;
+}
+#The_Page_Content {
+  padding: 0 10px 30px 10px;
 }
 #Update_Page {
   display: none;

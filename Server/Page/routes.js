@@ -75,18 +75,8 @@ exports.route = function (mod) {
       opts['page']      = page.public_data();
       opts['page_num']  = page.data.num;
       opts['folder_num'] = page.folder().data.num;
-      opts['folder_id'] = page.folder().data.id;
       opts['is_update_able'] = page.is_update_able();
-      opts['page_body'] = "Section: Intro\nHello\nBye.\nSection: Links\nThis is *a link* [okdoki.com] ." +
-        "\nThis is *bold*.   This is *bold*. " +
-         "This is *bold*. " +
-         "This is *bold*. " +
-         "This is *bold*. " +
-         "This is *bold*. " +
-         "This is *bold*. " +
-         "This is *bold*. " +
-        "\n\nThis is a *link* [http://www.hanshoppe.com/] ." +
-        "\n\nThis is /italic/.";
+      opts['page_body'] = page.data.body;
       opts['page_html_body'] = Bling_Bling.new(opts['page_body']).to_html();
       return OK.render_template();
     });

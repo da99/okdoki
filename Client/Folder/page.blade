@@ -16,32 +16,32 @@ append templates
 
 append content
 
-  h1 #{title}
+  h1#The_Title #{title}
 
   div#Me
     div.content
       | From:
       a(href="/me/#{screen_name}/folder/#{folder_num}") /me/#{screen_name}/folder/#{folder_num}
-    - if (logged_in && is_update_able)
-      div.edit
-        a(href="#edit_this_page") Edit This Page.
 
   div.items#Items
     div.content
-
       - if (is_update_able)
-        form#Update_Page(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}", method="POST")
-          div.fields
-            div.field.title
-              label Title:
-              input(type="text", name="title", value="#{title}")
-            div.field.body
-              label Body:
-              textarea #{page_body}
-          div.buttons
-            input(type="hidden", name="_method", value="PUT")
-            button.submit Save
-            a.cancel(href="#cancel") Cancel
+        div.edit_this
+          div.edit#Edit_This_Page
+            div.success_msg#Success_Msg Your page has been updated.
+            a(href="#Update_Page") Edit This Page.
+          form#Update_Page(action="/me/#{screen_name}/folder/#{folder_num}/page/#{page_num}", method="POST")
+            div.fields
+              div.field.title
+                label Title:
+                input(type="text", name="title", value="#{title}")
+              div.field.body
+                label Body:
+                textarea#The_Body(name="body") #{page_body}
+            div.buttons
+              input(type="hidden", name="_method", value="PUT")
+              button.submit Save
+              a.cancel(href="#cancel") Cancel
 
       div.list
         div.item#The_Page_Content
@@ -53,7 +53,7 @@ append content
       a(href="#Page") More Text
   div#Creates
     div.create#Page
-      form(action="/me/#{screen_name}/folder/#{folder_id}/page/#{page_num}/create/text", method="POST")
+      form(action="/me/#{screen_name}/folder/#{folder_num}/page/#{page_num}/create/text", method="POST")
         div.fields
           div.field.title
             label Title:
