@@ -83,10 +83,10 @@ Folder.read_by_id = function (q, flow) {
   .run();
 };
 
-Folder.read_list_by_website_id = function (website_id, customer, flow) {
+Folder.read_list_by_website = function (website, flow) {
   var vals = {
-    website_id: website_id,
-    sn_ids : customer,
+    website_id: website.data.id,
+    sn_ids : website.screen_name().customer(),
     TABLES : {
       F: TABLE_NAME
     }
@@ -113,7 +113,7 @@ Folder.read_list_by_website_id = function (website_id, customer, flow) {
     TABLE.run(sql, vals, j);
   })
   .job(function (j, rows) {
-    j.finish(_.map(rows, function (r) { return Folder.new(r); }));
+    j.finish(_.map(rows, function (r) { return Folder.new(r, website); }));
   })
   .run();
 };

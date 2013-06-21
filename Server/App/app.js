@@ -44,6 +44,7 @@ var New_River = exports.New_River = function (req, resp, next) {
   }
 
   var r = River.new(null);
+  var ans = r.ans = {};
 
   r.next('invalid', function (j) {
     if (req.accepts('json'))
@@ -61,6 +62,7 @@ var New_River = exports.New_River = function (req, resp, next) {
         log('Not found: ', name);
         return j.finish(last);
       }
+      ans[name] = last;
       return func.apply(null, arguments);
     });
     r.job.apply(r, args);

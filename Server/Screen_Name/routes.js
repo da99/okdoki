@@ -11,38 +11,40 @@ exports.route = function (mod) {
   var OK = mod.app;
   var app = mod.app;
 
+  // =============== READ ===========================================
+
   app.get('/me/:screen_name', function (req, resp, next) {
     if (req.params.screen_name.toUpperCase() !== req.params.screen_name)
       return resp.redirect(301, "/me/" + req.params.screen_name.toUpperCase())
     var OK     = mod.New_Request(req, resp, next);
-    var r      = mod.New_River(req, resp, next);
     var data   = null;
-    var uni    = 0;
 
-    r
-    .job('find website', function (j) {
-      Website.read_by_screen_name(req.params.screen_name, req.user, j);
+    mod.New_River(req, resp, next)
+    .read_one('screen name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
-    .job('find folders', function (j, last) {
-      if (!last || !last.length)
-        return next();
-      uni = last[0];
+    .read_one('website', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .read_one('folders', function (j, website) {
+      Folder.read_list_by_website(website, j)
+    })
+    .job(function (j, folder_arr) {
+      if (!folder_arr)
+        return req.next();
+      var uni = j.river.ans.website;
       data               = OK.template_data('Screen_Name/me')
       data['title']      = uni.data.title || req.params.screen_name;
+      data['website']    = uni;
       data['website_id'] = uni.data.id;
-      Folder.read_list_by_website_id(data['website_id'], req.user, j)
-    })
-    .job(function (j, last) {
-      data['folders'] = last;
+      data['folders']    = folder_arr;
       OK.render_template();
     })
     .run();
   });
 
 
-  // ================================================================
   // =============== CREATE =========================================
-  // ================================================================
 
   OK.post('/me', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
@@ -58,9 +60,7 @@ exports.route = function (mod) {
     .run();
   });
 
-  // ================================================================
   // =============== UPDATE =========================================
-  // ================================================================
 
   OK.put('/screen_names/:name', function (req, resp, next) {
     var n = req.params.name;
