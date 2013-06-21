@@ -346,16 +346,16 @@ function time_for_humans(t) {
   var diff = (now - t);
 
   var vals = [
-    [(diff / 1000)               , 'sec'],
-    [(diff / 1000 / 60)          , 'min' ],
+    [(diff / 1000 / 60 / 60 / 24), 'day'],
     [(diff / 1000 / 60 / 60)     , 'hr'],
-    [(diff / 1000 / 60 / 60 / 24), 'day']
+    [(diff / 1000 / 60)          , 'min'],
+    [(diff / 1000)               , 'sec'],
   ];
-
   var highest = _.detect(vals, function (pair) {
-    return pair[0] > 0;
+    return parseInt(pair[0]) > 0;
   }) || [0, 'sec'];
 
+  highest[0] = parseInt(highest[0]);
   highest.push('ago');
 
   if (highest[0] > 1)
