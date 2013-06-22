@@ -236,6 +236,7 @@ function form(selector, func) {
     .show()
     ;
 
+    flow();
     post(url, data, function (err, raw) {
       if (err) {
         form_meta[selector].error(err, raw);
@@ -246,6 +247,7 @@ function form(selector, func) {
         else
           form_meta[selector].invalid(data);
       }
+      flow();
     });
 
     return false;
@@ -327,6 +329,7 @@ function on_click(selector, func) {
 
   e.click(function (ev) {
     func.apply(this, arguments);
+    flow();
     return false;
   });
 
@@ -517,7 +520,19 @@ function every_sec(se, func) {
 
 
 
+// ================================================================
+// ================== Masonry =====================================
+// ================================================================
 
+
+
+function flow() {
+  var container = document.querySelector('#container');
+  var mason = new Masonry(container, {
+    columnWidth: 100,
+    itemSelector: 'div.block'
+  });
+}
 
 
 

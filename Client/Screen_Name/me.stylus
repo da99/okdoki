@@ -28,30 +28,30 @@ select, option
   font-size: 120%
 
 div.col
-  padding: 0 0 10px 10px
   overflow: auto
-  border: 1px dotted red
 
 div.block
   padding: 0 10px 10px 0
   float: left
 
-#Me, #Other_Screen_Names
+#Me
+  padding: 10px 0 10px 10px
   h3
     font-family: 'Lenka'
     font-size: 230%
     font-style: italic
     text-align: left
-    padding: 30px 10px 8px 10px
-    margin-bottom: 0
+    padding: 10px 5px 0 10px
+    margin: 0
   div.content
-    padding: 2px 5px 4px 15px
+    padding: 3px 5px 4px 15px
     color: #000
-#Me
-  padding-bottom: 15px
+
 #Control_Panel
+  float: none
   overflow: auto
-  margin: 10px
+  margin: 0
+  padding: 0
   #Other_Screen_Names
     background: $light_yellow
     padding: 10px
@@ -269,6 +269,4 @@ div.msgs
       input[type="text"]
         font-size: 190%
         width: 95%
-
-
 

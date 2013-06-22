@@ -55,7 +55,7 @@ h1 {
   display: inline-block;
 }
 #Create div.active {
-  background: #fff;
+  background: #fafafa;
   border-radius: 3px 3px 0 0;
 }
 #Create div.active a:link,
@@ -98,6 +98,7 @@ h1 {
 }
 #Creates div#Page {
   display: block;
+  background: #fafafa;
 }
 #Pages {
   padding: 10px;

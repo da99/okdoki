@@ -67,7 +67,7 @@ h1
   div.link
     display: inline-block
   div.active
-    background: #fff
+    background: #fafafa
     border-radius: 3px 3px 0 0
     a:link, a:hover
       color: $dark_blue
@@ -100,6 +100,7 @@ h1
       margin: 0 0 0 10px
   div#Page
     display: block
+    background: #fafafa
 
 #Pages
   padding: 10px
