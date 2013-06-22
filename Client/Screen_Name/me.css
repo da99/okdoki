@@ -3,8 +3,7 @@ form input[type="text"] {
 }
 body {
   padding: 0 0 100px 0;
-  background: #fcfcfc;
-  background: #fcfcfc url("/App/img/ravenna.png");
+  background: #a2d3e0;
 }
 select,
 option {
@@ -18,11 +17,15 @@ option {
   text-align: left;
   padding: 30px 10px 8px 10px;
   margin-bottom: 0;
+  background: #ffbe2c url("/App/img/wood_pattern.png");
+  text-shadow: 1px 1px 1px #fff1c7;
+  text-shadow: 1px 1px 1px #fff;
 }
 #Me div.content,
 #Other_Screen_Names div.content {
-  width: 300px;
   padding: 2px 5px 4px 15px;
+  background: #fff;
+  color: #000;
 }
 #Me {
   padding-bottom: 15px;
@@ -241,54 +244,17 @@ div.msgs div.me_msg {
   background: #fffdd2;
 }
 div.msgs div.error_msg {
-  color: #f00;
-}
-#Chat_Room {
-  display: none;
-}
-#Chat_Room div.header {
-  background: #000;
-  color: #fff;
-  padding: 7px 0 3px 3px;
-}
-#Chat_Room div.header h3 {
-  font-family: 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 120%;
-  text-transform: none;
-  display: inline-block;
-  padding-right: 7px;
-}
-#Chat_Room #Interacts {
-  min-width: 250px;
-  float: left;
-  width: 40%;
-}
-#Chat_Room #Interacts div.show_say {
-  display: none;
-  text-align: center;
-}
-#Chat_Room #Interacts div.show_say a:link {
-  display: inline-block;
-  padding: 10px;
-  font-size: 130%;
-}
-#Chat_Room #Interacts div.Interacts_content {
-  padding: 10px 10px 10px 0;
-}
-#Chat_Room #Chats {
-  min-width: 250px;
-  width: 60%;
-  float: left;
-  padding: 10px 0 80px 0;
+  color: #f00919;
 }
 #Enter_Chat_Room {
-  padding: 0 0 0 10px;
   float: left;
-  width: 300px;
+  margin: 10px;
+  border-radius: 3px;
+  background: #fff;
 }
 #Enter_Chat_Room div.content {
-  padding: 20px 0;
-  background: #fff;
+  width: 300px;
+  padding: 15px 0 20px 0;
   text-align: center;
   font-size: 130%;
 }
@@ -299,7 +265,7 @@ div.msgs div.error_msg {
 #Enter_Chat_Room div.content div.error_msg {
   display: none;
   background: #fffdd2;
-  color: #f00;
+  color: #f00919;
   padding: 5px;
 }
 #Folders {

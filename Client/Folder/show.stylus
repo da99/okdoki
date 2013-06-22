@@ -1,32 +1,46 @@
 $light_blue     = #E1EEFF
 $dark_blue      = #185DAD
 $blue           = #32A3EF
+$dutch_boy_blue=#008eed
 $padding_create = 5px
 $grey_on_black  = #BBB
 $yellow         = #FFEA74
 $col_width      = 400px
 
+$red=#f00919
+$avacado=#b0c460
+$orange=#ffbe2c
+$light_blue=#a2d3e0
+$blue=#073d6f
+
+$serif          = Georgia,Cambria,"Times New Roman",Times,serif;
+$sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+$cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+
 body
   padding: 0
+  background: #fff
 
 h1
-  font-family: 'Lenka'
-  font-size: 280%
-  font-style: italic
+  font-family: $sans-serif
+  font-size: 150%
   font-weight: normal
   text-align: left
-  padding: 0 0 0 10px
+  padding: 15px 5px 15px 10px
+  margin: 0
   margin-bottom: 0
   line-height: 110%
+  background: #f0f0f0
+  color: #000
 
 #Me
-  width: $col_width
   div.content
     background: transparent
-    padding: 0 0 0 15px
+    padding: 3px 0 4px 15px
     color: #000
     text-align: left
     font-size: 100%
+    background: #fff
 
 #Create
   padding: 10px 0 0 0
@@ -91,6 +105,7 @@ h1
 
 #Pages
   padding: 10px
+  background: #fff
   div.page
     padding: 0 0 5px 0
 div.boxs

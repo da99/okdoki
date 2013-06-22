@@ -1,6 +1,27 @@
 $light_yellow   = #FFFDD2
 $light_black = #6D6D6D
+$dutch_boy_blue=#008eed
 
+$red=#f00919
+$avacado=#b0c460
+$dark_avacado=#8BA231
+$orange=#ffbe2c
+$light_blue=#a2d3e0
+$blue=#073d6f
+
+$serif          = Georgia,Cambria,"Times New Roman",Times,serif;
+$sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+$cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+
+
+h1
+  font-family: $serif
+  font-style: normal
+  font-weight: normal
+  padding: 20px 10px 20px 10px
+  text-shadow: 1px 1px 1px #000
+  background: $dutch_boy_blue url('/App/img/old-beige-paper.jpg')
+  color: #fff
 label
   display: block
 
