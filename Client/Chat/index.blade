@@ -39,8 +39,7 @@ append content
 
   div#Chat_Room
     div.header#Leave_Chat_Room
-      h3 The Chat Room of #{screen_name}.
-      a(href="#Leave_Chat_Room") Leave.
+      h3 #{screen_name}'s Chat Room
 
     div#Interacts
       div.Interacts_content
@@ -59,116 +58,5 @@ append content
       div.msgs#Chat_Msgs
 
 
-  //- ===========================================================
-  //- ===========================================================
-  //- ===========================================================
-  div#Home_Page
-    div#Me
-      h3  The life of... #{screen_name}
-      div.content
-        | Bits and pieces from #{screen_name}'s life.
-
-
-    //- ===========================================================
-    - if (is_owner)
-      div#Control_Panel
-        div#Other_Screen_Names
-          div.screen_names
-            span My Other Life(s):
-              ul
-
-
-      div#New_Life
-        h3 Create a new life:
-        div.content
-          form#Create_Screen_Name(action="/me", method="POST")
-            div.fields
-              div.field.screen_name
-                span.label Screen Name:
-                input(type="text", value="", name="screen_name")
-            div.buttons
-              button.submit Create
-
-    //- ===========================================================
-    div#Message_Board
-      h3
-        | Message Board:
-
-      - if (logged_in)
-        div.show.show_write
-          a(href="#Write_Message") Write A New Message.
-
-        form#Write_Message(action="/message_board/msg", method="post")
-          div.fields
-            div.field
-              span.label Message:
-              textarea(name="body")
-          call as_this_life()
-          div.buttons
-            button.submit Publish
-            a.cancel(href="#cancel") Cancel
-
-      div.msgs
-        div.loading Retrieving messages...
-
-
-    //- ===========================================================
-    div#Enter_Chat_Room
-      div.content
-        a.show(href="#Chat_Room") Enter
-        div.sign The Chat Room of #{screen_name}.
-        div.error_msg
-
-    div#Folders
-      h3 Folders:
-      div.content
-        ul.folders
-          foreach folders as folder
-            call folder(folder.data)
-        - if (logged_in)
-          h4 Create a new folder:
-          form#Create_Folder(action="/folder", method="POST")
-            div.fields
-              div.field.title
-                span.label Title:
-                input(type="text", name="title", value="")
-              call as_this_life()
-              div.buttons
-                button.submit Create
-
-
-    div.create_boxs#Create_Boxs
-
-      div.box#OLD_Create_Folder
-        h3 Create a new folder:
-        div.content
-          form(action="/me/#{screen_name}/create/folder", method="POST")
-            div.fields
-              div.field.title
-                span.label Title:
-                input(type="text", value="", name="title")
-              div.field.acts_like
-                span.label This new folder will act like a:
-                select
-                  option folder (ie I DON'T CARE).
-                  option book.
-                  option journal (eg blog).
-                  option scrap book (aka pin board).
-                  option play activity w/friends.
-                  option something serious for co-workers/class mates.
-            div.buttons
-              button.submit Create
-
-
-      div.box#Create_Website
-        h3 Create a new website:
-        div.content
-          form(action="/me/#{screen_name}/create/website", method="POST")
-            div.fields
-              div.field.title
-                span.label Title:
-                input(type="text", value="", name="title")
-            div.buttons
-              button.submit Create
 
 

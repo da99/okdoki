@@ -14,67 +14,11 @@ form input[type="text"]
   font-size: 190%
 
 body
-  padding: 0 0 100px 0
-  background: #FCFCFC url('/img/doodle.gif') repeat-x;
-  background: #FCFCFC url('/App/img/ps_neutral_@2X.png');
-
-select, option
-  font-size: 120%
-
-#Me, #Other_Screen_Names
-  h3
-    font-family: 'Lenka'
-    font-size: 270%
-    font-style: italic
-    text-align: left
-    padding: 30px 10px 8px 10px
-    margin-bottom: 0
-  div.content
-    width: 300px
-    padding: 2px 5px 4px 15px
-#Me
-  padding-bottom: 15px
-#Control_Panel
-  overflow: auto
-  margin: 10px
-  #Other_Screen_Names
-    background: $light_yellow
-    padding: 10px
-    div.screen_names
-      ul
-        margin: 0
-        padding: 0
-        display: inline
-      li
-        list-style: none
-        margin: 0
-        display: inline
-      li:after
-        content: ", "
-      li:last-child:after
-        content: ""
-
-#Other_Screen_Names
-  display: none
-  padding:  0 0 10px 0
-
-#New_Life
-  float: left
-  div.content
-    background: #fff
-    padding: 8px
-    span.label
-      padding: 0 10px 0 0
-    input[type="text"]
-      width: 200px
-      font-size: 190%
-      margin-right: 10px
-    div.fields, div.screen_name, div.buttons
-      display: inline-block
+  padding: 0
+  background: #FCFCFC url('/App/img/wood_pattern.png');
 
 #Create
   width: 300px
-  background: rgba(0,0,0,0.6)
   div.link
     padding: 0 2px $padding_create 0
   a:link
@@ -120,10 +64,6 @@ select, option
       div.buttons
         text-align: right
 
-#Create_Website
-  max-width: 300px
-  display: none
-
 div.boxs
   padding: 10px 0 0 0
   overflow: auto
@@ -149,28 +89,20 @@ div.boxs
         font-size: 80%
         text-transform: uppercase
 
-#Message_Board
-  padding: 10px 0 0 10px
-  float: left
-  min-width: 300px
-  max-width: 600px
-  div.show_write
-    margin: 0 0 5px 0
-    background: $light_yellow
-    text-align: center
-    padding: 5px
-  div.msgs
-    div.error_msg
-      background: #fff
-      padding: 5px
 
 
 #Write_Message, #Write_To_Chat_Room
   margin: 0 0 5px 0
-  background: #fff
+  background: rgba(0,0,0,0.4)
   padding: 5px
   span.label
     display: block
+    color: #fff
+    font-weight: normal
+    color: $yellow
+    text-transform: none
+    font-size: 100%
+    padding: 3px 0 3px 0
   textarea
     width: 97%
     min-height: 100px
@@ -212,17 +144,17 @@ div.msgs
     color: $red
 
 #Chat_Room
-  display: none
   div.header
-    background: #000
-    color: #fff
-    padding: 7px 0 3px 3px
+    background: rgba(255,255,255,0.65)
+    padding: 5px
     h3
-      font-family: $cursive
-      font-size: 120%
+      font-family: $serif
+      font-style: normal
       text-transform: none
       display: inline-block
-      padding-right: 7px
+      padding-left: 7px
+      text-shadow: 1px 1px 1px #fff;
+      color: #585858
 
   #Interacts
     min-width: 250px
@@ -246,48 +178,6 @@ div.msgs
 
 
 
-#Enter_Chat_Room
-  padding: 0 0 0 10px
-  float: left
-  width: 300px
-  div.content
-    padding: 20px 0
-    background: #fff
-    text-align: center
-    font-size: 130%
-    a:link
-      padding: 6px 10px
-      border-radius: 5px
-    div.error_msg
-      display: none
-      background: $light_yellow
-      color: $red
-      padding: 5px
-
-#Folders
-  float: left
-  max-width: 320px
-  h3
-    padding: 0 0 0 10px
-  div.content
-    margin: 0 0 0 10px
-    padding: 5px 0 10px 10px
-    background: #fff
-    div.folders
-      div.folder
-        padding: 3px 15px 5px 8px
-        font-size: 140%
-        font-weight: bold
-        a.open
-          font-size: 90%
-        span.title
-          padding: 0 0 0 3px
-    form
-      span.label
-        display: block
-      input[type="text"]
-        font-size: 190%
-        width: 95%
 
 
 
