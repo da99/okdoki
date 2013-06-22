@@ -22,7 +22,7 @@ form input[type="text"]
 
 body
   padding: 0 0 100px 0
-  background: $light_blue
+  background: #fafafa
   // background: #FCFCFC url('/App/img/ravenna.png');
   // background: #FCFCFC url('/App/img/ravenna.png');
   // background: #FCFCFC url('/img/doodle.gif') repeat-x;
@@ -39,12 +39,8 @@ select, option
     text-align: left
     padding: 30px 10px 8px 10px
     margin-bottom: 0
-    background: $orange url('/App/img/wood_pattern.png')
-    text-shadow: 1px 1px 1px #fff1c7
-    text-shadow: 1px 1px 1px #fff
   div.content
     padding: 2px 5px 4px 15px
-    background: #fff
     color: #000
 #Me
   padding-bottom: 15px

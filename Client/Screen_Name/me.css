@@ -3,7 +3,7 @@ form input[type="text"] {
 }
 body {
   padding: 0 0 100px 0;
-  background: #a2d3e0;
+  background: #fafafa;
 }
 select,
 option {
@@ -17,14 +17,10 @@ option {
   text-align: left;
   padding: 30px 10px 8px 10px;
   margin-bottom: 0;
-  background: #ffbe2c url("/App/img/wood_pattern.png");
-  text-shadow: 1px 1px 1px #fff1c7;
-  text-shadow: 1px 1px 1px #fff;
 }
 #Me div.content,
 #Other_Screen_Names div.content {
   padding: 2px 5px 4px 15px;
-  background: #fff;
   color: #000;
 }
 #Me {
