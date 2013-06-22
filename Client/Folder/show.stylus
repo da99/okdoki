@@ -23,13 +23,12 @@ body
 
 h1
   font-family: $sans-serif
-  font-size: 150%
-  font-weight: normal
+  font-size: 190%
+  font-weight: bold
   text-align: left
-  padding: 15px 5px 15px 10px
+  padding: 16px 10px 0 10px
   margin: 0
   margin-bottom: 0
-  line-height: 110%
   background: #f0f0f0
   color: #000
 
