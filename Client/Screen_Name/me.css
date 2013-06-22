@@ -22,11 +22,10 @@ option {
 #Me div.content,
 #Other_Screen_Names div.content {
   width: 300px;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 5px 4px 5px;
-  color: #fff;
-  text-align: center;
-  font-size: 85%;
+  padding: 2px 5px 4px 15px;
+}
+#Me {
+  padding-bottom: 15px;
 }
 #Control_Panel {
   overflow: auto;

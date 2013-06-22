@@ -3,6 +3,7 @@ $light_black = #6D6D6D
 
 label
   display: block
+
 #Items
   text-align: center
   padding: 10px 0 0 0

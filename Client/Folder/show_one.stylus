@@ -22,11 +22,11 @@ h1
 #Me
   width: $col_width
   div.content
-    background: #141414
-    padding: 6px 5px 8px 5px
-    color: #fff
-    text-align: center
-    font-size: 110%
+    background: transparent
+    padding: 0 0 0 15px
+    color: #000
+    text-align: left
+    font-size: 100%
 
 #Create
   padding: 10px 0 0 0
