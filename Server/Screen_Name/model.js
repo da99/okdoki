@@ -44,6 +44,12 @@ function log() {
   console['log'].apply(console, args);
 }
 
+var stranger = {
+  is_stranger: true,
+  data: { id: 0 }, 
+  screen_name_ids: function () { return [0]; }
+};
+
 // ================================================================
 // ================== Main Stuff ==================================
 // ================================================================
@@ -232,7 +238,7 @@ S.read_by_screen_name = function (n, customer, flow) {
     if (!r)
       return j.finish();
     var sn = S.new(r);
-    sn.customer(customer);
+    sn.customer(customer || stranger);
     j.finish(sn);
   })
   .run();
