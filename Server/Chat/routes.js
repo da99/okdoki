@@ -19,13 +19,11 @@ exports.route = function (mod) {
 
   // =============== Entering the Chat Room... ======================
 
-  app.get( '/chat', function (req, resp) {
-    require_log_in();
-    var opts   = default_view_opts('chat', req, resp);
-    opts.lifes = req.user.screen_names();
-    opts.title = "Chat";
-    resp.header('CSRF-TOKEN', req.session._csrf);
-    resp.render(opts['template_name'], opts);
+  app.get( '/me/:screen_name/chat', function (req, resp, next) {
+    var OK = New_Request(req, resp, next);
+    var data = OK.template_data('Chat/index');
+    data['title'] = data.screen_name + "'s Chat Room";
+    OK.render_template();
   });
 
   app.post('/chat_room/enter', function (req, resp, next) {

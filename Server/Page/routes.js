@@ -70,11 +70,12 @@ exports.route = function (mod) {
     .run(function (fin, page) {
       if (!page)
         return next();
-      var opts          = OK.template_data('Folder/page');
+      var opts          = OK.template_data('Page/show');
       opts['title']     = page.data.title;
       opts['page']      = page.public_data();
       opts['page_num']  = page.data.num;
       opts['folder_num'] = page.folder().data.num;
+      opts['folder_title'] = page.folder().data.title;
       opts['is_update_able'] = page.is_update_able();
       opts['page_body'] = page.data.body;
       opts['page_html_body'] = Bling_Bling.new(opts['page_body']).to_html();

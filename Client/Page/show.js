@@ -39,9 +39,9 @@ $(function () {
   // ============= Style this article. ============
   // ==============================================
   var The_Page = $('#The_Page_Content');
-  var content = $.trim(The_Page.text());
+  // var content = $.trim(The_Page.text());
 
-  The_Page.html(content);
+  // The_Page.html(content);
 
 }); // ==== DOM ready
 

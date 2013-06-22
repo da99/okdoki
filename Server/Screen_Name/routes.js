@@ -32,7 +32,7 @@ exports.route = function (mod) {
       if (!list)
         return req.next();
       var uni = list.website;
-      data               = OK.template_data('Screen_Name/me')
+      data               = OK.template_data('Screen_Name/me');
       data['title']      = uni.data.title || req.params.screen_name;
       data['website']    = uni;
       data['website_id'] = uni.data.id;

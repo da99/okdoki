@@ -2,10 +2,10 @@ include "../App/layout.blade"
 
 append styles
   link(rel="stylesheet", media="screen", href="/Screen_Name/me.css")
-  link(rel="stylesheet", media="screen", href="/Folder/show_one.css")
+  link(rel="stylesheet", media="screen", href="/Folder/show.css")
 
 append scripts
-  script(src="/Folder/page.js")
+  script(src="/Page/show.js")
 
 append templates
   div.item
@@ -21,7 +21,7 @@ append content
   div#Me
     div.content
       | From:
-      a(href="/me/#{screen_name}/folder/#{folder_num}") /me/#{screen_name}/folder/#{folder_num}
+      a(href="/me/#{screen_name}/folder/#{folder_num}") #{folder_title}
 
   div.items#Items
     div.content

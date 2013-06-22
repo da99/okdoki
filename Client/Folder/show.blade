@@ -12,7 +12,7 @@ append styles
   link(rel="stylesheet", media="screen", href="/Screen_Name/me.css")
 
 append scripts
-  script(src="/Folder/show_one.js")
+  script(src="/Folder/show.js")
 
 append templates
 
@@ -38,7 +38,7 @@ append content
     div.content
       div
         | By:
-        a(href="#{website_location}") #{website_location}
+        a(href="#{website_location}") #{screen_name}
 
   - if (logged_in)
     div#Create
