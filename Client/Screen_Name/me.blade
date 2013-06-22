@@ -1,7 +1,5 @@
 include "../App/layout.blade"
 
-function input_website_id()
-  input(type='hidden', name='website_id', value='#{website_id}')
 function folder(f)
   li.folder
     a.open(href="/me/#{screen_name}/folder/#{f.num}") #{f.title}
@@ -10,7 +8,6 @@ append scripts
   script(src="/Screen_Name/me.js")
 
 append templates
-  div.website_id #{website_id}
   div.screen_names
     | #{screen_names.join(" ")}
   div.screen_name
@@ -110,14 +107,13 @@ append content
         div.show.show_write
           a(href="#Write_Message") Write A New Message.
 
-        form#Write_Message(action="/message_board/msg", method="post")
+        form#Write_Message(action="/me/#{screen_name}/message_board/msg", method="post")
           div.fields
             div.field
               span.label Message:
               textarea(name="body")
           call as_this_life()
           div.buttons
-            call input_website_id()
             button.submit Publish
             a.cancel(href="#cancel") Cancel
 
@@ -140,14 +136,13 @@ append content
             call folder(folder.data)
         - if (logged_in)
           h4 Create a new folder:
-          form#Create_Folder(action="/folder", method="POST")
+          form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
             div.fields
               div.field.title
                 span.label Title:
                 input(type="text", name="title", value="")
               call as_this_life()
               div.buttons
-                call input_website_id()
                 button.submit Create
 
 
