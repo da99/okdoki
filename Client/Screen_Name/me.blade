@@ -46,28 +46,6 @@ append templates
 
 append content
 
-  div#Chat_Room
-    div.header#Leave_Chat_Room
-      h3 The Chat Room of #{screen_name}.
-      a(href="#Leave_Chat_Room") Leave.
-
-    div#Interacts
-      div.Interacts_content
-        div.show.show_say
-          a(href="#Write_To_Chat_Room") Say Something.
-
-        form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
-          div.fields
-            div.field
-              span.label Type your message to the room:
-              textarea(name="body")
-          div.buttons
-            button.submit Send to chat room.
-
-    div#Chats
-      div.msgs#Chat_Msgs
-
-
   //- ===========================================================
   //- ===========================================================
   //- ===========================================================
@@ -124,9 +102,8 @@ append content
     //- ===========================================================
     div#Enter_Chat_Room
       div.content
-        a.show(href="#Chat_Room") Enter
+        a.show(href="/me/#{screen_name}/chat") Enter
         div.sign The Chat Room of #{screen_name}.
-        div.error_msg
 
     div#Folders
       h3 Folders:

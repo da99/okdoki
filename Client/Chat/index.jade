@@ -1,20 +1,9 @@
 include "../App/layout.blade"
 
-function input_website_id()
-  input(type='hidden', name='website_id', value='#{website_id}')
-function folder(f)
-  li.folder
-    a.open(href="/me/#{screen_name}/folder/#{f.num}") #{f.title}
-
 append scripts
   script(src="/Chat/index.js")
 
 append templates
-  div.screen_names
-    | #{screen_names.join(" ")}
-  div.screen_name
-    | #{screen_name}
-  call folder({num: "{num}", title: "{title}"})
   div.msg
     div.meta
       span.author
@@ -116,7 +105,6 @@ append content
               textarea(name="body")
           call as_this_life()
           div.buttons
-            call input_website_id()
             button.submit Publish
             a.cancel(href="#cancel") Cancel
 
@@ -146,7 +134,6 @@ append content
                 input(type="text", name="title", value="")
               call as_this_life()
               div.buttons
-                call input_website_id()
                 button.submit Create
 
 
