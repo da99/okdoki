@@ -10,12 +10,11 @@ h1 {
   padding: 16px 10px 0 10px;
   margin: 0;
   margin-bottom: 0;
-  background: #f0f0f0;
   color: #000;
 }
 #Me div.content {
   background: transparent;
-  padding: 3px 0 4px 15px;
+  padding: 3px 0 4px 10px;
   color: #000;
   text-align: left;
   font-size: 100%;

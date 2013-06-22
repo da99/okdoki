@@ -58,26 +58,33 @@ append content
 
     //- ===========================================================
     - if (is_owner)
-      div#Control_Panel
-        div#Other_Screen_Names
-          div.screen_names
-            span My Other Life(s):
-              ul
+      div.col
+        div#Control_Panel
+          div#Other_Screen_Names
+            div.screen_names
+              span My Other Life(s):
+                ul
 
 
-      div#New_Life
-        h3 Create a new life:
-        div.content
-          form#Create_Screen_Name(action="/me", method="POST")
-            div.fields
-              div.field.screen_name
-                span.label Screen Name:
-                input(type="text", value="", name="screen_name")
-            div.buttons
-              button.submit Create
+        div#New_Life
+          h3 Create a new life:
+          div.content
+            form#Create_Screen_Name(action="/me", method="POST")
+              div.fields
+                div.field.screen_name
+                  span.label Screen Name:
+                  input(type="text", value="", name="screen_name")
+              div.buttons
+                button.submit Create
 
     //- ===========================================================
-    div#Message_Board
+    div.block#Enter_Chat_Room
+      div.content
+        a.show(href="/me/#{screen_name}/chat") Enter
+        div.sign The Chat Room of #{screen_name}.
+
+    //- ===========================================================
+    div.block#Message_Board
       h3
         | Message Board:
 
@@ -100,12 +107,7 @@ append content
 
 
     //- ===========================================================
-    div#Enter_Chat_Room
-      div.content
-        a.show(href="/me/#{screen_name}/chat") Enter
-        div.sign The Chat Room of #{screen_name}.
-
-    div#Folders
+    div.block#Folders
       h3 Folders:
       div.content
         ul.folders

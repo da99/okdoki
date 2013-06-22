@@ -9,10 +9,19 @@ select,
 option {
   font-size: 120%;
 }
+div.col {
+  padding: 0 0 10px 10px;
+  overflow: auto;
+  border: 1px dotted #f00;
+}
+div.block {
+  padding: 0 10px 10px 0;
+  float: left;
+}
 #Me h3,
 #Other_Screen_Names h3 {
   font-family: 'Lenka';
-  font-size: 270%;
+  font-size: 230%;
   font-style: italic;
   text-align: left;
   padding: 30px 10px 8px 10px;
@@ -53,9 +62,6 @@ option {
 #Other_Screen_Names {
   display: none;
   padding: 0 0 10px 0;
-}
-#New_Life {
-  float: left;
 }
 #New_Life div.content {
   background: #fff;
@@ -101,7 +107,6 @@ option {
   display: none;
   padding: 10px 0 0 0;
   overflow: auto;
-  float: left;
 }
 #Create_Boxs div.box {
   float: left;
@@ -165,21 +170,22 @@ div.boxs div.box div.content div.buttons {
   font-size: 80%;
   text-transform: uppercase;
 }
-#Message_Board {
-  padding: 10px 0 0 10px;
-  float: left;
+#Message_Board div.show_write {
   min-width: 300px;
   max-width: 600px;
-}
-#Message_Board div.show_write {
   margin: 0 0 5px 0;
   background: #fffdd2;
   text-align: center;
   padding: 5px;
 }
+#Message_Board div.msgs {
+  min-width: 300px;
+  max-width: 600px;
+}
 #Message_Board div.msgs div.error_msg {
   background: #fff;
   padding: 5px;
+  max-width: 300px;
 }
 #Write_Message,
 #Write_To_Chat_Room {
@@ -243,20 +249,23 @@ div.msgs div.error_msg {
   color: #f00919;
 }
 #Enter_Chat_Room {
-  float: left;
-  margin: 10px;
   border-radius: 3px;
-  background: #fff;
 }
 #Enter_Chat_Room div.content {
+  background: #fff;
   width: 300px;
   padding: 15px 0 20px 0;
   text-align: center;
-  font-size: 130%;
+  font-size: 110%;
 }
 #Enter_Chat_Room div.content a:link {
-  padding: 6px 10px;
+  padding: 3px 5px;
   border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#Enter_Chat_Room div.content a:link:after {
+  content: ": ";
 }
 #Enter_Chat_Room div.content div.error_msg {
   display: none;
@@ -265,14 +274,12 @@ div.msgs div.error_msg {
   padding: 5px;
 }
 #Folders {
-  float: left;
   max-width: 320px;
 }
 #Folders h3 {
-  padding: 0 0 0 10px;
+  padding: 0;
 }
 #Folders div.content {
-  margin: 0 0 0 10px;
   padding: 5px 0 10px 10px;
   background: #fff;
 }

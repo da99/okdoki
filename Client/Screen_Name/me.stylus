@@ -23,18 +23,23 @@ form input[type="text"]
 body
   padding: 0 0 100px 0
   background: #fafafa
-  // background: #FCFCFC url('/App/img/ravenna.png');
-  // background: #FCFCFC url('/App/img/ravenna.png');
-  // background: #FCFCFC url('/img/doodle.gif') repeat-x;
-  // background: #FCFCFC url('/App/img/ps_neutral_@2X.png');
 
 select, option
   font-size: 120%
 
+div.col
+  padding: 0 0 10px 10px
+  overflow: auto
+  border: 1px dotted red
+
+div.block
+  padding: 0 10px 10px 0
+  float: left
+
 #Me, #Other_Screen_Names
   h3
     font-family: 'Lenka'
-    font-size: 270%
+    font-size: 230%
     font-style: italic
     text-align: left
     padding: 30px 10px 8px 10px
@@ -69,7 +74,6 @@ select, option
   padding:  0 0 10px 0
 
 #New_Life
-  float: left
   div.content
     background: #fff
     padding: 8px
@@ -105,7 +109,6 @@ select, option
   display: none
   padding: 10px 0 0 0
   overflow: auto
-  float: left
   div.box
     float: left
     margin: 0 0 0 10px
@@ -160,19 +163,20 @@ div.boxs
         text-transform: uppercase
 
 #Message_Board
-  padding: 10px 0 0 10px
-  float: left
-  min-width: 300px
-  max-width: 600px
   div.show_write
+    min-width: 300px
+    max-width: 600px
     margin: 0 0 5px 0
     background: $light_yellow
     text-align: center
     padding: 5px
   div.msgs
+    min-width: 300px
+    max-width: 600px
     div.error_msg
       background: #fff
       padding: 5px
+      max-width: 300px
 
 
 #Write_Message, #Write_To_Chat_Room
@@ -223,18 +227,20 @@ div.msgs
 
 
 #Enter_Chat_Room
-  float: left
-  margin: 10px
   border-radius: 3px
-  background: #fff
   div.content
+    background: #fff
     width: 300px
     padding: 15px 0 20px 0
     text-align: center
-    font-size: 130%
+    font-size: 110%
     a:link
-      padding: 6px 10px
+      padding: 3px 5px
       border-radius: 5px
+      font-weight: bold
+      text-transform: uppercase
+      &:after
+        content: ": "
     div.error_msg
       display: none
       background: $light_yellow
@@ -242,12 +248,10 @@ div.msgs
       padding: 5px
 
 #Folders
-  float: left
   max-width: 320px
   h3
-    padding: 0 0 0 10px
+    padding: 0
   div.content
-    margin: 0 0 0 10px
     padding: 5px 0 10px 10px
     background: #fff
     div.folders
