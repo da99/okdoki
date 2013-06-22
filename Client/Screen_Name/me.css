@@ -3,8 +3,8 @@ form input[type="text"] {
 }
 body {
   padding: 0 0 100px 0;
-  background: #fcfcfc url("/img/doodle.gif") repeat-x;
-  background: #fcfcfc url("/App/img/ps_neutral_@2X.png");
+  background: #fcfcfc;
+  background: #fcfcfc url("/App/img/ravenna.png");
 }
 select,
 option {
