@@ -17,97 +17,21 @@ body
   padding: 0
   background: #FCFCFC url('/App/img/wood_pattern.png');
 
-#Create
-  width: 300px
-  div.link
-    padding: 0 2px $padding_create 0
-  a:link
-    padding: 1px $padding_create 5px $padding_create
-  div.loading
-    background-color: #fff
-    padding-top: 3px
-    padding-bottom: 3px
-  div.success
-    background: #fff
-    padding: 3px $padding_create
-  div.errors
-    color: #F50000
-    padding: 3px $padding_create
+#Session_Nav
+  float: right
+  background: transparent
 
-
-#Create_Boxs
-  display: none
-  padding: 10px 0 0 0
-  overflow: auto
-  float: left
-  div.box
-    float: left
-    margin: 0 0 0 10px
-    h3
-      border-radius: 0
-      display: block
-      text-align: left
-      padding-left: 10px
-      color: $yellow_med
-      background: rgba(0,0,0,0.8)
-    div.content
-      color: $yellow_med
-      background: rgba(0,0,0,0.8)
-      label, span.label
-        color: $yellow_med
-      div.field
-        span
-          display: block
-          text-transform: none
-        input
-          width: 98%
-      div.buttons
-        text-align: right
-
-div.boxs
-  padding: 10px 0 0 0
-  overflow: auto
-
-  div.box
-    float: left
-    margin: 0 0 0 10px
-    width: 150px
-    h3
-      padding-right: 5px
-      padding-left: 5px
-    div.content
-      height: 150px
-      background: $yellow
-      border-radius: 0 0 10px 0
-      font-size: small
-      text-align: center
-      padding: 0
-      margin: 0
-      div.buttons
-        background: rgba(0,0,0,0.8)
-        padding: 5px
-        font-size: 80%
-        text-transform: uppercase
-
-
-
-#Write_To_Chat_Room
-  background: rgba(0,0,0,0.4)
-  span.label
-    display: block
-    color: #fff
-    font-weight: normal
-    color: $yellow
-    text-transform: none
-    font-size: 100%
-    padding: 3px 0 3px 0
-  textarea
-    width: 97%
-    min-height: 100px
-  div.buttons
-    text-align: right
-    button
-      margin: 0 15px 0 0
+h1
+  background: rgba(255,255,255,0.65)
+  font-family: $serif
+  font-style: normal
+  font-size: 130%
+  font-weight: normal
+  text-transform: none
+  display: block
+  padding: 5px 5px 5px 7px
+  text-shadow: 1px 1px 1px #fff;
+  color: #616161
 
 
 div.msgs
@@ -135,38 +59,49 @@ div.msgs
   div.error_msg
     color: $red
 
-#Chat_Room
-  div.header
-    background: rgba(255,255,255,0.65)
-    padding: 5px
-    h3
-      font-family: $serif
-      font-style: normal
-      text-transform: none
+#Boxs
+  min-width: 250px
+  width: 49%
+  float: left
+  background: rgba(0,0,0,0.4)
+  padding: 5px 0 10px 0px
+  div.show_say
+    display: none
+    text-align: center
+    a:link
       display: inline-block
-      padding-left: 7px
-      text-shadow: 1px 1px 1px #fff;
-      color: #585858
+      padding: 10px
+      font-size: 130%
+  div.Interacts_content
+    padding: 10px 10px 10px 0
 
-  #Interacts
-    min-width: 250px
-    float: left
-    width: 40%
-    div.show_say
-      display: none
-      text-align: center
-      a:link
-        display: inline-block
-        padding: 10px
-        font-size: 130%
-    div.Interacts_content
-      padding: 10px 10px 10px 0
+#Write
+  text-align: center
+  div
+    padding: 0
+    margin: 0
+  span.label
+    display: block
+    color: #fff
+    font-weight: normal
+    color: $yellow
+    text-transform: none
+    font-size: 100%
+    padding: 3px 0 3px 0
+  textarea
+    min-width: 100px
+    width: 93%
+    min-height: 100px
+  div.buttons
+    text-align: center
+    button
+      margin: 0 15px 0 0
 
-  #Chats
-    min-width: 250px
-    width: 60%
-    float: left
-    padding: 10px 0 80px 0
+#Chats
+  min-width: 250px
+  width: 50%
+  float: left
+  padding: 10px 0 80px 0
 
 
 

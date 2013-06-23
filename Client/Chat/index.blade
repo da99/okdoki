@@ -37,25 +37,20 @@ append templates
 
 append content
 
-  div#Chat_Room
-    div.header#Leave_Chat_Room
-      h3 #{screen_name}'s Chat Room
+  h1 #{screen_name}'s Chat Room
+  div#Boxs
 
-    div#Interacts
-      div.Interacts_content
-        div.show.show_say
-          a(href="#Write_To_Chat_Room") Say Something.
+    div.box#Write
+      form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
+        div.fields
+          div.field
+            span.label Type your message to the room:
+            textarea(name="body")
+        div.buttons
+          button.submit Send to chat room.
 
-        form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
-          div.fields
-            div.field
-              span.label Type your message to the room:
-              textarea(name="body")
-          div.buttons
-            button.submit Send to chat room.
-
-    div#Chats
-      div.msgs#Chat_Msgs
+  div#Chats
+    div.msgs#Chat_Msgs
 
 
 
