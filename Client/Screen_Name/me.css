@@ -9,12 +9,30 @@ select,
 option {
   font-size: 120%;
 }
-div.col {
-  overflow: auto;
+#Boxs {
+  -moz-column-count: 4;
+  -webkit-column-count: 4;
+  column-count: 4;
+  -moz-column-gap: 10px;
+  -webkit-column-gap: 10px;
+  column-gap: 10px;
 }
-div.block {
-  padding: 0 10px 10px 0;
-  float: left;
+div.box {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: inline-block;
+  padding-bottom: 15px;
+  min-width: 300px;
+}
+div.box h3 {
+  padding: 3px 0 0 10px;
+  background: #fff;
+  color: #7e7e7e;
+}
+div.box div.content {
+  padding: 10px;
+  background: #fff;
 }
 #Me {
   padding: 10px 0 10px 10px;
@@ -60,10 +78,6 @@ div.block {
 #Other_Screen_Names {
   display: none;
   padding: 0 0 10px 0;
-}
-#New_Life div.content {
-  background: #fff;
-  padding: 8px;
 }
 #New_Life div.content span.label {
   padding: 0 10px 0 0;
@@ -140,110 +154,48 @@ div.block {
   max-width: 300px;
   display: none;
 }
-div.boxs {
-  padding: 10px 0 0 0;
-  overflow: auto;
-}
-div.boxs div.box {
-  float: left;
-  margin: 0 0 0 10px;
-  width: 150px;
-}
-div.boxs div.box h3 {
-  padding-right: 5px;
-  padding-left: 5px;
-}
-div.boxs div.box div.content {
-  height: 150px;
-  background: #ffea74;
-  border-radius: 0 0 10px 0;
-  font-size: small;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-}
-div.boxs div.box div.content div.buttons {
-  background: rgba(0,0,0,0.8);
-  padding: 5px;
-  font-size: 80%;
-  text-transform: uppercase;
-}
-#Message_Board div.show_write {
-  min-width: 300px;
-  max-width: 600px;
-  margin: 0 0 5px 0;
-  background: #fffdd2;
-  text-align: center;
-  padding: 5px;
-}
-#Message_Board div.msgs {
-  min-width: 300px;
-  max-width: 600px;
-}
-#Message_Board div.msgs div.error_msg {
-  background: #fff;
-  padding: 5px;
-  max-width: 300px;
-}
-#Write_Message,
-#Write_To_Chat_Room {
-  margin: 0 0 5px 0;
-  background: #fff;
-  padding: 5px;
-}
-#Write_Message span.label,
-#Write_To_Chat_Room span.label {
+#Write_Message span.label {
   display: block;
 }
-#Write_Message textarea,
-#Write_To_Chat_Room textarea {
+#Write_Message textarea {
   width: 97%;
   min-height: 100px;
 }
-#Write_Message div.buttons,
-#Write_To_Chat_Room div.buttons {
+#Write_Message div.buttons {
   text-align: right;
 }
-#Write_Message div.buttons button,
-#Write_To_Chat_Room div.buttons button {
+#Write_Message div.buttons button {
   margin: 0 15px 0 0;
 }
-#Write_Message {
-  display: none;
-}
-#Write_To_Chat_Room {
-  display: block;
-  padding: 5px 5px 10px 10px;
-}
-div.msgs div.msg {
+#Message_Board div.msgs div.msg {
   border-radius: 3px 0 0 3px;
   background: #fff;
   padding: 4px 2px 4px 5px;
   margin: 0 0 10px 0;
 }
-div.msgs div.msg span.author {
+#Message_Board div.msgs div.msg span.author {
   color: #185dad;
   font-weight: bold;
   font-size: 90%;
   font-style: italic;
 }
-div.msgs div.msg span.said {
+#Message_Board div.msgs div.msg span.said {
   color: #727272;
   font-style: italic;
 }
-div.msgs div.msg div.content {
+#Message_Board div.msgs div.msg div.content {
   font-size: 120%;
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
-div.msgs div.official {
+#Message_Board div.msgs div.official {
   background: #fffdd2;
   font-style: italic;
 }
-div.msgs div.me_chat_msg,
-div.msgs div.me_msg {
+#Message_Board div.msgs div.me_chat_msg,
+#Message_Board div.msgs div.me_msg {
   background: #fffdd2;
 }
-div.msgs div.error_msg {
+#Message_Board div.msgs div.error_msg {
   color: #f00919;
 }
 #Enter_Chat_Room {
@@ -271,15 +223,12 @@ div.msgs div.error_msg {
   color: #f00919;
   padding: 5px;
 }
-#Folders {
-  max-width: 320px;
+#Folders div.content ul.folders {
+  margin: 0;
 }
-#Folders h3 {
+#Folders div.content ul.folders li {
+  margin: 0;
   padding: 0;
-}
-#Folders div.content {
-  padding: 5px 0 10px 10px;
-  background: #fff;
 }
 #Folders div.content div.folders div.folder {
   padding: 3px 15px 5px 8px;
@@ -298,4 +247,32 @@ div.msgs div.error_msg {
 #Folders div.content form input[type="text"] {
   font-size: 190%;
   width: 95%;
+}
+@media only screen and (max-width : 1199px),only screen and (max-device-width : 1199px) {
+  #Boxs {
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
+  }
+}
+@media only screen and (max-width : 999px),only screen and (max-device-width : 999px) {
+  #Boxs {
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+  }
+}
+@media only screen and (max-width : 799px),only screen and (max-device-width : 799px) {
+  #Boxs {
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+  }
+}
+@media only screen and (max-width : 599px),only screen and (max-device-width : 599px) {
+  #Boxs {
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+    column-count: 1;
+  }
 }

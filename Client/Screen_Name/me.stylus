@@ -17,6 +17,15 @@ $orange=#ffbe2c
 $light_blue=#a2d3e0
 $blue=#073d6f
 
+column_count(num)
+  -moz-column-count: num
+  -webkit-column-count: num
+  column-count: num
+column_gap(num)
+  -moz-column-gap: num
+  -webkit-column-gap: num
+  column-gap: num
+
 form input[type="text"]
   font-size: 190%
 
@@ -27,12 +36,25 @@ body
 select, option
   font-size: 120%
 
-div.col
-  overflow: auto
+#Boxs
+  column_count(4)
+  column_gap(10px)
 
-div.block
-  padding: 0 10px 10px 0
-  float: left
+
+div.box
+  padding: 0
+  margin: 0
+  width: 100%
+  display: inline-block
+  padding-bottom: 15px
+  min-width: 300px
+  h3
+    padding: 3px 0 0 10px
+    background: #fff
+    color: #7e7e7e
+  div.content
+    padding: 10px
+    background: #fff
 
 #Me
   padding: 10px 0 10px 10px
@@ -75,8 +97,6 @@ div.block
 
 #New_Life
   div.content
-    background: #fff
-    padding: 8px
     span.label
       padding: 0 10px 0 0
     input[type="text"]
@@ -137,52 +157,7 @@ div.block
   max-width: 300px
   display: none
 
-div.boxs
-  padding: 10px 0 0 0
-  overflow: auto
-
-  div.box
-    float: left
-    margin: 0 0 0 10px
-    width: 150px
-    h3
-      padding-right: 5px
-      padding-left: 5px
-    div.content
-      height: 150px
-      background: $yellow
-      border-radius: 0 0 10px 0
-      font-size: small
-      text-align: center
-      padding: 0
-      margin: 0
-      div.buttons
-        background: rgba(0,0,0,0.8)
-        padding: 5px
-        font-size: 80%
-        text-transform: uppercase
-
-#Message_Board
-  div.show_write
-    min-width: 300px
-    max-width: 600px
-    margin: 0 0 5px 0
-    background: $light_yellow
-    text-align: center
-    padding: 5px
-  div.msgs
-    min-width: 300px
-    max-width: 600px
-    div.error_msg
-      background: #fff
-      padding: 5px
-      max-width: 300px
-
-
-#Write_Message, #Write_To_Chat_Room
-  margin: 0 0 5px 0
-  background: #fff
-  padding: 5px
+#Write_Message
   span.label
     display: block
   textarea
@@ -193,37 +168,31 @@ div.boxs
     button
       margin: 0 15px 0 0
 
-#Write_Message
-  display: none
-
-#Write_To_Chat_Room
-  display: block
-  padding: 5px 5px 10px 10px
-
-div.msgs
-  div.msg
-    border-radius: 3px 0 0 3px
-    background: #fff
-    padding: 4px 2px 4px 5px
-    margin: 0 0 10px 0
-    span.author
-      color: $dark_blue
-      font-weight: bold
-      font-size: 90%
+#Message_Board
+  div.msgs
+    div.msg
+      border-radius: 3px 0 0 3px
+      background: #fff
+      padding: 4px 2px 4px 5px
+      margin: 0 0 10px 0
+      span.author
+        color: $dark_blue
+        font-weight: bold
+        font-size: 90%
+        font-style: italic
+      span.said
+        color: $grey_on_light
+        font-style: italic
+      div.content
+        font-size: 120%
+        font-family: $serif
+    div.official
+      background: $light_yellow
       font-style: italic
-    span.said
-      color: $grey_on_light
-      font-style: italic
-    div.content
-      font-size: 120%
-      font-family: $serif
-  div.official
-    background: $light_yellow
-    font-style: italic
-  div.me_chat_msg, div.me_msg
-    background: $light_yellow
-  div.error_msg
-    color: $red
+    div.me_chat_msg, div.me_msg
+      background: $light_yellow
+    div.error_msg
+      color: $red
 
 
 #Enter_Chat_Room
@@ -248,12 +217,12 @@ div.msgs
       padding: 5px
 
 #Folders
-  max-width: 320px
-  h3
-    padding: 0
   div.content
-    padding: 5px 0 10px 10px
-    background: #fff
+    ul.folders
+      margin: 0
+      li
+        margin: 0
+        padding: 0
     div.folders
       div.folder
         padding: 3px 15px 5px 8px
@@ -269,4 +238,37 @@ div.msgs
       input[type="text"]
         font-size: 190%
         width: 95%
+
+// Responsive
+// @media only screen and (max-width : 1499px),
+// only screen and (max-device-width : 1499px)
+//  #Boxs
+//     background: $dark_blue
+//     column_count(4)
+//     width: 1300px
+
+@media only screen and (max-width : 1199px),
+only screen and (max-device-width : 1199px)
+	#Boxs
+    column_count(3)
+
+@media only screen and (max-width : 999px),
+only screen and (max-device-width : 999px)
+	#Boxs
+    column_count(2)
+
+
+@media only screen and (max-width : 799px),
+only screen and (max-device-width : 799px)
+	#Boxs
+    column_count(2)
+
+@media only screen and (max-width : 599px),
+only screen and (max-device-width : 599px)
+	#Boxs
+    column_count(1)
+
+
+
+
 

@@ -91,10 +91,8 @@ div.boxs
 
 
 
-#Write_Message, #Write_To_Chat_Room
-  margin: 0 0 5px 0
+#Write_To_Chat_Room
   background: rgba(0,0,0,0.4)
-  padding: 5px
   span.label
     display: block
     color: #fff
@@ -111,12 +109,6 @@ div.boxs
     button
       margin: 0 15px 0 0
 
-#Write_Message
-  display: none
-
-#Write_To_Chat_Room
-  display: block
-  padding: 5px 5px 10px 10px
 
 div.msgs
   div.msg

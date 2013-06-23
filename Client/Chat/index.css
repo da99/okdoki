@@ -91,13 +91,9 @@ div.boxs div.box div.content div.buttons {
   font-size: 80%;
   text-transform: uppercase;
 }
-#Write_Message,
 #Write_To_Chat_Room {
-  margin: 0 0 5px 0;
   background: rgba(0,0,0,0.4);
-  padding: 5px;
 }
-#Write_Message span.label,
 #Write_To_Chat_Room span.label {
   display: block;
   color: #fff;
@@ -107,25 +103,15 @@ div.boxs div.box div.content div.buttons {
   font-size: 100%;
   padding: 3px 0 3px 0;
 }
-#Write_Message textarea,
 #Write_To_Chat_Room textarea {
   width: 97%;
   min-height: 100px;
 }
-#Write_Message div.buttons,
 #Write_To_Chat_Room div.buttons {
   text-align: right;
 }
-#Write_Message div.buttons button,
 #Write_To_Chat_Room div.buttons button {
   margin: 0 15px 0 0;
-}
-#Write_Message {
-  display: none;
-}
-#Write_To_Chat_Room {
-  display: block;
-  padding: 5px 5px 10px 10px;
 }
 div.msgs div.msg {
   border-radius: 3px 0 0 3px;

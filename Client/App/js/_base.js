@@ -525,13 +525,8 @@ function every_sec(se, func) {
 // ================================================================
 
 
-
 function flow() {
-  var container = document.querySelector('#container');
-  var mason = new Masonry(container, {
-    columnWidth: 100,
-    itemSelector: 'div.block'
-  });
+  return;
 }
 
 
