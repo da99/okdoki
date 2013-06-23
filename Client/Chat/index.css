@@ -154,6 +154,7 @@ body.w600_plus #Boxs #Audience div.content ul li {
 body.w600_plus #Chats {
   width: 55%;
   float: left;
+  padding-bottom: 80px;
 }
 body.w1000_plus #Boxs #Audience div.content {
   -moz-column-count: 6;

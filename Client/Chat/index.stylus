@@ -157,6 +157,7 @@ body.w600_plus
   #Chats
     width: 55%
     float: left
+    padding-bottom: 80px
 
 body.w1000_plus
   #Boxs
