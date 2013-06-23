@@ -540,7 +540,6 @@ function form(selector, func) {
     .show()
     ;
 
-    flow();
     post(url, data, function (err, raw) {
       if (err) {
         form_meta[selector].error(err, raw);
@@ -551,7 +550,6 @@ function form(selector, func) {
         else
           form_meta[selector].invalid(data);
       }
-      flow();
     });
 
     return false;
@@ -633,7 +631,6 @@ function on_click(selector, func) {
 
   e.click(function (ev) {
     func.apply(this, arguments);
-    flow();
     return false;
   });
 
@@ -825,14 +822,32 @@ function every_sec(se, func) {
 
 
 // ================================================================
-// ================== Masonry =====================================
+// ================== Adaptive ====================================
 // ================================================================
 
-
-function flow() {
-  return;
+function add_screen_class () {
+  var w = (parseInt($(window).width() / 100) * 100);
+  var c = (($('body').attr('class') || '').split(' '));
+  _.each(c, function (s) {
+    if (s.match(/^w\d+(_plus|_minus)?$/))
+      $('body').removeClass(s);
+  });
+  $('body').addClass('w' + w);
+  _.each([400, 500, 600, 700, 800, 900, 1000, 1100, 1200], function (target) {
+    if ( w >= target)
+      $('body').addClass('w' + target + '_plus');
+    if ( w < target)
+      $('body').addClass('w' + target + '_minus');
+    log(w, target)
+  });
+  log($('body').attr('class'));
 }
 
+$(window).resize(function () {
+  add_screen_class();
+});
+
+add_screen_class();
 
 
 

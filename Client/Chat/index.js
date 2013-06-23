@@ -116,6 +116,9 @@ $(function () {
     return false;
   });
 
+  $(window).resize(function () {
+    $('textarea').css('width', '95%');
+  });
 
 }); // ==== jquery on dom ready
 

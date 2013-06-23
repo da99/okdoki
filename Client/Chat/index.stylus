@@ -10,6 +10,19 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
+column_count(num)
+  -moz-column-count: num
+  -webkit-column-count: num
+  column-count: num
+column_gap(num)
+  -moz-column-gap: num
+  -webkit-column-gap: num
+  column-gap: num
+column_rule(num)
+  -moz-column-rule: num
+  -webkit-column-rule: num
+  column-rule: num
+
 form input[type="text"]
   font-size: 190%
 
@@ -35,48 +48,53 @@ h1
 
 
 #Boxs
-  min-width: 250px
-  max-width: 800px
-  width: 49%
-  float: left
   padding: 0
+  margin: 0
   div.box
-    margin: 0 0 10px 5px
-    padding: 10px
-    background: rgba(0,0,0,0.4)
+    margin: 0 0 10px 0
+    padding: 0
+    h3
+      background #fff
+    div.content
+      background: #fff
+      padding: 5px
+
+  #Audience
+    background: #fff
+    padding: 0
+    ul
+      margin: 0
+      padding: 0
+      li
+        padding: 0
+        list-style: none
+        display: inline
 
   #Write
-    padding: 5px 0 18px 0
+    padding: 0
     text-align: center
-    max-width: 500px;
-    div
+    div.content, form
       padding: 0
-      margin: 0
     span.label
       display: block
-      color: #fff
       font-weight: normal
       color: $yellow
       text-transform: none
       font-size: 100%
       padding: 3px 0 3px 0
     textarea
-      min-width: 100px
-      width: 94%
       min-height: 100px
+      max-width: 100%
+      width: 94%
     div.buttons
       text-align: center
-      button
-        margin: 0 15px 0 0
-
-
+    div.content
+      background: rgba(0,0,0,0.4)
+      padding-bottom: 15px
 
 #Chats
-  min-width: 250px
-  width: 50%
-  float: left
   padding: 0
-
+  margin: 0
   div.msgs
     div.msg
       border-radius: 3px
@@ -102,6 +120,48 @@ h1
     div.error_msg
       color: $red
 
+body.w600_minus
+  #Boxs
+    #Audience
+      ul
+        margin: 0
+        padding: 0
+        li
+          list-style: none
+          display: inline
+        li:after
+          content: ", "
+        li:last-child:after
+          content: ""
 
+body.w600_plus
+  #Boxs
+    float: left
+    width: 44%
+    #Audience
+      div.content
+        column_count(3)
+        column_gap(6px)
+        column_rule(1px dotted #ececec)
+        ul
+          li
+            border-bottom: 1px dashed #ccc
+            display: block
+            margin: 0
+            padding: 0
+            list-style: none
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
+  #Chats
+    width: 55%
+    float: left
+
+body.w1000_plus
+  #Boxs
+    #Audience
+      div.content
+        column_count(6)
+        column_gap(12px)
 
