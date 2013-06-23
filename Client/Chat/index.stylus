@@ -61,41 +61,37 @@ div.msgs
 
 #Boxs
   min-width: 250px
+  max-width: 800px
   width: 49%
   float: left
-  background: rgba(0,0,0,0.4)
-  padding: 5px 0 10px 0px
-  div.show_say
-    display: none
-    text-align: center
-    a:link
-      display: inline-block
-      padding: 10px
-      font-size: 130%
-  div.Interacts_content
-    padding: 10px 10px 10px 0
+  padding: 0 0 20px 0
+  div.box
+    padding: 10px
+    background: rgba(0,0,0,0.4)
 
-#Write
-  text-align: center
-  div
-    padding: 0
-    margin: 0
-  span.label
-    display: block
-    color: #fff
-    font-weight: normal
-    color: $yellow
-    text-transform: none
-    font-size: 100%
-    padding: 3px 0 3px 0
-  textarea
-    min-width: 100px
-    width: 93%
-    min-height: 100px
-  div.buttons
+  #Write
+    padding: 5px 0 18px 0
     text-align: center
-    button
-      margin: 0 15px 0 0
+    max-width: 500px;
+    div
+      padding: 0
+      margin: 0
+    span.label
+      display: block
+      color: #fff
+      font-weight: normal
+      color: $yellow
+      text-transform: none
+      font-size: 100%
+      padding: 3px 0 3px 0
+    textarea
+      min-width: 100px
+      width: 94%
+      min-height: 100px
+    div.buttons
+      text-align: center
+      button
+        margin: 0 15px 0 0
 
 #Chats
   min-width: 250px

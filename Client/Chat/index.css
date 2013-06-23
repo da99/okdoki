@@ -54,31 +54,25 @@ div.msgs div.error_msg {
 }
 #Boxs {
   min-width: 250px;
+  max-width: 800px;
   width: 49%;
   float: left;
-  background: rgba(0,0,0,0.4);
-  padding: 5px 0 10px 0px;
+  padding: 0 0 20px 0;
 }
-#Boxs div.show_say {
-  display: none;
-  text-align: center;
-}
-#Boxs div.show_say a:link {
-  display: inline-block;
+#Boxs div.box {
   padding: 10px;
-  font-size: 130%;
+  background: rgba(0,0,0,0.4);
 }
-#Boxs div.Interacts_content {
-  padding: 10px 10px 10px 0;
-}
-#Write {
+#Boxs #Write {
+  padding: 5px 0 18px 0;
   text-align: center;
+  max-width: 500px;
 }
-#Write div {
+#Boxs #Write div {
   padding: 0;
   margin: 0;
 }
-#Write span.label {
+#Boxs #Write span.label {
   display: block;
   color: #fff;
   font-weight: normal;
@@ -87,15 +81,15 @@ div.msgs div.error_msg {
   font-size: 100%;
   padding: 3px 0 3px 0;
 }
-#Write textarea {
+#Boxs #Write textarea {
   min-width: 100px;
-  width: 93%;
+  width: 94%;
   min-height: 100px;
 }
-#Write div.buttons {
+#Boxs #Write div.buttons {
   text-align: center;
 }
-#Write div.buttons button {
+#Boxs #Write div.buttons button {
   margin: 0 15px 0 0;
 }
 #Chats {
