@@ -32,9 +32,10 @@ h1
   color: #000
 
 #Me
+  padding: 0
   div.content
+    padding: 3px 5px 4px 13px
     background: transparent
-    padding: 3px 0 4px 10px
     color: #000
     text-align: left
     font-size: 100%
@@ -61,7 +62,7 @@ h1
     padding: 3px $padding_create
   div.create
     display: inline-block
-    padding: 0 $padding_create
+    padding: 0 $padding_create 0 13px
     font-size: 90%
     text-transform: lowercase
   div.link

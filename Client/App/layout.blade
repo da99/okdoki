@@ -45,8 +45,9 @@ html(lang='en')
   body
 
     - if (logged_in)
-      div.logout
-        a(href="/log-out") Log-out
+      div#Session_Nav
+        div.logout#Log_Out
+          a(href="/log-out") Log-out
 
     block content
     block footer

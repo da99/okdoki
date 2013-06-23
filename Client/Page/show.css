@@ -17,6 +17,9 @@ label {
   text-align: left;
   background: #fff;
 }
+#Items div.content div.edit_this {
+  padding: 8px 0 0 8px;
+}
 #Items div.content div.edit_this div.edit a:link {
   text-transform: uppercase;
 }
@@ -42,7 +45,7 @@ label {
   margin: 0 15px 0 0;
 }
 #The_Page_Content {
-  padding: 0 10px 30px 30px;
+  padding: 0 10px 30px 23px;
   line-height: 1.6;
   font-size: 130%;
 }

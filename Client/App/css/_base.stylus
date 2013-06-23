@@ -396,6 +396,14 @@ div.edit_able_s
     div.input_able div.label
       color: #2D2D2D;
 
+#Session_Nav
+  padding: 0 5px 2px 5px
+  text-align: right
+  background: #fafafa
+  #Log_Out
+    text-transform: uppercase
+    font-size: 70%
+    font-weight: bold
 
 
 

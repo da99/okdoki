@@ -12,9 +12,12 @@ h1 {
   margin-bottom: 0;
   color: #000;
 }
+#Me {
+  padding: 0;
+}
 #Me div.content {
+  padding: 3px 5px 4px 13px;
   background: transparent;
-  padding: 3px 0 4px 10px;
   color: #000;
   text-align: left;
   font-size: 100%;
@@ -47,7 +50,7 @@ h1 {
 }
 #Create div.create {
   display: inline-block;
-  padding: 0 5px;
+  padding: 0 5px 0 13px;
   font-size: 90%;
   text-transform: lowercase;
 }
