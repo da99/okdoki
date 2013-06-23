@@ -116,9 +116,9 @@ describe( 'Express App', function () {
     it( 'allows customer to be created', function (done) {
       var body = {
         _csrf: _csrf,
-        screen_name: "ted_nelson",
-        pass_phrase: "i h8 u",
-        confirm_pass_phrase: "i h8 u"
+        screen_name: "t_nelson",
+        pass_phrase: "i h8 this",
+        confirm_pass_phrase: "i h8 this"
       };
       post({url: '/customer', form: body}, function (err, resp, body) {
         assert.equal(null, err && err.message);
@@ -130,8 +130,8 @@ describe( 'Express App', function () {
     it( 'allows customer to be sign-ed in', function (done) {
       var body = {
         _csrf: _csrf,
-        screen_name: "ted_nelson",
-        pass_phrase: "i h8 u",
+        screen_name: "t_nelson",
+        pass_phrase: "i h8 this",
       };
       post({url: '/sign-in', form: body}, function (err, resp, body) {
         assert.equal(null, err && err.message);
