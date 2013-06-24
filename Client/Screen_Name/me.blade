@@ -99,7 +99,7 @@ append content
                 div.field
                   span.label Message:
                   textarea(name="body")
-              call as_this_life()
+              call applet("as_this_life")
               div.buttons
                 button.submit Publish
 
@@ -121,7 +121,7 @@ append content
                 div.field.title
                   span.label Title:
                   input(type="text", name="title", value="")
-                call as_this_life()
+                call applet("as_this_life")
                 div.buttons
                   button.submit Create
 

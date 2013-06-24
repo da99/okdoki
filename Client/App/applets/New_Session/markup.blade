@@ -1,0 +1,23 @@
+append templates
+  div.sign_in_success
+    | You are now sign-ed in. Go to...
+    a(href="{HREF}") {HREF}
+
+
+
+div.box#New_Session
+  h3 Log-In
+  div.content
+    form(id='sign_in', action='/sign-in', method='post')
+      div.fields
+        div.field.screen_name
+          div
+            span.label Screen name:
+          input.field(type='text', name="screen_name", value="")
+        div.field.passphrase
+          div
+            span.label Pass phrase:
+          input.field(type='password', name="pass_phrase", value="")
+        div.field.buttons
+          button.submit Log-In
+

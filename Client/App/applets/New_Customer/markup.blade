@@ -1,35 +1,4 @@
 
-append templates
-  div.sign_in_success
-    | You are now sign-ed in. Go to...
-    a(href="{HREF}") {HREF}
-  div.screen_name_created.success_msg
-    | The website for your screen name is at:
-    a(href="{HREF}") {HREF}
-  div#screen_names.box
-    h3 My Screen Names &amp; Channels
-    div.content
-  div#channels.box
-    h3 Other Channels
-    div.content
-      | None... yet.
-
-
-div.box#New_Session
-  h3 Log-In
-  div.content
-    form(id='sign_in', action='/sign-in', method='post')
-      div.fields
-        div.field.screen_name
-          div
-            span.label Screen name:
-          input.field(type='text', name="screen_name", value="")
-        div.field.passphrase
-          div
-            span.label Pass phrase:
-          input.field(type='password', name="pass_phrase", value="")
-        div.field.buttons
-          button.submit Log-In
 
 div.box#New_Customer
   h3 Create a New Account
@@ -66,5 +35,4 @@ div.box#New_Customer
 
         div.field.buttons
           button.submit Create Account
-
 
