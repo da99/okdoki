@@ -143,7 +143,7 @@ describe( 'Express App', function () {
 
   describe( 'Screen Name', function () {
     it( 'loads home page', function (done) {
-      get('/me/TeD_NelsOn', function (err, resp, body) {
+      get('/me/T_NelsOn', function (err, resp, body) {
         expect(body).match(/the life of/i);
         done();
       });

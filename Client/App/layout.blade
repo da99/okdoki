@@ -3,10 +3,12 @@ html(lang='en')
 
   function applet(name)
     - var blade_file = "../App/applets/" + name + "/markup.blade"
+    - var js_file = "/App/applets/" + name + "/script.js"
     include blade_file
     append scripts
-      script(src="/App/applets/#{name}/script.js")
-
+      call script(js_file)
+  function script(name)
+    script(src="#{add_mtime(name)}")
   head
 
     title= title
@@ -43,10 +45,10 @@ html(lang='en')
       | #{_csrf}
 
     - if(is_testing)
-      script(src='/akui_tests/window.onerror.js')
+      call script('/akui_tests/window.onerror.js')
 
-    script(src="#{add_mtime('/App/js/okdoki.js')}")
-    script(src='/App/js/jquery.cookie.js')
+    call script("/App/js/okdoki.js")
+    call script('/App/js/jquery.cookie.js')
     script#templates(type="text/x-okdoki")
       - if (screen_name)
         div.The_Screen_Name
@@ -56,9 +58,9 @@ html(lang='en')
     block scripts
 
     - if(is_testing)
-      script(src='/akui_tests/promise.js')
-      script(src='/akui_tests/fermata.js')
-      script(src='/akui_tests/akui.js')
+      call script('/akui_tests/promise.js')
+      call script('/akui_tests/fermata.js')
+      call script('/akui_tests/akui.js')
 
 
 
