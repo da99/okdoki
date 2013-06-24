@@ -156,7 +156,7 @@ $(function () {
   // ============================================
   // ================ ENTER The Chat Room........
   // ============================================
-  if (Customer.has_one_life()) {
+  if (Customer.has_one_life) {
     enter_chat_room();
   }
 

@@ -50,9 +50,9 @@ $(function () {
   // ============================================
   // ================ Show lifes.................
   // ============================================
-  if ($('#Other_Screen_Names').length) {
-    var lifes = $.trim($(read_template('div.customer_screen_names')).text()).split(/\s+/);
-    var SN = $.trim($(read_template('div.screen_name')).text()).toUpperCase();
+  if (Customer.is_owner_of_screen_name) {
+    var lifes = Customer.screen_names();
+    var SN = Screen_Name.screen_name().toUpperCase();
 
     _.each(lifes, function (l) {
       if (SN != l.toUpperCase())
