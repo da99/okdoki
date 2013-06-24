@@ -53,7 +53,7 @@ h1
   color: #616161
 
 
-#Stranger
+#Stranger, #Customer
   overflow: auto
   div.box
     background: $glass_white
@@ -84,12 +84,20 @@ h1
       border-color: $pink
     div.content
       text-align: center
+      div.fields, div.field, div.buttons, span.label
+        display: inline
 
   #New_Session
     margin: 0 10px 0 0
 
-#Boxs
+#Customer
+  div.box, div.box div.content
+    width: auto
+
+#The_Door
   display: none
+
+#Boxs
   padding: 0
   margin: 0
   div.box
@@ -135,7 +143,6 @@ h1
       padding-bottom: 15px
 
 #Chats
-  display: none
   padding: 0
   margin: 0
   div.msgs
@@ -208,9 +215,5 @@ body.w1000_plus
         column_count(6)
         column_gap(12px)
 
-
-body.is_customer
-  #Boxs, #Chats
-    display: block
 
 

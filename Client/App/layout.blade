@@ -39,7 +39,7 @@ html(lang='en')
     script(type="text/_csrf", id="_csrf")
       | #{_csrf}
 
-    - if(is_testing)
+    - if (is_testing)
       call script('/akui_tests/window.onerror.js')
 
     call script("/App/js/okdoki.js")

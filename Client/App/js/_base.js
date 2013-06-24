@@ -8,7 +8,7 @@ var Screen_Name = {
       this._sn = sn;
     return this._sn;
   },
-  to_url = function (path) {
+  to_url : function (path) {
     var url = "/me/" + this._sn;
     if (path)
       url += path;
@@ -20,14 +20,15 @@ var Customer    = {
   is_customer : false,
   _sns : [],
   screen_names : function (arr) {
-    if (arr)
+    if (arr) {
       this._sns = arr;
+      this.is_stranger = false;
+      this.is_customer = !this.is_stranger;
+    }
     return this._sns;
   },
   log_in : function (arr) {
-    this.screen_names = arr;
-    this.is_stranger = false;
-    this.is_customer = true;
+    this.screen_names(arr);
   },
   has_one_life : function () {
     return this.screen_names().length === 1;
@@ -76,7 +77,7 @@ $(function () {
   }
   var c = 'div.Customer_Screen_Names';
   if (template_or_null(c)) {
-    Customer.log_in($.trim($(read_template(sns)).text()).split(/\s+/));
+    Customer.log_in($.trim($(read_template(c)).text()).split(/\s+/));
   }
 });
 

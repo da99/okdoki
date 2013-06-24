@@ -58,50 +58,67 @@ append content
             span>
               | Then, come back and start chatting.
 
-  div#Boxs
+  - if (is_customer && !customer_has_one_life)
+    div#Customer
+      div.box#One_More_Step
+        div.content
+          form(action="/me/#{screen_name}/chat", method="POST")
+            div.fields
+              div.field.life
+                span.label Which screen name to use?
+                select(name="as_this_life")
+                  - for (var i in customer_screen_names)
+                    option(value="#{customer_screen_names[i]}") #{customer_screen_names[i]}
+            div.buttons
+              button.submit Enter
 
-    div.box#Audience
-      div.content
-        ul
-          li
-            a(href="/sads") Motoko
-          li
-            a(href="/sads") Tomokofffffaaaaaaaaaaaaaa
-          li
-            a(href="/sads") Larry
-          li
-            a(href="/sads") Balkie
-          li
-            a(href="/sads")  Motoko
-          li
-            a(href="/sads") Motoko
-          li
-            a(href="/sads") Tomokofffffaaaaaaaaaaaaaa
-          li
-            a(href="/sads") Larry
-          li
-            a(href="/sads") Balkie
-          li
-            a(href="/sads")  Motoko
-          li
-            a(href="/sads")  Motoko
-          li
-            a(href="/sads") Motoko
-          li
-            a(href="/sads") Tomokofffffaaaaaaaaaaaaaa
+  //&& !customer_has_one_life)
 
-    div.box#Write
-      div.content
-        form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
-          div.fields
-            div.field
-              span.label Type your message to the room:
-              textarea(name="body")
-          div.buttons
-            button.submit Send to chat room.
+  div#The_Door
+    div#Boxs
 
-  div#Chats
-    div.msgs#Chat_Msgs
+      div.box#Audience
+        div.content
+          ul
+            li
+              a(href="/sads") Motoko
+            li
+              a(href="/sads") Tomokofffffaaaaaaaaaaaaaa
+            li
+              a(href="/sads") Larry
+            li
+              a(href="/sads") Balkie
+            li
+              a(href="/sads")  Motoko
+            li
+              a(href="/sads") Motoko
+            li
+              a(href="/sads") Tomokofffffaaaaaaaaaaaaaa
+            li
+              a(href="/sads") Larry
+            li
+              a(href="/sads") Balkie
+            li
+              a(href="/sads")  Motoko
+            li
+              a(href="/sads")  Motoko
+            li
+              a(href="/sads") Motoko
+            li
+              a(href="/sads") Tomokofffffaaaaaaaaaaaaaa
+
+      div.box#Write
+        div.content
+          form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
+            div.fields
+              div.field
+                span.label Type your message to the room:
+                textarea(name="body")
+            div.buttons
+              button.submit Send to chat room.
+
+    div#Chats
+      div.msgs#Chat_Msgs
 
 
 
