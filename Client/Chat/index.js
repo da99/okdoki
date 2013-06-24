@@ -3,7 +3,7 @@ var IN_CHAT_ROOM       = false;
 var LAST_CHAT_MSG_DATE = null;
 var MAX_CHAT_MSG_TOTAL = 250;
 var TOTAL_CHAT_MSG     = 0;
-var IS_STRANGER        = true;
+var IS_CUSTOMER        = false;
 
 function official_chat_msg(msg) {
   draw_chat_msg( 'div.official.chat_msg', msg );
@@ -35,7 +35,15 @@ function draw_chat_msg(sel, msg) {
 
 $(function () {
 
-  IS_STRANGER = !$('body').hasClass('is_customer');
+  IS_CUSTOMER = $('body').hasClass('is_customer');
+
+  on_click($('#Stranger a[href="/"]'), function (e) {
+    var link = $(e);
+    log('redirect_to', 'chat room of: ' + screen_name() );
+  });
+
+  if (!IS_CUSTOMER)
+    return;
 
   // ============================================
   // ================ Grab chat room msgs........

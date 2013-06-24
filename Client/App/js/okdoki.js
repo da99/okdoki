@@ -302,7 +302,102 @@ Hyper_JS.prototype.delete_where = function (field, new_model) {
   Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
   and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 */
-(function(b){b.fn.serializeJSON=function(){var d,c;d={};c=this.serializeArray();b.each(c,function(g,e){var f,j,h;f=e.name;j=e.value;h=b.map(f.split("["),function(i){var k;k=i[i.length-1];return k==="]"?i.substring(0,i.length-1):i});if(h[0]===""){h.shift()}b.deepSet(d,h,j)});return d};var a=function(c){return c===Object(c)};b.deepSet=function(c,k,g){if(!k||k.length===0){throw new Error("ArgumentError: keys param expected to be an array with least one key")}var i,d,f,h,j,e;i=k[0];d=k[1];if(d!==undefined&&d!==null){f=k.slice(1);if(i===""){j=c.length-1;e=c[c.length-1];if(a(e)&&!e[d]){i=j}else{c.push({});i=j+1}}if(c[i]===undefined){h=(d===""||!isNaN(parseInt(d,10)))?[]:{};c[i]=h}b.deepSet(c[i],f,g)}else{if(i===""){c.push(g)}else{c[i]=g}}}}(jQuery));
+(function(b){b.fn.serializeJSON=function(){var d,c;d={};c=this.serializeArray();b.each(c,function(g,e){var f,j,h;f=e.name;j=e.value;h=b.map(f.split("["),function(i){var k;k=i[i.length-1];return k==="]"?i.substring(0,i.length-1):i});if(h[0]===""){h.shift()}b.deepSet(d,h,j)});return d};var a=function(c){return c===Object(c)};b.deepSet=function(c,k,g){if(!k||k.length===0){throw new Error("ArgumentError: keys param expected to be an array with least one key")}var i,d,f,h,j,e;i=k[0];d=k[1];if(d!==undefined&&d!==null){f=k.slice(1);if(i===""){j=c.length-1;e=c[c.length-1];if(a(e)&&!e[d]){i=j}else{c.push({});i=j+1}}if(c[i]===undefined){h=(d===""||!isNaN(parseInt(d,10)))?[]:{};c[i]=h}b.deepSet(c[i],f,g)}else{if(i===""){c.push(g)}else{c[i]=g}}}}(jQuery));/*!
+ * jQuery Cookie Plugin v1.3.1
+ * https://github.com/carhartl/jquery-cookie
+ *
+ * Copyright 2013 Klaus Hartl
+ * Released under the MIT license
+ */
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as anonymous module.
+		define(['jquery'], factory);
+	} else {
+		// Browser globals.
+		factory(jQuery);
+	}
+}(function ($) {
+
+	var pluses = /\+/g;
+
+	function raw(s) {
+		return s;
+	}
+
+	function decoded(s) {
+		return decodeURIComponent(s.replace(pluses, ' '));
+	}
+
+	function converted(s) {
+		if (s.indexOf('"') === 0) {
+			// This is a quoted cookie as according to RFC2068, unescape
+			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+		}
+		try {
+			return config.json ? JSON.parse(s) : s;
+		} catch(er) {}
+	}
+
+	var config = $.cookie = function (key, value, options) {
+
+		// write
+		if (value !== undefined) {
+			options = $.extend({}, config.defaults, options);
+
+			if (typeof options.expires === 'number') {
+				var days = options.expires, t = options.expires = new Date();
+				t.setDate(t.getDate() + days);
+			}
+
+			value = config.json ? JSON.stringify(value) : String(value);
+
+			return (document.cookie = [
+				config.raw ? key : encodeURIComponent(key),
+				'=',
+				config.raw ? value : encodeURIComponent(value),
+				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+				options.path    ? '; path=' + options.path : '',
+				options.domain  ? '; domain=' + options.domain : '',
+				options.secure  ? '; secure' : ''
+			].join(''));
+		}
+
+		// read
+		var decode = config.raw ? raw : decoded;
+		var cookies = document.cookie.split('; ');
+		var result = key ? undefined : {};
+		for (var i = 0, l = cookies.length; i < l; i++) {
+			var parts = cookies[i].split('=');
+			var name = decode(parts.shift());
+			var cookie = decode(parts.join('='));
+
+			if (key && key === name) {
+				result = converted(cookie);
+				break;
+			}
+
+			if (!key) {
+				result[name] = converted(cookie);
+			}
+		}
+
+		return result;
+	};
+
+	config.defaults = {};
+
+	$.removeCookie = function (key, options) {
+		if ($.cookie(key) !== undefined) {
+			// Must not alter options, thus extending a fresh object...
+			$.cookie(key, '', $.extend({}, options, { expires: -1 }));
+			return true;
+		}
+		return false;
+	};
+
+}));
+
 var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
 var base_url = window.location.href.replace(/\/$/, '');
 var App  = _.extend({}, Backbone.Events);
@@ -394,10 +489,17 @@ function compile_template(se, data) {
   return $(_template_fns_[se](data));
 }
 
-function read_template(se) {
+function template_or_null(se) {
   var t = $($('#templates').html()).closest(se);
   if (!t.length)
-    return "";
+    return null;
+  return t;
+}
+
+function read_template(se) {
+  var t = template_or_null(se);
+  if (!t)
+    return t;
   return $(t)
   .wrap('<p>').parent().html()
   .replace(_templ_vars_, "<%= $1 %>");
@@ -819,6 +921,13 @@ function every_sec(se, func) {
   update();
 };
 
+var The_Screen_Name = null;
+$(function () {
+  var sn = 'div.The_Screen_Name';
+  if (template_or_null(sn)) {
+    The_Screen_Name = $(read_template(sn)).text();
+  }
+});
 
 
 // ================================================================

@@ -46,7 +46,11 @@ html(lang='en')
       script(src='/akui_tests/window.onerror.js')
 
     script(src='/App/js/okdoki.js')
+    script(src='/App/js/jquery.cookie.js')
     script#templates(type="text/x-okdoki")
+      - if (screen_name)
+        div.The_Screen_Name
+          | #{screen_name}
       block templates
 
     block scripts

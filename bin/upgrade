@@ -51,6 +51,7 @@ re_download "$js/doT.js"         "https://raw.github.com/olado/doT/master/doT.mi
 re_download "$js/Hyper_JS.js"    "https://raw.github.com/da99/Hyper_JS/master/Hyper_JS.js"
 re_download "$js/promise.js"     "https://raw.github.com/stackp/promisejs/master/promise.min.js"
 re_download "$js/form2json.js"   "https://raw.github.com/marioizquierdo/jquery.serializeJSON/master/jquery.serializeJSON.min.js"
+re_download "$js/jquery.cookie.js" "https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"
 cat "$js/_base.js" >> "$base_file"
 
 # re_download "$js/Sammy.js"       "https://raw.github.com/quirkey/sammy/master/lib/sammy.js"

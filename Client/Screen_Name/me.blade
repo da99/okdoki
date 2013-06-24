@@ -11,8 +11,6 @@ append templates
   - if (logged_in)
     div.customer_screen_names
       | #{customer_screen_names.join(" ")}
-  div.screen_name
-    | #{screen_name}
   call folder({num: "{num}", title: "{title}"})
   div.msg
     div.meta

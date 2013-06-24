@@ -90,10 +90,17 @@ function compile_template(se, data) {
   return $(_template_fns_[se](data));
 }
 
-function read_template(se) {
+function template_or_null(se) {
   var t = $($('#templates').html()).closest(se);
   if (!t.length)
-    return "";
+    return null;
+  return t;
+}
+
+function read_template(se) {
+  var t = template_or_null(se);
+  if (!t)
+    return t;
   return $(t)
   .wrap('<p>').parent().html()
   .replace(_templ_vars_, "<%= $1 %>");
@@ -515,6 +522,13 @@ function every_sec(se, func) {
   update();
 };
 
+var The_Screen_Name = null;
+$(function () {
+  var sn = 'div.The_Screen_Name';
+  if (template_or_null(sn)) {
+    The_Screen_Name = $(read_template(sn)).text();
+  }
+});
 
 
 // ================================================================
