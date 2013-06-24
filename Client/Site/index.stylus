@@ -436,6 +436,7 @@ div.box
       width: 99%
       font-size: 150%
 
+div.box#New_Session,
 div.box#New_Customer
   text-align: center
   background: $glass_black

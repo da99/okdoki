@@ -403,15 +403,18 @@ div.box div.content input[type="password"] {
   width: 99%;
   font-size: 150%;
 }
+div.box#New_Session,
 div.box#New_Customer {
   text-align: center;
   background: rgba(0,0,0,0.65);
   border-radius: 0 0 3px 0;
   padding: 0 0 10px 0;
 }
+div.box#New_Session h3,
 div.box#New_Customer h3 {
   background: transparent;
 }
+div.box#New_Session div.content,
 div.box#New_Customer div.content {
   width: 270px;
   padding: 0;
@@ -419,9 +422,11 @@ div.box#New_Customer div.content {
   background: transparent;
   margin: 0 auto 0 auto;
 }
+div.box#New_Session div.fieldset,
 div.box#New_Customer div.fieldset {
   text-align: right;
 }
+div.box#New_Session button,
 div.box#New_Customer button {
   margin-top: 5px;
 }
