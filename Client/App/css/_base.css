@@ -15,12 +15,16 @@ a:link {
   color: #f85d95;
   padding: 2px 4px;
 }
-a:visited {
-  color: #74bb1b;
-}
 a:hover {
   color: #e42323;
   background: #f85d95;
+  color: #fff;
+}
+a:visited {
+  color: #ff8f00;
+}
+a:visited:hover {
+  background: #f08700;
   color: #fff;
 }
 h2 {
