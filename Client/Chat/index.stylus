@@ -35,7 +35,7 @@ body
   background: transparent
 
 h1
-  background: rgba(255,255,255,0.65)
+  background: rgba(255,255,255,0.40)
   font-family: $serif
   font-style: normal
   font-size: 130%
@@ -145,7 +145,6 @@ body.w600_plus
         column_rule(1px dotted #ececec)
         ul
           li
-            border-bottom: 1px dashed #ccc
             display: block
             margin: 0
             padding: 0

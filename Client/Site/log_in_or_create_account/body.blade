@@ -15,7 +15,7 @@ append templates
       | None... yet.
 
 
-div.box
+div.box#New_Session
   h3 Log-In
   div.content
     form(id='sign_in', action='/sign-in', method='post')
@@ -31,7 +31,7 @@ div.box
         div.field.buttons
           button.submit Log-In
 
-div.box
+div.box#New_Customer
   h3 Create a New Account
   div.content
     form(id='create_account', action='/customer', method='post')

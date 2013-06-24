@@ -10,7 +10,7 @@ body {
   background: transparent;
 }
 h1 {
-  background: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.4);
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   font-style: normal;
   font-size: 130%;
@@ -142,7 +142,6 @@ body.w600_plus #Boxs #Audience div.content {
   column-rule: 1px dotted #ececec;
 }
 body.w600_plus #Boxs #Audience div.content ul li {
-  border-bottom: 1px dashed #ccc;
   display: block;
   margin: 0;
   padding: 0;

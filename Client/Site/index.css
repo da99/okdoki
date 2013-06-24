@@ -67,7 +67,7 @@ div.form div.form a.cancel {
 #footer,
 #Screen_Names {
   background: #000;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.65);
   text-align: center;
   text-align: center;
 }
@@ -235,7 +235,7 @@ a.author {
 #forms {
   margin: 10px 0 0 0;
   text-align: center;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.65);
 }
 #forms div.tabs {
   padding: 7px 0;
@@ -355,7 +355,7 @@ a.author {
 #Why {
   float: left;
   width: 300px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.65);
   color: #e1eeff;
   padding: 0 0 30px 0;
 }
@@ -370,37 +370,58 @@ a.author {
 }
 div.box {
   padding: 0 0 10px 0;
-  text-align: right;
 }
 div.box h3 {
-  background: rgba(0,142,237,0.8);
+  text-align: right;
+  background: rgba(0,0,0,0.65);
   color: #fff;
-  padding: 2px 20px 4px 20px;
+  padding: 2px 10px 4px 20px;
   font-size: 90%;
   font-family: $sans-serif;
   font-weight: normal;
   font-style: italic;
   margin: 0;
-  border-radius: 6px 0 0 0;
-  display: inline-block;
 }
 div.box div.content {
-  background: #fff;
+  background: rgba(0,0,0,0.65);
   padding: 10px;
-  margin: 0;
   border: 0;
   border-radius: 0 0 3px 0;
   text-align: left;
-  font-size: 140%;
+  color: #fff;
 }
-div.box div.fieldset {
+div.box div.content span.label {
+  color: #ff721a;
+}
+div.box div.content span.value {
+  color: #fff;
+  font-weight: normal;
+  text-transform: none;
+}
+div.box div.content input[type="text"],
+div.box div.content input[type="password"] {
+  width: 99%;
+  font-size: 150%;
+}
+div.box#New_Customer {
+  text-align: center;
+  background: rgba(0,0,0,0.65);
+  border-radius: 0 0 3px 0;
+  padding: 0 0 10px 0;
+}
+div.box#New_Customer h3 {
+  background: transparent;
+}
+div.box#New_Customer div.content {
+  width: 270px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  margin: 0 auto 0 auto;
+}
+div.box#New_Customer div.fieldset {
   text-align: right;
 }
-div.box input[type='text'],
-div.box input[type='password'] {
-  width: 90%;
-  text-align: left;
-}
-div.box button {
+div.box#New_Customer button {
   margin-top: 5px;
 }
