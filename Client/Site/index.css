@@ -84,6 +84,7 @@ div.form div.form a.cancel {
   color: #fff;
 }
 #Screen_Names {
+  background: transparent;
   color: #e1eeff;
   padding: 7px 0 10px 0;
 }
@@ -115,8 +116,8 @@ div.form div.form a.cancel {
   margin: 10px 0 0 0;
   border-radius: 0 0 5px 0;
   padding: 8px 0 10px 0;
-  font-size: 75%;
-  color: #92999c;
+  font-size: 80%;
+  color: #a8adb0;
 }
 #footer p {
   margin: 0;

@@ -1,8 +1,8 @@
 include "../App/layout.blade"
 
 append styles
-  link(rel="stylesheet", media="screen", href="/Screen_Name/me.css")
-  link(rel="stylesheet", media="screen", href="/Folder/show.css")
+  call css("/Screen_Name/me.css")
+  call css("/Folder/show.css")
 
 append scripts
   call script("/Page/show.js")

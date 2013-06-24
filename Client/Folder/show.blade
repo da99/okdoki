@@ -9,7 +9,7 @@ function draw_page(page)
     span.divider  -&nbsp;
     a(href="/me/#{screen_name}/folder/#{folder_num}/page/#{page.num}") #{page.title}
 append styles
-  link(rel="stylesheet", media="screen", href="/Screen_Name/me.css")
+  call css("/Screen_Name/me.css")
 
 append scripts
   call script("/Folder/show.js")

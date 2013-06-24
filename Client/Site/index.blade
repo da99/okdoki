@@ -107,7 +107,7 @@ append content
           span Your screen names:
         - for (var sn in customer_screen_names)
           div
-            a(href="/me/#{sn}") #{customer_screen_names[sn]}
+            a(href="/me/#{customer_screen_names[sn]}") #{customer_screen_names[sn]}
     - else
       h3 Friends == Assistants
       div.content

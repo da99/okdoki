@@ -104,16 +104,15 @@ div.form
   background: $glass_black
   text-align : center
   text-align: center
-
   p
     max-width: 400px
     margin: 0 auto
-
   strong
     background: #185DAD
     color: #fff
 
 #Screen_Names
+  background: transparent
   color: $light_blue
   padding: 7px 0 10px 0
 
@@ -148,8 +147,8 @@ div.form
   margin        : 10px 0 0 0
   border-radius : 0 0 5px 0
   padding       : 8px 0 10px 0
-  font-size     : 75%
-  color         : $downlight_on_black
+  font-size     : 80%
+  color         : lighten($downlight_on_black, 20%)
   p
     margin: 0
     padding: 0

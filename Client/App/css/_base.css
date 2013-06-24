@@ -12,7 +12,7 @@ ul {
   margin-bottom: 0;
 }
 a:link {
-  padding: 0 4px;
+  padding: 0 4px 2px 4px;
   color: #f85d95;
   border-bottom: 1px dashed #f85d95;
   text-decoration: none;
@@ -23,10 +23,16 @@ a:visited {
   text-decoration: none;
 }
 a:hover {
-  background: #ff8f00;
-  color: #333;
+  background: #f85d95;
+  color: #fff;
   text-decoration: none;
-  border-color: #ff8f00;
+  border-color: #f85d95;
+}
+a:visited:hover {
+  color: #fff;
+  background: #966e7f;
+  text-decoration: none;
+  border-color: #966e7f;
 }
 h2 {
   font-size: 1em;
