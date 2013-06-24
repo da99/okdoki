@@ -39,7 +39,11 @@ $(function () {
 
   on_click($('#Stranger a[href="/"]'), function (e) {
     var link = $(e);
-    log('redirect_to', 'chat room of: ' + screen_name() );
+    log($.cookie('url_wanted'));
+    $.cookie('url_wanted', 'chat room of: ' + The_Screen_Name, {
+      expires: new Date((new Date).getTime() + (1000 * 60 * 15))
+    });
+    $(window).href.location = '/';
   });
 
   if (!IS_CUSTOMER)
