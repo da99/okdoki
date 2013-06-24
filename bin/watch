@@ -83,16 +83,20 @@ var watched_dirs  = [];
 var server_started = false
 
 function is_client_file(f) {
-  return client_file_mtimes && client_file_mtimes[f];
+  return client_file_mtimes && client_file_mtimes[to_client_file( f )];
+}
+
+function to_client_file(f) {
+  return f.replace('Client', '');
 }
 
 function update_client_file(f) {
   if (is_client_file(f)) {
     console.log("Client file updated: ", f);
-    console.log("old: ", client_file_mtimes[f]);
-    client_file_mtimes[f] = (new Date()).getTime();
+    console.log("old: ", client_file_mtimes[to_client_file(f)]);
+    client_file_mtimes[to_client_file( f )] = (new Date()).getTime();
     fs.writeFile(client_file + '.js', "exports.data = " + JSON.stringify(client_file_mtimes));
-    console.log("new: ", client_file_mtimes[f]);
+    console.log("new: ", client_file_mtimes[to_client_file(f)]);
     return f;
   }
 }

@@ -26,7 +26,7 @@ exec('bin/client_files', function (err, raw_o, raw_e) {
   files.sort();
   for( var i = 0; i < files.length; i++ ) {
     var data = files[i].split(' ');
-    map[data[0]] = data[1];
+    map[data[0].replace('Client', '')] = parseInt(data[1]);
   }
 
   var data_file = "Server/App/file_times.js";

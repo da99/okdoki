@@ -35,6 +35,7 @@ var app     = module.exports.app = express();
 // ================== Helpers =====================================
 // ================================================================
 
+var mtimes = exports.mtimes = require("./file_times").data;
 
 var New_River = exports.New_River = function (req, resp, next) {
   if (req.length) {
@@ -133,7 +134,14 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           token         : req.session._csrf,
           _csrf         : req.session._csrf,
           aud           : req.user,
-          is_testing    : !!process.env.IS_TESTING
+          is_testing    : !!process.env.IS_TESTING,
+          mtimes        : mtimes,
+          add_mtime     : function (f) {
+            if (mtimes[f])
+              return f + '?' + mtimes[f];
+            else
+              return f;
+          }
         };
 
         if (opts.logged_in) {

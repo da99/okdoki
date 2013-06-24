@@ -45,7 +45,7 @@ html(lang='en')
     - if(is_testing)
       script(src='/akui_tests/window.onerror.js')
 
-    script(src='/App/js/okdoki.js')
+    script(src="#{add_mtime('/App/js/okdoki.js')}")
     script(src='/App/js/jquery.cookie.js')
     script#templates(type="text/x-okdoki")
       - if (screen_name)
