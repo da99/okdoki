@@ -401,6 +401,37 @@ Hyper_JS.prototype.delete_where = function (field, new_model) {
 var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
 var base_url = window.location.href.replace(/\/$/, '');
 var App  = _.extend({}, Backbone.Events);
+var Screen_Name = {
+  screen_name: function (sn) {
+    if (sn)
+      this._sn = sn;
+    return this._sn;
+  },
+  to_url = function (path) {
+    var url = "/me/" + this._sn;
+    if (path)
+      url += path;
+    return url;
+  }
+};
+var Customer    = {
+  is_stranger : true,
+  is_customer : false,
+  _sns : [],
+  screen_names : function (arr) {
+    if (arr)
+      this._sns = arr;
+    return this._sns;
+  },
+  log_in : function (arr) {
+    this.screen_names = arr;
+    this.is_stranger = false;
+    this.is_customer = true;
+  },
+  has_one_life : function () {
+    return this.screen_names().length === 1;
+  }
+};
 
 App.on('all', function (name) {
   log("event: " + name);
@@ -430,6 +461,29 @@ function show(se) {
 function hide(se) {
   return log_length(se).hide();
 }
+
+
+// ================================================================
+// ================== Session =====================================
+// ================================================================
+
+
+$(function () {
+  var sn = 'div.Screen_Name';
+  if (template_or_null(sn)) {
+    Screen_Name.screen_name = $(read_template(sn)).text();
+  }
+  var c = 'div.Customer_Screen_Names';
+  if (template_or_null(c)) {
+    Customer.log_in($.trim($(read_template(sns)).text()).split(/\s+/));
+  }
+});
+
+function erase_url_wanted() {
+  $.removeCookie('url_wanted', {path: '/'});
+}
+
+
 
 // ================================================================
 // ================== Time ========================================
@@ -920,18 +974,6 @@ function every_sec(se, func) {
 
   update();
 };
-
-var The_Screen_Name = null;
-$(function () {
-  var sn = 'div.The_Screen_Name';
-  if (template_or_null(sn)) {
-    The_Screen_Name = $(read_template(sn)).text();
-  }
-});
-
-function erase_url_wanted() {
-  $.removeCookie('url_wanted', {path: '/'});
-}
 
 // ================================================================
 // ================== Adaptive ====================================

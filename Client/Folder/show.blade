@@ -8,6 +8,7 @@ function draw_page(page)
       span.time #{page.created_at}
     span.divider  -&nbsp;
     a(href="/me/#{screen_name}/folder/#{folder_num}/page/#{page.num}") #{page.title}
+
 append styles
   call css("/Screen_Name/me.css")
 

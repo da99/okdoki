@@ -8,7 +8,7 @@ function me_mb_msg(o) {
 
 
 function mb_msg(o) {
-  var sn = The_Screen_Name.toUpperCase();
+  var sn = Screen_Name.screen_name().toUpperCase();
   if (_.isArray(o)) {
     _.each(o.slice().reverse(), function (m) {
       if (m.author_screen_name.toUpperCase() === sn)
@@ -25,7 +25,7 @@ function mb_msg(o) {
 function screen_name(name) {
 
   if (!name) {
-    return The_Screen_Name;
+    return Screen_Name.screen_name();
   }
 
   var parent = $('#Other_Screen_Names');
@@ -108,7 +108,7 @@ $(function () {
   form('#Create_Folder', function (f) {
     f.at_least_one_not_empty('input[type="text"]');
     f.on_success(function (result) {
-      result.location = "/me/" + The_Screen_Name + '/folder/' + result.num;
+      result.location = Screen_Name.to_url('/folder/' + result.num);
       f.find('div.success').html("New folder is at: <a href=\"LOC\">LOC</a>".replace(/LOC/g, result.location));
       log(result)
       folder(result);
