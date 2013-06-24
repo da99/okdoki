@@ -81,6 +81,7 @@ if (process.env.IS_TESTING)
 var watchers = [];
 var watched_dirs  = [];
 var server_started = false
+var server_restarting = false
 
 function is_client_file(f) {
   return client_file_mtimes && client_file_mtimes[to_client_file( f )];
@@ -148,8 +149,6 @@ watch( ["Server/", "Client/", 'test/ui'] )
 })
 .on('change', function (filename) {
   if (is_static(filename))
-    return;
-  if (filename.match(client_file))
     return;
 
   console.log("\nchanged: " + filename);
@@ -260,10 +259,16 @@ function shutdown_server(func) {
 
 function restart_server(func) {
 
+  if (server_restarting)
+    return;
+  server_restarting = true;
+
   var server = spawn("bin/restart");
   server.stdout.on('data', function (data) {
-    if (data.toString().indexOf("isten") > 0)
+    if (data.toString().indexOf("isten") > 0) {
       server_started = true;
+      server_restarting = false;
+    }
     process.stdout.write("" + data);
   });
 
