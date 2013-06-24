@@ -153,11 +153,9 @@ form.loading div.field {
   padding-bottom: 10px;
 }
 form input[type="password"],
-form input[type="text"] {
+form input[type="text"],
+form textarea {
   margin: 0;
-  font-family: monospace;
-  font-size: 110%;
-  font-weight: bold;
 }
 form div.errors {
   background: #cb0818;
@@ -222,6 +220,11 @@ input[type="color"]:focus,
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(82,168,236,0.6);
   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(82,168,236,0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(82,168,236,0.6);
+}
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  background: #fff7c7;
 }
 div.loading {
   padding: 0 0 0 39px;
