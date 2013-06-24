@@ -13,21 +13,20 @@ ul {
 }
 a:link {
   padding: 0 4px;
-  text-decoration: none;
   color: #f85d95;
-  border-bottom: 1px dashed #f00919;
+  border-bottom: 1px dashed #f85d95;
+  text-decoration: none;
 }
 a:visited {
   color: #cfbcc4;
-  border-bottom: 1px dashed #fb9aa1;
+  border-color: #fcb4b9;
 }
 a:hover {
   background: #ff8f00;
   color: #333;
+  text-decoration: none;
 }
-a:visited:hover {
-  border-bottom: 1px dashed #ff8f00;
-}
+a:visited:hover,
 h2 {
   font-size: 1em;
   line-height: 1.5em;

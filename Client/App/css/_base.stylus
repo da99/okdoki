@@ -47,20 +47,20 @@ ul
 
 a:link
   padding: 0 4px;
-  text-decoration: none
   color: $pink
-  border-bottom: 1px dashed $samar_red
+  border-bottom: 1px dashed $pink
+  text-decoration: none
 
 a:visited
   color: #cfbcc4
-  border-bottom: 1px dashed lighten($samar_red, 60%)
+  border-color: lighten($samar_red, 70%)
 
 a:hover
   background: $orange;
   color: lighten(#000, 20%);
+  text-decoration: none
 
 a:visited:hover
-  border-bottom: 1px dashed $orange
 
 h2
   font-size: 1.0em;

@@ -9,6 +9,14 @@ body {
   background-color: transparent;
   padding: 0;
 }
+a:link,
+a:visited {
+  border: 0;
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: none;
+}
 h1.title {
   text-shadow: #000 0.1em 0.1em 0.1em;
   font-family: 'Lenka';
