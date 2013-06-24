@@ -18,6 +18,8 @@ $pink        = #F85D95
 $orange      = #ff8f00
 $dark_orange = #f08700
 $darker_orange = #e48000
+$blue_green  = #00b9b2
+$blue        = #008EED
 $sans-serif  = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
 
@@ -35,23 +37,21 @@ ul
   margin-bottom: 0;
 
 
+
+
+
 a:link
   color: $pink;
   padding: 2px 4px;
 
-
+a:visited
+  color: lighten($blue, 35%)
 
 a:hover
   color: #E42323;
   background: #F85D95;
   color: #fff;
 
-
-a:visited
-  color: $orange;
-a:visited:hover
-  background: $dark_orange;
-  color: #fff;
 
 
 
