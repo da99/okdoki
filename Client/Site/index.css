@@ -390,6 +390,9 @@ div.box div.content {
   text-align: left;
   color: #fff;
 }
+div.box div.content div.field {
+  padding-bottom: 10px;
+}
 div.box div.content span.label {
   color: #ff721a;
 }
@@ -397,6 +400,8 @@ div.box div.content span.value {
   color: #e1eeff;
   font-weight: normal;
   text-transform: none;
+  line-height: 1.1em;
+  padding: 0 0 4px 0;
 }
 div.box div.content input[type="text"],
 div.box div.content input[type="password"] {

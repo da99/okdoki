@@ -426,12 +426,16 @@ div.box
     border-radius: 0 0 3px 0
     text-align: left
     color: #fff
+    div.field
+      padding-bottom: 10px
     span.label
       color: $orange
     span.value
       color: $light_blue
       font-weight: normal
       text-transform: none
+      line-height: 1.1em
+      padding: 0 0 4px 0
     input[type="text"], input[type="password"]
       width: 99%
       font-size: 150%
