@@ -7,7 +7,12 @@ var Refresh = 4 // seconds
 , IM        = require('../IM/model').IM
 , Website   = require('../Website/model').Website
 , Folder    = require('../Folder/model').Folder
+, path = require('path')
 ;
+
+var valid_chars = "a-zA-Z0-9\\-\\_\\.";
+var VALID_SCREEN_NAME = new RegExp( '^[' + valid_chars + ']{3,15}$' );
+var INVALID_CHARS = new RegExp( '[^' + valid_chars + ']', 'ig' );
 
 var WORLD = '@W';
 
@@ -102,6 +107,22 @@ S.prototype.is_update_able = function () {
   return _.isEqual( this.customer().data.id, this.data.owner_id);
 };
 
+S.filter = function (sn) {
+  return sn.replace(INVALID_CHARS, "");
+};
+
+S.to_url = function () {
+  var args = _.toArray(arguments);
+  var raw_sn = args.shift();
+  var sn = S.filter(raw_sn);
+  if (!sn.length)
+    return null;
+
+  args.unshift(sn);
+  args.unshift('/me');
+  return path.join.apply(path, args);
+};
+
 // ================================================================
 // ================== Create Validators ===========================
 // ================================================================
@@ -117,7 +138,7 @@ var Validate_Create = Check.new('create screen name', function (vc) {
 
     v
     .to_upper_case()
-    .match(/^[A-Z0-9\-\_\.]{3,15}$/, "Screen name must be: 3-15 valid chars: 0-9 a-z A-Z _ - .")
+    .match(VALID_SCREEN_NAME, "Screen name must be: 3-15 valid chars: 0-9 a-z A-Z _ - .")
     ;
 
     _.each(banned_screen_names, function (pattern, i) {

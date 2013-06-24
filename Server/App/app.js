@@ -58,7 +58,7 @@ var New_River = exports.New_River = function (req, resp, next) {
     var name = args[0];
     args.push(function (j, last) {
       if (args.length === 2 && func.length ===2 && !last) {
-        console.log(last)
+        log(last)
         log('Not found: ', name);
         return j.finish(null);
       }
@@ -326,6 +326,23 @@ passport.use(new LocalStrategy( { usernameField: 'screen_name', passwordField: '
   .run();
 }));
 
+
+function url_wanted(req, def) {
+  if (!def)
+    def = '/';
+  var url = req.cookies && req.cookies.url_wanted;
+  if (!url)
+    return def;
+  var pieces = url.split(':');
+  var type = pieces[0];
+  if (type === 'chat room of') {
+    url = Screen_Name.to_url(pieces[1].trim(), 'chat');
+    if (url)
+      return url;
+  }
+  return def;
+}
+
 module.exports.sign_in = function (req, resp, next, msg) {
   return passport.authenticate('local', function(err, user, info) {
     if (err)
@@ -342,8 +359,8 @@ module.exports.sign_in = function (req, resp, next, msg) {
       resp.json({
         msg         : msg || "Success: Please wait as page reloads...",
         success     : true,
-        screen_name : req.body.screen_name,
-        location    : "/me/" + req.body.screen_name
+        screen_name : Screen_Name.filter(req.body.screen_name),
+        location    : url_wanted(req, Screen_Name.to_url(req.body.screen_name))
       });
     });
 

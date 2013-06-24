@@ -37,13 +37,13 @@ $(function () {
 
   IS_CUSTOMER = $('body').hasClass('is_customer');
 
-  on_click($('#Stranger a[href="/"]'), function (e) {
+  $('#Stranger a[href="/"]').click(function (e) {
     var link = $(e);
-    log($.cookie('url_wanted'));
     $.cookie('url_wanted', 'chat room of: ' + The_Screen_Name, {
-      expires: new Date((new Date).getTime() + (1000 * 60 * 15))
+      expires: new Date((new Date).getTime() + (1000 * 60 * 15)),
+      path: "/"
     });
-    $(window).href.location = '/';
+    return true;
   });
 
   if (!IS_CUSTOMER)

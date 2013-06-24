@@ -95,7 +95,6 @@ $(function () {
       div_loading.addClass('error_msg');
       div_loading.removeClass('loading');
       div_loading.text("Messages could not be retrieved at this time. Try again later by refreshing this page.");
-      flow();
       return false;
     }
 
@@ -117,7 +116,6 @@ $(function () {
   });
 
 
-  flow();
 
 }); // ==== jquery on dom ready
 

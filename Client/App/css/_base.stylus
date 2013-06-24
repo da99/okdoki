@@ -52,7 +52,7 @@ a:link
   text-decoration: none
 
 a:visited
-  color: #cfbcc4
+  color: #966e7f
   border-color: lighten($samar_red, 70%)
   text-decoration: none
 

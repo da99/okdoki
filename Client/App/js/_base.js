@@ -530,6 +530,9 @@ $(function () {
   }
 });
 
+function erase_url_wanted() {
+  $.removeCookie('url_wanted', {path: '/'});
+}
 
 // ================================================================
 // ================== Adaptive ====================================
@@ -548,7 +551,6 @@ function add_screen_class () {
       $('body').addClass('w' + target + '_plus');
     if ( w < target)
       $('body').addClass('w' + target + '_minus');
-    log(w, target)
   });
   log($('body').attr('class'));
 }

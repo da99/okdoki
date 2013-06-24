@@ -17,7 +17,7 @@ $(function () {
     f.on_success(function (result) {
       reset_forms(f);
       f.find('div.buttons').after(compile_template('div.screen_name_created', {HREF: result.location}));
-      log(result);
+      erase_url_wanted();
       document.location.href = result.location;
     });
   });
