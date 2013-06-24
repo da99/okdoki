@@ -28,7 +28,7 @@ html(lang='en')
     //- meta(http-equiv="expires", content="Tue, 01 Jan 1980 1:00:00 GMT" )
     //- meta(http-equiv="pragma", content="no-cache" )
 
-  body
+  body(class="#{ (logged_in) ? 'is_customer' : 'is_stranger' }")
 
     - if (logged_in)
       div#Session_Nav
