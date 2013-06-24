@@ -39,6 +39,25 @@ append content
 
   h1 #{screen_name}'s Chat Room
 
+  - if (is_stranger)
+    div#Stranger
+      div.box#One_More_Step
+        h3 You're almost inside:
+        div.content
+          div.p
+            a(href="/me/#{screen_name}") #{screen_name}
+            span> uses
+            a(href="/") Okdoki.com
+            span>
+              | to manage their chat room.
+            br
+            span> You have to
+            a(href="/") log-in or create an account
+            span> there.
+            br
+            span>
+              | Then, come back and start chatting.
+
   div#Boxs
 
     div.box#Audience

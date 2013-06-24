@@ -54,13 +54,14 @@ a:link
 a:visited
   color: #cfbcc4
   border-color: lighten($samar_red, 70%)
+  text-decoration: none
 
 a:hover
   background: $orange;
   color: lighten(#000, 20%);
   text-decoration: none
+  border-color: $orange
 
-a:visited:hover
 
 h2
   font-size: 1.0em;

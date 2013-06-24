@@ -20,13 +20,14 @@ a:link {
 a:visited {
   color: #cfbcc4;
   border-color: #fcb4b9;
+  text-decoration: none;
 }
 a:hover {
   background: #ff8f00;
   color: #333;
   text-decoration: none;
+  border-color: #ff8f00;
 }
-a:visited:hover,
 h2 {
   font-size: 1em;
   line-height: 1.5em;

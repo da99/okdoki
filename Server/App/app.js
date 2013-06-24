@@ -125,6 +125,8 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           homepage_belongs_to_viewer: false,
           template_name : name,
           logged_in     : !!req.user,
+          is_customer   : !!req.user,
+          is_stranger   : !req.user,
           customer      : req.user,
           screen_name   : req.params.screen_name,
           is_owner      : false,
@@ -141,6 +143,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
 
         if (opts.logged_in && opts.screen_name)
           opts.is_owner = req.user.is(opts.screen_name);
+
       }
       if (data)
         _.extend(this._template_data, data);

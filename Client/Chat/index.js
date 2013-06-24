@@ -3,6 +3,7 @@ var IN_CHAT_ROOM       = false;
 var LAST_CHAT_MSG_DATE = null;
 var MAX_CHAT_MSG_TOTAL = 250;
 var TOTAL_CHAT_MSG     = 0;
+var IS_STRANGER        = true;
 
 function official_chat_msg(msg) {
   draw_chat_msg( 'div.official.chat_msg', msg );
@@ -34,6 +35,8 @@ function draw_chat_msg(sel, msg) {
 
 $(function () {
 
+  IS_STRANGER = !$('body').hasClass('is_customer');
+
   // ============================================
   // ================ Grab chat room msgs........
   // ============================================
@@ -59,29 +62,35 @@ $(function () {
     body: "Entering chat room... please wait..."
   });
 
-  // Enter the Chat Room...
-  post("/chat_room/enter", {}, function (err, o) {
-
+  function reset_chat_room() {
     IN_CHAT_ROOM = false;
+  }
 
-    if (err) {
-      log(err);
-      in_secs(5, function () {
-        official_error_chat_msg({body: "Your attempt to enter the chat room failed."});
-        $('#Home_Page').show();
-        $('#Chat_Room').hide();
-        $('#Enter_Chat_Room div.error_msg').text('Your attempt to enter the chat room failed. Try again in a few minutes.');
-        $('#Enter_Chat_Room div.error_msg').show();
-      });
-      return false;
-    }
+  function enter_chat_room() {
+    // Enter the Chat Room...
+    post("/chat_room/enter", {}, function (err, o) {
 
-    IN_CHAT_ROOM = true;
-    Show_Say.show();
-    $('#Enter_Chat_Room div.error_msg').hide();
-    official_chat_msg({body: o.msg});
+      reset_chat_room();
 
-  });
+      if (err) {
+        log(err);
+        in_secs(5, function () {
+          official_error_chat_msg({body: "Your attempt to enter the chat room failed."});
+          $('#Home_Page').show();
+          $('#Chat_Room').hide();
+          $('#Enter_Chat_Room div.error_msg').text('Your attempt to enter the chat room failed. Try again in a few minutes.');
+          $('#Enter_Chat_Room div.error_msg').show();
+        });
+        return false;
+      }
+
+      IN_CHAT_ROOM = true;
+      Show_Say.show();
+      $('#Enter_Chat_Room div.error_msg').hide();
+      official_chat_msg({body: o.msg});
+
+    });
+  }
 
   // ============================================
   // ================ Talk to the Chat Room......

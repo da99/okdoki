@@ -21,7 +21,50 @@ h1 {
   text-shadow: 1px 1px 1px #fff;
   color: #616161;
 }
+#Stranger {
+  overflow: auto;
+}
+#Stranger div.box {
+  background: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 0 10px 10px 10px;
+}
+#Stranger div.box h3 {
+  padding: 0 0 0 0;
+  font-size: 90%;
+  color: #4d4d4d;
+}
+#Stranger div.box div.content {
+  text-align: left;
+  width: 300px;
+  margin: 0 auto;
+}
+#Stranger #One_More_Step {
+  margin: 20px 0 0 0;
+  font-size: 120%;
+  padding: 20px 10px 30px 10px;
+}
+#Stranger #One_More_Step h3 {
+  padding: 0 0 10px 0;
+}
+#Stranger #One_More_Step a:link,
+#Stranger #One_More_Step a:visited {
+  color: #f85d95;
+  border-width: 2px;
+}
+#Stranger #One_More_Step a:hover {
+  background: #f85d95;
+  color: #fff;
+  border-color: #f85d95;
+}
+#Stranger #One_More_Step div.content {
+  text-align: center;
+}
+#Stranger #New_Session {
+  margin: 0 10px 0 0;
+}
 #Boxs {
+  display: none;
   padding: 0;
   margin: 0;
 }
@@ -78,6 +121,7 @@ h1 {
   padding-bottom: 15px;
 }
 #Chats {
+  display: none;
   padding: 0;
   margin: 0;
 }
@@ -162,4 +206,8 @@ body.w1000_plus #Boxs #Audience div.content {
   -moz-column-gap: 12px;
   -webkit-column-gap: 12px;
   column-gap: 12px;
+}
+body.is_customer #Boxs,
+body.is_customer #Chats {
+  display: block;
 }

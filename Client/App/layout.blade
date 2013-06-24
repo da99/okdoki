@@ -28,9 +28,9 @@ html(lang='en')
     //- meta(http-equiv="expires", content="Tue, 01 Jan 1980 1:00:00 GMT" )
     //- meta(http-equiv="pragma", content="no-cache" )
 
-  body(class="#{ (logged_in) ? 'is_customer' : 'is_stranger' }")
+  body(class="#{ (is_customer) ? 'is_customer' : 'is_stranger' }")
 
-    - if (logged_in)
+    - if (is_customer)
       div#Session_Nav
         div.logout#Log_Out
           a(href="/log-out") Log-out

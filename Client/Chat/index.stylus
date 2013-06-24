@@ -10,6 +10,12 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
+$pink        = #F85D95
+$samar_red   = #F00919
+$avacado=#b0c460
+
+$glass_white = rgba(255,255,255,0.40)
+
 column_count(num)
   -moz-column-count: num
   -webkit-column-count: num
@@ -35,7 +41,7 @@ body
   background: transparent
 
 h1
-  background: rgba(255,255,255,0.40)
+  background: $glass_white
   font-family: $serif
   font-style: normal
   font-size: 130%
@@ -47,7 +53,43 @@ h1
   color: #616161
 
 
+#Stranger
+  overflow: auto
+  div.box
+    background: $glass_white
+    text-align: center
+    padding: 0 10px 10px 10px
+    h3
+      padding: 0 0 0 0
+      font-size: 90%
+      color: lighten(#000, 30%)
+    div.content
+      text-align: left
+      width: 300px
+      margin: 0 auto
+
+  #One_More_Step
+    margin: 20px 0 0 0
+    font-size: 120%
+    padding: 20px 10px 30px 10px
+    h3
+      padding: 0 0 10px 0
+    a:link
+    a:visited
+      color: $pink
+      border-width: 2px
+    a:hover
+      background: $pink
+      color: #fff
+      border-color: $pink
+    div.content
+      text-align: center
+
+  #New_Session
+    margin: 0 10px 0 0
+
 #Boxs
+  display: none
   padding: 0
   margin: 0
   div.box
@@ -93,6 +135,7 @@ h1
       padding-bottom: 15px
 
 #Chats
+  display: none
   padding: 0
   margin: 0
   div.msgs
@@ -164,4 +207,10 @@ body.w1000_plus
       div.content
         column_count(6)
         column_gap(12px)
+
+
+body.is_customer
+  #Boxs, #Chats
+    display: block
+
 
