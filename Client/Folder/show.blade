@@ -186,7 +186,7 @@ append content
           a(href="#edit") Edit
 
   div#Pages
-    foreach pages as page
+    - for page in pages
       call draw_page(page.data)
 
 

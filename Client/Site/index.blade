@@ -100,11 +100,11 @@ append content
 
     - if (logged_in)
       div#Screen_Names
-        - if (customer_screen_names.length === 1)
+        - if (customer_has_one_life)
           span Your screen name:
         - else
           span Your screen names:
-        foreach customer_screen_names as sn
+        - for sn in customer_screen_names
           div
             a(href="/me/#{sn}") #{sn}
     - else

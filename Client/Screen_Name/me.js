@@ -49,7 +49,7 @@ $(function () {
   // ================ Show lifes.................
   // ============================================
   if ($('#Other_Screen_Names').length) {
-    var lifes = $.trim($(read_template('div.screen_names')).text()).split(/\s+/);
+    var lifes = $.trim($(read_template('div.customer_screen_names')).text()).split(/\s+/);
     var SN = $.trim($(read_template('div.screen_name')).text()).toUpperCase();
 
     _.each(lifes, function (l) {
