@@ -127,7 +127,6 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           logged_in     : !!req.user,
           customer      : req.user,
           screen_name   : req.params.screen_name,
-          screen_names  : [],
           is_owner      : false,
           token         : req.session._csrf,
           _csrf         : req.session._csrf,
@@ -135,8 +134,10 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           is_testing    : !!process.env.IS_TESTING
         };
 
-        if (opts.logged_in)
-          opts.screen_names = req.user.screen_names().slice().reverse();
+        if (opts.logged_in) {
+          opts.customer_screen_names = req.user.screen_names().slice().reverse();
+          opts.customer_has_one_life = opts.customer_screen_names.length === 1;
+        }
 
         if (opts.logged_in && opts.screen_name)
           opts.is_owner = req.user.is(opts.screen_name);
