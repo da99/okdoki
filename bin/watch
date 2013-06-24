@@ -137,6 +137,8 @@ watch( ["Server/", "Client/", 'test/ui'] )
 .on('add', function (f) {
   if (is_static(f))
     return;
+  if (f.match(client_file))
+    return;
 
   if (!server_started)
     return;
@@ -146,6 +148,8 @@ watch( ["Server/", "Client/", 'test/ui'] )
 })
 .on('change', function (filename) {
   if (is_static(filename))
+    return;
+  if (filename.match(client_file))
     return;
 
   console.log("\nchanged: " + filename);
