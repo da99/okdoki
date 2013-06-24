@@ -3,13 +3,15 @@
 if (process.argv.indexOf('test') > 0)
   process.env.IS_TESTING = true;
 
-var _        = require('underscore');
-var chokidar = require('chokidar');
-var exec     = require("child_process").exec;
-var spawn    = require("child_process").spawn;
-var fs       = require("fs");
-var term     = require('cli-color');
-var akui     = require('akui');
+var _                  = require('underscore');
+var chokidar           = require('chokidar');
+var exec               = require("child_process").exec;
+var spawn              = require("child_process").spawn;
+var fs                 = require("fs");
+var term               = require('cli-color');
+var akui               = require('akui');
+var client_file_mtimes = null;
+var client_file        = "Server/App/file_times";
 
 var throw_err= function (err) {
   throw err;
@@ -24,6 +26,13 @@ var shell    = function (cmd, func) {
       func(o, e);
   });
 };
+
+
+exec("bin/file_times", function (err, o, e) {
+  if (err)
+    throw err;
+  client_file_mtimes = require('../' + client_file).data;
+});
 
 // ================================================================
 // ================== Stream Test Results =========================
@@ -72,6 +81,21 @@ if (process.env.IS_TESTING)
 var watchers = [];
 var watched_dirs  = [];
 var server_started = false
+
+function is_client_file(f) {
+  return client_file_mtimes && client_file_mtimes[f];
+}
+
+function update_client_file(f) {
+  if (is_client_file(f)) {
+    console.log("Client file updated: ", f);
+    console.log("old: ", client_file_mtimes[f]);
+    client_file_mtimes[f] = (new Date()).getTime();
+    fs.writeFile(client_file + '.js', "exports.data = " + JSON.stringify(client_file_mtimes));
+    console.log("new: ", client_file_mtimes[f]);
+    return f;
+  }
+}
 
 function is_static(f) {
   return !f.match('Server/') && !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
@@ -140,7 +164,10 @@ watch( "Client/" )
     return;
   stylus_changed(f, 'change');
 })
-.on('change', function (f) { stylus_changed(f, 'change'); })
+.on('change', function (f) {
+  update_client_file(f);
+  stylus_changed(f, 'change');
+})
 .on('unlink', function (f) { stylus_changed(f, 'unlink'); })
 ;
 
