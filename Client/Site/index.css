@@ -90,7 +90,7 @@ div.form div.form a.cancel {
 #header {
   padding: 10px 0 10px 0;
   margin: 0px 0 0 0;
-  border-radius: 0 0px 0 0;
+  border-radius: 0;
   color: #e1eeff;
 }
 #header h2 {
@@ -357,7 +357,7 @@ a.author {
   width: 300px;
   background: rgba(0,0,0,0.65);
   color: #e1eeff;
-  padding: 0 0 30px 0;
+  padding: 20px 0 10px 0;
 }
 #Why h3 {
   text-align: center;
@@ -367,6 +367,7 @@ a.author {
 }
 #Why div.content {
   margin: 0 15px;
+  padding-bottom: 20px;
 }
 div.box {
   padding: 0 0 10px 0;
