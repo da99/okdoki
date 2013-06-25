@@ -6,7 +6,7 @@ $(function () {
   var reset_creates = function () {
     $(create_links).parent().removeClass('active');
     $(creates).hide();
-    reset_forms(creates + ' form');
+    reset_form_to_submit_more(creates + ' form');
   };
 
   on_click($(creates).find('a.cancel'), reset_creates);
@@ -36,7 +36,7 @@ $(function () {
   // === Create Page
   form( '#Page form', function (f) {
     f.on_success(function (result) {
-      reset_forms(f);
+      reset_form_to_submit_more(f);
       console.log(result);
       // $(f).find('button').parent().append(compile_template('div.page_created', {HREF: result.record.location}));
       $('#Pages').prepend(compile_template('div.page', {

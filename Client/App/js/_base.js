@@ -261,11 +261,17 @@ function func() {
 
 var form_meta = {};
 
-function reset_forms(selector) {
-  $(selector).find('div.buttons').show();
-  $(selector).find('div.loading').hide();
-  $(selector).find('div.errors').hide();
-  $(selector).find('div.success').hide();
+function make_form_like_new(se) {
+  $(se).find('div.buttons').show();
+  $(se).find('div.loading').hide();
+  $(se).find('div.errors').hide();
+  $(se).find('div.success').hide();
+}
+
+function reset_form_to_submit_more(se) {
+  $(se).find('div.buttons').show();
+  $(se).find('div.loading').hide();
+  $(se).find('div.errors').hide();
 }
 
 function form(selector, func) {
@@ -275,7 +281,7 @@ function form(selector, func) {
   }
 
   var loaded = function (msg) {
-    reset_forms(selector);
+    make_form_like_new(selector);
 
     if (msg) {
       after($(selector).find('div.buttons'))
@@ -295,7 +301,7 @@ function form(selector, func) {
   $(selector).find('button.submit').click(function (e) {
     e.stopPropagation();
 
-    reset_forms(selector);
+    make_form_like_new(selector);
 
     var form    = $($(this).closest('form'));
     var url     = form.attr('action');
