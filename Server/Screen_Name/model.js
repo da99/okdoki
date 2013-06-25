@@ -145,7 +145,7 @@ var Validate_Create = Check.new('create screen name', function (vc) {
       v.not_match(new RegExp(pattern, 'ig'), 'Screen name not allowed: ' + v.val);
     });
 
-    v.sanitized('display_name', orig);
+    v.update_sanitized_value_by_key('display_name', orig);
   });
 
   vc.define('body', function (v) {

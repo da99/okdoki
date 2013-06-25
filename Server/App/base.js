@@ -19,6 +19,18 @@ exports.log = function() {
     return ((_.isArray(arr) && arr.length > 5) ? 'Array: ' + arr.length : arr);;
   });
 
+  args = _.map(args, function (a) {
+    if (!_.isObject(a) || _.isArray(a))
+      return a;
+    var new_o = {};
+    _.each(a, function (v, k) {
+      if (!k.match(/pass_?(phrase|word)/))
+        new_o[k] = v;
+      else
+        new_o[k] = "[censored]"
+    });
+    return new_o;
+  });
   if (process.env.IS_DEV)
     console['log'].apply(console, args);
 };

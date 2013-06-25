@@ -1,5 +1,6 @@
-var _ = require("underscore"),
-Customer = require("../Customer/model").Customer
+var _      = require("underscore")
+, Customer = require("../Customer/model").Customer
+, log      = require('../App/base').log
 ;
 
 module.exports.route = function (mod) {

@@ -399,7 +399,7 @@ form
   float: left
   width: 300px
   background: $glass_black
-  color: $light_blue
+  color: #E1E4E7
   padding: 20px 0 10px 0
   h3
     text-align : center

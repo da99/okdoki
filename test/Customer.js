@@ -73,6 +73,24 @@ describe( 'Customer', function () {
       .run(h.throw_it);
     });
 
+    it( 'checks pass_phrase and confirm_pass_phrase match', function (done) {
+      var screen_name = "123456789";
+      var opts = {
+        screen_name: screen_name,
+        pass_phrase: pass_phrase,
+        confirm_pass_phrase: pass_phrase + "a",
+        ip: '00.000.000'
+      };
+
+      River.new(null)
+      .next('invalid', function (j) {
+        assert.equal(j.job.error.message, "Pass phrase is different than pass phrase confirmation.");
+        done();
+      })
+      .job(function (j) { Customer.create(opts, j); })
+      .run(h.throw_it);
+    });
+
     it( 'saves screen_name to Customer object', function () {
       assert.deepEqual(customer.screen_names(), [screen_name.toUpperCase()]);
     });

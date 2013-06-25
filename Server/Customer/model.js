@@ -7,6 +7,7 @@ var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , UID         = require('../App/UID').UID
 , warn        = require('../App/base').warn
+, log         = require('../App/base').log
 ;
 
 // ================================================================
@@ -266,7 +267,7 @@ var Validate_Create = Check.new('create customer', function (vc) {
 
   vc.define('confirm_pass_phrase', function (vador) {
     vador
-    .equals(vador.sanitized('pass_phrase'), "Pass phrase is different than pass phrase confirmation.")
+    .equals(vador.read_sanitized('pass_phrase'), "Pass phrase is different than pass phrase confirmation.")
     ;
   });
 
