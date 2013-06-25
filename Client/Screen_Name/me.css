@@ -2,8 +2,10 @@ form input[type="text"] {
   font-size: 190%;
 }
 body {
+  text-align: center;
   padding: 0 0 100px 0;
   background: #fafafa;
+  background: #fafafa url("/App/img/wood_pattern.png");
 }
 select,
 option {
@@ -16,9 +18,10 @@ option {
   -moz-column-gap: 10px;
   -webkit-column-gap: 10px;
   column-gap: 10px;
-  -moz-column-rule: 1px dashed #e3e3e3;
-  -webkit-column-rule: 1px dashed #e3e3e3;
-  column-rule: 1px dashed #e3e3e3;
+  -moz-column-rule: 1px dashed #aaa;
+  -webkit-column-rule: 1px dashed #aaa;
+  column-rule: 1px dashed #aaa;
+  background: rgba(255,255,255,0.3);
 }
 div.box {
   padding: 0;
@@ -26,31 +29,37 @@ div.box {
   width: 100%;
   display: inline-block;
   padding-bottom: 15px;
-  min-width: 300px;
-  border-bottom: 1px dashed #fed9dc;
+  border-bottom: 1px dashed #aaa;
 }
 div.box h3 {
   padding: 0;
   text-align: center;
   color: #525252;
+  font-size: 80%;
 }
 div.box div.content {
   padding: 10px;
 }
 #Me {
-  padding: 10px 0 10px 10px;
+  padding: 20px 0 10px 10px;
+  text-align: center;
 }
 #Me h3 {
-  font-family: 'Lenka';
-  font-size: 230%;
-  font-style: italic;
-  text-align: left;
-  padding: 10px 5px 0 10px;
-  margin: 0;
+  font-family: 'Orthoventional', Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 280%;
+  font-style: normal;
+  text-transform: none;
+  text-shadow: 1px 1px 1px #fff;
+  padding: 10px 5px 10px 10px;
+  width: 90%;
+  margin: 0 auto;
 }
 #Me div.content {
   padding: 3px 5px 4px 15px;
   color: #000;
+  width: 90%;
+  margin: 0 auto;
+  border-bottom: 4px double #333;
 }
 #Control_Panel {
   float: none;
@@ -86,7 +95,6 @@ div.box div.content {
   padding: 0 10px 0 0;
 }
 #New_Life div.content input[type="text"] {
-  width: 200px;
   font-size: 190%;
   margin-right: 10px;
 }
@@ -96,7 +104,6 @@ div.box div.content {
   display: inline-block;
 }
 #Create {
-  width: 300px;
   background: rgba(0,0,0,0.6);
 }
 #Create div.link {
@@ -115,7 +122,7 @@ div.box div.content {
   padding: 3px 7px;
 }
 #Create div.errors {
-  color: #f50000;
+  color: #ff7a7a;
   padding: 3px 7px;
 }
 #Create_Boxs {
@@ -154,7 +161,6 @@ div.box div.content {
   text-align: right;
 }
 #Create_Website {
-  max-width: 300px;
   display: none;
 }
 #Write_Message span.label {
@@ -205,17 +211,17 @@ div.box div.content {
   border-radius: 3px;
 }
 #Enter_Chat_Room div.content {
-  background: #fff;
-  width: 300px;
-  padding: 15px 0 20px 0;
+  padding: 15px 0 10px 0;
   text-align: center;
   font-size: 110%;
 }
 #Enter_Chat_Room div.content a:link {
   padding: 3px 5px;
   border-radius: 5px;
+  border-width: 0;
   font-weight: bold;
   text-transform: uppercase;
+  text-decoration: underline;
 }
 #Enter_Chat_Room div.content a:link:after {
   content: ": ";
@@ -227,7 +233,9 @@ div.box div.content {
   padding: 5px;
 }
 #Folders div.content ul.folders {
+  list-style: none;
   margin: 0;
+  padding: 0;
 }
 #Folders div.content ul.folders li {
   margin: 0;
@@ -257,7 +265,9 @@ body.w600_plus #Boxs {
   column-count: 2;
 }
 body.w1200_plus #Boxs {
-  -moz-column-count: 4;
-  -webkit-column-count: 4;
-  column-count: 4;
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
+  column-count: 3;
+  width: 96%;
+  margin: 0 auto;
 }

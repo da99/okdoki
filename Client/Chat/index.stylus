@@ -10,9 +10,9 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
-$pink        = #F85D95
-$samar_red   = #F00919
-$avacado=#b0c460
+$pink      = #F85D95
+$samar_red = #F00919
+$avacado   = #b0c460
 
 $glass_white = rgba(255,255,255,0.40)
 
@@ -41,16 +41,16 @@ body
   background: transparent
 
 h1
-  background: $glass_white
-  font-family: $serif
+  font-family: 'Orthoventional', $serif
+  background: transparent
+  font-size: 140%
   font-style: normal
-  font-size: 130%
   font-weight: normal
   text-transform: none
   display: block
-  padding: 5px 5px 5px 7px
-  text-shadow: 1px 1px 1px #fff;
-  color: #616161
+  padding: 10px 0 5px 10px
+  margin: 0
+  text-shadow: 1px 1px 1px lighten(#fff, 30%);
 
 
 #One_More_Step
@@ -66,6 +66,7 @@ h1
       padding: 0 0 10px 0
       font-size: 90%
       color: lighten(#000, 30%)
+      text-transform: none
     div.content
       width: 300px
       margin: 0 auto
@@ -158,6 +159,11 @@ h1
     div.error_msg
       color: $red
 
+body.is_stranger
+  h1
+    text-align: center
+    font-size: 250%
+    padding-top: 20px
 body.w600_minus
   #Boxs
     #Audience
