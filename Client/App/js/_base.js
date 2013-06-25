@@ -146,9 +146,20 @@ var _template_fns_ = {};
 var _templ_vars_ = /\{([^\}]+)\}/g;
 
 function compile_template(se, data) {
-  if (!_template_fns_[se])
-    _template_fns_[se] = _.template(read_template(se));
+  if (!_template_fns_[se]) {
+    _template_fns_[se] = _.template(template_or_default(se, data));
+  }
   return $(_template_fns_[se](data));
+}
+
+function template_or_default(se, data) {
+  var templ = read_template(se);
+  if (!templ) {
+    templ = '<div class="template_not_found">' + _.map(_.keys(data), function (v) {
+      return '{' + v + '} <br />';
+    }).join("") + '</div>';
+  }
+  return templ;
 }
 
 function template_or_null(se) {
