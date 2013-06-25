@@ -25,6 +25,10 @@ column_gap(num)
   -moz-column-gap: num
   -webkit-column-gap: num
   column-gap: num
+column_rule(num)
+  -moz-column-rule: num
+  -webkit-column-rule: num
+  column-rule: num
 
 form input[type="text"]
   font-size: 190%
@@ -37,24 +41,25 @@ select, option
   font-size: 120%
 
 #Boxs
-  column_count(4)
+  column_count(1)
   column_gap(10px)
+  column_rule( 1px dashed lighten($grey_on_light, 80%) )
 
 
 div.box
   padding: 0
-  margin: 0
+  margin: 0 0 10px 0
   width: 100%
   display: inline-block
   padding-bottom: 15px
   min-width: 300px
+  border-bottom: 1px dashed lighten($red, 85%)
   h3
-    padding: 3px 0 0 10px
-    background: #fff
-    color: #7e7e7e
+    padding: 0
+    text-align: center
+    color: #525252
   div.content
     padding: 10px
-    background: #fff
 
 #Me
   padding: 10px 0 10px 10px
@@ -247,26 +252,17 @@ div.box
 //     column_count(4)
 //     width: 1300px
 
-@media only screen and (max-width : 1199px),
-only screen and (max-device-width : 1199px)
-	#Boxs
-    column_count(3)
 
-@media only screen and (max-width : 999px),
-only screen and (max-device-width : 999px)
+
+
+body.w600_plus
 	#Boxs
     column_count(2)
 
-
-@media only screen and (max-width : 799px),
-only screen and (max-device-width : 799px)
+body.w1200_plus
 	#Boxs
-    column_count(2)
+    column_count(4)
 
-@media only screen and (max-width : 599px),
-only screen and (max-device-width : 599px)
-	#Boxs
-    column_count(1)
 
 
 
