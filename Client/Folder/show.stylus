@@ -17,29 +17,27 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
-body
-  padding: 0
-  background: #fff
-
-h1
-  font-family: $sans-serif
-  font-size: 190%
-  font-weight: bold
-  text-align: left
-  padding: 16px 10px 0 10px
-  margin: 0
-  margin-bottom: 0
-  color: #000
 
 #Me
-  padding: 0
+  padding: 18px 0 0 5px
+  margin: 0 0 0 20px
+  text-align: left
+  border-bottom: 4px double lighten(#000, 20%)
+  background: rgba(255,255,255, 0.20)
+  h3
+    font-size: 200%
+    padding: 0
+    width: 90%
+    margin: 0
   div.content
-    padding: 3px 5px 4px 13px
-    background: transparent
-    color: #000
-    text-align: left
-    font-size: 100%
-    background: #fff
+    width: auto
+    padding: 8px 0 2px 2px
+    margin: 0
+    border: 0
+    line-height: 1.5em
+    color: lighten(#000, 35%)
+    a:link
+      text-decoration: underline
 
 #Create
   padding: 10px 0 0 0
@@ -105,7 +103,6 @@ h1
 
 #Pages
   padding: 10px
-  background: #fff
   div.page
     padding: 0 0 5px 0
 div.boxs

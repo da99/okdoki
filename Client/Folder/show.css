@@ -1,27 +1,26 @@
-body {
-  padding: 0;
-  background: #fff;
-}
-h1 {
-  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 190%;
-  font-weight: bold;
-  text-align: left;
-  padding: 16px 10px 0 10px;
-  margin: 0;
-  margin-bottom: 0;
-  color: #000;
-}
 #Me {
+  padding: 18px 0 0 5px;
+  margin: 0 0 0 20px;
+  text-align: left;
+  border-bottom: 4px double #333;
+  background: rgba(255,255,255,0.2);
+}
+#Me h3 {
+  font-size: 200%;
   padding: 0;
+  width: 90%;
+  margin: 0;
 }
 #Me div.content {
-  padding: 3px 5px 4px 13px;
-  background: transparent;
-  color: #000;
-  text-align: left;
-  font-size: 100%;
-  background: #fff;
+  width: auto;
+  padding: 8px 0 2px 2px;
+  margin: 0;
+  border: 0;
+  line-height: 1.5em;
+  color: #595959;
+}
+#Me div.content a:link {
+  text-decoration: underline;
 }
 #Create {
   padding: 10px 0 0 0;
@@ -105,7 +104,6 @@ h1 {
 }
 #Pages {
   padding: 10px;
-  background: #fff;
 }
 #Pages div.page {
   padding: 0 0 5px 0;

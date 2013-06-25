@@ -21,9 +21,9 @@ html(lang='en')
     link(href="/App/css/lenka-stabilo.css", rel="stylesheet", type="text/css")
     call css('/App/css/vanilla.reset.css')
     call css("/App/css/_base.css")
-    call css("/" + template_name + ".css")
 
     block styles
+      call css("/" + template_name + ".css")
 
   body(class="#{ (is_customer) ? 'is_customer' : 'is_stranger' }")
 

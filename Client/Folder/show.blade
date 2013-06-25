@@ -9,7 +9,7 @@ function draw_page(page)
     span.divider  -&nbsp;
     a(href="/me/#{screen_name}/folder/#{folder_num}/page/#{page.num}") #{page.title}
 
-append styles
+prepend styles
   call css("/Screen_Name/me.css")
 
 append scripts
@@ -33,9 +33,9 @@ append templates
 
 append content
 
-  h1 #{title}
 
   div#Me
+    h3 #{title}
     div.content
       div
         | A folder from the life of:
