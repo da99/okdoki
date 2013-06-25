@@ -16,7 +16,7 @@ $(function () {
   form('#sign_in', function (f) {
     f.on_success(function (result) {
       reset_form_to_submit_more(f);
-      f.find('div.buttons').after(compile_template('div.sign_in_success', {HREF: result.location}));
+      f.find('div.success').append($('<a href="L">L</a>'.replace(/L/g, result.location)));
       erase_url_wanted();
       document.location.href = result.location;
     });

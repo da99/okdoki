@@ -4,7 +4,7 @@
 
 $glass_black = rgba(0,0,0,0.65)
 $glass_black_subtle = rgba(248,93,149,0.9)
-$glass_white = rgba(255,255,255,0.90)
+$glass_white = rgba(255,255,255,0.85)
 $glass_blue = rgba(0, 142, 237, 0.7)
 
 $orange             = #FF7800
@@ -287,6 +287,11 @@ a.author
 
 // Forms =======================================
 
+form
+  div.success
+    border: 0
+    color: $yellow_med
+
 #forms
   margin     : 10px 0 0 0
   text-align : center
@@ -439,6 +444,9 @@ div.box
     input[type="text"], input[type="password"]
       width: 99%
       font-size: 150%
+
+#Session_Nav
+  background: $glass_white
 
 div.box#New_Session,
 div.box#New_Customer
