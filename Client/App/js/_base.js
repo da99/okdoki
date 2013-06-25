@@ -153,13 +153,15 @@ function compile_template(se, data) {
 }
 
 function template_or_default(se, data) {
-  var templ = read_template(se);
-  if (!templ) {
-    templ = '<div class="template_not_found">' + _.map(_.keys(data), function (v) {
+  var temp = read_template(se);
+  if (!temp) {
+    log("Templated not found: " + se);
+    var html = '<div class="template_not_found">' + _.map(_.keys(data), function (v) {
       return '{' + v + '} <br />';
     }).join("") + '</div>';
+    temp = template_to_underscore(html);
   }
-  return templ;
+  return temp;
 }
 
 function template_or_null(se) {
@@ -173,9 +175,11 @@ function read_template(se) {
   var t = template_or_null(se);
   if (!t)
     return t;
-  return $(t)
-  .wrap('<p>').parent().html()
-  .replace(_templ_vars_, "<%= $1 %>");
+  return template_to_underscore( $(t).wrap('<p>').parent().html() );
+}
+
+function template_to_underscore(html) {
+  return html.replace(_templ_vars_, "<%= $1 %>");
 }
 
 function create_unless(se) {
