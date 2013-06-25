@@ -3,9 +3,12 @@ var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1
 var base_url = window.location.href.replace(/\/$/, '');
 var App  = _.extend({}, Backbone.Events);
 var Screen_Name = {
+  is_found : false,
   screen_name: function (sn) {
-    if (sn)
+    if (sn) {
       this._sn = sn;
+      this.is_found = !!this._sn;
+    }
     return this._sn;
   },
   to_url : function (path) {
@@ -28,7 +31,7 @@ var Customer    = {
       this.is_stranger = false;
       this.is_customer = !this.is_stranger;
       this.has_one_life = this._sns.length === 1;
-      this.is_owner_of_screen_name = _.detect(arr, function (n) {
+      this.is_owner_of_screen_name = Screen_Name.is_found && _.detect(arr, function (n) {
         return Screen_Name.screen_name().toUpperCase() == n.toUpperCase() ;
       });
       this.fav_screen_name = _.last(arr);
@@ -609,27 +612,42 @@ function every_sec(se, func) {
 // ================================================================
 
 function add_screen_class () {
-  var w = (parseInt($(window).width() / 100) * 100);
-  var c = (($('body').attr('class') || '').split(' '));
+  var targets = $('html, body');
+  var w       = (parseInt($(window).width() / 100) * 100);
+  var c       = ((targets.attr('class') || '').split(' '));
+
   _.each(c, function (s) {
     if (s.match(/^w\d+(_plus|_minus)?$/))
-      $('body').removeClass(s);
+      targets.removeClass(s);
   });
-  $('body').addClass('w' + w);
+
+  targets.addClass('w' + w);
   _.each([400, 500, 600, 700, 800, 900, 1000, 1100, 1200], function (target) {
     if ( w >= target)
-      $('body').addClass('w' + target + '_plus');
+      targets.addClass('w' + target + '_plus');
     if ( w < target)
-      $('body').addClass('w' + target + '_minus');
+      targets.addClass('w' + target + '_minus');
   });
-  log($('body').attr('class'));
+
+  log(targets.attr('class'));
 }
 
-$(window).resize(function () {
-  add_screen_class();
-});
+$(function () {
+  $(window).resize(function () {
+    add_screen_class();
+  });
 
-add_screen_class();
+  add_screen_class();
+
+  $(window).load(function () {
+    _.each([300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200], function (v) {
+      $('html').addClass('max_' + screen.width );
+      if (screen.width > v) {
+        $('html').addClass('max_' + v + '_plus');
+      }
+    });
+  });
+});
 
 
 

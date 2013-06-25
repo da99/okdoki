@@ -4,6 +4,7 @@ $blue           = #32A3EF
 $dutch_boy_blue=#008eed
 $padding_create = 5px
 $grey_on_black  = #BBB
+$grey_on_light  = lighten(#000, 30%)
 $yellow         = #FFEA74
 $col_width      = 400px
 
@@ -44,6 +45,7 @@ $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstre
   width: $col_width
   background: transparent
   color: #000
+  text-align: left
   div.link
     padding: 0 2px $padding_create 0
   a:link
@@ -66,11 +68,11 @@ $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstre
   div.link
     display: inline-block
   div.active
-    background: #fafafa
+    background: rgba(255,255,255,0.7)
     border-radius: 3px 3px 0 0
     a:link, a:hover
-      color: $dark_blue
-      font-weight: bold
+      color: $grey_on_light
+      font-weight: normal
       text-decoration: none
       background: transparent
       cursor: default
@@ -78,28 +80,36 @@ $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstre
 #Creates
   width: $col_width
   div.create
+    text-align: center
+    div
+      padding: 0
+      margin: 0
     display: none
-    background: #fff
+    background: rgba(255,255,255,0.7)
     padding: 5px
+    form
+      width: 95%
+      margin: 0 auto
     div.success
       color: $yellow
       border: 0
     div.ele input
-      width: 95%;
+      width: 99%
     div.ele textarea
-      width: 95%;
+      width: 99%
       min-height: 100px
     span.sub
       display: inline-block
       padding: 0 0 0 4px
       color: $grey_on_black
+    div.field
+      padding: 0
+      margin: 0
     div.buttons
-      text-align: right
-    button
-      margin: 0 0 0 10px
+      text-align: left
+      padding: 5px 0 10px 0
   div#Page
     display: block
-    background: #fafafa
 
 #Pages
   padding: 10px

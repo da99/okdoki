@@ -32,8 +32,10 @@ background-size()
   background-size         : arguments
 
 html
-  background: $black url('/img/bikes_small.jpg?') no-repeat top left fixed;
+  background: $black url('/img/bikes_small.jpg?1') no-repeat top left fixed;
   background-size: cover
+html.max_900_plus
+  background-image: url('/img/bikes_huge.jpg?1')
 
 body
   background-color: transparent

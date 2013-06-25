@@ -1,11 +1,22 @@
-form input[type="text"] {
-  font-size: 190%;
-}
 body {
   text-align: center;
   padding: 0 0 100px 0;
   background: #fafafa;
   background: #fafafa url("/App/img/wood_pattern.png");
+}
+h4 {
+  color: #727272;
+}
+form {
+  text-align: left;
+}
+form div.field span.label,
+form div.field label {
+  font-weight: normal;
+  color: #727272;
+}
+form div.field input[type="text"] {
+  font-size: 190%;
 }
 select,
 option {
@@ -264,7 +275,7 @@ body.w600_plus #Boxs {
   -webkit-column-count: 2;
   column-count: 2;
 }
-body.w1200_plus #Boxs {
+body.w1100_plus #Boxs {
   -moz-column-count: 3;
   -webkit-column-count: 3;
   column-count: 3;

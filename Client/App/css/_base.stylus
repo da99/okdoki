@@ -48,25 +48,20 @@ ul
 a:link
   padding: 0 4px 2px 4px;
   color: $pink
-  border-bottom: 1px dashed $pink
-  text-decoration: none
 
 a:visited
   color: #966e7f
-  border-color: lighten($samar_red, 70%)
-  text-decoration: none
+  // border-color: lighten($samar_red, 70%)
 
 a:hover
   background: $pink;
   color: #fff
-  text-decoration: none
-  border-color: $pink
+  // border-color: $pink
 
 a:visited:hover
   color: #fff
   background: #966e7f
-  text-decoration: none
-  border-color: #966e7f
+  // border-color: #966e7f
 
 
 h2

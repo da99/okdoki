@@ -30,14 +30,24 @@ column_rule(num)
   -webkit-column-rule: num
   column-rule: num
 
-form input[type="text"]
-  font-size: 190%
-
 body
   text-align: center
   padding: 0 0 100px 0
   background: #fafafa
   background: #fafafa url("/App/img/wood_pattern.png")
+
+h4
+  color: $grey_on_light
+
+form
+  text-align: left
+
+  div.field
+    span.label, label
+      font-weight: normal
+      color: $grey_on_light
+    input[type="text"]
+      font-size: 190%
 
 select, option
   font-size: 120%
@@ -267,7 +277,7 @@ body.w600_plus
 	#Boxs
     column_count(2)
 
-body.w1200_plus
+body.w1100_plus
 	#Boxs
     column_count(3)
     width: 96%
