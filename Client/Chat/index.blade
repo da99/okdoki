@@ -40,8 +40,8 @@ append content
   h1 #{screen_name}'s Chat Room
 
   - if (is_stranger)
-    div#Stranger
-      div.box#One_More_Step
+    div#One_More_Step
+      div.box
         h3 You're almost inside:
         div.content
           div.p
@@ -58,19 +58,20 @@ append content
             span>
               | Then, come back and start chatting.
 
-  - if (is_customer && !customer_has_one_life)
-    div#Customer
-      div.box#One_More_Step
-        div.content
-          form(action="/me/#{screen_name}/chat", method="POST")
-            div.fields
-              div.field.life
-                span.label Which screen name to use?
-                select(name="as_this_life")
-                  - for (var i in customer_screen_names)
-                    option(value="#{customer_screen_names[i]}") #{customer_screen_names[i]}
-            div.buttons
-              button.submit Enter
+  - else
+    - if (!is_owner && !customer_has_one_life)
+      div#One_More_Step
+        div.box
+          div.content
+            form#Choose_Life(action="/me/#{screen_name}/chat", method="POST")
+              div.fields
+                div.field.life
+                  span.label Which screen name to use?
+                  select(name="as_this_life")
+                    - for (var i in customer_screen_names)
+                      option(value="#{customer_screen_names[i]}") #{customer_screen_names[i]}
+              div.buttons
+                button.submit Enter
 
   //&& !customer_has_one_life)
 

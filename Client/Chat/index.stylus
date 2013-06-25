@@ -53,27 +53,25 @@ h1
   color: #616161
 
 
-#Stranger, #Customer
+#One_More_Step
   overflow: auto
   div.box
     background: $glass_white
     text-align: center
     padding: 0 10px 10px 10px
-    h3
-      padding: 0 0 0 0
-      font-size: 90%
-      color: lighten(#000, 30%)
-    div.content
-      text-align: left
-      width: 300px
-      margin: 0 auto
-
-  #One_More_Step
     margin: 20px 0 0 0
     font-size: 120%
     padding: 20px 10px 30px 10px
     h3
       padding: 0 0 10px 0
+      font-size: 90%
+      color: lighten(#000, 30%)
+    div.content
+      width: 300px
+      margin: 0 auto
+      text-align: center
+      div.fields, div.field, div.buttons, span.label
+        display: inline
     a:link
     a:visited
       color: $pink
@@ -82,17 +80,7 @@ h1
       background: $pink
       color: #fff
       border-color: $pink
-    div.content
-      text-align: center
-      div.fields, div.field, div.buttons, span.label
-        display: inline
 
-  #New_Session
-    margin: 0 10px 0 0
-
-#Customer
-  div.box, div.box div.content
-    width: auto
 
 #The_Door
   display: none

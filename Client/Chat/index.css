@@ -21,72 +21,42 @@ h1 {
   text-shadow: 1px 1px 1px #fff;
   color: #616161;
 }
-#Stranger,
-#Customer {
+#One_More_Step {
   overflow: auto;
 }
-#Stranger div.box,
-#Customer div.box {
+#One_More_Step div.box {
   background: rgba(255,255,255,0.4);
   text-align: center;
   padding: 0 10px 10px 10px;
-}
-#Stranger div.box h3,
-#Customer div.box h3 {
-  padding: 0 0 0 0;
-  font-size: 90%;
-  color: #4d4d4d;
-}
-#Stranger div.box div.content,
-#Customer div.box div.content {
-  text-align: left;
-  width: 300px;
-  margin: 0 auto;
-}
-#Stranger #One_More_Step,
-#Customer #One_More_Step {
   margin: 20px 0 0 0;
   font-size: 120%;
   padding: 20px 10px 30px 10px;
 }
-#Stranger #One_More_Step h3,
-#Customer #One_More_Step h3 {
+#One_More_Step div.box h3 {
   padding: 0 0 10px 0;
+  font-size: 90%;
+  color: #4d4d4d;
 }
-#Stranger #One_More_Step a:link,
-#Customer #One_More_Step a:link,
-#Stranger #One_More_Step a:visited,
-#Customer #One_More_Step a:visited {
+#One_More_Step div.box div.content {
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+#One_More_Step div.box div.content div.fields,
+#One_More_Step div.box div.content div.field,
+#One_More_Step div.box div.content div.buttons,
+#One_More_Step div.box div.content span.label {
+  display: inline;
+}
+#One_More_Step div.box a:link,
+#One_More_Step div.box a:visited {
   color: #f85d95;
   border-width: 2px;
 }
-#Stranger #One_More_Step a:hover,
-#Customer #One_More_Step a:hover {
+#One_More_Step div.box a:hover {
   background: #f85d95;
   color: #fff;
   border-color: #f85d95;
-}
-#Stranger #One_More_Step div.content,
-#Customer #One_More_Step div.content {
-  text-align: center;
-}
-#Stranger #One_More_Step div.content div.fields,
-#Customer #One_More_Step div.content div.fields,
-#Stranger #One_More_Step div.content div.field,
-#Customer #One_More_Step div.content div.field,
-#Stranger #One_More_Step div.content div.buttons,
-#Customer #One_More_Step div.content div.buttons,
-#Stranger #One_More_Step div.content span.label,
-#Customer #One_More_Step div.content span.label {
-  display: inline;
-}
-#Stranger #New_Session,
-#Customer #New_Session {
-  margin: 0 10px 0 0;
-}
-#Customer div.box,
-#Customer div.box div.content {
-  width: auto;
 }
 #The_Door {
   display: none;

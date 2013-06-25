@@ -36,7 +36,10 @@ function draw_chat_msg(sel, msg) {
   }
 }
 
-function enter_chat_room() {
+function enter_chat_room(fav_sn) {
+  if (!fav_sn)
+    fav_sn = Customer.fav_screen_name;
+
   The_Door.show();
   Control.hide();
   Chats.show();
@@ -46,12 +49,13 @@ function enter_chat_room() {
   });
 
   // Enter the Chat Room...
-  post("/chat_room/enter", {}, function (err, o) {
+  post("/chat_room/enter", {as_this_life: fav_sn}, function (err, o) {
 
     reset_chat_room();
     Control.show();
 
     if (err) {
+      log("Attempted to enter chat room...");
       log(err);
       in_secs(5, function () {
         official_error_chat_msg({body: "Your attempt to enter the chat room failed."});
@@ -80,9 +84,19 @@ $(function () {
   The_Door = $('#The_Door');
   Control  =  $('#Boxs');
   Chats    = $('#Chats');
+  One_More_Step = $('#One_More_Step');
+  Choose_Life_Form = $('#Choose_Life');
 
-  IS_CUSTOMER = $('body').hasClass('is_customer');
+  // ================== Window Resize ===============================
+  $(window).resize(function () {
+    $('textarea').css('width', '95%');
+  });
 
+
+  // ================================================================
+  // ===== When a stranger trys to enter:
+  // ================================================================
+  //
   $('#Stranger a[href="/"]').click(function (e) {
     var link = $(e);
     $.cookie('url_wanted', 'chat room of: ' + Screen_Name.screen_name(), {
@@ -92,12 +106,24 @@ $(function () {
     return true;
   });
 
-  if (!IS_CUSTOMER)
+  if (Customer.is_stranger)
     return;
 
-  // ============================================
+  // ================================================================
+  // ================== For Customers:
+  // ================================================================
+
+  if (Customer.is_owner_of_screen_name) {
+    enter_chat_room(Screen_Name.screen_name);
+  } else {
+    if (Customer.has_one_life)
+      enter_chat_room(Customer.fav_screen_name);
+    else {
+      log("Waiting for you to pick name.");
+    }
+  }
+
   // ================ Grab chat room msgs........
-  // ============================================
   every_secs(2, function () {
     if ( !IN_CHAT_ROOM )
       return false;
@@ -112,10 +138,14 @@ $(function () {
     });
   });
 
+  on_click(Choose_Life_Form.find('button.submit'), function (e) {
+    Customer.fav_screen_name = Choose_Life_Form.find('input[name="as_this_life"]').val();
+    log(Customer.fav_screen_name);
+    One_More_Step.hide();
+    enter_chat_room(Customer.fav_screen_name);
+  });
 
-  // ============================================
   // ================ Talk to the Chat Room......
-  // ============================================
   form('#Write_To_Chat_Room', function (f) {
     f.at_least_one_not_empty('textarea');
     f.on_success(function (result) {
@@ -124,9 +154,7 @@ $(function () {
     });
   });
 
-  // ============================================
   // ================ LEAVE The Chat Room........
-  // ============================================
   on_click("#Leave_Chat_Room a", function (e) {
     IN_CHAT_ROOM = false;
     Show_Say.hide();
@@ -145,20 +173,6 @@ $(function () {
     });
     return false;
   });
-
-  // ================================================================
-  // ================== Window Resize ===============================
-  // ================================================================
-  $(window).resize(function () {
-    $('textarea').css('width', '95%');
-  });
-
-  // ============================================
-  // ================ ENTER The Chat Room........
-  // ============================================
-  if (Customer.has_one_life) {
-    enter_chat_room();
-  }
 
 
 }); // ==== jquery on dom ready

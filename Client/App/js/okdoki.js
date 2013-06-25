@@ -419,19 +419,19 @@ var Customer    = {
   is_customer : false,
   is_owner_of_screen_name: false,
   has_one_life : false,
+  fav_screen_name : null,
   _sns : [],
   screen_names : function (arr) {
     if (arr) {
       this._sns = arr;
       this.is_stranger = false;
       this.is_customer = !this.is_stranger;
+      this.has_one_life = this._sns.length === 1;
+      this.is_owner_of_screen_name = _.detect(arr, function (n) {
+        return Screen_Name.screen_name().toUpperCase() == n.toUpperCase() ;
+      });
+      this.fav_screen_name = _.last(arr);
     }
-
-    this.has_one_life = this._sns.length === 1;
-
-    this.is_owner_of_screen_name = _.detect(arr, function (n) {
-      return Screen_Name.screen_name().toUpperCase() == n.toUpperCase() ;
-    });
 
     return this._sns;
   },

@@ -29,7 +29,7 @@ block content
           div.fields
             div.field.msg
               textarea.blur_ed(name="msg", id='the_msg', rows='4') ;-)~ Type here.
-            if lifes.length > 1
+            - if (lifes.length > 1)
               div.field
                 //- span.label From:&nbsp;
                 //- span.value #{aud.data.screen_name_rows[0].screen_name}
@@ -39,7 +39,7 @@ block content
                     option(value='#{x.screen_name}') #{xscreen_name}
 
         div.buttons
-          if lifes.length === 1
+          - if (lifes.length === 1)
             input(type="hidden", name="from", value="#{lifes[0]}")
           input(id='csrf_token', type="hidden", name="_csrf", value="#{token}")
           button.submit Send Message
