@@ -1,3 +1,4 @@
+
 $light_yellow   = #FFFDD2
 $light_black = #6D6D6D
 $dutch_boy_blue=#008eed
@@ -13,23 +14,41 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
+html
+  height:100%;
+  padding: 0px;
+  margin: 0px;
 
-h1
-  color: #000
-  background: #fff
-  text-shadow: none
-  font-size: 190%
+body
+  height:100%
+  padding: 0 0 30px 0
+  margin: 0
+
 label
   display: block
+
+#Me
+  background: transparent
+  text-align: center
+  h3
+    padding: 5px 0 0 0
+    width: auto
+    font-size: 230%
+  div.content
+    width: auto
+    padding-left: 0
+    padding-right: 0
+
 
 #Items
   text-align: center
   padding: 0
+  background: rgba(255,255,255,0.25)
+  height: 100%;
   div.content
     margin: 0 auto
     max-width: 1000px
     text-align: left
-    background: #fff
     div.edit_this
       padding: 8px 0 0 8px
       div.edit
@@ -76,3 +95,14 @@ label
   label, span.value
     display: inline
     padding: 0 5px 0 0
+
+
+
+body.w700_plus
+  #Items
+    background: rgba(255,255,255,0.5)
+    margin: 20px 30px 30px 30px
+
+
+
+

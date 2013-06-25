@@ -1,6 +1,6 @@
 include "../App/layout.blade"
 
-append styles
+prepend styles
   call css("/Screen_Name/me.css")
   call css("/Folder/show.css")
 
@@ -16,9 +16,9 @@ append templates
 
 append content
 
-  h1#The_Title #{title}
 
   div#Me
+    h3#The_Title #{title}
     div.content
       | From folder:
       a(href="/me/#{screen_name}/folder/#{folder_num}") #{folder_title}

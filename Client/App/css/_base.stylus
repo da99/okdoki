@@ -386,6 +386,7 @@ div.edit_able_s
   padding: 0 5px 2px 5px
   text-align: right
   background: #fafafa
+  background: rgba(255,255,255,0.5)
   #Log_Out
     text-transform: uppercase
     font-size: 70%
