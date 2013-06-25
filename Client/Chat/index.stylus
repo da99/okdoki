@@ -41,7 +41,7 @@ body
   background: transparent
 
 h1
-  font-family: 'Orthoventional', $serif
+  font-family: 'Libertinage', $serif
   background: transparent
   font-size: 140%
   font-style: normal

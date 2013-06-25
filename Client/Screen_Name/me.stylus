@@ -78,7 +78,7 @@ div.box
   padding: 20px 0 10px 10px
   text-align: center
   h3
-    font-family: 'Orthoventional', $serif
+    font-family: 'Libertinage', $serif
     font-size: 280%
     font-style: normal
     text-transform: none

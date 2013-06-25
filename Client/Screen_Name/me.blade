@@ -4,9 +4,6 @@ function folder(f)
   li.folder
     a.open(href="/me/#{screen_name}/folder/#{f.num}") #{f.title}
 
-append styles
-  link(rel="stylesheet", media="screen", href="http://openfontlibrary.org/face/orthoventional", rel="stylesheet", type="text/css")
-
 append scripts
   call script("/Screen_Name/me.js")
 
@@ -160,5 +157,8 @@ append content
                   input(type="text", value="", name="title")
               div.buttons
                 button.submit Create
+
+
+
 
 
