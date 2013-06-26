@@ -77,14 +77,11 @@ Seat.read_list_by_room = function (room, flow) {
   })
 
   .job('set old', function (j, rows) {
-    _.each(rows, function (r) {
-      if (!r.last_seen_at || r.last_seen_at.getTime() < (target))
-        rows.is_out = true;
-      rows.last_seen_at = null;
-    });
-    j.finish(rows);
+    j.finish(_.map(rows, function (r) {
+      var is_out = !r.last_seen_at || (r.last_seen_at.getTime() < (target));
+      return { screen_name: r.screen_name, is_out: is_out };
+    }));
   })
-
   .run();
 };
 

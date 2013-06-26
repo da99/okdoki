@@ -80,11 +80,13 @@ exports.route = function (mod) {
 
       var msgs = fin.river.replys_for('read_msgs');
       msgs.push({author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()});
+      var seats = fin.river.replys_for('read_seat_list');
+      seats.push({screen_name: Faker.Name.firstName(), is_out: (parseInt(Math.random() * 10) % 2) === 0 });
 
       OK.json({
         success : true,
         msg     : "Done.",
-        seats   : fin.river.replys_for('read_seat_list'),
+        seats   : seats,
         msgs    : msgs
       });
     });
