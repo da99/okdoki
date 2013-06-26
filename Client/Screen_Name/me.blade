@@ -83,6 +83,24 @@ append content
           div.sign The Chat Room of #{screen_name}.
 
       //- ===========================================================
+      div.box#Folders
+        h3 Folders:
+        div.content
+          ul.folders
+            - for (var f in folders)
+              call folder(folders[f].data)
+          - if (logged_in)
+            h3 Create a new folder:
+            form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
+              div.fields
+                div.field.title
+                  span.label Title:
+                  input(type="text", name="title", value="")
+                call applet("as_this_life")
+                div.buttons
+                  button.submit Create
+
+      //- ===========================================================
       div.box#Message_Board
         h3
           | Message Board:
@@ -104,24 +122,6 @@ append content
           div.msgs
             div.loading Retrieving messages...
 
-
-      //- ===========================================================
-      div.box#Folders
-        h3 Folders:
-        div.content
-          ul.folders
-            - for (var f in folders)
-              call folder(folders[f].data)
-          - if (logged_in)
-            h3 Create a new folder:
-            form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
-              div.fields
-                div.field.title
-                  span.label Title:
-                  input(type="text", name="title", value="")
-                call applet("as_this_life")
-                div.buttons
-                  button.submit Create
 
 
       div.create_boxs#Create_Boxs

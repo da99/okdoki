@@ -18,6 +18,13 @@ form div.field label {
 form div.field input[type="text"] {
   font-size: 190%;
 }
+form textarea {
+  min-width: 97%;
+  max-width: 97%;
+  max-height: 250px;
+  min-height: 100px;
+  width: 97%;
+}
 select,
 option {
   font-size: 120%;
@@ -172,10 +179,6 @@ div.box div.content {
 }
 #Write_Message span.label {
   display: block;
-}
-#Write_Message textarea {
-  width: 97%;
-  min-height: 100px;
 }
 #Write_Message div.buttons {
   text-align: right;

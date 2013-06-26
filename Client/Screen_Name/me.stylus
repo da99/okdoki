@@ -67,6 +67,13 @@ form
     input[type="text"]
       font-size: 190%
 
+  textarea
+    min-width: 97%
+    max-width: 97%
+    max-height: 250px
+    min-height: 100px
+    width: 97%
+
 select, option
   font-size: 120%
 
@@ -195,9 +202,6 @@ div.box
 #Write_Message
   span.label
     display: block
-  textarea
-    width: 97%
-    min-height: 100px
   div.buttons
     text-align: right
     button
