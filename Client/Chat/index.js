@@ -239,6 +239,7 @@ $(function () {
 
     f.on_success(function (result) {
       f.find('div.success').hide();
+      log("===", result)
       me_chat_msg(result.chat_msg);
     });
 

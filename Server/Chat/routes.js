@@ -142,12 +142,12 @@ exports.route = function (mod) {
       if (!msg)
         return OK.json({success: false, msg: "Chat room unavailable."});
 
-      msg.author_screen_name = req.body.as_this_life;
+      msg.data.author_screen_name = req.body.as_this_life;
 
       OK.json({
         success: true,
         msg: "Message sent to the chat room.",
-        chat_msg: msg
+        chat_msg: msg.data
       });
     });
 
