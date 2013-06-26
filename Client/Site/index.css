@@ -1,8 +1,9 @@
 html {
   background: #000 url("/img/bikes_small.jpg?1") no-repeat top left fixed;
+  -moz-background-size: cover;
   -webkit-background-size: cover;
   -o-background-size: cover;
-  -moz-background-size: cover;
+  -ms-background-size: cover;
   background-size: cover;
 }
 html.max_900_plus {
@@ -351,10 +352,10 @@ form div.success {
 }
 #IMs div.highlight_up {
   background: #fff06a;
-  -webkit-transition: background-color 0.9s linear;
   -moz-transition: background-color 0.9s linear;
-  -ms-transition: background-color 0.9s linear;
+  -webkit-transition: background-color 0.9s linear;
   -o-transition: background-color 0.9s linear;
+  -ms-transition: background-color 0.9s linear;
   transition: background-color 0.9s linear;
 }
 #IMs div.highlight_down {

@@ -26,9 +26,10 @@ $write_col_width = 300px
 $box_margin      = 10px
 
 background-size()
+  -moz-background-size    : arguments
   -webkit-background-size : arguments
   -o-background-size      : arguments
-  -moz-background-size    : arguments
+  -ms-background-size      : arguments
   background-size         : arguments
 
 html
@@ -389,10 +390,10 @@ form
       border: 0
   div.highlight_up
     background: #FFF06A;
-    -webkit-transition : background-color 0.9s linear;
     -moz-transition    : background-color 0.9s linear;
-    -ms-transition     : background-color 0.9s linear;
+    -webkit-transition : background-color 0.9s linear;
     -o-transition      : background-color 0.9s linear;
+    -ms-transition     : background-color 0.9s linear;
     transition         : background-color 0.9s linear;
   div.highlight_down
     background: transparent;

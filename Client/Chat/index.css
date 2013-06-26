@@ -155,8 +155,15 @@ h1 {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 #Chats div.msgs div.official {
-  background: #fffdd2;
+  background: #1f1f1f;
+  background: rgba(7,7,7,0.7);
+  color: #ececec;
+  color: #ffea74;
   font-style: italic;
+}
+#Chats div.msgs div.official div.content {
+  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 100%;
 }
 #Chats div.msgs div.me_chat_msg,
 #Chats div.msgs div.me_msg {
@@ -191,12 +198,18 @@ body.w600_plus #Boxs {
 body.w600_plus #Boxs #Audience div.content {
   -moz-column-count: 3;
   -webkit-column-count: 3;
+  -o-column-count: 3;
+  -ms-column-count: 3;
   column-count: 3;
   -moz-column-gap: 6px;
   -webkit-column-gap: 6px;
+  -o-column-gap: 6px;
+  -ms-column-gap: 6px;
   column-gap: 6px;
   -moz-column-rule: 1px dotted #ececec;
   -webkit-column-rule: 1px dotted #ececec;
+  -o-column-rule: 1px dotted #ececec;
+  -ms-column-rule: 1px dotted #ececec;
   column-rule: 1px dotted #ececec;
 }
 body.w600_plus #Boxs #Audience div.content ul li {
@@ -217,8 +230,15 @@ body.w1000_plus #Boxs #Audience div.content {
   max-height: 350px;
   -moz-column-count: 6;
   -webkit-column-count: 6;
+  -o-column-count: 6;
+  -ms-column-count: 6;
   column-count: 6;
   -moz-column-gap: 12px;
   -webkit-column-gap: 12px;
+  -o-column-gap: 12px;
+  -ms-column-gap: 12px;
   column-gap: 12px;
+}
+#Chats div.msgs div.highlight_up {
+  background: #ffea74;
 }

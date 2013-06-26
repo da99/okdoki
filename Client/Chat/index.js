@@ -52,6 +52,13 @@ function draw_chat_msg(sel, msg) {
   if (TOTAL_CHAT_MSG > MAX_CHAT_MSG_TOTAL) {
     $('#Chat_Msgs').find('div.chat_msg').last().remove();
   }
+
+  var e = $('#' + msg.dom_id);
+  if (msg.screen_name)
+    e.html( e.html().replace('{LINK}', '<a href="/me/NAME">NAME</a>'.replace(/NAME/g, msg.screen_name)) );
+  e.find('a').attr('target', '_blank');
+  // e.addClass('highlight_up');
+  // setTimeout(function () { $('#' + msg.dom_id).removeClass('highlight_up'); }, 100);
 }
 
 function chat_seat(o) {
@@ -63,13 +70,14 @@ function chat_seat(o) {
 
   if (!seat) {
     if (!is_me)
-      official_chat_msg("Connected: " + name);
+      official_chat_msg({body: "Connected: {LINK}", screen_name: name});
     seat = SEATS[o.screen_name] = {
       name: o.screen_name,
       ele : $('<li><a href="/me/NAME">NAME</a></li>')
     };
     seat.ele.find('a').attr('href', "/me/" + o.screen_name);
     seat.ele.find('a').text(name);
+    seat.ele.find('a').attr('target', '_blank');
     SEAT_LIST.prepend(seat.ele);
   }
 

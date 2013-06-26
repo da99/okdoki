@@ -19,15 +19,28 @@ $glass_white = rgba(255,255,255,0.40)
 column_count(num)
   -moz-column-count: num
   -webkit-column-count: num
+  -o-column-count: num
+  -ms-column-count: num
   column-count: num
 column_gap(num)
   -moz-column-gap: num
   -webkit-column-gap: num
+  -o-column-gap: num
+  -ms-column-gap: num
   column-gap: num
 column_rule(num)
   -moz-column-rule: num
   -webkit-column-rule: num
+  -o-column-rule: num
+  -ms-column-rule: num
   column-rule: num
+
+fade_in()
+  -moz-transition    : background-color 1.3s linear;
+  -webkit-transition : background-color 1.3s linear;
+  -o-transition      : background-color 1.3s linear;
+  -ms-transition     : background-color 1.3s linear;
+  transition         : background-color 1.3s linear;
 
 form input[type="text"]
   font-size: 190%
@@ -160,8 +173,14 @@ h1
         font-size: 120%
         font-family: $serif
     div.official
-      background: $light_yellow
+      background: #1f1f1f
+      background: rgba(7,7,7,0.7)
+      color: #ececec
+      color: $yellow
       font-style: italic
+      div.content
+        font-family: $sans-serif
+        font-size: 100%
     div.me_chat_msg, div.me_msg
       background: $light_yellow
     div.error_msg
@@ -218,5 +237,8 @@ body.w1000_plus
         column_count(6)
         column_gap(12px)
 
+#Chats div.msgs
+  div.highlight_up
+    background: $yellow
 
 

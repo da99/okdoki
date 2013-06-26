@@ -38,14 +38,20 @@ $glass_black    = rgba(0,0,0,0.65)
 column_count(num)
   -moz-column-count: num
   -webkit-column-count: num
+  -o-column-count: num
+  -ms-column-count: num
   column-count: num
 column_gap(num)
   -moz-column-gap: num
   -webkit-column-gap: num
+  -o-column-gap: num
+  -ms-column-gap: num
   column-gap: num
 column_rule(num)
   -moz-column-rule: num
   -webkit-column-rule: num
+  -o-column-rule: num
+  -ms-column-rule: num
   column-rule: num
 
 body
