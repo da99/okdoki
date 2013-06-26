@@ -1,6 +1,5 @@
 var Show_Say           = $('#Write_To_Chat_Room');
 var IN_CHAT_ROOM       = false;
-var LAST_CHAT_MSG_DATE = null;
 var MAX_CHAT_MSG_TOTAL = 250;
 var TOTAL_CHAT_MSG     = 0;
 var Control            = null;
@@ -9,6 +8,7 @@ var The_Door           = null;
 var LOOP               = null;
 var SEATS              = {};
 var SEAT_LIST          = null;
+var LAST_CREATED_AT    = (new Date()).getTime();
 
 function reset_chat_room() {
   IN_CHAT_ROOM = false;
@@ -31,10 +31,23 @@ function chat_msg(msg) {
 }
 
 function draw_chat_msg(sel, msg) {
+  TOTAL_CHAT_MSG += 1;
+
   if (_.isString(msg)) {
     msg = {body: msg}
   }
-  TOTAL_CHAT_MSG += 1;
+
+  if (msg.created_at_epoch)
+    LAST_CREATED_AT = msg.created_at_epoch;
+
+  if (!msg.id)
+    msg.id = 'unknown_id_' + TOTAL_CHAT_MSG;
+
+  msg.dom_id = 'm' + msg.id;
+
+  if ($('#' + msg.dom_id).length)
+    return;
+
   $('#Chat_Msgs').prepend( compile_template(sel, msg) );
   if (TOTAL_CHAT_MSG > MAX_CHAT_MSG_TOTAL) {
     $('#Chat_Msgs').find('div.chat_msg').last().remove();
@@ -86,7 +99,7 @@ function start_loop(max) {
   every_secs(max || 3, function () {
     if ( !IN_CHAT_ROOM )
       return false;
-    post("/me/" + Screen_Name.screen_name() + "/chat/msgs", {after: LAST_CHAT_MSG_DATE}, function (err, o) {
+    post("/me/" + Screen_Name.screen_name() + "/chat/msgs", {after: LAST_CREATED_AT}, function (err, o) {
       if (err) {
         log(err);
         return false;

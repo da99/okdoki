@@ -72,7 +72,7 @@ exports.route = function (mod) {
       Chat_Seat.read_list_by_room(j.river.reply_for('room'), j);
     })
     .read_list('msg_list', function (j, list) {
-      Chat_Msg.read_list_by_room_and_author_ids(j.river.reply_for('room'), _.pluck(list, 'screen_name_id'), j);
+      Chat_Msg.read_list_by_room_and_last_created_at(j.river.reply_for('room'), req.body.last_created_at,j);
     })
     .run(function (fin, room) {
       if (!fin.river.reply_for('seat'))
@@ -80,9 +80,31 @@ exports.route = function (mod) {
 
       var test_name = Faker.Name.firstName();
       var msgs = fin.river.replys_for('read_msgs');
-      msgs.push({author_screen_name: test_name, body: Faker.Lorem.paragraph()});
       var seats = fin.river.replys_for('read_seat_list');
-      seats.push({screen_name: test_name, is_out: (parseInt(Math.random() * 10) % 2) === 0 });
+
+      seats.push({
+        screen_name : test_name,
+        is_out      : (parseInt(Math.random() * 10) % 2) === 0
+      });
+
+      msgs.push({
+        id : (new Date).getTime(),
+        author_screen_name : test_name,
+        body               : Faker.Lorem.paragraph(),
+        created_at         : (new Date),
+        created_at_epoch   : (new Date).getTime()
+      });
+
+      msgs.push({
+        id : 100,
+        author_screen_name : 'T___' + test_name,
+        body               : "test msg",
+        created_at         : (new Date),
+        created_at_epoch   : (new Date).getTime()
+      });
+
+
+
 
       OK.json({
         success : true,

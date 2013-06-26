@@ -3,6 +3,7 @@ var _         = require("underscore")
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
+, log         = require("../App/base").log
 ;
 
 var Msg        = exports.Msg = function () {};
@@ -47,10 +48,26 @@ Msg.create = function (raw_data, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-Msg.read_list_by_room_and_author_ids = function (room, author_ids, flow) {
+Msg.read_list_by_room_and_last_created_at = function (room, raw_last_time, flow) {
+  if (!raw_last_time)
+    raw_last_time = (new Date).getTime();
+
+  var last_time = new Date((new Date(parseInt(raw_last_time))).getTime() - (1000 * 9));
+
   River.new(flow)
   .job('read list', function (j) {
-    TABLE.read_list({author_id: author_ids, chat_room_id: room.data.id}, j);
+    var sql = "\
+      SELECT id, author_id, body, created_at \n\
+      FROM @table                            \n\
+      WHERE chat_room_id = @chat_room_id     \n\
+        AND created_at >= @last_time         \n\
+    ;";
+    TABLE.run(sql, {chat_room_id: room.data.id, last_time: last_time}, j);
+  })
+  .job('add epoch', function (j, rows) {
+    j.finish(_.map(rows, function (r) {
+      r.created_at_epoch = r.created_at.getTime();
+    }));
   })
   .job('replace author_id', function (j, rows) {
     Screen_Name.replace_screen_names(rows, j);
