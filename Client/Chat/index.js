@@ -7,6 +7,7 @@ var IS_CUSTOMER        = false;
 var Control = null;
 var Chats = null
 var The_Door = null;
+var LOOP = null;
 
 function reset_chat_room() {
   IN_CHAT_ROOM = false;
@@ -36,9 +37,32 @@ function draw_chat_msg(sel, msg) {
   }
 }
 
+function start_loop() {
+  // ================ Grab chat room msgs........
+  if (LOOP)
+    return;
+
+  LOOP = true;
+  every_secs(3, function () {
+    if ( !IN_CHAT_ROOM )
+      return false;
+    post("/me/" + Screen_Name.screen_name() + "/chat/msgs", {after: LAST_CHAT_MSG_DATE}, function (err, o) {
+      if (err) {
+        log(err);
+        return false;
+      }
+      _.each(o.list, function (m) {
+        chat_msg(m);
+      });
+    });
+  });
+}
+
 function enter_chat_room(fav_sn) {
 
-  var url = "/me/:screen_name/chat/enter".replace(':screen_name', Screen_Name.screen_name());
+  reset_chat_room();
+
+  var url = "/me/" + Screen_Name.screen_name() + "/chat/enter";
 
   if (!fav_sn)
     fav_sn = Customer.fav_screen_name();
@@ -54,7 +78,6 @@ function enter_chat_room(fav_sn) {
   // Enter the Chat Room...
   post(url, {as_this_life: fav_sn}, function (err, o) {
 
-    reset_chat_room();
     Control.show();
 
     if (err) {
@@ -75,8 +98,11 @@ function enter_chat_room(fav_sn) {
     $('#Enter_Chat_Room div.error_msg').hide();
     official_chat_msg({body: o.msg});
 
+    start_loop();
   });
-}
+
+
+} // ==== enter_chat_room
 
 // ================================================================
 // ================== Main ========================================
@@ -125,21 +151,6 @@ $(function () {
       log("Waiting for you to pick name.");
     }
   }
-
-  // ================ Grab chat room msgs........
-  every_secs(2, function () {
-    if ( !IN_CHAT_ROOM )
-      return false;
-    post("/chat_room/msgs", {after: LAST_CHAT_MSG_DATE}, function (err, o) {
-      if (err) {
-        log(err);
-        return false;
-      }
-      _.each(o.list, function (m) {
-        chat_msg(m);
-      });
-    });
-  });
 
   on_click(Choose_Life_Form.find('button.submit'), function (e) {
     Customer.fav_screen_name( Choose_Life_Form.find('input[name="as_this_life"]').val() );

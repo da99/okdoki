@@ -7,6 +7,8 @@ var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
+, Chat_Seat   = require('../Chat/model').Seat
+, Chat_Msg    = require('../Chat/model').Msg
 , Faker       = require('Faker')
 ;
 
@@ -26,9 +28,65 @@ exports.route = function (mod) {
     OK.render_template();
   });
 
+  // =============== "Listening" to the Chat Room... ================
   app.post('/me/:screen_name/chat/enter', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: "Success: You're in the room, " + req.body.as_this_life + '.'});
+    mod
+    .New_River(req, resp, next)
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
+    })
+    .read_one('room', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .create_one('seat', function (j, room) {
+      Chat_Seat.create_by_room(room, j);
+    })
+    .run(function (fin, seat) {
+      if (!seat)
+        return OK.json({success: false, msg: "Chat room unavailable."});
+
+      OK.json({
+        success : true,
+        msg     : "Success: You're in the room, " + req.body.as_this_life + '.'
+      });
+    });
+  });
+
+  // =============== "Listening" to the Chat Room... ================
+  app.post('/me/:screen_name/chat/msgs', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    mod
+    .New_River(req, resp, next)
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
+    })
+    .read_one('room', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .create_one('seat', function (j, room) {
+      Chat_Seat.create_by_room(room, j);
+    })
+    .read_list('seat_list', function (j, seat) {
+      Chat_Seat.read_list_by_room(j.river.reply_for('room'), j);
+    })
+    .read_list('msg_list', function (j, list) {
+      Chat_Msg.read_list_by_author_ids(_.pluck(list, 'screen_name_id'), j);
+    })
+    .run(function (fin, room) {
+      if (!room)
+        return OK.json({success: false, msg: "Chat room unavailable."});
+
+      var msgs = fin.river.replys_for('read_msgs');
+      msgs.push({author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()});
+
+      OK.json({
+        success : true,
+        msg     : "Success: You're in the room, " + req.body.as_this_life + '.',
+        seats   : fin.river.replys_for('read_seat_list'),
+        msgs    : msgs
+      });
+    });
   });
 
   // =============== Leaving the Chat Room... =======================
@@ -38,19 +96,6 @@ exports.route = function (mod) {
     OK.json({success: true, msg: "BYE BYE: You're officially out of the room."});
   });
 
-  // =============== "Listening" to the Chat Room... ================
-
-  app.post('/chat_room/msgs', function (req, resp, next) {
-    var OK = mod.New_Request(arguments);
-    var list = [];
-    if (parseInt(Math.random() * 10) % 2) {
-      list = [
-        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()},
-        {author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()}
-      ];
-    }
-    OK.json({success: true, msg: "Chat msgs for: " + req.body.after, list: list});
-  });
 
   // =============== Speaking to the Chat Room... ===================
 

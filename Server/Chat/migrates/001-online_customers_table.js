@@ -1,5 +1,5 @@
 
-var table = 'Chat_Msgs';
+var table = 'Chat_Screen_Name';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
@@ -12,11 +12,12 @@ m.migrate = function (dir, r) {
 
     var sql = 'CREATE UNLOGGED TABLE      "' + table + '" (                             \n\
     chat_room_id      int,                                                              \n\
-    author_id         int,                                                              \n\
-    body              text,                                                             \n\
-    $created_at                                                                         \n\
+    screen_name_id    int,                                                              \n\
+    last_seen_at      $now_tz                                                           \n\
     );';
-    r.create(sql, "CREATE INDEX ON \"" + table + "\" (chat_room_id, created_at) ");
+    r.create(sql,
+             "ALTER TABLE     \"" + table + "\" ADD CONSTRAINT seat UNIQUE (chat_room_id, screen_name_id) "
+            );
 
   }
 };

@@ -14,7 +14,7 @@ function compile_template {
   then
     echo "skipping creationg of file:"
   else
-    sed "s/MODEL/$model/g" "$tmpl_file" >> "$new_file"
+    sed "s/MODEL/$model/g" "$tmpl" >> "$new_file"
   fi
 
   echo "$new_file"

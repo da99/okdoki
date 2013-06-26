@@ -257,27 +257,41 @@ function shutdown_server(func) {
   });
 }
 
+function server_response(data) {
+  if (data.toString().indexOf("isten") > 0) {
+    server_started = true;
+    server_restarting = false;
+  }
+  if (data.toString().indexOf('server closed:')) {
+    server_started = false;
+    server_restarting = false;
+  }
+}
+
 function restart_server(func) {
 
-  if (server_restarting)
+  if (server_restarting) {
+    console.log("Waiting for server to restart...");
     return;
+  }
+
   server_restarting = true;
 
   var server = spawn("bin/restart");
   server.stdout.on('data', function (data) {
-    if (data.toString().indexOf("isten") > 0) {
-      server_started = true;
-      server_restarting = false;
-    }
+    server_response(data);
     process.stdout.write("" + data);
   });
 
   server.stderr.on('data', function (data) {
-    process.stdout.write("" + data);
+    server_response(data);
+    process.stderr.write("" + data);
   });
 
   server.on('close', function (code) {
-    console.log('server closed: ' + code, "\n");
+    var msg = 'server closed: ' + code;
+    server_response(msg);
+    console.log(msg, "\n");
   });
 
   if (func)

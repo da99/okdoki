@@ -1,17 +1,17 @@
 
-var _    = require("underscore")
-, 123    = require("../123/model").123
-, Topogo = require("topogo").Topogo
-, River  = require("da_river").River
+var _         = require("underscore")
+, Screen_Name = require("../Screen_Name/model").Screen_Name
+, Topogo      = require("topogo").Topogo
+, River       = require("da_river").River
 ;
 
 
-var MODEL = exports.MODEL = function () {};
-var TABLE_NAME = exports.MODEL.TABLE_NAME = "MODEL";
+var Room = exports.Room = function () {};
+var TABLE_NAME = exports.Room.TABLE_NAME = "Chat";
 var TABLE = Topogo.new(TABLE_NAME);
 
-MODEL.new = function (data) {
-  var o = new MODEL();
+Chat.new = function (data) {
+  var o = new Chat();
   o.data = data;
   return o;
 };
@@ -27,7 +27,7 @@ function null_if_empty(str) {
 // ================================================================
 // ================== Create ======================================
 // ================================================================
-MODEL.create = function (raw_data, flow) {
+Chat.create = function (raw_data, flow) {
   var data = {
   };
 
@@ -38,7 +38,7 @@ MODEL.create = function (raw_data, flow) {
     TABLE.run(sql, data, j);
   })
   .job(function (j, rows) {
-    j.finish(MODEL.new(rows[0]));
+    j.finish(Chat.new(rows[0]));
   })
   .run();
 };

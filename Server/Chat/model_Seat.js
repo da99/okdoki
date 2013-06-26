@@ -1,20 +1,20 @@
 
-var _    = require("underscore")
-, 123    = require("../123/model").123
-, Topogo = require("topogo").Topogo
-, River  = require("da_river").River
+var _         = require("underscore")
+, Screen_Name = require("../Screen_Name/model").Screen_Name
+, Topogo      = require("topogo").Topogo
+, River       = require("da_river").River
 ;
 
+var Seat       = exports.Seat = function () {};
+var TABLE_NAME = "Chat_Screen_Name";
+var TABLE      = Topogo.new(TABLE_NAME);
 
-var MODEL = exports.MODEL = function () {};
-var TABLE_NAME = exports.MODEL.TABLE_NAME = "MODEL";
-var TABLE = Topogo.new(TABLE_NAME);
-
-MODEL.new = function (data) {
-  var o = new MODEL();
+Seat.new = function (data) {
+  var o = new Seat();
   o.data = data;
   return o;
 };
+
 
 function null_if_empty(str) {
   if (!str) return null;
@@ -27,18 +27,28 @@ function null_if_empty(str) {
 // ================================================================
 // ================== Create ======================================
 // ================================================================
-MODEL.create = function (raw_data, flow) {
+Seat.create_by_room = function (room, flow) {
   var data = {
+    chat_room_id : room.data.id,
+    screen_name_id: room.screen_name().customer().data.id
   };
 
-  var sql = "";
-
+                 // "UPDATE @table " +
+              // "SET last_seen_at = $now " +
+              // "WHERE chat_room_id = $",
+              // "RETURNING * ;",
   River.new(flow)
-  .job(function (j) {
-    TABLE.run(sql, data, j);
+  .job('update', function (j) {
+    TABLE.update(data, {last_seen_at: '$now'}, j);
   })
   .job(function (j, rows) {
-    j.finish(MODEL.new(rows[0]));
+    if (rows.length > 0)
+      return j.finish(rows[0]);
+
+    TABLE.create(data, j);
+  })
+  .job(function (j, rec) {
+    j.finish(Seat.new(rec));
   })
   .run();
 };
@@ -59,6 +69,7 @@ MODEL.create = function (raw_data, flow) {
 // ================================================================
 // ================== Delete ======================================
 // ================================================================
+
 
 
 
