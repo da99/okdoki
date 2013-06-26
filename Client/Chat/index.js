@@ -3,11 +3,12 @@ var IN_CHAT_ROOM       = false;
 var LAST_CHAT_MSG_DATE = null;
 var MAX_CHAT_MSG_TOTAL = 250;
 var TOTAL_CHAT_MSG     = 0;
-var IS_CUSTOMER        = false;
-var Control = null;
-var Chats = null
-var The_Door = null;
-var LOOP = null;
+var Control            = null;
+var Chats              = null
+var The_Door           = null;
+var LOOP               = null;
+var SEATS              = {};
+var SEAT_LIST          = null;
 
 function reset_chat_room() {
   IN_CHAT_ROOM = false;
@@ -30,12 +31,51 @@ function chat_msg(msg) {
 }
 
 function draw_chat_msg(sel, msg) {
+  if (_.isString(msg)) {
+    msg = {body: msg}
+  }
   TOTAL_CHAT_MSG += 1;
   $('#Chat_Msgs').prepend( compile_template(sel, msg) );
   if (TOTAL_CHAT_MSG > MAX_CHAT_MSG_TOTAL) {
     $('#Chat_Msgs').find('div.chat_msg').last().remove();
   }
 }
+
+function chat_seat(o) {
+  var seat = SEATS[o.screen_name];
+  var name = o.screen_name;
+  var is_me = (o.screen_name.toUpperCase() === Screen_Name.screen_name().toUpperCase());
+  if (is_me)
+    name = '(me) ' + name;
+
+  if (!seat) {
+    if (!is_me)
+      official_chat_msg("Connected: " + name);
+    seat = SEATS[o.screen_name] = {
+      name: o.screen_name,
+      ele : $('<li><a href="/me/NAME">NAME</a></li>')
+    };
+    seat.ele.find('a').attr('href', "/me/" + o.screen_name);
+    seat.ele.find('a').text(name);
+    SEAT_LIST.prepend(seat.ele);
+  }
+
+  if (o.is_out) {
+    seat.ele.addClass('is_out');
+    official_chat_msg("DISconnected: " + name);
+  } else {
+    if (seat.ele.hasClass('is_out')) {
+      seat.ele.detach();
+      SEAT_LIST.prepend(seat.ele);
+      official_chat_msg("Connected: " + name);
+    }
+    seat.ele.removeClass('is_out');
+  }
+
+  seat.is_out = o.is_out;
+
+  return seat;
+} // === chat_seat
 
 function start_loop(max) {
   // ================ Grab chat room msgs........
@@ -52,10 +92,12 @@ function start_loop(max) {
         return false;
       }
 
-      log(o);
-
       _.each(o.msgs, function (m) {
         chat_msg(m);
+      });
+
+      _.each(o.seats, function (m) {
+        chat_seat(m);
       });
     });
   });
@@ -101,6 +143,7 @@ function enter_chat_room(fav_sn) {
     $('#Enter_Chat_Room div.error_msg').hide();
     official_chat_msg({body: o.msg});
 
+    chat_seat({screen_name: fav_sn});
     start_loop(o.max_time);
   });
 
@@ -118,6 +161,7 @@ $(function () {
   Chats            = $('#Chats');
   One_More_Step    = $('#One_More_Step');
   Choose_Life_Form = $('#Choose_Life');
+  SEAT_LIST        = $('#Seat_List');
 
   // ================== Window Resize ===============================
   $(window).resize(function () {

@@ -100,13 +100,20 @@ h1
   #Audience
     background: #fff
     padding: 0
-    ul
-      margin: 0
-      padding: 0
-      li
+    div.content
+      max-height: 250px
+      overflow: auto
+      ul
+        margin: 0
         padding: 0
-        list-style: none
-        display: inline
+        li
+          padding: 0
+          list-style: none
+          display: inline
+        li.is_out
+          text-decoration: line-through
+          a:link, a:visited
+            color: lighten($grey_on_light, 60%)
 
   #Write
     padding: 0
@@ -207,6 +214,7 @@ body.w1000_plus
   #Boxs
     #Audience
       div.content
+        max-height: 350px
         column_count(6)
         column_gap(12px)
 

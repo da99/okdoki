@@ -78,10 +78,11 @@ exports.route = function (mod) {
       if (!fin.river.reply_for('seat'))
         return OK.json({success: false, msg: "Chat room unavailable."});
 
+      var test_name = Faker.Name.firstName();
       var msgs = fin.river.replys_for('read_msgs');
-      msgs.push({author_screen_name: Faker.Name.firstName(), body: Faker.Lorem.paragraph()});
+      msgs.push({author_screen_name: test_name, body: Faker.Lorem.paragraph()});
       var seats = fin.river.replys_for('read_seat_list');
-      seats.push({screen_name: Faker.Name.firstName(), is_out: (parseInt(Math.random() * 10) % 2) === 0 });
+      seats.push({screen_name: test_name, is_out: (parseInt(Math.random() * 10) % 2) === 0 });
 
       OK.json({
         success : true,

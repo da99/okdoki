@@ -80,14 +80,25 @@ h1 {
   background: #fff;
   padding: 0;
 }
-#Boxs #Audience ul {
+#Boxs #Audience div.content {
+  max-height: 250px;
+  overflow: auto;
+}
+#Boxs #Audience div.content ul {
   margin: 0;
   padding: 0;
 }
-#Boxs #Audience ul li {
+#Boxs #Audience div.content ul li {
   padding: 0;
   list-style: none;
   display: inline;
+}
+#Boxs #Audience div.content ul li.is_out {
+  text-decoration: line-through;
+}
+#Boxs #Audience div.content ul li.is_out a:link,
+#Boxs #Audience div.content ul li.is_out a:visited {
+  color: #c7c7c7;
 }
 #Boxs #Write {
   padding: 0;
@@ -203,6 +214,7 @@ body.w600_plus #Chats {
   padding-bottom: 80px;
 }
 body.w1000_plus #Boxs #Audience div.content {
+  max-height: 350px;
   -moz-column-count: 6;
   -webkit-column-count: 6;
   column-count: 6;
