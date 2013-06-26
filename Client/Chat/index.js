@@ -37,13 +37,13 @@ function draw_chat_msg(sel, msg) {
   }
 }
 
-function start_loop() {
+function start_loop(max) {
   // ================ Grab chat room msgs........
   if (LOOP)
     return;
 
   LOOP = true;
-  every_secs(3, function () {
+  every_secs(max || 3, function () {
     if ( !IN_CHAT_ROOM )
       return false;
     post("/me/" + Screen_Name.screen_name() + "/chat/msgs", {after: LAST_CHAT_MSG_DATE}, function (err, o) {
@@ -51,6 +51,9 @@ function start_loop() {
         log(err);
         return false;
       }
+
+      log(o);
+
       _.each(o.list, function (m) {
         chat_msg(m);
       });
@@ -98,7 +101,7 @@ function enter_chat_room(fav_sn) {
     $('#Enter_Chat_Room div.error_msg').hide();
     official_chat_msg({body: o.msg});
 
-    start_loop();
+    start_loop(o.max_time);
   });
 
 

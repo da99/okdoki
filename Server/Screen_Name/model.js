@@ -7,7 +7,8 @@ var Refresh = 4 // seconds
 , IM        = require('../IM/model').IM
 , Website   = require('../Website/model').Website
 , Folder    = require('../Folder/model').Folder
-, path = require('path')
+, path      = require('path')
+, log       = require("../App/base").log
 ;
 
 var valid_chars = "a-zA-Z0-9\\-\\_\\.";
@@ -17,6 +18,8 @@ var INVALID_CHARS = new RegExp( '[^' + valid_chars + ']', 'ig' );
 var WORLD = '@W';
 
 var TABLE_NAME = 'Screen_Name';
+var TABLE = Topogo.new(TABLE_NAME);
+
 var banned_screen_names = [
   '^megauni',
   '^miniuni',
@@ -261,6 +264,62 @@ S.read_by_screen_name = function (n, customer, flow) {
     var sn = S.new(r);
     sn.customer(customer || stranger);
     j.finish(sn);
+  })
+  .run();
+};
+
+S.find_screen_name_keys = function (arr) {
+  var key = _.detect(['screen_name_id', 'owner_id', 'author_id'], function (k) {
+    return arr[0].hasOwnProperty(k);
+  }) || 'screen_name_id';
+
+  var new_key = key.replace('_id', '_screen_name');
+  return [key, new_key];
+};
+
+S.attach_screen_names = function (arr, flow) {
+  var keys = S.find_screen_name_keys(arr);
+  var key = keys[0];
+  var new_key = keys[1];
+
+  var vals = _.pluck(arr, key);
+  if (!vals.length)
+    return flow.finish([]);
+
+  River.new(flow)
+  .job(function (j) {
+    TABLE.read_list({id: vals}, j);
+  })
+  .job(function (j, names) {
+    var map = {};
+    _.each(names, function (n) {
+      map[n.id] = n.screen_name;
+    });
+
+    _.each(arr, function (r, i) {
+      arr[i][new_key] = map[arr[i][key]];
+    });
+
+    j.finish(arr);
+  })
+  .run();
+};
+
+S.replace_screen_names = function (arr, flow) {
+  var keys = S.find_screen_name_keys(arr);
+  var key = keys[0];
+  var new_key = keys[1];
+
+  River.new(flow)
+  .job(function (j) {
+    S.attach_screen_names(arr, j);
+  })
+  .job(function (j, new_arr) {
+    _.each(new_arr, function (r, i) {
+      new_arr[i][key] = undefined;
+    });
+
+    j.finish(new_arr);
   })
   .run();
 };

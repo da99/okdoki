@@ -3,12 +3,14 @@ var _         = require("underscore")
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
+, log         = require("../App/base").log
 ;
 
 var Seat       = exports.Seat = function () {};
 var TABLE_NAME = "Chat_Screen_Name";
 var TABLE      = Topogo.new(TABLE_NAME);
 
+Seat.MAX_TIME = 3;
 Seat.new = function (data) {
   var o = new Seat();
   o.data = data;
@@ -56,7 +58,35 @@ Seat.create_by_room = function (room, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
+Seat.read_list_by_room = function (room, flow) {
+  var now = (new Date).getTime();
+  var target = now - (1000 * 3);
 
+  var data = {
+    chat_room_id: room.data.id
+  };
+
+  River.new(flow)
+
+  .job('read seats', function (j) {
+    TABLE.read_list(data, j);
+  })
+
+  .job('attach screen names', function (j, rows) {
+    Screen_Name.replace_screen_names(rows, j);
+  })
+
+  .job('set old', function (j, rows) {
+    _.each(rows, function (r) {
+      if (!r.last_seen_at || r.last_seen_at.getTime() < (target))
+        rows.is_out = true;
+      rows.last_seen_at = null;
+    });
+    j.finish(rows);
+  })
+
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================

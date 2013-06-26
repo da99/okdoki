@@ -10,6 +10,7 @@ var _         = require('underscore')
 , Chat_Seat   = require('../Chat/model').Seat
 , Chat_Msg    = require('../Chat/model').Msg
 , Faker       = require('Faker')
+, log         = require("../App/base").log
 ;
 
 exports.route = function (mod) {
@@ -28,7 +29,6 @@ exports.route = function (mod) {
     OK.render_template();
   });
 
-  // =============== "Listening" to the Chat Room... ================
   app.post('/me/:screen_name/chat/enter', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     mod
@@ -48,7 +48,8 @@ exports.route = function (mod) {
 
       OK.json({
         success : true,
-        msg     : "Success: You're in the room, " + req.body.as_this_life + '.'
+        msg     : "Success: You're in the room, " + req.body.as_this_life + '.',
+        max_time: Chat_Seat.MAX_TIME
       });
     });
   });
@@ -71,6 +72,7 @@ exports.route = function (mod) {
       Chat_Seat.read_list_by_room(j.river.reply_for('room'), j);
     })
     .read_list('msg_list', function (j, list) {
+      log(list)
       Chat_Msg.read_list_by_author_ids(_.pluck(list, 'screen_name_id'), j);
     })
     .run(function (fin, room) {
