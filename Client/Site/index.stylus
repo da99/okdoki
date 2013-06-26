@@ -448,7 +448,8 @@ div.box
       font-size: 150%
 
 #Session_Nav
-  background: $glass_white
+  background: rgba(0,0,0,0.5)
+  float: left
 
 div.box#New_Session,
 div.box#New_Customer

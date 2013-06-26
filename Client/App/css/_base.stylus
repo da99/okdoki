@@ -378,6 +378,7 @@ div.edit_able_s
       color: #2D2D2D;
 
 #Session_Nav
+  float: right
   padding: 0 5px 2px 5px
   text-align: right
   background: #fafafa

@@ -19,11 +19,10 @@ $sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera S
 $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
 
 
-#Me
+body.w500_plus #Me
   padding: 18px 0 0 5px
   margin: 0 0 0 20px
   text-align: left
-  border-bottom: 4px double lighten(#000, 20%)
   background: rgba(255,255,255, 0.20)
   h3
     font-size: 200%
@@ -34,7 +33,6 @@ $cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstre
     width: auto
     padding: 8px 0 2px 2px
     margin: 0
-    border: 0
     line-height: 1.5em
     color: lighten(#000, 35%)
     a:link
@@ -140,5 +138,4 @@ div.boxs
       div.buttons
         padding: 0 0 5px 0
         display: none
-
 

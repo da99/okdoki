@@ -1,25 +1,23 @@
-#Me {
+body.w500_plus #Me {
   padding: 18px 0 0 5px;
   margin: 0 0 0 20px;
   text-align: left;
-  border-bottom: 4px double #333;
   background: rgba(255,255,255,0.2);
 }
-#Me h3 {
+body.w500_plus #Me h3 {
   font-size: 200%;
   padding: 0;
   width: 90%;
   margin: 0;
 }
-#Me div.content {
+body.w500_plus #Me div.content {
   width: auto;
   padding: 8px 0 2px 2px;
   margin: 0;
-  border: 0;
   line-height: 1.5em;
   color: #595959;
 }
-#Me div.content a:link {
+body.w500_plus #Me div.content a:link {
   text-decoration: underline;
 }
 #Create {

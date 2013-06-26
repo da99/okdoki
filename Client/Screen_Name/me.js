@@ -1,4 +1,5 @@
 
+var Control_Panel = $('#Control_Panel');
 
 // ================== Screen Name ==============
 
@@ -58,7 +59,12 @@ $(function () {
       if (SN != l.toUpperCase())
         screen_name(l);
     });
+
+    if (Customer.has_one_life) {
+      Control_Panel.hide();
+    }
   }
+
 
   // ============================================
   // ================ Create life................
@@ -67,6 +73,7 @@ $(function () {
     form('#Create_Screen_Name', function (f) {
       f.at_least_one_not_empty('input[name="screen_name"]');
       f.on_success(function (result) {
+        Control_Panel.show();
         f.find('div.success').html('Your new life is at: <a href="/me/SN">okdoki.com/me/SN</a>'.replace(/SN/g, result.screen_name));
         screen_name(result.screen_name);
       });

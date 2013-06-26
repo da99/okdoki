@@ -11,19 +11,21 @@ body {
 label {
   display: block;
 }
-#Me {
+body.w500_plus #Me {
   background: transparent;
   text-align: center;
 }
-#Me h3 {
+body.w500_plus #Me h3 {
   padding: 5px 0 0 0;
-  width: auto;
   font-size: 230%;
+  width: 90%;
+  margin: 0 auto;
 }
-#Me div.content {
-  width: auto;
+body.w500_plus #Me div.content {
+  width: 90%;
   padding-left: 0;
   padding-right: 0;
+  margin: 0 auto;
 }
 #Items {
   text-align: center;

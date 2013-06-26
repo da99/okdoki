@@ -418,7 +418,8 @@ div.box div.content input[type="password"] {
   font-size: 150%;
 }
 #Session_Nav {
-  background: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.5);
+  float: left;
 }
 div.box#New_Session,
 div.box#New_Customer {
