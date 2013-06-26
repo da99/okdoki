@@ -731,6 +731,9 @@ function form(selector, func) {
     .show()
     ;
 
+    if (form_meta[selector].before)
+      form_meta[selector].before(url, data);
+
     post(url, data, function (err, raw) {
       if (err) {
         form_meta[selector].error(err, raw);
@@ -751,6 +754,10 @@ function form(selector, func) {
 
   e.only_if = function (func) {
     form_meta[selector].only_if = func;
+  };
+
+  e.on_before_send = function (on_before) {
+    form_meta[selector].before = on_before;
   };
 
   e.at_least_one_not_empty = function () {
@@ -777,6 +784,8 @@ function form(selector, func) {
     form_meta[selector].error = function (err, result) {
       if (_.isNumber(err) && err > 0)
         loaded(default_err);
+      else if (err === true)
+        loaded("Website not available right now. Try again later.");
       else
         loaded(err);
       on_e(result);

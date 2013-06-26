@@ -12,7 +12,7 @@ var TABLE      = Topogo.new(TABLE_NAME);
 
 
 Msg.new = function (data) {
-  var o = new Seat();
+  var o = new Msg();
   o.data = data;
   return o;
 };
@@ -41,6 +41,24 @@ Msg.create = function (raw_data, flow) {
   })
   .job(function (j, rows) {
     j.finish(Chat.new(rows[0]));
+  })
+  .run();
+};
+
+Msg.create_by_seat_and_body = function (seat, body, flow) {
+  var data = {
+    chat_room_id : seat.data.chat_room_id,
+    author_id    : seat.data.screen_name_id,
+    body         : body
+  };
+  River.new(flow)
+  .job('create', function (j) {
+    TABLE.create(data, j);
+  })
+  .job('new obj', function (j, row) {
+    if (!row)
+      return j.finish(null);
+    j.finish( Msg.new(row) );
   })
   .run();
 };

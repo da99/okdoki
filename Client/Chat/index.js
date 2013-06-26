@@ -109,7 +109,7 @@ function start_loop(max) {
       return false;
     post("/me/" + Screen_Name.screen_name() + "/chat/msgs", {after: LAST_CREATED_AT}, function (err, o) {
       if (err) {
-        log(err);
+        log(err, o);
         return false;
       }
 
@@ -130,8 +130,9 @@ function enter_chat_room(fav_sn) {
 
   var url = "/me/" + Screen_Name.screen_name() + "/chat/enter";
 
-  if (!fav_sn)
+  if (!fav_sn) {
     fav_sn = Customer.fav_screen_name();
+  }
 
   The_Door.show();
   Control.hide();
@@ -229,11 +230,18 @@ $(function () {
 
   // ================ Talk to the Chat Room......
   form('#Write_To_Chat_Room', function (f) {
+
     f.at_least_one_not_empty('textarea');
+
+    f.on_before_send(function (url, data) {
+      data.as_this_life = Customer.fav_screen_name();
+    });
+
     f.on_success(function (result) {
       f.find('div.success').hide();
       me_chat_msg(result.chat_msg);
     });
+
   });
 
   // ================ LEAVE The Chat Room........

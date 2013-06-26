@@ -58,6 +58,24 @@ Seat.create_by_room = function (room, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
+
+Seat.read_by_room_and_screen_name_id = function (room, sn_id, flow) {
+  var data = {
+    chat_room_id: room.data.id,
+    screen_name_id: sn_id
+  };
+  River.new(flow)
+  .job('read', function (j) {
+    TABLE.read_one(data, j);
+  })
+  .job('new obj', function (j, row) {
+    if (!row)
+      return j.finish(null);
+    j.finish(Seat.new(row));
+  })
+  .run();
+};
+
 Seat.read_list_by_room = function (room, flow) {
   var now = (new Date).getTime();
   var target = now - (1000 * 3);

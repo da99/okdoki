@@ -103,9 +103,6 @@ exports.route = function (mod) {
         created_at_epoch   : (new Date).getTime()
       });
 
-
-
-
       OK.json({
         success : true,
         msg     : "Done.",
@@ -125,9 +122,35 @@ exports.route = function (mod) {
 
   // =============== Speaking to the Chat Room... ===================
 
-  app.post('/chat_room/msg', function (req, resp, next) {
+  app.post('/me/:screen_name/chat/msg', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: req.body.body, chat_msg: {author_screen_name: "GO99", body: req.body.body}});
+    mod
+    .New_River(req, resp, next)
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
+    })
+    .read_one('room', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .read_one('seat', function (j, room) {
+      Chat_Seat.read_by_room_and_screen_name_id(room, req.body.life_id, j);
+    })
+    .create_one('msg', function (j, seat) {
+      Chat_Msg.create_by_seat_and_body(seat, req.body.body, j);
+    })
+    .run(function (fin, msg) {
+      if (!msg)
+        return OK.json({success: false, msg: "Chat room unavailable."});
+
+      msg.author_screen_name = req.body.as_this_life;
+
+      OK.json({
+        success: true,
+        msg: "Message sent to the chat room.",
+        chat_msg: msg
+      });
+    });
+
   });
 
 
