@@ -72,11 +72,10 @@ exports.route = function (mod) {
       Chat_Seat.read_list_by_room(j.river.reply_for('room'), j);
     })
     .read_list('msg_list', function (j, list) {
-      log(list)
-      Chat_Msg.read_list_by_author_ids(_.pluck(list, 'screen_name_id'), j);
+      Chat_Msg.read_list_by_room_and_author_ids(j.river.reply_for('room'), _.pluck(list, 'screen_name_id'), j);
     })
     .run(function (fin, room) {
-      if (!room)
+      if (!fin.river.reply_for('seat'))
         return OK.json({success: false, msg: "Chat room unavailable."});
 
       var msgs = fin.river.replys_for('read_msgs');
@@ -84,7 +83,7 @@ exports.route = function (mod) {
 
       OK.json({
         success : true,
-        msg     : "Success: You're in the room, " + req.body.as_this_life + '.',
+        msg     : "Done.",
         seats   : fin.river.replys_for('read_seat_list'),
         msgs    : msgs
       });

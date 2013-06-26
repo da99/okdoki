@@ -54,7 +54,7 @@ function start_loop(max) {
 
       log(o);
 
-      _.each(o.list, function (m) {
+      _.each(o.msgs, function (m) {
         chat_msg(m);
       });
     });

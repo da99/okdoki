@@ -270,7 +270,7 @@ S.read_by_screen_name = function (n, customer, flow) {
 
 S.find_screen_name_keys = function (arr) {
   var key = _.detect(['screen_name_id', 'owner_id', 'author_id'], function (k) {
-    return arr[0].hasOwnProperty(k);
+    return (arr[0] || '').hasOwnProperty(k);
   }) || 'screen_name_id';
 
   var new_key = key.replace('_id', '_screen_name');

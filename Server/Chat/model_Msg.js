@@ -5,9 +5,9 @@ var _         = require("underscore")
 , River       = require("da_river").River
 ;
 
-var Msg            = exports.Msg = function () {};
-var MSG_TABLE_NAME = "Chat_Msg";
-var MSG_TABLE      = Topogo.new(MSG_TABLE_NAME);
+var Msg        = exports.Msg = function () {};
+var TABLE_NAME = "Chat_Msg";
+var TABLE      = Topogo.new(TABLE_NAME);
 
 
 Msg.new = function (data) {
@@ -47,7 +47,16 @@ Msg.create = function (raw_data, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-
+Msg.read_list_by_room_and_author_ids = function (room, author_ids, flow) {
+  River.new(flow)
+  .job('read list', function (j) {
+    TABLE.read_list({author_id: author_ids, chat_room_id: room.data.id}, j);
+  })
+  .job('replace author_id', function (j, rows) {
+    Screen_Name.replace_screen_names(rows, j);
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================
