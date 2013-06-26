@@ -1,4 +1,20 @@
+$black       = #000
+$dark_blue   = #185DAD
+$light_blue  = #E1EEFF
+$light_black = #6D6D6D
+$light_green = #74BB1B
+$pink        = #F85D95
+$orange      = #ff8f00
+$dark_orange = #f08700
+$darker_orange = #e48000
+$blue_green  = #00b9b2
+$blue        = #008EED
+$yellow      = #FFEA74
+$samar_red   = #F00919
+
+$avacado=#b0c460
 $red            = #FF0000
+$pink        = #F85D95
 $dark_blue      = #185DAD
 $light_blue     = #E1EEFF
 $light_yellow   = #FFFDD2
@@ -17,6 +33,7 @@ $light_blue=#a2d3e0
 $blue=#073d6f
 
 $glass_white    = rgba(255,255,255,0.85)
+$glass_black    = rgba(0,0,0,0.65)
 
 column_count(num)
   -moz-column-count: num
@@ -58,16 +75,15 @@ select, option
   column_count(1)
   column_gap(10px)
   column_rule( 1px dashed lighten($grey_on_light, 40%) )
-  background: $glass_white
 
 
 div.box
   padding: 0
-  margin: 0
+  margin: 0 0 10px 0
   width: 98%
   display: inline-block
   padding-bottom: 15px
-  border-bottom: 1px dashed lighten($grey_on_light, 40%)
+  background: $glass_white
   h3
     padding: 0
     text-align: center
@@ -215,12 +231,15 @@ div.box
 
 
 #Enter_Chat_Room
-  border-radius: 3px
+  border-radius: 4px
+  background: $glass_black
+  color: $yellow
   div.content
     padding: 15px 0 10px 0
     text-align: center
     font-size: 110%
     a:link
+      color: lighten($avacado, 30%)
       padding: 3px 5px
       border-radius: 5px
       border-width: 0
@@ -229,6 +248,11 @@ div.box
       text-decoration: underline
       &:after
         content: ": "
+    a:visited
+      color: lighten($avacado, 30%)
+    a:hover
+      background: darken($avacado, 30%)
+      color: #fff
     div.error_msg
       display: none
       background: $light_yellow
@@ -272,7 +296,7 @@ div.box
 
 
 body.w600_plus
-	#Boxs
+  #Boxs
     column_count(2)
 
 body.w900_plus
@@ -284,10 +308,11 @@ body.w1100_plus
   #Me
     div.content
       width: 50%
-	#Boxs
+  #Boxs
+    width 96%
+    margin 0 auto
     column_count(3)
-    width: 96%
-    margin: 0 auto
+
 
 
 

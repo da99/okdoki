@@ -273,9 +273,8 @@ app.configure(function () {
 
   // Make sure user is not pretending to be someone else.
   app.use(function (req, resp, next) {
-log(req.body)
     if (req.user && req.body.hasOwnProperty('as_this_life'))
-      req.body.life_id = req.user.screen_name_id(req.body.as_this_life, -1);
+      req.body.life_id = req.user.screen_name_id(req.body.as_this_life);
 
     next();
   });
