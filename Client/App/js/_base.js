@@ -23,7 +23,11 @@ var Customer    = {
   is_customer : false,
   is_owner_of_screen_name: false,
   has_one_life : false,
-  fav_screen_name : null,
+  fav_screen_name : function (n) {
+    if (n)
+      this._fav = n;
+    return this._fav;
+  },
   _sns : [],
   screen_names : function (arr) {
     if (arr) {
@@ -34,7 +38,7 @@ var Customer    = {
       this.is_owner_of_screen_name = Screen_Name.is_found && _.detect(arr, function (n) {
         return Screen_Name.screen_name().toUpperCase() == n.toUpperCase() ;
       });
-      this.fav_screen_name = _.last(arr);
+      this.fav_screen_name( _.last(arr) );
     }
 
     return this._sns;

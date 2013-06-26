@@ -26,9 +26,9 @@ exports.route = function (mod) {
     OK.render_template();
   });
 
-  app.post('/chat_room/enter', function (req, resp, next) {
+  app.post('/me/:screen_name/chat/enter', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: "HELLO: You're in the room."});
+    OK.json({success: true, msg: "Success: You're in the room."});
   });
 
   // =============== Leaving the Chat Room... =======================

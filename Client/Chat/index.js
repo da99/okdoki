@@ -37,8 +37,11 @@ function draw_chat_msg(sel, msg) {
 }
 
 function enter_chat_room(fav_sn) {
+
+  var url = "/me/:screen_name/chat/enter".replace(':screen_name', Screen_Name.screen_name());
+
   if (!fav_sn)
-    fav_sn = Customer.fav_screen_name;
+    fav_sn = Customer.fav_screen_name();
 
   The_Door.show();
   Control.hide();
@@ -49,7 +52,7 @@ function enter_chat_room(fav_sn) {
   });
 
   // Enter the Chat Room...
-  post("/chat_room/enter", {as_this_life: fav_sn}, function (err, o) {
+  post(url, {as_this_life: fav_sn}, function (err, o) {
 
     reset_chat_room();
     Control.show();
@@ -81,10 +84,10 @@ function enter_chat_room(fav_sn) {
 
 $(function () {
 
-  The_Door = $('#The_Door');
-  Control  =  $('#Boxs');
-  Chats    = $('#Chats');
-  One_More_Step = $('#One_More_Step');
+  The_Door         = $('#The_Door');
+  Control          = $('#Boxs');
+  Chats            = $('#Chats');
+  One_More_Step    = $('#One_More_Step');
   Choose_Life_Form = $('#Choose_Life');
 
   // ================== Window Resize ===============================
@@ -96,7 +99,7 @@ $(function () {
   // ================================================================
   // ===== When a stranger trys to enter:
   // ================================================================
-  //
+
   $('#Stranger a[href="/"]').click(function (e) {
     var link = $(e);
     $.cookie('url_wanted', 'chat room of: ' + Screen_Name.screen_name(), {
@@ -114,10 +117,10 @@ $(function () {
   // ================================================================
 
   if (Customer.is_owner_of_screen_name) {
-    enter_chat_room(Screen_Name.screen_name);
+    enter_chat_room(Screen_Name.screen_name());
   } else {
     if (Customer.has_one_life)
-      enter_chat_room(Customer.fav_screen_name);
+      enter_chat_room(Customer.fav_screen_name());
     else {
       log("Waiting for you to pick name.");
     }
@@ -139,10 +142,10 @@ $(function () {
   });
 
   on_click(Choose_Life_Form.find('button.submit'), function (e) {
-    Customer.fav_screen_name = Choose_Life_Form.find('input[name="as_this_life"]').val();
-    log(Customer.fav_screen_name);
+    Customer.fav_screen_name( Choose_Life_Form.find('input[name="as_this_life"]').val() );
+    log(Customer.fav_screen_name());
     One_More_Step.hide();
-    enter_chat_room(Customer.fav_screen_name);
+    enter_chat_room(Customer.fav_screen_name());
   });
 
   // ================ Talk to the Chat Room......
