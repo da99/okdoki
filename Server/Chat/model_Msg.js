@@ -85,6 +85,7 @@ Msg.read_list_by_room_and_last_created_at = function (room, raw_last_time, flow)
   .job('add epoch', function (j, rows) {
     j.finish(_.map(rows, function (r) {
       r.created_at_epoch = r.created_at.getTime();
+      return r;
     }));
   })
   .job('replace author_id', function (j, rows) {
