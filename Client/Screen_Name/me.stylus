@@ -216,7 +216,7 @@ div.box
       border-width: 1px 0
       padding: 6px 0 10px 0
       border: 0
-      div.success
+      div.intro
         border: 0
         padding: 0 4px 10px 4px
         font-family: $serif

@@ -61,9 +61,9 @@ append content
           div.content
             form#Delete_Follow(action="/me/#{screen_name}/follow", method="POST")
               div.buttons
-                input(type="hidden", name="_method", value="DELETE")
-                div.success
+                div.intro
                   | You're subscribed.
+                input(type="hidden", name="_method", value="DELETE")
                 button.submit Unsubscribe
             form#Create_Follow(action="/me/#{screen_name}/follow", method="POST")
               call applet('as_this_life')

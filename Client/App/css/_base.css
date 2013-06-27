@@ -85,16 +85,6 @@ span.label_mild {
   color: #008eed;
   border-radius: 0;
 }
-#intro {
-  background: #000;
-  color: #e1eeff;
-  padding: 0;
-}
-div.intro {
-  background: #000;
-  color: #e1eeff;
-  padding: 0;
-}
 form.hidden_fields div.fields {
   display: none;
 }

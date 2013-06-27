@@ -127,18 +127,6 @@ div.label_mild, span.label_mild
 
 
 
-#intro
-  background: #000;
-  color: #E1EEFF;
-  padding: 0;
-
-
-div.intro
-  background: #000;
-  color: #E1EEFF;
-  padding: 0;
-
-
 form
   &.hidden_fields div.fields
     display: none;

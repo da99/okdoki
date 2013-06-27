@@ -48,6 +48,17 @@ a:link, a:visited
 a:hover
   text-decoration: none
 
+#intro
+  background: #000;
+  color: #E1EEFF;
+  padding: 0;
+
+
+div.intro
+  background: #000;
+  color: #E1EEFF;
+  padding: 0;
+
 h1.title
   text-shadow: black 0.1em 0.1em 0.1em
   font-family: 'Lenka'
