@@ -78,7 +78,7 @@ exports.route = function (mod) {
       opts['folder_title'] = page.folder().data.title;
       opts['is_update_able'] = page.is_update_able();
       opts['page_body'] = page.data.body;
-      opts['page_html_body'] = Bling_Bling.new(opts['page_body']).to_html();
+      opts['page_body_html'] = Bling_Bling.new(opts['page_body']).to_html();
       return OK.render_template();
     });
   });
@@ -110,7 +110,7 @@ exports.route = function (mod) {
       if (!page)
         return next();
       var data = page.public_data();
-      data.html_body = Bling_Bling.new(page.data.body).to_html();
+      data.body_html = Bling_Bling.new(page.data.body).to_html();
       resp.json({success: true, msg: "Page has been updated.", page: data});
     });
   });

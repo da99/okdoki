@@ -12,7 +12,7 @@ $(function () {
       $('#The_Title').text(result.page.title);
       $('#Update_Page div.title input[type="text"]').val(result.page.title);
       document.title = result.page.title;
-      $('#The_Page_Content').html(result.page.html_body);
+      $('#The_Page_Content').html(result.page.body_html);
       $('#The_Body').text(result.page.body);
       log(result);
     });

@@ -21,9 +21,9 @@ m.migrate = function (dir, r) {
     $author_able   ,                       \n\
     title          varchar(180)          , \n\
     body           text                  , \n\
-    html_body      text                  , \n\
+    body_html      text                  , \n\
     draft_body     text                  , \n\
-    draft_html_body text                 , \n\
+    draft_body_html text                 , \n\
     $created_at    ,                                        \n\
     $updated_at    ,                                        \n\
     $trashed_at                                             \n\
