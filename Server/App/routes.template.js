@@ -18,13 +18,17 @@ exports.routes = function (mod) {
   app.post("/MODEL", function (req, resp, next) {
     var data = _.clone(req.body);
     mod.New_River(req, resp, next)
-    .job(function (j) {
-      MODEL.create(data, j);
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
-    .job(function (j, page) {
+    .create_one(function (j, sn) {
+      MODEL.create_by_screen_name(sn, data, j);
+    })
+    .job(function (j, model) {
       resp.json({
         success : true,
-        msg     : 'Created: '
+        msg     : 'Created: ',
+        model   : model
       });
     })
     .run();
