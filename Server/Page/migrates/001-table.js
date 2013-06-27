@@ -14,7 +14,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
+    var sql = "CREATE TABLE \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,     \n\
     folder_id      int DEFAULT 0 NOT NULL, \n\
     num            smallint DEFAULT 0 NOT NULL,            \n\
@@ -29,8 +29,8 @@ m.migrate = function (dir, r) {
     $trashed_at                                             \n\
     );";
     r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT folder_num    UNIQUE (folder_id, num)",
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT folder_title  UNIQUE (folder_id, title)"
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_num\" UNIQUE (folder_id, num)",
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_title\" UNIQUE (folder_id, title)"
             );
 
   }

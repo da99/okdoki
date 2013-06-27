@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
     last_seen_at      $now_tz                                                           \n\
     );';
     r.create(sql,
-             "ALTER TABLE     \"" + table + "\" ADD CONSTRAINT seat UNIQUE (chat_room_id, screen_name_id) "
+             "ALTER TABLE     \"" + table + "\" ADD CONSTRAINT \"" + table + "_seat\" UNIQUE (chat_room_id, screen_name_id) "
             );
 
   }

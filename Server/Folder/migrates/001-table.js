@@ -24,8 +24,8 @@ m.migrate = function (dir, r) {
     $trashed_at                                                 \n\
     );";
     r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT folder_num    UNIQUE (website_id, num)",
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT folder_title  UNIQUE (website_id, title)"
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_num\"    UNIQUE (website_id, num)",
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_title\"  UNIQUE (website_id, title)"
             );
 
   }

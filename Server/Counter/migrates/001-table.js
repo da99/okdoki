@@ -22,7 +22,7 @@ m.migrate = function (dir, r) {
     child_id       int DEFAULT 0 NOT NULL,                      \n\
     count          smallint DEFAULT 0 NOT NULL                  \n\
     );";
-    r.create(sql, "ALTER TABLE \"" + table + "\" ADD CONSTRAINT item_count UNIQUE (parent_type_id, parent_id, child_type_id, child_id)");
+    r.create(sql, "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_item_count\" UNIQUE (parent_type_id, parent_id, child_type_id, child_id)");
 
   }
 };
