@@ -240,7 +240,7 @@ S.prototype.is_world_read_able = function () {
 };
 
 S.read_by_id = function (id, flow) {
-  River.new(arguments)
+  River.new(flow)
   .job('read screen name id:', id, function (j) {
     Topogo.new(TABLE_NAME).read_by_id(id, j);
   })

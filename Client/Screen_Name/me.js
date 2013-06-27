@@ -94,7 +94,7 @@ $(function () {
   // ============================================
   // ================ Grab message board msgs....
   // ============================================
-  get('/me/SCREEN_NAME/message_board/msgs' , function (err, o) {
+  get('/me/' + Screen_Name.screen_name() + '/message_board/msgs' , function (err, o) {
     var div_loading = $('#Message_Board div.msgs div.loading');
 
     if (err) {

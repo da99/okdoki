@@ -59,25 +59,18 @@ MB.create = function (raw_data, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-MB.read_by_website_id = function (id, flow) {
+MB.read_by_website = function (website, flow) {
   var sql = "  \
-  SELECT @table.*,                                      \
-    @screen_name_table.screen_name                      \
-     AS author_screen_name                              \
-  FROM  @table INNER JOIN @screen_name_table            \
-        ON @table.author_id = @screen_name_table.id     \
-  WHERE @table.website_id = @website_id AND @table.trashed_at IS NULL \
-  ORDER BY id DESC                                      \
-  LIMIT 25                                              \
+  SELECT @table.*                                       \n\
+  FROM  @table                                          \n\
+  WHERE @table.website_id = @website_id                 \n\
+     AND @table.trashed_at IS NULL                      \n\
+  ORDER BY id DESC                                      \n\
+  LIMIT 25                                              \n\
   ";
   River.new(flow)
   .job(function (j) {
-    TABLE.run(sql, {website_id: id, TABLES: {screen_name_table: Screen_Name.TABLE_NAME}}, j);
-  })
-  .job(function (j, list) {
-    j.finish(_.map(list, function (r) {
-      return MB.new(r);
-    }));
+    TABLE.run(sql, {website_id: website.data.id}, j);
   })
   .run();
 };
