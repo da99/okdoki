@@ -22,8 +22,14 @@ $yellow         = #FFEA74
 $yellow_med     = #FFDF2C
 $light_yellow   = #FFFDD2
 
+$samar_red   = #F00919
+$avacado=#b0c460
+
 $write_col_width = 300px
 $box_margin      = 10px
+
+$sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
+$serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 
 background-size()
   -moz-background-size    : arguments
@@ -411,6 +417,8 @@ form
 
 #Why
   body.is_customer &
+    width: 180px
+    margin-right: 10px
     #Screen_Names span
       color: darken($yellow_med, 20%)
       font-style: italic
@@ -430,6 +438,47 @@ form
   div.content
     margin: 0 15px
     padding-bottom: 20px
+
+#Follows
+  float: left
+  color: #353535
+  min-width: 300px
+  h3.follows
+    margin: 0 0 10px 0
+    background: #fafafa
+    font-family: $sans-serif
+    text-align: center
+    padding: 4px
+    text-transform: none
+    font-size: 100%
+    color: #6b6b6b
+  div.box
+    background: rgba(255,255,255,0.95)
+    border-radius: 0 0 3px 3px
+    padding-bottom: 0
+    margin-bottom: 10px
+    h3
+      background: transparent
+      color: $dark_blue
+      font-size: 120%
+      text-align: center
+      padding: 6px 0 0 0
+    div.content
+      background: transparent
+      color: #353535
+      padding-bottom: 0
+      div.msg
+        padding: 5px 0
+        border-bottom: 1px dashed $samar_red
+        div.title
+          color: $dark_blue
+        div.body
+          font-family: $serif
+          font-size: 120%
+      div.nav
+        text-align: center
+        a:link, a:visited
+          display: block
 
 
 div.box
