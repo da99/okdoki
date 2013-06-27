@@ -63,8 +63,8 @@ var stranger = {
 // ================== Main Stuff ==================================
 // ================================================================
 
-var S = exports.Screen_Name = function () { };
-Ok.Model.new(S);
+var S = exports.Screen_Name = Ok.Model.new(function () {});
+
 S.TABLE_NAME = TABLE_NAME;
 S.expire_in = 4; // Refresh rate.
 

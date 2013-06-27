@@ -1,6 +1,6 @@
 
 var _         = require("underscore")
-, MODEL       = require("./model").MODEL
+, Follow      = require("./model").Follow
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Website     = require("../Website/model").Website
 , log         = require("../App/base").log
@@ -10,28 +10,32 @@ exports.route = function (mod) {
   var app = mod.app;
 
   // ============ READ =================================================
-  app.get("/MODEL/:id", function (req, resp, next) {
-    var OK            = mod.New_Request(arguments);
-    var opts          = OK.template_data('MODEL/show_one');
-    opts['title']     = "MODEL #" + req.params.id;
-    return OK.render_template();
-  });
+  // app.get("/Follow/:id", function (req, resp, next) {
+    // var OK            = mod.New_Request(arguments);
+    // var opts          = OK.template_data('Follow/show_one');
+    // opts['title']     = "Follow #" + req.params.id;
+    // return OK.render_template();
+  // });
 
   // ============ CREATE ===============================================
-  app.post("/MODEL", function (req, resp, next) {
+  app.post("/me/:screen_name/follow", function (req, resp, next) {
     var data = _.clone(req.body);
+    data.follower_id = req.body.life_id;
+
     mod.New_River(req, resp, next)
     .read_one('screen_name', function (j) {
       Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
-    .create_one(function (j, sn) {
-      MODEL.create_by_screen_name(sn, data, j);
+    .read_one('website', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
     })
-    .job(function (j, model) {
+    .create_one(function (j, website) {
+      Follow.create_by_website(website, data, j);
+    })
+    .job(function (j, follow) {
       resp.json({
         success : true,
-        msg     : 'Created: ',
-        model   : model
+        msg     : 'You\'re subscribed.'
       });
     })
     .run();

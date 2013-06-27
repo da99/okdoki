@@ -56,6 +56,15 @@ append content
 
 
     div#Boxs
+      - if (is_customer && !is_owner)
+        div.box#Follow
+          h3 Free:
+          div.content
+            form#Create_Follow(action="/me/#{screen_name}/follow", method="POST")
+              call applet('as_this_life')
+              div.buttons
+                button.submit Subscribe
+
       //- ===========================================================
       - if (is_owner)
         div.box#Control_Panel

@@ -180,6 +180,12 @@ div.box div.content {
 #Create_Boxs div.box div.content div.buttons {
   text-align: right;
 }
+#Follow {
+  padding: 0;
+}
+#Follow div.content form {
+  text-align: center;
+}
 #Create_Website {
   display: none;
 }

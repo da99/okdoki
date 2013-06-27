@@ -11,16 +11,12 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = 'CREATE TABLE IF NOT EXISTS "' + table + '" ( \
-id                serial PRIMARY KEY,            \
-pub_id            int DEFAULT NULL,              \
-follower_id       int DEFAULT NULL,              \
-ok_score          smallint NOT NULL  default 0,  \
-sn_score          smallint NOT NULL  default 0,  \
-settings          text default null,             \
-details           text default null,             \
-body              text,                          \
-last_post_id      int,                           \
-trashed_at        bigint DEFAULT NULL            \
+id                serial PRIMARY KEY,            \n\
+website_id        int NOT NULL,                  \n\
+follower_id       int NOT NULL,                  \n\
+last_post_id      int DEFAULT 0 NOT NULL,        \n\
+last_updated_at   $now_tz,                       \n\
+$trashed_at                                      \n\
     );';
       r.create(sql, "CREATE INDEX ON \"" + table + "\" (follower_id);");
   }

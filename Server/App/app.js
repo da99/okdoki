@@ -411,6 +411,7 @@ require('../Chat/routes').route(module.exports);
 require('../Folder/routes').route(module.exports);
 require('../Page/routes').route(module.exports);
 require('../Message_Board/routes').route(module.exports);
+require('../Follow/routes').route(module.exports);
 
 
 

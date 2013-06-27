@@ -3,6 +3,7 @@ var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
+, log         = require("../App/base").log
 ;
 
 exports.route = function (mod) {
