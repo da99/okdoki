@@ -368,6 +368,15 @@ form div.success {
   color: #e1e4e7;
   padding: 20px 0 10px 0;
 }
+body.is_customer #Why {
+  margin: 10px 0 10px 0;
+  background: rgba(0,0,0,0.65);
+  padding: 10px 0;
+}
+body.is_customer #Why #Screen_Names span {
+  color: #efcb00;
+  font-style: italic;
+}
 #Why h3 {
   text-align: center;
   color: #ff721a;
@@ -420,7 +429,8 @@ div.box div.content input[type="password"] {
 }
 #Session_Nav {
   background: rgba(0,0,0,0.5);
-  float: left;
+  text-align: center;
+  float: none;
 }
 div.box#New_Session,
 div.box#New_Customer {

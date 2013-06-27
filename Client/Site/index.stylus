@@ -399,6 +399,13 @@ form
     background: transparent;
 
 #Why
+  body.is_customer &
+    #Screen_Names span
+      color: darken($yellow_med, 20%)
+      font-style: italic
+    margin: 10px 0 10px 0
+    background: $glass_black
+    padding: 10px 0
   float: left
   width: 300px
   background: $glass_black
@@ -412,6 +419,7 @@ form
   div.content
     margin: 0 15px
     padding-bottom: 20px
+
 
 div.box
 
@@ -450,7 +458,8 @@ div.box
 
 #Session_Nav
   background: rgba(0,0,0,0.5)
-  float: left
+  text-align: center
+  float: none
 
 div.box#New_Session,
 div.box#New_Customer
