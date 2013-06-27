@@ -12,19 +12,19 @@ exports.route = function (mod) {
 
   // ================== Create ======================================
 
-  app.post('/me/:screen_name', function (req, resp, next) {
+  app.post('/me/:screen_name/folder', function (req, resp, next) {
     mod.New_River(req, resp, next)
     .read_one('screen_name', function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, req.user);
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
     .read_one('website', function (j, sn) {
       Website.read_by_screen_name(sn, j);
     })
-    .create_one('folder', function (j) {
+    .create_one('folder', function (j, website) {
       Folder.create({
         owner_id: req.body.life_id,
         title: req.body.title,
-        website_id: req.body.website_id
+        website_id: website.data.id
       }, j);
     })
     .job(function (j, f) {
