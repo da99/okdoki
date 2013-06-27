@@ -23,6 +23,7 @@ then
 files="\
   test/Customer.js    \
   test/Screen_Name.js \
+  test/Ok.Model.js    \
   test/app.js         \
 "
 fi
