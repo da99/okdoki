@@ -71,10 +71,12 @@ $(function () {
   // ================================================================
   // ================== Follow ======================================
   // ================================================================
+  var DELETE_FOLLOW = $('#Delete_Follow');
   if (!Customer.is_owner_of_screen_name) {
     form('#Create_Follow', function (f) {
       f.on_success(function (result) {
         log(result);
+        $('body').addClass('is_following');
       });
     });
   }

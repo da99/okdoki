@@ -203,10 +203,37 @@ div.box
         text-align: right
 
 #Follow
+  #Delete_Follow
+    display: none
+  #Create_Follow
+    display: block
   padding: 0
   div.content
     form
       text-align: center
+    #Delete_Follow
+      border: 1px dashed $samar_red
+      border-width: 1px 0
+      padding: 6px 0 10px 0
+      border: 0
+      div.success
+        border: 0
+        padding: 0 4px 10px 4px
+        font-family: $serif
+        font-style: italic
+        color: lighten(#000, 40%)
+
+body.is_following
+  #Follow
+    #Delete_Follow
+      display: block
+    #Create_Follow
+      display: none
+    h3
+      display: none
+    div.content
+      form
+        text-align: center
 
 #Create_Website
   display: none

@@ -58,8 +58,13 @@ append content
     div#Boxs
       - if (is_customer && !is_owner)
         div.box#Follow
-          h3 Free:
           div.content
+            form#Delete_Follow(action="/me/#{screen_name}/follow", method="POST")
+              div.buttons
+                input(type="hidden", name="_method", value="DELETE")
+                div.success
+                  | You're subscribed.
+                button.submit Unsubscribe
             form#Create_Follow(action="/me/#{screen_name}/follow", method="POST")
               call applet('as_this_life')
               div.buttons

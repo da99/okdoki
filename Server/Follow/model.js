@@ -39,7 +39,12 @@ Follow.create_by_website = function (website, raw_data, flow) {
 
   River.new(flow)
   .job(function (j) {
-    TABLE.create(data, j);
+    TABLE
+    .on_dup(TABLE_NAME + "_follower", function (name) {
+      log(name)
+      j.finish([data]);
+    })
+    .create(data, j);
   })
   .job(function (j, rows) {
     j.finish(Follow.new(rows[0]));

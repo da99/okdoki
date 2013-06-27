@@ -183,7 +183,38 @@ div.box div.content {
 #Follow {
   padding: 0;
 }
+#Follow #Delete_Follow {
+  display: none;
+}
+#Follow #Create_Follow {
+  display: block;
+}
 #Follow div.content form {
+  text-align: center;
+}
+#Follow div.content #Delete_Follow {
+  border: 1px dashed #f00919;
+  border-width: 1px 0;
+  padding: 6px 0 10px 0;
+  border: 0;
+}
+#Follow div.content #Delete_Follow div.success {
+  border: 0;
+  padding: 0 4px 10px 4px;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  font-style: italic;
+  color: #666;
+}
+body.is_following #Follow #Delete_Follow {
+  display: block;
+}
+body.is_following #Follow #Create_Follow {
+  display: none;
+}
+body.is_following #Follow h3 {
+  display: none;
+}
+body.is_following #Follow div.content form {
   text-align: center;
 }
 #Create_Website {

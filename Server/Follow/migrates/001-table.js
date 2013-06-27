@@ -16,7 +16,10 @@ website_id        int NOT NULL,                  \n\
 follower_id       int NOT NULL,                  \n\
 last_post_id      int DEFAULT 0 NOT NULL,        \n\
 last_updated_at   $now_tz,                       \n\
-$trashed_at                                      \n\
+last_read_at      $now_tz,                       \n\
+$created_at       ,                              \n\
+$trashed_at       ,                              \n\
+CONSTRAINT "'  + table + '_follower"  UNIQUE (website_id, follower_id) \n\
     );';
       r.create(sql, "CREATE INDEX ON \"" + table + "\" (follower_id);");
   }
