@@ -39,10 +39,10 @@ function empty_or_null (str) {
 // ================== Create ======================================
 // ================================================================
 
-MB.create = function (raw_data, flow) {
+MB.create_by_website = function (website, raw_data, flow) {
   var data = {
-    website_id : raw_data.website_id,
-    author_id  : raw_data.author_id, 
+    website_id : website.data.id,
+    author_id  : raw_data.author_id,
     title      : empty_or_null(raw_data.title),
     body       : empty_or(raw_data.body, "Stake it!")
   };
@@ -51,7 +51,7 @@ MB.create = function (raw_data, flow) {
     TABLE.create(data, j);
   })
   .job(function (j, r) {
-    j.finish(MB.new(r));
+    j.finish(MB.new(_.pick(r, 'title', 'body', 'created_at')));
   })
   .run();
 };
@@ -61,7 +61,7 @@ MB.create = function (raw_data, flow) {
 // ================================================================
 MB.read_by_website = function (website, flow) {
   var sql = "  \
-  SELECT @table.*                                       \n\
+  SELECT id, title, body, created_at, author_id         \n\
   FROM  @table                                          \n\
   WHERE @table.website_id = @website_id                 \n\
      AND @table.trashed_at IS NULL                      \n\
@@ -71,6 +71,15 @@ MB.read_by_website = function (website, flow) {
   River.new(flow)
   .job(function (j) {
     TABLE.run(sql, {website_id: website.data.id}, j);
+  })
+  .job('replace screen_names', function (j, list) {
+    Screen_Name.replace_screen_names(list, j);
+  })
+  .job('epoch times', function (j, list) {
+    j.finish(_.map(list, function (r) {
+      r.created_at_epoch = r.created_at && r.created_at.getTime();
+      return r;
+    }));
   })
   .run();
 };

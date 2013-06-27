@@ -12,6 +12,8 @@ function mb_msg(o) {
   var sn = Screen_Name.screen_name().toUpperCase();
   if (_.isArray(o)) {
     _.each(o.slice().reverse(), function (m) {
+
+  log(m)
       if (m.author_screen_name.toUpperCase() === sn)
         me_mb_msg(m);
       else

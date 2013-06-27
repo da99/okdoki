@@ -15,14 +15,21 @@ exports.route = function (mod) {
   var app = mod.app;
 
   // =============== CREATE ======================
-  app.post('/message_board/msg', function (req, resp, next) {
-    var OK = mod.New_Request(arguments);
+  app.post('/me/:screen_name/message_board/msg', function (req, resp, next) {
     var data = req.body;
-    data.author_id = req.user.screen_name_id(data.as_this_life);
+    data.author_id = req.body.life_id;
 
-    mod.New_River(req, resp, next)
-    .job(function (j) {
-      Message_Board.create(data, j);
+    var OK = mod.New_Request(arguments);
+    mod
+    .New_River(req, resp, next)
+    .read_one('screen name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, j);
+    })
+    .read_one('website', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .create_one('msg', function (j, website) {
+      Message_Board.create_by_website(website, data, j);
     })
     .job(function (j, msg) {
       msg.data.author_screen_name = req.body.as_this_life;
@@ -45,7 +52,6 @@ exports.route = function (mod) {
       Screen_Name.read_by_screen_name(req.params.screen_name, j);
     })
     .read_one('website', function (j, sn) {
-    log(sn)
       Website.read_by_screen_name(sn, j);
     })
     .read_list(function (j, website) {
