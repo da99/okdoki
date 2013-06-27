@@ -7,6 +7,7 @@ var Refresh = 4 // seconds
 , IM        = require('../IM/model').IM
 , Website   = require('../Website/model').Website
 , Folder    = require('../Folder/model').Folder
+, Ok        = require('../Ok/model')
 , path      = require('path')
 , log       = require("../App/base").log
 ;
@@ -54,7 +55,7 @@ function log() {
 
 var stranger = {
   is_stranger: true,
-  data: { id: 0 }, 
+  data: { id: 0 },
   screen_name_ids: function () { return [0]; }
 };
 
@@ -63,18 +64,19 @@ var stranger = {
 // ================================================================
 
 var S = exports.Screen_Name = function () { };
-Website.require(exports);
-
-Folder.screen_name(exports);
-
+Ok.Model.new(S);
 S.TABLE_NAME = TABLE_NAME;
-
 S.expire_in = 4; // Refresh rate.
 
-S.new = function (n) {
-  var s         =  new S();
+Website.require(exports);
+Folder.screen_name(exports);
+
+S._new = function () {
+  var s = this;
+  var n = s.data;
   s.is_screen_name = true;
-  if (_.isString(n) || !n) {
+
+  if (_.isString(n)) {
     s.screen_name = n;
     s.data        = {};
   } else if (n) {
@@ -168,7 +170,7 @@ var Validate_Create = Check.new('create screen name', function (vc) {
 S.create = function (customer, job) {
 
   var id = UID.create_id();
-  var sn = S.new();
+  var sn = S.new({});
   sn.new_data = {'screen_name': customer.new_data.screen_name};
 
   var insert_data = {};
@@ -484,7 +486,7 @@ var Validate_Update = Check.new('update screen name', function (vu) {
 });
 
 S.update = function ( customer, flow ) {
-  var me      = S.new();
+  var me = S.new({});
   if (customer.new_data) {
     me.new_data = customer.new_data;
   } else {
@@ -564,7 +566,7 @@ S.delete_trashed = function (flow) {
 
 S.delete_by_owner_ids = function (arr, flow) {
   var sql = "DELETE FROM \"" + TABLE_NAME + "\" WHERE owner_id IN ( " +
-    _.map(arr, function (n, i) { return "$" + (i + 1); }).join(', ') + 
+    _.map(arr, function (n, i) { return "$" + (i + 1); }).join(', ') +
     " ) RETURNING * ;";
 
   Topogo
