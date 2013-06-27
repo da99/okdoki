@@ -223,8 +223,7 @@ div.box
         font-style: italic
         color: lighten(#000, 40%)
 
-body.is_following
-  #Follow
+  &.is_following
     #Delete_Follow
       display: block
     #Create_Follow

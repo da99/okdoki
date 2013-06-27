@@ -103,7 +103,7 @@ function update_client_file(f) {
 }
 
 function is_static(f) {
-  return !f.match('Server/') && !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
+  return !f.match('Server/') && !f.match('node_modules') && !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
 }
 
 function upgrade() {
@@ -134,7 +134,7 @@ watch( ["Client/App/js/_base.js", "bin/upgrade"] )
 .on('error', throw_err);
 ;
 
-watch( ["Server/", "Client/", 'test/ui'] )
+watch( ["Server/", "Client/", 'test/ui', 'node_modules/topogo'] )
 .on('add', function (f) {
   if (is_static(f))
     return;

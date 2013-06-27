@@ -75,14 +75,17 @@ $(function () {
     form('#Create_Follow', function (f) {
       f.on_success(function (result) {
         log(result);
-        $('body').addClass('is_following');
+        $('#Follow').addClass('is_following');
       });
     });
 
     form('#Delete_Follow', function (f) {
-      log(result);
       f.on_success(function (result) {
-        $('body').removeClass('is_following');
+        log(result);
+        var msg = f.find('div.success').text();
+        make_form_like_new(f);
+        $('#Follow').removeClass('is_following');
+        $('#Create_Follow div.success').text(msg);
       });
     });
   }

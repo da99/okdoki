@@ -35,7 +35,32 @@ exports.route = function (mod) {
     .job(function (j, follow) {
       resp.json({
         success : true,
-        msg     : 'You\'re subscribed.'
+        msg     : 'You\'re subscribed...'
+      });
+    })
+    .run();
+  });
+
+  // ============ TRASH ================================================
+  app.delete('/me/:screen_name/follow', function (req, resp, next) {
+    var Request = mod.New_Request(req, resp, next);
+
+    mod
+    .New_River(req, resp, next)
+    .read_one('screen_name', function (j) {
+      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
+    })
+    .read_one('website', function (j, sn) {
+      Website.read_by_screen_name(sn, j);
+    })
+    .trash('follow', function (j, website) {
+      Follow.trash_by_website_and_customer(website, req.user, j);
+    })
+    .job(function (j, arr) {
+      log(arr)
+      Request.json({
+        success: true,
+        msg: "Unsubscribed."
       });
     })
     .run();

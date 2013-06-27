@@ -205,16 +205,16 @@ div.box div.content {
   font-style: italic;
   color: #666;
 }
-body.is_following #Follow #Delete_Follow {
+#Follow.is_following #Delete_Follow {
   display: block;
 }
-body.is_following #Follow #Create_Follow {
+#Follow.is_following #Create_Follow {
   display: none;
 }
-body.is_following #Follow h3 {
+#Follow.is_following h3 {
   display: none;
 }
-body.is_following #Follow div.content form {
+#Follow.is_following div.content form {
   text-align: center;
 }
 #Create_Website {

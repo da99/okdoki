@@ -3,6 +3,7 @@ var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
+, Follow      = require('../Follow/model').Follow
 , log         = require("../App/base").log
 ;
 
@@ -10,6 +11,23 @@ exports.route = function (mod) {
 
   var OK = mod.app;
   var app = mod.app;
+
+
+  // =============== CREATE =========================================
+
+  OK.post('/me', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    var r = mod.New_River(req, resp, next);
+    var c = req.user;
+    c.new_data = {screen_name: req.body.screen_name};
+    r.job(function (j) {
+      Screen_Name.create(c, j);
+    })
+    .job(function (j, last) {
+      OK.json_success("Created.", {screen_name: req.body.screen_name});
+    })
+    .run();
+  });
 
   // =============== READ ===========================================
 
@@ -26,8 +44,11 @@ exports.route = function (mod) {
     .read_one('website', function (j, sn) {
       Website.read_by_screen_name(sn, j);
     })
-    .read_one('folders', function (j, website) {
-      Folder.read_list_by_website(website, j)
+    .read_list('follows', function (j, website) {
+      Follow.read_list_by_website_and_customer(website, req.user, j);
+    })
+    .read_one('folders', function (j) {
+      Folder.read_list_by_website(j.river.reply_for('website'), j)
     })
     .job(function (j, list) {
       if (!list)
@@ -38,24 +59,8 @@ exports.route = function (mod) {
       data['website']    = uni;
       data['website_id'] = uni.data.id;
       data['folders']    = list.list;
+      data['is_following']  = !!j.river.reply_for('follows').length;
       OK.render_template();
-    })
-    .run();
-  });
-
-
-  // =============== CREATE =========================================
-
-  OK.post('/me', function (req, resp, next) {
-    var OK = mod.New_Request(arguments);
-    var r = mod.New_River(req, resp, next);
-    var c = req.user;
-    c.new_data = {screen_name: req.body.screen_name};
-    r.job(function (j) {
-      Screen_Name.create(c, j);
-    })
-    .job(function (j, last) {
-      OK.json_success("Created.", {screen_name: req.body.screen_name});
     })
     .run();
   });
@@ -124,11 +129,9 @@ exports.route = function (mod) {
   });
 
 
-  // ================================================================
   // =============== DELETE/TRASH ===================================
-  // ================================================================
 
-  OK.post('/undo/trash/screen_name/:name', function (req, resp, next) {
+  OK.post('/undo/trash/:screen_name/:name', function (req, resp, next) {
     var n = req.params.name;
     var r = New_River(next);
     r
@@ -138,7 +141,7 @@ exports.route = function (mod) {
     });
   });
 
-  OK.post('/trash/screen_name/:name', function (req, resp, next) {
+  OK.post('/trash/:screen_name/:name', function (req, resp, next) {
     var name = req.params.name;
     var r = New_River(next);
     r

@@ -69,9 +69,10 @@ var New_River = exports.New_River = function (req, resp, next) {
     return r;
   };
 
+  r.create_one = r.read_one;
   r.read_list  = r.read_one;
   r.update_one = r.read_one;
-  r.create_one = r.read_one;
+  r.trash      = r.read_one;
 
   return r;
 };

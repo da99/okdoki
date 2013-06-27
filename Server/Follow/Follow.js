@@ -1,72 +1,19 @@
-var _    = require('underscore')
-, Topogo = require('topogo').Topogo
-, River  = require('da_river').River
-, Check  = require('da_check').Check
-;
+// ================================================================
+// ================== OBSOLETE ====================================
+// ================================================================
 
-// ****************************************************************
-// ****************** Helpers *************************************
-// ****************************************************************
-
-
-// ****************************************************************
-// ****************** Main Stuff **********************************
-// ****************************************************************
-
-var F = exports.Follow = function () {};
-var TABLE_NAME = F.TABLE_NAME = 'follows';
-
-F.new = function (data) {
-  var f  =  new F();
-
-  if (data) {
-    f.data = data;
-  }
-
-  return f;
-};
-
-
-// ****************************************************************
-// ****************** Create Validators ***************************
-// ****************************************************************
 
 
 // ****************************************************************
 // ****************** Create **************************************
 // ****************************************************************
 
-F.create = function (life_id, pub_id) {
-
-  var id = UID.create_id();
-  var f = F.new();
-  var insert_data = {'pub_id': pub_id, 'follower_id': life_id};
-
-  River.new(job)
-
-  .job('create', 'screen name', function (j) {
-
-    Topogo.new(TABLE_NAME).create(insert_data, j);
-
-  })
-
-  .job(function (j, last) {
-    return j.finish(F.new(last));
-  })
-
-  .run();
-
-};
 
 // ****************************************************************
 // ****************** Read ****************************************
 // ****************************************************************
 
-F.prototype.is_world_read_able = function () {
-  return _.contains(this.data.read_able || [], WORLD); 
-};
-
-F.read_by_id = function (id, flow) {
+Follow.read_by_id = function (id, flow) {
   River.new(arguments)
   .job('read screen name id:', id, function (j) {
     Topogo.new(TABLE_NAME).read_by_id(id, j);
@@ -77,7 +24,7 @@ F.read_by_id = function (id, flow) {
   .run();
 };
 
-F.read_by_screen_name = function (n, flow) {
+Follow.read_by_screen_name = function (n, flow) {
   River.new(arguments)
   .job('read screen name:', n, function (j) {
     Topogo.new(TABLE_NAME).read_one({screen_name: n.toUpperCase()}, j)
@@ -88,7 +35,7 @@ F.read_by_screen_name = function (n, flow) {
   .run();
 };
 
-F.read_list = function (c, flow) {
+Follow.read_list = function (c, flow) {
   River.new(arguments)
   .job('read screen names', c.data.id, function (j) {
     Topogo.new(TABLE_NAME).read_list({owner_id: j.id}, j)
@@ -102,7 +49,7 @@ F.read_list = function (c, flow) {
   .run();
 };
 
-F.prototype.read_screen_names = function (flow) {
+Follow.prototype.read_screen_names = function (flow) {
   var me = this;
 
   River.new(arguments)
@@ -133,14 +80,14 @@ F.prototype.read_screen_names = function (flow) {
 // ****************************************************************
 
 
-F.prototype.edit_homepage_title = function (val) {
+Follow.prototype.edit_homepage_title = function (val) {
   var new_val = val.toString().trim();
   if (new_val.length === 0)
     new_val = null;
   this.push_sanitized_data('homepage_title', new_val);
 };
 
-F.prototype.edit_about = function (val) {
+Follow.prototype.edit_about = function (val) {
   var new_val = val.toString().trim();
   if (new_val.length === 0)
     new_val = null;
@@ -148,13 +95,13 @@ F.prototype.edit_about = function (val) {
 };
 
 
-F.prototype.edit_homepage_allow = function (val) {
+Follow.prototype.edit_homepage_allow = function (val) {
   this.validator.check(val, "'allow' must be an array.").isArray();
   this.push_sanitized_data('homepage_allow', val);
 };
 
 
-F.prototype.edit_screen_name = function (n) {
+Follow.prototype.edit_screen_name = function (n) {
 
   var old = this.new_data.old_screen_name;
 
@@ -168,7 +115,7 @@ F.prototype.edit_screen_name = function (n) {
 };
 
 
-F.prototype.edit_read_able = function (v) {
+Follow.prototype.edit_read_able = function (v) {
   switch (v) {
     case 'W':
       break;

@@ -57,7 +57,7 @@ append content
 
     div#Boxs
       - if (is_customer && !is_owner)
-        div.box#Follow
+        div.box#Follow(class="#{is_following && 'is_following'}")
           div.content
             form#Delete_Follow(action="/me/#{screen_name}/follow", method="POST")
               div.buttons
