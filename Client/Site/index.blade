@@ -97,14 +97,13 @@ append content
         a(href="http://subtlepatterns.com/ravenna/")
           | Sentel
 
-    - if (!logged_in)
+    - if (!logged_in && !is_localhost)
       call applet("New_Session")
       call applet("New_Customer")
 
 append content
-  div.col#Why
-
-    - if (logged_in)
+  - if (logged_in)
+    div.col#Why
       div#Screen_Names
         - if (customer_has_one_life)
           span Your screen name:
@@ -113,11 +112,12 @@ append content
         - for (var sn in customer_screen_names)
           div
             a(href="/me/#{customer_screen_names[sn]}") #{customer_screen_names[sn]}
-    - else
+  - else
+    - if (false)
       h3 Friends == Assistants
       div.content
-        | Your friends and co-workers can be
-        | allowed to edit and contribute. Keep
+        | Your friends can edit and contribute to your life.
+        | Keep
         | your sites updated even when you're
         | busy with the help of the people in
         | your life.
