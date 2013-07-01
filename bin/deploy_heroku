@@ -7,7 +7,7 @@ bin/npm_link ensure_none
 folder="node_modules"
 mv $folder /tmp/okdoki_$folder
 
-git checkout mu_mind
+git checkout heroku
 git merge master
 
 rm -rf $folder
@@ -21,7 +21,7 @@ then
   git commit -m "npm update"
 fi
 
-git push --mirror
+git push heroku heroku:master
 git checkout master
 
 
