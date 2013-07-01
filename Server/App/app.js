@@ -130,6 +130,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           logged_in     : !!req.user,
           is_customer   : !!req.user,
           is_stranger   : !req.user,
+          is_localhost  : ('' + req.ip) === '127.0.0.1',
           customer      : req.user,
           screen_name   : req.params.screen_name,
           is_owner      : false,
@@ -444,7 +445,7 @@ app.use(function (req, resp, next) {
 
 
 app.use(function (err, req, resp, next) {
-  log(err.stack);
+  log(err, err.stack);
 
   if (req.body && req.body.request_type == 'latest msgs') {
     var OK = New_Request(req, resp, next);

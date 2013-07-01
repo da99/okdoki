@@ -5,6 +5,7 @@ var _         = require('underscore')
 , Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
+, log         = require("../App/base").log
 ;
 
 var MESS = {
