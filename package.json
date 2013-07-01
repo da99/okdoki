@@ -4,6 +4,7 @@
   "version"     : "0.0.1",
   "private"     : true,
   "main"        : "Server/App/app.js",
+  "start"       : "node Server/App/app.js",
   "dependencies": {
     "express"        : "3.x.x"
     , "passport"          : "0.x.x"
