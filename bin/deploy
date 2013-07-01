@@ -14,6 +14,7 @@ git merge master
 rm -rf $folder
 mv  /tmp/okdoki_$folder $folder
 
+git add -f node_modules/*
 stat="$(git status)"
 if [[  "$stat" != *"nothing to commit, working directory clean"* ]]
 then
