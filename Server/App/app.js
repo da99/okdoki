@@ -194,14 +194,14 @@ app_dir = app_dir.join('/');
 var port    = process.env.PORT || 5555;
 var secret  = process.env.SESSION_SECRET;
 var db_conn = process.env.DATABASE_URL;
-var ip_addr = process.env.NODE_IP_FOR_AUTH;
+// var ip_addr = process.env.NODE_IP_FOR_AUTH;
 
 if (!secret)
   throw new Error('No session secret set.');
 if (!db_conn)
   throw new Error('No db conn string set.');
-if (!ip_addr)
-  throw new Error('No ip auth set.');
+// if (!ip_addr)
+  // throw new Error('No ip auth set.');
 
 
 app.configure(function () {
