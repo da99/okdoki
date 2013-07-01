@@ -24,6 +24,8 @@ then
 fi
 
 git push --mirror
+mv $folder /tmp/okdoki_$folder
 git checkout master
+mv  /tmp/okdoki_$folder $folder
 
 
