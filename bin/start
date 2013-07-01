@@ -20,4 +20,4 @@ fi
 
 set -u
 
-NODE_ENV=production PORT=$PORT exec node Server/App/app.js $PORT
+NODE_ENV=production PORT=$PORT node Server/App/app.js $PORT
