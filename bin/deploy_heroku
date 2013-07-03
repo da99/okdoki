@@ -22,7 +22,7 @@ then
   git commit -m "npm update"
 fi
 
-git push heroku mu_mind
+git push -f heroku mu_mind:master
 
 git push origin mu_mind
 git push origin master

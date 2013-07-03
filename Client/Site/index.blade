@@ -97,7 +97,7 @@ append content
         a(href="http://subtlepatterns.com/ravenna/")
           | Sentel
 
-    - if (!logged_in && !is_localhost)
+    - if (!logged_in && is_localhost)
       call applet("New_Session")
       call applet("New_Customer")
 
