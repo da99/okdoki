@@ -2,30 +2,6 @@
 # -*- bash -*-
 #
 set -u -e -o pipefail
-bin/npm_link ensure_none
-
-git push origin master
-folder="node_modules"
-mv $folder /tmp/okdoki_$folder
-
-git checkout mu_mind
-git merge master
-
-rm -rf $folder
-mv  /tmp/okdoki_$folder $folder
-
-git add -f node_modules/*
-stat="$(git status)"
-if [[  "$stat" != *"nothing to commit, working directory clean"* ]]
-then
-  git add .
-  git add -u
-  git commit -m "npm update"
-fi
-
-git push --mirror
-mv $folder /tmp/okdoki_$folder
-git checkout master
-mv  /tmp/okdoki_$folder $folder
+upload_app
 
 
