@@ -50,3 +50,5 @@
 - jslint all js files
 
 - utf8
+
+- Fix remember me: 1 week instead of current value
