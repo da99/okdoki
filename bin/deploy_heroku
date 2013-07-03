@@ -22,7 +22,11 @@ then
   git commit -m "npm update"
 fi
 
-git push mu_mind heroku:master
+git push heroku mu_mind
+
+git push origin mu_mind
+git push origin master
+
 git checkout master
 git checkout mu_mind -- $folder
 git reset HEAD $folder
