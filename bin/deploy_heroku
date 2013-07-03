@@ -2,27 +2,29 @@
 # -*- bash -*-
 #
 set -u -e -o pipefail
-bin/npm_link ensure_none
+npm_link ensure_none
+git_ensure_clean_repo
 
 folder="node_modules"
-mv $folder /tmp/okdoki_$folder
+git add -f $folder
+git stash
+git checkout mu_mind
 
-git checkout heroku
 git merge master
+git stash pop
 
-rm -rf $folder
-mv  /tmp/okdoki_$folder $folder
 
-git add -f node_modules/*
-stat="$(git status)"
-if [[  "$stat" != *"nothing to commit, working directory clean"* ]]
+git add -f node_modules/ > /dev/null
+
+if ! is_git_repo_clean
 then
-  git add .
-  git add -u
+  git_update > /dev/null
   git commit -m "npm update"
 fi
 
-git push heroku heroku:master
+git push mu_mind heroku:master
 git checkout master
+git checkout mu_mind -- $folder
+git reset HEAD $folder
 
 
