@@ -389,11 +389,12 @@ function form(selector, func) {
     form_meta[selector].error = function (err, result) {
       if (_.isNumber(err) && err > 0)
         loaded(default_err);
-      else if (err === true)
-        loaded("Website not available right now. Try again later.");
-      else
+      else if (err === true) {
+        var o = JSON.parse(result);
+        loaded(o.msg || "Website not available right now. Try again later.");
+      } else
         loaded(err);
-      on_e(result);
+      on_e(result, err);
     };
   };
 

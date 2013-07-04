@@ -1,6 +1,7 @@
 var blade = require('blade');
 var e_e_e = require('escape_escape_escape').Sanitize.html;
 var IS_DEV = !!process.env.IS_DEV;
+var RELOG_MSG = "This page has expired. You will have to refresh this page.";
 
 // ================================================================
 // ================== Require the Packages ========================
@@ -322,12 +323,7 @@ app.configure(function () {
       return resp.json({
         success: false,
         is_log_in_required: true,
-        msg: "This page has expired. \
-        You will have to:    \
-        !br 1) hit 'Refresh' \
-        !br 2) go to !okdoki \
-        !br 3) re-login      \
-        !br 4) come back to this page and finish your work."
+        msg: RELOG_MSG
       });
     } else {
       return resp.send('<h1>Not logged in.</h1>');
@@ -531,13 +527,15 @@ app.use(function (req, resp, next) {
 app.use(function (err, req, resp, next) {
   log(err, err.stack);
 
-  if (req.body && req.body.request_type == 'latest msgs') {
-    var OK = New_Request(req, resp, next);
-    this.json( { _csrf: req.session._csrf, success: false, msg: err.toString() } );
-    return true;
-  };
+  var msg = "Something broke. Try later.";
 
-  resp.send((err.status || 500), "Something broke. Try later.");
+  if (err.status === 403)
+    msg = RELOG_MSG;
+
+  if (req.accepts('json'))
+    resp.json(err.status || 500, {success: false, msg: msg});
+  else
+    resp.send(err.status, msg);
 });
 
 

@@ -46,6 +46,7 @@ describe( 'Unauthenticated users:', function () {
   it('does not store any data in session')
 
   it('sends a JSON response if unauthenticated for POST requests, JSON-accept')
+  it('sends a JSON response if 403/forbidden   for POST requests, JSON-accept')
 
   it('sends a HTTP response if unauthenticated for POST requests, HTTP-accept')
 
