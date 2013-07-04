@@ -351,28 +351,27 @@ app.configure(function () {
   });
 
 
-
   // ==============================================================
   // The routes.
   // ==============================================================
   app.use(app.router)
 
-
-
-});
-
-
-// ==============================================================
-// Escape the data: ==============================================
-// ==============================================================
-app.all('*', function (req, resp, next) {
-  _.each("params query body cookies".split(" "), function (k, i) {
-    if (!req[k])
-      throw new Error("Unknown key: " + k);
-    req[k] = e_e_e(req[k]);
+  // ==============================================================
+  // Escape the data: ==============================================
+  // ==============================================================
+  app.all('*', function (req, resp, next) {
+    _.each("params query body cookies".split(" "), function (k, i) {
+      if (!req[k])
+        return console.log(k);
+      if (!req[k])
+        throw new Error("Unknown key: " + k);
+      req[k] = e_e_e(req[k]);
+    });
+    next();
   });
-  next();
+
 });
+
 
 
 // ================================================================
