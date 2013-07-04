@@ -21,6 +21,7 @@ var Customer  = require('../Customer/model').Customer
 var log       = require('./base').log
 ;
 
+var helmet = require('helmet');
 
 var password_hash = require('password-hash')
 , passport        = require('passport')
@@ -241,20 +242,35 @@ app.configure(function () {
       next();
   });
 
+  // ===========================================
   // app.use(express.errorHandler());
+  // ===========================================
 
 
+  // ===========================================
+  // === from:http://blog.liftsecurity.io/post/37388272578/writing-secure-express-js-apps 
+  app.use(helmet.xframe());
+  app.use(helmet.iexss());
+  app.use(helmet.contentTypeOptions());
+  app.use(helmet.cacheControl());
+  // ===========================================
+
+  // ===========================================
   // Static files:
   if (process.env.IS_HEROKU) {
     app.use(express.favicon(app_dir + '/Client/favicon.ico'));
     app.use('/', express.static(app_dir + '/Client' ));
   }
+  // ===========================================
 
+  // ===========================================
   // Parsing stuff (JSON, form data, etc):
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
+  // ===========================================
 
+  // ===========================================
   // Session:
   app.use(express.session({
     secret   : secret,
@@ -265,12 +281,17 @@ app.configure(function () {
     store    : new RedisStore({
     })
   }));
+
+  // ===========================================
   app.use(express.csrf());
 
+  // ===========================================
   // Passport:
   // Must go after session middleware.
   app.use(passport.initialize());
   app.use(passport.session());
+  // ===========================================
+  // ===========================================
 
   // Caching:
   app.use(function (req, resp, next) {
