@@ -30,6 +30,7 @@ var password_hash = require('password-hash')
 var express = require('express');
 var toobusy = require('toobusy');
 var app     = module.exports.app = express();
+var RedisStore = require('connect-redis')(express);
 
 // ================================================================
 // ================== Helpers =====================================
@@ -207,6 +208,7 @@ if (!db_conn)
 app.configure(function () {
 
   // Settings:
+  app.enable('trust proxy');
   app.set('view engine', 'blade');
   app.set('views', app_dir + '/Client');
   app.locals.pretty = true;
@@ -254,7 +256,15 @@ app.configure(function () {
   app.use(express.cookieParser());
 
   // Session:
-  app.use(express.cookieSession({secret: secret + secret}));
+  app.use(express.session({
+    secret   : secret,
+    secure   : true,
+    httpOnly : true,
+    cookie: {path: '/', httpOnly: true, secure: true},
+    proxy    : true,
+    store    : new RedisStore({
+    })
+  }));
   app.use(express.csrf());
 
   // Passport:

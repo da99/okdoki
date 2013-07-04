@@ -32,6 +32,10 @@ exports.route = function (mod) {
   // =============== READ ===========================================
 
   app.get('/me/:screen_name', function (req, resp, next) {
+
+log(req.secure, req.protocol)    
+
+
     if (req.params.screen_name.toUpperCase() !== req.params.screen_name)
       return resp.redirect(301, "/me/" + req.params.screen_name.toUpperCase())
     var OK     = mod.New_Request(req, resp, next);

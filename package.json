@@ -21,6 +21,7 @@
     , "chokidar"          : "x.x.x"
     , "blade"             : "x.x.x"
     , "Faker"             : "x.x.x"
+    , "connect-redis"     : "x.x.x"
 
     , "topogo"            : "x.x.x"
     , "da_river"          : "x.x.x"

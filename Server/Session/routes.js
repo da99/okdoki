@@ -8,7 +8,14 @@ module.exports.route = function (mod) {
   var sign_in = mod.sign_in;
 
   app.get('/log-out', function (req, resp, next) {
+
     req.logout();
+
+    req.session = null;
+    for (var i in req.cookies) {
+      resp.clearCookie(i, { path: '/' });
+    }
+
     resp.redirect('/');
   });
 
