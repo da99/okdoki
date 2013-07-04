@@ -319,7 +319,16 @@ app.configure(function () {
       return next();
 
     if (req.accepts('json')) {
-      return resp.json({success: false, is_log_in_required: true, msg: "You're session has expired. Log-in at okdoki.com."});
+      return resp.json({
+        success: false,
+        is_log_in_required: true,
+        msg: "This page has expired. \
+        You will have to:    \
+        !br 1) hit 'Refresh' \
+        !br 2) go to !okdoki \
+        !br 3) re-login      \
+        !br 4) come back to this page and finish your work."
+      });
     } else {
       return resp.send('<h1>Not logged in.</h1>');
     };

@@ -602,27 +602,28 @@ function create_unless(se) {
   return {'in': do_nothing};
 }
 
+// ============================================
+// Note:
+// Selector for .draw_or_update
+//   must be in the form of: TAG.class
+// ============================================
 function after(se) {
   var e = $(se);
   var parent = e.parent();
 
   var meths = {
-    draw_or_update : function (se, txt, is_html) {
-      var e_find = parent.find(se);
-      if (e_find.length) {
-        e_find.text(txt);
-        return e_find;
-      }
-
+    draw_or_update : function (se, txt) {
       var pieces = se.split('.');
       var tag = pieces[0];
       var css = pieces[1];
-      var new_e = $('<' + tag + ' class="' + css + '"></' + tag + '>' );
-      if (is_html)
-        new_e.html(txt);
-      else
-        new_e.text(txt);
+      var new_e = $('<' + tag + '></' + tag + '>' );
+      if(css)
+        new_e.addClass(css);
+      new_e.append(add_okdoki_link(txt));
       log('drawing:', se, txt);
+
+      // Remove previous. if any:
+      parent.find(se).remove();
       e.after(new_e);
 
       return new_e;
@@ -689,12 +690,12 @@ function form(selector, func) {
     return false;
   }
 
-  var loaded = function (msg, html) {
+  var loaded = function (msg) {
     make_form_like_new(selector);
 
     if (msg) {
       after($(selector).find('div.buttons'))
-      .draw_or_update('div.errors', msg, true)
+      .draw_or_update('div.errors', msg)
       .show()
       ;
     }
@@ -799,11 +800,7 @@ function form(selector, func) {
     form_meta[selector].invalid = function (result) {
       loaded();
       var msg = null;
-      if (result.is_log_in_required) {
-        loaded("You're session has expired. Log in at <a href=\"/\">okdoki.com</a>", true);
-      } else {
-        loaded(result.msg || default_err);
-      };
+      loaded(result.msg || default_err);
       on_i(result);
     };
   }
@@ -1069,6 +1066,25 @@ $(function () {
   });
 });
 
+
+// ================================================================
+// ================== Miscell. ====================================
+// ================================================================
+function add_okdoki_link(str) {
+  return _.map(str.split(/\!(okdoki|br)/g), function (p, i) {
+    if (p==='okdoki') {
+      var e = $('<a></a>');
+      e.text('okdoki.com');
+      e.attr('href', '/');
+    } else if (p === 'br') {
+      var e = $('<br />');
+    } else {
+      var e = $('<span></span>');
+      e.text(p);
+    };
+    return e
+  });
+}
 
 
 
