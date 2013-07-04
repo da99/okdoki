@@ -45,6 +45,8 @@ exports.route = function (mod) {
       Website.read_by_screen_name(sn, j);
     })
     .read_list('follows', function (j, website) {
+      if (!req.user)
+        return j.finish([]);
       Follow.read_list_by_website_and_customer(website, req.user, j);
     })
     .read_one('folders', function (j) {
