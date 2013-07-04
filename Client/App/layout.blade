@@ -34,8 +34,9 @@ html(lang='en')
 
     - if (is_customer)
       div#Session_Nav
-        div.logout#Log_Out
-          a(href="/log-out") Log-out
+        - if (!is_top_slash)
+          a#Top_Slassh(href="/") My Lifes
+        a#Log_Out(href="/log-out") Log-out
 
     block content
     block footer

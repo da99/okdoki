@@ -147,6 +147,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           template_name : name,
           is_customer   : !!req.user,
           is_stranger   : !req.user,
+          is_top_slash  : req.path === '/',
           IS_DEV        : IS_DEV,
           customer      : req.user,
           screen_name   : req.params.screen_name,

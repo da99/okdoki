@@ -74,24 +74,35 @@ h1.title
   margin: 0 0 0
   line-height: 1.5
   padding: 10px 0 7px 0
+  span
+    &.main
+      color          : $glass_white
+      font-weight    : bold
+      font-style     : italic
+      padding-right  : 5px
+      text-transform : uppercase
+
+    &.sub
+      font-size : 20pt
+      color     : $pink
+      color     : $glass_black_subtle
+  body.is_customer &
+    font-size: 9pt
+    padding: 2px 0 0 5px
+    margin: 0
+    span
+      &.main
+        font-size : 12pt
+
+      &.sub
+        font-size : 12pt
+
 
 span
   &.about
     color       : $orange
     font-weight : bold
 
-
-  &.main
-    color          : $glass_white
-    font-weight    : bold
-    font-style     : italic
-    padding-right  : 5px
-    text-transform : uppercase
-
-  &.sub
-    font-size : 20pt
-    color     : $pink
-    color     : $glass_black_subtle
 
 
 
@@ -373,6 +384,15 @@ form
     div.content
       border-radius: 0 0 4px 0
       margin: 0
+  body.is_customer &
+    position: absolute
+    top: 0
+    left: 0
+    width: auto
+    padding: 0
+    margin: 0
+
+
 
 
 #content
@@ -523,7 +543,7 @@ div.box
         color: $samar_red
 
 #Session_Nav
-  background: rgba(0,0,0,0.5)
+  background: $glass_white
   text-align: center
   float: none
 
