@@ -85,8 +85,10 @@ body.w500_plus #Me div.content a:link {
   margin: 0 auto;
 }
 #Creates div.create div.success {
-  color: #ffea74;
+  background: #ffea74;
   border: 0;
+  color: #464646;
+  padding: 5px 5px 7px 5px;
 }
 #Creates div.create div.ele input {
   width: 99%;
