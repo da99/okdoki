@@ -1,6 +1,6 @@
 var blade = require('blade');
 var e_e_e = require('escape_escape_escape').Sanitize.html;
-
+var IS_DEV = !!process.env.IS_DEV;
 
 // ================================================================
 // ================== Require the Packages ========================
@@ -127,10 +127,9 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
         var opts = this._template_data = {
           homepage_belongs_to_viewer: false,
           template_name : name,
-          logged_in     : !!req.user,
           is_customer   : !!req.user,
           is_stranger   : !req.user,
-          is_localhost  : ('' + req.ip) === '127.0.0.1',
+          IS_DEV        : IS_DEV,
           customer      : req.user,
           screen_name   : req.params.screen_name,
           is_owner      : false,
@@ -147,12 +146,12 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
           }
         };
 
-        if (opts.logged_in) {
+        if (opts.is_customer) {
           opts.customer_screen_names = req.user.screen_names().slice().reverse();
           opts.customer_has_one_life = opts.customer_screen_names.length === 1;
         }
 
-        if (opts.logged_in && opts.screen_name)
+        if (opts.is_customer && opts.screen_name)
           opts.is_owner = req.user.is(opts.screen_name);
 
       }
@@ -224,7 +223,7 @@ app.configure(function () {
   });
 
   // Logging:
-  if (process.env.IS_DEV)
+  if (IS_DEV)
     app.use(express.logger('dev'));
 
   // Too busy:
@@ -396,7 +395,7 @@ var require_log_in = function (req, resp, next) {
   // require('./routes/' + name);
 // });
 // app.get('/', function (req, resp, next) {
-  // // resp.render('index', {title: "somet", template_name: "index", logged_in: false});
+  // // resp.render('index', {title: "somet", template_name: "index", is_customer: false});
   // resp.header("Last-Modified", "Thu, 16 Nov 1995 04:59:09 GMT");
   // resp.send(200, "huuuml");
 // });

@@ -57,53 +57,53 @@ append content
       span.sub
         | doki
 
-    div#header
-      p
-        span.about
-          | Multi-Life Collaboration
-        br
-        span
-          | Coming Soon:
-      p
-        strong
-          | Later this year.
+    - if (!is_customer)
+      div#header
+        p
+          span.about
+            | Multi-Life Collaboration
+          br
+          span
+            | Coming Soon:
+        p
+          strong
+            | Later this year.
 
-    div(id='footer')
-      p
-        | (c) 2012-2013 OKdoki.com. Some rights reserved.
-      p
-        | All other copyrights belong to their respective owners.
-      p
-        | Cover Photo:
-        a(href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388")
-          | Bikes in Montreal
-      p
-        | Logo font:
-        a(href="http://lenkavomelova.com/")
-          | Lenka Stabilo
+      div(id='footer')
+        p
+          | (c) 2012-2013 OKdoki.com. Some rights reserved.
+        p
+          | All other copyrights belong to their respective owners.
+        p
+          | Cover Photo:
+          a(href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388")
+            | Bikes in Montreal
+        p
+          | Logo font:
+          a(href="http://lenkavomelova.com/")
+            | Lenka Stabilo
 
-      p
-        | Life & Website Header font:
-        a(href="http://openfontlibrary.org/en/font/circus")
-          | Circus
+        p
+          | Life & Website Header font:
+          a(href="http://openfontlibrary.org/en/font/circus")
+            | Circus
 
-      p
-        | Wood Pattern:
-        a(href="http://subtlepatterns.com/wood-pattern/")
-          | Alexey Usoltsev
+        p
+          | Wood Pattern:
+          a(href="http://subtlepatterns.com/wood-pattern/")
+            | Alexey Usoltsev
 
-      p
-        | Ravenna Pattern:
-        a(href="http://subtlepatterns.com/ravenna/")
-          | Sentel
+        p
+          | Ravenna Pattern:
+          a(href="http://subtlepatterns.com/ravenna/")
+            | Sentel
 
-    - if (false)
-      //- if (!logged_in)
+    - if (!is_customer && IS_DEV)
       call applet("New_Session")
       call applet("New_Customer")
 
 append content
-  - if (logged_in)
+  - if (is_customer)
     div.col#Why
       div#Screen_Names
         - if (customer_has_one_life)
@@ -112,7 +112,8 @@ append content
           span Your screen names:
         - for (var sn in customer_screen_names)
           div
-            a(href="/me/#{customer_screen_names[sn]}") #{customer_screen_names[sn]}
+            | #{customer_screen_names[sn]} -
+            a(href="/me/#{customer_screen_names[sn]}") Go to homepage.
   - else
     - if (false)
       h3 Friends == Assistants

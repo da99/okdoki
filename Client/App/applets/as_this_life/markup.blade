@@ -1,4 +1,4 @@
-- if (logged_in)
+- if (is_customer)
   - if (customer_has_one_life)
     input(type="hidden", name="as_this_life", value="#{customer_screen_names[0]}")
   - else if (is_owner && screen_name)

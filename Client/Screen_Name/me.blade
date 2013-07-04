@@ -8,7 +8,7 @@ append scripts
   call script("/Screen_Name/me.js")
 
 append templates
-  - if (logged_in)
+  - if (is_customer)
     div.customer_screen_names
       | #{customer_screen_names.join(" ")}
   call folder({num: "{num}", title: "{title}"})
@@ -103,7 +103,7 @@ append content
           ul.folders
             - for (var f in folders)
               call folder(folders[f].data)
-          - if (logged_in)
+          - if (is_customer)
             h3 Create a new folder:
             form#Create_Folder(action="/me/#{screen_name}/folder", method="POST")
               div.fields
@@ -121,7 +121,7 @@ append content
 
         div.content
 
-          - if (logged_in)
+          - if (is_customer)
             //- div.show.show_write
             //- a(href="#Write_Message") Write A New Message.
             form#Write_Message(action="/me/#{screen_name}/message_board/msg", method="post")
