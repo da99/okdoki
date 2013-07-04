@@ -4,6 +4,7 @@ var _         = require('underscore')
 , Page        = require("../Page/model").Page
 , Website     = require("../Website/model").Website
 , Screen_Name = require("../Screen_Name/model").Screen_Name
+, log         = require("../App/base").log
 ;
 
 
