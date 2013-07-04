@@ -190,9 +190,11 @@ form
 
 
   div.errors
-    background: #CB0818;
-    color: #fff;
+    color: $samar_red;
+    background: #fff;
     padding: 2px 4px 4px 4px
+    border: 1px dashed $samar_red
+    border-width: 1px 0
 
 
   div.success

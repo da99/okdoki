@@ -490,6 +490,11 @@ div.box div.content input[type="password"] {
   width: 99%;
   font-size: 150%;
 }
+div.box div.content form div.errors {
+  border: 1px dashed #802f00;
+  background: #000;
+  color: #f00919;
+}
 #Session_Nav {
   background: rgba(0,0,0,0.5);
   text-align: center;

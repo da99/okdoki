@@ -147,9 +147,11 @@ form textarea {
   margin: 0;
 }
 form div.errors {
-  background: #cb0818;
-  color: #fff;
+  color: #f00919;
+  background: #fff;
   padding: 2px 4px 4px 4px;
+  border: 1px dashed #f00919;
+  border-width: 1px 0;
 }
 form div.success {
   border: 1px dashed #d60600;

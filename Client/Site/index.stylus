@@ -374,6 +374,7 @@ form
       border-radius: 0 0 4px 0
       margin: 0
 
+
 #content
   padding: 0
   overflow: auto
@@ -515,6 +516,11 @@ div.box
     input[type="text"], input[type="password"]
       width: 99%
       font-size: 150%
+    form
+      div.errors
+        border: 1px dashed rgb(128,47, 0)
+        background: #000
+        color: $samar_red
 
 #Session_Nav
   background: rgba(0,0,0,0.5)

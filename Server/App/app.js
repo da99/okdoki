@@ -23,14 +23,20 @@ var log       = require('./base').log
 
 var helmet = require('helmet');
 
-var password_hash = require('password-hash')
-, passport        = require('passport')
+var password_hash = require('password-hash');
+
+var passport        = require('passport')
 , LocalStrategy   = require('passport-local').Strategy
 ;
+
+var ensure_login = require('connect-ensure-login');
 
 var express = require('express');
 var toobusy = require('toobusy');
 var app     = module.exports.app = express();
+
+var ALLOW_UNAUTH_PATHS = [];
+
 var RedisStore = require('connect-redis')(express);
 
 // ================================================================
@@ -38,6 +44,15 @@ var RedisStore = require('connect-redis')(express);
 // ================================================================
 
 var mtimes = exports.mtimes = require("./file_times").data;
+
+exports.allow_unauth_path = function (meth, path) {
+  ALLOW_UNAUTH_PATHS.push(meth.toUpperCase() + ':' + path.toUpperCase());
+};
+
+exports.is_allow_unauth_path = function (req) {
+  var i = ALLOW_UNAUTH_PATHS.indexOf(req.method.toUpperCase() + ':' + req.path.toUpperCase());
+  return i > -1;
+};
 
 var New_River = exports.New_River = function (req, resp, next) {
   if (req.length) {
@@ -282,8 +297,6 @@ app.configure(function () {
     })
   }));
 
-  // ===========================================
-  app.use(express.csrf());
 
   // ===========================================
   // Passport:
@@ -291,7 +304,32 @@ app.configure(function () {
   app.use(passport.initialize());
   app.use(passport.session());
   // ===========================================
+
+  // ==============================================================
+  // Ensure logged in.
+  // ==============================================================
+  app.use(function (req, resp, next) {
+    if (req.isAuthenticated())
+      return next();
+
+    if (req.method === 'GET' || req.method === 'HEAD')
+      return next();
+
+    if (exports.is_allow_unauth_path(req))
+      return next();
+
+    if (req.accepts('json')) {
+      return resp.json({success: false, is_log_in_required: true, msg: "You're session has expired. Log-in at okdoki.com."});
+    } else {
+      return resp.send('<h1>Not logged in.</h1>');
+    };
+  })
+
+
   // ===========================================
+  app.use(express.csrf());
+  // ===========================================
+
 
   // Caching:
   app.use(function (req, resp, next) {
@@ -313,19 +351,27 @@ app.configure(function () {
   });
 
 
-  // Escape the data: ==============================================
-  app.all('*', function (req, resp, next) {
-    _.each("params query body cookies".split(" "), function (k, i) {
-      if (!req[k])
-        throw new Error("Unknown key: " + k);
-      req[k] = e_e_e(req[k]);
-    });
-    next();
-  });
-  // ==============================================================
 
+  // ==============================================================
+  // The routes.
+  // ==============================================================
   app.use(app.router)
 
+
+
+});
+
+
+// ==============================================================
+// Escape the data: ==============================================
+// ==============================================================
+app.all('*', function (req, resp, next) {
+  _.each("params query body cookies".split(" "), function (k, i) {
+    if (!req[k])
+      throw new Error("Unknown key: " + k);
+    req[k] = e_e_e(req[k]);
+  });
+  next();
 });
 
 

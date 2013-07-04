@@ -6,9 +6,6 @@
   "main"        : "Server/App/app.js",
   "dependencies": {
     "express"        : "3.x.x"
-   , "passport"          : "0.x.x"
-   , "passport-local"    : "0.x.x"
-   , "password-hash"     : "1.x.x"
    , "underscore"        : "1.x.x"
    , "toobusy"           : "0.x.x"
    , "duration"          : "0.x.x"
@@ -26,7 +23,11 @@
    ,  "redis"       : "x.x.x"
    , "hiredis"   : "x.x.x"
 
-   ,  "helmet" : "x.x.x"
+   , "passport"          : "0.x.x"
+   , "passport-local"    : "0.x.x"
+   , "helmet"            : "x.x.x"
+   , "connect-ensure-login" : "x.x.x"
+   , "password-hash"     : "1.x.x"
 
    , "topogo"            : "x.x.x"
    , "da_river"          : "x.x.x"

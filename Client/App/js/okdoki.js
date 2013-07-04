@@ -607,7 +607,7 @@ function after(se) {
   var parent = e.parent();
 
   var meths = {
-    draw_if_not_found : function (se, txt) {
+    draw_or_update : function (se, txt, is_html) {
       var e_find = parent.find(se);
       if (e_find.length) {
         e_find.text(txt);
@@ -618,7 +618,10 @@ function after(se) {
       var tag = pieces[0];
       var css = pieces[1];
       var new_e = $('<' + tag + ' class="' + css + '"></' + tag + '>' );
-      new_e.text(txt);
+      if (is_html)
+        new_e.html(txt);
+      else
+        new_e.text(txt);
       log('drawing:', se, txt);
       e.after(new_e);
 
@@ -686,12 +689,12 @@ function form(selector, func) {
     return false;
   }
 
-  var loaded = function (msg) {
+  var loaded = function (msg, html) {
     make_form_like_new(selector);
 
     if (msg) {
       after($(selector).find('div.buttons'))
-      .draw_if_not_found('div.errors', msg)
+      .draw_or_update('div.errors', msg, true)
       .show()
       ;
     }
@@ -727,7 +730,7 @@ function form(selector, func) {
     $(selector).find('div.buttons').hide();
 
     after($(selector).find('div.buttons'))
-    .draw_if_not_found('div.loading', 'processing...')
+    .draw_or_update('div.loading', 'processing...')
     .show()
     ;
 
@@ -772,7 +775,7 @@ function form(selector, func) {
       if (result.msg) {
         log(result.msg)
         after($(selector).find('div.buttons'))
-        .draw_if_not_found('div.success', result.msg)
+        .draw_or_update('div.success', result.msg)
         .show();
         $(selector).find('div.success').text(result.msg);
       }
@@ -795,7 +798,12 @@ function form(selector, func) {
   e.on_invalid = function (on_i) {
     form_meta[selector].invalid = function (result) {
       loaded();
-      loaded(result.msg || default_err);
+      var msg = null;
+      if (result.is_log_in_required) {
+        loaded("You're session has expired. Log in at <a href=\"/\">okdoki.com</a>", true);
+      } else {
+        loaded(result.msg || default_err);
+      };
       on_i(result);
     };
   }

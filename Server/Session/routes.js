@@ -19,6 +19,7 @@ module.exports.route = function (mod) {
     resp.redirect('/');
   });
 
+  mod.allow_unauth_path('POST', '/sign-in')
   app.post('/sign-in', function (req, resp, next) {
 
     if (!req.body.screen_name || req.body.screen_name.trim().length == 0 )

@@ -7,6 +7,7 @@ module.exports.route = function (mod) {
 
   var app = mod.app;
 
+  mod.allow_unauth_path('POST', '/customer')
   app.post('/customer', function (req, resp, next) {
     var r = mod.New_River(arguments);
     r.job(function (j) {
