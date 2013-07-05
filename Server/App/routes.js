@@ -25,7 +25,7 @@ exports.route = function (mod) {
   app.get( '/' , function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     var opts = req.user ?
-      OK.template_data('Customer/lifes') :
+      OK.template_data('Customer/lifes/index') :
       OK.template_data('App/top_slash/index') ;
 
     if (opts.is_customer) {

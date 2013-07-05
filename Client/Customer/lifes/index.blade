@@ -1,0 +1,169 @@
+include "../layout.blade"
+
+append scripts
+  call script("/App/top_slash/index.js")
+
+append templates
+  div.col#Write
+    div.box
+      h3 Write &amp; Post
+      div.content
+        form(action="/IM", method="GET")
+          div.fields
+            div.field
+              textarea
+                | This does not work yet...
+            div.field.buttons
+              button.submit Post
+
+  div.col#IMs
+    div.box
+      div.content
+        | Sit back and relax. I will
+        | go and stream you the latest news
+        | from smart and/or funny and/or slightly
+        | cRaZaY people.
+
+
+append content
+
+  div.col#content
+    script#lifes(type="text/x-handlebars-template")
+      div.box#Watched
+        h3 Handlebars
+        div.content
+          P
+            | {{msg}}
+          span.display
+          span
+            | Text Value:
+          input(type="text", publish-to="span.display", value="Hello")
+          p
+            | Text:
+            span.get_tag
+              | ---
+          input.tag(type="text")
+          button(on-click="publish_tag")
+            | Add
+          ul(list="tags")
+            li
+              | name: {{name}}, num: {{num}}
+
+  div.sidebar#sidebar
+
+    h1.title
+      span.main
+        | ok
+      span.sub
+        | doki
+
+    - if (!is_customer)
+      div#header
+        p
+          span.about
+            | Multi-Life Collaboration
+          br
+          span
+            | Coming Soon:
+        p
+          strong
+            | Later this year.
+
+      div(id='footer')
+        p
+          | (c) 2012-2013 OKdoki.com. Some rights reserved.
+        p
+          | All other copyrights belong to their respective owners.
+        p
+          | Cover Photo:
+          a(href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388")
+            | Bikes in Montreal
+        p
+          | Logo font:
+          a(href="http://lenkavomelova.com/")
+            | Lenka Stabilo
+
+        p
+          | Life & Website Header font:
+          a(href="http://openfontlibrary.org/en/font/circus")
+            | Circus
+
+        p
+          | Wood Pattern:
+          a(href="http://subtlepatterns.com/wood-pattern/")
+            | Alexey Usoltsev
+
+        p
+          | Ravenna Pattern:
+          a(href="http://subtlepatterns.com/ravenna/")
+            | Sentel
+
+    - if (!is_customer && IS_DEV)
+      call applet("New_Session")
+      call applet("New_Customer")
+
+append content
+  - if (is_customer)
+    div.col#Why
+      div#Screen_Names
+        - if (customer_has_one_life)
+          span Your screen name:
+        - else
+          span Your screen names:
+        - for (var sn in customer_screen_names)
+          div
+            | #{customer_screen_names[sn]} -
+            a(href="/me/#{customer_screen_names[sn]}") Go to homepage.
+  - else
+    - if (false)
+      h3 Friends == Assistants
+      div.content
+        | Your friends can edit and contribute to your life.
+        | Keep
+        | your sites updated even when you're
+        | busy with the help of the people in
+        | your life.
+
+      h3 Pages + Folders
+      div.content
+        | You can organize web pages into folders.
+        | Folders can look and act differently:
+        | wish lists, journal (aka blog), books,
+        | magazine, scrap book, etc.
+
+  - if (is_customer)
+    div.col#Follows
+      h3.follows Your Subscriptions:
+      div.box.follow
+        h3
+          a(href="#") T_NeLsOn
+        div.content
+          div.msgs
+            div.msg
+              div.title Tiel of message
+              div.body Body of message
+            div.msg
+              div.title Tiel of message
+              div.body Body of message
+          div.nav
+            a.load_more(href="#") Load More
+
+      div.box.follow
+        h3
+          a(href="#") A_Key
+        div.content
+          div.msgs
+            div.msg
+              div.title Tiel of message
+              div.body Body of message
+            div.msg
+              div.title Tiel of message
+              div.body Body of message
+            div.msg
+              div.title Tiel of message
+              div.body Body of message
+            div.msg
+              div.title Tiel of message
+              div.body Body of message
+          div.nav
+            a.load_more(href="#") Load More
