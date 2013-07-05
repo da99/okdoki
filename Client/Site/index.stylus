@@ -86,31 +86,15 @@ h1.title
       font-size : 20pt
       color     : $pink
       color     : $glass_black_subtle
-  body.is_customer &
-    font-size: 9pt
-    padding: 2px 0 0 5px
-    margin: 0
-    span
-      &.main
-        font-size : 12pt
-
-      &.sub
-        font-size : 12pt
 
 
 span
   &.about
     color       : $orange
     font-weight : bold
-
-
-
-
   ul.nav_bar
     text-align: left
     padding-top: 100px
-
-
   input
     width: 90%
 
@@ -439,11 +423,10 @@ form
 #Why
   body.is_customer &
     width: 180px
-    margin-right: 10px
     #Screen_Names span
-      color: darken($yellow_med, 20%)
+      color: $orange
       font-style: italic
-    margin: 10px 0 10px 0
+    margin: 10px 10px 10px 0
     background: $glass_black
     padding: 10px 0
   float: left
@@ -453,7 +436,6 @@ form
   padding: 20px 0 10px 0
   h3
     text-align : center
-    color      : $orange
     margin-bottom     : 0
     padding-bottom    : 0
   div.content
@@ -466,13 +448,13 @@ form
   min-width: 300px
   h3.follows
     margin: 0 0 10px 0
-    background: #fafafa
+    background: $glass_black
     font-family: $sans-serif
     text-align: center
     padding: 4px
     text-transform: none
     font-size: 100%
-    color: #6b6b6b
+    color: $orange
   div.box
     background: rgba(255,255,255,0.95)
     border-radius: 0 0 3px 3px
@@ -571,4 +553,24 @@ div.box#New_Customer
 
   button
     margin-top: 5px;
+
+
+
+body.is_customer
+  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif')
+  h1
+    font-size: 9pt
+    padding: 2px 0 0 5px
+    margin: 0
+    span
+      &.main
+        font-size : 12pt
+
+      &.sub
+        font-size : 12pt
+
+
+
+
+
 

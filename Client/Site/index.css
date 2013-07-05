@@ -53,17 +53,6 @@ h1.title span.sub {
   color: #f85d95;
   color: rgba(248,93,149,0.9);
 }
-body.is_customer h1.title {
-  font-size: 9pt;
-  padding: 2px 0 0 5px;
-  margin: 0;
-}
-body.is_customer h1.title span.main {
-  font-size: 12pt;
-}
-body.is_customer h1.title span.sub {
-  font-size: 12pt;
-}
 span.about {
   color: #ff721a;
   font-weight: bold;
@@ -399,18 +388,16 @@ body.is_customer #sidebar {
 }
 body.is_customer #Why {
   width: 180px;
-  margin-right: 10px;
-  margin: 10px 0 10px 0;
+  margin: 10px 10px 10px 0;
   background: rgba(0,0,0,0.65);
   padding: 10px 0;
 }
 body.is_customer #Why #Screen_Names span {
-  color: #efcb00;
+  color: #ff721a;
   font-style: italic;
 }
 #Why h3 {
   text-align: center;
-  color: #ff721a;
   margin-bottom: 0;
   padding-bottom: 0;
 }
@@ -425,13 +412,13 @@ body.is_customer #Why #Screen_Names span {
 }
 #Follows h3.follows {
   margin: 0 0 10px 0;
-  background: #fafafa;
+  background: rgba(0,0,0,0.65);
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   text-align: center;
   padding: 4px;
   text-transform: none;
   font-size: 100%;
-  color: #6b6b6b;
+  color: #ff721a;
 }
 #Follows div.box {
   background: rgba(255,255,255,0.95);
@@ -545,4 +532,18 @@ div.box#New_Customer div.fieldset {
 div.box#New_Session button,
 div.box#New_Customer button {
   margin-top: 5px;
+}
+body.is_customer {
+  background: #fff url("http://megauni.s3.amazonaws.com/bg_overlay.gif");
+}
+body.is_customer h1 {
+  font-size: 9pt;
+  padding: 2px 0 0 5px;
+  margin: 0;
+}
+body.is_customer h1 span.main {
+  font-size: 12pt;
+}
+body.is_customer h1 span.sub {
+  font-size: 12pt;
 }
