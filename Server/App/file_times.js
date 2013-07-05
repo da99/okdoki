@@ -37,6 +37,8 @@ exports.data = {
  "/App/top_slash/index.js": 1372176429,
  "/Chat/index/index.css": 1372272402,
  "/Chat/index/index.js": 1372280025,
+ "/Customer/lifes/index.css": 1373026841,
+ "/Customer/lifes/index.js": 1373027039,
  "/Folder/show/show.css": 1372969403,
  "/Folder/show/show.js": 1372145041,
  "/Page/show/show.css": 1372221522,
