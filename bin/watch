@@ -98,6 +98,7 @@ function update_client_file(f) {
     client_file_mtimes[to_client_file( f )] = (new Date()).getTime();
     fs.writeFile(client_file + '.js', "exports.data = " + JSON.stringify(client_file_mtimes));
     console.log("new: ", client_file_mtimes[to_client_file(f)]);
+    exec('bin/hup');
     return f;
   }
 }

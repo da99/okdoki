@@ -577,7 +577,12 @@ exports.app    = app;
 
 // setInterval(Chat_Bot.send_ims, 4000);
 
-
+process.on('SIGHUP', function () {
+  _.each(mtimes, function (v, k) {
+    mtimes[k] = (new Date()).getTime();
+  });
+  console.log('SIGHUP: Reloading mtimes.');
+});
 
 
 
