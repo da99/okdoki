@@ -1,9 +1,0 @@
-- if (logged_in)
-  - if (customer_has_one_life)
-    input.field(type='hidden', name="as", value="#{customer_screen_names[0]}")
-  - else
-    - for x in customer_screen_names
-      div.field.as
-        div.label As:
-        select(name='as')
-          option(value='#{x.screen_name}') #{x.screen_name}
