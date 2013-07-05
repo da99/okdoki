@@ -2,6 +2,7 @@ body {
   background: #fafafa url("/App/img/wood_pattern.png");
 }
 div.box {
+  width: 300px;
   float: left;
   margin: 0 10px 10px 0;
 }
@@ -11,9 +12,12 @@ div.box div.screen_name {
 div.box div.screen_name span.screen_name {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
-#Screen_Names {
-  width: 300px;
+h1 {
+  margin: 10px 0 20px 0;
 }
-#Enter_Chat_Room {
-  width: 300px;
+html.w700_minus div.box {
+  width: auto;
+  float: none;
+  border-radius: 0;
+  margin: 0 0 10px 0;
 }

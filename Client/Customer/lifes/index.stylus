@@ -36,6 +36,7 @@ body
   background: #fafafa url("/App/img/wood_pattern.png")
 
 div.box
+  width: 300px
   float: left
   margin: 0 10px 10px 0
 
@@ -44,9 +45,12 @@ div.box
     span.screen_name
       font-family: $serif
 
-#Screen_Names
-  width: 300px
-#Enter_Chat_Room
-  width: 300px
+h1
+  margin: 10px 0 20px 0
 
-
+html.w700_minus
+  div.box
+    width: auto
+    float: none
+    border-radius: 0
+    margin: 0 0 10px 0

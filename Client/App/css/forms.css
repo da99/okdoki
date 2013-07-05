@@ -1,0 +1,18 @@
+form {
+  text-align: left;
+}
+form div.field span.label,
+form div.field label {
+  font-weight: normal;
+  color: #727272;
+}
+form div.field input[type="text"] {
+  font-size: 190%;
+}
+form textarea {
+  min-width: 97%;
+  max-width: 97%;
+  max-height: 250px;
+  min-height: 100px;
+  width: 97%;
+}

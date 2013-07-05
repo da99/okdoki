@@ -394,7 +394,7 @@ div.edit_able_s
   font-weight: 400
   font-size: 12pt
   margin: 0 0 0 0
-  padding: 10px 0 7px 0
+  padding: 10px 0 7px 5px
   span
     &.main
       font-size: 12pt

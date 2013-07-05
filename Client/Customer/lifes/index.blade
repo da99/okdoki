@@ -1,10 +1,12 @@
-include "../../App/layout.blade"
 
 - if (customer_has_one_life)
   - var S = '';
 - else
   - var S = 's';
 
+include "../../App/layout.blade"
+append styles
+  call css("/App/css/forms.css")
 append scripts
   call script("/App/top_slash/index.js")
 
@@ -17,7 +19,7 @@ append content
       | doki
 
   h1
-    | All My Stuff on Okdoki.com
+    | All My Stuff
 
   div.box#Screen_Names
     h3 My Life#{S}:
@@ -27,6 +29,7 @@ append content
           span.screen_name #{customer_screen_names[sn]} -
           a(href="/me/#{customer_screen_names[sn]}")  Go to it.
 
+  div.box
     h3 Create A New Life:
     div.content
       form#Create_Screen_Name(action="/me", method="POST")
