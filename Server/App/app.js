@@ -65,10 +65,10 @@ var New_River = exports.New_River = function (req, resp, next) {
   var r = River.new(null);
 
   r.next('invalid', function (j) {
-    if (req.accepts('json'))
-      resp.json({success: false, msg: j.job.error.message});
-    else
+    if (req.accepts('html'))
       resp.send(j.job.error.message);
+    else
+      resp.json({success: false, msg: j.job.error.message});
   });
 
   r.read_one = function () {
@@ -250,11 +250,11 @@ app.configure(function () {
   app.use(function (req, resp, next) { // must go on top of other middleware
     if (toobusy()) {
       log('Too busy to send: ' + req.path);
-      if (req.accepts('json')) {
-        var OK = New_Request(arguments);
-        OK.json_fail("Too busy", 503, {too_busy: true});
-      } else
+      if (req.accepts('html')) {
         resp.send(503, "Website is busy right now. Try again later.");
+      } else {
+        resp.json(503, {success: false, msg: "Too busy", too_busy: true});
+      }
     } else
       next();
   });
@@ -510,15 +510,12 @@ app.use(function (req, resp, next) {
   log('body: ', req.body)
 
   if (req.accepts('html')) {
-    resp.writeHead(404, { "Content-Type": "text/html" });
-    resp.end("<html><head><title>" + req.path + " : Not Found</title></head><body>Not found. Check spelling of the address.</body></html>");
+    resp.send(404, "<html><head><title>" + req.path + " : Not Found</title></head><body>Not found. Check spelling of the address.</body></html>");
   } else {
-    if (req.accepts('application/json')) {
-      var OK = New_Request(arguments);
-      OK.json_fail("Page not found.", 404)
+    if (req.accepts('html')) {
+      resp.send(404, req.path + " : Not Found. Check spelling of the address.");
     } else {
-      resp.writeHead(404, { "Content-Type": "text/plain" });
-      resp.end(req.path + " : Not Found. Check spelling of the address.");
+      resp.json(404, {success: false, msg: "Page not found."});
     }
   }
 });
@@ -526,17 +523,18 @@ app.use(function (req, resp, next) {
 
 
 app.use(function (err, req, resp, next) {
+
   log(err, err.stack);
 
-  var msg = "Something broke. Try later.";
+  var msg    = "Something broke. Try later.";
+  var status = err.status || 500;
 
-  if (err.status === 403)
+  if (status === 403)
     msg = RELOG_MSG;
 
-  if (req.accepts('json'))
-    resp.json(err.status || 500, {success: false, msg: msg});
-  else
-    resp.send(err.status, msg);
+  return (req.accepts('html')) ?
+    resp.send(status, msg) :
+    resp.json(status, {success: false, msg: msg});
 });
 
 

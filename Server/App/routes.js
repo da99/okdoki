@@ -24,9 +24,12 @@ exports.route = function (mod) {
 
   app.get( '/' , function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    var opts = OK.template_data('Site/index')
+    var opts = req.user ?
+      OK.template_data('Customer/lifes') :
+      OK.template_data('App/top_slash/index') ;
+
     if (opts.is_customer) {
-      opts['title'] =  req.session.pref_screen_name + " / okdoki.com";
+      opts['title'] =   + " / okdoki.com";
     } else {
       opts['title'] = 'OkDoki.com';
     };

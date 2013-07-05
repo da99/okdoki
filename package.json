@@ -19,9 +19,9 @@
    , "blade"             : "x.x.x"
    , "Faker"             : "x.x.x"
 
-   , "connect-redis"     : "x.x.x"
-   ,  "redis"       : "x.x.x"
-   , "hiredis"   : "x.x.x"
+   , "connect-redis" : "x.x.x"
+   , "redis"         : "x.x.x"
+   , "hiredis"       : "x.x.x"
 
    , "passport"          : "0.x.x"
    , "passport-local"    : "0.x.x"
