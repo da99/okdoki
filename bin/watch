@@ -78,10 +78,10 @@ if (process.env.IS_TESTING)
 // ================== Start watching... ===========================
 // ================================================================
 
-var watchers = [];
-var watched_dirs  = [];
-var server_started = false
-var server_restarting = false
+var watchers          = [];
+var watched_dirs      = [];
+var server_started    = false;
+var server_restarting = false;
 
 function is_client_file(f) {
   return client_file_mtimes && client_file_mtimes[to_client_file( f )];
@@ -103,7 +103,11 @@ function update_client_file(f) {
 }
 
 function is_static(f) {
-  return !f.match('Server/') && !f.match('node_modules') && !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
+  if (f.match(client_file + '.js'))
+      return true;
+  if (f.match('Server') || f.match('node_module'))
+    return false;
+  return !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
 }
 
 function upgrade() {
