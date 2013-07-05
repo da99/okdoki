@@ -29,7 +29,7 @@ exports.route = function (mod) {
       OK.template_data('App/top_slash/index') ;
 
     if (opts.is_customer) {
-      opts['title'] =   + " / okdoki.com";
+      opts['title'] =  "My Okdoki";
     } else {
       opts['title'] = 'OkDoki.com';
     };

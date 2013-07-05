@@ -368,13 +368,6 @@ form
     div.content
       border-radius: 0 0 4px 0
       margin: 0
-  body.is_customer &
-    position: absolute
-    top: 0
-    left: 0
-    width: auto
-    padding: 0
-    margin: 0
 
 
 
@@ -421,14 +414,6 @@ form
     background: transparent;
 
 #Why
-  body.is_customer &
-    width: 180px
-    #Screen_Names span
-      color: $orange
-      font-style: italic
-    margin: 10px 10px 10px 0
-    background: $glass_black
-    padding: 10px 0
   float: left
   width: 300px
   background: $glass_black
@@ -556,19 +541,6 @@ div.box#New_Customer
     margin-top: 5px;
 
 
-
-body.is_customer
-  background: #fff url('http://megauni.s3.amazonaws.com/bg_overlay.gif')
-  h1
-    font-size: 9pt
-    padding: 2px 0 0 5px
-    margin: 0
-    span
-      &.main
-        font-size : 12pt
-
-      &.sub
-        font-size : 12pt
 
 
 

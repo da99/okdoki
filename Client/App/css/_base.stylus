@@ -9,6 +9,12 @@
 // /* yellows: */
 // /* #FFF175; */
 
+$glass_black = rgba(0,0,0,0.65)
+$glass_black_subtle = rgba(248,93,149,0.9)
+$glass_white = rgba(255,255,255,0.85)
+$glass_blue = rgba(0, 142, 237, 0.7)
+
+
 $black       = #000
 $dark_blue   = #185DAD
 $light_blue  = #E1EEFF
@@ -381,8 +387,36 @@ div.edit_able_s
     font-size: 70%
     font-weight: bold
 
+#Logo
+  text-shadow: lighten(#000, 30%) 0.1em 0.1em 0.1em
+  font-family: 'Lenka'
+  font-weight: 400
+  font-size: 12pt
+  margin: 0 0 0 0
+  padding: 10px 0 7px 0
+  span
+    &.main
+      font-size: 12pt
+      color          : $glass_white
+      font-weight    : bold
+      font-style     : italic
+      padding-right  : 5px
+      text-transform : uppercase
 
+    &.sub
+      font-size: 14pt
+      color     : $pink
+      color     : $glass_black_subtle
 
+div.box
+  background: $glass_white
+  h3
+    padding: 0
+    text-align: center
+    color: #525252
+    font-size: 95%
+  div.content
+    padding: 10px
 
 
 
