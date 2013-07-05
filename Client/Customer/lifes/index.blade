@@ -17,13 +17,29 @@ append content
       | doki
 
   h1
-    | My Control Panel
+    | All My Stuff on Okdoki.com
 
   div.box#Screen_Names
     h3 My Life#{S}:
     div.content
       - for (var sn in customer_screen_names)
-        div
-          | #{customer_screen_names[sn]} -
-          a(href="/me/#{customer_screen_names[sn]}") Go to homepage.
+        div.screen_name
+          span.screen_name #{customer_screen_names[sn]} -
+          a(href="/me/#{customer_screen_names[sn]}")  Go to it.
+
+    h3 Create A New Life:
+    div.content
+      form#Create_Screen_Name(action="/me", method="POST")
+        div.fields
+          div.field.screen_name
+            span.label Screen Name:
+            input(type="text", value="", name="screen_name")
+        div.buttons
+          button.submit Create
+
+//- ===========================================================
+div.box#Enter_Chat_Room
+  div.content
+    a.show(href="/me/#{screen_name}/chat") Enter
+    div.sign My chat room#{S}.
 

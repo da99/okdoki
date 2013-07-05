@@ -35,8 +35,18 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 body
   background: #fafafa url("/App/img/wood_pattern.png")
 
+div.box
+  float: left
+  margin: 0 10px 10px 0
 
+  div.screen_name
+    padding: 0 0 10px 0
+    span.screen_name
+      font-family: $serif
 
-
+#Screen_Names
+  width: 300px
+#Enter_Chat_Room
+  width: 300px
 
 
