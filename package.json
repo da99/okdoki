@@ -9,7 +9,6 @@
    , "underscore"        : "1.x.x"
    , "toobusy"           : "0.x.x"
    , "duration"          : "0.x.x"
-   , "redis"             : "0.x.x"
    , "request"           : "2.x.x"
    , "underscore.string" : "x.x.x"
    , "strftime"          : "x.x.x"
@@ -18,10 +17,6 @@
    , "chokidar"          : "x.x.x"
    , "blade"             : "x.x.x"
    , "Faker"             : "x.x.x"
-
-   , "connect-redis" : "x.x.x"
-   , "redis"         : "x.x.x"
-   , "hiredis"       : "x.x.x"
 
    , "passport"          : "0.x.x"
    , "passport-local"    : "0.x.x"
@@ -49,6 +44,5 @@
   "engines": {
     "node" : "0.10.x",
     "npm"  : "1.2.x"
-    , "__comment": "NOTE: If using hiredis: rebuild hiredis when upgrading nodejs and npm"
   }
 }

@@ -247,7 +247,6 @@ exports.route = function (mod) {
     var is_dev = dev_ip === req.ip;
 
     var expires = []
-      , R         = Redis.client
       , user      = req.user
       , since     = since_OST()
       , m         = null

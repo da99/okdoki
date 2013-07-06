@@ -38,8 +38,6 @@ var app     = module.exports.app = express();
 
 var ALLOW_UNAUTH_PATHS = [];
 
-var RedisStore = require('connect-redis')(express);
-
 // ================================================================
 // ================== Helpers =====================================
 // ================================================================
@@ -289,14 +287,11 @@ app.configure(function () {
 
   // ===========================================
   // Session:
-  app.use(express.session({
+  app.use(express.cookieSession({
     secret   : secret,
     secure   : true,
-    httpOnly : true,
     cookie   : {path: '/', httpOnly: true, secure: true},
-    proxy    : true,
-    store    : new RedisStore({
-    })
+    proxy    : true
   }));
 
 
