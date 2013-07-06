@@ -5,8 +5,6 @@
   - var S = 's';
 
 include "../../App/layout.blade"
-append styles
-  call css("/App/css/forms.css")
 append scripts
   call script("/App/top_slash/index.js")
 
@@ -22,18 +20,10 @@ append content
       | Multi-Room Chat
 
   //- ===========================================================
-  div.col#Chat
-
-    div.box#Enter_Chat_Room
-      div.content
-        a.show(href="/chat") Start
-        div.sign chatting
-
-  //- ===========================================================
   div.col#Interact
 
     div.box#Screen_Names
-      h3 My Lifes:
+      h3 My Life(s):
       div.content
         ul.screen_name
           - for (var sn in customer_screen_names)
@@ -68,6 +58,17 @@ append content
             div.field.screen_name
               span.label Screen Name:
               input(type="text", value="", name="screen_name")
+            div.field.sn_type
+              input#sn_type(type="checkbox", name="sn_type")
+              label(for="sn_type")
+                | It's for a thing:
+                | website, product, event, etc.
           div.buttons
             button.submit Create
+
+
+  //- ===========================================================
+  div.col#Chat
+    div.box#Messages
+
 

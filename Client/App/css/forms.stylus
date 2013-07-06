@@ -205,6 +205,9 @@ form
     color: #008EED;
     border-radius: 0;
 
+  div.buttons
+    button
+      font-size: 95%
 
 
 

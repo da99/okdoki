@@ -343,10 +343,6 @@ form
       padding     : 0 10px
     div.field
       padding: 0 0 15px 0
-      span.label
-        display    : block
-        color      : $light_blue
-        background : transparent
       span.value
         display    : block
         color      : $orange
@@ -492,8 +488,16 @@ div.box
     color: #fff
     div.field
       padding-bottom: 10px
-    span.label
+    label
       color: $orange
+      text-transform: none
+      font-size: 100%
+      padding: 0 0 3px 0
+      display: block
+      span.sub
+        font-weight: normal
+        color: $light_blue
+        font-size: 90%
     span.value
       color: $light_blue
       font-weight: normal

@@ -59,16 +59,16 @@ h1
 
 div.col
   float: right
-  width: 49%
 
 // COL ================================
 #Chat
+  width: 55%
   #Enter_Chat_Room
     padding: 15px 10px 25px 10px
 
 // COL ================================
 #Interact
-
+  width: 44%
   max-width: 700px;
 
   #Screen_Names
@@ -85,6 +85,11 @@ div.col
         content: ", "
       li:last-child:after
         content: ""
+
+  #Create_Life
+    div.sn_type:hover
+      background: #fff
+
 
   #Rooms
     overflow: auto
@@ -127,6 +132,8 @@ div.col
 html.w700_minus
   div.col
     float: none
+    width: auto
+  #Interact, #Chat
     width: auto
   div.box
     width: auto

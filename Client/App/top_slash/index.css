@@ -294,11 +294,6 @@ form div.success {
 #forms form div.field {
   padding: 0 0 15px 0;
 }
-#forms form div.field span.label {
-  display: block;
-  color: #e1eeff;
-  background: transparent;
-}
 #forms form div.field span.value {
   display: block;
   color: #ff721a;
@@ -463,8 +458,17 @@ div.box div.content {
 div.box div.content div.field {
   padding-bottom: 10px;
 }
-div.box div.content span.label {
+div.box div.content label {
   color: #ff721a;
+  text-transform: none;
+  font-size: 100%;
+  padding: 0 0 3px 0;
+  display: block;
+}
+div.box div.content label span.sub {
+  font-weight: normal;
+  color: #e1eeff;
+  font-size: 90%;
 }
 div.box div.content span.value {
   color: #e1eeff;

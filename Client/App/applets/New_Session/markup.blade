@@ -11,13 +11,11 @@ div.box#New_Session
     form(id='sign_in', action='/sign-in', method='post')
       div.fields
         div.field.screen_name
-          div
-            span.label Screen name:
-          input.field(type='text', name="screen_name", value="")
+          label(for="LOGIN_SCREEN_NAME") Screen name:
+          input#LOGIN_SCREEN_NAME.field(type='text', name="screen_name", value="")
         div.field.passphrase
-          div
-            span.label Pass phrase:
-          input.field(type='password', name="pass_phrase", value="")
+          label(for="LOGIN_PASS_PHRASE") Pass phrase:
+          input#LOGIN_PASS_PHRASE.field(type='password', name="pass_phrase", value="")
         div.field.buttons
           button.submit Log-In
 

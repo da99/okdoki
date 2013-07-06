@@ -27,12 +27,15 @@ h1 {
 }
 div.col {
   float: right;
-  width: 49%;
+}
+#Chat {
+  width: 55%;
 }
 #Chat #Enter_Chat_Room {
   padding: 15px 10px 25px 10px;
 }
 #Interact {
+  width: 44%;
   max-width: 700px;
 }
 #Interact #Screen_Names h3,
@@ -54,6 +57,9 @@ div.col {
 }
 #Interact #Screen_Names ul li:last-child:after {
   content: "";
+}
+#Interact #Create_Life div.sn_type:hover {
+  background: #fff;
 }
 #Interact #Rooms {
   overflow: auto;
@@ -99,6 +105,10 @@ div.col {
 }
 html.w700_minus div.col {
   float: none;
+  width: auto;
+}
+html.w700_minus #Interact,
+html.w700_minus #Chat {
   width: auto;
 }
 html.w700_minus div.box {

@@ -7,32 +7,28 @@ div.box#New_Customer
       div.fields
 
         div.field.screen_name
-          div
-            span.label Screen name:
-          input.field(type='text', name="screen_name", value="")
+          label(for="NEW_CUSTOMER_SCREEN_NAME") Screen name:
+          input#NEW_CUSTOMER_SCREEN_NAME.field(type='text', name="screen_name", value="")
 
         //- div.field.email
-          //- div
-            //- span.label Email:
-            //- span.value  (in case you forget your password)
+          //- label
+            //- span.main Email:
+            //- span.sub  (in case you forget your password)
           //- input.field(type='text', name="email", value="work...")
 
-        div.field.passphrase
-          div
-            span.label Pass phrase:
-            span.value  (for better security, use spaces and words)
-          input.field(type='password', name="pass_phrase", value="")
+        div.field.pass_phrase
+          label(for="NEW_CUSTOMER_PASS_PHRASE")
+            span.main Pass phrase
+            span.sub  (for better security, use spaces and words)
+            span.main :
+          input#NEW_CUSTOMER_PASS_PHRASE.field(type='password', name="pass_phrase", value="")
 
-        div.field.confirm_passphrase
-          div
-            span.label Re-type the pass phrase:
+        div.field.confirm_pass_phrase
+          label(for="NEW_CUSTOMER_CONFIRM_PASS_PHRASE")
+            span.main Re-type the pass phrase:
           input.field(type='password', name="confirm_pass_phrase", value="")
 
-        //- div.field.confirm-passphrase
-          //- div
-            //- span.label Confirm Passphrase:
-          //- input.field(type='password', name="confirm_passphrase", value="")
 
-        div.field.buttons
+        div.buttons
           button.submit Create Account
 
