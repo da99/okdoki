@@ -58,30 +58,46 @@ div.col {
 #Interact #Screen_Names ul li:last-child:after {
   content: "";
 }
-#Interact #Create_Life div.sn_type:hover {
-  background: #fff;
+#Interact #Create_Life div.sn_type {
+  padding: 0;
+}
+#Interact #Create_Life div.sn_type label {
+  text-transform: none;
+  font-size: 95%;
+}
+#Interact #Create_Life div.sn_type input {
+  margin: 0 3px 0 0;
 }
 #Interact #Rooms {
   overflow: auto;
 }
-#Interact #Rooms ul {
-  margin: 0;
-  padding: 0 0 10px 0;
-}
-#Interact #Rooms ul li {
-  list-style: none;
-  padding: 5px 0 5px 10px;
+#Interact #Rooms div.room {
+  padding: 5px 0 15px 5px;
   border-bottom: 1px dashed #ccc;
 }
-#Interact #Rooms ul li span {
-  padding: 0 5px 0 0;
-}
-#Interact #Rooms ul li a:link {
+#Interact #Rooms div.room a:link {
   text-transform: uppercase;
-  font-size: 80%;
-  font-weight: bold;
+  font-size: 85%;
 }
-#Interact #Rooms ul li:last-child {
+#Interact #Rooms div.room div.chatters {
+  text-align: center;
+}
+#Interact #Rooms div.room ul {
+  text-align: left;
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+#Interact #Rooms div.room ul li {
+  padding: 0;
+  margin: 0;
+  color: #545454;
+}
+#Interact #Rooms div.room ul li.out {
+  text-decoration: line-through;
+  color: #999;
+  font-style: italic;
+}
+#Interact #Rooms div.room:last-child {
   border: 0;
 }
 #Interact #Rooms #In_Rooms,
@@ -94,26 +110,38 @@ div.col {
 #Interact #Rooms #In_Rooms {
   border-right: 1px dashed #ccc;
 }
+#Interact #Rooms #In_Rooms a.show_chatters:link {
+  display: block;
+}
 #Interact #Rooms #Out_Rooms {
   margin: 0;
 }
-#Interact #Rooms #Out_Rooms ul li a:link {
-  background: #ffea74;
+#Interact #Rooms #Out_Rooms span.name {
+  padding: 0 0 0 5px;
 }
-#Interact #Rooms #Out_Rooms ul li a:hover {
+#Interact #Rooms #Out_Rooms a:link {
+  background: #ffea74;
+  text-transform: uppercase;
+  font-size: 85%;
+  font-weight: bold;
+}
+#Interact #Rooms #Out_Rooms a:hover {
   background: #f85d95;
 }
-html.w700_minus div.col {
+html.w600_minus div.col {
   float: none;
   width: auto;
 }
-html.w700_minus #Interact,
-html.w700_minus #Chat {
+html.w600_minus #Interact,
+html.w600_minus #Chat {
   width: auto;
 }
-html.w700_minus div.box {
+html.w600_minus div.box {
   width: auto;
   float: none;
   border-radius: 0;
   margin: 0 0 10px 0;
+}
+html.w600_minus div.buttons {
+  text-align: center;
 }

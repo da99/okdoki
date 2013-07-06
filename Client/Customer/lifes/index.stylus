@@ -87,27 +87,40 @@ div.col
         content: ""
 
   #Create_Life
-    div.sn_type:hover
-      background: #fff
+    div.sn_type
+     padding: 0
+     label
+       text-transform: none
+       font-size: 95%
+     input
+       margin: 0 3px 0 0
+
 
 
   #Rooms
     overflow: auto
-    ul
-      margin: 0
-      padding: 0 0 10px 0
-      li
-        list-style: none
-        padding: 5px 0 5px 10px
-        border-bottom: 1px dashed #ccc
-        span
-          padding: 0 5px 0 0
-        a:link
-          text-transform: uppercase
-          font-size: 80%
-          font-weight: bold
-      li:last-child
-        border: 0
+    div.room
+      padding: 5px 0 15px 5px
+      border-bottom: 1px dashed #ccc
+      a:link
+        text-transform: uppercase
+        font-size: 85%
+      div.chatters
+        text-align: center
+      ul
+        text-align: left
+        padding: 0 0 0 20px
+        margin:  0
+        li
+          padding: 0
+          margin:  0
+          color: #545454
+        li.out
+          text-decoration: line-through
+          color: #999
+          font-style: italic
+    div.room:last-child
+      border: 0
 
     #In_Rooms, #Out_Rooms
       width: 49%
@@ -117,19 +130,24 @@ div.col
 
     #In_Rooms
       border-right: 1px dashed #ccc
+      a.show_chatters:link
+        display: block
 
     #Out_Rooms
       margin: 0
-      ul
-        li
-          a:link
-            background: $yellow
-          a:hover
-            background: $pink
+      span.name
+        padding: 0 0 0 5px
+      a:link
+        background: $yellow
+        text-transform: uppercase
+        font-size: 85%
+        font-weight: bold
+      a:hover
+        background: $pink
 
 
 
-html.w700_minus
+html.w600_minus
   div.col
     float: none
     width: auto
@@ -140,6 +158,8 @@ html.w700_minus
     float: none
     border-radius: 0
     margin: 0 0 10px 0
+  div.buttons
+    text-align: center
 
 
 

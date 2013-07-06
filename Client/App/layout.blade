@@ -51,6 +51,7 @@ html(lang='en')
 
     call script("/App/js/okdoki.js")
     call script('/App/js/jquery.cookie.js')
+
     script#templates(type="text/x-okdoki")
       - if (screen_name)
         div.Screen_Name
@@ -67,5 +68,8 @@ html(lang='en')
       call script('/akui_tests/promise.js')
       call script('/akui_tests/fermata.js')
       call script('/akui_tests/akui.js')
+
+
+
 
 
