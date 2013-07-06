@@ -159,7 +159,6 @@ exports.route = function (mod) {
     var data = req.body;
     var is_dev = data.is_dev === true;
 
-    resp.writeHead(200, { "Content-Type": "application/json" });
     var req_type = data.request_type;
     var msg = null;
     var refresh = 1.5;
@@ -170,9 +169,9 @@ exports.route = function (mod) {
 
         var result = meta.rows;
         if (meta.rowCount > 0)
-          write.json( resp, { msg: result, success: true, refresh: 10 } );
+          resp.json( { msg: result, success: true, refresh: 10 } );
         else
-          write.json( resp, { msg: [], success: true, refresh: 10 } );
+          resp.json( { msg: [], success: true, refresh: 10 } );
 
       });
 
