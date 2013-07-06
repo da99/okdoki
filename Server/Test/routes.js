@@ -23,20 +23,17 @@ OK.get( '/cookie', function (req, resp) {
   if (req.cookies.rem) {
     var do_n = null;
   } else {
-    resp.cookie('rem', 'yes', { maxAge: 9, httpOnly: false});
-    req.session.something = "trye";
+    resp.cookie('rem', 'yes', { maxAge: 9, httpOnly: true, secure: true});
     t = "SET";
   }
 
-  resp.writeHead(200, { "Content-Type": "text/plain" });
-  resp.end(t);
+  resp.send(t);
 });
 
 OK.get('/now', function (req, resp) {
 
   var query = new db.query("SELECT NOW() as when", [], function(result) {
-    resp.writeHead(200, { "Content-Type": "text/plain" });
-    resp.end("" + result.rows[0].when);
+    resp.send("" + result.rows[0].when);
   });
 
 });

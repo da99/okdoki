@@ -293,7 +293,7 @@ app.configure(function () {
     secret   : secret,
     secure   : true,
     httpOnly : true,
-    cookie: {path: '/', httpOnly: true, secure: true},
+    cookie   : {path: '/', httpOnly: true, secure: true},
     proxy    : true,
     store    : new RedisStore({
     })
@@ -446,7 +446,6 @@ module.exports.sign_in = function (req, resp, next, msg) {
     req.login(user, function(err) {
       if (err)
         return next(err);
-      req.session.pref_screen_name = req.body.screen_name;
       resp.json({
         msg         : msg || "Success: Please wait as page reloads...",
         success     : true,

@@ -158,8 +158,6 @@ exports.route = function (mod) {
   app.post('/ask', function(req, resp, next) {
     var data = req.body;
     var is_dev = data.is_dev === true;
-    if(!req.session.name)
-      req.session.name = "Stranger #" + (new Date()).getSeconds();
 
     resp.writeHead(200, { "Content-Type": "application/json" });
     var req_type = data.request_type;
