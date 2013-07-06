@@ -29,10 +29,44 @@ div.col {
   float: right;
 }
 #Chat {
+  float: left;
   width: 55%;
 }
 #Chat #Enter_Chat_Room {
   padding: 15px 10px 25px 10px;
+}
+#Chat #Messages div.msg {
+  background: #fff;
+  border-radius: 0 5px 5px 0;
+  margin: 0 0 15px 0;
+  padding: 2px 5px 6px 5px;
+}
+#Chat #Messages div.msg div.by span.name {
+  color: #185dad;
+  font-weight: bold;
+  font-style: italic;
+}
+#Chat #Messages div.msg div.by span.said {
+  color: #545454;
+}
+#Chat #Messages div.msg div.body {
+  font-size: 120%;
+}
+#Chat #Messages div.official,
+#Chat #Messages div.error {
+  background: #ffea74;
+  padding: 4px 4px 4px 5px;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+#Chat #Messages div.error {
+  background: #fff;
+  color: #f00919;
+  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+}
+#Chat #Messages div.me {
+  background: rgba(255,255,255,0.35);
+  border: 1px solid #fff;
+  border-width: 1px 1px 1px 0;
 }
 #Interact {
   width: 44%;
