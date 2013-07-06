@@ -12,37 +12,62 @@ append scripts
 
 append content
 
+  //- ===========================================================
   div#Logo
     span.main
       | ok
     span.sub
       | doki
+    span.wat_wat
+      | Multi-Room Chat
 
-  h1
-    | All My Stuff
+  //- ===========================================================
+  div.col#Chat
 
-  div.box#Screen_Names
-    h3 My Life#{S}:
-    div.content
-      - for (var sn in customer_screen_names)
-        div.screen_name
-          span.screen_name #{customer_screen_names[sn]} -
-          a(href="/me/#{customer_screen_names[sn]}")  Go to it.
+    div.box#Enter_Chat_Room
+      div.content
+        a.show(href="/chat") Start
+        div.sign chatting
 
-  div.box
-    h3 Create A New Life:
-    div.content
-      form#Create_Screen_Name(action="/me", method="POST")
-        div.fields
-          div.field.screen_name
-            span.label Screen Name:
-            input(type="text", value="", name="screen_name")
-        div.buttons
-          button.submit Create
+  //- ===========================================================
+  div.col#Interact
 
-//- ===========================================================
-div.box#Enter_Chat_Room
-  div.content
-    a.show(href="/me/#{screen_name}/chat") Enter
-    div.sign My chat room#{S}.
+    div.box#Screen_Names
+      h3 My Lifes:
+      div.content
+        ul.screen_name
+          - for (var sn in customer_screen_names)
+            li #{customer_screen_names[sn]}
+
+    div.box#Rooms
+      div#In_Rooms
+        h3 Rooms You're In:
+        ul
+          li
+            span Bot Bay
+            a(href="#leave") Leave
+          li
+            span The Digital Word
+            a(href="#leave") Leave
+          li
+            span Super Nerds
+            a(href="#leave") Leave
+
+      div#Out_Rooms
+        h3 Rooms You May Enter:
+        ul
+          li
+            span Name
+            a(href="#leave") Enter
+
+    div.box#Create_Life
+      h3 Create A New Life:
+      div.content
+        form#Create_Screen_Name(action="/me", method="POST")
+          div.fields
+            div.field.screen_name
+              span.label Screen Name:
+              input(type="text", value="", name="screen_name")
+          div.buttons
+            button.submit Create
 

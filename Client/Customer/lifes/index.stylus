@@ -35,9 +35,18 @@ $serif          = Georgia,Cambria,"Times New Roman",Times,serif;
 body
   background: #fafafa url("/App/img/wood_pattern.png")
 
+form
+  div.field
+    span.label
+      display: block
+    input[type="text"]
+      width: 99%
+  div.buttons
+    text-align: right
+    button
+      margin: 0
+
 div.box
-  width: 300px
-  float: left
   margin: 0 10px 10px 0
 
   div.screen_name
@@ -48,9 +57,92 @@ div.box
 h1
   margin: 10px 0 20px 0
 
+div.col
+  float: right
+  width: 49%
+
+// COL ================================
+#Chat
+  #Enter_Chat_Room
+    padding: 15px 10px 25px 10px
+
+// COL ================================
+#Interact
+
+  max-width: 700px;
+
+  #Screen_Names
+    h3, div.content, ul, li
+      display: inline
+      padding: 0
+      margin: 0
+    h3
+      padding: 0 10px 0 10px
+    ul
+      li
+        padding: 0 10px 0 0
+      li:after
+        content: ", "
+      li:last-child:after
+        content: ""
+
+  #Rooms
+    overflow: auto
+    ul
+      margin: 0
+      padding: 0 0 10px 0
+      li
+        list-style: none
+        padding: 5px 0 5px 10px
+        border-bottom: 1px dashed #ccc
+        span
+          padding: 0 5px 0 0
+        a:link
+          text-transform: uppercase
+          font-size: 80%
+          font-weight: bold
+      li:last-child
+        border: 0
+
+    #In_Rooms, #Out_Rooms
+      width: 49%
+      float: left
+      padding: 0
+      margin: 0
+
+    #In_Rooms
+      border-right: 1px dashed #ccc
+
+    #Out_Rooms
+      margin: 0
+      ul
+        li
+          a:link
+            background: $yellow
+          a:hover
+            background: $pink
+
+
+
 html.w700_minus
+  div.col
+    float: none
+    width: auto
   div.box
     width: auto
     float: none
     border-radius: 0
     margin: 0 0 10px 0
+
+
+
+
+
+
+
+
+
+
+
+
+

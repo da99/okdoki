@@ -1,9 +1,19 @@
 body {
   background: #fafafa url("/App/img/wood_pattern.png");
 }
+form div.field span.label {
+  display: block;
+}
+form div.field input[type="text"] {
+  width: 99%;
+}
+form div.buttons {
+  text-align: right;
+}
+form div.buttons button {
+  margin: 0;
+}
 div.box {
-  width: 300px;
-  float: left;
   margin: 0 10px 10px 0;
 }
 div.box div.screen_name {
@@ -14,6 +24,82 @@ div.box div.screen_name span.screen_name {
 }
 h1 {
   margin: 10px 0 20px 0;
+}
+div.col {
+  float: right;
+  width: 49%;
+}
+#Chat #Enter_Chat_Room {
+  padding: 15px 10px 25px 10px;
+}
+#Interact {
+  max-width: 700px;
+}
+#Interact #Screen_Names h3,
+#Interact #Screen_Names div.content,
+#Interact #Screen_Names ul,
+#Interact #Screen_Names li {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+#Interact #Screen_Names h3 {
+  padding: 0 10px 0 10px;
+}
+#Interact #Screen_Names ul li {
+  padding: 0 10px 0 0;
+}
+#Interact #Screen_Names ul li:after {
+  content: ", ";
+}
+#Interact #Screen_Names ul li:last-child:after {
+  content: "";
+}
+#Interact #Rooms {
+  overflow: auto;
+}
+#Interact #Rooms ul {
+  margin: 0;
+  padding: 0 0 10px 0;
+}
+#Interact #Rooms ul li {
+  list-style: none;
+  padding: 5px 0 5px 10px;
+  border-bottom: 1px dashed #ccc;
+}
+#Interact #Rooms ul li span {
+  padding: 0 5px 0 0;
+}
+#Interact #Rooms ul li a:link {
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: bold;
+}
+#Interact #Rooms ul li:last-child {
+  border: 0;
+}
+#Interact #Rooms #In_Rooms,
+#Interact #Rooms #Out_Rooms {
+  width: 49%;
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+#Interact #Rooms #In_Rooms {
+  border-right: 1px dashed #ccc;
+}
+#Interact #Rooms #Out_Rooms {
+  margin: 0;
+}
+#Interact #Rooms #Out_Rooms ul li a:link {
+  background: #ffea74;
+}
+#Interact #Rooms #Out_Rooms ul li a:hover {
+  background: #f85d95;
+}
+html.w700_minus div.col {
+  float: none;
+  width: auto;
 }
 html.w700_minus div.box {
   width: auto;
