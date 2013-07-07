@@ -1,5 +1,5 @@
 
-- function Chat_Rooms_as()
+function Chat_Rooms_as()
   span.as_this_life
     - if (!customer_has_one_life)
       span.as as:&nbsp;
@@ -9,6 +9,9 @@ append templates
   span.Chat_Rooms.as_this_life
     span.as as:&nsbp;
     call as_this_life_menu()
+  div.enter_room_as
+    call as_this_life_menu()
+    a.enter_as(href="#enter") Enter
 
 
 append Chat_Rooms_List
@@ -46,12 +49,6 @@ append Chat_Rooms_List
         div.room
           a.enter(href="#enter") Enter
           span.name Name
-        div.room
-          span.name Kato Fans
-          div.enter_room_as
-            span.as as:
-            call as_this_life()
-            a.enter_as(href="#enter") Enter
         div.room
           a.enter(href="#enter") Enter
           span.name Seoul Fans

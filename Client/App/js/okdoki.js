@@ -495,7 +495,7 @@ function create_event(name) {
 }
 
 function is_event(name) {
-  return !!create_even.names[name];
+  return !!create_event.names[name];
 }
 
 function create_if_not_event(name) {

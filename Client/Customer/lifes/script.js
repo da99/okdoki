@@ -1,5 +1,9 @@
 "use strict";
 
+create_if_not_event('screen name created');
+create_if_not_event('chat room entered');
+create_if_not_event('chat room leave');
+
 var Customer_Lifes = {
   sn_new: [],
   new_opt: function (sn) {
