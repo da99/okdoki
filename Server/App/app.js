@@ -186,7 +186,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
       if (name)
         this.template_data.apply(this, arguments);
       this.last_modified_now();
-      return resp.render(this.template_data().template_name, this.template_data());
+      return resp.render(this.template_data().template_name + '/markup', this.template_data());
     }
   };
 };
