@@ -1,0 +1,74 @@
+
+append templates
+  div.msg(id="msg_{id}")
+    div.meta
+      span.said in &nbsp;
+      span.room_name {room_name}
+      span.by &nbsp; by &nbsp;
+      span.name {author_screen_name}
+    div.body
+      | {body}
+
+
+append Chat_Msgs_Write()
+  div.box#Write
+    div.content
+      form#Write_To_Chat_Room(action="/me/#{screen_name}/chat/msg", method="post")
+        div.fields
+          div.field.body
+            span.label Type your message:
+            textarea(name="body")
+        div.buttons
+          label(for="TO_ROOM_NAME") To:
+          select#TO_ROOM_NAME(name="room_screen_name")
+            option Bot Bay
+            option The Digital World
+            option Super Nerds
+          button.submit Send.
+
+
+append Chat_Msgs_List
+  div#Messages
+    div.msg.error
+      div.body
+        | Room not available: Shanendo-a
+    div.msg.me
+      div.meta
+        span.said in &nbsp;
+        span.room_name Super Nerds
+        span.by &nbsp; by &nbsp;
+        span.name (me) T_NelSon
+      div.body
+        | Value is subjective.
+    div.msg
+      div.meta
+        span.said in &nbsp;
+        span.room_name Super Nerds
+        span.by &nbsp; by &nbsp;
+        span.name Hoppe
+      div.body
+        | Value is subjective.
+    div.msg
+      div.meta
+        span.said in &nbsp;
+        span.room_name Super Nerds
+        span.by &nbsp; by &nbsp;
+        span.name Alan
+      div.body
+        | I agree.
+    div.msg
+      div.meta
+        span.said in &nbsp;
+        span.room_name Super Nerds
+        span.by &nbsp; by &nbsp;
+        span.name Ted
+      div.body
+        | This is useless
+    div.msg.official
+      div.body
+        | You have entered: Super Nerds
+
+
+
+
+

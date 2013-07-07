@@ -1,0 +1,68 @@
+
+
+
+
+append Chat_Rooms_List
+  div.box#Rooms
+    div#In_Rooms
+      h3 Rooms You're In:
+      div.rooms
+        div.room
+          a.leave(href="#leave") X
+          span.name Bot Bay
+          div.chatters
+            a.show(href="#list") Show Chatters
+        div.room
+          a.leave(href="#leave") X
+          span.name The Digital Word
+          div.chatters
+            ul.list
+              li Tom
+              li.out Dick
+              li Harry
+            a.hide(href="#hide_list") Hide Chatters
+        div.room
+          a.leave(href="#leave") X
+          span.name Super Nerds
+          div.chatters
+            ul.list
+              li Tom
+              li.out Dick
+              li Harry
+            a.hide(href="#hide_list") Hide Chatters
+
+    div#Out_Rooms
+      h3 Rooms You May Enter:
+      div.rooms
+        div.room
+          a.enter(href="#enter") Enter
+          span.name Name
+        div.room
+          span.name Kato Fans
+          div.enter_room_as
+            span.as as:
+            select
+              - for (var x in customer_screen_names)
+                option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
+            a.enter_as(href="#enter") Enter
+        div.room
+          a.enter(href="#enter") Enter
+          span.name Seoul Fans
+        div.room
+          a.enter(href="#enter") Enter
+          span.name Tokyo Life
+        div.room
+          a.enter(href="#enter") Enter
+          span.name NYC Survival
+
+  div.box#Enter_Room
+    h3 Enter A Room By Screen Name:
+    div.content
+      form#Create_Audience(action="/enter_room", method="POST")
+        div.fields
+          div.field.screen_name
+            input(type="text", value="", name="screen_name")
+        div.buttons
+          button.submit Enter
+
+

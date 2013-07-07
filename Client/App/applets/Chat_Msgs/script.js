@@ -7,7 +7,7 @@
 //
 // ======================================
 
-var Chat = {
+var Chat_Msgs = {
   DOM: $('#Messages'),
   MAX: 300
 };
@@ -36,7 +36,7 @@ on('draw_msg', function (msg) {
   var o = compile_template('div.msg', template_msg);
   msg.dom_id = '#' + o.attr('id');
 
-  Chat.DOM.prepend(o);
+  Chat_Msgs.DOM.prepend(o);
 });
 
 // === Add CSS classes.
@@ -58,9 +58,9 @@ on('draw_msg', function (msg) {
 
 // === Remove extra messages
 on('draw_msg', function (msg) {
-  var length = Chat.DOM.find('div.msg').length;
-  if (length > Chat.MAX)
-    Chat.DOM.find.find('div.msg').last().remove();
+  var length = Chat_Msgs.DOM.find('div.msg').length;
+  if (length > Chat_Msgs.MAX)
+    Chat_Msgs.DOM.find.find('div.msg').last().remove();
 });
 
 

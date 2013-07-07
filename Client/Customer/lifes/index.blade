@@ -1,15 +1,11 @@
 
+
+include "../../App/layout.blade"
+
 - if (customer_has_one_life)
   - var S = '';
 - else
   - var S = 's';
-
-include "../../App/layout.blade"
-
-call applet('chat')
-
-append scripts
-  call script("/Customer/lifes/index.js")
 
 append content
 
@@ -31,84 +27,9 @@ append content
         //- ul.screen_name
           //- - for (var sn in customer_screen_names)
             //- li #{customer_screen_names[sn]}
-    div.box#Write
-      div.content
-        form#Write_To_Chat_Room(action="/me/#{screen_name}/chat/msg", method="post")
-          div.fields
-            div.field.body
-              span.label Type your message:
-              textarea(name="body")
-          div.buttons
-            label(for="TO_ROOM_NAME") To:
-            select#TO_ROOM_NAME(name="room_screen_name")
-              option Bot Bay
-              option The Digital World
-              option Super Nerds
-            button.submit Send.
 
-    div.box#Rooms
-      div#In_Rooms
-        h3 Rooms You're In:
-        div.rooms
-          div.room
-            a.leave(href="#leave") X
-            span.name Bot Bay
-            div.chatters
-              a.show(href="#list") Show Chatters
-          div.room
-            a.leave(href="#leave") X
-            span.name The Digital Word
-            div.chatters
-              ul.list
-                li Tom
-                li.out Dick
-                li Harry
-              a.hide(href="#hide_list") Hide Chatters
-          div.room
-            a.leave(href="#leave") X
-            span.name Super Nerds
-            div.chatters
-              ul.list
-                li Tom
-                li.out Dick
-                li Harry
-              a.hide(href="#hide_list") Hide Chatters
-
-      div#Out_Rooms
-        h3 Rooms You May Enter:
-        div.rooms
-          div.room
-            a.enter(href="#enter") Enter
-            span.name Name
-          div.room
-            span.name Kato Fans
-            div.enter_room_as
-              span.as as:
-              select
-                - for (var x in customer_screen_names)
-                  option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
-              a.enter_as(href="#enter") Enter
-          div.room
-            a.enter(href="#enter") Enter
-            span.name Seoul Fans
-          div.room
-            a.enter(href="#enter") Enter
-            span.name Tokyo Life
-          div.room
-            a.enter(href="#enter") Enter
-            span.name NYC Survival
-
-
-
-    div.box#Enter_Room
-      h3 Enter A Room By Screen Name:
-      div.content
-        form#Create_Audience(action="/enter_room", method="POST")
-          div.fields
-            div.field.screen_name
-              input(type="text", value="", name="screen_name")
-          div.buttons
-            button.submit Enter
+    block Chat_Msgs_Write
+    block Chat_Rooms_List
 
     div.box#Create_Life
       h3 Create A New Life:
@@ -129,44 +50,15 @@ append content
 
   //- ===========================================================
   div.col#Chat
-    div#Messages
-      div.msg.error
-        div.body
-          | Room not available: Shanendo-a
-      div.msg.me
-        div.meta
-          span.said in &nbsp;
-          span.room_name Super Nerds
-          span.by &nbsp; by &nbsp;
-          span.name (me) T_NelSon
-        div.body
-          | Value is subjective.
-      div.msg
-        div.meta
-          span.said in &nbsp;
-          span.room_name Super Nerds
-          span.by &nbsp; by &nbsp;
-          span.name Hoppe
-        div.body
-          | Value is subjective.
-      div.msg
-        div.meta
-          span.said in &nbsp;
-          span.room_name Super Nerds
-          span.by &nbsp; by &nbsp;
-          span.name Alan
-        div.body
-          | I agree.
-      div.msg
-        div.meta
-          span.said in &nbsp;
-          span.room_name Super Nerds
-          span.by &nbsp; by &nbsp;
-          span.name Ted
-        div.body
-          | This is useless
-      div.msg.official
-        div.body
-          | You have entered: Super Nerds
+    block Chat_Msgs_List
+
+
+append scripts
+  call script("/Customer/lifes/index.js")
+call applet('Chat_Msgs')
+call applet('Chat_Rooms')
+
+
+
 
 

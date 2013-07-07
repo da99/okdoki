@@ -3,8 +3,11 @@ html(lang='en')
 
   function applet(name)
     - var blade_file = "../../App/applets/" + name + "/markup.blade"
-    - var js_file = "/App/applets/" + name + "/script.js"
+    - var js_file    = "/App/applets/" + name + "/script.js"
+    - var css_file   = "/App/applets/" + name + "/style.css"
     include blade_file
+    prepend styles
+      call css(css_file)
     append scripts
       call script(js_file)
 
