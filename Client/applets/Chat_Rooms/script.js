@@ -18,6 +18,18 @@ on('chat room entered', function (result) {
   });
 });
 
+
+on('chat room entered', function (result) {
+  $('select.room_screen_name').each(function (i, e) {
+    var parent = $(e).parent('.span');
+    if ($(e).find('option').length < 2)
+      parent.hide();
+    else
+      parent.show();
+  });
+});
+
+
 on('chat room leave', function (result) {
   var sn = result.screen_name.toUpperCase();
   $('select.room_screen_name option').each(function (i, e) {

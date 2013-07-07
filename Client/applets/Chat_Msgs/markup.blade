@@ -19,11 +19,12 @@ append Chat_Msgs_Write()
             span.label Type your message:
             textarea(name="body")
         div.buttons
-          label(for="TO_ROOM_NAME") To:
-          select#TO_ROOM_NAME(name="room_screen_name")
-            option Bot Bay
-            option The Digital World
-            option Super Nerds
+          span.to_room_name
+            label(for="TO_ROOM_NAME") To:
+            select#TO_ROOM_NAME(name="room_screen_name")
+              option Bot Bay
+              option The Digital World
+              option Super Nerds
           button.submit Send.
 
 
