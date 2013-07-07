@@ -1,6 +1,17 @@
 !!! 5
 html(lang='en')
 
+  function as_this_life_menu(id)
+    select(name="as_this_life")
+      - for (var x in customer_screen_names)
+        option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
+
+  function as_this_life(id)
+    - if (customer_has_one_life)
+      input(type="hidden", name="as_this_life", value="#{customer_screen_names[0]}")
+    - else
+      call as_this_life_menu()
+
   function applet(name)
     - var blade_file = "../../applets/" + name + "/markup.blade"
     - var js_file    = "/applets/" + name + "/script.js"
@@ -59,6 +70,8 @@ html(lang='en')
       - if (screen_name)
         div.Screen_Name
           | #{screen_name}
+      - if (is_customer)
+        call as_this_life("x")
 
       block templates
 

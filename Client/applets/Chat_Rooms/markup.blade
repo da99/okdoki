@@ -1,5 +1,14 @@
 
+- function Chat_Rooms_as()
+  span.as_this_life
+    - if (!customer_has_one_life)
+      span.as as:&nbsp;
+    call as_this_life()
 
+append templates
+  span.Chat_Rooms.as_this_life
+    span.as as:&nsbp;
+    call as_this_life_menu()
 
 
 append Chat_Rooms_List
@@ -41,9 +50,7 @@ append Chat_Rooms_List
           span.name Kato Fans
           div.enter_room_as
             span.as as:
-            select
-              - for (var x in customer_screen_names)
-                option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
+            call as_this_life()
             a.enter_as(href="#enter") Enter
         div.room
           a.enter(href="#enter") Enter
@@ -62,7 +69,11 @@ append Chat_Rooms_List
         div.fields
           div.field.screen_name
             input(type="text", value="", name="screen_name")
+          div.field.as_this_life
         div.buttons
+          span.as_this_life
+            span.as as:
+            call as_this_life()
           button.submit Enter
 
 

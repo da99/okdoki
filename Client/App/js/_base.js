@@ -95,6 +95,16 @@ function create_event(name) {
   return create_event.names[name];
 }
 
+function is_event(name) {
+  return !!create_even.names[name];
+}
+
+function create_if_not_event(name) {
+  if (!is_event(name))
+    create_event(name);
+  return describe_event(name);
+}
+
 function on(name, func) {
   ensure_event_created(name);
   create_event.names[name].push(func);
@@ -113,6 +123,11 @@ function describe_event(name) {
   ensure_event_created(name);
   return create_event.names[name];
 }
+
+// ================================================================
+// ================== Base Events =================================
+// ================================================================
+create_event('template compiled');
 
 // ================================================================
 // ================== Session =====================================
@@ -192,7 +207,9 @@ function compile_template(se, data) {
   if (!_template_fns_[se]) {
     _template_fns_[se] = _.template(template_or_default(se, data));
   }
-  return $(_template_fns_[se](data));
+  var o = $(_template_fns_[se](data));
+  emit('template compiled', o);
+  return o;
 }
 
 function template_or_default(se, data) {
