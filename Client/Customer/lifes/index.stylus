@@ -43,7 +43,7 @@ form
     input[type="text"]
       width: 99%
   div.buttons
-    text-align: right
+    text-align: center
     button
       margin: 0
 
@@ -73,13 +73,14 @@ div.col
       border-radius: 0 5px 5px 0
       margin: 0 0 15px 0
       padding: 2px 5px 6px 5px
-      div.by
+      div.meta
         span.name
-          color: $dark_blue
-          font-weight: bold
-          font-style: italic
-        span.said
+          color: #0051AF
+        span.room_name
+          color: #00A0BD
+        span.said, span.by
           color: #545454
+          font-style: italic
       div.body
         font-size: 120%
 
@@ -91,6 +92,9 @@ div.col
       background: #fff
       color: $samar_red
       font-family: $sans-serif
+      padding-bottom: 6px
+      div.body
+        font-size: 110%
     div.me
       background: $glass_white_med
       border: 1px solid #fff
@@ -100,6 +104,16 @@ div.col
 #Interact
   width: 44%
   max-width: 700px;
+
+  #Write
+    div.to_room, div.as_this_life
+      float: left
+      padding-right: 6px
+    div.menu
+      display: inline-block
+      padding-left: 5px
+    div.buttons
+      text-align: center
 
   #Screen_Names
     h3, div.content, ul, li
@@ -130,7 +144,7 @@ div.col
   #Rooms
     overflow: auto
     div.room
-      padding: 5px 0 15px 5px
+      padding: 5px 0 5px 5px
       border-bottom: 1px dashed #ccc
       a:link
         text-transform: uppercase
@@ -165,8 +179,6 @@ div.col
 
     #Out_Rooms
       margin: 0
-      span.name
-        padding: 0 0 0 5px
       a:link
         background: $yellow
         text-transform: uppercase
@@ -174,6 +186,19 @@ div.col
         font-weight: bold
       a:hover
         background: $pink
+      a.enter:link
+        margin: 0 5px 0 0
+        display: inline
+      div.enter_room_as
+        text-align: left
+        padding: 8px 0 4px 0
+        span.as
+          text-transform: lowercase
+          color: #7e7e7e
+          font-style: italic
+          font-family: $serif
+
+
 
 
 

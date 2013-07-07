@@ -8,7 +8,7 @@ form div.field input[type="text"] {
   width: 99%;
 }
 form div.buttons {
-  text-align: right;
+  text-align: center;
 }
 form div.buttons button {
   margin: 0;
@@ -41,13 +41,16 @@ div.col {
   margin: 0 0 15px 0;
   padding: 2px 5px 6px 5px;
 }
-#Chat #Messages div.msg div.by span.name {
-  color: #185dad;
-  font-weight: bold;
-  font-style: italic;
+#Chat #Messages div.msg div.meta span.name {
+  color: #0051af;
 }
-#Chat #Messages div.msg div.by span.said {
+#Chat #Messages div.msg div.meta span.room_name {
+  color: #00a0bd;
+}
+#Chat #Messages div.msg div.meta span.said,
+#Chat #Messages div.msg div.meta span.by {
   color: #545454;
+  font-style: italic;
 }
 #Chat #Messages div.msg div.body {
   font-size: 120%;
@@ -62,6 +65,10 @@ div.col {
   background: #fff;
   color: #f00919;
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+  padding-bottom: 6px;
+}
+#Chat #Messages div.error div.body {
+  font-size: 110%;
 }
 #Chat #Messages div.me {
   background: rgba(255,255,255,0.35);
@@ -71,6 +78,18 @@ div.col {
 #Interact {
   width: 44%;
   max-width: 700px;
+}
+#Interact #Write div.to_room,
+#Interact #Write div.as_this_life {
+  float: left;
+  padding-right: 6px;
+}
+#Interact #Write div.menu {
+  display: inline-block;
+  padding-left: 5px;
+}
+#Interact #Write div.buttons {
+  text-align: center;
 }
 #Interact #Screen_Names h3,
 #Interact #Screen_Names div.content,
@@ -106,7 +125,7 @@ div.col {
   overflow: auto;
 }
 #Interact #Rooms div.room {
-  padding: 5px 0 15px 5px;
+  padding: 5px 0 5px 5px;
   border-bottom: 1px dashed #ccc;
 }
 #Interact #Rooms div.room a:link {
@@ -150,9 +169,6 @@ div.col {
 #Interact #Rooms #Out_Rooms {
   margin: 0;
 }
-#Interact #Rooms #Out_Rooms span.name {
-  padding: 0 0 0 5px;
-}
 #Interact #Rooms #Out_Rooms a:link {
   background: #ffea74;
   text-transform: uppercase;
@@ -161,6 +177,20 @@ div.col {
 }
 #Interact #Rooms #Out_Rooms a:hover {
   background: #f85d95;
+}
+#Interact #Rooms #Out_Rooms a.enter:link {
+  margin: 0 5px 0 0;
+  display: inline;
+}
+#Interact #Rooms #Out_Rooms div.enter_room_as {
+  text-align: left;
+  padding: 8px 0 4px 0;
+}
+#Interact #Rooms #Out_Rooms div.enter_room_as span.as {
+  text-transform: lowercase;
+  color: #7e7e7e;
+  font-style: italic;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 html.w600_minus div.col {
   float: none;

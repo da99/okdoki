@@ -22,12 +22,26 @@ append content
   //- ===========================================================
   div.col#Interact
 
-    div.box#Screen_Names
-      h3 My Life(s):
+    //- div.box#Screen_Names
+      //- h3 My Life(s):
+      //- div.content
+        //- ul.screen_name
+          //- - for (var sn in customer_screen_names)
+            //- li #{customer_screen_names[sn]}
+    div.box#Write
       div.content
-        ul.screen_name
-          - for (var sn in customer_screen_names)
-            li #{customer_screen_names[sn]}
+        form#Write_To_Chat_Room(action="/me/#{screen_name}/chat/msg", method="post")
+          div.fields
+            div.field.body
+              span.label Type your message:
+              textarea(name="body")
+          div.buttons
+            label(for="TO_ROOM_NAME") To:
+            select#TO_ROOM_NAME(name="room_screen_name")
+              option Bot Bay
+              option The Digital World
+              option Super Nerds
+            button.submit Send.
 
     div.box#Rooms
       div#In_Rooms
@@ -61,8 +75,27 @@ append content
         h3 Rooms You May Enter:
         div.rooms
           div.room
-            a(href="#leave") Enter
+            a.enter(href="#enter") Enter
             span.name Name
+          div.room
+            span.name Kato Fans
+            div.enter_room_as
+              span.as as:
+              select
+                - for (var x in customer_screen_names)
+                  option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
+              a.enter_as(href="#enter") Enter
+          div.room
+            a.enter(href="#enter") Enter
+            span.name Seoul Fans
+          div.room
+            a.enter(href="#enter") Enter
+            span.name Tokyo Life
+          div.room
+            a.enter(href="#enter") Enter
+            span.name NYC Survival
+
+
 
     div.box#Enter_Room
       h3 Enter A Room By Screen Name:
@@ -98,23 +131,35 @@ append content
         div.body
           | Room not available: Shanendo-a
       div.msg.me
-        div.by
-          span.name (me) T_NelSon:
+        div.meta
+          span.said in &nbsp;
+          span.room_name Super Nerds
+          span.by &nbsp; by &nbsp;
+          span.name (me) T_NelSon
         div.body
           | Value is subjective.
       div.msg
-        div.by
-          span.name Hoppe:
+        div.meta
+          span.said in &nbsp;
+          span.room_name Super Nerds
+          span.by &nbsp; by &nbsp;
+          span.name Hoppe
         div.body
           | Value is subjective.
       div.msg
-        div.by
-          span.name Alan:
+        div.meta
+          span.said in &nbsp;
+          span.room_name Super Nerds
+          span.by &nbsp; by &nbsp;
+          span.name Alan
         div.body
           | I agree.
       div.msg
-        div.by
-          span.name Ted:
+        div.meta
+          span.said in &nbsp;
+          span.room_name Super Nerds
+          span.by &nbsp; by &nbsp;
+          span.name Ted
         div.body
           | This is useless
       div.msg.official
