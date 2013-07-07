@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+set -u -e -o pipefail
+
+
+
+files=$(find ./Client -iregex '.*\.stylus')
+
+for i in $files
+do
+  stylus $i
+  new_file="$(echo $i | sed 's/.stylus$/.css/')"
+  mv ${new_file}us ${new_file}
+  echo $new_file
+done
