@@ -4,11 +4,15 @@
 #!/usr/bin/env node
 # -*- js   -*-
 #
+files="$@"
 set -u -e -o pipefail
 
 
 
-files=$(find ./Client -iregex '.*\.stylus')
+if [[ -z "$files" ]]
+then
+  files=$(find ./Client -iregex '.*\.stylus')
+fi
 
 for i in $files
 do

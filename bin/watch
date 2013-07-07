@@ -224,10 +224,7 @@ function stylus_changed(file_name, event) {
     // prevents an warning from being printed.
     shell(' if [ -e ' + css + ' ] ; then trash-put ' + css + ' ; fi ');
   } else {
-    shell("stylus " + file_name , function () {
-      shell("mv " + css + 'us ' + css, function ()  {
-        console.log("  moved to " + css);
-      });
+    shell("bin/compile_all_style_files " + file_name , function () {
     });
   }
 
