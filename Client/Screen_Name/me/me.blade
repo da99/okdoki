@@ -1,11 +1,8 @@
-include "../../App/layout.blade"
+include "../../App/top_slash/layout.blade"
 
 function folder(f)
   li.folder
     a.open(href="/me/#{screen_name}/folder/#{f.num}") #{f.title}
-
-append scripts
-  call script("/Screen_Name/me/me.js")
 
 append templates
   - if (is_customer)

@@ -13,5 +13,7 @@ cd $1
 touch style.stylus
 touch markup.blade
 if [[ ! -f script.js ]]
-  echo -e "\"use strict\";\n\n" script.js
+then
+  echo -e "\"use strict\";\n\n" >> script.js 
+fi
 

@@ -1,6 +1,6 @@
 
 
-include "../../App/layout.blade"
+include "../../App/top_slash/layout.blade"
 
 - if (customer_has_one_life)
   - var S = '';
@@ -21,12 +21,6 @@ append content
   //- ===========================================================
   div.col#Interact
 
-    //- div.box#Screen_Names
-      //- h3 My Life(s):
-      //- div.content
-        //- ul.screen_name
-          //- - for (var sn in customer_screen_names)
-            //- li #{customer_screen_names[sn]}
 
     block Chat_Msgs_Write
     block Chat_Rooms_List
@@ -53,8 +47,6 @@ append content
     block Chat_Msgs_List
 
 
-append scripts
-  call script("/Customer/lifes/index.js")
 call applet('Chat_Msgs')
 call applet('Chat_Rooms')
 
