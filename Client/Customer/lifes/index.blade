@@ -5,8 +5,20 @@
   - var S = 's';
 
 include "../../App/layout.blade"
+
 append scripts
-  call script("/App/top_slash/index.js")
+  call script("/Customer/lifes/index.js")
+
+append templates
+  div.msg(id="msg_{id}")
+    div.meta
+      span.said in &nbsp;
+      span.room_name {room_name}
+      span.by &nbsp; by &nbsp;
+      span.name {author_screen_name}
+    div.body
+      | {body}
+
 
 append content
 

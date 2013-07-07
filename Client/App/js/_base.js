@@ -77,6 +77,42 @@ function hide(se) {
   return log_length(se).hide();
 }
 
+// ================================================================
+// ================== Events ======================================
+// ================================================================
+
+function ensure_event_created(name) {
+  if (!create_event.names[name])
+    throw new Error('Event not created: ' + name);
+}
+
+function create_event(name) {
+  if (!create_event.names)
+    create_event.names = {};
+  if (create_event.names[name])
+    throw new Error('Event already created: ' + name);
+  create_event.names[name] = [];
+  return create_event.names[name];
+}
+
+function on(name, func) {
+  ensure_event_created(name);
+  create_event.names[name].push(func);
+}
+
+function emit(name, raw_args) {
+  ensure_event_created(name);
+  var args = _.toArray(arguments);
+  args.shift();
+  _.each(create_event.names[name], function (f) {
+    f.apply(null, args);
+  });
+}
+
+function describe_event(name) {
+  ensure_event_created(name);
+  return create_event.names[name];
+}
 
 // ================================================================
 // ================== Session =====================================
