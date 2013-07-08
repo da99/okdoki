@@ -65,7 +65,7 @@ function on() {
 function log_length(se, orig) {
   var e = $(se);
   if (!e.length)
-    log('None found for: ' + (orig || se));
+    log('None found for: ', (orig || se));
   return e;
 }
 
@@ -135,6 +135,10 @@ function emit(raw_name, o) {
   });
 
   return cont;
+}
+
+function stopped_emit(name, o) {
+  return !emit(name, o);
 }
 
 function describe_event(raw_name) {
@@ -342,11 +346,22 @@ function func() {
 // ================== DSL =========================================
 // ================================================================
 
+function is_filled(se) {
+  var form = $(se);
+  var inputs = form.find('input[type="text"], textarea');
+  if (inputs.length < 1)
+    return true;
+  var i = _.find(inputs, function (e) {
+    return $.trim($(e).val()).length > 0;
+  });
+
+  return !!i;
+}
 
 function on_click(selector, func) {
   var e = $(selector);
   if (!e.length) {
-    log("None found for: " + selector);
+    log("None found for: ", selector.selector || selector);
   }
 
   e.click(function (ev) {

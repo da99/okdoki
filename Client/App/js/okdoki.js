@@ -464,7 +464,7 @@ function on() {
 function log_length(se, orig) {
   var e = $(se);
   if (!e.length)
-    log('None found for: ' + (orig || se));
+    log('None found for: ', (orig || se));
   return e;
 }
 
@@ -534,6 +534,10 @@ function emit(raw_name, o) {
   });
 
   return cont;
+}
+
+function stopped_emit(name, o) {
+  return !emit(name, o);
 }
 
 function describe_event(raw_name) {
@@ -741,11 +745,22 @@ function func() {
 // ================== DSL =========================================
 // ================================================================
 
+function is_filled(se) {
+  var form = $(se);
+  var inputs = form.find('input[type="text"], textarea');
+  if (inputs.length < 1)
+    return true;
+  var i = _.find(inputs, function (e) {
+    return $.trim($(e).val()).length > 0;
+  });
+
+  return !!i;
+}
 
 function on_click(selector, func) {
   var e = $(selector);
   if (!e.length) {
-    log("None found for: " + selector);
+    log("None found for: ", selector.selector || selector);
   }
 
   e.click(function (ev) {
@@ -1033,31 +1048,58 @@ function to_json_result(raw_text) {
 
 "use strict";
 
+// ================================================================
+// ================== Form DSL ====================================
+// ================================================================
+
+
+function form(selector) {
+  if (arguments.length > 1)
+    throw new Error("Unknown arguments: " + arguments[1]);
+
+  var f = OK_FORM.new(selector);
+  return f;
+}
+
+$(function () {
+  $('form').each(function (i, e) {
+    form('#' + $(e).attr('id'));
+  });
+});
+
+// ================================================================
+// ================== Form Implementation =========================
+// ================================================================
+
+
 var OK_FORM = function () {};
 var FORMS = {};
 
 
 OK_FORM.new = function (raw_se) {
-  var se = $.trim(se);
-  if (se.indexOf('#') !== 0)
+  var se = $.trim(raw_se);
+
+  if (se.indexOf('#') !== 0 || se.length < 2)
     throw new Error("Invalid dom id: " + se);
-  if (FORMs[se])
+
+  if (FORMS[se])
     throw new Error('Form was duplicated: ' + selector);
+
   FORMS[se] = true;
 
   var f          = new OK_FORM;
-  f.funcs        = {};
   f.dom          = $(se);
-  f.original_dom = se;
+  f.dom_id = se;
   f.default_err_msg = "Okdoki.com is having some " +
     "trouble processing your request. Try again later in a few minutes.";
 
 
-  create_event('cancel '        + f.original_dom);
-  create_event('before submit ' + f.original_dom);
-  create_event('success '       + f.original_dom);
-  create_event('invalid '       + f.original_dom);
-  create_event('error   '       + f.original_dom);
+  create_event('cancel '        + f.dom_id);
+  create_event('before submit ' + f.dom_id);
+  create_event('process ' + f.dom_id);
+  create_event('success '       + f.dom_id);
+  create_event('invalid '       + f.dom_id);
+  create_event('error   '       + f.dom_id);
 
   on_click(f.dom.find('a.cancel'),      _.bind(f.cancel, f));
   on_click(f.dom.find('button.submit'), _.bind(f.submit, f));
@@ -1068,64 +1110,11 @@ OK_FORM.new = function (raw_se) {
 
 OK_FORM.prototype.cancel = function () {
   this.loaded();
-  if ( !emit('cancel ' + this.original_dom) )
+  if ( !emit('cancel ' + this.dom_id) )
     return false;
   return this.make_like_new();
 };
 
-OK_FORM.prototype.click_submit = function () {
-
-};
-
-OK_FORM.prototype.submit = function () {
-  var f       = this;
-  var url     = f.attr('action');
-  var data    = form_to_json(f);
-
-  var log = {form: f, url: url, data: data };
-
-  if (!emit('before submit ' + f.original_dom, log))
-    return false;
-
-  after submit f.make_like_new();
-  if (!form_meta[selector].only_if(form))
-    return false;
-
-  if (form_meta[selector].at_least_one_not_empty) {
-    var ls = _.uniq(_.map(form_meta[selector].at_least_one_not_empty, function (v) {
-      return $.trim(form.find(v).val()).length > 0;
-    }));
-    if (!_.contains(ls, true))
-      return false;
-  }
-
-  $(selector).find('div.buttons').hide();
-
-  after($(selector).find('div.buttons'))
-  .draw_or_update('div.loading', 'processing...')
-  .show()
-  ;
-
-  var deny_it = false;
-  var log = {form: f, url: url, data: data, deny: function () { deny_it = true; } };
-  emit("before submit " + f.original_dom, log);
-
-  if (deny_it)
-    return false;
-
-  post(log.url, log.data, function (err, raw) {
-    if (err) {
-      form_meta[selector].error(err, raw);
-    } else  {
-      var data = (typeof raw === 'string') ? JSON.parse(raw) : raw;
-      if (data.success)
-        form_meta[selector].success(data);
-      else
-        form_meta[selector].invalid(data);
-    }
-  });
-
-};
 
 OK_FORM.prototype.loaded = function (msg) {
 
@@ -1140,102 +1129,98 @@ OK_FORM.prototype.loaded = function (msg) {
 
 };
 
+
 OK_FORM.prototype.make_like_new = function () {
-  this.find('div.buttons').show();
-  this.find('div.loading').hide();
-  this.find('div.errors').hide();
-  this.find('div.success').hide();
-  return this;
+  var f = this;
+  f.reset_to_submit_more();
+  f.dom.find('div.success').hide();
+  return f;
 };
 
+
 OK_FORM.prototype.reset_to_submit_more = function() {
-  this.find('div.buttons').show();
-  this.find('div.loading').hide();
-  this.find('div.errors').hide();
+  var f = this;
+  f.dom[0].reset();
+  f.dom.find('div.buttons').show();
+  f.dom.find('div.loading').hide();
+  f.dom.find('div.errors').hide();
 
-  return this;
-}
-
-
-
-// ================================================================
-// ================== Form DSL ====================================
-// ================================================================
-
-
-function form(selector) {
-  if (arguments.length > 1)
-    throw new Error("Unknown arguments: " + arguments[1]);
-
-  var f = OK_FORM.new(selector);
   return f;
-
-  // ==========================================
-  var e = $(selector);
+};
 
 
-  e.at_least_one_not_empty = function () {
-    form_meta[selector].at_least_one_not_empty = _.toArray(arguments);
+OK_FORM.prototype.submit = function () {
+  var f   = this;
+  var log = {
+    form : f,
+    url  : f.attr('action'),
+    data : form_to_json(f)
   };
 
-  e.on_success = function (on_s) {
-    form_meta[selector].success = function (result) {
-      loaded();
-      var form = $($(selector))[0];
-      form && form.reset();
-      if (result.msg) {
-        log(result.msg)
-        after($(selector).find('div.buttons'))
-        .draw_or_update('div.success', result.msg)
-        .show();
-        $(selector).find('div.success').text(result.msg);
-      }
-      on_s(result);
-    };
-  };
+  if (!is_filled(f.dom_id))
+    return false;
 
-  e.on_error = function (on_e) {
-    form_meta[selector].error = function (err, result) {
-      if (_.isNumber(err) && err > 0)
-        loaded(default_err);
-      else if (err === true) {
-        var o = to_json_result(result);
-        loaded(o.msg || "Website not available right now. Try again later.");
-      } else
-        loaded(err);
-      on_e(result, err);
-    };
-  };
+  if (stopped_emit('before submit ' + f.dom_id))
+    return false;
 
-  e.on_invalid = function (on_i) {
-    form_meta[selector].invalid = function (result) {
-      loaded();
-      var msg = null;
-      loaded(result.msg || default_err);
-      on_i(result);
-    };
+  if (emit('process ' + f.dom_id, log)) {
+    // === Show loading feedback. ===
+    f.dom.find('div.buttons').hide();
+
+    after(f.dom.find('div.buttons'))
+    .draw_or_update('div.loading', 'processing...')
+    .show()
+    ;
   }
 
-  //
-  // default handlers
-  //
-  e.only_if(function () { return true; });
+  // === POST it. ===
+  post(log.url, log.data, function (err, raw) {
 
-  e.on_error(function (err, result) {
-    log("http error:", err, result);
-  });
+    if (err) {
 
-  e.on_success(function (result) {
-    log("success: ", result);
-  });
+      log("Form http error: ", f.dom_id, err, raw);
 
-  e.on_invalid(function (result) {
-    log('invalid: ', result);
-  });
+      if (stopped_emit('error ' + f.dom_id, {err: err, raw: raw}))
+        return;
 
-  // Add custom handlers.
-  func(e);
+      if (_.isNumber(err) && err > 0)
+        f.loaded(f.default_err_msg);
+      else if (err === true) {
+        var o = to_json_result(raw);
+        f.loaded(o.msg || "Website not available right now. Try again later.");
+      } else
+        f.loaded(f.default_err_msg);
 
-  return e;
-}
+      return ;
+    }
+
+    var data = (typeof raw === 'string') ? JSON.parse(raw) : raw;
+
+    log("Form results: " + f.dom_id, data.msg);
+
+    // === invalid ===
+    if (!data.success) {
+      if (stopped_emit('invalid ' + f.dom_id, {data: data, form: f, raw: raw}))
+        return;
+      loaded(data.msg || f.default_err_msg);
+      return;
+    }
+
+    // ==== success ====
+    if (!data.msg)
+      throw new Error("No success message for: " + f.dom_id);
+
+    if (stopped_emit('success ' + f.dom_id))
+      return;
+
+    f.reset_to_submit_more();
+    after(f.dom.find('div.buttons'))
+    .draw_or_update('div.success', data.msg)
+    .show();
+
+  }); // === POST it.
+
+}; // === submit
+
+
 
