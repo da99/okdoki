@@ -173,7 +173,7 @@ describe( 'Express App', function () {
 
     it( 'loads customized / for logged-in customer', function () {
       get('/', function (err, resp, body) {
-        expect(body).match("My Okdoki");
+        assert.equal(body, "My Okdoki");
         done();
       });
     });

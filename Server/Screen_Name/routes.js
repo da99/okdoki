@@ -16,17 +16,16 @@ exports.route = function (mod) {
   // =============== CREATE =========================================
 
   OK.post('/me', function (req, resp, next) {
-    return resp.json({success: false, msg:"testing"});
-
     var OK = mod.New_Request(arguments);
-    var r = mod.New_River(req, resp, next);
-    var c = req.user;
-    c.new_data = {screen_name: req.body.screen_name};
+    var r  = mod.New_River(req, resp, next);
+    var c  = req.user;
+
+    c.new_data = req.body;
     r.job(function (j) {
       Screen_Name.create(c, j);
     })
-    .job(function (j, last) {
-      OK.json_success("Created.", {screen_name: req.body.screen_name});
+    .job(function (j, sn) {
+      OK.json_success("Your new life has been created: " + sn.data.screen_name, {screen_name: req.body.screen_name});
     })
     .run();
   });

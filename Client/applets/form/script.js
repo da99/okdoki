@@ -77,8 +77,23 @@ OK_FORM.prototype.show_buttons = function () {
   return this;
 };
 
+OK_FORM.prototype.hide_buttons = function () {
+  this.dom.find('div.buttons').hide();
+  return this;
+};
+
 OK_FORM.prototype.hide_loading = function () {
   this.dom.find('div.loading').hide();
+  return this;
+};
+
+OK_FORM.prototype.hide_error_msg = function () {
+  this.dom.find('div.error').hide();
+  return this;
+};
+
+OK_FORM.prototype.hide_success_msg = function () {
+  this.dom.find('div.success').hide();
   return this;
 };
 
@@ -92,6 +107,7 @@ OK_FORM.prototype.draw_success_msg = function (msg) {
 
   this.show_buttons();
   this.hide_loading();
+  this.hide_error_msg();
   return this;
 };
 
@@ -104,6 +120,7 @@ OK_FORM.prototype.draw_error_msg = function (msg) {
 
   this.hide_loading();
   this.show_buttons();
+  this.hide_success_msg();
   return this;
 };
 
@@ -144,7 +161,9 @@ OK_FORM.prototype.submit = function () {
 
   if (emit('loading ' + f.dom_id, meta)) {
     // === Show loading feedback. ===
-    f.dom.find('div.buttons').hide();
+    f.hide_buttons();
+    f.hide_error_msg();
+    f.hide_success_msg();
 
     after(f.dom.find('div.buttons'))
     .draw_or_update('div.loading', 'processing...')

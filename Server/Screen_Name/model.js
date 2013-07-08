@@ -153,6 +153,15 @@ var Validate_Create = Check.new('create screen name', function (vc) {
     v.update_sanitized_value_by_key('display_name', orig);
   });
 
+  vc.define('type_id', function (v) {
+    var val = v.val;
+    if (_.isString(val))
+      val = parseInt(val);
+    if (!_.isNumber(val) || (val < 1) || val > 2)
+      val = 1;
+    v.update_sanitized_value(val);
+  });
+
   vc.define('body', function (v) {
     var val = (v.val || '').trim();
     if (val.length === 0)
@@ -171,7 +180,7 @@ S.create = function (customer, job) {
 
   var id = UID.create_id();
   var sn = S.new({});
-  sn.new_data = {'screen_name': customer.new_data.screen_name};
+  sn.new_data = customer.new_data;
 
   var insert_data = {};
 
@@ -186,7 +195,8 @@ S.create = function (customer, job) {
     insert_data = {
       owner_id     : customer.data.id || 0,
       screen_name  : sn.sanitized_data.screen_name,
-      display_name : sn.sanitized_data.screen_name
+      display_name : sn.sanitized_data.screen_name,
+      type_id      : sn.sanitized_data.type_id || 1
     };
 
     Topogo.new(TABLE_NAME)
@@ -199,17 +209,24 @@ S.create = function (customer, job) {
   .job(function (j, r) {
     if (customer.data.id)
       return j.finish(r);
+
+    // ==== This is a new customer
+    // ==== so we must use the screen name id
+    // ==== as the owner_id because customer record
+    // ==== has not been created.
     River.new(j)
-    .job(function (j2) {
+    .job('update owner _id', function (j2) {
       Topogo.new(TABLE_NAME).update(r.id, {owner_id: r.id}, j2);
     })
-    .job(function (j2, r) {
+    .job('set customer id', function (j2, r) {
       customer.data.id = customer.sanitized_data.id = r.id;
       j.finish(r);
     })
     .run();
+
   })
   .job(function (j, r) {
+    // === Create website and folder, My Journal.
     River.new(j)
     .job(function (j2) {
       Website.create({type_id: 1, owner_id: r.id}, j2);
@@ -223,8 +240,9 @@ S.create = function (customer, job) {
     .run();
   })
   .job(function (j, r) {
-    customer.push_screen_name_row(_.extend(insert_data, r));
-    return j.finish(customer);
+    var data = _.extend(insert_data, r);
+    customer.push_screen_name_row(data);
+    return j.finish(S.new(data));
   })
 
   .run();
