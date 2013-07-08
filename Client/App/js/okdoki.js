@@ -757,6 +757,12 @@ function is_filled(se) {
   return !!i;
 }
 
+function on_click_if_any(se, func) {
+  if ($(se).length)
+    return on_click(se, func);
+  return;
+}
+
 function on_click(selector, func) {
   var e = $(selector);
   if (!e.length) {
@@ -1101,7 +1107,7 @@ OK_FORM.new = function (raw_se) {
   create_event('invalid '       + f.dom_id);
   create_event('error   '       + f.dom_id);
 
-  on_click(f.dom.find('a.cancel'),      _.bind(f.cancel, f));
+  on_click_if_any(f.dom.find('a.cancel'),      _.bind(f.cancel, f));
   on_click(f.dom.find('button.submit'), _.bind(f.submit, f));
 
   return f;

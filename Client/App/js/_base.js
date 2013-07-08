@@ -358,6 +358,12 @@ function is_filled(se) {
   return !!i;
 }
 
+function on_click_if_any(se, func) {
+  if ($(se).length)
+    return on_click(se, func);
+  return;
+}
+
 function on_click(selector, func) {
   var e = $(selector);
   if (!e.length) {

@@ -53,7 +53,7 @@ OK_FORM.new = function (raw_se) {
   create_event('invalid '       + f.dom_id);
   create_event('error   '       + f.dom_id);
 
-  on_click(f.dom.find('a.cancel'),      _.bind(f.cancel, f));
+  on_click_if_any(f.dom.find('a.cancel'),      _.bind(f.cancel, f));
   on_click(f.dom.find('button.submit'), _.bind(f.submit, f));
 
   return f;
