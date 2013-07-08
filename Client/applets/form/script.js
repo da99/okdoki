@@ -178,14 +178,12 @@ OK_FORM.prototype.submit = function () {
     }
 
     // ==== success ====
-    if (stopped_emit('success ' + f.dom_id, meta))
-      return;
-
-    f.reset_to_submit_more();
-    f.draw_success_msg(meta.data.msg);
+    if (emit('success ' + f.dom_id, meta)) {
+      f.reset_to_submit_more();
+      f.draw_success_msg(meta.data.msg);
+    }
 
     emit('after success ' + f.dom_id, meta);
-
   }); // === POST it.
 
 }; // === submit
