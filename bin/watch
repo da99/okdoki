@@ -132,7 +132,7 @@ watch("bin/watch")
 .on('error', throw_err);
 ;
 
-watch( ["Client/App/js/_base.js", "bin/upgrade"] )
+watch( ["Client/App/js/_base.js", "bin/upgrade", "Client/applets/form/script.js"] )
 .on('change', function (filename) {
   upgrade();
 })
