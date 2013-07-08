@@ -48,14 +48,15 @@ OK_FORM.new = function (raw_se) {
 
   create_event('cancel '        + f.dom_id);
   create_event('before submit ' + f.dom_id);
-  create_event('process ' + f.dom_id);
+  create_event('loading ' + f.dom_id);
   create_event('success '       + f.dom_id);
   create_event('invalid '       + f.dom_id);
   create_event('error   '       + f.dom_id);
 
-  on_click_if_any(f.dom.find('a.cancel'),      _.bind(f.cancel, f));
-  on_click(f.dom.find('button.submit'), _.bind(f.submit, f));
+  on_click_if_any(f.dom.find('a.cancel'), _.bind(f.cancel, f));
+  on_click(f.dom.find('button.submit'),   _.bind(f.submit, f));
 
+  log("Created form: ", f.dom_id);
   return f;
 };
 
@@ -103,19 +104,19 @@ OK_FORM.prototype.reset_to_submit_more = function() {
 
 OK_FORM.prototype.submit = function () {
   var f   = this;
-  var log = {
+  var meta = {
     form : f,
-    url  : f.attr('action'),
-    data : form_to_json(f)
+    url  : f.dom.attr('action'),
+    data : form_to_json(f.dom)
   };
 
   if (!is_filled(f.dom_id))
     return false;
 
-  if (stopped_emit('before submit ' + f.dom_id))
+  if (stopped_emit('before submit ' + f.dom_id, {}))
     return false;
 
-  if (emit('process ' + f.dom_id, log)) {
+  if (emit('loading ' + f.dom_id, meta)) {
     // === Show loading feedback. ===
     f.dom.find('div.buttons').hide();
 
@@ -126,7 +127,7 @@ OK_FORM.prototype.submit = function () {
   }
 
   // === POST it. ===
-  post(log.url, log.data, function (err, raw) {
+  post(meta.url, meta.data, function (err, raw) {
 
     if (err) {
 
@@ -150,11 +151,13 @@ OK_FORM.prototype.submit = function () {
 
     log("Form results: " + f.dom_id, data.msg);
 
+    var meta = {data: data, form: f, raw: raw};
+
     // === invalid ===
     if (!data.success) {
-      if (stopped_emit('invalid ' + f.dom_id, {data: data, form: f, raw: raw}))
+      if (stopped_emit('invalid ' + f.dom_id, meta))
         return;
-      loaded(data.msg || f.default_err_msg);
+      f.loaded(data.msg || f.default_err_msg);
       return;
     }
 
@@ -162,7 +165,7 @@ OK_FORM.prototype.submit = function () {
     if (!data.msg)
       throw new Error("No success message for: " + f.dom_id);
 
-    if (stopped_emit('success ' + f.dom_id))
+    if (stopped_emit('success ' + f.dom_id, meta))
       return;
 
     f.reset_to_submit_more();

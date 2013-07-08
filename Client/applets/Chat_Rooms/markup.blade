@@ -59,6 +59,7 @@ append Chat_Rooms_List
           a.enter(href="#enter") Enter
           span.name NYC Survival
 
+append Chat_Rooms_Enter
   div.box#Enter_Room
     h3 Enter A Room By Screen Name:
     div.content
@@ -69,8 +70,7 @@ append Chat_Rooms_List
           div.field.as_this_life
         div.buttons
           span.as_this_life
-            span.as as:
-            call as_this_life()
+            call Chat_Rooms_as()
           button.submit Enter
 
 
