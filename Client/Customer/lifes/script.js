@@ -15,7 +15,10 @@ var Customer_Lifes = {
 };
 
 on('template compiled', function (o) {
-  $(o.selector).find('select.as_this_life').each(function (i, e) {
+  if (Customer_Lifes.sn_new.length === 0)
+    return;
+
+  $(o.selector).find('select[name="as_this_life"]').each(function (i, e) {
     _.each(Customer_Lifes.sn_new, function (n) {
       $(e).prepend(Customer_Lifes.new_opt(n));
     });
@@ -23,10 +26,23 @@ on('template compiled', function (o) {
 });
 
 on('after success #Create_Screen_Name', function (result) {
-  var sn = result.screen_name;
+
+  var sn = result.data.screen_name;
   Customer_Lifes.sn_new.push(sn);
-  $('select.as_this_life').each(function (i, e) {
-    $(e).prepend(Customer_Lifes.new_opt(sn));
+
+  // === Replace hiddens with SELECT menus.
+  $('input[name="as_this_life"]').each(function (i, e) {
+    $(e)
+    .parent('span.as_this_life')
+    .replaceWith(compile_template('span.as_this_life', {}));
   });
+
+
+  // === Add new name to SELECT menus.
+  $('select[name="as_this_life"]').each(function (i, e) {
+    $(e).prepend(Customer_Lifes.new_opt(sn));
+    $(e).val(sn);
+  });
+
   return sn;
 });

@@ -48,7 +48,7 @@ OK_FORM.new = function (raw_se) {
   create_event('cancel '        + f.dom_id);
   create_event('before submit ' + f.dom_id);
   create_event('loading ' + f.dom_id);
-  create_event('before success '       + f.dom_id);
+  create_event('before success '+ f.dom_id);
   create_event('after success ' + f.dom_id);
   create_event('invalid '       + f.dom_id);
   create_event('error   '       + f.dom_id);

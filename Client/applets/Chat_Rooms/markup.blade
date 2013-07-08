@@ -1,17 +1,7 @@
 
 function Chat_Rooms_as()
-  span.as_this_life
-    - if (!customer_has_one_life)
-      span.as as:&nbsp;
-    call as_this_life()
 
 append templates
-  span.Chat_Rooms.as_this_life
-    span.as as:&nsbp;
-    call as_this_life_menu()
-  div.enter_room_as
-    call as_this_life_menu()
-    a.enter_as(href="#enter") Enter
 
 
 append Chat_Rooms_List
@@ -63,14 +53,21 @@ append Chat_Rooms_Enter
   div.box#Enter_Room
     h3 Enter A Room By Screen Name:
     div.content
-      form#Create_Audience(action="/enter_room", method="POST")
+      form#Create_Chat_Room_Fav(action="/chat_room/fav", method="POST")
         div.fields
           div.field.screen_name
             input(type="text", value="", name="screen_name")
-          div.field.as_this_life
         div.buttons
-          span.as_this_life
-            call Chat_Rooms_as()
+          call span_as()
           button.submit Enter
+
+
+
+
+
+
+
+
+
 
 

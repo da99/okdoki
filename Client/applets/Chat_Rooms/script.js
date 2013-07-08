@@ -1,13 +1,6 @@
 "use strict";
 
 
-on('after success #Create_Screen_Name', function (result) {
-  var sn = result.screen_name;
-  $('input[name="as_this_life"]').each(function (i, e) {
-    $(e).replaceWith(compile_template('span.as_this_life.Chat_Rooms', {}));
-  });;
-});
-
 on('chat room entered', function (result) {
   var sn = result.screen_name;
   $('select.room_screen_name').each(function (i, e) {

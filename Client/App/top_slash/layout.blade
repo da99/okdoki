@@ -1,6 +1,12 @@
 !!! 5
 html(lang='en')
 
+  function span_as()
+    span.as_this_life
+      - if (!customer_has_one_life)
+        span.as as:&nbsp;
+      call as_this_life()
+
   function as_this_life_menu(id)
     select(name="as_this_life")
       - for (var x in customer_screen_names)
@@ -71,8 +77,14 @@ html(lang='en')
       - if (screen_name)
         div.Screen_Name
           | #{screen_name}
+
       - if (is_customer)
+
         call as_this_life("x")
+
+        span.as_this_life
+          span.as as:&nsbp;
+          call as_this_life_menu()
 
       block templates
 
