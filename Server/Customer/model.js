@@ -159,7 +159,11 @@ Customer.prototype.screen_name_row = function (name, def) {
 
 Customer.prototype.screen_names = function () {
   var me = this;
-  return _.pluck(me.data.screen_name_rows, 'screen_name').sort();
+  var rows = me.data.screen_name_rows;
+
+  return _.map( _.keys(rows).sort().reverse(), function (id) {
+    return rows[id].screen_name;
+  });
 };
 
 Customer.prototype.screen_name_id = function (name) {

@@ -350,7 +350,8 @@ S.replace_screen_names = function (arr, flow) {
 S.read_list = function (c, flow) {
   River.new(arguments)
   .job('read screen names', c.data.id, function (j) {
-    Topogo.new(TABLE_NAME).read_list({owner_id: j.id}, j)
+    Topogo.new(TABLE_NAME)
+    .read_list({owner_id: j.id}, j);
   })
   .job('push', 'screen_names', function (j, r) {
     _.each(r, function (row) {

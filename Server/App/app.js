@@ -26,7 +26,7 @@ var helmet = require('helmet');
 
 var password_hash = require('password-hash');
 
-var passport        = require('passport')
+var passport      = require('passport')
 , LocalStrategy   = require('passport-local').Strategy
 ;
 
@@ -164,7 +164,7 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
         };
 
         if (opts.is_customer) {
-          opts.customer_screen_names = req.user.screen_names().slice().reverse();
+          opts.customer_screen_names = req.user.screen_names();
           opts.customer_has_one_life = opts.customer_screen_names.length === 1;
         }
 
