@@ -1,8 +1,8 @@
 "use strict";
 
-create_if_not_event('screen name created');
-create_if_not_event('chat room entered');
-create_if_not_event('chat room leave');
+create_event('screen name created');
+create_event('chat room entered');
+create_event('chat room leave');
 
 var Customer_Lifes = {
   sn_new: [],
@@ -22,7 +22,7 @@ on('template compiled', function (o) {
   });
 });
 
-on('screen name created', function (result) {
+on('after success #Create_Screen_Name', function (result) {
   var sn = result.screen_name;
   Customer_Lifes.sn_new.push(sn);
   $('select.as_this_life').each(function (i, e) {

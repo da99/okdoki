@@ -92,9 +92,8 @@ function create_event(raw_name) {
 
   if (!create_event.names)
     create_event.names = {};
-  if (create_event.names[name])
-    throw new Error('Event already created: ' + name);
-  create_event.names[name] = [];
+  if (!create_event.names[name])
+    create_event.names[name] = [];
 
   return create_event.names[name];
 }
@@ -104,16 +103,9 @@ function is_event(raw_name) {
   return !!create_event.names[name];
 }
 
-function create_if_not_event(raw_name) {
-  var name = squeeze_spaces(raw_name);
-  if (!is_event(name))
-    create_event(name);
-  return describe_event(name);
-}
-
 function on(raw_name, func) {
   var name = squeeze_spaces(raw_name);
-  ensure_event_created(name);
+  create_event(name);
   create_event.names[name].push(func);
 }
 

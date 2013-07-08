@@ -206,6 +206,7 @@ S.create = function (customer, job) {
     .create(insert_data, j);
 
   })
+
   .job(function (j, r) {
     if (customer.data.id)
       return j.finish(r);
@@ -225,6 +226,7 @@ S.create = function (customer, job) {
     .run();
 
   })
+
   .job(function (j, r) {
     // === Create website and folder, My Journal.
     River.new(j)
@@ -239,6 +241,7 @@ S.create = function (customer, job) {
     })
     .run();
   })
+
   .job(function (j, r) {
     var data = _.extend(insert_data, r);
     customer.push_screen_name_row(data);

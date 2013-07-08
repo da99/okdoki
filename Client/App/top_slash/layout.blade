@@ -12,6 +12,9 @@ html(lang='en')
     - else
       call as_this_life_menu()
 
+  function script(name)
+    script(src="#{add_mtime(name)}")
+
   function applet(name)
     - var blade_file = "../../applets/" + name + "/markup.blade"
     - var js_file    = "/applets/" + name + "/script.js"
@@ -19,11 +22,8 @@ html(lang='en')
     include blade_file
     prepend styles
       call css(css_file)
-    append scripts
+    prepend scripts
       call script(js_file)
-
-  function script(name)
-    script(src="#{add_mtime(name)}")
 
   function css(name)
     link(href="#{add_mtime(name)}", rel='stylesheet', media='screen', type="text/css")
@@ -76,16 +76,10 @@ html(lang='en')
       block templates
 
     block scripts
-
-      - if(is_testing)
-        call script('/akui_tests/promise.js')
-        call script('/akui_tests/fermata.js')
-        call script('/akui_tests/akui.js')
-
-      call applet("My_Screen_Names")
-
       - var script_file = "/" + template_name + "/script.js";
       call script(script_file)
+
+    call applet("My_Screen_Names")
 
 
 
