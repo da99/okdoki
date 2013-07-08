@@ -20,9 +20,9 @@ html(lang='en')
     - var js_file    = "/applets/" + name + "/script.js"
     - var css_file   = "/applets/" + name + "/style.css"
     include blade_file
-    prepend styles
+    append styles
       call css(css_file)
-    prepend scripts
+    append scripts
       call script(js_file)
 
   function css(name)
@@ -43,7 +43,8 @@ html(lang='en')
     call css("/App/css/forms.css")
 
     block styles
-      call css("/" + template_name + "/style.css")
+
+    call css("/" + template_name + "/style.css")
 
   body(class="#{ (is_customer) ? 'is_customer' : 'is_stranger' }")
 
@@ -76,8 +77,9 @@ html(lang='en')
       block templates
 
     block scripts
-      - var script_file = "/" + template_name + "/script.js";
-      call script(script_file)
+
+    - var script_file = "/" + template_name + "/script.js";
+    call script(script_file)
 
     call applet("My_Screen_Names")
 
