@@ -13,13 +13,12 @@ $(function () {
   // ================================================================
   // ================== FORMs =======================================
   // ================================================================
-  form('#sign_in', function (f) {
-    f.on_success(function (result) {
-      reset_form_to_submit_more(f);
-      f.find('div.success').append($('<a href="L">L</a>'.replace(/L/g, result.location)));
-      erase_url_wanted();
-      document.location.href = result.location;
-    });
+  on('success #sign_in', function (o) {
+    erase_url_wanted();
+  });
+
+  on('after success #sign_in', function (o) {
+    document.location.href = o.data.location;
   });
 
 }); // $(function) ======================================

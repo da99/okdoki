@@ -8,7 +8,6 @@
 function form(selector) {
   if (arguments.length > 1)
     throw new Error("Unknown arguments: " + arguments[1]);
-
   var f = OK_FORM.new(selector);
   return f;
 }
@@ -50,6 +49,7 @@ OK_FORM.new = function (raw_se) {
   create_event('before submit ' + f.dom_id);
   create_event('loading ' + f.dom_id);
   create_event('success '       + f.dom_id);
+  create_event('after success ' + f.dom_id);
   create_event('invalid '       + f.dom_id);
   create_event('error   '       + f.dom_id);
 
@@ -62,26 +62,42 @@ OK_FORM.new = function (raw_se) {
 
 
 OK_FORM.prototype.cancel = function () {
-  this.loaded();
+  this.make_like_new();
   if ( !emit('cancel ' + this.dom_id) )
     return false;
   return this.make_like_new();
 };
 
+// ================================================================
+// ================== Drawing  ====================================
+// ================================================================
 
-OK_FORM.prototype.loaded = function (msg) {
-
-  this.make_like_new();
-
-  if (msg) {
-    after(this.dom.find('div.buttons'))
-    .draw_or_update('div.errors', msg)
-    .show()
-    ;
-  }
-
+OK_FORM.prototype.hide_loading = function () {
+  this.dom.find('div.loading').hide();
 };
 
+OK_FORM.prototype.draw_success_msg = function (msg) {
+  if (!msg)
+    throw new Error("No success message for: " + this.dom_id);
+
+  after(this.dom.find('div.buttons'))
+  .draw_or_update('div.success', msg)
+  .show();
+
+  this.hide_loading();
+  return this;
+};
+
+OK_FORM.prototype.draw_error_msg = function (msg) {
+  msg || (msg = this.default_err_msg);
+
+  after(this.dom.find('div.buttons'))
+  .draw_or_update('div.errors', msg)
+  .show();
+
+  this.hide_loading();
+  return this;
+};
 
 OK_FORM.prototype.make_like_new = function () {
   var f = this;
@@ -137,12 +153,12 @@ OK_FORM.prototype.submit = function () {
         return;
 
       if (_.isNumber(err) && err > 0)
-        f.loaded(f.default_err_msg);
+        f.draw_error_msg();
       else if (err === true) {
         var o = to_json_result(raw);
-        f.loaded(o.msg || "Website not available right now. Try again later.");
+        f.draw_error_msg(o.msg || "Website not available right now. Try again later.");
       } else
-        f.loaded(f.default_err_msg);
+        f.draw_error_msg();
 
       return ;
     }
@@ -157,21 +173,18 @@ OK_FORM.prototype.submit = function () {
     if (!data.success) {
       if (stopped_emit('invalid ' + f.dom_id, meta))
         return;
-      f.loaded(data.msg || f.default_err_msg);
+      f.draw_error_msg(data.msg);
       return;
     }
 
     // ==== success ====
-    if (!data.msg)
-      throw new Error("No success message for: " + f.dom_id);
-
     if (stopped_emit('success ' + f.dom_id, meta))
       return;
 
     f.reset_to_submit_more();
-    after(f.dom.find('div.buttons'))
-    .draw_or_update('div.success', data.msg)
-    .show();
+    f.draw_success_msg(meta.data.msg);
+
+    emit('after success ' + f.dom_id, meta);
 
   }); // === POST it.
 

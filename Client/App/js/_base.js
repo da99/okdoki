@@ -95,6 +95,7 @@ function create_event(raw_name) {
   if (create_event.names[name])
     throw new Error('Event already created: ' + name);
   create_event.names[name] = [];
+
   return create_event.names[name];
 }
 
