@@ -28,7 +28,10 @@ git push origin mu_mind
 git push origin master
 
 git checkout master
+
+bin/regenerate_deploy_cache
 git checkout mu_mind -- $folder
+
 git reset HEAD $folder
 
 

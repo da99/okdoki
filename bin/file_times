@@ -33,7 +33,7 @@ exec('bin/client_files', function (err, raw_o, raw_e) {
   fs.writeFile(data_file, "exports.data = " + JSON.stringify(map, null, " "), function (err) {
     if (err)
       throw err;
-    console.log("Saved: ", data_file);
+    console.log("Generated: ", data_file);
   });
 
 });

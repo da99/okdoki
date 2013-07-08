@@ -1,3 +1,6 @@
 
 node_modules/
 npm-debug.log
+
+Server/App/file_times.js
+Client/App/js/okdoki.js
