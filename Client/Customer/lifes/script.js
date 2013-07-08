@@ -15,7 +15,7 @@ var Customer_Lifes = {
 };
 
 on('template compiled', function (o) {
-  $(o).find('select.as_this_life').each(function (i, e) {
+  $(o.selector).find('select.as_this_life').each(function (i, e) {
     _.each(Customer_Lifes.sn_new, function (n) {
       $(e).prepend(Customer_Lifes.new_opt(n));
     });

@@ -224,7 +224,7 @@ function compile_template(se, data) {
     _template_fns_[se] = _.template(template_or_default(se, data));
   }
   var o = $(_template_fns_[se](data));
-  emit('template compiled', o);
+  emit('template compiled', {selector: o});
   return o;
 }
 
