@@ -13,7 +13,7 @@ $(function () {
   // ================================================================
   // ================== FORMs =======================================
   // ================================================================
-  on('success #create_account', function (o) {
+  on('before success #create_account', function (o) {
     o.form.make_like_new();
     erase_url_wanted();
   });
