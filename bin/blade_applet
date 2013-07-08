@@ -7,7 +7,7 @@
 set -u -e -o pipefail
 
 
-cd Client/App/applets
+cd Client/applets
 mkdir -p $1
 cd $1
 touch style.stylus
