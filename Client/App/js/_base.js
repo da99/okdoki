@@ -372,6 +372,8 @@ function on_click(selector, func) {
 
   e.click(function (ev) {
     ev.stopPropagation();
+    ev.preventDefault();
+
     func.apply(this, arguments);
     return false;
   });
