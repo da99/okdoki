@@ -44,6 +44,7 @@ describe( 'Customer', function () {
 
     it( 'checks min length of screen_name', function (done) {
       var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
+
       River.new(null)
       .next('invalid', function (j) {
         assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);

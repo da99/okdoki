@@ -61,10 +61,6 @@ var Validate_Create = Check.new('create home page', function (vc) {
     vador.is_null_if_empty();
   });
 
-  vc.define('screen_name', function (vador) {
-    vador.is_null_if_empty();
-  });
-
   vc.define('owner', function (vador) {
     vador.is_null_if_empty();
     if (vador.val)
@@ -90,7 +86,7 @@ Uni.create = function (vals, flow) {
 
   River.new(flow)
   .job('create', function (j) {
-    TABLE.create(me.sanitized_data, j);
+    TABLE.create(_.pick(me.sanitized_data, 'owner_id', 'title', 'about', 'type_id'), j);
   })
   .job('read', function (j, row) {
     Uni.read( row.id, j );
@@ -161,8 +157,7 @@ Uni.read_by_screen_name = function (screen_name, flow) {
 // ================================================================
 
 var Validate_Update = Check.new('update home page', function (vc) {
-  vc.define('owner', Validate_Create);
-  vc.define('screen_name', Validate_Create);
+  vc.define('owner_id', Validate_Create);
   vc.define('title', Validate_Create);
   vc.define('about', Validate_Create);
 });

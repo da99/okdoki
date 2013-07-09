@@ -13,7 +13,7 @@ var Refresh = 4 // seconds
 ;
 
 var valid_chars = "a-zA-Z0-9\\-\\_\\.";
-var VALID_SCREEN_NAME = new RegExp( '^[' + valid_chars + ']{3,15}$' );
+var VALID_SCREEN_NAME = new RegExp( '^[' + valid_chars + ']{4,15}$' );
 var INVALID_CHARS = new RegExp( '[^' + valid_chars + ']', 'ig' );
 
 var WORLD = '@W';
@@ -143,7 +143,7 @@ var Validate_Create = Check.new('create screen name', function (vc) {
 
     v
     .to_upper_case()
-    .match(VALID_SCREEN_NAME, "Screen name must be: 3-15 valid chars: 0-9 a-z A-Z _ - .")
+    .match(VALID_SCREEN_NAME, "Screen name must be: 4-15 valid chars: 0-9 a-z A-Z _ - .")
     ;
 
     _.each(banned_screen_names, function (pattern, i) {
@@ -160,13 +160,6 @@ var Validate_Create = Check.new('create screen name', function (vc) {
     if (!_.isNumber(val) || (val < 1) || val > 2)
       val = 1;
     v.update_sanitized_value(val);
-  });
-
-  vc.define('body', function (v) {
-    var val = (v.val || '').trim();
-    if (val.length === 0)
-      val = '* * *';
-    v.sanitized(val);
   });
 
 });
@@ -244,7 +237,6 @@ S.create = function (customer, job) {
 
   .job(function (j, r) {
     var data = _.extend(insert_data, r);
-log(data)
     customer.push_screen_name_row(data);
     return j.finish(S.new(data));
   })
@@ -484,8 +476,6 @@ S.prototype.edit_bot_pass_phrase = function (v) {
 
 var Validate_Update = Check.new('update screen name', function (vu) {
 
-  vu.define('read_able', Validate_Create);
-
   vu.define('screen_name', Validate_Create.validations['screen_name']);
 
   vu.define('about', function (vador) {
@@ -494,17 +484,14 @@ var Validate_Update = Check.new('update screen name', function (vu) {
     ;
   });
 
+  vu.define('type_id', Validate_Create);
+
   vu.define('nick_name', function (vador) {
     vador
     .is_null_if_empty()
     ;
   });
 
-  vu.define('home-page-title', function (vador) {
-    vador
-    .is_null_if_empty()
-    ;
-  });
 
 });
 
@@ -530,7 +517,7 @@ S.update = function ( customer, flow ) {
 
   var set = {}, final_data = {};
 
-  _.each('screen_name about nick_name home-page-title read_able non_read_able'.split(' '), function (key) {
+  _.each('screen_name type_id about nick_name'.split(' '), function (key) {
     if (!me.sanitized_data.hasOwnProperty(key))
       return;
 

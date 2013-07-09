@@ -22,14 +22,14 @@ var TABLE_NAME = 'Customer';
 // ================================================================
 
 var Customer = exports.Customer = function () {
-  this.is_new         = true;
-  this.data           = {};
-  this.sanitized_data = {};
-  this.new_data       = {};
 };
 
 Customer.new = function () {
   var mem = new Customer();
+  mem.is_new         = true;
+  mem.data           = {screen_name_rows: []};
+  mem.sanitized_data = {};
+  mem.new_data       = {};
   return mem;
 };
 
@@ -368,7 +368,7 @@ Customer.read_by_id = function (opts, flow) {
   if (_.isString(opts) || _.isNumber(opts))
     opts = {id: opts};
 
-  var me          = new Customer();
+  var me          = Customer.new();
   var screen_name = opts.screen_name;
   delete opts.screen_name;
 
