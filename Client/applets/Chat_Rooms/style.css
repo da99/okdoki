@@ -5,6 +5,13 @@
   padding: 5px 0 5px 5px;
   border-bottom: 1px dashed #ccc;
 }
+#Rooms div.room.loading {
+  background-position: 13px 7px;
+  color: #888;
+}
+#Rooms div.room.loading a:link {
+  visibility: hidden;
+}
 #Rooms div.room a:link {
   text-transform: uppercase;
   font-size: 85%;

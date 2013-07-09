@@ -19,11 +19,13 @@ function draw_chat_room_fav(data, enter_it) {
 }
 
 function enter_chat_room(e) {
-  var name = $(this)
-  .parent('div.room')
+  var room = $(this).parent('div.room');
+  var name = room
   .find('span.chat_room_screen_name')
-  .text()
-  ;
+  .text();
+
+  room.addClass('loading');
+
   emit('chat room msg', {
     is_official: true,
     body: "Please wait... Entering room: " + name

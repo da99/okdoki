@@ -21,6 +21,11 @@ $avacado            =#b0c460
   div.room
     padding: 5px 0 5px 5px
     border-bottom: 1px dashed #ccc
+    &.loading
+      background-position: 13px 7px
+      color: #888
+      a:link
+        visibility: hidden
     a:link
       text-transform: uppercase
       font-size: 85%
