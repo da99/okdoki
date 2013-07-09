@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
 
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,                          \n\
-    $owner_id      ,                                            \n\
+    owner_screen_name      varchar(50) NOT NULL,                \n\
     chat_room_screen_name  varchar(25) NOT NULL,                \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
@@ -24,7 +24,7 @@ m.migrate = function (dir, r) {
     );";
 
     r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_owner_id_to_chat_room_screen_name\" UNIQUE (owner_id, chat_room_screen_name)"
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_chat_room_to_owner\" UNIQUE (chat_room_screen_name, owner_screen_name)"
             );
   }
 };

@@ -345,8 +345,15 @@ app.configure(function () {
 
   // Make sure user is not pretending to be someone else.
   app.use(function (req, resp, next) {
-    if (req.user && req.body.hasOwnProperty('as_this_life'))
-      req.body.life_id = req.user.screen_name_id(req.body.as_this_life);
+    if (req.user && req.body.hasOwnProperty('as_this_life')) {
+
+      var life = req.body.as_this_life;
+      if (!req.user.is(life))
+        return resp.json({success: false, msg: "Invalid screen name used: " + life, life: life});
+
+      req.body.life_id      = req.user.screen_name_id(life);
+      req.body.as_this_life = req.user.canon_screen_name(life);
+    }
 
     next();
   });

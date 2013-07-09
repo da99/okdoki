@@ -62,8 +62,12 @@ describe( 'Unauthenticated users:', function () {
   it('escapes url params');
   it('escapes post data');
   it('escapes query string');
+
 }); // === end desc
 
+describe( 'Auth users (aka Customers)', function () {
+  it('checks as_this_life belongs to customer');
+}); // === end desc
 
 // ==================================================
 // ==================================================

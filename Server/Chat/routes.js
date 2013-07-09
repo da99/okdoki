@@ -36,7 +36,7 @@ exports.route = function (mod) {
     .New_River(req, resp, next)
     .create_one('chat room fav', function (j) {
       Chat_Room_Fav.create({
-        owner_id              : req.body.life_id,
+        owner_screen_name     : req.body.as_this_life,
         chat_room_screen_name : req.body.chat_room_screen_name
       }, j);
     })

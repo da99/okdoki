@@ -34,16 +34,17 @@ function null_if_empty(str) {
 // ================================================================
 Room_Fav.create = function (raw_data, flow) {
 
-  var name = raw_data.chat_room_screen_name.trim().toUpperCase();
-  var data = {
-    owner_id              : raw_data.owner_id,
+  var name   = raw_data.chat_room_screen_name.trim().toUpperCase();
+  var o_name = raw_data.chat_room_screen_name.trim().toUpperCase();
+  var data   = {
+    owner_screen_name     : raw_data.owner_screen_name,
     chat_room_screen_name : name
   };
 
   River.new(flow)
   .job(function (j) {
     TABLE
-    .on_dup(TABLE_NAME + '_owner_id_to_chat_room_screen_name', function (index_name) {
+    .on_dup(TABLE_NAME + '_chat_room_to_owner', function (index_name) {
       j.finish('invalid', 'Chat room already in your list: ' + name);
     })
     .create(data, j);
@@ -71,11 +72,8 @@ Room_Fav.read_for_customer = function (c, flow) {
     TABLE
     .run( "\n\
          SELECT * FROM @table         \n\
-         WHERE owner_id IN @owner_id; \n\
-         ", {owner_id: c.screen_name_ids()}, j);
-  })
-  .job('attach screen names', function (j, records) {
-    Screen_Name.replace_screen_names(records, j);
+         WHERE owner_screen_name IN @owner_screen_names; \n\
+         ", {owner_screen_names: c.screen_names()}, j);
   })
   .job('map and reverse', function (j, records){
     j.finish(_.map(records, function (n) {
