@@ -104,6 +104,7 @@ div.col
 #Interact
   width: 44%
   max-width: 700px;
+  padding-bottom: 100px
 
   #Write
     div.to_room, div.as_this_life
@@ -222,6 +223,7 @@ h4
 #Prices
   div.item
     margin: 0 10px 3px 10px
+    padding: 3px 0
     border-bottom: 1px dashed #ccc
   span.money
     font-weight: bold
