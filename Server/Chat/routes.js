@@ -36,7 +36,7 @@ exports.route = function (mod) {
     .New_River(req, resp, next)
     .create_one('chat room fav', function (j) {
       Topogo.new("Chat_Room_Fav")
-      .on_dup('_record', function (name) {
+      .on_dup('Chat_Room_Fav_record', function (name) {
         j.finish('invalid', 'Chat room already in your list: ' + chat_room);
       })
       .create({owner_id: req.body.life_id, chat_room_screen_name: chat_room}, j);
