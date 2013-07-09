@@ -209,3 +209,18 @@ html.w600_minus div.box {
 html.w600_minus div.buttons {
   text-align: center;
 }
+h4 {
+  color: #f85d95;
+}
+#Prices div.item {
+  margin: 0 10px 3px 10px;
+  border-bottom: 1px dashed #ccc;
+}
+#Prices span.money {
+  font-weight: bold;
+  color: #f85d95;
+}
+#Prices span.sub {
+  font-size: 90%;
+  color: #888;
+}

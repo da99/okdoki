@@ -216,7 +216,19 @@ html.w600_minus
   div.buttons
     text-align: center
 
+h4
+  color: $pink
 
+#Prices
+  div.item
+    margin: 0 10px 3px 10px
+    border-bottom: 1px dashed #ccc
+  span.money
+    font-weight: bold
+    color: $pink
+  span.sub
+    font-size: 90%
+    color: #888
 
 
 
