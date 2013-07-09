@@ -132,6 +132,9 @@ div.col
         content: ""
 
   #Create_Life
+    // background-image: url("/App/img/human.gif")
+    // background-repeat: no-repeat
+    // background-position: right top
     div.sn_type
      padding: 0
      label

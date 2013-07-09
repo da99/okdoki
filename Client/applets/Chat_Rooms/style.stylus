@@ -73,3 +73,7 @@ $avacado            =#b0c460
         font-style: italic
         font-family: $serif
 
+#Enter_Room
+  background-image: url("/App/img/house.gif")
+  background-repeat: no-repeat
+  background-position: left top
