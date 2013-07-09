@@ -123,8 +123,7 @@ function emit(raw_name, o) {
   var name = squeeze_spaces(raw_name);
   ensure_event_created(name);
   _.each(create_event.names[name], function (f) {
-    if (cont)
-      f(o);
+    f(o);
   });
 
   return cont;
