@@ -55,6 +55,13 @@ $avacado            =#b0c460
   #In_Rooms
     a.show_chatters:link
       display: block
+    div.room
+      &.loading
+        background-position: 8px 7px
+        color: #888
+        padding-left: 45px
+        a:link
+          display: none
 
   #Out_Rooms
     border-left: 1px dashed #ccc

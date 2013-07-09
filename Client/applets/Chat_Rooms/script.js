@@ -18,7 +18,53 @@ function draw_chat_room_fav(data, enter_it) {
   return o;
 }
 
-function enter_chat_room(e) {
+function leave_chat_room() {
+  var room   = $(this).parent('div.room');
+  var name   = room.find('input[name="chat_room_screen_name"]').val();
+  var o_name = room.find('input[name="owner_screen_name"]').val();
+  var out    = null;
+  $('#Out_Rooms div.rooms')
+  .find('input[name="chat_room_screen_name"]')
+  .each(function (i) {
+    if ($(this).val()!==name)
+      return true;
+    out = $(this).parent('div.room');
+    return false;
+  });
+
+  room.addClass('loading');
+  emit('chat room msg', {
+    is_official: true,
+    body: "Leaving room: " + name + '. Please wait...'
+  });
+
+  var data = {
+    chat_room_screen_name : name,
+    owner_screen_name     : o_name
+  };
+
+  var chat_msg = {
+    is_official: true,
+    body: "You're officially out of: " + name
+  };
+
+  var fin = function () {
+    room.remove();
+    out.show();
+    emit('chat room msg', chat_msg);
+  };
+  post('/leave/chat_room', data, function (err, result) {
+    if (err || !result.success) {
+      setTimeout(fin, 4000);
+      return;
+    }
+
+    fin();
+  });
+
+}
+
+function enter_chat_room() {
   var room   = $(this).parent('div.room');
   var name   = room.find('input[name="chat_room_screen_name"]').val();
   var o_name = room.find('input[name="owner_screen_name"]').val();
@@ -56,6 +102,7 @@ function enter_chat_room(e) {
       chat_room_screen_name: name,
       owner_screen_name    : o_name
     });
+    on_click(room_in.find('a.leave'), leave_chat_room);
     $('#In_Rooms div.rooms').prepend(room_in);
 
   });
@@ -66,11 +113,18 @@ function enter_chat_room(e) {
 // ================================================================
 
 
-// ==== On dom load, link-ify room enter links.
+// ==== On dom load,
+// link-ify room enter & leave links.
 $(function () {
+
   $('#Out_Rooms div.room.out a.enter').each(function (i, e) {
     on_click($(e), enter_chat_room);
   });
+
+  $('#In_Rooms div.room.out a.leave').each(function (i, e) {
+    on_click($(e), leave_chat_room);
+  });
+
 });
 
 

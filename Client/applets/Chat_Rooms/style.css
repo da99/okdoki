@@ -47,6 +47,14 @@
 #Rooms #In_Rooms a.show_chatters:link {
   display: block;
 }
+#Rooms #In_Rooms div.room.loading {
+  background-position: 8px 7px;
+  color: #888;
+  padding-left: 45px;
+}
+#Rooms #In_Rooms div.room.loading a:link {
+  display: none;
+}
 #Rooms #Out_Rooms {
   border-left: 1px dashed #ccc;
   margin: 0;
