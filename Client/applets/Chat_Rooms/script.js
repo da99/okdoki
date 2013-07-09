@@ -10,6 +10,9 @@ on('before success #Create_Chat_Room_Fav', function (o) {
   $('#Create_Chat_Room_Fav input[type="text"]').val("");
   Chat_Rooms.fav_success_msg = o.data.msg;
   o.form.draw_success_msg(o.data.msg);
+  console.log(o);
+  var o = compile_template('#Chat_Rooms div.room.out', o.data);
+  $('#Out_Rooms div.rooms').prepend(o);
 });
 
 on('chat room entered', function (result) {

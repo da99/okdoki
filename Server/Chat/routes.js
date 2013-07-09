@@ -41,7 +41,12 @@ exports.route = function (mod) {
       }, j);
     })
     .run(function (fin, fav) {
-      resp.json({success: true, msg: "You're entering: " + fav.data.chat_room_screen_name});
+      resp.json({
+        success: true,
+        msg: "You're entering: " + fav.data.chat_room_screen_name,
+        chat_room_screen_name: fav.data.chat_room_screen_name,
+        owner_screen_name    : req.body.as_this_life
+      });
     });
   });
 
