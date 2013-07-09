@@ -12,42 +12,34 @@ append Chat_Rooms_List
         div.room
           a.leave(href="#leave") X
           span.name Bot Bay
-          div.chatters
-            a.show(href="#list") Show Chatters
+          //- div.chatters
+            //- a.show(href="#list") Show Chatters
         div.room
           a.leave(href="#leave") X
           span.name The Digital Word
-          div.chatters
-            ul.list
-              li Tom
-              li.out Dick
-              li Harry
-            a.hide(href="#hide_list") Hide Chatters
+          //- div.chatters
+            //- ul.list
+              //- li Tom
+              //- li.out Dick
+              //- li Harry
+            //- a.hide(href="#hide_list") Hide Chatters
         div.room
           a.leave(href="#leave") X
           span.name Super Nerds
-          div.chatters
-            ul.list
-              li Tom
-              li.out Dick
-              li Harry
-            a.hide(href="#hide_list") Hide Chatters
+          //- div.chatters
+            //- ul.list
+              //- li Tom
+              //- li.out Dick
+              //- li Harry
+            //- a.hide(href="#hide_list") Hide Chatters
 
     div#Out_Rooms
       h3 Rooms You May Enter:
       div.rooms
-        div.room
-          a.enter(href="#enter") Enter
-          span.name Name
-        div.room
-          a.enter(href="#enter") Enter
-          span.name Seoul Fans
-        div.room
-          a.enter(href="#enter") Enter
-          span.name Tokyo Life
-        div.room
-          a.enter(href="#enter") Enter
-          span.name NYC Survival
+        - for (var i in chat_room_favs)
+          div.room
+            a.enter(href="#enter-#{chat_room_favs[i].chat_room_screen_name}") Enter
+            span.name #{chat_room_favs[i].chat_room_screen_name}
 
 append Chat_Rooms_Enter
   div.box#Enter_Room

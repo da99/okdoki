@@ -42,7 +42,7 @@ Room_Fav.create = function (raw_data, flow) {
 
   River.new(flow)
   .job(function (j) {
-    Topogo.new("Chat_Room_Fav")
+    TABLE
     .on_dup('owner_id_to_chat_room_screen_name', function (index_name) {
       j.finish('invalid', 'Chat room already in your list: ' + name);
     })
@@ -58,6 +58,38 @@ Room_Fav.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Room_Fav.read_for_customer = function (c, flow) {
+  var names = _.map(c.screen_names(), function (n) {
+    return {
+      owner_screen_name     : n,
+      chat_room_screen_name : n
+    };
+  });
+
+  River.new(flow)
+  .job('read favs', function (j) {
+    TABLE
+    .run( "\n\
+         SELECT * FROM @table         \n\
+         WHERE owner_id IN @owner_id; \n\
+         ", {owner_id: c.screen_name_ids()}, j);
+  })
+  .job('attach screen names', function (j, records) {
+    Screen_Name.replace_screen_names(records, j);
+  })
+  .job('map and reverse', function (j, records){
+    j.finish(_.map(records, function (n) {
+      return {
+        owner_screen_name     : n.owner_screen_name,
+        chat_room_screen_name : n.chat_room_screen_name
+      };
+    }).reverse());
+  })
+  .job('combine and return', function (j, rows) {
+    j.finish(names.concat(rows));
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================

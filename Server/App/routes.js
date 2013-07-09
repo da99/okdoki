@@ -1,6 +1,7 @@
 
 var _         = require('underscore')
 , Customer    = require('../Customer/model').Customer
+, Chat_Room_Fav=require('../Chat/Room_Fav').Room_Fav
 , blade       = require('blade')
 , Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
@@ -30,11 +31,20 @@ exports.route = function (mod) {
 
     if (opts.is_customer) {
       opts['title'] =  "My Okdoki";
+      mod.New_River(req, resp, next)
+      .read_list('favs', function (j) {
+        Chat_Room_Fav.read_for_customer(req.user, j);
+      })
+      .job(function (j, rows) {
+        opts['chat_room_favs'] = rows;
+        return OK.render_template();
+      })
+      .run();
     } else {
       opts['title'] = 'OkDoki.com';
+      return OK.render_template();
     };
 
-    return OK.render_template();
   });
 
 }; // === end route func
