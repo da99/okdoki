@@ -230,7 +230,7 @@ function compile_template(se, data) {
 function template_or_default(se, data) {
   var temp = read_template(se);
   if (!temp) {
-    log("Templated not found: " + se);
+    log("Template not found: " + se);
     var html = '<div class="template_not_found">' + _.map(_.keys(data), function (v) {
       return '{' + v + '} <br />';
     }).join("") + '</div>';
@@ -240,7 +240,7 @@ function template_or_default(se, data) {
 }
 
 function template_or_null(se) {
-  var t = $($('#templates').html()).closest(se);
+  var t = $('<div>' + $('#templates').html() + '</div>').find(se);
   if (!t.length)
     return null;
   return t;
