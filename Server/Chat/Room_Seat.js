@@ -10,11 +10,11 @@ var _         = require("underscore")
 ;
 
 
-var Room_Seat = exports.Room_Seat = Ok.Model.new(function () {});
-var MAX_TIME = 3;
+var Room_Seat  = exports.Room_Seat = Ok.Model.new(function () {});
+var MAX_TIME   = Room_Seat.MAX_TIME = 4;
 
 var TABLE_NAME = exports.Room_Seat.TABLE_NAME = "Room_Seat";
-var TABLE = Topogo.new(TABLE_NAME);
+var TABLE      = Topogo.new(TABLE_NAME);
 
 Room_Seat._new = function () {
   var o = this;
@@ -29,15 +29,27 @@ function null_if_empty(str) {
   return str;
 }
 
+Room_Seat.prototype.max_time = function () {
+  return MAX_TIME;
+};
+
 // ================================================================
 // ================== Create ======================================
 // ================================================================
 Room_Seat.create = function (raw_data, flow) {
   var data = {
+    chat_room_screen_name: raw_data.chat_room_screen_name.trim().toUpperCase(),
+    owner_screen_name    : raw_data.owner_screen_name.trim().toUpperCase()
   };
 
   River.new(flow)
-  .job(function (j) {
+  .job('update', function (j) {
+    data['last_seen_at'] = '$now';
+    TABLE.update(data, _.extend({last_seen_at: '$now'}, data), j);
+  })
+  .job(function (j, r) {
+    if (r)
+      return j.finish(r);
     TABLE.create(data, j);
   })
   .job(function (j, record) {

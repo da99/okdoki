@@ -23,7 +23,7 @@ exports.route = function (mod) {
 
   // =============== Entering the Chat Room... ======================
 
-  app.get( '/me/:screen_name/chat', function (req, resp, next) {
+  app.get('/me/:screen_name/chat', function (req, resp, next) {
     var OK = New_Request(req, resp, next);
     var data = OK.template_data('Chat/index');
     data['title'] = data.screen_name + "'s Chat Room";
@@ -41,34 +41,41 @@ exports.route = function (mod) {
       }, j);
     })
     .run(function (fin, fav) {
-      resp.json({success: true, msg: "Chat room saved as a favorite: " + fav.data.chat_room_screen_name});
+      resp.json({success: true, msg: "You're entering: " + fav.data.chat_room_screen_name});
     });
   });
 
-  app.post('/me/:screen_name/chat/enter', function (req, resp, next) {
+  app.post('/enter/chat_room', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    mod
-    .New_River(req, resp, next)
-    .read_one('screen_name', function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
-    })
-    .read_one('room', function (j, sn) {
-      Website.read_by_screen_name(sn, j);
-    })
-    .create_one('seat', function (j, room) {
-      Chat_Room_Seat.create_by_room(room, j);
-    })
-    .run(function (fin, seat) {
-      if (!seat)
-        return OK.json({success: false, msg: "Chat room unavailable."});
 
-      OK.json({
+    mod.New_River(req, resp, next)
+
+    .create_one('seat', function (j, room) {
+      Chat_Room_Seat.create({
+        chat_room_screen_name : req.body.chat_room_screen_name,
+        owner_screen_name     : req.body.as_this_life
+      }, j);
+    })
+
+    .run(function (fin, seat) {
+
+      var data = {
+        owner_screen_name     : seat.data.owner_screen_name,
+        chat_room_screen_name : seat.data.chat_room_screen_name,
+        max_time              : seat.max_time()
+      };
+
+      if (!seat)
+        return OK.json(_.extend({ success: false, msg: "Chat room unavailable." }, data));
+
+      OK.json(_.extend({
         success : true,
-        msg     : "Success: You're in the room, " + req.body.as_this_life + '.',
-        max_time: Chat_Room_Seat.MAX_TIME
-      });
+        msg     : "Success: You're in, " + seat.data.chat_room_screen_name + ", as " + seat.data.owner_screen_name,
+      }, data));
+
     });
-  });
+
+  }); // === post /enter/chat_room
 
   // =============== "Listening" to the Chat Room... ================
   app.post('/me/:screen_name/chat/msgs', function (req, resp, next) {
