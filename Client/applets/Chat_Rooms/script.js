@@ -19,16 +19,45 @@ function draw_chat_room_fav(data, enter_it) {
 }
 
 function enter_chat_room(e) {
-  var room = $(this).parent('div.room');
-  var name = room
-  .find('span.chat_room_screen_name')
-  .text();
+  var room   = $(this).parent('div.room');
+  var name   = room.find('input[name="chat_room_screen_name"]').val();
+  var o_name = room.find('input[name="owner_screen_name"]').val();
 
   room.addClass('loading');
 
   emit('chat room msg', {
     is_official: true,
     body: "Please wait... Entering room: " + name
+  });
+
+  var data = {
+    chat_room_screen_name: name,
+    owner_screen_name: o_name
+  };
+
+  post("/enter/chat_room", data, function (err, result) {
+    room.removeClass('loading');
+    if (err || !result.success) {
+      emit('chat room msg', {
+        is_official: true,
+        body: "Try again later. Chat room unavailable: " + name
+      });
+      log(result.msg);
+      return;
+    }
+
+    emit('chat room msg', {
+      is_official: true,
+      body: result.msg
+    });
+
+    room.hide();
+    var room_in = compile_template('#Chat_Rooms div.room.in', {
+      chat_room_screen_name: name,
+      owner_screen_name    : o_name
+    });
+    $('#In_Rooms div.rooms').prepend(room_in);
+
   });
 }
 

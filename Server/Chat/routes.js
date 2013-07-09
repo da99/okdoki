@@ -51,6 +51,8 @@ exports.route = function (mod) {
   });
 
   app.post('/enter/chat_room', function (req, resp, next) {
+    return resp.json({success: true, msg: "You're in."});
+
     var OK = mod.New_Request(arguments);
 
     mod.New_River(req, resp, next)

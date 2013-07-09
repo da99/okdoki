@@ -16,6 +16,9 @@ create_event('chat room msg');
 
 // === Added message to DOM
 on('chat room msg', function (msg) {
+  if (!msg.body && msg.msg)
+    msg.body = msg.msg;
+
   var template_msg = _.defaults(msg, {
     author_screen_name: '',
     room_name: '',
