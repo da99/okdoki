@@ -25,7 +25,7 @@ exports.route = function (mod) {
       Screen_Name.create(c, j);
     })
     .job(function (j, sn) {
-      OK.json_success("Your new life has been created: " + sn.data.screen_name, {screen_name: req.body.screen_name});
+      OK.json_success("Your new life has been created: " + sn.data.screen_name, {screen_name: sn.data.screen_name});
     })
     .run();
   });

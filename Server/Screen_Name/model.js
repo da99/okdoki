@@ -244,6 +244,7 @@ S.create = function (customer, job) {
 
   .job(function (j, r) {
     var data = _.extend(insert_data, r);
+log(data)
     customer.push_screen_name_row(data);
     return j.finish(S.new(data));
   })
