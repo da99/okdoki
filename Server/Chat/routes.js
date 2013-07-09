@@ -29,6 +29,23 @@ exports.route = function (mod) {
     OK.render_template();
   });
 
+  app.post('/chat_room/fav', function (req, resp, next) {
+    var OK = mod.New_Request(arguments);
+    var chat_room = req.body.chat_room_screen_name.trim().toUpperCase();
+    mod
+    .New_River(req, resp, next)
+    .create_one('chat room fav', function (j) {
+      Topogo.new("Chat_Room_Fav")
+      .on_dup('_record', function (name) {
+        j.finish('invalid', 'Chat room already in your list: ' + chat_room);
+      })
+      .create({owner_id: req.body.life_id, chat_room_screen_name: chat_room}, j);
+    })
+    .run(function (fin, fav) {
+      resp.json({success: true, msg: "Chat room saved as a favorite: " + chat_room});
+    });
+  });
+
   app.post('/me/:screen_name/chat/enter', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     mod
