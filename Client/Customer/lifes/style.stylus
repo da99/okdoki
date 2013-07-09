@@ -19,12 +19,12 @@ $downlight_on_black = #D6D6D6
 $downlight_on_black = #92999C
 $sidebar_width      = 300px
 
-$yellow         = #FFEA74
-$yellow_med     = #FFDF2C
-$light_yellow   = #FFFDD2
+$yellow             = #FFEA74
+$yellow_med         = #FFDF2C
+$light_yellow       = #FFFDD2
 
-$samar_red   = #F00919
-$avacado=#b0c460
+$samar_red          = #F00919
+$avacado            =#b0c460
 
 $write_col_width = 300px
 $box_margin      = 10px
@@ -141,63 +141,6 @@ div.col
        margin: 0 3px 0 0
 
 
-
-  #Rooms
-    overflow: auto
-    div.room
-      padding: 5px 0 5px 5px
-      border-bottom: 1px dashed #ccc
-      a:link
-        text-transform: uppercase
-        font-size: 85%
-      div.chatters
-        text-align: center
-      ul
-        text-align: left
-        padding: 0 0 0 20px
-        margin:  0
-        li
-          padding: 0
-          margin:  0
-          color: #545454
-        li.out
-          text-decoration: line-through
-          color: #999
-          font-style: italic
-    div.room:last-child
-      border: 0
-
-    #In_Rooms, #Out_Rooms
-      width: 49%
-      float: left
-      padding: 0
-      margin: 0
-
-    #In_Rooms
-      border-right: 1px dashed #ccc
-      a.show_chatters:link
-        display: block
-
-    #Out_Rooms
-      margin: 0
-      a:link
-        background: $yellow
-        text-transform: uppercase
-        font-size: 85%
-        font-weight: bold
-      a:hover
-        background: $pink
-      a.enter:link
-        margin: 0 5px 0 0
-        display: inline
-      div.enter_room_as
-        text-align: left
-        padding: 8px 0 4px 0
-        span.as
-          text-transform: lowercase
-          color: #7e7e7e
-          font-style: italic
-          font-family: $serif
 
 
 

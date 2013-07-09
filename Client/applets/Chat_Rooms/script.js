@@ -1,9 +1,14 @@
 "use strict";
 
 
+var Chat_Rooms = {
+  fav_success_msg: null
+};
+
 on('before success #Create_Chat_Room_Fav', function (o) {
   o.flow.stop();
   $('#Create_Chat_Room_Fav input[type="text"]').val("");
+  Chat_Rooms.fav_success_msg = o.data.msg;
   o.form.draw_success_msg(o.data.msg);
 });
 

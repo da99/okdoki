@@ -1,7 +1,22 @@
 
-function Chat_Rooms_as()
+function Chat_Room_room_out(chr_sn, o_sn)
+  div.room.out
+    a.enter(href="#enter-#{chr_sn}") Enter
+    span.name #{chr_sn}
+    input(type="hidden", name="owner_screen_name", value="#{o_sn}")
+
+function Chat_Room_room_in(chr_sn, o_sn)
+  div.room.in
+    //- a.leave(href="#leave") X
+      //- span.name The Digital Word
+    a.leave(href="#leave-#{chr_sn}") X
+    span.name #{chr_sn}
+    input(type="hidden", name="owner_screen_name", value="#{o_sn}")
 
 append templates
+  div#Chat_Rooms
+    call Chat_Room_room_in("{chat_room_screen_name}", "{owner_screen_name}")
+    call Chat_Room_room_out("{chat_room_screen_name}", "{owner_screen_name}")
 
 
 append Chat_Rooms_List
@@ -9,23 +24,22 @@ append Chat_Rooms_List
     div#In_Rooms
       h3 Rooms You're In:
       div.rooms
-        div.room
-          a.leave(href="#leave") X
-          span.name Bot Bay
-          //- div.chatters
-            //- a.show(href="#list") Show Chatters
-        div.room
-          a.leave(href="#leave") X
-          span.name The Digital Word
+        - for (var i in chat_room_ins)
+          call Chat_Room_room_in(chat_room_ins[i].chat_room_screen_name, chat_room_ins[i].owner_screen_name)
+        //- div.chatters
+          //- a.show(href="#list") Show Chatters
+        //- div.room
+          //- a.leave(href="#leave") X
+          //- span.name The Digital Word
           //- div.chatters
             //- ul.list
               //- li Tom
               //- li.out Dick
               //- li Harry
             //- a.hide(href="#hide_list") Hide Chatters
-        div.room
-          a.leave(href="#leave") X
-          span.name Super Nerds
+        //- div.room
+          //- a.leave(href="#leave") X
+          //- span.name Super Nerds
           //- div.chatters
             //- ul.list
               //- li Tom
@@ -37,9 +51,7 @@ append Chat_Rooms_List
       h3 You're out of:
       div.rooms
         - for (var i in chat_room_favs)
-          div.room
-            a.enter(href="#enter-#{chat_room_favs[i].chat_room_screen_name}") Enter
-            span.name #{chat_room_favs[i].chat_room_screen_name}
+          call Chat_Room_room_out(chat_room_favs[i].chat_room_screen_name, chat_room_favs[i].owner_screen_name)
 
 append Chat_Rooms_Enter
   div.box#Enter_Room

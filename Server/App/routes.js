@@ -37,9 +37,12 @@ exports.route = function (mod) {
       })
       .job(function (j, rows) {
         opts['chat_room_favs'] = rows;
-        return OK.render_template();
+        j.finish(rows);
       })
-      .run();
+      .run(function (river, rows) {
+        opts['chat_room_ins'] = [];
+        return OK.render_template();
+      });
     } else {
       opts['title'] = 'OkDoki.com';
       return OK.render_template();
