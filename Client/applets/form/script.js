@@ -72,6 +72,14 @@ OK_FORM.prototype.cancel = function () {
 // ================== Drawing  ====================================
 // ================================================================
 
+OK_FORM.prototype.reset_status = function () {
+  this.hide_loading();
+  this.show_buttons();
+  this.hide_error_msg();
+  this.hide_success_msg();
+  return this;
+};
+
 OK_FORM.prototype.show_buttons = function () {
   this.dom.find('div.buttons').show();
   return this;
@@ -101,26 +109,24 @@ OK_FORM.prototype.draw_success_msg = function (msg) {
   if (!msg)
     throw new Error("No success message for: " + this.dom_id);
 
+  this.reset_status();
+
   after(this.dom.find('div.buttons'))
   .draw_or_update('div.success', msg)
   .show();
 
-  this.show_buttons();
-  this.hide_loading();
-  this.hide_error_msg();
   return this;
 };
 
 OK_FORM.prototype.draw_error_msg = function (msg) {
   msg || (msg = this.default_err_msg);
 
+  this.reset_status();
+
   after(this.dom.find('div.buttons'))
   .draw_or_update('div.errors', msg)
   .show();
 
-  this.hide_loading();
-  this.show_buttons();
-  this.hide_success_msg();
   return this;
 };
 

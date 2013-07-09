@@ -1,6 +1,12 @@
 "use strict";
 
 
+on('before success #Create_Chat_Room_Fav', function (o) {
+  o.flow.stop();
+  $('#Create_Chat_Room_Fav input[type="text"]').val("");
+  o.form.draw_success_msg(o.data.msg);
+});
+
 on('chat room entered', function (result) {
   var sn = result.screen_name;
   $('select.room_screen_name').each(function (i, e) {
