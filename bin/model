@@ -1,14 +1,25 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+# Examples:
+#    bin/model create Chat
+#    bin/model routes Chat
+#    bin/model file   Chat Chat_Room_Fav
+#
 model=$2
+file_name=$3
 set -u -e -o pipefail
 
 function compile_template {
   mkdir -p Server/$model
 
   tmpl="Server/App/$1.template.js"
-  new_file="Server/$model/$1.js"
+  if [[ -z "$file_name" ]]
+  then
+    new_file="Server/$model/$1.js"
+  else
+    new_file="Server/$model/$file_name.js"
+  fi
 
   if [[ -f "$new_file" ]]
   then
@@ -22,6 +33,10 @@ function compile_template {
 }
 
 case "$1" in
+  file)
+    compile_template "model"
+    ;;
+
   create)
     compile_template "model"
     ;;
