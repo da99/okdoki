@@ -24,7 +24,7 @@ m.migrate = function (dir, r) {
     );";
 
     r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_record\" UNIQUE (owner_id, chat_room_screen_name)"
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"owner_id_to_chat_room_screen_name\" UNIQUE (owner_id, chat_room_screen_name)"
             );
   }
 };

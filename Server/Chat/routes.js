@@ -8,6 +8,7 @@ var _         = require('underscore')
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Chat_Seat   = require('../Chat/model').Seat
+, Chat_Room_Fav=require('../Chat/Room_Fav').Room_Fav
 , Chat_Msg    = require('../Chat/model').Msg
 , Faker       = require('Faker')
 , log         = require("../App/base").log
@@ -31,18 +32,16 @@ exports.route = function (mod) {
 
   app.post('/chat_room/fav', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
-    var chat_room = req.body.chat_room_screen_name.trim().toUpperCase();
     mod
     .New_River(req, resp, next)
     .create_one('chat room fav', function (j) {
-      Topogo.new("Chat_Room_Fav")
-      .on_dup('Chat_Room_Fav_record', function (name) {
-        j.finish('invalid', 'Chat room already in your list: ' + chat_room);
-      })
-      .create({owner_id: req.body.life_id, chat_room_screen_name: chat_room}, j);
+      Chat_Room_Fav.create({
+        owner_id              : req.body.life_id,
+        chat_room_screen_name : req.body.chat_room_screen_name
+      }, j);
     })
     .run(function (fin, fav) {
-      resp.json({success: true, msg: "Chat room saved as a favorite: " + chat_room});
+      resp.json({success: true, msg: "Chat room saved as a favorite: " + fav.data.chat_room_screen_name});
     });
   });
 

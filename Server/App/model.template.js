@@ -41,8 +41,8 @@ MODEL.create = function (raw_data, flow) {
   .job(function (j) {
     TABLE.create(data, j);
   })
-  .job(function (j, rows) {
-    j.finish(MODEL.new(rows[0]));
+  .job(function (j, record) {
+    j.finish(MODEL.new(record));
   })
   .run();
 };

@@ -1,7 +1,6 @@
 
 var _         = require("underscore")
 
-, Room_Fav       = require("./model").Room_Fav
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
@@ -14,7 +13,7 @@ var _         = require("underscore")
 
 var Room_Fav = exports.Room_Fav = Ok.Model.new(function () {});
 
-var TABLE_NAME = exports.Room_Fav.TABLE_NAME = "Room_Fav";
+var TABLE_NAME = exports.Room_Fav.TABLE_NAME = "Chat_Room_Fav";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Room_Fav._new = function () {
@@ -34,15 +33,23 @@ function null_if_empty(str) {
 // ================== Create ======================================
 // ================================================================
 Room_Fav.create = function (raw_data, flow) {
+
+  var name = raw_data.chat_room_screen_name.trim().toUpperCase();
   var data = {
+    owner_id              : raw_data.owner_id,
+    chat_room_screen_name : name
   };
 
   River.new(flow)
   .job(function (j) {
-    TABLE.create(data, j);
+    Topogo.new("Chat_Room_Fav")
+    .on_dup('owner_id_to_chat_room_screen_name', function (index_name) {
+      j.finish('invalid', 'Chat room already in your list: ' + name);
+    })
+    .create(data, j);
   })
-  .job(function (j, rows) {
-    j.finish(Room_Fav.new(rows[0]));
+  .job(function (j, record) {
+    j.finish(Room_Fav.new(record));
   })
   .run();
 };
