@@ -7,8 +7,8 @@ var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
-, Chat_Seat   = require('../Chat/model').Seat
-, Chat_Room_Fav=require('../Chat/Room_Fav').Room_Fav
+, Chat_Room_Seat = require('../Chat/model').Room_Seat
+, Chat_Room_Fav  = require('../Chat/Room_Fav').Room_Fav
 , Chat_Msg    = require('../Chat/model').Msg
 , Faker       = require('Faker')
 , log         = require("../App/base").log
@@ -56,7 +56,7 @@ exports.route = function (mod) {
       Website.read_by_screen_name(sn, j);
     })
     .create_one('seat', function (j, room) {
-      Chat_Seat.create_by_room(room, j);
+      Chat_Room_Seat.create_by_room(room, j);
     })
     .run(function (fin, seat) {
       if (!seat)
@@ -65,7 +65,7 @@ exports.route = function (mod) {
       OK.json({
         success : true,
         msg     : "Success: You're in the room, " + req.body.as_this_life + '.',
-        max_time: Chat_Seat.MAX_TIME
+        max_time: Chat_Room_Seat.MAX_TIME
       });
     });
   });
@@ -82,10 +82,10 @@ exports.route = function (mod) {
       Website.read_by_screen_name(sn, j);
     })
     .create_one('seat', function (j, room) {
-      Chat_Seat.create_by_room(room, j);
+      Chat_Room_Seat.create_by_room(room, j);
     })
     .read_list('seat_list', function (j, seat) {
-      Chat_Seat.read_list_by_room(j.river.reply_for('room'), j);
+      Chat_Room_Seat.read_list_by_room(j.river.reply_for('room'), j);
     })
     .read_list('msg_list', function (j, list) {
       Chat_Msg.read_list_by_room_and_last_created_at(j.river.reply_for('room'), req.body.last_created_at,j);
@@ -149,7 +149,7 @@ exports.route = function (mod) {
       Website.read_by_screen_name(sn, j);
     })
     .read_one('seat', function (j, room) {
-      Chat_Seat.read_by_room_and_screen_name_id(room, req.body.life_id, j);
+      Chat_Room_Seat.read_by_room_and_screen_name_id(room, req.body.life_id, j);
     })
     .create_one('msg', function (j, seat) {
       Chat_Msg.create_by_seat_and_body(seat, req.body.body, j);

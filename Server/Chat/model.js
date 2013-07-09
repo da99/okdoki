@@ -3,12 +3,12 @@ var _         = require("underscore")
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
-, Seat = require("../Chat/model_Seat").Seat
-, Msg = require("../Chat/model_Msg").Msg
+, Room_Seat   = require("../Chat/Room_Seat").Room_Seat
+, Msg         = require("../Chat/model_Msg").Msg
 ;
 
-var Chat            = exports.Chat = function () {};
-exports.Seat = Seat;
+var Chat          = exports.Chat = function () {};
+exports.Room_Seat = Room_Seat;
 exports.Msg  = Msg;
 
 function null_if_empty(str) {
