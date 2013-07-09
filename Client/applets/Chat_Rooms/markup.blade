@@ -2,7 +2,7 @@
 function Chat_Room_room_out(chr_sn, o_sn)
   div.room.out
     a.enter(href="#enter-#{chr_sn}") Enter
-    span.name #{chr_sn}
+    span.chat_room_screen_name.name #{chr_sn}
     input(type="hidden", name="owner_screen_name", value="#{o_sn}")
 
 function Chat_Room_room_in(chr_sn, o_sn)
@@ -10,7 +10,7 @@ function Chat_Room_room_in(chr_sn, o_sn)
     //- a.leave(href="#leave") X
       //- span.name The Digital Word
     a.leave(href="#leave-#{chr_sn}") X
-    span.name #{chr_sn}
+    span.chat_room_screen_name.name #{chr_sn}
     input(type="hidden", name="owner_screen_name", value="#{o_sn}")
 
 append templates

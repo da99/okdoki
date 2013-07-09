@@ -12,21 +12,10 @@ var Chat_Msgs = {
   MAX: 300
 };
 
-create_event('draw_msg');
-
-function set_obj_defaults(o, val, raw_names) {
-  var names = _.toArray(arguments);
-  names.shift();
-  names.shift();
-  _.each(names, function (n) {
-    if (!o[n])
-      o[n] = val;
-  });
-  return o;
-}
+create_event('chat room msg');
 
 // === Added message to DOM
-on('draw_msg', function (msg) {
+on('chat room msg', function (msg) {
   var template_msg = _.defaults(msg, {
     author_screen_name: '',
     room_name: '',
@@ -40,7 +29,7 @@ on('draw_msg', function (msg) {
 });
 
 // === Add CSS classes.
-on('draw_msg', function (msg) {
+on('chat room msg', function (msg) {
   var o = $(msg.dom_id);
 
   if (msg.is_official)
