@@ -90,7 +90,7 @@ Customer.prototype.is = function (name) {
   return !!this.find_screen_name_row(name);
 };
 
-Customer.prototype.canon_screen_name = function (name) {
+Customer.prototype.canonize_screen_name = function (name) {
   var row = this.find_screen_name_row(name);
   return row.screen_name;
 };

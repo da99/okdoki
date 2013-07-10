@@ -17,6 +17,7 @@ var Customer  = require('../Customer/model').Customer
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Chat_Bot    = require('../Chat/Chat_Bot').Chat_Bot
 , H           = require('../App/Helpers').H
+, OMNI        = require('../../Client/App/js/common')
 ;
 
 var log       = require('./base').log
@@ -352,7 +353,7 @@ app.configure(function () {
         return resp.json({success: false, msg: "Invalid screen name used: " + life, life: life});
 
       req.body.life_id      = req.user.screen_name_id(life);
-      req.body.as_this_life = req.user.canon_screen_name(life);
+      req.body.as_this_life = req.user.canonize_screen_name(life);
     }
 
     next();
@@ -370,9 +371,13 @@ app.configure(function () {
   app.all('*', function (req, resp, next) {
     _.each("params query body cookies".split(" "), function (k, i) {
       if (!req[k])
-        return console.log(k);
-      if (!req[k])
-        throw new Error("Unknown key: " + k);
+        throw new Error('Unknown key: ' + k);
+
+      _.each(req[k], function (val, key) {
+        if (key.indexOf('screen_name') > -1)
+          req[k][key] = OMNI.canonize_screen_name(req[k][key]);
+      });
+
       req[k] = e_e_e(req[k]);
     });
     next();
