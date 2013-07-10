@@ -162,7 +162,7 @@ OK_FORM.prototype.submit = function () {
   if (!is_filled(f.dom_id))
     return false;
 
-  if (stopped_emit('before submit ' + f.dom_id, {}))
+  if (stopped_emit('before submit ' + f.dom_id, meta))
     return false;
 
   if (emit('loading ' + f.dom_id, meta)) {

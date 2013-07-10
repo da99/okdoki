@@ -40,7 +40,6 @@ exports.route = function (mod) {
         j.finish(rows);
       })
       .run(function (river, rows) {
-        opts['chat_room_ins'] = [];
         return OK.render_template();
       });
     } else {
