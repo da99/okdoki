@@ -32,7 +32,7 @@ on('before success #Create_Chat_Room_Fav', function (o) {
   o.flow.stop();
   o.form.make_like_new();
 
-  Chat_Room.new(o.data.chat_room_screen_name, o.data.owner_screen_name);
+  Chat_Room.new(o.data.chat_room_screen_name, o.data.owner_screen_name)
   .enter();
 });
 
@@ -43,7 +43,7 @@ on('before success #Create_Chat_Room_Fav', function (o) {
 
 
 var Chat_Room = function () {};
-Chat_Rooms.rooms = {};
+Chat_Room.rooms = {};
 
 // ================== Helpers =====================================
 
@@ -154,7 +154,7 @@ Chat_Room.prototype.enter = function () {
 
     me.out.hide();
     me.in.show();
-    emit('after enter room', {room: me});
+    emit('after enter chat room', {room: me});
   });
 
   return me;
@@ -183,7 +183,7 @@ Chat_Room.prototype.leave = function () {
       body: "You're officially out of: " + name
     });
 
-    emit('after leave room', {room: me});
+    emit('after leave chat room', {room: me});
   };
 
   post('/leave/chat_room', data, function (err, result) {

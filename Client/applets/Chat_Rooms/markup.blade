@@ -3,8 +3,8 @@ function Chat_Room_room_out(chr_sn, o_sn)
   div.room.out
     a.enter(href="#enter-#{chr_sn}") Enter
     span.chat_room_screen_name.name #{chr_sn}
-    input(type="hidden", name="owner_screen_name", value="#{o_sn}")
     input(type="hidden", name="chat_room_screen_name", value="#{chr_sn}")
+    input(type="hidden", name="owner_screen_name", value="#{o_sn}")
 
 function Chat_Room_room_in(chr_sn, o_sn)
   div.room.in

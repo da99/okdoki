@@ -10,7 +10,7 @@ append templates
       | {body}
 
 
-append Chat_Msgs_Write()
+append Chat_Msgs_Write
   div.box#Write
     div.content
       form#Write_To_Chat_Room(action="/me/#{screen_name}/chat/msg", method="post")
@@ -19,12 +19,9 @@ append Chat_Msgs_Write()
             span.label Type your message:
             textarea(name="body")
         div.buttons
-          span.to_room_name
+          span.to_room_name.to
             label(for="TO_ROOM_NAME") To:
             select#TO_ROOM_NAME(name="room_screen_name")
-              option Bot Bay
-              option The Digital World
-              option Super Nerds
           button.submit Send.
 
 

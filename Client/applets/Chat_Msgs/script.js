@@ -2,15 +2,17 @@
 
 // ======================================
 //
-// Required:
+// Required DOM:
 //   #Messages
 //
 // ======================================
 
-var Chat_Msgs = {
-  DOM: $('#Messages'),
-  MAX: 300
-};
+var Chat_Msgs = function () { };
+
+Chat_Msgs.MAX       = 300;
+Chat_Msgs.DOM       = $('#Messages');
+Chat_Msgs.Write     = $('#Write');
+Chat_Msgs.Room_Menu = Chat_Msgs.Write.find('select[name="room_screen_name"]');
 
 create_event('chat room msg');
 
@@ -49,13 +51,38 @@ on('chat room msg', function (msg) {
 });
 
 // === Remove extra messages
-on('draw_msg', function (msg) {
+on('chat room msg', function (msg) {
   var length = Chat_Msgs.DOM.find('div.msg').length;
   if (length > Chat_Msgs.MAX)
     Chat_Msgs.DOM.find.find('div.msg').last().remove();
 });
 
+on('after enter chat room', function (o) {
+  var menu = Chat_Msgs.Room_Menu;
+  var opt  = $('<option></option>');
+  opt.attr('value', o.room.name);
+  opt.text(o.room.name);
+  menu.prepend(opt);
+  if (menu.find('option').length > 1)
+    menu.parent('span.to').show();
+  Chat_Msgs.Write.show();
+});
 
+on('after leave chat room', function (o) {
+  var menu = Chat_Msgs.Room_Menu;
+
+  menu.find('option').each(function (i, opt) {
+    if ($(opt).attr('value') === o.room.name)
+      $(opt).remove();
+  });
+
+  if (menu.find('option').length < 2)
+    menu.parent('span.to').hide();
+
+  if (menu.find('option').length < 1)
+    Chat_Msgs.Write.hide();
+
+});
 
 
 
