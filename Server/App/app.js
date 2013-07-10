@@ -374,6 +374,8 @@ app.configure(function () {
         throw new Error('Unknown key: ' + k);
 
       _.each(req[k], function (val, key) {
+        if (!_.isString(key))
+          return;
         if (key.indexOf('screen_name') > -1)
           req[k][key] = OMNI.canonize_screen_name(req[k][key]);
       });
