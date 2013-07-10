@@ -1,4 +1,6 @@
 
+var ALL_WHITE_SPACE = /\s+/g;
+
 var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
 var base_url = window.location.href.replace(/\/$/, '');
 var App  = _.extend({}, Backbone.Events);
@@ -82,13 +84,13 @@ function hide(se) {
 // ================================================================
 
 function ensure_event_created(raw_name) {
-  var name = squeeze_spaces(raw_name);
+  var name = canonize_name(raw_name);
   if (!create_event.names[name])
     throw new Error('Event not created: ' + name);
 }
 
 function create_event(raw_name) {
-  var name = squeeze_spaces(raw_name);
+  var name = canonize_name(raw_name);
 
   if (!create_event.names)
     create_event.names = {};
@@ -99,12 +101,12 @@ function create_event(raw_name) {
 }
 
 function is_event(raw_name) {
-  var name = squeeze_spaces(raw_name);
+  var name = canonize_name(raw_name);
   return !!create_event.names[name];
 }
 
 function on(raw_name, func) {
-  var name = squeeze_spaces(raw_name);
+  var name = canonize_name(raw_name);
   create_event(name);
   create_event.names[name].push(func);
 }
@@ -120,7 +122,7 @@ function emit(raw_name, o) {
       return false;
     }
   };
-  var name = squeeze_spaces(raw_name);
+  var name = canonize_name(raw_name);
   ensure_event_created(name);
   _.each(create_event.names[name], function (f) {
     f(o);
@@ -134,7 +136,7 @@ function stopped_emit(name, o) {
 }
 
 function describe_event(raw_name) {
-  var name = squeeze_spaces(raw_name);
+  var name = canonize_name(raw_name);
   ensure_event_created(name);
   return create_event.names[name];
 }
@@ -602,9 +604,8 @@ $(function () {
 // ================== Miscell. ====================================
 // ================================================================
 
-var MULTI_SPACE = /\s+/g;
-function squeeze_spaces(str) {
-  return str.replace(MULTI_SPACE, " ");
+function canonize_name(str) {
+  return $.trim(str).replace(ALL_WHITE_SPACE, " ").toUpperCase();
 }
 
 function add_okdoki_link(str) {

@@ -1,6 +1,9 @@
 
-var ALL_WHITE_SPACE = /\s+/g;
-var BEGIN_AT_OR_HASH = /^(@|#)/;
+
+var COMMON_NS = {
+  ALL_WHITE_SPACE : /\s+/g,
+  BEGIN_AT_OR_HASH : /^(@|#)/
+};
 
 function canonize_screen_name (str) {
   if (!str)
@@ -11,7 +14,7 @@ function canonize_screen_name (str) {
   else
     str = $.trim(str);
 
-  return str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
+  return str.toUpperCase().replace(COMMON_NS.BEGIN_AT_OR_HASH, '').replace(COMMON_NS.ALL_WHITE_SPACE, '-');
 
 }
 
