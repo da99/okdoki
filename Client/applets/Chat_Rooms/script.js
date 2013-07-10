@@ -95,6 +95,7 @@ Chat_Room.new = function (raw_name, raw_o_name) {
   room.draw_out(old_dom);
   room.draw_in();
 
+  return room;
 };
 
 Chat_Room.prototype.draw_out = function (old_dom) {
@@ -105,42 +106,38 @@ Chat_Room.prototype.draw_out = function (old_dom) {
     var o = $(old_dom);
   }
 
-  on_click(o.find('a.enter'), O.enter);
+  on_click(o.find('a.enter'), Chat_Room.enter);
   this.out = o;
   return this;
 };
 
-O.prototype.draw_in = function () {
-  var room_in = compile_template('#Chat_Rooms div.room.in', this.data);
-  on_click(room_in.find('a.leave'), O.leave);
-  $('#In_Rooms div.rooms').prepend(room_in);
-  this.in = room_in;
 
+Chat_Room.prototype.draw_in = function () {
+  var room_in = compile_template('#Chat_Rooms div.room.in', this.data);
+  room_in.hide();
+  $('#In_Rooms div.rooms').prepend(room_in);
+
+  on_click(room_in.find('a.leave'), Chat_Room.leave);
+  this.in = room_in;
   return this;
 };
 
-O.prototype.enter = function () {
-  if (room.is_in)
-    return this;
 
-  var room   = $(this).parent('div.room');
-  var name   = room.find('input[name="chat_room_screen_name"]').val();
-  var o_name = room.find('input[name="owner_screen_name"]').val();
+Chat_Room.prototype.enter = function () {
+  var me = this;
 
-  room.addClass('loading');
+  if (me.is_in)
+    return me;
+
+  me.out.addClass('loading');
 
   emit('chat room msg', {
     is_official: true,
-    body: "Please wait... Entering room: " + name
+    body: "Please wait... Entering room: " + me.name + " as " + me.o_name
   });
 
-  var data = {
-    chat_room_screen_name: name,
-    owner_screen_name: o_name
-  };
-
-  post("/enter/chat_room", data, function (err, result) {
-    room.removeClass('loading');
+  post("/enter/chat_room", me.data, function (err, result) {
+    me.out.removeClass('loading');
     if (err || !result.success) {
       emit('chat room msg', {
         is_official: true,
@@ -155,58 +152,49 @@ O.prototype.enter = function () {
       body: result.msg
     });
 
-    room.hide();
-
+    me.out.hide();
+    me.in.show();
+    emit('after enter room', {room: me});
   });
-  return this;
+
+  return me;
 }; // === enter
 
-O.prototype.leave = function () {
-  if (!room.is_in)
+
+Chat_Room.prototype.leave = function () {
+  var me = this;
+
+  if (!me.is_in)
     return this;
 
-  var room   = $(this).parent('div.room');
-  var name   = room.find('input[name="chat_room_screen_name"]').val();
-  var o_name = room.find('input[name="owner_screen_name"]').val();
-  var out    = null;
-  $('#Out_Rooms div.rooms')
-  .find('input[name="chat_room_screen_name"]')
-  .each(function (i) {
-    if ($(this).val()!==name)
-      return true;
-    out = $(this).parent('div.room');
-    return false;
-  });
+  me.in.addClass('loading');
 
-  room.addClass('loading');
   emit('chat room msg', {
     is_official: true,
-    body: "Leaving room: " + name + '. Please wait...'
+    body: "Leaving room: " + me.name + '. Please wait...'
   });
 
-  var data = {
-    chat_room_screen_name : name,
-    owner_screen_name     : o_name
-  };
-
-  var chat_msg = {
-    is_official: true,
-    body: "You're officially out of: " + name
-  };
-
   var fin = function () {
-    room.remove();
-    out.show();
-    emit('chat room msg', chat_msg);
+    me.in.hide();
+    me.out.show();
+
+    emit('chat room msg', {
+      is_official: true,
+      body: "You're officially out of: " + name
+    });
+
+    emit('after leave room', {room: me});
   };
+
   post('/leave/chat_room', data, function (err, result) {
     if (err || !result.success) {
-      setTimeout(fin, 4000);
+      setTimeout(fin, 3500);
       return;
     }
 
     fin();
   });
+
   return this;
 }; // === leave
 
