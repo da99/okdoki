@@ -37,5 +37,6 @@ on('after success #Create_Screen_Name', function (result) {
     $(e).parent('span.as_this_life').show();
   });
 
+  emit('screen name', {screen_name: sn});
   return sn;
 });
