@@ -125,7 +125,7 @@ function draw_all_msgs() {
   if (!m)
     return;
   emit('chat room msg', m);
-  setTimeout(draw_msg, 500);
+  setTimeout(draw_all_msgs, 500);
 }
 
 

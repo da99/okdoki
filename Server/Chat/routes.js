@@ -85,6 +85,35 @@ exports.route = function (mod) {
   }); // === post /enter/chat_room
 
   // =============== "Listening" to the Chat Room... ================
+  app.post('/chat_room/heart_beep', function (req, resp, next) {
+
+    var test_name = Faker.Name.firstName();
+    var msgs = [];
+    msgs.push({
+      id : (new Date).getTime(),
+      author_screen_name : test_name,
+      room_name          : 'ROOOM ' + test_name,
+      body               : Faker.Lorem.paragraph(),
+      created_at         : (new Date),
+      created_at_epoch   : (new Date).getTime()
+    });
+
+    msgs.push({
+      id : 100,
+      author_screen_name : 'T___' + test_name,
+      room_name          : 'ROOOM ' + test_name,
+      body               : "test msg",
+      created_at         : (new Date),
+      created_at_epoch   : (new Date).getTime()
+    });
+
+    resp.json({
+      success : true,
+      msg     : "Done.",
+      msg_list: msgs
+    });
+  });
+
   app.post('/me/:screen_name/chat/msgs', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     mod
