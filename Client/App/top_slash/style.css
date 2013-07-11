@@ -54,7 +54,7 @@ h1.title span.sub {
   color: rgba(248,93,149,0.9);
 }
 span.about {
-  color: #ff721a;
+  color: #ff8f00;
   font-weight: bold;
 }
 span ul.nav_bar {
@@ -78,29 +78,21 @@ div.form div.form a.cancel {
   margin: 0;
 }
 #header,
-#footer,
-#Screen_Names {
+#footer {
   background: #000;
   background: rgba(0,0,0,0.65);
   text-align: center;
   text-align: center;
 }
 #header p,
-#footer p,
-#Screen_Names p {
+#footer p {
   max-width: 400px;
   margin: 0 auto;
 }
 #header strong,
-#footer strong,
-#Screen_Names strong {
+#footer strong {
   background: #185dad;
   color: #fff;
-}
-#Screen_Names {
-  background: transparent;
-  color: #e1eeff;
-  padding: 7px 0 10px 0;
 }
 #header {
   padding: 10px 0 10px 0;
@@ -157,38 +149,6 @@ button
   font-family: monospace;
   font-weight: bold;
   margin: 0px;
-}
-body.logged_in {
-  padding: 0 0 0 310px;
-  background: #fff url("http://megauni.s3.amazonaws.com/bg_overlay.gif");
-}
-body.logged_in #intro {
-  background: transparent url("http://megauni.s3.amazonaws.com/bg.gif") repeat-y -305px 300px;
-  height: 100%;
-  width: 300px;
-  padding: 60px 0 0 0;
-  margin: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-body.logged_in #intro p {
-  padding: 0;
-}
-body.logged_in #intro h2 {
-  font-size: 180%;
-  padding: 0 4px 10px 4px;
-  background: #000;
-  border-radius: 0 0 7px 0;
-}
-body.logged_in #keyword {
-  border-radius: 0;
-  padding: 10px 0 5px 0;
-  background: #000;
-}
-body.logged_in #latest.loading div.body {
-  padding-top: 38px;
-  background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
 }
 #blocks {
   overflow: auto;
@@ -296,7 +256,7 @@ form div.success {
 }
 #forms form div.field span.value {
   display: block;
-  color: #ff721a;
+  color: #ff8f00;
   font-style: normal;
   font-size: 90%;
 }
@@ -369,18 +329,24 @@ form div.success {
 #Why {
   float: left;
   width: 300px;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.8);
   color: #e1e4e7;
   padding: 20px 0 10px 0;
+  border-radius: 0 0 4px 4px;
 }
 #Why h3 {
   text-align: center;
   margin-bottom: 0;
   padding-bottom: 0;
+  color: #ff8f00;
+  font-weight: bold;
+  font-style: normal;
+  text-transform: none;
 }
 #Why div.content {
   margin: 0 15px;
   padding-bottom: 20px;
+  color: #e1eeff;
 }
 #Follows {
   float: left;
@@ -395,7 +361,7 @@ form div.success {
   padding: 4px;
   text-transform: none;
   font-size: 100%;
-  color: #ff721a;
+  color: #ff8f00;
 }
 #Follows div.box {
   background: rgba(255,255,255,0.95);
@@ -459,7 +425,7 @@ div.box div.content div.field {
   padding-bottom: 10px;
 }
 div.box div.content label {
-  color: #ff721a;
+  color: #ff8f00;
   text-transform: none;
   font-size: 100%;
   padding: 0 0 3px 0;

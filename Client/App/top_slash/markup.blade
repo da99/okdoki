@@ -1,27 +1,5 @@
 include "layout.blade"
 
-append templates
-  div.col#Write
-    div.box
-      h3 Write &amp; Post
-      div.content
-        form(action="/IM", method="GET")
-          div.fields
-            div.field
-              textarea
-                | This does not work yet...
-            div.field.buttons
-              button.submit Post
-
-  div.col#IMs
-    div.box
-      div.content
-        | Sit back and relax. I will
-        | go and stream you the latest news
-        | from smart and/or funny and/or slightly
-        | cRaZaY people.
-
-
 append content
 
   div.col#content
@@ -49,79 +27,64 @@ append content
   div.sidebar#sidebar
 
     h1.title
-      span.main
-        | ok
-      span.sub
-        | doki
+      span.main ok
+      span.sub doki
 
-    - if (!is_customer)
-      div#header
-        p
-          span.about
-            | Multi-Life
-          br
-          span
-            | Multi-Room
-        p
-          strong
-            | Chat
+    div#header
+      p
+        span.about Multi-Life
+        br
+        span Multi-Room
+      p
+        strong Chat
 
-      div(id='footer')
-        p
-          | (c) 2012-2013 OKdoki.com. Some rights reserved.
-        p
-          | All other copyrights belong to their respective owners.
-        p
-          | Cover Photo:
-          a(href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388")
-            | Bikes in Montreal
-        p
-          | Logo font:
-          a(href="http://lenkavomelova.com/")
-            | Lenka Stabilo
+    call applet("New_Session")
+    call applet("New_Customer")
 
-        p
-          | Life & Website Header font:
-          a(href="http://openfontlibrary.org/en/font/circus")
-            | Circus
+    div(id='footer')
+      p
+        | (c) 2012-2013 OKdoki.com. Some rights reserved.
+      p
+        | All other copyrights belong to their respective owners.
+      p
+        | Cover Photo:
+        a(href="http://www.dreamstime.com/bikes-in-a-row-free-stock-photos-imagefree84388")
+          | Bikes in Montreal
+      p
+        | Logo font:
+        a(href="http://lenkavomelova.com/")
+          | Lenka Stabilo
 
-        p
-          | Wood Pattern:
-          a(href="http://subtlepatterns.com/wood-pattern/")
-            | Alexey Usoltsev
+      p
+        | Life & Website Header font:
+        a(href="http://openfontlibrary.org/en/font/circus")
+          | Circus
 
-        p
-          | Ravenna Pattern:
-          a(href="http://subtlepatterns.com/ravenna/")
-            | Sentel
+      p
+        | Wood Pattern:
+        a(href="http://subtlepatterns.com/wood-pattern/")
+          | Alexey Usoltsev
 
-    - if (!is_customer && IS_DEV)
-      call applet("New_Session")
-      call applet("New_Customer")
+      p
+        | Ravenna Pattern:
+        a(href="http://subtlepatterns.com/ravenna/")
+          | Sentel
 
 append content
   div.col#Why
-    div#Screen_Names
-        span ~ ~ ~
-        div
-          * * *
-          a(href="/") ~ ~ ~
-
     h3 Create Multiple Lifes
     div.content
-      | Use multiple screen names at the same time.
-      | Talk professionally with co-workers, talk
-      | casually with friends,
-      | and use "babie tawk" with nieces and
-      | nephews.
+      | One account and manage different screen names
+      | at the same time. Keep things separate from
+      | co-workers, friends, and family.
 
     h3 Multiple Chat Rooms
     div.content
       | Chat in multiple chat rooms at the same time.
-      | You can enter each room with a different screen
-      | name.
+      | You can enter different rooms at the same time,
+      | but with different screen names.
 
-    h3 Create Your Own...
+    h3 Create Your Own Chat Room
     div.content
       | You can create up to 11 chat rooms per
       | screen name. Free accounts can also create
@@ -130,13 +93,13 @@ append content
     h3 Extras
     div.content
       | Want to create more than 3 screen names?
-      | Create or talk in more chat rooms?
+      | Create or talk in more than 33 chat rooms?
       | Go beyond the limits with paid extras.
       | (Coming in a few weeks.)
 
     h3 Fun Fact:
     div.content
-      | Okdoki.com hates banner ads. Free and paid
+      | Okdoki.com has no banner ads. Free and paid
       | accounts receive *no*: pop-ups, banner ads,
       | or annoying surveys.
       | You don't even need to give us your email

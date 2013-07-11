@@ -189,7 +189,7 @@ div.edit_able_s div.edit_able div.input_able div.label {
 #Logo span.sub {
   font-size: 14pt;
   color: #f85d95;
-  color: rgba(248,93,149,0.9);
+  color: $glass_pink;
 }
 #Logo span.wat_wat {
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
@@ -248,7 +248,7 @@ div.box div.content {
 }
 #Enter_Chat_Room div.content div.error_msg {
   display: none;
-  background: $light_yellow;
+  background: #fffdd2;
   color: $red;
   padding: 5px;
 }
