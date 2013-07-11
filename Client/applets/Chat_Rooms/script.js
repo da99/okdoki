@@ -100,10 +100,10 @@ Chat_Room.new = function (raw_name, raw_o_name) {
 
 Chat_Room.prototype.draw_out = function (old_dom) {
   if (old_dom) {
+    var o = $(old_dom);
+  } else {
     var o = compile_template('#Chat_Rooms div.room.out', this.data);
     $('#Out_Rooms div.rooms').prepend(o);
-  } else {
-    var o = $(old_dom);
   }
 
   on_click(o.find('a.enter'), Chat_Room.enter);
