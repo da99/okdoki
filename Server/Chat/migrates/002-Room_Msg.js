@@ -1,5 +1,5 @@
 
-var table = 'Chat_Msg';
+var table = 'Chat_Room_Msg';
 var m     = module.exports = {};
 
 m.migrate = function (dir, r) {
