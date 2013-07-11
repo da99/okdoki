@@ -132,6 +132,37 @@ Room_Seat.read_list_by_room = function (room, flow) {
   .run();
 };
 
+Room_Seat.read_for_customer = function (c, flow) {
+  throw new Error("No finished importing from Room_Fav");
+  var names = _.map(c.screen_names(), function (n) {
+    return {
+      owner_screen_name     : n,
+      chat_room_screen_name : n
+    };
+  });
+
+  River.new(flow)
+  .job('read favs', function (j) {
+    TABLE
+    .run( "\n\
+         SELECT * FROM @table         \n\
+         WHERE owner_screen_name IN @owner_screen_names; \n\
+         ", {owner_screen_names: c.screen_names()}, j);
+  })
+  .job('map and reverse', function (j, records){
+    j.finish(_.map(records, function (n) {
+      return {
+        owner_screen_name     : n.owner_screen_name,
+        chat_room_screen_name : n.chat_room_screen_name
+      };
+    }).reverse());
+  })
+  .job('combine and return', function (j, rows) {
+    j.finish(names.concat(rows));
+  })
+  .run();
+};
+
 
 // ================================================================
 // ================== Update ======================================
