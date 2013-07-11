@@ -100,67 +100,46 @@ append content
       call applet("New_Customer")
 
 append content
-  - if (is_customer)
-    div.col#Why
-      div#Screen_Names
-        - if (customer_has_one_life)
-          span Your screen name:
-        - else
-          span Your screen names:
-        - for (var sn in customer_screen_names)
-          div
-            | #{customer_screen_names[sn]} -
-            a(href="/me/#{customer_screen_names[sn]}") Go to homepage.
-  - else
-    - if (false)
-      h3 Friends == Assistants
-      div.content
-        | Your friends can edit and contribute to your life.
-        | Keep
-        | your sites updated even when you're
-        | busy with the help of the people in
-        | your life.
+  div.col#Why
+    div#Screen_Names
+        span ~ ~ ~
+        div
+          * * *
+          a(href="/") ~ ~ ~
 
-      h3 Pages + Folders
-      div.content
-        | You can organize web pages into folders.
-        | Folders can look and act differently:
-        | wish lists, journal (aka blog), books,
-        | magazine, scrap book, etc.
+    h3 Create Multiple Lifes
+    div.content
+      | Use multiple screen names at the same time.
+      | Talk professionally with co-workers, talk
+      | casually with friends,
+      | and use "babie tawk" with nieces and
+      | nephews.
 
-  - if (is_customer)
-    div.col#Follows
-      h3.follows Your Subscriptions:
-      div.box.follow
-        h3
-          a(href="#") T_NeLsOn
-        div.content
-          div.msgs
-            div.msg
-              div.title Tiel of message
-              div.body Body of message
-            div.msg
-              div.title Tiel of message
-              div.body Body of message
-          div.nav
-            a.load_more(href="#") Load More
+    h3 Multiple Chat Rooms
+    div.content
+      | Chat in multiple chat rooms at the same time.
+      | You can enter each room with a different screen
+      | name.
 
-      div.box.follow
-        h3
-          a(href="#") A_Key
-        div.content
-          div.msgs
-            div.msg
-              div.title Tiel of message
-              div.body Body of message
-            div.msg
-              div.title Tiel of message
-              div.body Body of message
-            div.msg
-              div.title Tiel of message
-              div.body Body of message
-            div.msg
-              div.title Tiel of message
-              div.body Body of message
-          div.nav
-            a.load_more(href="#") Load More
+    h3 Create Your Own...
+    div.content
+      | You can create up to 11 chat rooms per
+      | screen name. Free accounts can also create
+      | up to 3 screen names.
+
+    h3 Extras
+    div.content
+      | Want to create more than 3 screen names?
+      | Create or talk in more chat rooms?
+      | Go beyond the limits with paid extras.
+      | (Coming in a few weeks.)
+
+    h3 Fun Fact:
+    div.content
+      | Okdoki.com hates banner ads. Free and paid
+      | accounts receive *no*: pop-ups, banner ads,
+      | or annoying surveys.
+      | You don't even need to give us your email
+      | if you want to remain really private.
+
+
