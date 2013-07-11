@@ -8,7 +8,6 @@ var _         = require('underscore')
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Chat_Room_Seat = require('../Chat/model').Room_Seat
-, Chat_Room_Fav  = require('../Chat/Room_Fav').Room_Fav
 , Chat_Msg    = require('../Chat/model').Msg
 , Faker       = require('Faker')
 , log         = require("../App/base").log
@@ -30,22 +29,22 @@ exports.route = function (mod) {
     OK.render_template();
   });
 
-  app.post('/chat_room/fav', function (req, resp, next) {
+  app.post('/chat_room/seat', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     mod
     .New_River(req, resp, next)
-    .create_one('chat room fav', function (j) {
-      Chat_Room_Fav.create({
+    .create_one('chat room seat', function (j) {
+      Chat_Room_Seat.create({
         owner_screen_name     : req.body.as_this_life,
         chat_room_screen_name : req.body.chat_room_screen_name
       }, j);
     })
-    .run(function (fin, fav) {
+    .run(function (fin, seat) {
       resp.json({
         success: true,
-        msg: "You're entering: " + fav.data.chat_room_screen_name,
-        chat_room_screen_name: fav.data.chat_room_screen_name,
-        owner_screen_name    : fav.data.owner_screen_name
+        msg: "You're entering: " + seat.data.chat_room_screen_name,
+        chat_room_screen_name: seat.data.chat_room_screen_name,
+        owner_screen_name    : seat.data.owner_screen_name
       });
     });
   });

@@ -52,14 +52,14 @@ append Chat_Rooms_List
     div#Out_Rooms
       h3 You're out of:
       div.rooms
-        - for (var i in chat_room_favs)
-          call Chat_Room_room_out(chat_room_favs[i].chat_room_screen_name, chat_room_favs[i].owner_screen_name)
+        - for (var i in chat_room_seats)
+          call Chat_Room_room_out(chat_room_seats[i].chat_room_screen_name, chat_room_seats[i].owner_screen_name)
 
 append Chat_Rooms_Enter
   div.box#Enter_Room
     h3 Enter A Room By Screen Name:
     div.content
-      form#Create_Chat_Room_Fav(action="/chat_room/fav", method="POST")
+      form#Create_Chat_Room_Seat(action="/chat_room/seat", method="POST")
         div.fields
           div.field.screen_name
             input(type="text", value="", name="chat_room_screen_name")

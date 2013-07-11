@@ -17,7 +17,7 @@ $(function () {
 // ================== Events ======================================
 // ================================================================
 
-on('before submit  #Create_Chat_Room_Fav', function (o) {
+on('before submit  #Create_Chat_Room_Seat', function (o) {
   var name = o.data.chat_room_screen_name = canonize_screen_name(o.data.chat_room_screen_name);
   var room = Chat_Room.find(name);
   if (room) {
@@ -28,7 +28,7 @@ on('before submit  #Create_Chat_Room_Fav', function (o) {
   }
 })
 
-on('before success #Create_Chat_Room_Fav', function (o) {
+on('before success #Create_Chat_Room_Seat', function (o) {
   o.flow.stop();
   o.form.make_like_new();
 

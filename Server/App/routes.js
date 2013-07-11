@@ -1,7 +1,7 @@
 
 var _         = require('underscore')
 , Customer    = require('../Customer/model').Customer
-, Chat_Room_Fav=require('../Chat/Room_Fav').Room_Fav
+, Chat_Room_Seat=require('../Chat/Room_Seat').Room_Seat
 , blade       = require('blade')
 , Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
@@ -32,11 +32,11 @@ exports.route = function (mod) {
     if (opts.is_customer) {
       opts['title'] =  "My Okdoki";
       mod.New_River(req, resp, next)
-      .read_list('favs', function (j) {
-        Chat_Room_Fav.read_for_customer(req.user, j);
+      .read_list('seats', function (j) {
+        Chat_Room_Seat.read_for_customer(req.user, j);
       })
       .job(function (j, rows) {
-        opts['chat_room_favs'] = rows;
+        opts['chat_room_seats'] = rows;
         j.finish(rows);
       })
       .run(function (river, rows) {

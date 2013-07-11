@@ -142,7 +142,7 @@ Room_Seat.read_for_customer = function (c, flow) {
   });
 
   River.new(flow)
-  .job('read favs', function (j) {
+  .job('read seats', function (j) {
     TABLE
     .run( "\n\
          SELECT * FROM @table         \n\
