@@ -6,7 +6,7 @@ var _         = require("underscore")
 , log         = require("../App/base").log
 ;
 
-var Msg        = exports.Msg = function () {};
+var Msg        = exports.Room_Msg = function () {};
 var TABLE_NAME = "Chat_Msg";
 var TABLE      = Topogo.new(TABLE_NAME);
 

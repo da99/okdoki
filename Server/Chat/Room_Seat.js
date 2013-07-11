@@ -133,7 +133,8 @@ Room_Seat.read_list_by_room = function (room, flow) {
 };
 
 Room_Seat.read_for_customer = function (c, flow) {
-  throw new Error("No finished importing from Room_Fav");
+  return flow.finish([]);
+
   var names = _.map(c.screen_names(), function (n) {
     return {
       owner_screen_name     : n,

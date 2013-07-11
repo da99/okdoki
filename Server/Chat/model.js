@@ -4,7 +4,7 @@ var _         = require("underscore")
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
 , Room_Seat   = require("../Chat/Room_Seat").Room_Seat
-, Msg         = require("../Chat/model_Msg").Msg
+, Msg         = require("../Chat/Room_Msg").Room_Msg
 ;
 
 var Chat          = exports.Chat = function () {};
