@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
     created_at            $now_tz,                                \n\
     $trashed_at,                                                  \n\
     last_seen_at          $now_tz,                                \n\
-    is_empty              boolean                                 \n\
+    is_empty              boolean DEFAULT true                    \n\
     );';
     r.create(sql,
              "ALTER TABLE  \"" + table + "\" ADD CONSTRAINT \"" + table + "_seat\" UNIQUE (chat_room_screen_name, owner_screen_name);",

@@ -13,7 +13,7 @@ var _         = require("underscore")
 var Room_Seat  = exports.Room_Seat = Ok.Model.new(function () {});
 var MAX_TIME   = Room_Seat.MAX_TIME = 4;
 
-var TABLE_NAME = exports.Room_Seat.TABLE_NAME = "Room_Seat";
+var TABLE_NAME = exports.Room_Seat.TABLE_NAME = "Chat_Room_Seat";
 var TABLE      = Topogo.new(TABLE_NAME);
 
 Room_Seat._new = function () {
@@ -33,27 +33,35 @@ Room_Seat.prototype.max_time = function () {
   return MAX_TIME;
 };
 
+Room_Seat.prototype.public_data = function (o) {
+  return _.pick(this.data, 'chat_room_screen_name', 'owner_screen_name', 'last_seen_at', 'is_empty' );
+};
+
 // ================================================================
 // ================== Create ======================================
 // ================================================================
-Room_Seat.create = function (raw_data, flow) {
-  var data = {
-    chat_room_screen_name: raw_data.chat_room_screen_name.trim().toUpperCase(),
-    owner_screen_name    : raw_data.owner_screen_name.trim().toUpperCase()
+
+Room_Seat.create = function (room, life, flow) {
+  var where = {
+    chat_room_screen_name: room,
+    owner_screen_name    : life
   };
 
   River.new(flow)
-  .job('update', function (j) {
-    data['last_seen_at'] = '$now';
-    TABLE.update(data, _.extend({last_seen_at: '$now'}, data), j);
+  .job('create', function (j, r) {
+    TABLE
+    .on_dup(TABLE_NAME + '_seat', function (name) {
+      j.finish(null);
+    })
+    .create(where, j);
   })
-  .job(function (j, r) {
-    if (r)
-      return j.finish(r);
-    TABLE.create(data, j);
+  .job('read', function (j, row) {
+    if (row)
+      return j.finish(row);
+    TABLE.read_one(where, j);
   })
-  .job(function (j, record) {
-    j.finish(Room_Seat.new(record));
+  .job(function (j, row) {
+    j.finish(Room_Seat.new(row));
   })
   .run();
 };
@@ -133,8 +141,6 @@ Room_Seat.read_list_by_room = function (room, flow) {
 };
 
 Room_Seat.read_for_customer = function (c, flow) {
-  return flow.finish([]);
-
   var names = _.map(c.screen_names(), function (n) {
     return {
       owner_screen_name     : n,
@@ -168,7 +174,32 @@ Room_Seat.read_for_customer = function (c, flow) {
 // ================================================================
 // ================== Update ======================================
 // ================================================================
-
+Room_Seat.enter = function (room, life, flow) {
+  River.new(flow)
+  .job('read', function (j) {
+    TABLE
+    .update_one({chat_room_screen_name: room, owner_screen_name: life},
+            {last_seen_at: '$now', is_empty: 'f'}, j);
+  })
+  .job('create', function (j, row) {
+    if (row)
+      return j.finish(row);
+    if (room !== life)
+      return j.finish(null);
+    River.new(j)
+    .job(function (j2) {
+      Room_Seat.create(room, life, j2);
+    })
+    .job(function () {
+      Room_Seat.enter(room, life, flow);
+    })
+    .run();
+  })
+  .job(function (j, row) {
+    j.finish(Room_Seat.new(row));
+  })
+  .run();
+};
 // ================================================================
 // ================== Trash/Untrash ===============================
 // ================================================================

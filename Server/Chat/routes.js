@@ -34,10 +34,10 @@ exports.route = function (mod) {
     mod
     .New_River(req, resp, next)
     .create_one('chat room seat', function (j) {
-      Chat_Room_Seat.create({
-        owner_screen_name     : req.body.as_this_life,
-        chat_room_screen_name : req.body.chat_room_screen_name
-      }, j);
+      Chat_Room_Seat.create(
+        req.body.chat_room_screen_name,
+        req.body.as_this_life,
+        j);
     })
     .run(function (fin, seat) {
       resp.json({
@@ -49,40 +49,41 @@ exports.route = function (mod) {
     });
   });
 
+  // =============== Leaving the Chat Room... =======================
+
   app.post('/chat_room/leave', function (req, resp, next) {
     return resp.json({success: true, msg: "You're officially out of: " + req.body.chat_room_screen_name});
   });
 
   app.post('/chat_room/enter', function (req, resp, next) {
-    return resp.json({success: true, msg: "You're in: " + req.body.chat_room_screen_name});
-
-    var OK = mod.New_Request(arguments);
 
     mod.New_River(req, resp, next)
 
-    .create_one('seat', function (j, room) {
-      Chat_Room_Seat.create({
-        chat_room_screen_name : req.body.chat_room_screen_name,
-        owner_screen_name     : req.body.as_this_life
-      }, j);
+    .job('seat', function (j, room) {
+      Chat_Room_Seat.enter(
+        req.body.chat_room_screen_name,
+        req.body.as_this_life,
+        j);
     })
 
     .run(function (fin, seat) {
 
-      var data = {
-        owner_screen_name     : seat.data.owner_screen_name,
-        chat_room_screen_name : seat.data.chat_room_screen_name,
-        max_time              : seat.max_time()
-      };
+      if (seat) {
+        resp.json({
+          success: true,
+          msg: "Success: You're in, " + seat.data.chat_room_screen_name + ", as " + seat.data.owner_screen_name,
+          owner_screen_name     : seat.data.owner_screen_name,
+          chat_room_screen_name : seat.data.chat_room_screen_name
+        });
+        return;
+      }
 
-      if (!seat)
-        return OK.json(_.extend({ success: false, msg: "Chat room unavailable." }, data));
-
-      OK.json(_.extend({
-        success : true,
-        msg     : "Success: You're in, " + seat.data.chat_room_screen_name + ", as " + seat.data.owner_screen_name,
-      }, data));
-
+      resp.json({
+        success : false,
+        msg : "Chat room unavailable: " + req.body.chat_room_screen_name,
+        owner_screen_name     : req.body.as_this_life,
+        chat_room_screen_name : req.body.chat_room_screen_name
+      });
     });
 
   }); // === post /enter/chat_room
@@ -183,12 +184,6 @@ exports.route = function (mod) {
     });
   });
 
-  // =============== Leaving the Chat Room... =======================
-
-  app.post('/chat_room/leave', function (req, resp, next) {
-    var OK = mod.New_Request(arguments);
-    OK.json({success: true, msg: "BYE BYE: You're officially out of the room."});
-  });
 
 
   // =============== Speaking to the Chat Room... ===================
