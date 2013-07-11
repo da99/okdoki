@@ -51,7 +51,7 @@ exports.route = function (mod) {
   });
 
   app.post('/enter/chat_room', function (req, resp, next) {
-    return resp.json({success: true, msg: "You're in."});
+    return resp.json({success: true, msg: "You're in: " + req.body.chat_room_screen_name});
 
     var OK = mod.New_Request(arguments);
 
@@ -92,8 +92,17 @@ exports.route = function (mod) {
     msgs.push({
       id : (new Date).getTime(),
       author_screen_name : test_name,
-      room_name          : 'ROOOM ' + test_name,
+      room_name          : 'ROOOM ' + Faker.Name.firstName(),
       body               : Faker.Lorem.paragraph(),
+      created_at         : (new Date),
+      created_at_epoch   : (new Date).getTime()
+    });
+
+    msgs.push({
+      id : 101,
+      author_screen_name : 'T___' + Faker.Name.firstName(),
+      room_name          : 'ROOOM ' + test_name,
+      body               : "test msg",
       created_at         : (new Date),
       created_at_epoch   : (new Date).getTime()
     });

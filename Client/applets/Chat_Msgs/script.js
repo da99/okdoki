@@ -67,7 +67,7 @@ on('chat room msg', function (msg) {
 on('chat room msg', function (msg) {
   var length = Chat_Msgs.DOM.find('div.msg').length;
   if (length > Chat_Msgs.MAX)
-    Chat_Msgs.DOM.find.find('div.msg').last().remove();
+    Chat_Msgs.DOM.find('div.msg').last().remove();
 });
 
 // ======  Entering/Leaving Chat Rooms ====
@@ -75,6 +75,7 @@ on('after enter chat room', function (o) {
   var menu = Chat_Msgs.Room_Menu;
   var opt  = $('<option></option>');
   opt.attr('value', o.room.name);
+
   opt.text(o.room.name);
   menu.prepend(opt);
   if (menu.find('option').length > 1)
@@ -125,7 +126,7 @@ function draw_all_msgs() {
   if (!m)
     return;
   emit('chat room msg', m);
-  setTimeout(draw_all_msgs, 500);
+  setTimeout(draw_all_msgs, 800);
 }
 
 

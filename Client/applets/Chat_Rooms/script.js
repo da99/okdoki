@@ -84,6 +84,8 @@ Chat_Room.new = function (raw_name, raw_o_name) {
     return old;
 
   var room    = new Chat_Room;
+  room.name   = name;
+  room.o_name = o_name;
   room.data   = {
     chat_room_screen_name : name,
     owner_screen_name     : o_name
@@ -154,6 +156,7 @@ Chat_Room.prototype.enter = function () {
 
     me.out.hide();
     me.in.show();
+    me.is_in = true;
     emit('after enter chat room', {room: me});
   });
 
@@ -180,13 +183,13 @@ Chat_Room.prototype.leave = function () {
 
     emit('chat room msg', {
       is_official: true,
-      body: "You're officially out of: " + name
+      body: "You're officially out of: " + me.name
     });
 
     emit('after leave chat room', {room: me});
   };
 
-  post('/leave/chat_room', data, function (err, result) {
+  post('/leave/chat_room', me.data, function (err, result) {
     if (err || !result.success) {
       setTimeout(fin, 3500);
       return;
