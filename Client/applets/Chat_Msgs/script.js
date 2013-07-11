@@ -114,8 +114,10 @@ var CHAT_MSG_Interval = setInterval(function () {
       return;
     }
     if (result.msg_list) {
+      var o_length = PENDING_CHAT_MSG.length;
       PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(result.msg_list);
-      draw_all_msgs();
+      if (o_length === 0)
+        draw_all_msgs();
     }
   });
 }, 3000);
