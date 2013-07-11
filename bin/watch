@@ -108,7 +108,7 @@ function is_static(f) {
       return true;
   if (f.match('Server') || f.match('node_module'))
     return false;
-  return !f.match('test/ui') && f.match(/\.(stylus|css|cssus|js)$/);
+  return !f.match('test/ui') && f.match(/\.(styl|css|cssus|js)$/);
 }
 
 function upgrade() {
@@ -207,7 +207,7 @@ function run_tests(f) {
 }
 
 function stylus_changed(file_name, event) {
-  if (!file_name.match(/\.stylus$/))
+  if (!file_name.match(/\.styl$/))
     return;
   var css       = stylus_to_css(file_name);
   var folder    = template_family(file_name);

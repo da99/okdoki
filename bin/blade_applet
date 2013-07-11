@@ -10,7 +10,7 @@ set -u -e -o pipefail
 cd Client/applets
 mkdir -p $1
 cd $1
-touch style.stylus
+touch style.styl
 touch markup.blade
 if [[ ! -f script.js ]]
 then

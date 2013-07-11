@@ -4,17 +4,15 @@
 #!/usr/bin/env node
 # -*- js   -*-
 #
-files="$@"
 set -u -e -o pipefail
 
 
 
-if [[ -z "$files" ]]
-then
-  files=$(find ./Client -iregex '.*\.styl')
-fi
+files=$(find ./Client -type f -name \*.stylus)
+
 
 for i in $files
 do
-  stylus $i
+  new_file="$(echo $i | sed 's/.stylus/.styl/g')"
+  mv $i $new_file
 done
