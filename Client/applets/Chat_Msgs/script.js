@@ -7,12 +7,14 @@
 //
 // ======================================
 
-var Chat_Msgs = function () { };
-
-Chat_Msgs.MAX       = 300;
-Chat_Msgs.DOM       = $('#Messages');
-Chat_Msgs.Write     = $('#Write');
-Chat_Msgs.Room_Menu = Chat_Msgs.Write.find('select[name="chat_room_screen_name"]');
+var CHAT_MSG_LOOP      = false;
+var PENDING_CHAT_MSG   = [];
+var Chat_Msgs          = function () { };
+Chat_Msgs.Room_Count   = 0;
+Chat_Msgs.MAX          = 300;
+Chat_Msgs.DOM          = $('#Messages');
+Chat_Msgs.Write        = $('#Write');
+Chat_Msgs.Room_Menu    = Chat_Msgs.Write.find('select[name="chat_room_screen_name"]');
 
 create_event('chat room msg');
 
@@ -80,6 +82,8 @@ on('after enter chat room', function (o) {
   else
     menu.parent('span.to').hide();
   Chat_Msgs.Write.show();
+
+  CHAT_MSG_LOOP = true;
 });
 
 on('after leave chat room', function (o) {
@@ -93,11 +97,35 @@ on('after leave chat room', function (o) {
   if (menu.find('option').length < 2)
     menu.parent('span.to').hide();
 
-  if (menu.find('option').length < 1)
+  if (menu.find('option').length < 1) {
     Chat_Msgs.Write.hide();
+    CHAT_MSG_LOOP = false;
+  }
 
 });
 
 
+var CHAT_MSG_Interval = setInterval(function () {
+  if (!CHAT_MSG_LOOP)
+    return;
+  post("/chat_room/heart_beep", {}, function (err, result) {
+    if (err) {
+      return;
+    }
+    if (result.msg_list) {
+      PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(result.msg_list);
+      draw_all_msgs();
+    }
+  });
+}, 3000);
+
+
+function draw_all_msgs() {
+  var m = PENDING_CHAT_MSG.shift();
+  if (!m)
+    return;
+  emit('chat room msg', m);
+  setTimeout(draw_msg, 500);
+}
 
 
