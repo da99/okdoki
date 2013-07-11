@@ -38,14 +38,14 @@
 }
 #Messages div.official,
 #Messages div.error {
-  background: $yellow;
+  background: #ffea74;
   padding: 4px 4px 4px 5px;
-  font-family: $serif;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 #Messages div.error {
   background: #fff;
-  color: $samar_red;
-  font-family: $sans-serif;
+  color: #f00919;
+  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   padding-bottom: 6px;
 }
 #Messages div.error div.body {

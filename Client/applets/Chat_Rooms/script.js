@@ -138,14 +138,14 @@ Chat_Room.prototype.enter = function () {
     body: "Please wait... Entering room: " + me.name + " as " + me.o_name
   });
 
-  post("/enter/chat_room", me.data, function (err, result) {
+  post("/chat_room/enter", me.data, function (err, result) {
     me.out.removeClass('loading');
     if (err || !result.success) {
       emit('chat room msg', {
         is_official: true,
-        body: "Try again later. Chat room unavailable: " + name
+        body: "Try again later. Chat room unavailable: " + me.name
       });
-      log(result.msg);
+      log(err, result);
       return;
     }
 
@@ -178,8 +178,10 @@ Chat_Room.prototype.leave = function () {
   });
 
   var fin = function () {
+    me.in.removeClass('loading');
     me.in.hide();
     me.out.show();
+    me.is_in = false;
 
     emit('chat room msg', {
       is_official: true,
@@ -189,7 +191,7 @@ Chat_Room.prototype.leave = function () {
     emit('after leave chat room', {room: me});
   };
 
-  post('/leave/chat_room', me.data, function (err, result) {
+  post('/chat_room/leave', me.data, function (err, result) {
     if (err || !result.success) {
       setTimeout(fin, 3500);
       return;

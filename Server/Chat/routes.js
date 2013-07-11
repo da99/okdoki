@@ -50,7 +50,11 @@ exports.route = function (mod) {
     });
   });
 
-  app.post('/enter/chat_room', function (req, resp, next) {
+  app.post('/chat_room/leave', function (req, resp, next) {
+    return resp.json({success: true, msg: "You're officially out of: " + req.body.chat_room_screen_name});
+  });
+
+  app.post('/chat_room/enter', function (req, resp, next) {
     return resp.json({success: true, msg: "You're in: " + req.body.chat_room_screen_name});
 
     var OK = mod.New_Request(arguments);
