@@ -12,9 +12,20 @@ var Chat_Msgs = function () { };
 Chat_Msgs.MAX       = 300;
 Chat_Msgs.DOM       = $('#Messages');
 Chat_Msgs.Write     = $('#Write');
-Chat_Msgs.Room_Menu = Chat_Msgs.Write.find('select[name="room_screen_name"]');
+Chat_Msgs.Room_Menu = Chat_Msgs.Write.find('select[name="chat_room_screen_name"]');
 
 create_event('chat room msg');
+
+// === Submitting a msg ===
+
+on('before success #Write_To_Chat_Room', function (o) {
+  o.flow.stop();
+  o.form.draw_success_msg(o.data.msg);
+  Chat_Msgs.Write.find('textarea').val("");
+  emit('chat room msg', o.data);
+});
+
+
 
 // === Added message to DOM
 on('chat room msg', function (msg) {
@@ -57,6 +68,7 @@ on('chat room msg', function (msg) {
     Chat_Msgs.DOM.find.find('div.msg').last().remove();
 });
 
+// ======  Entering/Leaving Chat Rooms ====
 on('after enter chat room', function (o) {
   var menu = Chat_Msgs.Room_Menu;
   var opt  = $('<option></option>');
@@ -65,6 +77,8 @@ on('after enter chat room', function (o) {
   menu.prepend(opt);
   if (menu.find('option').length > 1)
     menu.parent('span.to').show();
+  else
+    menu.parent('span.to').hide();
   Chat_Msgs.Write.show();
 });
 
