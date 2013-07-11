@@ -3,20 +3,13 @@ html(lang='en')
 
   function span_as()
     span.as_this_life
-      - if (!customer_has_one_life)
-        span.as as:&nbsp;
-      call as_this_life()
+      span.as as:&nbsp;
+      call as_this_life_menu()
 
-  function as_this_life_menu(id)
+  function as_this_life_menu()
     select(name="as_this_life")
       - for (var x in customer_screen_names)
         option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
-
-  function as_this_life(id)
-    - if (customer_has_one_life)
-      input(type="hidden", name="as_this_life", value="#{customer_screen_names[0]}")
-    - else
-      call as_this_life_menu()
 
   function script(name)
     script(src="#{add_mtime(name)}")
@@ -79,9 +72,6 @@ html(lang='en')
           | #{screen_name}
 
       - if (is_customer)
-
-        call as_this_life("x")
-
         span.as_this_life
           span.as as: 
           call as_this_life_menu()

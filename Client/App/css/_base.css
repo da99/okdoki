@@ -73,6 +73,9 @@ body.logged_in #okdoki_nav_bar a.home {
   top: 0;
   right: 10px;
 }
+span.as_this_life {
+  display: none;
+}
 div.no_records {
   display: none;
 }

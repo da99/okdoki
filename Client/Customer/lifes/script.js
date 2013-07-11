@@ -30,18 +30,11 @@ on('after success #Create_Screen_Name', function (result) {
   var sn = result.data.screen_name;
   Customer_Lifes.sn_new.push(sn);
 
-  // === Replace hiddens with SELECT menus.
-  $('input[name="as_this_life"]').each(function (i, e) {
-    $(e)
-    .parent('span.as_this_life')
-    .replaceWith(compile_template('span.as_this_life', {}));
-  });
-
-
   // === Add new name to SELECT menus.
   $('select[name="as_this_life"]').each(function (i, e) {
     $(e).prepend(Customer_Lifes.new_opt(sn));
     $(e).val(sn);
+    $(e).parent('span.as_this_life').show();
   });
 
   return sn;

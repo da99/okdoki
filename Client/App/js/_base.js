@@ -20,6 +20,7 @@ var Screen_Name = {
     return url;
   }
 };
+
 var Customer    = {
   is_stranger : true,
   is_customer : false,
@@ -54,6 +55,16 @@ App.on('all', function (name) {
   log("event: " + name);
 });
 
+// ================================================================
+// ================== On Load =====================================
+// ================================================================
+$('select[name="as_this_life"]').each(function (i, e) {
+  var opts = $(e).find('option');
+  if (opts.length > 1)
+    $(e).parent('span.as_this_life').show();
+});
+
+// ================================================================
 function do_nothing() { }
 
 function trigger() {
