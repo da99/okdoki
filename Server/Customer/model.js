@@ -478,11 +478,15 @@ Customer.prototype.generate_trash_msg = function (name_or_row) {
 
 Customer.prototype.trash = function (flow) {
   var me = this;
-  Topogo.new(TABLE_NAME)
-  .trash(me.data.id, flow.reply(function (j, last) {
+  River.new()
+  .job(function (j) {
+    Topogo.new(TABLE_NAME)
+    .trash(me.data.id, j);
+  })
+  .run(function (fin, last) {
     me.data.trashed_at = last.trashed_at;
-    j.finish(me);
-  }));
+    flow.finish(me);
+  });
 };
 
 Customer.delete_trashed = function (flow) {

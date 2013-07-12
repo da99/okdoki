@@ -46,7 +46,7 @@ describe( 'Customer', function () {
       var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
 
       River.new(null)
-      .next('invalid', function (j) {
+      .on_next('invalid', function (j) {
         assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);
         done();
       })
@@ -66,7 +66,7 @@ describe( 'Customer', function () {
       };
 
       River.new(null)
-      .next('invalid', function (j) {
+      .on_next('invalid', function (j) {
         assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);
         done();
       })
@@ -84,7 +84,7 @@ describe( 'Customer', function () {
       };
 
       River.new(null)
-      .next('invalid', function (j) {
+      .on_next('invalid', function (j) {
         assert.equal(j.job.error.message, "Pass phrase is different than pass phrase confirmation.");
         done();
       })
@@ -133,7 +133,7 @@ describe( 'Customer', function () {
 
     it( 'executes not found func', function (done) {
       River.new(null)
-      .next('not_found', function (j) {
+      .on_next('not_found', function (j) {
         assert.equal(j.job.error.message, 'Customer, 0, not found.');
         done();
       })
@@ -177,7 +177,7 @@ describe( 'Customer', function () {
 
     it( 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name', null)
-      .next('not_found', function (j, err) {
+      .on_next('not_found', function (j, err) {
         assert.equal(err.message, 'Customer, ' + screen_name + ', not found.');
         done();
       })
@@ -193,7 +193,7 @@ describe( 'Customer', function () {
     it('updates Customer email', function (done) {
       var new_email = 'new-e\'mail@i-hate-all.com';
       River.new(null)
-      .next('invalid', h.throw_it)
+      .on_next('invalid', h.throw_it)
       .job('update customer', new_email, [customer, 'update', {'email': new_email}])
       .job('assert new email', function (j) {
         assert.equal(customer.data.email, new_email);
@@ -259,7 +259,7 @@ describe( 'Customer', function () {
 
       .job('delete customers', [Customer, 'delete_trashed'])
 
-      .next('not_found', function (j, err) {
+      .on_next('not_found', function (j, err) {
 
         assert.equal(err.message, "Customer, " + customer_id + ', not found.');
 

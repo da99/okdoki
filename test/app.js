@@ -96,6 +96,7 @@ describe( 'Express App', function () {
     }
     server.stdout.on('data', function (raw_data) {
       var data = raw_data + "";
+
       if (!data.match(/(GET|POST) \//) && use_log)
           process.stdout.write(data);
       if (data.indexOf('isten') > 0)
@@ -128,7 +129,7 @@ describe( 'Express App', function () {
     it( 'runs', function (done) {
       get('/', function (err, resp, body) {
         assert.equal(null, err);
-        assert.equal(true, body.indexOf('/customer') > 0);
+        assert.equal(true, !!(body.match(/create a new account/ig)))
         done();
       });
     });
