@@ -68,8 +68,8 @@ Msg.create = function (raw_data, flow) {
 
 Msg.create_by_seat_and_body = function (seat, body, flow) {
   var data = {
-    chat_room : seat.data.chat_room_screen_name,
-    author    : seat.data.owner_screen_name,
+    chat_room : seat.data.chat_room,
+    author    : seat.data.owner,
     body      : e_e_e(body)
   };
   River.new(flow)
@@ -94,7 +94,7 @@ Msg.read_list_for_customer = function (customer, flow) {
 
   .job('map', function (j, list) {
     j.finish(_.map(list, function (s) {
-      return s.chat_room_screen_name;
+      return s.chat_room;
     }));
   })
 

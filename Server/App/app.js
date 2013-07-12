@@ -349,9 +349,9 @@ app.configure(function () {
 
   // Make sure user is not pretending to be someone else.
   app.use(function (req, resp, next) {
-    if (req.user && req.body.hasOwnProperty('owner_screen_name')) {
-      req.body.as_this_life = req.body.owner_screen_name;
-      delete req.body.owner_screen_name;
+    if (req.user && req.body.hasOwnProperty('owner')) {
+      req.body.as_this_life = req.body.owner;
+      delete req.body.owner;
     }
 
     if (req.user && req.body.hasOwnProperty('as_this_life')) {

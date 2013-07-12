@@ -214,7 +214,7 @@ Contact.read_menu = function (flow) {
   var sql = "\
 SELECT \
   all_contacts.owner_id,                                  \
-  owner_screen_names.screen_name AS owner_screen_name,    \
+  owners.screen_name AS owner,    \
   all_contacts.contact_id,                                \
   contact_screen_names.screen_name AS contact_screen_name \
 FROM                                                      \
@@ -242,8 +242,8 @@ INNER JOIN          \
    )                                      \
  ) AS other_contacts ON                   \
 (all_contacts.contact_id = other_contacts.owner_id)       \
-  LEFT OUTER JOIN screen_names AS owner_screen_names      \
-  ON (all_contacts.owner_id = owner_screen_names.id)      \
+  LEFT OUTER JOIN screen_names AS owners      \
+  ON (all_contacts.owner_id = owners.id)      \
   LEFT OUTER JOIN screen_names AS contact_screen_names    \
   ON (all_contacts.contact_id = contact_screen_names.id)  \
 ";
@@ -258,7 +258,7 @@ INNER JOIN          \
     _.each(meta.rows, function(v, i) {
 
       var c_n = v.contact_screen_name;
-      var o_n = v.owner_screen_name;
+      var o_n = v.owner;
 
       if (!menu_by_c[c_n])
         menu_by_c[c_n] = [];

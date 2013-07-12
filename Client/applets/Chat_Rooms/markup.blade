@@ -2,23 +2,23 @@
 function Chat_Room_room_out(chr_sn, o_sn)
   div.room.out
     a.enter(href="#enter-#{chr_sn}") Enter
-    span.chat_room_screen_name.name #{chr_sn}
-    input(type="hidden", name="chat_room_screen_name", value="#{chr_sn}")
-    input(type="hidden", name="owner_screen_name", value="#{o_sn}")
+    span.chat_room.name #{chr_sn}
+    input(type="hidden", name="chat_room", value="#{chr_sn}")
+    input(type="hidden", name="owner", value="#{o_sn}")
 
 function Chat_Room_room_in(chr_sn, o_sn)
   div.room.in
     //- a.leave(href="#leave") X
       //- span.name The Digital Word
     a.leave(href="#leave-#{chr_sn}") X
-    span.chat_room_screen_name.name #{chr_sn}
-    input(type="hidden", name="chat_room_screen_name", value="#{chr_sn}")
-    input(type="hidden", name="owner_screen_name", value="#{o_sn}")
+    span.chat_room.name #{chr_sn}
+    input(type="hidden", name="chat_room", value="#{chr_sn}")
+    input(type="hidden", name="owner", value="#{o_sn}")
 
 append templates
   div#Chat_Rooms
-    call Chat_Room_room_in("{chat_room_screen_name}", "{owner_screen_name}")
-    call Chat_Room_room_out("{chat_room_screen_name}", "{owner_screen_name}")
+    call Chat_Room_room_in("{chat_room}", "{owner}")
+    call Chat_Room_room_out("{chat_room}", "{owner}")
 
 
 append Chat_Rooms_List
@@ -27,7 +27,7 @@ append Chat_Rooms_List
       h3 Rooms You're In:
       div.rooms
         //- - for (var i in chat_room_ins)
-          //- call Chat_Room_room_in(chat_room_ins[i].chat_room_screen_name, chat_room_ins[i].owner_screen_name)
+          //- call Chat_Room_room_in(chat_room_ins[i].chat_room, chat_room_ins[i].owner)
         //- div.chatters
           //- a.show(href="#list") Show Chatters
         //- div.room
@@ -53,7 +53,7 @@ append Chat_Rooms_List
       h3 You're out of:
       div.rooms
         - for (var i in chat_room_seats)
-          call Chat_Room_room_out(chat_room_seats[i].chat_room_screen_name, chat_room_seats[i].owner_screen_name)
+          call Chat_Room_room_out(chat_room_seats[i].chat_room, chat_room_seats[i].owner)
 
 append Chat_Rooms_Enter
   div.box#Enter_Room
@@ -62,7 +62,7 @@ append Chat_Rooms_Enter
       form#Create_Chat_Room_Seat(action="/chat_room/seat", method="POST")
         div.fields
           div.field.screen_name
-            input(type="text", value="", name="chat_room_screen_name")
+            input(type="text", value="", name="chat_room")
         div.buttons
           call span_as()
           button.submit Enter

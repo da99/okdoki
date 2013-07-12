@@ -22,7 +22,7 @@ on('screen name', function (o) {
 });
 
 on('before submit  #Create_Chat_Room_Seat', function (o) {
-  var name = o.data.chat_room_screen_name = canonize_screen_name(o.data.chat_room_screen_name);
+  var name = o.data.chat_room = canonize_screen_name(o.data.chat_room);
   var room = Chat_Room.find(name);
   if (room) {
     room.enter();
@@ -36,7 +36,7 @@ on('before success #Create_Chat_Room_Seat', function (o) {
   o.flow.stop();
   o.form.make_like_new();
 
-  Chat_Room.new(o.data.chat_room_screen_name, o.data.owner_screen_name)
+  Chat_Room.new(o.data.chat_room, o.data.owner)
   .enter();
 });
 
@@ -54,7 +54,7 @@ Chat_Room.rooms = {};
 Chat_Room.find = function (u) {
   var name = (_.isString(u)) ? canonize_screen_name(u) :
     $(u).parent('div.room')
-  .find('input[name="chat_room_screen_name"]')
+  .find('input[name="chat_room"]')
   .val();
 
   return Chat_Room.rooms[name];
@@ -76,8 +76,8 @@ Chat_Room.new = function (raw_name, raw_o_name) {
 
   if (!_.isString(raw_name)) {
     old_dom    = $(raw_name);
-    raw_name   = old_dom.find('input[name="chat_room_screen_name"]').val();
-    raw_o_name = old_dom.find('input[name="owner_screen_name"]').val();
+    raw_name   = old_dom.find('input[name="chat_room"]').val();
+    raw_o_name = old_dom.find('input[name="owner"]').val();
   }
 
   var name   = canonize_screen_name(raw_name);
@@ -91,8 +91,8 @@ Chat_Room.new = function (raw_name, raw_o_name) {
   room.name   = name;
   room.o_name = o_name;
   room.data   = {
-    chat_room_screen_name : name,
-    owner_screen_name     : o_name
+    chat_room : name,
+    owner     : o_name
   };
 
   Chat_Room.rooms[name] = room;

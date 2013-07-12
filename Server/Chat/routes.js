@@ -34,16 +34,16 @@ exports.route = function (mod) {
     .New_River(req, resp, next)
     .create_one('chat room seat', function (j) {
       Chat_Room_Seat.create_by_chat_room_and_owner(
-        req.body.chat_room_screen_name,
+        req.body.chat_room,
         req.body.as_this_life,
         j);
     })
     .run(function (fin, seat) {
       resp.json({
         success: true,
-        msg: "You're entering: " + seat.data.chat_room_screen_name,
-        chat_room_screen_name: seat.data.chat_room_screen_name,
-        owner_screen_name    : seat.data.owner_screen_name
+        msg: "You're entering: " + seat.data.chat_room,
+        chat_room: seat.data.chat_room,
+        owner    : seat.data.owner
       });
     });
   });
@@ -54,12 +54,12 @@ exports.route = function (mod) {
     mod
     .New_River(req, resp, next)
     .update_one('chat room seat', function (j) {
-      Chat_Room_Seat.leave(req.body.chat_room_screen_name, req.body.as_this_life, j);
+      Chat_Room_Seat.leave(req.body.chat_room, req.body.as_this_life, j);
     })
     .run(function (fin) {
       resp.json({
         success: true,
-        msg: "You're officially out of: " + req.body.chat_room_screen_name
+        msg: "You're officially out of: " + req.body.chat_room
       });
     });
   });
@@ -70,7 +70,7 @@ exports.route = function (mod) {
 
     .job('seat', function (j, room) {
       Chat_Room_Seat.enter(
-        req.body.chat_room_screen_name,
+        req.body.chat_room,
         req.body.as_this_life,
         j);
     })
@@ -80,18 +80,18 @@ exports.route = function (mod) {
       if (seat) {
         resp.json({
           success: true,
-          msg: "Success: You're in, " + seat.data.chat_room_screen_name + ", as " + seat.data.owner_screen_name,
-          owner_screen_name     : seat.data.owner_screen_name,
-          chat_room_screen_name : seat.data.chat_room_screen_name
+          msg: "Success: You're in, " + seat.data.chat_room + ", as " + seat.data.owner,
+          owner     : seat.data.owner,
+          chat_room : seat.data.chat_room
         });
         return;
       }
 
       resp.json({
         success : false,
-        msg : "Chat room unavailable: " + req.body.chat_room_screen_name,
-        owner_screen_name     : req.body.as_this_life,
-        chat_room_screen_name : req.body.chat_room_screen_name
+        msg : "Chat room unavailable: " + req.body.chat_room,
+        owner     : req.body.as_this_life,
+        chat_room : req.body.chat_room
       });
     });
 
@@ -180,7 +180,7 @@ exports.route = function (mod) {
     mod
     .New_River(req, resp, next)
     .job('seat', function (j) {
-      Chat_Room_Seat.read_and_require_filled(req.body.chat_room_screen_name, req.user, j);
+      Chat_Room_Seat.read_and_require_filled(req.body.chat_room, req.user, j);
     })
     .create_one('msg', function (j, seat) {
       Chat_Room_Msg.create_by_seat_and_body(seat, req.body.body, j);
@@ -302,7 +302,7 @@ exports.route = function (mod) {
 
     // Save message.
     if (is_dev && !req.body.message) {
-      req.body.message = {message_body: 'No message.', owner_screen_name: req.user.screen_names()[0]};
+      req.body.message = {message_body: 'No message.', owner: req.user.screen_names()[0]};
     }
 
     var obj = {
@@ -330,7 +330,7 @@ exports.route = function (mod) {
       });
 
       var im = req.body.message;
-      if (im && im.owner_screen_name === n) {
+      if (im && im.owner === n) {
         r.job('create im by:', n, function (r) {
           s.create_im(im, r);
         });

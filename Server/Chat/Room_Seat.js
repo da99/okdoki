@@ -34,7 +34,7 @@ Room_Seat.prototype.max_time = function () {
 };
 
 Room_Seat.prototype.public_data = function (o) {
-  return _.pick(this.data, 'chat_room_screen_name', 'owner_screen_name', 'last_seen_at', 'is_empty' );
+  return _.pick(this.data, 'chat_room', 'owner', 'last_seen_at', 'is_empty' );
 };
 
 // ================================================================
@@ -43,8 +43,8 @@ Room_Seat.prototype.public_data = function (o) {
 
 Room_Seat.create_by_chat_room_and_owner = function (room, life, flow) {
   var where = {
-    chat_room_screen_name: room,
-    owner_screen_name    : life
+    chat_room: room,
+    owner    : life
   };
 
   River.new(flow)
@@ -107,8 +107,8 @@ Room_Seat.read_and_require_filled = function (chat_room, user, flow) {
   .job('read', function (j) {
     TABLE
     .read_one({
-      chat_room_screen_name: chat_room,
-      owner_screen_name: user.screen_names(),
+      chat_room: chat_room,
+      owner: user.screen_names(),
       is_empty: 'f'
     }, j);
   })
@@ -167,8 +167,8 @@ Room_Seat.read_list_by_room = function (room, flow) {
 Room_Seat.read_list_for_customer = function (c, flow) {
   var names = _.map(c.screen_names(), function (n) {
     return {
-      owner_screen_name     : n,
-      chat_room_screen_name : n
+      owner     : n,
+      chat_room : n
     };
   });
 
@@ -176,16 +176,16 @@ Room_Seat.read_list_for_customer = function (c, flow) {
   .job('read seats', function (j) {
     TABLE
     .run( "\n\
-         SELECT * FROM @table         \n\
-         WHERE owner_screen_name IN @owner_screen_names \n\
-           AND chat_room_screen_name NOT IN @owner_screen_names \n\
-         ;", {owner_screen_names: c.screen_names()}, j);
+         SELECT * FROM @table               \n\
+         WHERE owner IN @owners             \n\
+           AND chat_room NOT IN @owners     \n\
+         ;", {owners: c.screen_names()}, j);
   })
   .job('map and reverse', function (j, records){
     j.finish(_.map(records, function (n) {
       return {
-        owner_screen_name     : n.owner_screen_name,
-        chat_room_screen_name : n.chat_room_screen_name
+        owner     : n.owner,
+        chat_room : n.chat_room
       };
     }).reverse());
   })
@@ -203,7 +203,7 @@ Room_Seat.enter = function (room, life, flow) {
   River.new(flow)
   .job('read', function (j) {
     TABLE
-    .update_one({chat_room_screen_name: room, owner_screen_name: life},
+    .update_one({chat_room: room, owner: life},
             {last_seen_at: '$now', is_empty: 'f'}, j);
   })
   .job('create', function (j, row) {
@@ -235,8 +235,8 @@ Room_Seat.leave = function (chat_room, life, flow) {
   .job('update', function (j) {
     TABLE
     .update_one({
-      chat_room_screen_name: chat_room,
-      owner_screen_name: life
+      chat_room: chat_room,
+      owner: life
     }, {last_seen_at: '$now', is_empty: 't'}, j);
   })
   .run(function (j, row) {

@@ -14,7 +14,7 @@ Chat_Msgs.Room_Count   = 0;
 Chat_Msgs.MAX          = 300;
 Chat_Msgs.DOM          = $('#Messages');
 Chat_Msgs.Write        = $('#Write');
-Chat_Msgs.Room_Menu    = Chat_Msgs.Write.find('select[name="chat_room_screen_name"]');
+Chat_Msgs.Room_Menu    = Chat_Msgs.Write.find('select[name="chat_room"]');
 
 create_event('chat room msg');
 
