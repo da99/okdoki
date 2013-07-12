@@ -62,7 +62,7 @@ OK.post('/post/:name', function (req, resp, next) {
     j.finish();
   })
 
-  .next('invalid', function (j) {
+  .on_next('invalid', function (j) {
     write.json_fail(resp, j.invalid_msg);
   })
   .job('create_post', n, function (j) {
@@ -95,7 +95,7 @@ OK.post('/create-account', function (req, resp, next) {
   var r = New_River(next);
   r
 
-  .next('invalid', function (j) {
+  .on_next('invalid', function (j) {
     write.json_fail(resp, j.invalid_msg);
   })
   .job('create-customer', vals.screen_name, [Customer, 'create', vals])
@@ -114,7 +114,7 @@ OK.post('/create-account', function (req, resp, next) {
 OK.post('/create/screen_name', function (req, resp, next) {
   var n = req.body.screen_name;
   New_River(next)
-  .next('invalid', function (j) {
+  .on_next('invalid', function (j) {
     return write.json_fail(resp, j.invalid_msg);
   })
   .job('create-screen-name', [Screen_Name, 'create', req.user, n])

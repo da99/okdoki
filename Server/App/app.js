@@ -70,8 +70,8 @@ var New_River = exports.New_River = function (req, resp, next) {
       resp.json({success: false, msg: j.job.error.message});
   };
 
-  r.next('invalid', invalid_or_not_found);
-  r.next('not_found', invalid_or_not_found);
+  r.on_next('invalid', invalid_or_not_found);
+  r.on_next('not_found', invalid_or_not_found);
 
   r.read_one = function () {
     var args = _.toArray(arguments);
@@ -408,7 +408,7 @@ passport.deserializeUser(function (id, done) {
   };
 
   River.new(null)
-  .next('not_found', function (j) {
+  .on_next('not_found', function (j) {
     done(null, false, {success: false, msg: "Not found."});
   })
   .job(function (j) {
@@ -422,7 +422,7 @@ passport.deserializeUser(function (id, done) {
 
 passport.use(new LocalStrategy( { usernameField: 'screen_name', passwordField: 'pass_phrase' }, function (screen_name, pass_phrase, done) {
   River.new(null)
-  .next('not_found', function (j) {
+  .on_next('not_found', function (j) {
     done(null, false, {success:false, message: "Not found."});
   })
   .job(function (j) {

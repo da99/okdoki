@@ -86,7 +86,7 @@ exports.route = function (mod) {
 
      r
 
-     .next('invalid', function (j) {
+     .on_next('invalid', function (j) {
        write.json_fail(resp, j.invalid_msg);
      })
 

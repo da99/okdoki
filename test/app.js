@@ -63,6 +63,8 @@ describe( 'Unauthenticated users:', function () {
   it('escapes post data');
   it('escapes query string');
 
+  it('escapes screen names, not just canon-ize them')
+
 }); // === end desc
 
 describe( 'Auth users (aka Customers)', function () {
