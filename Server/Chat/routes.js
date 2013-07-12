@@ -30,7 +30,6 @@ exports.route = function (mod) {
   });
 
   app.post('/chat_room/seat', function (req, resp, next) {
-    var OK = mod.New_Request(arguments);
     mod
     .New_River(req, resp, next)
     .create_one('chat room seat', function (j) {
@@ -52,7 +51,17 @@ exports.route = function (mod) {
   // =============== Leaving the Chat Room... =======================
 
   app.post('/chat_room/leave', function (req, resp, next) {
-    return resp.json({success: true, msg: "You're officially out of: " + req.body.chat_room_screen_name});
+    mod
+    .New_River(req, resp, next)
+    .update_one('chat room seat', function (j) {
+      Chat_Room_Seat.leave(req.body.chat_room_screen_name, req.body.as_this_life, j);
+    })
+    .run(function (fin) {
+      resp.json({
+        success: true,
+        msg: "You're officially out of: " + req.body.chat_room_screen_name
+      });
+    });
   });
 
   app.post('/chat_room/enter', function (req, resp, next) {

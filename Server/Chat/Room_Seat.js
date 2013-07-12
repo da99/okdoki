@@ -229,6 +229,22 @@ Room_Seat.enter = function (room, life, flow) {
   })
   .run();
 };
+
+Room_Seat.leave = function (chat_room, life, flow) {
+  River.new(flow)
+  .job('update', function (j) {
+    TABLE
+    .update_one({
+      chat_room_screen_name: chat_room,
+      owner_screen_name: life
+    }, {last_seen_at: '$now', is_empty: 't'}, j);
+  })
+  .run(function (j, row) {
+    j.finish(Room_Seat.new(row));
+  });
+};
+
+
 // ================================================================
 // ================== Trash/Untrash ===============================
 // ================================================================
