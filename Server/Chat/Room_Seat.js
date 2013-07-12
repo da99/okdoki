@@ -96,6 +96,24 @@ Room_Seat.create_by_room = function (room, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Room_Seat.read_and_require_filled = function (chat_room, user, flow) {
+  River.new(flow)
+  .job('read', function (j) {
+    TABLE
+    .read_one({
+      chat_room_screen_name: chat_room,
+      owner_screen_name: user.screen_names(),
+      is_empty: 'f'
+    }, j);
+  })
+  .job('require', function (j, seat) {
+    if (seat)
+      return j.finish(seat);
+    j.finish('not_found', "You're not in the room: " + chat_room);
+  })
+  .run();
+};
+
 Room_Seat.read_by_room_and_screen_name_id = function (room, sn_id, flow) {
   var data = {
     chat_room_id: room.data.id,
@@ -140,7 +158,7 @@ Room_Seat.read_list_by_room = function (room, flow) {
   .run();
 };
 
-Room_Seat.read_for_customer = function (c, flow) {
+Room_Seat.read_list_for_customer = function (c, flow) {
   var names = _.map(c.screen_names(), function (n) {
     return {
       owner_screen_name     : n,

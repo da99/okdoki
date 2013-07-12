@@ -12,7 +12,7 @@ append templates
 append Chat_Msgs_Write
   div.box#Write
     div.content
-      form#Write_To_Chat_Room(action="/me/#{screen_name}/chat/msg", method="post")
+      form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
         div.fields
           div.field.body
             span.label Type your message:

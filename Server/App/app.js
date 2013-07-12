@@ -54,6 +54,7 @@ exports.is_allow_unauth_path = function (req) {
   return i > -1;
 };
 
+
 var New_River = exports.New_River = function (req, resp, next) {
   if (req.length) {
     resp = req[1];
@@ -62,20 +63,22 @@ var New_River = exports.New_River = function (req, resp, next) {
   }
 
   var r = River.new(null);
-
-  r.next('invalid', function (j) {
+  var invalid_or_not_found = function (j) {
     if (req.accepts('html'))
       resp.send(j.job.error.message);
     else
       resp.json({success: false, msg: j.job.error.message});
-  });
+  };
+
+  r.next('invalid', invalid_or_not_found);
+  r.next('not_found', invalid_or_not_found);
 
   r.read_one = function () {
     var args = _.toArray(arguments);
     var func = args.pop();
     var name = args[0];
     args.push(function (j, last) {
-      if (args.length === 2 && func.length ===2 && !last) {
+      if (args.length === 2 && func.length === 2 && !last) {
         log(last)
         log('Not found: ', name);
         return j.finish(null);

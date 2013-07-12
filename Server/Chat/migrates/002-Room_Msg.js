@@ -10,14 +10,14 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE UNLOGGED TABLE      "' + table + '" (                             \n\
-    id                serial PRIMARY KEY,                                               \n\
-    chat_room_id      int,                                                              \n\
-    author_id         int,                                                              \n\
-    body              text,                                                             \n\
-    $created_at                                                                         \n\
+    var sql = 'CREATE UNLOGGED TABLE      "' + table + '" (             \n\
+    id              serial PRIMARY KEY,                                 \n\
+    chat_room       varchar(50) NOT NULL,                               \n\
+    author          varchar(50) NOT NULL,                               \n\
+    body            text,                                               \n\
+    $created_at                                                         \n\
     );';
-    r.create(sql, "CREATE INDEX ON \"" + table + "\" (chat_room_id, created_at) ");
+    r.create(sql, "CREATE INDEX ON \"" + table + "\" (chat_room, created_at) ");
 
   }
 };

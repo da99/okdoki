@@ -127,7 +127,7 @@ exports.route = function (mod) {
     });
   });
 
-  app.post('/me/:screen_name/chat/msgs', function (req, resp, next) {
+  app.post('/chat_room/msg_list', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     mod
     .New_River(req, resp, next)
@@ -188,32 +188,21 @@ exports.route = function (mod) {
 
   // =============== Speaking to the Chat Room... ===================
 
-  app.post('/me/:screen_name/chat/msg', function (req, resp, next) {
+  app.post('/chat_room/msg', function (req, resp, next) {
     var OK = mod.New_Request(arguments);
     mod
     .New_River(req, resp, next)
-    .read_one('screen_name', function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
-    })
-    .read_one('room', function (j, sn) {
-      Website.read_by_screen_name(sn, j);
-    })
-    .read_one('seat', function (j, room) {
-      Chat_Room_Seat.read_by_room_and_screen_name_id(room, req.body.life_id, j);
+    .job('seat', function (j) {
+      Chat_Room_Seat.read_and_require_filled(req.body.chat_room_screen_name, req.user, j);
     })
     .create_one('msg', function (j, seat) {
-      Chat_Msg.create_by_seat_and_body(seat, req.body.body, j);
+      Chat_Room_Msg.create_by_seat_and_body(seat, req.body.body, j);
     })
     .run(function (fin, msg) {
-      if (!msg)
-        return OK.json({success: false, msg: "Chat room unavailable."});
-
-      msg.data.author_screen_name = req.body.as_this_life;
-
       OK.json({
         success: true,
         msg: "Message sent to the chat room.",
-        chat_msg: msg.data
+        chat_msg: _.extend({is_me: true}, msg.public_data())
       });
     });
 

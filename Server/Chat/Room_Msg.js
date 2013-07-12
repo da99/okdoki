@@ -6,12 +6,17 @@ var _         = require("underscore")
 , log         = require("../App/base").log
 ;
 
+var e_e_e = require('escape_escape_escape').Sanitize.html;
+
 var Msg        = exports.Room_Msg = function () {};
 var TABLE_NAME = "Chat_Msg";
 var TABLE      = Topogo.new(TABLE_NAME);
 
 
 Msg.new = function (data) {
+  if (arguments.length && !data)
+    return null;
+
   var o = new Msg();
   o.data = data;
   return o;
@@ -25,6 +30,16 @@ function null_if_empty(str) {
     return null;
   return str;
 }
+
+Msg.prototype.public_data = function () {
+  var me = this;
+  return {
+    chat_room: me.data.chat_room,
+    author   : me.data.author,
+    body     : me.data.body,
+    created_at: me.data.created_at
+  };
+};
 
 // ================================================================
 // ================== Create ======================================
@@ -47,17 +62,15 @@ Msg.create = function (raw_data, flow) {
 
 Msg.create_by_seat_and_body = function (seat, body, flow) {
   var data = {
-    chat_room_id : seat.data.chat_room_id,
-    author_id    : seat.data.screen_name_id,
-    body         : body
+    chat_room : seat.data.chat_room_screen_name,
+    author    : seat.data.owner_screen_name,
+    body      : e_e_e(body)
   };
   River.new(flow)
   .job('create', function (j) {
     TABLE.create(data, j);
   })
   .job('new obj', function (j, row) {
-    if (!row)
-      return j.finish(null);
     j.finish( Msg.new(row) );
   })
   .run();

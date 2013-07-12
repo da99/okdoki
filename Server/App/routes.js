@@ -33,7 +33,7 @@ exports.route = function (mod) {
       opts['title'] =  "My Okdoki";
       mod.New_River(req, resp, next)
       .read_list('seats', function (j) {
-        Chat_Room_Seat.read_for_customer(req.user, j);
+        Chat_Room_Seat.read_list_for_customer(req.user, j);
       })
       .job(function (j, rows) {
         opts['chat_room_seats'] = rows;
