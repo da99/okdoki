@@ -37,20 +37,19 @@ on('chat room msg', function (msg) {
   var template_msg = _.defaults(msg, {
     author_screen_name: '',
     room_name: '',
-    id: msg.id || (new Date).getTime(),
+    dom_id: 'm' + (msg.dom_id || msg.id || (new Date).getTime()),
     author: msg.author || '',
     chat_room: msg.room_name || ''
   });
 
   var o = compile_template('div.msg', template_msg);
-  msg.dom_id = '#' + o.attr('id');
 
   Chat_Msgs.DOM.prepend(o);
 });
 
 // === Add CSS classes.
 on('chat room msg', function (msg) {
-  var o = $(msg.dom_id);
+  var o = $('#' + msg.dom_id);
 
   if (msg.is_official)
     o.addClass('official');
@@ -129,7 +128,7 @@ var CHAT_MSG_Interval = setInterval(function () {
 
 function draw_all_msgs() {
   var m = PENDING_CHAT_MSG.shift();
-  if (!m)
+  if (!m || (m.dom_id && $('#' + m.dom_id).length))
     return;
   emit('chat room msg', m);
   setTimeout(draw_all_msgs, 800);

@@ -1,6 +1,7 @@
 
 var _         = require("underscore")
 , Screen_Name = require("../Screen_Name/model").Screen_Name
+, Chat_Room_Seat=require("../Chat/Room_Seat").Room_Seat
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
 , log         = require("../App/base").log
@@ -32,12 +33,17 @@ function null_if_empty(str) {
 }
 
 Msg.prototype.public_data = function () {
-  var me = this;
+  return public_data(this.data);
+};
+
+function public_data(r) {
   return {
-    chat_room: me.data.chat_room,
-    author   : me.data.author,
-    body     : me.data.body,
-    created_at: me.data.created_at
+    created_at_epoch : r.created_at.getTime(),
+    dom_id           : 'm' + r.id + '_' + r.created_at.getTime(),
+    chat_room        : r.chat_room,
+    author           : r.author,
+    body             : r.body,
+    created_at       : r.created_at
   };
 };
 
@@ -79,31 +85,33 @@ Msg.create_by_seat_and_body = function (seat, body, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-Msg.read_list_by_room_and_last_created_at = function (room, raw_last_time, flow) {
-  if (!raw_last_time)
-    raw_last_time = (new Date).getTime();
-
-  var last_time = new Date((new Date(parseInt(raw_last_time))).getTime() - (1000 * 9));
-
+Msg.read_list_for_customer = function (customer, flow) {
   River.new(flow)
-  .job('read list', function (j) {
-    var sql = "\
-      SELECT id, author_id, body, created_at \n\
-      FROM @table                            \n\
-      WHERE chat_room_id = @chat_room_id     \n\
-        AND created_at >= @last_time         \n\
-    ;";
-    TABLE.run(sql, {chat_room_id: room.data.id, last_time: last_time}, j);
+
+  .job('read chat room seat list', function (j) {
+    Chat_Room_Seat.read_list_for_customer(customer, j);
   })
-  .job('add epoch', function (j, rows) {
-    j.finish(_.map(rows, function (r) {
-      r.created_at_epoch = r.created_at.getTime();
-      return r;
+
+  .job('map', function (j, list) {
+    j.finish(_.map(list, function (s) {
+      return s.chat_room_screen_name;
     }));
   })
-  .job('replace author_id', function (j, rows) {
-    Screen_Name.replace_screen_names(rows, j);
+
+  .job('read list', function (j, list) {
+    var sql = "\
+      SELECT id, author, chat_room, body, created_at       \n\
+      FROM @table                                          \n\
+      WHERE chat_room  IN  @chat_rooms                     \n\
+        AND created_at >=  (now() - INTERVAL '5 seconds')  \n\
+    ;";
+    TABLE.run(sql, {chat_rooms: list}, j);
   })
+
+  .job('add epoch', function (j, rows) {
+    j.finish(_.map(rows, public_data));
+  })
+
   .run();
 };
 

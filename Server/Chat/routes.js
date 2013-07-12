@@ -100,40 +100,18 @@ exports.route = function (mod) {
   // =============== "Listening" to the Chat Room... ================
   app.post('/chat_room/heart_beep', function (req, resp, next) {
 
-    var test_name = Faker.Name.firstName();
-    var msgs = [];
-    msgs.push({
-      id : (new Date).getTime(),
-      author_screen_name : test_name,
-      room_name          : 'ROOOM ' + Faker.Name.firstName(),
-      body               : Faker.Lorem.paragraph() + "<b>bold</b>",
-      created_at         : (new Date),
-      created_at_epoch   : (new Date).getTime()
+    mod.New_River(req, resp, next)
+    .job('read msgs', function (j) {
+      Chat_Room_Msg.read_list_for_customer(req.user, j);
+    })
+    .run(function (fin, list) {
+      resp.json({
+        success : true,
+        msg     : "Done.",
+        msg_list: list
+      });
     });
 
-    msgs.push({
-      id : 101,
-      author_screen_name : 'T___' + Faker.Name.firstName(),
-      room_name          : 'ROOOM ' + test_name,
-      body               : "test msg" + "<bold>bold</bold>",
-      created_at         : (new Date),
-      created_at_epoch   : (new Date).getTime()
-    });
-
-    msgs.push({
-      id : 100,
-      author_screen_name : 'T___' + test_name,
-      room_name          : 'ROOOM ' + test_name,
-      body               : "test msg",
-      created_at         : (new Date),
-      created_at_epoch   : (new Date).getTime()
-    });
-
-    resp.json({
-      success : true,
-      msg     : "Done.",
-      msg_list: []
-    });
   });
 
   app.post('/chat_room/msg_list', function (req, resp, next) {
