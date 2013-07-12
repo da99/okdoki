@@ -187,14 +187,18 @@ Room_Seat.enter = function (room, life, flow) {
       return j.finish(row);
     if (room !== life)
       return j.finish(null);
-    River.new(j)
-    .job(function (j2) {
-      Room_Seat.create(room, life, j2);
+
+    // === If it does not not exist,
+    //     leave this flow, create, then enter.
+    River.new(flow)
+    .job(function (j) {
+      Room_Seat.create(room, life, j);
     })
-    .job(function () {
-      Room_Seat.enter(room, life, flow);
+    .job(function (j) {
+      Room_Seat.enter(room, life, j);
     })
     .run();
+
   })
   .job(function (j, row) {
     j.finish(Room_Seat.new(row));
