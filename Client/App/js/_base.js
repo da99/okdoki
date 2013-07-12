@@ -267,7 +267,7 @@ function read_template(se) {
 }
 
 function template_to_underscore(html) {
-  return html.replace(_templ_vars_, "<%= $1 %>");
+  return html.replace(_templ_vars_, "<%- $1 %>");
 }
 
 function create_unless(se) {
