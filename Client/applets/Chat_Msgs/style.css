@@ -24,14 +24,15 @@
 }
 #Messages div.msg div.meta span.name {
   color: #0051af;
+  font-weight: bold;
 }
 #Messages div.msg div.meta span.room_name {
   color: #00a0bd;
+  font-weight: bold;
 }
 #Messages div.msg div.meta span.said,
 #Messages div.msg div.meta span.by {
   color: #545454;
-  font-style: italic;
 }
 #Messages div.msg div.body {
   font-size: 120%;

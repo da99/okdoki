@@ -97,7 +97,7 @@ exports.route = function (mod) {
       id : (new Date).getTime(),
       author_screen_name : test_name,
       room_name          : 'ROOOM ' + Faker.Name.firstName(),
-      body               : Faker.Lorem.paragraph(),
+      body               : Faker.Lorem.paragraph() + "<b>bold</b>",
       created_at         : (new Date),
       created_at_epoch   : (new Date).getTime()
     });
@@ -106,7 +106,7 @@ exports.route = function (mod) {
       id : 101,
       author_screen_name : 'T___' + Faker.Name.firstName(),
       room_name          : 'ROOOM ' + test_name,
-      body               : "test msg",
+      body               : "test msg" + "<bold>bold</bold>",
       created_at         : (new Date),
       created_at_epoch   : (new Date).getTime()
     });
