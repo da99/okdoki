@@ -153,8 +153,9 @@ Room_Seat.read_for_customer = function (c, flow) {
     TABLE
     .run( "\n\
          SELECT * FROM @table         \n\
-         WHERE owner_screen_name IN @owner_screen_names; \n\
-         ", {owner_screen_names: c.screen_names()}, j);
+         WHERE owner_screen_name IN @owner_screen_names \n\
+           AND chat_room_screen_name NOT IN @owner_screen_names \n\
+         ;", {owner_screen_names: c.screen_names()}, j);
   })
   .job('map and reverse', function (j, records){
     j.finish(_.map(records, function (n) {

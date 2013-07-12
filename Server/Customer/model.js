@@ -27,7 +27,7 @@ var Customer = exports.Customer = function () {
 Customer.new = function () {
   var mem = new Customer();
   mem.is_new         = true;
-  mem.data           = {screen_name_rows: []};
+  mem.data           = {screen_name_rows: {}};
   mem.sanitized_data = {};
   mem.new_data       = {};
   return mem;
@@ -165,10 +165,7 @@ Customer.prototype.screen_name_row = function (name, def) {
 Customer.prototype.screen_names = function () {
   var me = this;
   var rows = me.data.screen_name_rows;
-
-  return _.map( _.keys(rows).sort().reverse(), function (id) {
-    return rows[id].screen_name;
-  });
+  return _.pluck(_.values(rows).reverse(), 'screen_name');
 };
 
 Customer.prototype.screen_name_id = function (name) {
