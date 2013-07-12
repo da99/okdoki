@@ -9,7 +9,7 @@ var _         = require("underscore")
 var e_e_e = require('escape_escape_escape').Sanitize.html;
 
 var Msg        = exports.Room_Msg = function () {};
-var TABLE_NAME = "Chat_Msg";
+var TABLE_NAME = "Chat_Room_Msg";
 var TABLE      = Topogo.new(TABLE_NAME);
 
 

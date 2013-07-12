@@ -106,9 +106,9 @@ Room_Seat.read_and_require_filled = function (chat_room, user, flow) {
       is_empty: 'f'
     }, j);
   })
-  .job('require', function (j, seat) {
+  .job('new obj', function (j, seat) {
     if (seat)
-      return j.finish(seat);
+      return j.finish(Room_Seat.new(seat));
     j.finish('not_found', "You're not in the room: " + chat_room);
   })
   .run();

@@ -8,7 +8,7 @@ var _         = require('underscore')
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Chat_Room_Seat = require('../Chat/model').Room_Seat
-, Chat_Msg    = require('../Chat/model').Msg
+, Chat_Room_Msg=require('../Chat/model').Msg
 , Faker       = require('Faker')
 , log         = require("../App/base").log
 ;
