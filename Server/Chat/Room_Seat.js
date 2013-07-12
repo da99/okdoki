@@ -41,14 +41,20 @@ Room_Seat.prototype.public_data = function (o) {
 // ================== Create ======================================
 // ================================================================
 
-Room_Seat.create = function (room, life, flow) {
+Room_Seat.create_by_chat_room_and_owner = function (room, life, flow) {
   var where = {
     chat_room_screen_name: room,
     owner_screen_name    : life
   };
 
   River.new(flow)
-  .job('create', function (j, r) {
+  .job('read screen name', function (j) {
+    Screen_Name.read_by_screen_name(room, j);
+  })
+  .job('create', function (j, screen_name) {
+    if (!screen_name)
+      return j.finish('invalid', "Chat room does not exist: " + room);
+
     TABLE
     .on_dup(TABLE_NAME + '_seat', function (name) {
       j.finish(null);
@@ -210,7 +216,7 @@ Room_Seat.enter = function (room, life, flow) {
     //     leave this flow, create, then enter.
     River.new(flow)
     .job(function (j) {
-      Room_Seat.create(room, life, j);
+      Room_Seat.create_by_chat_room_and_owner(room, life, j);
     })
     .job(function (j) {
       Room_Seat.enter(room, life, j);

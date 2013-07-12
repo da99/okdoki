@@ -34,7 +34,7 @@ exports.route = function (mod) {
     mod
     .New_River(req, resp, next)
     .create_one('chat room seat', function (j) {
-      Chat_Room_Seat.create(
+      Chat_Room_Seat.create_by_chat_room_and_owner(
         req.body.chat_room_screen_name,
         req.body.as_this_life,
         j);
