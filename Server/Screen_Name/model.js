@@ -221,21 +221,6 @@ S.create = function (customer, job) {
   })
 
   .job(function (j, r) {
-    // === Create website and folder, My Journal.
-    River.new(j)
-    .job(function (j2) {
-      Website.create({type_id: 1, owner_id: r.id}, j2);
-    })
-    .job(function (j2, website) {
-      Folder.create({num: 1, website_id: website.data.id, owner_id: r.id, title: "My Journal"}, j2)
-    })
-    .job(function (j2) {
-      j.finish(r);
-    })
-    .run();
-  })
-
-  .job(function (j, r) {
     var data = _.extend(insert_data, r);
     customer.push_screen_name_row(data);
     return j.finish(S.new(data));
