@@ -22,9 +22,9 @@ create_event('chat room msg');
 
 on('before success #Write_To_Chat_Room', function (o) {
   o.flow.stop();
-  o.form.draw_success_msg(o.data.msg);
+  o.form.reset_status();
   Chat_Msgs.Write.find('textarea').val("");
-  emit('chat room msg', o.data);
+  emit('chat room msg', o.data.chat_msg);
 });
 
 
@@ -37,7 +37,9 @@ on('chat room msg', function (msg) {
   var template_msg = _.defaults(msg, {
     author_screen_name: '',
     room_name: '',
-    id: msg.id || (new Date).getTime()
+    id: msg.id || (new Date).getTime(),
+    author: msg.author || '',
+    chat_room: msg.room_name || ''
   });
 
   var o = compile_template('div.msg', template_msg);
@@ -53,8 +55,10 @@ on('chat room msg', function (msg) {
   if (msg.is_official)
     o.addClass('official');
 
-  if (msg.is_me)
+  if (msg.is_me) {
     o.addClass('me');
+    o.find('span.name').text(o.find('span.name').text() + ' (me)');
+  }
 
   if (msg.is_error)
     o.addClass('error');

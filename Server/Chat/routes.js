@@ -123,7 +123,7 @@ exports.route = function (mod) {
     resp.json({
       success : true,
       msg     : "Done.",
-      msg_list: msgs
+      msg_list: []
     });
   });
 
