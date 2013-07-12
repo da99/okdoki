@@ -13,6 +13,7 @@ m.migrate = function (dir, r) {
     var sql = 'CREATE UNLOGGED TABLE      "' + table + '" (             \n\
     id              serial PRIMARY KEY,                                 \n\
     is_official     BOOLEAN DEFAULT false,                              \n\
+    is_error        BOOLEAN DEFAULT false,                              \n\
     chat_room       varchar(50) NOT NULL,                               \n\
     author          varchar(50) NOT NULL,                               \n\
     body            text,                                               \n\
