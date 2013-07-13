@@ -172,11 +172,6 @@ Chat_Room.prototype.leave = function () {
 
   me.in.addClass('loading');
 
-  emit('chat room msg', {
-    is_official: true,
-    body: "Leaving room: " + me.name + '. Please wait...'
-  });
-
   var fin = function () {
     me.in.removeClass('loading');
     me.in.hide();
