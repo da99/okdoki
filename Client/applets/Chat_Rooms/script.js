@@ -137,11 +137,6 @@ Chat_Room.prototype.enter = function () {
 
   me.out.addClass('loading');
 
-  emit('chat room msg', {
-    is_official: true,
-    body: "Please wait... Entering room: " + me.name + " as " + me.o_name
-  });
-
   post("/chat_room/enter", me.data, function (err, result) {
     me.out.removeClass('loading');
     if (err || !result.success) {
