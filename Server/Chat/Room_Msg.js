@@ -72,12 +72,30 @@ Msg.create_by_seat_and_body = function (seat, body, flow) {
     author    : seat.data.owner,
     body      : e_e_e(body)
   };
+
   River.new(flow)
   .job('create', function (j) {
     TABLE.create(data, j);
   })
   .job('new obj', function (j, row) {
     j.finish( Msg.new(row) );
+  })
+  .run();
+};
+
+Msg.create_official = function (chat_room, body, flow) {
+  var data = {
+    chat_room: chat_room,
+    author   : 'okdoki',
+    body     : body
+  };
+
+  River.new(flow)
+  .job('create', function (j) {
+    TABLE.create(data, j);
+  })
+  .job(function (j, row) {
+    j.finish(Msg.new(row));
   })
   .run();
 };

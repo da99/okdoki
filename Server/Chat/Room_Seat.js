@@ -247,6 +247,44 @@ Room_Seat.leave = function (chat_room, life, flow) {
 };
 
 
+Room_Seat.update_disconnected_chatters = function () {
+  var sql = "\
+    UPDATE @table                \n\
+    SET  is_empty = 't'          \n\
+    WHERE is_empty = 'f'         \n\
+      AND last_seen_at < (now() - INTERVAL '3 seconds')      \n\
+    RETURNING chat_room, owner                               \n\
+  ;";
+
+  River.new()
+  .job('find and update', function (j) {
+    TABLE.run(sql, {}, j);
+  })
+  .job('announce', function (j, seats) {
+    if (!seats.length)
+      return j.finish(seats);
+    var rooms = {};
+    _.each(seats, function (r) {
+      if (!rooms[r.chat_room])
+        rooms[r.chat_room] = [];
+      rooms[r.chat_room].push(r.owner);
+    });
+
+    var river = River.new(j);
+
+    _.each(rooms, function (arr, chat_room) {
+      river.job(chat_room, function (j2) {
+        Chat_Room_Msg.create_official(chat_room, "Disconnected: " + arr.join(', '), j2);
+      });
+    });
+
+    river.run();
+  })
+  .run(function (fin, last) {
+    log(last);
+  });
+};
+
 // ================================================================
 // ================== Trash/Untrash ===============================
 // ================================================================

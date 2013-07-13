@@ -13,11 +13,12 @@ var _         = require('underscore')
 , River       = require('da_river').River
 ;
 
-var Customer  = require('../Customer/model').Customer
-, Screen_Name = require('../Screen_Name/model').Screen_Name
-, Chat_Bot    = require('../Chat/Chat_Bot').Chat_Bot
-, H           = require('../App/Helpers').H
-, OMNI        = require('../../Client/App/js/common')
+var Customer     = require('../Customer/model').Customer
+, Screen_Name    = require('../Screen_Name/model').Screen_Name
+, Chat_Room_Seat = require('../Chat/Room_Seat').Room_Seat
+, Chat_Bot       = require('../Chat/Chat_Bot').Chat_Bot
+, H              = require('../App/Helpers').H
+, OMNI           = require('../../Client/App/js/common')
 ;
 
 var log       = require('./base').log
@@ -592,14 +593,23 @@ function screen_names(arr) {
 
 exports.app    = app;
 
-// setInterval(Chat_Bot.send_ims, 4000);
-
 process.on('SIGHUP', function () {
   _.each(mtimes, function (v, k) {
     mtimes[k] = (new Date()).getTime();
   });
   console.log('SIGHUP: Reloading mtimes.');
 });
+
+
+
+if (process.env.PORT === '1111') {
+  setInterval(function () {
+    Chat_Room_Seat.update_disconnected_chatters();
+  }, 3000);
+}
+// setInterval(Chat_Bot.send_ims, 4000);
+
+
 
 
 
