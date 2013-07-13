@@ -147,6 +147,7 @@ Chat_Room.prototype.enter = function () {
     if (err || !result.success) {
       emit('chat room msg', {
         is_official: true,
+        is_error:    true,
         body: "Try again later. Chat room unavailable: " + me.name
       });
       log(err, result);

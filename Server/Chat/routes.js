@@ -13,6 +13,15 @@ var _         = require('underscore')
 , log         = require("../App/base").log
 ;
 
+function people_quantity(list) {
+  var l = list.length;
+  if (list.length > 1)
+    return "are " + l + ' chatters';
+  if (list.length === 1)
+    return "is " + l + ' chatter';
+  return "is no one";
+}
+
 exports.route = function (mod) {
 
   var app         = mod.app;
@@ -66,6 +75,8 @@ exports.route = function (mod) {
 
   app.post('/chat_room/enter', function (req, resp, next) {
 
+    var seat = null;
+
     mod.New_River(req, resp, next)
 
     .job('seat', function (j, room) {
@@ -75,14 +86,27 @@ exports.route = function (mod) {
         j);
     })
 
-    .run(function (fin, seat) {
+    .job('chatters', function (j, s) {
+      if (!s)
+        return j.finish();
+      seat = s;
+      Chat_Room_Seat.read_chatter_list(seat, j);
+    })
+
+    .run(function (fin, chatters) {
 
       if (seat) {
+        var msg = "Success: You're in, " +
+          seat.data.chat_room            +
+          ", as "                        +
+          seat.data.owner                +
+          '. There *' + people_quantity(chatters) + '* in this room.';
         resp.json({
           success: true,
-          msg: "Success: You're in, " + seat.data.chat_room + ", as " + seat.data.owner,
+          msg:     msg,
           owner     : seat.data.owner,
-          chat_room : seat.data.chat_room
+          chat_room : seat.data.chat_room,
+          chatters  : chatters
         });
         return;
       }
@@ -128,7 +152,7 @@ exports.route = function (mod) {
       Chat_Room_Seat.create_by_room(room, j);
     })
     .read_list('seat_list', function (j, seat) {
-      Chat_Room_Seat.read_list_by_room(j.river.reply_for('room'), j);
+      Chat_Room_Seat.read_chatter_list(j.river.reply_for('room'), j);
     })
     .read_list('msg_list', function (j, list) {
       Chat_Msg.read_list_by_room_and_last_created_at(j.river.reply_for('room'), req.body.last_created_at,j);

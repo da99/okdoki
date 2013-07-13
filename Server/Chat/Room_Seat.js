@@ -137,26 +137,32 @@ Room_Seat.read_by_room_and_screen_name_id = function (room, sn_id, flow) {
   .run();
 };
 
-Room_Seat.read_list_by_room = function (room, flow) {
-  var now = (new Date).getTime();
-  var target = now - (1000 * 3);
+Room_Seat.read_chatter_list = function (seat, flow) {
 
   var data = {
-    chat_room_id: room.data.id
+    chat_room: seat.data.chat_room,
+    owner    : seat.data.owner
   };
 
   River.new(flow)
 
   .job('read seats', function (j) {
-    TABLE.read_list(data, j);
+    var sql = "\
+      SELECT owner                                           \n\
+      FROM @table                                            \n\
+      WHERE chat_room = @chat_room                           \n\
+        AND last_seen_at > (now() - INTERVAL '4 seconds')    \n\
+        AND owner != @owner                                  \n\
+        AND is_empty = false                                 \n\
+    ;";
+    TABLE
+    .run(sql, data, j);
   })
 
-  .job('set old', function (j, rows) {
-    j.finish(_.map(rows, function (r) {
-      var is_out = !r.last_seen_at || (r.last_seen_at.getTime() < (target));
-      return { screen_name: r.screen_name, is_out: is_out };
-    }));
+  .job('map', function (j, rows) {
+    j.finish(_.pluck(rows, 'owner'));
   })
+
   .run();
 };
 
