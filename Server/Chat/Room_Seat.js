@@ -151,10 +151,6 @@ Room_Seat.read_list_by_room = function (room, flow) {
     TABLE.read_list(data, j);
   })
 
-  .job('attach screen names', function (j, rows) {
-    Screen_Name.replace_screen_names(rows, j);
-  })
-
   .job('set old', function (j, rows) {
     j.finish(_.map(rows, function (r) {
       var is_out = !r.last_seen_at || (r.last_seen_at.getTime() < (target));
