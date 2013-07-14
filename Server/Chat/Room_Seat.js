@@ -34,7 +34,7 @@ Room_Seat.prototype.max_time = function () {
 };
 
 Room_Seat.prototype.public_data = function (o) {
-  return _.pick(this.data, 'chat_room', 'owner', 'last_seen_at', 'is_empty' );
+  return _.pick(this.data, 'chat_room', 'owner', 'last_seen_at', 'is_in' );
 };
 
 // ================================================================
@@ -109,7 +109,7 @@ Room_Seat.read_and_require_filled = function (chat_room, user, flow) {
     .read_one({
       chat_room: chat_room,
       owner: user.screen_names(),
-      is_empty: 'f'
+      is_in: 't'
     }, j);
   })
   .job('new obj', function (j, seat) {
@@ -153,7 +153,7 @@ Room_Seat.read_chatter_list = function (seat, flow) {
       WHERE chat_room = @chat_room                           \n\
         AND last_seen_at > (now() - INTERVAL '4 seconds')    \n\
         AND owner != @owner                                  \n\
-        AND is_empty = false                                 \n\
+        AND is_in  = true                                    \n\
     ;";
     TABLE
     .run(sql, data, j);
@@ -206,7 +206,7 @@ Room_Seat.enter = function (room, life, flow) {
   .job('read', function (j) {
     TABLE
     .update_one({chat_room: room, owner: life},
-            {last_seen_at: '$now', is_empty: 'f'}, j);
+            {last_seen_at: '$now', is_in   : 't'}, j);
   })
   .job('create', function (j, row) {
     if (row)
@@ -239,7 +239,7 @@ Room_Seat.leave = function (chat_room, life, flow) {
     .update_one({
       chat_room: chat_room,
       owner: life
-    }, {last_seen_at: '$now', is_empty: 't'}, j);
+    }, {last_seen_at: '$now', is_in   : 'f'}, j);
   })
   .run(function (j, row) {
     j.finish(Room_Seat.new(row));
@@ -250,8 +250,8 @@ Room_Seat.leave = function (chat_room, life, flow) {
 Room_Seat.update_disconnected_chatters = function () {
   var sql = "\
     UPDATE @table                \n\
-    SET  is_empty = 't'          \n\
-    WHERE is_empty = 'f'         \n\
+    SET  is_in = 'f'          \n\
+    WHERE is_in = 't'         \n\
       AND last_seen_at < (now() - INTERVAL '3 seconds')      \n\
     RETURNING chat_room, owner                               \n\
   ;";
