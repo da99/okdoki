@@ -42,27 +42,12 @@ exports.route = function (mod) {
     .read_one('screen_name', function (j) {
       Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
-    .read_one('website', function (j, sn) {
-      Website.read_by_screen_name(sn, j);
-    })
-    .read_list('follows', function (j, website) {
-      if (!req.user)
-        return j.finish([]);
-      Follow.read_list_by_website_and_customer(website, req.user, j);
-    })
-    .read_one('folders', function (j) {
-      Folder.read_list_by_website(j.river.reply_for('website'), j)
-    })
     .job(function (j, list) {
       if (!list)
         return req.next();
       var uni = list.website;
-      data               = OK.template_data('Screen_Name/me/me');
-      data['title']      = uni.data.title || req.params.screen_name;
-      data['website']    = uni;
-      data['website_id'] = uni.data.id;
-      data['folders']    = list.list;
-      data['is_following']  = !!j.river.reply_for('follows').length;
+      data               = OK.template_data('Screen_Name/me');
+      data['title']      = "The life of " + req.params.screen_name;
       OK.render_template();
     })
     .run();

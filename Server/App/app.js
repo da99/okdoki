@@ -469,7 +469,7 @@ module.exports.sign_in = function (req, resp, next, msg) {
         success     : true,
         screen_name : Screen_Name.filter(req.body.screen_name),
         location    : url_wanted(req, Screen_Name.to_url(req.body.screen_name)),
-        location    : '/'
+        location    : '/me/' + req.body.screen_name
       });
     });
 
