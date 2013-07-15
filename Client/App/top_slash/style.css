@@ -55,7 +55,9 @@ h1.title span.sub {
 }
 span.about {
   color: #ff8f00;
-  font-weight: bold;
+  font-weight: normal;
+  font-size: 110%;
+  font-style: italic;
 }
 span ul.nav_bar {
   text-align: left;

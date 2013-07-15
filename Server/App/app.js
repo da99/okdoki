@@ -602,14 +602,6 @@ process.on('SIGHUP', function () {
 
 
 
-if (process.env.PORT === '1111') {
-  setInterval(function () {
-    console.log('Skipping it for now.');
-    return true;
-    Chat_Room_Seat.update_disconnected_chatters();
-  }, 3000);
-}
-// setInterval(Chat_Bot.send_ims, 4000);
 
 
 
