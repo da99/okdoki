@@ -31,6 +31,20 @@ exports.route = function (mod) {
 
   // =============== Entering the Chat Room... ======================
 
+  app.get('/chat', function (req, resp, next) {
+      mod.New_River(req, resp, next)
+      .read_list('seats', function (j) {
+        Chat_Room_Seat.read_list_for_customer(req.user, j);
+      })
+      .job(function (j, rows) {
+        opts['chat_room_seats'] = rows;
+        j.finish(rows);
+      })
+      .run(function (river, rows) {
+        return OK.render_template();
+      });
+  });
+
   app.get('/me/:screen_name/chat', function (req, resp, next) {
     var OK = New_Request(req, resp, next);
     var data = OK.template_data('Chat/index');
