@@ -7,22 +7,7 @@ include "../../App/top_slash/layout.blade"
 - else
   - var S = 's';
 
-append Session_Nav
-  a.urgent(href="#urgent")
-    span.number 0
-    span.body  Urgent
-  a.im_bored(href="#i_am_bored")
-    span.number 0
-    span.body  I'm Bored
-  a.good_news(href="#good")
-    span.number 0
-    span.body  Good News
-  a.bad_news(href="#bad")
-    span.number 0
-    span.body  Bad News
-  a.other(href="#other")
-    span.number 0
-    span.body  Other Mail
+
 
 
 append content
@@ -34,7 +19,7 @@ append content
     span.sub
       | doki
     span.wat_wat
-      | Multi-Life, Multi-Room Chat
+      | :&nbsp;My Account
 
   //- ===========================================================
   div.col#Interact
@@ -45,20 +30,28 @@ append content
     block Chat_Rooms_Enter
 
     div.box#Create_Life
-      h3 Create A New Life:
-      div.content
-        form#Create_Screen_Name(action="/me", method="POST")
-          div.fields
-            div.field.screen_name
-              span.label Screen Name:
-              input(type="text", value="", name="screen_name")
-            div.field.sn_type
-              input(type="checkbox", name="type_id", value="2")
-              label(for="sn_type")
-                | It's for a thing:
-                | website, product, event, etc.
-          div.buttons
-            button.submit Create
+      div.mini_box.my_life
+        h3 My Life(s):
+        div.content
+          ul.screen_names
+            - for (var i in customer_screen_names)
+              li
+                a(href="/me/#{customer_screen_names[i]}") #{customer_screen_names[i]}
+      div.mini_box.create_life
+        h3 Create A New Life:
+        div.content
+          form#Create_Screen_Name(action="/me", method="POST")
+            div.fields
+              div.field.screen_name
+                span.label Screen Name:
+                input(type="text", value="", name="screen_name")
+              div.field.sn_type
+                input(type="checkbox", name="type_id", value="2")
+                label(for="sn_type")
+                  | It's for a thing:
+                  | website, product, event, etc.
+            div.buttons
+              button.submit Create
 
 
 
@@ -67,8 +60,6 @@ append content
     block Chat_Msgs_List
 
 
-call applet('Chat_Rooms')
-call applet('Chat_Msgs')
 
 
 

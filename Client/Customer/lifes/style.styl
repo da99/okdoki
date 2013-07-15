@@ -61,6 +61,21 @@ h1
 div.col
   float: right
 
+ul.screen_names
+  list-style: none
+  margin: 0
+  padding: 0
+  li
+    margin: 0
+    padding: 0
+    list-style: none
+    display: inline
+    padding: 0 10px 0 0
+  li:after
+    content: ", "
+  li:last-child:after
+    content: ""
+
 #Logo
   padding-top: 4px
 
@@ -103,6 +118,16 @@ div.col
        font-size: 95%
      input
        margin: 0 3px 0 0
+    div.my_life
+      div.content
+        text-align: center
+        padding-top: 0
+        padding-bottom: 10px
+        margin: 0 30px 5px 30px
+        border-bottom: 1px dashed #ccc
+    div.create_life
+      div.content
+        padding-top: 0
 
 
 
