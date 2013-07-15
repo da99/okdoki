@@ -28,6 +28,9 @@ h1 {
 div.col {
   float: right;
 }
+#Logo {
+  padding-top: 4px;
+}
 #Chat {
   float: left;
   width: 55%;

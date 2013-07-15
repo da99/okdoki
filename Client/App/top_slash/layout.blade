@@ -49,6 +49,7 @@ html(lang='en')
 
     - if (is_customer)
       div#Session_Nav
+        block Session_Nav
         - if (!is_top_slash)
           a#Top_Slassh(href="/") My Lifes
         a#Log_Out(href="/log-out") Log-out
