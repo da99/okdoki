@@ -30,13 +30,29 @@ on('after success #Create_Screen_Name', function (result) {
   var sn = result.data.screen_name;
   Customer_Lifes.sn_new.push(sn);
 
+  emit('screen name', {screen_name: sn});
+  return sn;
+});
+
+on('screen name', function (m) {
+  var sn = m.screen_name;
   // === Add new name to SELECT menus.
   $('select[name="as_this_life"]').each(function (i, e) {
     $(e).prepend(Customer_Lifes.new_opt(sn));
     $(e).val(sn);
     $(e).parent('span.as_this_life').show();
   });
-
-  emit('screen name', {screen_name: sn});
-  return sn;
 });
+
+on('screen name', function (m) {
+  var o = $('<li><a href="/me/LIFE">LIFE</a></li>'.replace(/LIFE/g, m.screen_name));
+  $('#Create_Life ul.screen_names').prepend(o);
+});
+
+
+
+
+
+
+
+
