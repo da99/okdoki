@@ -42,7 +42,7 @@ h1.title {
   padding: 10px 0 7px 0;
 }
 h1.title span.main {
-  color: rgba(255,255,255,0.85);
+  color: #e5e5e2;
   font-weight: bold;
   font-style: italic;
   padding-right: 5px;
@@ -51,7 +51,7 @@ h1.title span.main {
 h1.title span.sub {
   font-size: 20pt;
   color: #f85d95;
-  color: rgba(248,93,149,0.9);
+  color: #de5787;
 }
 span.about {
   color: #ff8f00;
@@ -212,6 +212,11 @@ a.author {
 form div.success {
   border: 0;
   color: #ffdf2c;
+}
+input[type="text"],
+input[type="password"],
+textarea {
+  background: #ececec;
 }
 #forms {
   margin: 10px 0 0 0;
