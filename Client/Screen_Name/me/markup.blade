@@ -45,16 +45,18 @@ append content
   //- ===========================================================
   //- ===========================================================
   //- ===========================================================
-  div#Home_Page
-    div#Me
-      h3  The life of... #{screen_name}
-      div.content
-        | Bits and pieces from #{screen_name}'s life.
+  div#Me
+    h3  The life of... #{screen_name}
+    div.content
+      | Bits and pieces from #{screen_name}'s life.
 
 
-    div#Boxs
-      //- ===========================================================
-      div.create_boxs#Create_Boxs
+  div#Boxs
+    //- ===========================================================
+    div.col#Stage
+      block Stage
+    div.col#Interact
+      block Interact
 
 
 

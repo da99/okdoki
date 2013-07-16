@@ -25,33 +25,20 @@ form textarea {
   min-height: 100px;
   width: 97%;
 }
+form label {
+  display: block;
+}
+form input[type="text"] {
+  width: 99%;
+}
 select,
 option {
   font-size: 120%;
-}
-#Boxs {
-  padding: 10px;
-  -moz-column-count: 1;
-  -webkit-column-count: 1;
-  -o-column-count: 1;
-  -ms-column-count: 1;
-  column-count: 1;
-  -moz-column-gap: 10px;
-  -webkit-column-gap: 10px;
-  -o-column-gap: 10px;
-  -ms-column-gap: 10px;
-  column-gap: 10px;
-  -moz-column-rule: 1px dashed #aaa;
-  -webkit-column-rule: 1px dashed #aaa;
-  -o-column-rule: 1px dashed #aaa;
-  -ms-column-rule: 1px dashed #aaa;
-  column-rule: 1px dashed #aaa;
 }
 div.box {
   padding: 0;
   margin: 0 0 10px 0;
   width: 98%;
-  display: inline-block;
   padding-bottom: 15px;
   background: rgba(255,255,255,0.85);
 }
@@ -63,6 +50,10 @@ div.box h3 {
 }
 div.box div.content {
   padding: 10px;
+}
+div.col {
+  width: 50%;
+  float: left;
 }
 #Me {
   padding: 20px 0 10px 10px;
@@ -111,6 +102,15 @@ div.box div.content {
 #Other_Screen_Names {
   display: none;
   padding: 0 0 10px 0;
+}
+#Boxs {
+  overflow: auto;
+}
+#Stage {
+  width: 49%;
+}
+#Interact {
+  width: 49%;
 }
 #New_Life div.content span.label {
   padding: 0 10px 0 0;
@@ -287,13 +287,7 @@ div.box div.content {
   font-size: 190%;
   width: 95%;
 }
-body.w600_plus #Boxs {
-  -moz-column-count: 2;
-  -webkit-column-count: 2;
-  -o-column-count: 2;
-  -ms-column-count: 2;
-  column-count: 2;
-}
+body.w600_plus #Me div.content,
 body.w900_plus #Me div.content {
   width: 70%;
 }
@@ -303,9 +297,4 @@ body.w1100_plus #Me div.content {
 body.w1100_plus #Boxs {
   width: 96%;
   margin: 0 auto;
-  -moz-column-count: 3;
-  -webkit-column-count: 3;
-  -o-column-count: 3;
-  -ms-column-count: 3;
-  column-count: 3;
 }

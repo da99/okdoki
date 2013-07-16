@@ -80,21 +80,20 @@ form
     min-height: 100px
     width: 97%
 
+  label
+    display: block
+
+  input[type="text"]
+    width: 99%
+
 select, option
   font-size: 120%
-
-#Boxs
-  padding: 10px
-  column_count(1)
-  column_gap(10px)
-  column_rule( 1px dashed lighten($grey_on_light, 40%) )
 
 
 div.box
   padding: 0
   margin: 0 0 10px 0
   width: 98%
-  display: inline-block
   padding-bottom: 15px
   background: $glass_white
   h3
@@ -104,6 +103,12 @@ div.box
     font-size: 80%
   div.content
     padding: 10px
+
+div.col
+  width: 50%
+  float: left
+
+
 
 #Me
   padding: 20px 0 10px 10px
@@ -146,6 +151,15 @@ div.box
 #Other_Screen_Names
   display: none
   padding:  0 0 10px 0
+
+#Boxs
+  overflow: auto
+
+#Stage
+  width: 49%
+
+#Interact
+  width: 49%
 
 #New_Life
   div.content
@@ -307,11 +321,7 @@ div.box
 //     width: 1300px
 
 
-
-
 body.w600_plus
-  #Boxs
-    column_count(2)
 
 body.w900_plus
   #Me
@@ -325,7 +335,6 @@ body.w1100_plus
   #Boxs
     width 96%
     margin 0 auto
-    column_count(3)
 
 
 
