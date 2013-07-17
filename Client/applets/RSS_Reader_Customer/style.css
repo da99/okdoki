@@ -1,3 +1,6 @@
+#New_RSS_Sub div.intro {
+  padding-bottom: 10px;
+}
 form#Create_RSS_Sub div.field input[type="text"] {
   font-size: 90%;
   font-family: monospace;
