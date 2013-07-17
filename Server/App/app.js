@@ -604,9 +604,8 @@ process.on('SIGHUP', function () {
 
 
 process.on('SIGINT', function () {
-  console.log(arguments);
   server.close(function () {
-    console.log('CLOSEGIN');
+    toobusy.shutdown()
     Topogo.close();
   });
 });
