@@ -575,6 +575,7 @@ function every_sec(se, func) {
 function add_screen_class () {
   var targets = $('html, body');
   var w       = (parseInt($(window).width() / 100) * 100);
+  var actual_w= $(window).width();
   var c       = ((targets.attr('class') || '').split(' '));
 
   _.each(c, function (s) {
@@ -584,9 +585,9 @@ function add_screen_class () {
 
   targets.addClass('w' + w);
   _.each([400, 500, 600, 700, 800, 900, 1000, 1100, 1200], function (target) {
-    if ( w >= target)
+    if ( actual_w >= target)
       targets.addClass('w' + target + '_plus');
-    if ( w < target)
+    if ( actual_w < target)
       targets.addClass('w' + target + '_minus');
   });
 

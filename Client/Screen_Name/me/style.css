@@ -307,18 +307,15 @@ div.box div.content {
   font-size: 190%;
   width: 95%;
 }
-body.w800_minus #Me {
-  width: 100%;
-  max-width: 100%;
+body.w600_minus #Me {
+  margin: 0;
+  width: auto;
   height: auto;
   float: none;
   padding-bottom: 20px;
+  border-radius: 0;
 }
-body.w800_minus #Me div.content {
-  border: 0;
-}
-body.w800_minus #Boxs {
+body.w600_minus #Boxs {
   float: none;
-  width: 100%;
-  max-width: 100%;
+  width: auto;
 }
