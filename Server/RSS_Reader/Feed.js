@@ -1,5 +1,5 @@
 
-var _         = require("underscore")
+var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
@@ -10,11 +10,13 @@ var _         = require("underscore")
 , Check       = require('da_check').Check
 ;
 
+var request    = require("request");
+var cheerio    = require("cheerio");
 
-var Feed = exports.Feed = Ok.Model.new(function () {});
+var Feed       = exports.Feed = Ok.Model.new(function () {});
 
 var TABLE_NAME = exports.Feed.TABLE_NAME = "RSS_Feed";
-var TABLE = Topogo.new(TABLE_NAME);
+var TABLE      = Topogo.new(TABLE_NAME);
 
 Feed._new = function () {
   var o = this;
@@ -69,6 +71,32 @@ Feed.read_list = function (flow) {
     }));
   })
   .run();
+};
+
+Feed.find_feed_url = function (url, flow) {
+  request(url, function (error, response, body) {
+    if (error || response.statusCode !== 200 )
+      flow.finish(null);
+    var type = response.headers['content-type'];
+
+    if (type.match('html'))
+      return flow.finish(cheerio.load(response.body)('link[rel="alternate"]').attr('href'));
+
+    if (type.match('application') || type.match('xml') || type.match('atom') || type.match('json'))
+      return flow.finish(url);
+
+    if (type.match('text')) {
+      var o = null;
+      try {
+        o = JSON.parse(response.body);
+      } catch (e) {
+        o = null;
+      }
+      return flow.finish(o);
+    }
+
+    flow.finish();
+  })
 };
 
 // ================================================================
