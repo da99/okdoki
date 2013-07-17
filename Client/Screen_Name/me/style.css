@@ -44,70 +44,66 @@ div.col {
   top: 0;
   right: 0;
 }
+div.box {
+  padding: 0;
+  background: #fff;
+}
+div.box h3 {
+  padding: 0 5px;
+  font-size: 80%;
+  font-weight: bold;
+  font-style: normal;
+  color: #f1684e;
+  color: #f85d95;
+  text-align: right;
+}
+div.box h3 span.sub {
+  color: #909090;
+  padding-left: 5px;
+}
+div.box div.content {
+  padding: 0 5px 0 10px;
+}
 #Me {
   width: 51%;
   float: left;
   padding-top: 10px;
 }
-h3 {
-  padding: 0 5px 0 10px;
-  font-size: 90%;
-  font-weight: bold;
-  font-style: normal;
-  color: #f1684e;
-  color: #f85d95;
-  text-align: right;
-  font-family: monospace;
-}
-h3 span.sub {
-  color: #909090;
-  padding-left: 5px;
-}
-div.box {
-  padding: 0;
+#Me div.box {
   margin: 0 0 10px 10px;
-  width: 98%;
-  padding-bottom: 15px;
-  background: #f1f1f1;
   border-radius: 4px;
-  background: #fff;
-}
-div.box h3 {
-  padding: 0 5px 0 10px;
-  font-size: 90%;
-  font-weight: bold;
-  font-style: normal;
-  color: #f1684e;
-  color: #f85d95;
-  text-align: right;
-  font-family: monospace;
-}
-div.box div.content {
-  padding: 0 5px 0 10px;
 }
 #Sidebar {
   float: left;
   width: 45%;
-  padding: 0;
-  margin: 0 0 0 10px;
+  padding: 0 0 10px 0;
+  margin: 10px 0 0 10px;
   min-width: 250px;
   border-radius: 4px;
   background: #fff;
 }
-#Sidebar h3 {
-  font-size: 80%;
-  font-style: normal;
-  font-weight: bold;
-  color: #f85d95;
-  padding: 0 10px;
+#Sidebar div.box {
+  text-align: center;
 }
-#Sidebar div.content {
-  padding: 0 10px 10px 10px;
+#Sidebar div.box h3 {
+  padding-top: 5px;
+  text-align: left;
+  padding-left: 10px;
+}
+#Sidebar div.box div.content {
+  padding: 0 10px 5px 10px;
+  border-bottom: 1px dashed #ccc;
+  width: 90%;
+  margin: 0 auto;
+  text-align: left;
+}
+#Sidebar div.box:last-child div.content {
+  border: 0;
 }
 #Me_Intro {
   text-align: center;
   padding: 15px 0 15px 0;
-  border-radius: 0;
+  border-radius: 4px 4px 0 0;
   background: #000 url("/img/escheresque_ste/escheresque_ste.png") repeat -10px 0;
   background: #ffea74 url("/img/busynoise/orange_yellow.gif") repeat -10px 0;
   border-bottom: 15px solid #b0c460;
@@ -347,6 +343,10 @@ div.box div.content {
   font-size: 190%;
   width: 95%;
 }
+body.w600_minus #Session_Nav {
+  position: static;
+  float: none;
+}
 body.w600_minus #Me {
   margin: 0;
   width: auto;
@@ -355,8 +355,13 @@ body.w600_minus #Me {
   padding-bottom: 10px;
   border-radius: 0;
 }
+body.w600_minus #Me div.box {
+  border-radius: 0;
+  margin: 0 10px 10px 10px;
+}
 body.w600_minus #Sidebar {
   float: none;
   width: auto;
   position: static;
+  margin-right: 10px;
 }

@@ -69,66 +69,61 @@ div.col
   top: 0
   right: 0
 
-#Me
-  width: 51%
-  float: left
-  padding-top: 10px
-  // background: #D4EBF1 url("/img/busynoise/blue_sky_bg.jpg") repeat-x
-
-h3
-  padding: 0 5px 0 10px
-  font-size: 90%
-  font-weight: bold
-  font-style: normal
-  color: #F1684E
-  color: $pink
-  text-align: right
-  font-family: monospace
-  span.sub
-    color: #909090
-    padding-left: 5px
 
 div.box
   padding: 0
-  margin: 0 0 10px 10px
-  width: 98%
-  padding-bottom: 15px
-  background: #f1f1f1
-  border-radius: 4px
   background: #fff
   h3
-    padding: 0 5px 0 10px
-    font-size: 90%
+    padding: 0 5px
+    font-size: 80%
     font-weight: bold
     font-style: normal
     color: #F1684E
     color: $pink
     text-align: right
-    font-family: monospace
+    span.sub
+      color: #909090
+      padding-left: 5px
   div.content
     padding: 0 5px 0 10px
+
+#Me
+  width: 51%
+  float: left
+  padding-top: 10px
+  // background: #D4EBF1 url("/img/busynoise/blue_sky_bg.jpg") repeat-x
+  div.box
+    margin: 0 0 10px 10px
+    border-radius: 4px
 
 #Sidebar
   float: left
   width: 45%
-  padding   : 0
-  margin: 0 0 0 10px
+  padding : 0 0 10px 0
+  margin: 10px 0 0 10px
   min-width : 250px
   border-radius: 4px
   background: #fff
-  h3
-    font-size: 80%
-    font-style: normal
-    font-weight: bold
-    color: $pink
-    padding: 0 10px
-  div.content
-    padding: 0 10px 10px 10px
+  div.box
+    text-align: center
+    h3
+      padding-top: 5px
+      text-align: left
+      padding-left: 10px
+    div.content
+      padding: 0 10px 5px 10px
+      border-bottom: 1px dashed #ccc
+      width: 90%
+      margin: 0 auto
+      text-align: left
+  div.box:last-child
+    div.content
+      border: 0
 
 #Me_Intro
   text-align: center
   padding    : 15px 0 15px 0
-  border-radius: 0
+  border-radius: 4px 4px 0 0
   background: #000 url("/img/escheresque_ste/escheresque_ste.png") repeat -10px 0
   background: $yellow url("/img/busynoise/orange_yellow.gif") repeat -10px 0
   border-bottom: 15px solid #B0C460
@@ -339,6 +334,9 @@ div.box
 
 
 body.w600_minus
+  #Session_Nav
+    position: static
+    float: none
   #Me
     margin: 0
     width: auto
@@ -346,10 +344,14 @@ body.w600_minus
     float: none
     padding-bottom: 10px
     border-radius: 0
+    div.box
+      border-radius: 0
+      margin: 0 10px 10px 10px
   #Sidebar
     float: none
     width: auto
     position: static
+    margin-right: 10px
 
 
 
