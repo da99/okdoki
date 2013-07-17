@@ -121,6 +121,7 @@ div.box
     div.content
       border: 0
 
+
 #Me_Intro
   text-align: center
   padding    : 15px 0 15px 0
@@ -269,6 +270,34 @@ div.box
       form
         text-align: center
 
+#Enter_Chat_Room
+  border-radius: 4px
+  background: $glass_black
+  color: $yellow
+  div.content
+    padding: 15px 0 10px 0
+    text-align: center
+    font-size: 110%
+    a:link
+      color: lighten($avacado, 30%)
+      padding: 3px 5px
+      border-radius: 5px
+      border-width: 0
+      font-weight: bold
+      text-transform: uppercase
+      text-decoration: underline
+      &:after
+        content: ": "
+    a:visited
+      color: lighten($avacado, 30%)
+    a:hover
+      background: darken($avacado, 30%)
+      color: #fff
+    div.error_msg
+      display: none
+      background: $light_yellow
+      color: $red
+      padding: 5px
 #Create_Website
   display: none
 

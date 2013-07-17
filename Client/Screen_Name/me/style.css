@@ -7,12 +7,12 @@ body {
   background: #f1f1f1 url("/img/escheresque/escheresque.png");
 }
 h4 {
-  color: $grey_on_light;
+  color: #727272;
 }
 form div.field span.label,
 form div.field label {
   font-weight: normal;
-  color: $grey_on_light;
+  color: #727272;
 }
 form div.field input[type="text"] {
   font-size: 190%;
@@ -274,6 +274,41 @@ div.box div.content {
 #Follow.is_following div.content form {
   text-align: center;
 }
+#Enter_Chat_Room {
+  border-radius: 4px;
+  background: rgba(0,0,0,0.65);
+  color: #ffea74;
+}
+#Enter_Chat_Room div.content {
+  padding: 15px 0 10px 0;
+  text-align: center;
+  font-size: 110%;
+}
+#Enter_Chat_Room div.content a:link {
+  color: #c8d690;
+  padding: 3px 5px;
+  border-radius: 5px;
+  border-width: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+#Enter_Chat_Room div.content a:link:after {
+  content: ": ";
+}
+#Enter_Chat_Room div.content a:visited {
+  color: #c8d690;
+}
+#Enter_Chat_Room div.content a:hover {
+  background: #829537;
+  color: #fff;
+}
+#Enter_Chat_Room div.content div.error_msg {
+  display: none;
+  background: #fffdd2;
+  color: $red;
+  padding: 5px;
+}
 #Create_Website {
   display: none;
 }
@@ -299,7 +334,7 @@ div.box div.content {
   font-style: italic;
 }
 #Message_Board div.msgs div.msg span.said {
-  color: $grey_on_light;
+  color: #727272;
   font-style: italic;
 }
 #Message_Board div.msgs div.msg div.content {
