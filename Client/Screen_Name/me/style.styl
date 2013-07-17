@@ -65,37 +65,28 @@ div.col
 
 #Session_Nav
   background: #fff
+  position: absolute
+  top: 0
+  right: 0
 
 #Me
   width: 51%
   float: left
-  #Me_Intro
-    text-align: center
-    padding    : 30px 0 50px 0
-    border-radius: 0 0 5px 5px
-    background: #000 url("/img/escheresque_ste/escheresque_ste.png") repeat -10px 0
-    margin: 0 0 10px 10px
-    div.the_life_of
-      font-family : 'Libertinage', $serif
-      font-size   : 140%
-      color : #fff
-    h3
-      font-family    : 'Libertinage', $serif
-      font-size      : 200%
-      font-style     : normal
-      font-weight: normal
-      text-transform : none
-      // text-shadow    : 1px 1px 1px lighten(#000, 20%);
-      padding        : 0
-      line-height    : 1.0em
-      color: #F1684E
-    div.content
-      padding: 3px 0 4px 0
-      color: #000
-      width: 90%
-      margin: 0 auto
-      border-bottom: 1px dotted darken(#fff, 60%)
+  padding-top: 10px
+  // background: #D4EBF1 url("/img/busynoise/blue_sky_bg.jpg") repeat-x
 
+h3
+  padding: 0 5px 0 10px
+  font-size: 90%
+  font-weight: bold
+  font-style: normal
+  color: #F1684E
+  color: $pink
+  text-align: right
+  font-family: monospace
+  span.sub
+    color: #909090
+    padding-left: 5px
 
 div.box
   padding: 0
@@ -107,11 +98,13 @@ div.box
   background: #fff
   h3
     padding: 0 5px 0 10px
-    font-size: 80%
+    font-size: 90%
     font-weight: bold
     font-style: normal
     color: #F1684E
-    text-align: left
+    color: $pink
+    text-align: right
+    font-family: monospace
   div.content
     padding: 0 5px 0 10px
 
@@ -119,7 +112,7 @@ div.box
   float: left
   width: 45%
   padding   : 0
-  margin: 10px 0 0 10px
+  margin: 0 0 0 10px
   min-width : 250px
   border-radius: 4px
   background: #fff
@@ -127,10 +120,42 @@ div.box
     font-size: 80%
     font-style: normal
     font-weight: bold
-    color: #F1684E
+    color: $pink
     padding: 0 10px
   div.content
     padding: 0 10px 10px 10px
+
+#Me_Intro
+  text-align: center
+  padding    : 15px 0 15px 0
+  border-radius: 0
+  background: #000 url("/img/escheresque_ste/escheresque_ste.png") repeat -10px 0
+  background: $yellow url("/img/busynoise/orange_yellow.gif") repeat -10px 0
+  border-bottom: 15px solid #B0C460
+  margin: 0
+  div.the_life_of
+    font-family : 'Libertinage', $serif
+    font-size   : 140%
+    color : $samar_red
+    font-weight: bold
+  h3
+    text-align     : center
+    font-family    : 'Libertinage', $serif
+    font-size      : 200%
+    font-style     : normal
+    font-weight: normal
+    text-transform : none
+    text-shadow    : 1px 1px 1px darken($avacado, 60%)
+    padding        : 0
+    line-height    : 1.0em
+    color: #fff
+    font-weight: bold
+  div.content
+    padding: 3px 0 4px 0
+    color: #000
+    width: 90%
+    margin: 0 auto
+    border-bottom: 1px dotted darken(#fff, 60%)
 
 #Control_Panel
   overflow: auto

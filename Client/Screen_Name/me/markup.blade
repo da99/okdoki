@@ -46,24 +46,35 @@ append content
   //- ===========================================================
   //- ===========================================================
   div#Me
-    div#Me_Intro
-      div.the_life_of The life of...
-      h3.name #{screen_name}
+
     div.box
-      h3 Good News (Mail)
+      h3
+        span Good News
+        span.sub (Mail)
       div.content
         | [placeholder]
+
     div.box
-      h3 Bad News (Mail)
+      h3
+        span Bad News
+        span.sub (Mail)
       div.content
         | [placeholder]
+
     div.box
-      h3 Regular Mail
+      h3
+        span Regular Mail
+        span.sub (Mail)
       div.content
         | [placeholder]
 
 
   div#Sidebar
+
+    div#Me_Intro
+      div.the_life_of The life of...
+      h3.name #{screen_name}
+
     h3 About Me
     div.content
       | [placeholder]
