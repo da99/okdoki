@@ -16,7 +16,8 @@ form div.buttons button {
 }
 div.box {
   margin: 0 10px 10px 0;
-  background: rgba(255,255,255,0.85);
+  background: #fff;
+  border-radius: 4px;
 }
 div.box div.screen_name {
   padding: 0 0 10px 0;
@@ -25,9 +26,9 @@ div.box div.screen_name span.screen_name {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 div.box h3 {
-  padding: 0;
-  text-align: center;
-  color: #525252;
+  padding: 0 0 0 10px;
+  text-align: left;
+  color: #f85d95;
   font-size: 95%;
 }
 div.box div.content {
