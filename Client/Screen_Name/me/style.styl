@@ -1,39 +1,4 @@
-$black       = #000
-$dark_blue   = #185DAD
-$light_blue  = #E1EEFF
-$light_black = #6D6D6D
-$light_green = #74BB1B
-$pink        = #F85D95
-$orange      = #ff8f00
-$dark_orange = #f08700
-$darker_orange = #e48000
-$blue_green  = #00b9b2
-$blue        = #008EED
-$yellow      = #FFEA74
-$samar_red   = #F00919
-
-$avacado=#b0c460
-$red            = #FF0000
-$pink        = #F85D95
-$dark_blue      = #185DAD
-$light_blue     = #E1EEFF
-$light_yellow   = #FFFDD2
-$grey_on_light  = #727272
-$yellow         = #FFEA74
-$yellow_med     = #FFDF2C
-$padding_create = 7px
-$serif          = Georgia,Cambria,"Times New Roman",Times,serif;
-$sans-serif     = 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
-$cursive        = 'Lenka', 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif
-
-$red=#f00919
-$avacado=#b0c460
-$orange=#ffbe2c
-$light_blue=#a2d3e0
-$blue=#073d6f
-
-$glass_white    = rgba(255,255,255,0.85)
-$glass_black    = rgba(0,0,0,0.65)
+@import "../../App/css/common"
 
 column_count(num)
   -moz-column-count: num
@@ -54,11 +19,15 @@ column_rule(num)
   -ms-column-rule: num
   column-rule: num
 
+
+html, body
+  height: 100%
+
+
 body
   text-align: center
   padding: 0 0 100px 0
-  background: #fafafa
-  background: #fafafa url("/App/img/wood_pattern.png")
+  background: #f1f1f1 url("/img/escheresque/escheresque.png")
 
 h4
   color: $grey_on_light
@@ -90,44 +59,66 @@ select, option
   font-size: 120%
 
 
-div.box
-  padding: 0
-  margin: 0 0 10px 0
-  width: 98%
-  padding-bottom: 15px
-  background: $glass_white
-  h3
-    padding: 0
-    text-align: center
-    color: #525252
-    font-size: 80%
-  div.content
-    padding: 10px
+
 
 div.col
   width: 50%
   float: left
 
 
-
 #Me
-  padding: 20px 0 10px 10px
-  text-align: center
+  width      : 380px
+  padding    : 30px 0 50px 0
+  text-align : center
+  background: #000 url("/img/escheresque_ste/escheresque_ste.png")
+  border-radius: 0 0 5px 5px
+  float: left
+  margin: 0 0 0 10px
+  div.the_life_of
+    font-family : 'Libertinage', $serif
+    font-size   : 140%
+    color : #fff
   h3
-    font-family: 'Libertinage', $serif
-    font-size: 280%
-    font-style: normal
-    text-transform: none
-    text-shadow: 1px 1px 1px lighten(#fff, 90%);
-    padding: 10px 5px 10px 10px
-    width: 90%
-    margin: 0 auto
+    font-family    : 'Libertinage', $serif
+    font-size      : 200%
+    font-style     : normal
+    font-weight: normal
+    text-transform : none
+    // text-shadow    : 1px 1px 1px lighten(#000, 20%);
+    padding        : 0
+    line-height    : 1.0em
+    color: #F1684E
   div.content
-    padding: 3px 5px 4px 15px
+    padding: 3px 0 4px 0
     color: #000
     width: 90%
     margin: 0 auto
-    border-bottom: 3px double lighten(#000, 40%)
+    border-bottom: 1px dotted darken(#fff, 60%)
+
+
+div.box
+  margin: 0 0 0 10px
+  padding: 0
+  margin: 0 0 10px 0
+  width: 98%
+  padding-bottom: 15px
+  background: #f1f1f1
+  border-radius: 4px
+  background: #fff
+  h3
+    padding: 0 5px
+    text-align: left
+    font-size: 80%
+    font-weight: bold
+    font-style: normal
+    color: #F1684E
+  div.content
+    padding: 10px
+
+#Boxs
+  float: left
+  padding: 10px
+  min-width: 350px
 
 #Control_Panel
   overflow: auto
@@ -151,9 +142,6 @@ div.col
 #Other_Screen_Names
   display: none
   padding:  0 0 10px 0
-
-#Boxs
-  overflow: auto
 
 #Stage
   width: 49%
@@ -312,29 +300,21 @@ div.col
         font-size: 190%
         width: 95%
 
-// Responsive
-// @media only screen and (max-width : 1499px),
-// only screen and (max-device-width : 1499px)
-//  #Boxs
-//     background: $dark_blue
-//     column_count(4)
-//     width: 1300px
 
-
-body.w600_plus
-
-body.w900_plus
+body.w800_minus
   #Me
+    width: 100%
+    max-width: 100%
+    height: auto
+    float: none
+    padding-bottom: 20px
     div.content
-      width: 70%
-
-body.w1100_plus
-  #Me
-    div.content
-      width: 50%
+      border: 0
   #Boxs
-    width 96%
-    margin 0 auto
+    float: none
+    width: 100%
+    max-width: 100%
+
 
 
 

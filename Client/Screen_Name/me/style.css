@@ -1,11 +1,14 @@
+html,
+body {
+  height: 100%;
+}
 body {
   text-align: center;
   padding: 0 0 100px 0;
-  background: #fafafa;
-  background: #fafafa url("/App/img/wood_pattern.png");
+  background: #f1f1f1 url("/img/escheresque/escheresque.png");
 }
 h4 {
-  color: #727272;
+  color: $grey_on_light;
 }
 form {
   text-align: left;
@@ -13,7 +16,7 @@ form {
 form div.field span.label,
 form div.field label {
   font-weight: normal;
-  color: #727272;
+  color: $grey_on_light;
 }
 form div.field input[type="text"] {
   font-size: 190%;
@@ -35,46 +38,66 @@ select,
 option {
   font-size: 120%;
 }
-div.box {
-  padding: 0;
-  margin: 0 0 10px 0;
-  width: 98%;
-  padding-bottom: 15px;
-  background: rgba(255,255,255,0.85);
-}
-div.box h3 {
-  padding: 0;
-  text-align: center;
-  color: #525252;
-  font-size: 80%;
-}
-div.box div.content {
-  padding: 10px;
-}
 div.col {
   width: 50%;
   float: left;
 }
 #Me {
-  padding: 20px 0 10px 10px;
+  width: 380px;
+  padding: 30px 0 50px 0;
   text-align: center;
+  background: #000 url("/img/escheresque_ste/escheresque_ste.png");
+  border-radius: 0 0 5px 5px;
+  float: left;
+  margin: 0 0 0 10px;
+}
+#Me div.the_life_of {
+  font-family: 'Libertinage', Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 140%;
+  color: #fff;
 }
 #Me h3 {
   font-family: 'Libertinage', Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 280%;
+  font-size: 200%;
   font-style: normal;
+  font-weight: normal;
   text-transform: none;
-  text-shadow: 1px 1px 1px #fff;
-  padding: 10px 5px 10px 10px;
-  width: 90%;
-  margin: 0 auto;
+  padding: 0;
+  line-height: 1em;
+  color: #f1684e;
 }
 #Me div.content {
-  padding: 3px 5px 4px 15px;
+  padding: 3px 0 4px 0;
   color: #000;
   width: 90%;
   margin: 0 auto;
-  border-bottom: 3px double #666;
+  border-bottom: 1px dotted #666;
+}
+div.box {
+  margin: 0 0 0 10px;
+  padding: 0;
+  margin: 0 0 10px 0;
+  width: 98%;
+  padding-bottom: 15px;
+  background: #f1f1f1;
+  border-radius: 4px;
+  background: #fff;
+}
+div.box h3 {
+  padding: 0 5px;
+  text-align: left;
+  font-size: 80%;
+  font-weight: bold;
+  font-style: normal;
+  color: #f1684e;
+}
+div.box div.content {
+  padding: 10px;
+}
+#Boxs {
+  float: left;
+  padding: 10px;
+  min-width: 350px;
 }
 #Control_Panel {
   overflow: auto;
@@ -103,9 +126,6 @@ div.col {
   display: none;
   padding: 0 0 10px 0;
 }
-#Boxs {
-  overflow: auto;
-}
 #Stage {
   width: 49%;
 }
@@ -128,10 +148,10 @@ div.col {
   background: rgba(0,0,0,0.6);
 }
 #Create div.link {
-  padding: 0 2px 7px 0;
+  padding: 0 2px $padding_create 0;
 }
 #Create a:link {
-  padding: 1px 7px 5px 7px;
+  padding: 1px $padding_create 5px $padding_create;
 }
 #Create div.loading {
   background-color: #fff;
@@ -140,11 +160,11 @@ div.col {
 }
 #Create div.success {
   background: #fff;
-  padding: 3px 7px;
+  padding: 3px $padding_create;
 }
 #Create div.errors {
   color: #ff7a7a;
-  padding: 3px 7px;
+  padding: 3px $padding_create;
 }
 #Create_Boxs {
   display: none;
@@ -242,7 +262,7 @@ div.col {
   font-style: italic;
 }
 #Message_Board div.msgs div.msg span.said {
-  color: #727272;
+  color: $grey_on_light;
   font-style: italic;
 }
 #Message_Board div.msgs div.msg div.content {
@@ -258,7 +278,7 @@ div.col {
   background: #fffdd2;
 }
 #Message_Board div.msgs div.error_msg {
-  color: #f00919;
+  color: $red;
 }
 #Folders div.content ul.folders {
   list-style: none;
@@ -287,14 +307,18 @@ div.col {
   font-size: 190%;
   width: 95%;
 }
-body.w600_plus #Me div.content,
-body.w900_plus #Me div.content {
-  width: 70%;
+body.w800_minus #Me {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  float: none;
+  padding-bottom: 20px;
 }
-body.w1100_plus #Me div.content {
-  width: 50%;
+body.w800_minus #Me div.content {
+  border: 0;
 }
-body.w1100_plus #Boxs {
-  width: 96%;
-  margin: 0 auto;
+body.w800_minus #Boxs {
+  float: none;
+  width: 100%;
+  max-width: 100%;
 }
