@@ -1,6 +1,6 @@
 
 
-var table = "";
+var table = "RSS_Sub";
 var m     = module.exports = {};
 
 var _     = require('underscore');

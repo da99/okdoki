@@ -2,6 +2,7 @@ var blade = require('blade');
 var e_e_e = require('escape_escape_escape').Sanitize.html;
 var IS_DEV = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
+var server = null;
 
 // ================================================================
 // ================== Require the Packages ========================
@@ -15,8 +16,6 @@ var _         = require('underscore')
 
 var Customer     = require('../Customer/model').Customer
 , Screen_Name    = require('../Screen_Name/model').Screen_Name
-, Chat_Room_Seat = require('../Chat/Room_Seat').Room_Seat
-, Chat_Bot       = require('../Chat/Chat_Bot').Chat_Bot
 , H              = require('../App/Helpers').H
 , OMNI           = require('../../Client/App/js/common')
 ;
@@ -509,10 +508,11 @@ require('./routes').route(module.exports);
 require('../Customer/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
 require('../Chat/routes').route(module.exports);
-require('../Folder/routes').route(module.exports);
-require('../Page/routes').route(module.exports);
-require('../Message_Board/routes').route(module.exports);
-require('../Follow/routes').route(module.exports);
+
+// require('../Folder/routes').route(module.exports);
+// require('../Page/routes').route(module.exports);
+// require('../Message_Board/routes').route(module.exports);
+// require('../Follow/routes').route(module.exports);
 
 
 
@@ -578,10 +578,12 @@ River.new()
   Topogo.tables(j);
 })
 .job(function (j, tables) {
-  app.listen(port, function () {
+
+  server = app.listen(port, function () {
     log('Listening on: ' + port);
     j.finish();
   });
+
 })
 .run();
 
@@ -601,8 +603,13 @@ process.on('SIGHUP', function () {
 });
 
 
-
-
+process.on('SIGINT', function () {
+  console.log(arguments);
+  server.close(function () {
+    console.log('CLOSEGIN');
+    Topogo.close();
+  });
+});
 
 
 

@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+// # -*- js   -*-
+// #
+// #!/usr/bin/env bash
+// # -*- bash -*-
+// #
+
+
+var _       = require("underscore");
+var parser  = require('feedparser');
+var request = require('request');
+
+var Topogo = require("topogo").Topogo;
+var River  = require("da_river").River;
+var Feed   = require("../Server/RSS_Reader/Feed").Feed;
+
+var url1 = "http://feeds.mises.org/MisesDailyArticles?format=xml";
+var url2 = "http://modernmarketingjapan.blogspot.com/feeds/posts/default";
+
+River.new()
+.job('create', function (j) {
+  Feed.create({url: "feeds.mises.org/MisesDailyArticles?format=xml"}, j);
+})
+.job('create', function (j) {
+  Feed.create({url: url2}, j);
+})
+.run(function () {
+  Topogo.close();
+});
+
+// function key(o, k1, k2) {
+  // if (o[k1])
+    // return o[k1];
+  // return o[k2];
+// }
+
+// var func = function (err, out) {
+  // console.log(err);
+  // console.log('type: ', out.type);
+  // console.log('keys: ', (out.items[0].link));
+// };
+
+// var items = [];
+// request(url1)
+// .pipe(new parser())
+// .on('error', function (error) {
+  // console.log(error);
+  // process.exit(1);
+// })
+// .on('meta', function (meta) {
+  // _.each(meta, function (v, k) {
+    // if (_.isArray(v))
+      // console.log('Array: ', k, v.length);
+    // else
+      // console.log(k, v);
+  // });
+// })
+// .on('data', function (o, o2) {
+  // items.push(o);
+// })
+// .on('readable', function (str) {
+  // if(str)
+    // console.log(str);
+// })
+// .on('finish', function () {
+  // console.log('fin', items.length);
+  // var i = items.pop();
+  // console.log(_.keys(i))
+  // console.log(i.link);
+// });
+
+
+
+
