@@ -45,7 +45,7 @@ Feed.create = function (raw_data, flow) {
   .job(function (j) {
     TABLE
     .on_dup(TABLE_NAME + '_url', function (name) {
-      TABLE.read(data, j);
+      TABLE.read_one(data, j);
     })
     .create(data, j);
   })
@@ -58,7 +58,18 @@ Feed.create = function (raw_data, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-
+Feed.read_list = function (flow) {
+  River.new(flow)
+  .job(function (j) {
+    TABLE.run("SELECT * FROM @table;", {}, j);
+  })
+  .job(function (j, list) {
+    j.finish(_.map(list, function (r) {
+      return Feed.new(r);
+    }));
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================

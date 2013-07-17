@@ -603,12 +603,16 @@ process.on('SIGHUP', function () {
 });
 
 
-process.on('SIGINT', function () {
+var on_close = function () {
   server.close(function () {
+    console.log("Closing toobusy, Topogo.");
     toobusy.shutdown()
     Topogo.close();
   });
-});
+};
+
+process.on('SIGINT',  on_close);
+process.on('SIGTERm', on_close);
 
 
 

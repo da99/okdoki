@@ -7,68 +7,71 @@
 
 
 var _       = require("underscore");
-var parser  = require('feedparser');
-var request = require('request');
+var cheerio = require("cheerio");
 
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 var Feed   = require("../Server/RSS_Reader/Feed").Feed;
+var Post   = require("../Server/RSS_Reader/Post").Post;
 
 var url1 = "http://feeds.mises.org/MisesDailyArticles?format=xml";
 var url2 = "http://modernmarketingjapan.blogspot.com/feeds/posts/default";
 
+var f1 = null;
+var f2 = null;
+
+var items = [];
+var feeds = [];
+
 River.new()
+
 .job('create', function (j) {
   Feed.create({url: "feeds.mises.org/MisesDailyArticles?format=xml"}, j);
 })
-.job('create', function (j) {
+
+.job('create', function (j, row) {
+  f1 = row;
   Feed.create({url: url2}, j);
 })
-.run(function () {
+
+.job(function (j, row) {
+  f2 = row;
+  j.finish(f2);
+})
+
+.job(function (j) {
+  Feed.read_list(j);
+})
+
+.job(function (j, list) {
+  feeds = list;
+
+  var r = River.new(j);
+
+  _.each(feeds, function (f) {
+
+    r.job('read posts', f.data.id, function (j) {
+      Post.create_list_from_get_request(f, j);
+    });
+
+    r.job('save posts', f.data.id, function (j, list) {
+      items = items.concat(list);
+      j.finish(list);
+    });
+
+  });
+
+  r.run();
+
+})
+
+.run(function (fin, row) {
+  console.log(items[0].data);
   Topogo.close();
 });
 
-// function key(o, k1, k2) {
-  // if (o[k1])
-    // return o[k1];
-  // return o[k2];
-// }
-
-// var func = function (err, out) {
-  // console.log(err);
-  // console.log('type: ', out.type);
-  // console.log('keys: ', (out.items[0].link));
-// };
-
-// var items = [];
-// request(url1)
-// .pipe(new parser())
-// .on('error', function (error) {
-  // console.log(error);
-  // process.exit(1);
-// })
-// .on('meta', function (meta) {
-  // _.each(meta, function (v, k) {
-    // if (_.isArray(v))
-      // console.log('Array: ', k, v.length);
-    // else
-      // console.log(k, v);
-  // });
-// })
-// .on('data', function (o, o2) {
-  // items.push(o);
-// })
-// .on('readable', function (str) {
-  // if(str)
-    // console.log(str);
-// })
-// .on('finish', function () {
-  // console.log('fin', items.length);
-  // var i = items.pop();
-  // console.log(_.keys(i))
-  // console.log(i.link);
-// });
 
 
-
-
+process.on('SIGINT', function () {
+  Topogo.close();
+});
