@@ -25,7 +25,6 @@ html, body
 
 
 body
-  text-align: center
   padding: 0 0 100px 0
   background: #f1f1f1 url("/img/escheresque/escheresque.png")
 
@@ -33,7 +32,6 @@ h4
   color: $grey_on_light
 
 form
-  text-align: left
 
   div.field
     span.label, label
@@ -65,60 +63,74 @@ div.col
   width: 50%
   float: left
 
+#Session_Nav
+  background: #fff
 
 #Me
-  width      : 380px
-  padding    : 30px 0 50px 0
-  text-align : center
-  background: #000 url("/img/escheresque_ste/escheresque_ste.png")
-  border-radius: 0 0 5px 5px
+  width: 51%
   float: left
-  margin: 0 0 0 10px
-  div.the_life_of
-    font-family : 'Libertinage', $serif
-    font-size   : 140%
-    color : #fff
-  h3
-    font-family    : 'Libertinage', $serif
-    font-size      : 200%
-    font-style     : normal
-    font-weight: normal
-    text-transform : none
-    // text-shadow    : 1px 1px 1px lighten(#000, 20%);
-    padding        : 0
-    line-height    : 1.0em
-    color: #F1684E
-  div.content
-    padding: 3px 0 4px 0
-    color: #000
-    width: 90%
-    margin: 0 auto
-    border-bottom: 1px dotted darken(#fff, 60%)
+  #Me_Intro
+    text-align: center
+    padding    : 30px 0 50px 0
+    border-radius: 0 0 5px 5px
+    background: #000 url("/img/escheresque_ste/escheresque_ste.png") repeat -10px 0
+    margin: 0 0 10px 10px
+    div.the_life_of
+      font-family : 'Libertinage', $serif
+      font-size   : 140%
+      color : #fff
+    h3
+      font-family    : 'Libertinage', $serif
+      font-size      : 200%
+      font-style     : normal
+      font-weight: normal
+      text-transform : none
+      // text-shadow    : 1px 1px 1px lighten(#000, 20%);
+      padding        : 0
+      line-height    : 1.0em
+      color: #F1684E
+    div.content
+      padding: 3px 0 4px 0
+      color: #000
+      width: 90%
+      margin: 0 auto
+      border-bottom: 1px dotted darken(#fff, 60%)
 
 
 div.box
-  margin: 0 0 0 10px
   padding: 0
-  margin: 0 0 10px 0
+  margin: 0 0 10px 10px
   width: 98%
   padding-bottom: 15px
   background: #f1f1f1
   border-radius: 4px
   background: #fff
   h3
-    padding: 0 5px
-    text-align: left
+    padding: 0 5px 0 10px
     font-size: 80%
     font-weight: bold
     font-style: normal
     color: #F1684E
+    text-align: left
   div.content
-    padding: 10px
+    padding: 0 5px 0 10px
 
-#Boxs
+#Sidebar
   float: left
-  padding: 10px
-  min-width: 350px
+  width: 45%
+  padding   : 0
+  margin: 10px 0 0 10px
+  min-width : 250px
+  border-radius: 4px
+  background: #fff
+  h3
+    font-size: 80%
+    font-style: normal
+    font-weight: bold
+    color: #F1684E
+    padding: 0 10px
+  div.content
+    padding: 0 10px 10px 10px
 
 #Control_Panel
   overflow: auto
@@ -307,11 +319,12 @@ body.w600_minus
     width: auto
     height: auto
     float: none
-    padding-bottom: 20px
+    padding-bottom: 10px
     border-radius: 0
-  #Boxs
+  #Sidebar
     float: none
     width: auto
+    position: static
 
 
 

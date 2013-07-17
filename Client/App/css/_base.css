@@ -180,16 +180,15 @@ div.edit_able_s div.edit_able div.input_able div.label {
 }
 #Logo span.main {
   font-size: 12pt;
-  color: #e5e5e2;
+  color: #fcfcfc;
   font-weight: bold;
   font-style: italic;
   padding-right: 5px;
   text-transform: uppercase;
 }
 #Logo span.sub {
-  font-size: 14pt;
+  font-size: 12pt;
   color: #f85d95;
-  color: #de5787;
 }
 #Logo span.wat_wat {
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
