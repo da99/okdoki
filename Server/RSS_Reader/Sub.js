@@ -34,6 +34,7 @@ function null_if_empty(str) {
 // ================================================================
 Sub.create = function (raw_data, flow) {
   var data = {
+    link: raw_daa
   };
 
   River.new(flow)

@@ -18,7 +18,7 @@ m.migrate = function (dir, r) {
     id             serial PRIMARY KEY NOT NULL,                 \n\
     guid           TEXT NOT NULL,                               \n\
     feed_id        int NOT NULL,                                \n\
-    url            TEXT NOT NULL,                               \n\
+    link           TEXT NOT NULL,                               \n\
     title          char(255) NOT NULL,                          \n\
     body           TEXT NOT NULL,                               \n\
     $created_at    ,                                            \n\

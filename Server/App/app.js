@@ -509,6 +509,7 @@ require('../Customer/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
 require('../Chat/routes').route(module.exports);
 
+require('../RSS_Reader/routes').route(module.exports);
 // require('../Folder/routes').route(module.exports);
 // require('../Page/routes').route(module.exports);
 // require('../Message_Board/routes').route(module.exports);

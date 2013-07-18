@@ -16,13 +16,13 @@ m.migrate = function (dir, r) {
 
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,                          \n\
-    url            text NOT NULL,                               \n\
+    link           text NOT NULL,                               \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
     );";
     r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_url\"  UNIQUE (url)"
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_link\"  UNIQUE (link)"
             );
 
   }
