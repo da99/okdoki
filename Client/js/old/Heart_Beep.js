@@ -44,7 +44,7 @@ Heart_Beep.prototype.read = function () {
 
   var o = {
     type        : 'POST',
-    url         : base_url + "/chat/heart-beep",
+    url         : Box.base_url + "/chat/heart-beep",
     cache       : false,
     contentType : 'application/json',
     data        : JSON.stringify({"_csrf": csrf_token_val() }),

@@ -5,6 +5,18 @@
 // ================================================================
 
 
+function is_filled(se) {
+  var form = $(se);
+  var inputs = form.find('input[type="text"], textarea');
+  if (inputs.length < 1)
+    return true;
+  var i = _.find(inputs, function (e) {
+    return $.trim($(e).val()).length > 0;
+  });
+
+  return !!i;
+}
+
 function form_to_json(selector) {
   var e = $(selector).closest('form');
   if (!e.length) {

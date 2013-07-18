@@ -15,7 +15,7 @@ $(function () {
   // ================================================================
   on('before success #create_account', function (o) {
     o.form.make_like_new();
-    erase_url_wanted();
+    Box.erase_url_wanted();
   });
 
   on('after success #create_account', function (o) {

@@ -1,14 +1,26 @@
-var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
-var base_url = window.location.href.replace(/\/$/, '');
-
 
 // ================================================================
-// ================== Helpers =====================================
+// ================== DSL =========================================
 // ================================================================
 
-function erase_url_wanted() {
-  $.removeCookie('url_wanted', {path: '/'});
+var is_dev = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
+
+var _csrf  = function (obj) {
+  if (obj) {
+    obj['X-CSRF-Token'] = _csrf();
+    obj['_csrf'] = _csrf();
+    return obj;
+  }
+  return $.trim($('#_csrf').text());
 }
+
+var log = function (msg) {
+  if (is_dev)
+    return console.log.apply(console, arguments);
+
+  return null;
+};
+
 
 // ================================================================
 // ================== Main Stuff ==================================
@@ -16,8 +28,11 @@ function erase_url_wanted() {
 
 var Box = {
 
-  is_dev   : is_dev,
-  base_url : base_url,
+  base_url : window.location.href.replace(/\/$/, ''),
+
+  erase_url_wanted : function () {
+    $.removeCookie('url_wanted', {path: '/'});
+  },
 
   html : function (html) {
     if (html)
@@ -38,15 +53,11 @@ var Box = {
 
 $(function () {
 
+  // === Grab info about the box.
   Box.html($('#Meta_Box').wrap('<p/>').parent().html());
 
-  var sn = Box.read('Screen_Name');
-  if (sn)
-    Screen_Name.screen_name(sn);
-
-  var c = Box.read('Customer_Screen_Names');
-  if (c) {
-    Customer.log_in(c.split(/\s+/));
-  }
 });
+
+
+
 

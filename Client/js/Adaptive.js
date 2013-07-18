@@ -14,6 +14,7 @@ function add_screen_class () {
   });
 
   targets.addClass('w' + w);
+
   _.each([400, 500, 600, 700, 800, 900, 1000, 1100, 1200], function (target) {
     if ( actual_w >= target)
       targets.addClass('w' + target + '_plus');

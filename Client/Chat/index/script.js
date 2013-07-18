@@ -197,10 +197,12 @@ $(function () {
 
   $('#Stranger a[href="/"]').click(function (e) {
     var link = $(e);
-    $.cookie('url_wanted', 'chat room of: ' + Screen_Name.screen_name(), {
-      expires: new Date((new Date).getTime() + (1000 * 60 * 15)),
-      path: "/"
-    });
+    $.cookie('url_wanted',
+             'chat room of: ' + Screen_Name.screen_name(), {
+               expires: 1,
+               path: "/",
+               secure: true
+             });
     return true;
   });
 

@@ -52,7 +52,7 @@ Contacts.prototype.read = function (opts) {
 
   var o = {
     type        : 'POST',
-    url         : base_url + "/contacts/online",
+    url         : Box.base_url + "/contacts/online",
     cache       : false,
     contentType : 'application/json',
     data        : JSON.stringify({"_csrf": csrf_token_val()}),

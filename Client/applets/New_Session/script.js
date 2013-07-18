@@ -14,7 +14,7 @@ $(function () {
   // ================== FORMs =======================================
   // ================================================================
   on('before success #sign_in', function (o) {
-    erase_url_wanted();
+    Box.erase_url_wanted();
   });
 
   on('after success #sign_in', function (o) {
