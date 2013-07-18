@@ -163,6 +163,7 @@
     toHTML: function() {
       var display = "";
       $.each(this, function(k, v) {
+        throw new Error("Not done... insecure HTML generation");
         if (!_isFunction(v)) {
           display += "<strong>" + k + "</strong> " + v + "<br />";
         }

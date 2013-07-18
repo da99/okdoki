@@ -270,20 +270,6 @@ function template_to_underscore(html) {
   return html.replace(_templ_vars_, "<%- $1 %>");
 }
 
-function create_unless(se) {
-  var e = $(se);
-  if (!e.length) {
-    return {'in': function (target, func) {
-      log('Drawing: ' + se);
-      $(target).prepend(pull_template(se));
-      if (func)
-        func($(target));
-    }};
-  }
-
-  return {'in': do_nothing};
-}
-
 // ============================================
 // Note:
 // Selector for .draw_or_update
