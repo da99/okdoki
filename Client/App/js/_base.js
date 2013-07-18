@@ -1,94 +1,6 @@
 
-var ALL_WHITE_SPACE = /\s+/g;
 
-var is_dev   = ['127.0.0.1', 'localhost'].indexOf(window.location.hostname) > -1 && window.console && window.console.log;
-var base_url = window.location.href.replace(/\/$/, '');
-var App  = _.extend({}, Backbone.Events);
-var Screen_Name = {
-  is_found : false,
-  screen_name: function (sn) {
-    if (sn) {
-      this._sn = sn;
-      this.is_found = !!this._sn;
-    }
-    return this._sn;
-  },
-  to_url : function (path) {
-    var url = "/me/" + this._sn;
-    if (path)
-      url += path;
-    return url;
-  }
-};
 
-var Customer    = {
-  is_stranger : true,
-  is_customer : false,
-  is_owner_of_screen_name: false,
-  has_one_life : false,
-  fav_screen_name : function (n) {
-    if (n)
-      this._fav = n;
-    return this._fav;
-  },
-  _sns : [],
-  screen_names : function (arr) {
-    if (arr) {
-      this._sns = arr;
-      this.is_stranger = false;
-      this.is_customer = !this.is_stranger;
-      this.has_one_life = this._sns.length === 1;
-      this.is_owner_of_screen_name = Screen_Name.is_found && _.detect(arr, function (n) {
-        return Screen_Name.screen_name().toUpperCase() == n.toUpperCase() ;
-      });
-      this.fav_screen_name( _.last(arr) );
-    }
-
-    return this._sns;
-  },
-  log_in : function (arr) {
-    this.screen_names(arr);
-  }
-};
-
-App.on('all', function (name) {
-  log("event: " + name);
-});
-
-// ================================================================
-// ================== On Load =====================================
-// ================================================================
-$('select[name="as_this_life"]').each(function (i, e) {
-  var opts = $(e).find('option');
-  if (opts.length > 1)
-    $(e).parent('span.as_this_life').show();
-});
-
-// ================================================================
-function do_nothing() { }
-
-function trigger() {
-  return App.trigger.apply(App, arguments);
-}
-
-function on() {
-  return App.on.apply(App, arguments);
-}
-
-function log_length(se, orig) {
-  var e = $(se);
-  if (!e.length)
-    log('None found for: ', (orig || se));
-  return e;
-}
-
-function show(se) {
-  return log_length(se).show();
-}
-
-function hide(se) {
-  return log_length(se).hide();
-}
 
 // ================================================================
 // ================== Events ======================================
@@ -162,37 +74,6 @@ create_event('template compiled');
 // ================================================================
 
 
-var Box = {
-  html : function (html) {
-    if (html)
-      this._html = html;
-    if (!this._html)
-      throw new Error('Meta Box html not found.');
-    return this._html;
-  },
-
-  read: function (css) {
-    var v = $.trim((this.html().find('div.' + css).text() || ''));
-    if (!v.length)
-      return undefined;
-    return v;
-  }
-
-};
-
-$(function () {
-
-  Box.html($('#Meta_Box').wrap('<p/>').parent().html());
-
-  var sn = Box.read('Screen_Name');
-  if (sn)
-    Screen_Name.screen_name(sn);
-
-  var c = Box.read('Customer_Screen_Names');
-  if (c) {
-    Customer.log_in(c.split(/\s+/));
-  }
-});
 
 function erase_url_wanted() {
   $.removeCookie('url_wanted', {path: '/'});

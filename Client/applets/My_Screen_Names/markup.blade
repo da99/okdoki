@@ -1,15 +1,1 @@
 
-append templates
-  - if (is_customer)
-    div.Customer_Screen_Names
-      | #{customer_screen_names.join(' ')}
-
-
-block Screen_Names(names)
-  div.box#Screen_Names
-    h3 My Life(s):
-    div.content
-      ul.screen_name
-        - for (var sn in customer_screen_names)
-          li #{customer_screen_names[sn]}
-
