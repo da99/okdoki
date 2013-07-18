@@ -64,11 +64,11 @@ html(lang='en')
     - if (is_testing)
       call script('/akui_tests/window.onerror.js')
 
-    call script('/App/js/vendor/all.js')
+    call script('/applets/js/vendor/all.js')
 
-    call script("/App/js/common.js")
-    call script("/App/js/dom_dsl.js")
-    call script("/App/applets/form/script.js")
+    call script("/applets/js/common.js")
+    call script("/applets/js/dom_dsl.js")
+    call script("/applets/form_dsl.js")
 
     script#Meta_Box(type="text/x-okdoki")
       - if (screen_name)
