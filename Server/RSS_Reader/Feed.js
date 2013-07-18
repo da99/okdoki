@@ -12,6 +12,7 @@ var _         = require("underscore")._
 
 var request    = require("request");
 var cheerio    = require("cheerio");
+var FeedParser = require('feedparser')
 
 var Feed       = exports.Feed = Ok.Model.new(function () {});
 
@@ -35,25 +36,57 @@ function null_if_empty(str) {
 // ================== Create ======================================
 // ================================================================
 Feed.create = function (raw_data, flow) {
-  var url = raw_data.url.trim();
-  if (!url.match(/^https?/i))
-    url = 'http://' + url;
 
-  var data = {
-    url: url
-  };
+  var fin = false;
+  var link = raw_data.link.trim();
+  if (!link.match(/^https?/i))
+    link = 'http://' + link;
 
   River.new(flow)
-  .job(function (j) {
+
+  .job('read from DB', function (j) {
+    TABLE.read_one({link: link}, j);
+  })
+
+  .job('read from WWW if not found', function (j, record) {
+
+    if (record)
+      return j.finish({link: record.link, title: record.title});
+
+    var data = {};
+
+    request(link)
+    .pipe(new FeedParser())
+    .on('error', function (error) {
+      log(error);
+      fin = true;
+      j.finish('invalid', "Feed was not found.");
+    })
+    .on('meta', function (d) {
+      data.title = d.title;
+      data.link  = d.xmlurl;
+    })
+    .on('finish', function () {
+      if (fin)
+        return;
+
+      j.finish(data);
+    });
+
+  })
+
+  .job('create', function (j, data) {
     TABLE
-    .on_dup(TABLE_NAME + '_url', function (name) {
-      TABLE.read_one(data, j);
+    .on_dup(TABLE_NAME + '_link', function (name) {
+      TABLE.read_one({link: data.link}, j);
     })
     .create(data, j);
   })
+
   .job(function (j, record) {
     j.finish(Feed.new(record));
   })
+
   .run();
 };
 

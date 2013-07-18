@@ -1,6 +1,7 @@
 
 var _         = require("underscore")._
 , RSS_Feed    = require("./Feed").Feed
+, RSS_Sub     = require("./Sub").Sub
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Website     = require("../Website/model").Website
 , log         = require("../App/base").log
@@ -25,7 +26,7 @@ exports.route = function (mod) {
     .job(function (j, sub) {
       resp.json({
         success : true,
-        msg     : 'You are now subscribed to: ' + sub.nick_name
+        msg     : 'You are now subscribed to: ' + sub.data.nick_name
       });
     })
     .run();

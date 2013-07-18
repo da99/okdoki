@@ -66,15 +66,17 @@ form div.errors {
   padding: 2px 4px 4px 4px;
   border: 1px dashed #f00919;
   border-width: 1px 0;
+  margin-top: 10px;
 }
 form div.success {
   border: 1px dashed #d60600;
   border-width: 1px 0;
   font-style: italic;
-  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+  font-family: $sans-serif;
   padding: 4px;
   border-radius: 0 0 3px 3px;
   color: #072700;
+  margin-top: 10px;
 }
 textarea,
 input[type="text"],
@@ -134,7 +136,7 @@ textarea:focus {
 div.loading {
   padding: 0 0 0 39px;
   background: transparent url("/img/small_loading.gif?v2") no-repeat left center;
-  font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+  font-family: $sans-serif;
   font-style: italic;
 }
 form {
