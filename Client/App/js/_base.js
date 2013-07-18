@@ -162,14 +162,35 @@ create_event('template compiled');
 // ================================================================
 
 
-$(function () {
-  var sn = 'div.Screen_Name';
-  if (template_or_null(sn)) {
-    Screen_Name.screen_name($(read_template(sn)).text());
+var Box = {
+  html : function (html) {
+    if (html)
+      this._html = html;
+    if (!this._html)
+      throw new Error('Meta Box html not found.');
+    return this._html;
+  },
+
+  read: function (css) {
+    var v = $.trim((this.html().find('div.' + css).text() || ''));
+    if (!v.length)
+      return undefined;
+    return v;
   }
-  var c = 'div.Customer_Screen_Names';
-  if (template_or_null(c)) {
-    Customer.log_in($.trim($(read_template(c)).text()).split(/\s+/));
+
+};
+
+$(function () {
+
+  Box.html($('#Meta_Box').wrap('<p/>').parent().html());
+
+  var sn = Box.read('Screen_Name');
+  if (sn)
+    Screen_Name.screen_name(sn);
+
+  var c = Box.read('Customer_Screen_Names');
+  if (c) {
+    Customer.log_in(c.split(/\s+/));
   }
 });
 
@@ -228,47 +249,44 @@ function every_secs(num, func) {
 // ================== Templates ===================================
 // ================================================================
 
-var _template_fns_ = {};
-var _templ_vars_ = /\{([^\}]+)\}/g;
 
-function compile_template(se, data) {
-  if (!_template_fns_[se]) {
-    _template_fns_[se] = _.template(template_or_default(se, data));
+var Template = {
+
+  FNS         : {},
+  VARS_REGEXP : /\{([^\}]+)\}/g,
+
+  html : function (html) {
+    if (html)
+      this._html = html;
+    if (!this._html)
+      throw new Error('Template HTML not ready.');
+    return this._html;
+  },
+
+  read : function (se) {
+    var t = Template.html().find(se);
+    if (!t)
+      throw new Error('Template not found: ' + se);
+    return $(t).wrap('<p/>').parent().html().replace(this.VARS_REGEXP, "<%- $1 %>");
+  },
+
+  compile: function (se, data) {
+    if (!this.FNS[se])
+      this.FNS[se] = _.template(this.read_template(se));
+
+    var o = $(this.FNS[se](data));
+    emit('template compiled', {selector: o});
+    return o;
   }
-  var o = $(_template_fns_[se](data));
-  emit('template compiled', {selector: o});
-  return o;
-}
 
-function template_or_default(se, data) {
-  var temp = read_template(se);
-  if (!temp) {
-    log("Template not found: " + se);
-    var html = '<div class="template_not_found">' + _.map(_.keys(data), function (v) {
-      return '{' + v + '} <br />';
-    }).join("") + '</div>';
-    temp = template_to_underscore(html);
-  }
-  return temp;
-}
+}; // === Template
 
-function template_or_null(se) {
-  var t = $('<div>' + $('#templates').html() + '</div>').find(se);
-  if (!t.length)
-    return null;
-  return t;
-}
+$(function () {
+  // Read templates (html) and save for later use.
+  Template.html( $($($('#templates').html()).wrap('<p/>').parent().html()) );
+});
 
-function read_template(se) {
-  var t = template_or_null(se);
-  if (!t)
-    return t;
-  return template_to_underscore( $(t).wrap('<p>').parent().html() );
-}
 
-function template_to_underscore(html) {
-  return html.replace(_templ_vars_, "<%- $1 %>");
-}
 
 // ============================================
 // Note:
