@@ -96,7 +96,7 @@ OK_FORM.prototype.hide_loading = function () {
 };
 
 OK_FORM.prototype.hide_error_msg = function () {
-  this.dom.find('div.error').hide();
+  this.dom.find('div.errors').hide();
   return this;
 };
 
