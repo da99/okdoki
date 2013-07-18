@@ -75,6 +75,13 @@ html(lang='en')
 
 
     script#templates(type="text/x-okdoki")
+      div.loading
+        | {msg}
+      div.success
+        | {msg}
+      div.errors
+        | {msg}
+
       - if (is_customer)
         span.as_this_life
           span.as as: 
@@ -93,6 +100,7 @@ html(lang='en')
     call script("/js/Box.js")
     call script("/js/Event.js")
     call script("/js/DOM.js")
+    call script("/js/Ajax.js")
     call script("/js/Adaptive.js")
     call script("/js/Time.js")
     call script("/js/Template.js")

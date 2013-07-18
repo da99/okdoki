@@ -25,7 +25,7 @@ append content
       - if (is_update_able)
         div.edit_this
           div.edit#Edit_This_Page
-            div.success_msg#Success_Msg Your page has been updated.
+            div.success#Success_Msg Your page has been updated.
             a(href="#Update_Page") Edit This Page.
           form#Update_Page(action="/me/#{screen_name}/folder/#{folder_num}/page/#{page_num}", method="POST")
             div.fields

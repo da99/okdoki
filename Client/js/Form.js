@@ -1,12 +1,21 @@
 "use strict";
 
+$(function () {
+  $('form').each(function (i, e) {
+    var id = $(e).attr('id');
+    if (!id)
+      throw new Error('Form does not have id: ' + $(e).html());
+    form('#' + id);
+  });
+});
+
 // ================================================================
 // ================== Form DSL ====================================
 // ================================================================
 
 
 function is_filled(se) {
-  var form = $(se);
+  var form   = $(se);
   var inputs = form.find('input[type="text"], textarea');
   if (inputs.length < 1)
     return true;
@@ -34,12 +43,6 @@ function form(selector) {
   return f;
 }
 
-$(function () {
-  $('form').each(function (i, e) {
-    form('#' + $(e).attr('id'));
-  });
-});
-
 // ================================================================
 // ================== Form Implementation =========================
 // ================================================================
@@ -60,16 +63,16 @@ OK_FORM.new = function (raw_se) {
 
   FORMS[se] = true;
 
-  var f          = new OK_FORM;
-  f.dom          = $(se);
-  f.dom_id = se;
+  var f             = new OK_FORM;
+  f.dom             = $(se);
+  f.dom_id          = se;
   f.default_err_msg = "Okdoki.com is having some " +
     "trouble processing your request. Try again later in a few minutes.";
 
 
   create_event('cancel '        + f.dom_id);
   create_event('before submit ' + f.dom_id);
-  create_event('loading ' + f.dom_id);
+  create_event('loading '       + f.dom_id);
   create_event('before success '+ f.dom_id);
   create_event('after success ' + f.dom_id);
   create_event('invalid '       + f.dom_id);
@@ -90,64 +93,52 @@ OK_FORM.prototype.cancel = function () {
   return this.make_like_new();
 };
 
+
 // ================================================================
 // ================== Drawing  ====================================
 // ================================================================
 
 OK_FORM.prototype.reset_status = function () {
-  this.hide_loading();
-  this.show_buttons();
-  this.hide_error_msg();
-  this.hide_success_msg();
+  hide( this.loading() );
+  show( this.buttons() );
+  hide( this.errors() );
+  hide( this.success() );
   return this;
 };
 
-OK_FORM.prototype.show_buttons = function () {
-  this.dom.find('div.buttons').show();
-  return this;
+OK_FORM.prototype.buttons = function () {
+  return this.dom.find('div.buttons');
 };
 
-OK_FORM.prototype.hide_buttons = function () {
-  this.dom.find('div.buttons').hide();
-  return this;
+OK_FORM.prototype.loading = function () {
+  return this.dom.find('div.loading');
 };
 
-OK_FORM.prototype.hide_loading = function () {
-  this.dom.find('div.loading').hide();
-  return this;
+OK_FORM.prototype.errors = function () {
+  return this.dom.find('div.errors');
 };
 
-OK_FORM.prototype.hide_error_msg = function () {
-  this.dom.find('div.errors').hide();
-  return this;
+OK_FORM.prototype.success = function () {
+  return this.dom.find('div.success');
 };
 
-OK_FORM.prototype.hide_success_msg = function () {
-  this.dom.find('div.success').hide();
-  return this;
-};
-
-OK_FORM.prototype.draw_success_msg = function (msg) {
+OK_FORM.prototype.draw_success = function (msg) {
   if (!msg)
     throw new Error("No success message for: " + this.dom_id);
 
   this.reset_status();
 
-  after(this.dom.find('div.buttons'))
-  .draw_or_update('div.success', msg)
-  .show();
+  after(this.buttons(), 'div.success', msg);
 
   return this;
 };
 
-OK_FORM.prototype.draw_error_msg = function (msg) {
+OK_FORM.prototype.draw_errors = function (msg) {
   msg || (msg = this.default_err_msg);
 
   this.reset_status();
 
-  after(this.dom.find('div.buttons'))
-  .draw_or_update('div.errors', msg)
-  .show();
+  after(this.buttons(), 'div.errors', msg);
 
   return this;
 };
@@ -155,7 +146,7 @@ OK_FORM.prototype.draw_error_msg = function (msg) {
 OK_FORM.prototype.make_like_new = function () {
   var f = this;
   f.reset_to_submit_more();
-  f.dom.find('div.success').hide();
+  hide(f.success());
   return f;
 };
 
@@ -164,16 +155,19 @@ OK_FORM.prototype.reset_to_submit_more = function() {
   var f = this;
 
   f.dom[0].reset();
-  f.dom.find('div.buttons').show();
-  f.dom.find('div.loading').hide();
-  f.dom.find('div.errors').hide();
-  f.show_buttons();
+
+  show(f.buttons());
+  hide(f.loading());
+  hide(f.errors());
+
+  show(f.buttons());
 
   return f;
 };
 
 
 OK_FORM.prototype.submit = function () {
+
   var f   = this;
   var meta = {
     form : f,
@@ -189,14 +183,11 @@ OK_FORM.prototype.submit = function () {
 
   if (emit('loading ' + f.dom_id, meta)) {
     // === Show loading feedback. ===
-    f.hide_buttons();
-    f.hide_error_msg();
-    f.hide_success_msg();
+    hide( f.buttons() );
+    hide( f.errors()  );
+    hide( f.success() );
 
-    after(f.dom.find('div.buttons'))
-    .draw_or_update('div.loading', 'processing...')
-    .show()
-    ;
+    after(f.buttons(), 'div.loading', 'processing...');
   }
 
   // === POST it. ===
@@ -210,12 +201,12 @@ OK_FORM.prototype.submit = function () {
         return;
 
       if (_.isNumber(err) && err > 0)
-        f.draw_error_msg();
+        f.draw_errors();
       else if (err === true) {
         var o = to_json_result(raw);
-        f.draw_error_msg(o.msg || "Website not available right now. Try again later.");
+        f.draw_errors(o.msg || "Website not available right now. Try again later.");
       } else
-        f.draw_error_msg();
+        f.draw_errors();
 
       return ;
     }
@@ -230,102 +221,19 @@ OK_FORM.prototype.submit = function () {
     if (!data.success) {
       if (stopped_emit('invalid ' + f.dom_id, meta))
         return;
-      f.draw_error_msg(data.msg);
+      f.draw_errors(data.msg);
       return;
     }
 
     // ==== success ====
     if (emit('before success ' + f.dom_id, meta)) {
       f.reset_to_submit_more();
-      f.draw_success_msg(meta.data.msg);
+      f.draw_success(meta.data.msg);
     }
 
     emit('after success ' + f.dom_id, meta);
   }); // === POST it.
 
 }; // === submit
-
-
-// ==========================================================
-// Example:
-//
-//   post(url, [data], function ([err], result) {});
-//
-// ==========================================================
-function post() {
-  var args = _.toArray(arguments);
-  var func = args.pop();
-
-  if (args.length === 1) {
-    args.push({});
-  }
-
-  if (args.length === 2) {
-    args.push({
-      'X-CSRF-Token': _csrf(),
-      'Accept': 'application/json'
-      // 'Accept-Charset': 'utf-8'
-    });
-  }
-
-  var prom = promise.post.apply(promise, args);
-  return prom.then(json_then(func));
-}
-
-
-// ==========================================================
-// Example:
-//
-//   get(url, function ([err], result) {});
-//
-// ==========================================================
-function get(url, func) {
-  return promise.get(url).then(json_then(func));
-}
-
-
-function json_then(func) {
-  return function (err, results) {
-    if (!err && typeof(results) === 'string')
-      results = JSON.parse(results);
-
-    if (func.length === 2) {
-      func(err, results);
-    } else {
-      if (err)
-        log(err);
-      else {
-        func(JSON.parse(results));
-      }
-      return;
-    }
-  };
-}
-
-
-
-
-// from:http://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try 
-function to_json_result(raw_text) {
-  var text  = "" + raw_text;
-  var fails = {success: false};
-  var o     = null;
-  if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
-                           replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-                           replace( /(?:^|:|,)(?:\s*\[)+/g , ''))
-                                   ) {
-                                   try {
-                                   o = JSON.parse(text);
-                                   } catch(e) {
-                                   o = null;
-                                   }
-
-                                   }
-    if (!o)
-      return fails;
-    if (!_.isObject(o))
-       return fails;
-    return o;
-  }
 
 

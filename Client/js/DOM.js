@@ -1,3 +1,4 @@
+"use strict";
 
 // ================================================================
 
@@ -19,58 +20,32 @@ function hide(se) {
 
 // ============================================
 // Note:
-// Selector for .draw_or_update
-//   must be in the form of: TAG.class
+// Selector for new_se must be in the form of:
+//   TAG.class
 // ============================================
-function after(se) {
-  var e = $(se);
+function after(se, new_se, txt) {
+
+  var e      = $(se);
   var parent = e.parent();
 
-  var meths = {
-    draw_or_update : function (se, txt) {
-      var pieces = se.split('.');
-      var tag = pieces[0];
-      var css = pieces[1];
-      var new_e = $('<' + tag + '></' + tag + '>' );
-      if(css)
-        new_e.addClass(css);
-      new_e.text(txt);
-      log('drawing:', se, txt);
+  if (!e.length)
+    throw new Error('Not found: ' + se);
 
-      // Remove previous. if any:
-      parent.find(se).remove();
-      e.after(new_e);
+  var target = e.find(new_se);
+  if (target.length) {
 
-      return new_e;
-    }
-  };
+    target.text(txt);
 
-  if (!e.length) {
-    log('Not found: ', se);
-    _.each(meths, function (v, k) {
-      meths[k] = do_nothing;
-    });
+  } else {
+    var target = Template.compile(new_se, {msg: txt});
+    log('drawing:', new_se, txt);
+
+    e.after(target);
   }
 
-  return meths;
-}
+  show(target);
+  return target;
 
-
-function add_okdoki_link(str) {
-  throw new Error('This funcition is obsolete/unsafe.');
-  return _.map(str.split(/\!(okdoki|br)/g), function (p, i) {
-    if (p==='okdoki') {
-      var e = $('<a></a>');
-      e.text('okdoki.com');
-      e.attr('href', '/');
-    } else if (p === 'br') {
-      var e = $('<br />');
-    } else {
-      var e = $('<span></span>');
-      e.text(p);
-    };
-    return e
-  });
 }
 
 
@@ -101,11 +76,11 @@ function swap_display(show, hide) {
   var s = $(show);
   var h = $(hide);
   if (s.is(':visible')) {
-    s.hide();
-    h.show();
+    hide(s);
+    show(h);
   } else {
-    s.show();
-    h.hide();
+    show(s);
+    hide(h);
   };
 }
 
@@ -113,14 +88,14 @@ function toggles(show, hide) {
   var target = $($(show).attr('href'));
   var origin = $(show).parents('div.show');
   on_click(show, function (e) {
-    target.show();
-    origin.hide();
+    show(target);
+    hide(origin);
     return false;
   });
 
   on_click(hide, function (e) {
-    target.hide();
-    origin.show();
+    hide(target);
+    show(origin);
     return false;
   });
 }

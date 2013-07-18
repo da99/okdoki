@@ -1,3 +1,11 @@
+"use strict";
+
+$(function () {
+
+  // === Grab info about the box.
+  Box.html($('#Meta_Box').wrap('<p/>').parent().html());
+
+});
 
 // ================================================================
 // ================== DSL =========================================
@@ -51,12 +59,6 @@ var Box = {
 
 };
 
-$(function () {
-
-  // === Grab info about the box.
-  Box.html($('#Meta_Box').wrap('<p/>').parent().html());
-
-});
 
 
 

@@ -1,3 +1,4 @@
+"use strict";
 
 var ALL_WHITE_SPACE  = /\s+/g;
 var BEGIN_AT_OR_HASH = /^(@|#)/;
