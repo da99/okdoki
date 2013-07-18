@@ -84,11 +84,96 @@ $('select[name="as_this_life"]').each(function (i, e) {
 });
 
 
+// ================================================================
+// ================== Etc. ========================================
+// ================================================================
 
 
+function _csrf(obj) {
+  if (obj) {
+    obj['X-CSRF-Token'] = _csrf();
+    obj['_csrf'] = _csrf();
+    return obj;
+  }
+  return $.trim($('#_csrf').text());
+}
 
+function log(msg) {
+  if (is_dev)
+    return console.log.apply(console, arguments);
 
+  return null;
+};
 
+function func() {
+  return _.partial.apply(_, arguments);
+}
 
+// ================================================================
+// ================== DSL =========================================
+// ================================================================
+
+function is_filled(se) {
+  var form = $(se);
+  var inputs = form.find('input[type="text"], textarea');
+  if (inputs.length < 1)
+    return true;
+  var i = _.find(inputs, function (e) {
+    return $.trim($(e).val()).length > 0;
+  });
+
+  return !!i;
+}
+
+function on_click_if_any(se, func) {
+  if ($(se).length)
+    return on_click(se, func);
+  return;
+}
+
+function on_click(selector, func) {
+  var e = $(selector);
+  if (!e.length) {
+    log("None found for: ", selector.selector || selector);
+  }
+
+  e.click(function (ev) {
+    ev.stopPropagation();
+    ev.preventDefault();
+
+    func.apply(this, arguments);
+    return false;
+  });
+
+  return e;
+}
+
+function swap_display(show, hide) {
+  var s = $(show);
+  var h = $(hide);
+  if (s.is(':visible')) {
+    s.hide();
+    h.show();
+  } else {
+    s.show();
+    h.hide();
+  };
+}
+
+function toggles(show, hide) {
+  var target = $($(show).attr('href'));
+  var origin = $(show).parents('div.show');
+  on_click(show, function (e) {
+    target.show();
+    origin.hide();
+    return false;
+  });
+
+  on_click(hide, function (e) {
+    target.hide();
+    origin.show();
+    return false;
+  });
+}
 
 

@@ -61,14 +61,6 @@ html(lang='en')
     script(type="text/_csrf", id="_csrf")
       | #{_csrf}
 
-    - if (is_testing)
-      call script('/akui_tests/window.onerror.js')
-
-    call script('/js/vendor/all.js')
-
-    call script("/js/common.js")
-    call script("/js/dom_dsl.js")
-    call script("/form_dsl.js")
 
     script#Meta_Box(type="text/x-okdoki")
       - if (screen_name)
@@ -89,6 +81,23 @@ html(lang='en')
           call as_this_life_menu()
 
       block templates
+
+
+
+    - if (is_testing)
+      call script('/akui_tests/window.onerror.js')
+
+    call script('/js/vendor/all.js')
+
+    call script("/js/Common.js")
+    call script("/js/Event.js")
+    call script("/js/DOM.js")
+    call script("/js/Adaptive.js")
+    call script("/js/Time.js")
+    call script("/js/Template.js")
+    call script("/js/Form.js")
+    call script("/js/Box.js")
+    call script("/js/Screen_Name.js")
 
     block scripts
 
