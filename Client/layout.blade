@@ -15,7 +15,7 @@ html(lang='en')
     script(src="#{add_mtime(name)}")
 
   function applet(name)
-    - var blade_file = "../../applets/" + name + "/markup.blade"
+    - var blade_file = "./applets/" + name + "/markup.blade"
     - var js_file    = "/applets/" + name + "/script.js"
     - var css_file   = "/applets/" + name + "/style.css"
     include blade_file
@@ -34,12 +34,12 @@ html(lang='en')
     meta(http-equiv="Cache-Control", content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" )
 
     link(rel='shortcut icon', href='/favicon.ico')
-    call css("/App/css/lenka-stabilo.css")
-    call css("/App/css/circus.css")
+    call css("/css/lenka-stabilo.css")
+    call css("/css/circus.css")
 
-    call css('/App/css/vanilla.reset.css')
-    call css("/App/css/_base.css")
-    call css("/App/css/forms.css")
+    call css('/css/vanilla.reset.css')
+    call css("/css/okdoki.css")
+    call css("/css/forms.css")
 
     block styles
 
@@ -64,11 +64,11 @@ html(lang='en')
     - if (is_testing)
       call script('/akui_tests/window.onerror.js')
 
-    call script('/applets/js/vendor/all.js')
+    call script('/js/vendor/all.js')
 
-    call script("/applets/js/common.js")
-    call script("/applets/js/dom_dsl.js")
-    call script("/applets/form_dsl.js")
+    call script("/js/common.js")
+    call script("/js/dom_dsl.js")
+    call script("/form_dsl.js")
 
     script#Meta_Box(type="text/x-okdoki")
       - if (screen_name)

@@ -3,7 +3,7 @@ form input[type="text"] {
 }
 body {
   padding: 0 0 80px 0;
-  background: #fcfcfc url("/App/img/wood_pattern.png");
+  background: #fcfcfc url("img/patterns/wood_pattern.png");
 }
 #Session_Nav {
   float: right;
