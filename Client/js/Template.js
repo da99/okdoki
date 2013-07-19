@@ -26,15 +26,15 @@ var Template = {
 
   html : function (html) {
     if (html)
-      this._html = $(html);
+      this._html = $(html).wrap('<p/>').parent();
     if (!this._html)
       throw new Error('Template HTML not ready.');
     return this._html;
   },
 
   read : function (se) {
-    var t = Template.html().closest(se);
-    if (!t)
+    var t = Template.html().find(se);
+    if (!t.length)
       throw new Error('Template not found: ' + se);
     return outer_html(t).replace(this.VARS_REGEXP, "<%- $1 %>");
   },
