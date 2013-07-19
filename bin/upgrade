@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 
 flips="$@"
-js="Client/App/js"
+js="Client/js"
 base_file="$js/vendor/all.js"
 
 if [[ ! "$@" == *skip_os* ]]
@@ -39,7 +39,8 @@ function re_download {
     rm -f "$1"
     wget -O "$1" "$2"
   fi
-  cat "$1"   >> "$base_file"
+  cat  "$1" >> "$base_file"
+  echo ""   >> "$base_file"
 }
 
 echo "" > "$base_file"

@@ -15,7 +15,7 @@ html(lang='en')
     script(src="#{add_mtime(name)}")
 
   function applet(name)
-    - var blade_file = "./applets/" + name + "/markup.blade"
+    - var blade_file = "../../applets/" + name + "/markup.blade"
     - var js_file    = "/applets/" + name + "/script.js"
     - var css_file   = "/applets/" + name + "/style.css"
     include blade_file
@@ -113,8 +113,6 @@ html(lang='en')
 
     - var script_file = "/" + template_name + "/script.js";
     call script(script_file)
-
-    call applet("My_Screen_Names")
 
 
 

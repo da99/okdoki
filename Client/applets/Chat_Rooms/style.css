@@ -83,4 +83,7 @@
   font-family: $serif;
 }
 #Enter_Room {
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: left top;
 }

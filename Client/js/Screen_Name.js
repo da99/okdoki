@@ -1,9 +1,18 @@
+if (typeof exports === 'undefined') {
 
-$(function () {
-  var sn = Box.read('Screen_Name');
-  if (sn)
-    Screen_Name.screen_name(sn);
-});
+  // ================== On Load =====================================
+  $('select[name="as_this_life"]').each(function (i, e) {
+    var opts = $(e).find('option');
+    if (opts.length > 1)
+      $(e).parent('span.as_this_life').show();
+  });
+
+  $(function () {
+    var sn = Box.read('Screen_Name');
+    if (sn)
+      Screen_Name.screen_name(sn);
+  });
+}
 
 // ================================================================
 // ================== DSL =========================================
@@ -45,18 +54,7 @@ var Screen_Name = {
   }
 };
 
-if (typeof exports === 'undefined') {
-
-  // ================== On Load =====================================
-  $('select[name="as_this_life"]').each(function (i, e) {
-    var opts = $(e).find('option');
-    if (opts.length > 1)
-      $(e).parent('span.as_this_life').show();
-  });
-
-} else {
-
+if (typeof exports !== 'undefined') {
   exports.canonize_screen_name = canonize_screen_name;
-
 };
 

@@ -303,7 +303,7 @@ div.box div.content {
   background: #829537;
   color: #fff;
 }
-#Enter_Chat_Room div.content div.error_msg {
+#Enter_Chat_Room div.content div.errors {
   display: none;
   background: #fffdd2;
   color: $red;
@@ -349,7 +349,7 @@ div.box div.content {
 #Message_Board div.msgs div.me_msg {
   background: #fffdd2;
 }
-#Message_Board div.msgs div.error_msg {
+#Message_Board div.msgs div.errors {
   color: $red;
 }
 #Folders div.content ul.folders {

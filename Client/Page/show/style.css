@@ -44,7 +44,7 @@ body.w500_plus #Me div.content {
 #Items div.content div.edit_this div.edit a:link {
   text-transform: uppercase;
 }
-#Items div.content div.edit_this div.success_msg {
+#Items div.content div.edit_this div.success {
   display: none;
   font-style: italic;
   background: #fffdd2;

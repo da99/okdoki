@@ -3,7 +3,7 @@
 $(function () {
 
   // === Grab info about the box.
-  Box.html($('#Meta_Box').wrap('<p/>').parent().html());
+  Box.html($('#Meta_Box').html());
 
 });
 
@@ -44,7 +44,7 @@ var Box = {
 
   html : function (html) {
     if (html)
-      this._html = html;
+      this._html = $(html);
     if (!this._html)
       throw new Error('Meta Box html not found.');
     return this._html;

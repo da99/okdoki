@@ -17,7 +17,7 @@ var _         = require('underscore')
 var Customer     = require('../Customer/model').Customer
 , Screen_Name    = require('../Screen_Name/model').Screen_Name
 , H              = require('../App/Helpers').H
-, OMNI           = require('../../Client/App/js/Screen_Name')
+, OMNI           = require('../../Client/js/Screen_Name')
 ;
 
 var log       = require('./base').log
