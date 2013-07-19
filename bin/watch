@@ -10,8 +10,12 @@ var spawn              = require("child_process").spawn;
 var fs                 = require("fs");
 var term               = require('cli-color');
 var akui               = require('akui');
+
 var client_file_mtimes = null;
 var client_file        = "Server/App/file_times";
+var full_client_file   = require.resolve('../' + client_file);
+var orig_mtimes        = require(full_client_file).data;
+delete require.cache[full_client_file];
 
 var throw_err= function (err) {
   throw err;
@@ -29,10 +33,31 @@ var shell    = function (cmd, func) {
 
 
 exec("bin/file_times", function (err, o, e) {
+
   if (err)
     throw err;
-  client_file_mtimes = require('../' + client_file).data;
-  restart_server();
+
+
+  client_file_mtimes = require(full_client_file).data;
+  var styls = _.select(_.keys(client_file_mtimes), function (k) {
+    return k.match('.styl') && (client_file_mtimes[k] !== orig_mtimes[k]);
+  });
+
+  if (styls.length) {
+
+    exec('stylus ' + styls.join(" "), function (err, o, e) {
+      if (err)
+        throw err;
+      console.log(o + '');
+      if (e)
+        console.log(e + '');
+      start_watching();
+    });
+
+  } else {
+    start_watching();
+  }
+
 });
 
 // ================================================================
@@ -125,77 +150,81 @@ function watch(dirs, func) {
   return w;
 }
 
-watch("bin/watch")
-.on('change', function (f) {
-  console.log("\nFile bin/watch has changed. Exiting.");
-  shutdown_all();
-})
-.on('error', throw_err);
-;
+function start_watching() {
+  watch("bin/watch")
+  .on('change', function (f) {
+    console.log("\nFile bin/watch has changed. Exiting.");
+    shutdown_all();
+  })
+  .on('error', throw_err);
+  ;
 
-watch( ["Client/App/js/_base.js", "bin/upgrade", "Client/applets/form/script.js"] )
-.on('change', function (filename) {
-  upgrade();
-})
-.on('error', throw_err);
-;
+  watch( ["Client/App/js/_base.js", "bin/upgrade", "Client/applets/form/script.js"] )
+  .on('change', function (filename) {
+    upgrade();
+  })
+  .on('error', throw_err);
+  ;
 
-watch( ["Server/", "Client/", 'test/ui', 'node_modules/topogo'] )
-.on('add', function (f) {
-  if (is_static(f))
-    return;
-  if (f.match(client_file))
-    return;
+  watch( ["Server/", "Client/", 'test/ui', 'node_modules/topogo'] )
+  .on('add', function (f) {
+    if (is_static(f))
+      return;
+    if (f.match(client_file))
+      return;
 
-  if (!server_started)
-    return;
+    if (!server_started)
+      return;
 
-  console.log("\nadded: " + f);
-  restart_server();
-})
-.on('change', function (filename) {
-  if (is_static(filename))
-    return;
+    console.log("\nadded: " + f);
+    restart_server();
+  })
+  .on('change', function (filename) {
+    if (is_static(filename))
+      return;
 
-  console.log("\nchanged: " + filename);
-  restart_server();
-})
-.on('unlink', function (filename) {
-  if (is_static(filename))
-    return;
+    console.log("\nchanged: " + filename);
+    restart_server();
+  })
+  .on('unlink', function (filename) {
+    if (is_static(filename))
+      return;
 
-  console.log("\ndeleted: " + filename);
-  restart_server();
-})
-.on('error', throw_err);
-;
+    console.log("\ndeleted: " + filename);
+    restart_server();
+  })
+  .on('error', throw_err);
+  ;
 
 
-watch( "Client/" )
-.on('add', function (f) {
-  if (!server_started)
-    return;
-  stylus_changed(f, 'change');
-})
-.on('change', function (f) {
-  update_client_file(f);
-  stylus_changed(f, 'change');
-})
-.on('unlink', function (f) { stylus_changed(f, 'unlink'); })
-;
+  watch( "Client/" )
+  .on('add', function (f) {
+    if (!server_started)
+      return;
+    stylus_changed(f, 'change');
+  })
+  .on('change', function (f) {
+    update_client_file(f);
+    stylus_changed(f, 'change');
+  })
+  .on('unlink', function (f) { stylus_changed(f, 'unlink'); })
+  ;
 
-// watch(['test', 'models', 'lib'])
-// .on('add', function (f) {
+  // watch(['test', 'models', 'lib'])
+  // .on('add', function (f) {
   // if (!server_started)
-    // return;
+  // return;
   // run_tests(f);
-// })
-// .on('change', run_tests)
-// .on('change', run_tests)
-// ;
+  // })
+  // .on('change', run_tests)
+  // .on('change', run_tests)
+  // ;
 
 
-console.log("Watching: ", _.flatten(watched_dirs).join(', '), "\n");
+  console.log("Watching: ", _.flatten(watched_dirs).join(', '), "\n");
+
+  restart_server();
+} // === start_watching
 
 function run_tests(f) {
   console.log("  changed: " + f);
