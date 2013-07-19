@@ -133,6 +133,24 @@ Feed.find_feed_url = function (url, flow) {
   })
 };
 
+
+Feed.count = function (flow) {
+  River.new(flow)
+  .job(function (j) {
+    var sql = "\
+      SELECT count(id) AS count \
+      FROM @table \
+   ";
+    TABLE.run(sql, {}, j);
+  })
+  .job(function (j, rows) {
+    j.finish(rows[0].count);
+  })
+  .run();
+};
+
+
+
 // ================================================================
 // ================== Update ======================================
 // ================================================================
