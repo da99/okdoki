@@ -46,15 +46,6 @@ form {
   padding: 0;
   margin: 0;
 }
-form.loading {
-  background: transparent url("/assets/img/med_loading.gif") no-repeat center 8px;
-}
-form.loading div.fields {
-  visibility: hidden;
-}
-form.loading div.field {
-  padding-bottom: 10px;
-}
 form input[type="password"],
 form input[type="text"],
 form textarea {
