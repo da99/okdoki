@@ -7,6 +7,7 @@
 //
 // ======================================
 
+var CHAT_MSG_OLDEST_EPOCH = 0;
 var CHAT_MSG_LOOP      = false;
 var PENDING_CHAT_MSG   = [];
 var Chat_Msgs          = function () { };
@@ -28,6 +29,14 @@ on('before success #Write_To_Chat_Room', function (o) {
 });
 
 
+// === Record time of oldest message
+on('chat room msg', function (o) {
+  if (!o.created_at_epoch)
+    return;
+  var time = parseInt(o.created_at_epoch);
+  if (time >= CHAT_MSG_OLDEST_EPOCH)
+    CHAT_MSG_OLDEST_EPOCH = time;
+});
 
 // === Added message to DOM
 on('chat room msg', function (msg) {
@@ -35,11 +44,11 @@ on('chat room msg', function (msg) {
     msg.body = msg.msg;
 
   var template_msg = _.defaults(msg, {
-    author_screen_name: '',
-    room_name: '',
-    dom_id: 'm' + (msg.dom_id || msg.id || (new Date).getTime()),
-    author: msg.author || '',
-    chat_room: msg.room_name || ''
+    author_screen_name : '',
+    room_name          : '',
+    dom_id             : 'm' + (msg.dom_id || msg.id || (new Date).getTime()),
+    author             : msg.author || '',
+    chat_room          : msg.room_name || ''
   });
 
   var o = Template.compile('div.msg', template_msg);
@@ -112,7 +121,7 @@ on('after leave chat room', function (o) {
 var CHAT_MSG_Interval = setInterval(function () {
   if (!CHAT_MSG_LOOP)
     return;
-  post("/chat_room/heart_beep", {}, function (err, result) {
+  post("/chat_room/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {
     if (err) {
       return;
     }

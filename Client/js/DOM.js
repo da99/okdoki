@@ -3,7 +3,7 @@
 function log_length(se, orig) {
   var e = $(se);
   if (!e.length)
-    log('None found for: ', (orig || e.selector || se));
+    log('None found for: ', (e.selector || se.selector || se));
   return e;
 }
 
@@ -58,10 +58,8 @@ function on_click_if_any(se, func) {
 }
 
 function on_click(selector, func) {
-  var e = $(selector);
-  if (!e.length) {
-    log("None found for: ", selector.selector || selector);
-  }
+
+  var e = log_length(selector);
 
   e.click(function (ev) {
     ev.stopPropagation();

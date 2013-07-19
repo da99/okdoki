@@ -140,7 +140,7 @@ exports.route = function (mod) {
 
     mod.New_River(req, resp, next)
     .job('read msgs', function (j) {
-      Chat_Room_Msg.read_list_for_customer(req.user, j);
+      Chat_Room_Msg.read_list_for_customer(req.user, req.body.start_at || 0, j);
     })
     .run(function (fin, list) {
       resp.json({

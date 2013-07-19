@@ -120,7 +120,7 @@ Chat_Room.prototype.draw_out = function (old_dom) {
 
 Chat_Room.prototype.draw_in = function () {
   var room_in = Template.compile('#Chat_Rooms div.room.in', this.data);
-  room_in.hide();
+  hide(room_in);
   $('#In_Rooms div.rooms').prepend(room_in);
 
   on_click(room_in.find('a.leave'), Chat_Room.leave);

@@ -103,7 +103,14 @@ Msg.create_official = function (chat_room, body, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-Msg.read_list_for_customer = function (customer, flow) {
+Msg.read_list_for_customer = function (customer, raw_start_at, flow) {
+
+  var start_at = parseInt(raw_start_at);
+  if (start_at)
+    var secs = ((new Date).getTime() - (new Date(start_at)).getTime() ) + 10;
+  else
+    var secs = 5;
+
   River.new(flow)
 
   .job('read chat room seat list', function (j) {
@@ -121,7 +128,7 @@ Msg.read_list_for_customer = function (customer, flow) {
       SELECT id, author, chat_room, body, created_at       \n\
       FROM @table                                          \n\
       WHERE chat_room  IN  @chat_rooms                     \n\
-        AND created_at >=  (now() - INTERVAL '5 seconds')  \n\
+        AND created_at >=  (now() - INTERVAL '" + secs+ " seconds')  \n\
     ;";
     TABLE.run(sql, {chat_rooms: list}, j);
   })
