@@ -24,6 +24,14 @@ Msg.new = function (data) {
 };
 
 
+function past_seconds(raw_at) {
+  var at = parseInt(raw_at);
+  if (!at)
+    return 0;
+  var ms = (new Date).getTime() - (new Date(at)).getTime() ;
+  return parseInt( ms / 1000 );
+}
+
 function null_if_empty(str) {
   if (!str) return null;
   str = str.trim();
@@ -105,11 +113,8 @@ Msg.create_official = function (chat_room, body, flow) {
 // ================================================================
 Msg.read_list_for_customer = function (customer, raw_start_at, flow) {
 
-  var start_at = parseInt(raw_start_at);
-  if (start_at)
-    var secs = ((new Date).getTime() - (new Date(start_at)).getTime() ) + 10;
-  else
-    var secs = 5;
+  var start_at = past_seconds(raw_start_at);
+  var secs = (start_at) ?  start_at + 10 : 5;
 
   River.new(flow)
 
