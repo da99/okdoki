@@ -42,7 +42,7 @@ on('chat room msg', function (msg) {
     chat_room: msg.room_name || ''
   });
 
-  var o = compile_template('div.msg', template_msg);
+  var o = Template.compile('div.msg', template_msg);
 
   Chat_Msgs.DOM.prepend(o);
 });

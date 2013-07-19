@@ -4,7 +4,7 @@
   // form('#Create_Folder form', function (f) {
     // f.on_success(function (result) {
       // log(result);
-      // var new_folder = compile_template('div.folder', {'TITLE': result.name, 'LOCATION': result.location});
+      // var new_folder = Template.compile('div.folder', {'TITLE': result.name, 'LOCATION': result.location});
       // $('div.boxs').prepend(new_folder);
     // });
 

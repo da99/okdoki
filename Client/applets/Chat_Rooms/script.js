@@ -108,7 +108,7 @@ Chat_Room.prototype.draw_out = function (old_dom) {
   if (old_dom) {
     var o = $(old_dom);
   } else {
-    var o = compile_template('#Chat_Rooms div.room.out', this.data);
+    var o = Template.compile('#Chat_Rooms div.room.out', this.data);
     $('#Out_Rooms div.rooms').prepend(o);
   }
 
@@ -119,7 +119,7 @@ Chat_Room.prototype.draw_out = function (old_dom) {
 
 
 Chat_Room.prototype.draw_in = function () {
-  var room_in = compile_template('#Chat_Rooms div.room.in', this.data);
+  var room_in = Template.compile('#Chat_Rooms div.room.in', this.data);
   room_in.hide();
   $('#In_Rooms div.rooms').prepend(room_in);
 

@@ -48,7 +48,7 @@ function draw_chat_msg(sel, msg) {
   if ($('#' + msg.dom_id).length)
     return;
 
-  $('#Chat_Msgs').prepend( compile_template(sel, msg) );
+  $('#Chat_Msgs').prepend( Template.compile(sel, msg) );
   if (TOTAL_CHAT_MSG > MAX_CHAT_MSG_TOTAL) {
     $('#Chat_Msgs').find('div.chat_msg').last().remove();
   }

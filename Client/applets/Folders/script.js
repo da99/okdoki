@@ -1,6 +1,6 @@
 function folder(f) {
   var parent = $('#Folders ul.folders');
-  parent.prepend(compile_template('li.folder', f));
+  parent.prepend(Template.compile('li.folder', f));
   parent.show();
 }
 

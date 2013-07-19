@@ -35,7 +35,7 @@ $(function () {
 }); // ==============================================
 
 function me_mb_msg(o) {
-  $('#Message_Board').find('div.msgs').prepend( compile_template('div.me_msg', o) );
+  $('#Message_Board').find('div.msgs').prepend( Template.compile('div.me_msg', o) );
 }
 
 
@@ -53,6 +53,6 @@ function mb_msg(o) {
     return false;
   }
 
-  $('#Message_Board').find('div.msgs').prepend( compile_template('div.msg', o) );
+  $('#Message_Board').find('div.msgs').prepend( Template.compile('div.msg', o) );
 }
 
