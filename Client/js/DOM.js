@@ -3,7 +3,7 @@
 function log_length(se, orig) {
   var e = $(se);
   if (!e.length)
-    log('None found for: ', (orig || se));
+    log('None found for: ', (orig || e.selector || se));
   return e;
 }
 
@@ -16,7 +16,7 @@ function hide(se) {
 }
 
 function outer_html(se) {
-  return $(se).wrap('<p/>').parent().html();
+  return log_length(se).wrap('<p/>').parent().html();
 }
 
 
@@ -31,7 +31,7 @@ function after(se, new_se, txt) {
   var parent = e.parent();
 
   if (!e.length)
-    throw new Error('Not found: ' + se);
+    throw new Error('Not found: ' + (e.selector || se));
 
   var target = e.find(new_se);
   if (target.length) {

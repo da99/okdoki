@@ -51,7 +51,7 @@ var Box = {
   },
 
   read: function (css) {
-    var v = $.trim((this.html().find('div.' + css).text() || ''));
+    var v = $.trim((this.html().closest('div.' + css).text() || ''));
     if (!v.length)
       return undefined;
     return v;

@@ -33,7 +33,7 @@ var Template = {
   },
 
   read : function (se) {
-    var t = Template.html().find(se);
+    var t = Template.html().closest(se);
     if (!t)
       throw new Error('Template not found: ' + se);
     return outer_html(t).replace(this.VARS_REGEXP, "<%- $1 %>");
@@ -41,7 +41,7 @@ var Template = {
 
   compile: function (se, data) {
     if (!this.FNS[se])
-      this.FNS[se] = _.template(this.read_template(se));
+      this.FNS[se] = _.template(this.read(se));
 
     var o = $(this.FNS[se](data));
     emit('template compiled', {dom: o});
