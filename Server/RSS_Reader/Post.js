@@ -44,7 +44,7 @@ Post.create = function (raw_data, flow) {
   var data = {
     feed_id: raw_data.feed_id,
     guid:  raw_data.guid || (new Date).getTime().toString(),
-    url:   raw_data.link,
+    link:  raw_data.link,
     title: raw_data.title.slice(0,255),
     body:  body,
     created_at: raw_data.pubdate,
@@ -67,8 +67,9 @@ Post.create = function (raw_data, flow) {
 
 Post.update_next_feed = function (feed, flow) {
   var items = [];
+  var saved_posts = [];
 
-  request(feed.data.url)
+  request(feed.data.link)
   .pipe(new parser())
   .on('error', function (error) {
     console.log(error);
@@ -83,13 +84,28 @@ Post.update_next_feed = function (feed, flow) {
   })
   .on('finish', function () {
     var river = River.new(flow);
+
     _.each(items, function (i) {
-      river.job(function (j) {
+
+      river
+
+      .job(function (j) {
         i.feed_id = feed.data.id;
         Post.create(i, j);
+      })
+
+      .job(function (j, post) {
+        saved_posts.push(post);
+        j.finish(post);
       });
+
     });
-    river.run();
+
+    river
+    .job(function (j) {
+      j.finish(saved_posts);
+    })
+    .run();
   });
 };
 

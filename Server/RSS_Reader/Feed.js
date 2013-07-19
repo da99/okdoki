@@ -1,6 +1,7 @@
 
 var _         = require("underscore")._
 
+, Post        = require("./Post").Post
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
@@ -137,29 +138,36 @@ Feed.find_feed_url = function (url, flow) {
 // ================================================================
 
 Feed.update_next = function (flow) {
-  var log_id = 0;
+  var log_id       = 0;
   var next_feed_id = 0;
-  var LOG    = Topogo.new('RSS_Reader_Log');
+  var LOG          = Topogo.new('RSS_Reader_Log');
+  var posts        = [];
 
   River.new(flow)
   .job('get last feed id', function (j) {
-    LOG.run( "SELECT last_feed_id FROM @table LIMIT 1", {}, j);
+    LOG.run( "SELECT id, last_feed_id FROM @table LIMIT 1", {}, j);
   })
-  .job('get next feed', function (j, record) {
+  .job('get next feed', function (j, rows) {
+    var record = rows[0];
     log_id = record.id;
     TABLE
     .run("SELECT * FROM @table \
          WHERE id > @last_id \
          LIMIT 1;", {last_id: record.last_feed_id}, j);
   })
-  .job('get posts', function (j, f_rec) {
+  .job('get posts', function (j, rows) {
+    var f_rec = rows[0];
     next_feed_id = (f_rec) ? f_rec.id : 0;
     if (!f_rec)
       return j.finish([]);
     Post.update_next_feed(Feed.new(f_rec), j);
   })
-  .job('update log', function (j) {
-    TABLE.update(log_id, {last_feed_id: next_feed_id}, j);
+  .job('update log', function (j, items) {
+    posts = items;
+    LOG.update(log_id, {last_feed_id: next_feed_id}, j);
+  })
+  .job(function (j) {
+    j.finish({posts: posts, feed_id: next_feed_id});
   })
   .run();
 };

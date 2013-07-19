@@ -23,13 +23,10 @@ River.new()
   Feed.update_next(j);
 })
 
-.job('save posts', function (j, list) {
-  items = items.concat(list);
-  j.finish(list);
-})
-
-.run(function (fin, row) {
-  console.log(items[0].data);
+.run(function (fin, vals) {
+  console.log(vals.feed_id);
+  if (vals.posts.length)
+    console.log(vals.posts[0].data);
   Topogo.close();
 });
 
