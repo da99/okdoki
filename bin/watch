@@ -32,6 +32,7 @@ exec("bin/file_times", function (err, o, e) {
   if (err)
     throw err;
   client_file_mtimes = require('../' + client_file).data;
+  restart_server();
 });
 
 // ================================================================
@@ -320,7 +321,6 @@ function close() {
   // }
 }
 
-restart_server();
 process.on('SIGINT',  shutdown_all);
 process.on('SIGTERM', shutdown_all);
 
