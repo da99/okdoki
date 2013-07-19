@@ -65,7 +65,7 @@ Post.create = function (raw_data, flow) {
   .run();
 };
 
-Post.create_list_from_get_request = function (feed, flow) {
+Post.update_next_feed = function (feed, flow) {
   var items = [];
 
   request(feed.data.url)

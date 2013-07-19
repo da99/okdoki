@@ -136,6 +136,34 @@ Feed.find_feed_url = function (url, flow) {
 // ================== Update ======================================
 // ================================================================
 
+Feed.update_next = function (flow) {
+  var log_id = 0;
+  var next_feed_id = 0;
+  var LOG    = Topogo.new('RSS_Reader_Log');
+
+  River.new(flow)
+  .job('get last feed id', function (j) {
+    LOG.run( "SELECT last_feed_id FROM @table LIMIT 1", {}, j);
+  })
+  .job('get next feed', function (j, record) {
+    log_id = record.id;
+    TABLE
+    .run("SELECT * FROM @table \
+         WHERE id > @last_id \
+         LIMIT 1;", {last_id: record.last_feed_id}, j);
+  })
+  .job('get posts', function (j, f_rec) {
+    next_feed_id = (f_rec) ? f_rec.id : 0;
+    if (!f_rec)
+      return j.finish([]);
+    Post.update_next_feed(Feed.new(f_rec), j);
+  })
+  .job('update log', function (j) {
+    TABLE.update(log_id, {last_feed_id: next_feed_id}, j);
+  })
+  .run();
+};
+
 // ================================================================
 // ================== Trash/Untrash ===============================
 // ================================================================

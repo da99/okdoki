@@ -8,68 +8,30 @@
 
 var _       = require("underscore");
 var cheerio = require("cheerio");
-
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
+
 var Feed   = require("../Server/RSS_Reader/Feed").Feed;
 var Post   = require("../Server/RSS_Reader/Post").Post;
 
-var url1 = "http://feeds.mises.org/MisesDailyArticles?format=xml";
-var url2 = "http://modernmarketingjapan.blogspot.com/feeds/posts/default";
-
-var f1 = null;
-var f2 = null;
 
 var items = [];
-var feeds = [];
 
 River.new()
 
-.job('create', function (j) {
-  Feed.create({url: "feeds.mises.org/MisesDailyArticles?format=xml"}, j);
-})
-
-.job('create', function (j, row) {
-  f1 = row;
-  Feed.create({url: url2}, j);
-})
-
-.job(function (j, row) {
-  f2 = row;
-  j.finish(f2);
-})
-
 .job(function (j) {
-  Feed.read_list(j);
+  Feed.update_next(j);
 })
 
-.job(function (j, list) {
-  feeds = list;
-
-  var r = River.new(j);
-
-  _.each(feeds, function (f) {
-
-    r.job('read posts', f.data.id, function (j) {
-      Post.create_list_from_get_request(f, j);
-    });
-
-    r.job('save posts', f.data.id, function (j, list) {
-      items = items.concat(list);
-      j.finish(list);
-    });
-
-  });
-
-  r.run();
-
+.job('save posts', function (j, list) {
+  items = items.concat(list);
+  j.finish(list);
 })
 
 .run(function (fin, row) {
   console.log(items[0].data);
   Topogo.close();
 });
-
 
 
 process.on('SIGINT', function () {
