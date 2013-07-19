@@ -4,6 +4,7 @@
 // ================================================================
 
 var _         = require('underscore')
+, RSS_Post    = require('../RSS_Reader/Post').Post
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
@@ -137,16 +138,23 @@ exports.route = function (mod) {
 
   // =============== "Listening" to the Chat Room... ================
   app.post('/chat_room/heart_beep', function (req, resp, next) {
-
+    var msgs = [];
     mod.New_River(req, resp, next)
+
     .job('read msgs', function (j) {
       Chat_Room_Msg.read_list_for_customer(req.user, req.body.start_at || 0, j);
     })
-    .run(function (fin, list) {
+
+    .job('get next RSS feed', function (j, list) {
+      msgs = list;
+      RSS_Post.read_next_for_customer(req.user, j);
+    })
+
+    .run(function (fin, post) {
       resp.json({
         success : true,
         msg     : "Done.",
-        msg_list: list
+        msg_list: msgs.concat( (post && [post]) || [])
       });
     });
 

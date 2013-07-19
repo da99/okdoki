@@ -2,6 +2,8 @@
 var _         = require("underscore")
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
+, Feed        = require("./Feed").Feed
+, Sub         = require("./Sub").Sub
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 
@@ -113,6 +115,37 @@ Post.update_next_feed = function (feed, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Post.read_next_for_customer = function (customer, flow) {
+  River.new(flow)
+  .job('read from db', function (j) {
+    var sql = "\
+      SELECT * FROM @table           \n\
+      WHERE  feed_id IN              \n\
+        (SELECT feed_id FROM @SUBS   \n\
+          WHERE owner IN  @names )   \n\
+      LIMIT 1                        \n\
+    ;";
+    TABLE.run(sql, {
+      names: customer.screen_names(),
+      TABLES: {SUBS: Sub.TABLE_NAME}
+    }, j);
+  })
+  .job(function (j, rows) {
+    var r = rows[0];
+    if (!r)
+      return j.finish();
+    j.finish({
+      created_at_epoch: r.created_at.getTime(),
+      dom_id          : 'rss' + r.id + '_' + r.created_at.getTime(),
+      chat_room       : '(rss)',
+      author          : '(unknown)',
+      body            : r.body,
+      created_at      : r.created_at,
+      is_rss_post     : true
+    });
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================
