@@ -1,7 +1,5 @@
 "use strict";
 
-// ================================================================
-
 function log_length(se, orig) {
   var e = $(se);
   if (!e.length)
@@ -15,6 +13,10 @@ function show(se) {
 
 function hide(se) {
   return log_length(se).hide();
+}
+
+function outer_html(se) {
+  return $(se).wrap('<p/>').parent().html();
 }
 
 

@@ -18,7 +18,7 @@ on('template compiled', function (o) {
   if (Customer_Lifes.sn_new.length === 0)
     return;
 
-  $(o.selector).find('select[name="as_this_life"]').each(function (i, e) {
+  $(o.dom).find('select[name="as_this_life"]').each(function (i, e) {
     _.each(Customer_Lifes.sn_new, function (n) {
       $(e).prepend(Customer_Lifes.new_opt(n));
     });
