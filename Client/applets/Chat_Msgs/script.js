@@ -58,8 +58,10 @@ on('chat room msg', function (msg) {
     a.attr('href', msg.link);
     a.text('Read more...');
     o.find('div.body').append(a);
+    o.find('span.said').text('Feed: ');
   }
 
+  o.find('a').attr('target', '_blank');
   Chat_Msgs.DOM.prepend(o);
 });
 
