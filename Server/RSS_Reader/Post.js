@@ -47,7 +47,7 @@ Post.create = function (raw_data, flow) {
     feed_id    : raw_data.feed_id,
     guid       : raw_data.guid || (new Date).getTime().toString(),
     link       : raw_data.link,
-    author     : raw_data.author.slice(0,255),
+    author     : (raw_data.author || '').slice(0,255),
     title      : raw_data.title.slice(0,255),
     body       : body,
     created_at : raw_data.pubdate,
@@ -164,7 +164,7 @@ Post.read_next_for_customer = function (customer, flow) {
       created_at_epoch: post.created_at.getTime(),
       dom_id          : 'rss' + post.id + '_' + post.created_at.getTime(),
       chat_room       : post.chat_room || '(unknown)',
-      author          : '(unknown)',
+      author          : '',
       body            : post.body,
       created_at      : post.created_at,
       is_rss_post     : true
