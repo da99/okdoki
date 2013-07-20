@@ -1,5 +1,5 @@
 html {
-  background: #000 url("/img/bikes_small.jpg?1") no-repeat top left fixed;
+  background: #000 url("/img/montreal_bikes/bikes_small.jpg?1") no-repeat top left fixed;
   -moz-background-size: cover;
   -webkit-background-size: cover;
   -o-background-size: cover;
@@ -7,7 +7,7 @@ html {
   background-size: cover;
 }
 html.max_900_plus {
-  background-image: url("/img/bikes_huge.jpg?1");
+  background-image: url("/img/montreal_bikes/bikes_huge.jpg?1");
 }
 body {
   background-color: transparent;
