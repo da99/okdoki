@@ -53,6 +53,13 @@ on('chat room msg', function (msg) {
 
   var o = Template.compile('div.msg', template_msg);
 
+  if (msg.link) {
+    var a = $('<a/>');
+    a.attr('href', msg.link);
+    a.text('Read more...');
+    o.find('div.body').append(a);
+  }
+
   Chat_Msgs.DOM.prepend(o);
 });
 
