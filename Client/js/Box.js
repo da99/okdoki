@@ -43,11 +43,16 @@ var Box = {
   },
 
   html : function (html) {
-    if (html)
+
+    // Note: "" is falsy, so we use arguments.length
+    if (arguments.length)
       this._html = $(html);
+
     if (!this._html)
       throw new Error('Meta Box html not found.');
+
     return this._html;
+
   },
 
   read: function (css) {
