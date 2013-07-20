@@ -53,6 +53,9 @@ on('chat room msg', function (msg) {
 
   var o = Template.compile('div.msg', template_msg);
 
+  if (msg.is_clean_body)
+    o.find('div.body').html(msg.body);
+
   if (msg.link) {
     var a = $('<a/>');
     a.attr('href', msg.link);

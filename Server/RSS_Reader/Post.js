@@ -168,7 +168,8 @@ Post.read_next_for_customer = function (customer, flow) {
       body            : post.body,
       created_at      : post.created_at,
       link            : post.link,
-      is_rss_post     : true
+      is_rss_post     : true,
+      is_clean_body   : true
     });
   })
   .run();
