@@ -116,6 +116,7 @@ Post.update_next_feed = function (feed, flow) {
 // ================================================================
 
 Post.read_next_for_customer = function (customer, flow) {
+  var post = null;
   River.new(flow)
   .job('read from db', function (j) {
     var sql = "\
@@ -130,17 +131,41 @@ Post.read_next_for_customer = function (customer, flow) {
       TABLES: {SUBS: Sub.TABLE_NAME}
     }, j);
   })
-  .job(function (j, rows) {
-    var r = rows[0];
-    if (!r)
+  .job('update sub last_read_id', function (j, rows) {
+    post = rows[0];
+    if (!post)
+      return j.finish();
+
+    var sql = "\
+      UPDATE @SUBS                 \n\
+      SET last_read_id = @post_id  \n\
+      WHERE owner IN @names AND feed_id = @feed_id \n\
+      RETURNING nick_name          \n\
+    ;";
+
+    TABLE.run(sql, {
+      post_id : post.id,
+      feed_id : post.feed_id,
+      names   : customer.screen_names(),
+      TABLES  : {SUBS: Sub.TABLE_NAME}
+    }, j);
+  })
+  .job('save feed nick name', function (j, rows) {
+    var r = rows && rows[0];
+    if (r)
+      post.chat_room = r.nick_name;
+    return j.finish();
+  })
+  .job(function (j) {
+    if (!post)
       return j.finish();
     j.finish({
-      created_at_epoch: r.created_at.getTime(),
-      dom_id          : 'rss' + r.id + '_' + r.created_at.getTime(),
-      chat_room       : '(rss)',
+      created_at_epoch: post.created_at.getTime(),
+      dom_id          : 'rss' + post.id + '_' + post.created_at.getTime(),
+      chat_room       : post.chat_room || '(unknown)',
       author          : '(unknown)',
-      body            : r.body,
-      created_at      : r.created_at,
+      body            : post.body,
+      created_at      : post.created_at,
       is_rss_post     : true
     });
   })
