@@ -131,6 +131,9 @@ on('after leave chat room', function (o) {
 
 
 var CHAT_MSG_Interval = setInterval(function () {
+  if (APP_ERROR)
+    return;
+
   if (!CHAT_MSG_LOOP)
     return;
   post("/chat_room/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {

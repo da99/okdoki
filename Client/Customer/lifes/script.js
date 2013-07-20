@@ -1,5 +1,25 @@
 "use strict";
 
+var old_err = window.onerror;
+var APP_ERROR = false;
+window.onerror = function (errorMsg, url, lineNumber) {
+  if (old_err)
+    return old_err.apply(null, arguments);
+
+  if(window.$) {
+    var o = $('<div/>');
+    o.addClass('APP_ERROR');
+    o.text("Unexpected error. Refresh this page.");
+    $('body').prepend(o);
+  }
+
+  if (console && console.log)
+    console.log(arguments);
+
+  APP_ERROR = errorMsg;
+  return false;
+};
+
 create_event('screen name created');
 create_event('chat room entered');
 create_event('chat room leave');
