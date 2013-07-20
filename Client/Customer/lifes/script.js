@@ -50,8 +50,36 @@ on('screen name', function (m) {
 });
 
 
+// === When to open links in a new window.
+var MAIN_PAGE = {
+  in_chat_rooms : []
+};
 
+on('after enter chat room', function () {
+  MAIN_PAGE.in_chat_rooms.push(1);
+});
 
+on('after leave chat room', function () {
+  MAIN_PAGE.in_chat_rooms.pop();
+});
+
+$(function () {
+  $('a').each(function (i, e) {
+
+    var href = $(e).attr('href');
+    if (href.indexOf('/log') > -1 || href.indexOf('#') > -1 )
+      return;
+
+    on_click(e, function () {
+      var o = $(this);
+      if (MAIN_PAGE.in_chat_rooms.length)
+        window.open(o.attr('href'), '_blank');
+      else
+        window.location.href = o.attr('href');
+    });
+
+  });
+});
 
 
 
