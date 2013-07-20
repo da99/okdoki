@@ -49,9 +49,10 @@ Sub.create = function (raw_data, flow) {
   })
   .job('create sub', function (j, feed) {
     var data = {
-      feed_id   : feed.data.id,
-      nick_name : trunc(feed.data.title),
-      owner     : owner
+      feed_id     : feed.data.id,
+      nick_name   : trunc(feed.data.title),
+      owner       : owner,
+      origin_link : link
     };
     TABLE
     .on_dup(TABLE_NAME + '_owner_and_feed_id', function (name) {

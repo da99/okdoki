@@ -44,13 +44,14 @@ Post.create = function (raw_data, flow) {
   .replace(/\r|\t/g, '  ') + '...';
 
   var data = {
-    feed_id: raw_data.feed_id,
-    guid:  raw_data.guid || (new Date).getTime().toString(),
-    link:  raw_data.link,
-    title: raw_data.title.slice(0,255),
-    body:  body,
-    created_at: raw_data.pubdate,
-    updated_at: raw_data.date
+    feed_id    : raw_data.feed_id,
+    guid       : raw_data.guid || (new Date).getTime().toString(),
+    link       : raw_data.link,
+    author     : raw_data.author.slice(0,255),
+    title      : raw_data.title.slice(0,255),
+    body       : body,
+    created_at : raw_data.pubdate,
+    updated_at : raw_data.date
   };
 
   River.new(flow)

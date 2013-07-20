@@ -20,6 +20,7 @@ m.migrate = function (dir, r) {
     feed_id        int NOT NULL,                                \n\
     nick_name      char(100) DEFAULT NULL,                      \n\
     last_read_id   int NOT NULL DEFAULT 0,                      \n\
+    origin_link    text NOT NULL,                               \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
