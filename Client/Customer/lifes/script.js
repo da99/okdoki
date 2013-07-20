@@ -14,6 +14,33 @@ var Customer_Lifes = {
   }
 };
 
+function attach_console_link_click(e) {
+  var href = $(e).attr('href');
+  if (href.indexOf('/log') > -1 || href.indexOf('#') > -1 )
+    return;
+
+  on_click(e, function () {
+    var o = $(this);
+    if (MAIN_PAGE.in_chat_rooms.length)
+      window.open(o.attr('href'), '_blank');
+    else
+      window.location.href = o.attr('href');
+  });
+
+}
+
+$(function () {
+  $('a').each(function (i, e) {
+    attach_console_link_click(e);
+  });
+});
+
+on('template compiled' , function (o) {
+  $(o.dom).find('a').each(function (i, e) {
+    attach_console_link_click(e);
+  });
+});
+
 on('template compiled', function (o) {
   if (Customer_Lifes.sn_new.length === 0)
     return;
@@ -45,8 +72,7 @@ on('screen name', function (m) {
 });
 
 on('screen name', function (m) {
-  var o = $('<li><a href="/me/LIFE">LIFE</a></li>'.replace(/LIFE/g, m.screen_name));
-  $('#Create_Life ul.screen_names').prepend(o);
+  $('#Create_Life ul.screen_names').prepend(Template.compile('li.screen_name', {name: m.screen_name}));
 });
 
 
@@ -61,24 +87,6 @@ on('after enter chat room', function () {
 
 on('after leave chat room', function () {
   MAIN_PAGE.in_chat_rooms.pop();
-});
-
-$(function () {
-  $('a').each(function (i, e) {
-
-    var href = $(e).attr('href');
-    if (href.indexOf('/log') > -1 || href.indexOf('#') > -1 )
-      return;
-
-    on_click(e, function () {
-      var o = $(this);
-      if (MAIN_PAGE.in_chat_rooms.length)
-        window.open(o.attr('href'), '_blank');
-      else
-        window.location.href = o.attr('href');
-    });
-
-  });
 });
 
 
