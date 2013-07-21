@@ -130,6 +130,10 @@ Chat_Room.prototype.draw_in = function () {
 
 
 Chat_Room.prototype.enter = function () {
+
+  if (APP_ERROR)
+    return;
+
   var me = this;
 
   if (me.is_in)

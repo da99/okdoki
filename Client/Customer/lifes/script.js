@@ -17,7 +17,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
   if (console && console.log)
     console.log(arguments);
 
-  APP_ERROR = errorMsg;
+  APP_ERROR = arguments[0] || "unknown";
   return false;
 };
 
