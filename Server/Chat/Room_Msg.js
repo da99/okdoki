@@ -41,7 +41,7 @@ function null_if_empty(str) {
 }
 
 Msg.prototype.public_data = function () {
-  return public_data(this.data);
+  return public_chat_room_msg_data(this.data);
 };
 
 function public_data(r) {
@@ -54,6 +54,12 @@ function public_data(r) {
     created_at       : r.created_at
   };
 };
+
+function public_chat_room_msg_data(r) {
+  var o = public_data(r);
+  o.is_chat_room_msg = true;
+  return o;
+}
 
 // ================================================================
 // ================== Create ======================================
@@ -139,7 +145,7 @@ Msg.read_list_for_customer = function (customer, raw_start_at, flow) {
   })
 
   .job('add epoch', function (j, rows) {
-    j.finish(_.map(rows, public_data));
+    j.finish(_.map(rows, public_chat_room_msg_data));
   })
 
   .run();

@@ -33,6 +33,10 @@ on('before success #Write_To_Chat_Room', function (o) {
 on('chat room msg', function (o) {
   if (!o.created_at_epoch)
     return;
+
+  if (!o.is_chat_room_msg)
+    return;
+
   var time = parseInt(o.created_at_epoch);
   if (time >= CHAT_MSG_OLDEST_EPOCH)
     CHAT_MSG_OLDEST_EPOCH = time;
