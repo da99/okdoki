@@ -11,6 +11,7 @@ window.onerror = function (errorMsg, url, lineNumber) {
     o.addClass('APP_ERROR');
     o.text("Unexpected error. Refresh this page.");
     $('body').prepend(o);
+    window.scrollTo(0, 0);
   }
 
   if (console && console.log)
