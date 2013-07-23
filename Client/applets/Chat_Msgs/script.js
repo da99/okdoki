@@ -134,32 +134,32 @@ on('after leave chat room', function (o) {
 });
 
 
-var CHAT_MSG_Interval = setInterval(function () {
+function get_msgs() {
   if (APP_ERROR)
     return;
 
-  if (!CHAT_MSG_LOOP)
-    return;
   post("/chat_room/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {
-    if (err) {
+    if (err)
       return;
-    }
-    if (result.msg_list) {
-      var o_length = PENDING_CHAT_MSG.length;
-      PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(result.msg_list);
-      if (o_length === 0)
-        draw_all_msgs();
-    }
+    add_these_pending_msgs(result.msg_list || []);
+    setTimeout(get_msgs, 1000 * 10);
   });
-}, 3000);
+}
 
+function add_these_pending_msgs(list) {
+  PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(list);
+}
 
 function draw_all_msgs() {
   var m = PENDING_CHAT_MSG.shift();
   if (!m || (m.dom_id && $('#' + m.dom_id).length))
     return;
   emit('chat room msg', m);
-  setTimeout(draw_all_msgs, 800);
 }
+
+
+get_msgs();
+
+setInterval(draw_all_msgs, 1500);
 
 
