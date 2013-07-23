@@ -1,0 +1,31 @@
+@import "../../css/colors"
+
+toggle_link()
+  color: #fff
+  text-decoration: none
+  border-radius: 3px
+  cursor: default
+  font-weight: bold
+
+#Toggle_Feature_Packs
+  div.item
+    padding: 0 0 3px 0
+  a:link
+    &.on, &.off
+      margin: 0 3px
+      border-radius: 3px
+    &.on:hover
+      background: $avacado
+    &.off:hover
+      background: $orange
+
+
+
+  div.is_off
+    a:link.off
+      toggle_link()
+      background: $orange
+  div.is_on
+    a:link.on
+      background: $avacado
+      toggle_link()

@@ -6,14 +6,16 @@
 #
 set -u -e -o pipefail
 
-
-cd Client/applets
+app_dir="Client/applets"
+cd $app_dir
 mkdir -p $1
 cd $1
 touch style.styl
+touch style.css
 touch markup.blade
 if [[ ! -f script.js ]]
 then
-  echo -e "\"use strict\";\n\n" >> script.js 
+  echo -e "\"use strict\";\n\n" >> script.js
 fi
 
+echo "Created: $app_dir/$1"

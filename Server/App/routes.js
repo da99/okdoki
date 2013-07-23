@@ -31,14 +31,7 @@ exports.route = function (mod) {
 
     if (opts.is_customer) {
       opts['title'] =  "My Okdoki";
-      mod.New_River(req, resp, next)
-      .read_list('seats', function (j) {
-        Chat_Room_Seat.read_list_for_customer(req.user, j);
-      })
-      .run(function (fin, rows) {
-        opts['chat_room_seats'] = rows;
-        return OK.render_template();
-      });
+      return OK.render_template();
     } else {
       opts['title'] = 'OkDoki.com';
       return OK.render_template();

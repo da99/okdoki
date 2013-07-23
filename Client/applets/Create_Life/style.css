@@ -1,0 +1,30 @@
+#Toggle_Feature_Packs div.item {
+  padding: 0 0 3px 0;
+}
+#Toggle_Feature_Packs a:link.on,
+#Toggle_Feature_Packs a:link.off {
+  margin: 0 3px;
+  border-radius: 3px;
+}
+#Toggle_Feature_Packs a:link.on:hover {
+  background: #b0c460;
+}
+#Toggle_Feature_Packs a:link.off:hover {
+  background: #ff8f00;
+}
+#Toggle_Feature_Packs div.is_off a:link.off {
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  cursor: default;
+  font-weight: bold;
+  background: #ff8f00;
+}
+#Toggle_Feature_Packs div.is_on a:link.on {
+  background: #b0c460;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  cursor: default;
+  font-weight: bold;
+}
