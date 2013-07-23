@@ -405,15 +405,25 @@ Customer.read_by_id = function (opts, flow) {
     if (!p)
       return j.finish(row);
 
-    if (date(row.log_in_at) === date(new Date)) {
-      if (row.bad_log_in_count < 4)
-        return j.finish(row);
-      else
-        return j.finish('invalid', 'Too many bad log-ins for today. Try again tomorrow.');
-    }
+    var sql = "\
+      UPDATE @table                                      \n\
+      SET log_in_at = CURRENT_DATE, bad_log_in_count = 0 \n\
+      WHERE log_in_at != CURRENT_DATE AND id = @id       \n\
+      RETURNING *                                        \n\
+    ;";
 
     Topogo.new(Customer.TABLE_NAME)
-    .update({id: row.id}, {log_in_at: '$now', bad_log_in_count: 0}, j);
+    .run(sql, {id: row.id}, j);
+  })
+
+  .job('check log in count', function (j, rows) {
+    var row = rows[0] || customer_row;
+    if (!p)
+      return j.finish(row);
+    if (row.bad_log_in_count < 4)
+      return j.finish(row);
+    else
+      return j.finish('invalid', 'Too many bad log-ins for today. Try again tomorrow.');
   })
 
   .job('hash pass phrase', function (j, row) {
