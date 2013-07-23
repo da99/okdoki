@@ -203,10 +203,10 @@ describe( 'Customer', function () {
       .run(function(){ throw new Error('this is not supposed to be reached.');});
     });
 
-    it( 'increases log_in_count by one if incorrect pass_phrase supplied', function (done) {
+    it( 'increases bad_log_in_count by one if incorrect pass_phrase supplied', function (done) {
       River.new()
       .job(function (j) {
-        Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {log_in_count: 3}, j);
+        Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {bad_log_in_count: 3}, j);
       })
       .on_next('invalid', function (j, err) {
         River.new()
@@ -214,7 +214,7 @@ describe( 'Customer', function () {
           Topogo.new(Customer.TABLE_NAME).read_one(customer.data.id, j);
         })
         .job(function (j, c) {
-          assert.equal(4, c.log_in_count);
+          assert.equal(4, c.bad_log_in_count);
           j.finish();
         })
         .run(function () {

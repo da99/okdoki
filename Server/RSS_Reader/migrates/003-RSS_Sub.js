@@ -16,9 +16,9 @@ m.migrate = function (dir, r) {
 
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,                          \n\
-    owner          char(50) NOT NULL,                           \n\
+    owner          varchar(50) NOT NULL,                        \n\
     feed_id        int NOT NULL,                                \n\
-    nick_name      char(100) DEFAULT NULL,                      \n\
+    nick_name      varchar(100) DEFAULT NULL,                   \n\
     last_read_id   int NOT NULL DEFAULT 0,                      \n\
     origin_link    text NOT NULL,                               \n\
     $created_at    ,                                            \n\

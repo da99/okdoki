@@ -19,7 +19,7 @@ m.migrate = function (dir, r) {
     num                 smallint DEFAULT 0 NOT NULL,            \n\
     website_id          $id_type,                               \n\
     $owner_id           ,                                       \n\
-    title               char(123),                              \n\
+    title               varchar(123),                           \n\
     $created_at         ,                                       \n\
     $trashed_at                                                 \n\
     );";

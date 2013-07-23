@@ -39,6 +39,18 @@ Customer.TABLE_NAME = TABLE_NAME;
 // =============== Helper Methods==================================
 // ================================================================
 
+function add_leading_zero(n) {
+  if (n < 10)
+    n = '0' + n;
+  return n;
+}
+
+function date(d) {
+  var m   = add_leading_zero(d.getUTCMonth() + 1);
+  var day = add_leading_zero(d.getUTCDate());
+  return d.getUTCFullYear() + '-' + m + '-' + day;
+}
+
 function add_s(v) {
   return (v > 1 ? 's' : '');
 }
@@ -369,6 +381,7 @@ Customer.read_by_id = function (opts, flow) {
   if (_.isString(opts) || _.isNumber(opts))
     opts = {id: opts};
 
+  var customer_row = null;
   var me          = Customer.new();
   var screen_name = opts.screen_name;
   delete opts.screen_name;
@@ -387,11 +400,25 @@ Customer.read_by_id = function (opts, flow) {
     .read_one(opts, j);
   })
 
+  .job('update log_in_at', function (j, row) {
+    customer_row = row;
+    if (!p)
+      return j.finish(row);
+    if (date(row.log_in_at) === date(new Date)) {
+      if (row.bad_log_in_count < 4)
+        return j.finish(row);
+      else
+        return j.finish('invalid', 'Too many bad log-ins for today. Try again tomorrow.');
+    }
+    Topogo.new(Customer.TABLE_NAME)
+    .update({id: row.id}, {log_in_at: date(new Date), bad_log_in_count: 0}, j);
+  })
+
   .job('hash pass phrase', function (j, row) {
     if (!p)
       return j.finish(row);
 
-    bcrypt.compare(p, row.pass_phrase_hash, function (err, result) {
+    bcrypt.compare(p, customer_row.pass_phrase_hash, function (err, result) {
       if (err)
         return j.finish('invalid', 'Unable to process pass phrase.');
       if (result)
@@ -400,32 +427,24 @@ Customer.read_by_id = function (opts, flow) {
       River.new(j)
       .job(function (j) {
         Topogo.new(Customer.TABLE_NAME)
-        .run("UPDATE @table SET log_in_at = current_date, log_in_count = '1' \n\
-                       WHERE id = @id AND log_in_at != current_date          \n\
-             RETURNING id;", {id: row.id}, j);
+        .run("UPDATE @table SET bad_log_in_count = (bad_log_in_count + 1)    \n\
+                       WHERE id = @id                                        \n\
+             RETURNING id, bad_log_in_count;", {id: row.id}, j);
       })
       .job(function (j, rows) {
-        if (rows.length)
-          return j.finish(rows[0]);
-        Topogo.new(Customer.TABLE_NAME)
-        .run("UPDATE @table SET log_in_count = (log_in_count + 1)            \n\
-                       WHERE id = @id                                        \n\
-             RETURNING id;", {id: row.id}, j);
-      })
-      .job(function (j) {
         return j.finish('invalid', 'Pass phrase is incorrect.');
       }).run();
     });
   })
 
   .job(function (j, row) {
-    me.is_new          = false;
-    me.customer_id     = row.id;
-    me.data.id         = row.id;
-    me.data.email      = row.email;
-    me.data.trashed_at = row.trashed_at;
-    me.data.log_in_at  = row.log_in_at;
-    me.data.log_in_count=row.log_in_count;
+    me.is_new                = false;
+    me.customer_id           = customer_row.id;
+    me.data.id               = customer_row.id;
+    me.data.email            = customer_row.email;
+    me.data.trashed_at       = customer_row.trashed_at;
+    me.data.log_in_at        = customer_row.log_in_at;
+    me.data.bad_log_in_count = customer_row.bad_log_in_count;
     return j.finish(me);
   })
   .job('read screen names', opts.id, [Screen_Name, 'read_list', me])
