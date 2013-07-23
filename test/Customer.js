@@ -177,8 +177,8 @@ describe( 'Customer', function () {
 
     it( 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name', null)
-      .on_next('not_found', function (j, err) {
-        assert.equal(err.message, 'Customer, ' + screen_name + ', not found.');
+      .on_next('invalid', function (j, err) {
+        assert.equal(err.message, 'Pass phrase is incorrect.');
         done();
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
@@ -191,7 +191,7 @@ describe( 'Customer', function () {
   describe( 'update:', function () {
 
     it('updates Customer email', function (done) {
-      var new_email = 'new-e\'mail@i-hate-all.com';
+      var new_email = 'new-email@i-hate-all.com';
       River.new(null)
       .on_next('invalid', h.throw_it)
       .job('update customer', new_email, [customer, 'update', {'email': new_email}])

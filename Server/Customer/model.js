@@ -1,6 +1,6 @@
 var _         = require('underscore')
+, bcrypt      = require('bcrypt')
 , Duration    = require('duration')
-, crypto      = require('crypto')
 , Check       = require('da_check').Check
 , River       = require('da_river').River
 , Topogo      = require('topogo').Topogo
@@ -38,10 +38,6 @@ Customer.TABLE_NAME = TABLE_NAME;
 // ================================================================
 // =============== Helper Methods==================================
 // ================================================================
-
-function encode_pass_phrase ( seed, pass_phrase ) {
-  return crypto.createHash('sha512').update(seed + pass_phrase).digest('hex');
-}
 
 function add_s(v) {
   return (v > 1 ? 's' : '');
@@ -316,11 +312,19 @@ Customer.create = function (new_vals, flow) {
     Screen_Name.create(me, j);
   })
 
-  .job('create', 'customer record', function (j) {
+  .job('hash pass phrase', function (j) {
+    bcrypt.hash(me.sanitized_data.pass_phrase, 13, function (err, hash) {
+      if (err)
+        return j.finish('invalid', 'Pass phrase could not be hashed.');
+      j.finish(hash)
+    });
+  })
+
+  .job('create', 'customer record', function (j, hash) {
     Topogo
     .new(Customer.TABLE_NAME)
     .create({
-      pass_phrase_hash : encode_pass_phrase( me.sanitized_data.id, me.sanitized_data.pass_phrase),
+      pass_phrase_hash : hash,
       id : me.sanitized_data.id
     }, j);
   })
@@ -369,8 +373,10 @@ Customer.read_by_id = function (opts, flow) {
   var screen_name = opts.screen_name;
   delete opts.screen_name;
 
+  var p           = null;
+
   if (opts.hasOwnProperty('pass_phrase')) {
-    opts.pass_phrase_hash = encode_pass_phrase(opts.id, opts.pass_phrase);
+    p = opts.pass_phrase;
     delete opts.pass_phrase;
   }
 
@@ -379,6 +385,20 @@ Customer.read_by_id = function (opts, flow) {
   .job_must_find('Customer', screen_name || opts.id, function (j) {
     Topogo.new(TABLE_NAME)
     .read_one(opts, j);
+  })
+
+  .job('hash pass phrase', function (j, row) {
+    if (!p)
+      return j.finish(row);
+
+    bcrypt.compare(p, row.pass_phrase_hash, function (err, result) {
+      if (err)
+        return j.finish('invalid', 'Unable to process pass phrase.');
+      if (!result)
+        return j.finish('invalid', 'Pass phrase is incorrect.');
+
+      j.finish(row);
+    });
   })
 
   .job(function (j, row) {

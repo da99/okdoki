@@ -52,3 +52,7 @@
 - utf8
 
 - Fix remember me: 1 week instead of current value
+
+
+Security
+- Review mozilla web app guidelines.

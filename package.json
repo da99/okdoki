@@ -33,6 +33,7 @@
 
    , "feedparser"        : "x.x.x"
    , "validator"         : "x.x.x"
+   , "bcrypt"            : "x.x.x"
   },
 
   "devDependencies": {
