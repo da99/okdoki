@@ -196,7 +196,7 @@ describe( 'Customer', function () {
     it( 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase', function (done) {
       River.new('read by screen name', null)
       .on_next('invalid', function (j, err) {
-        assert.equal(err.message, 'Pass phrase is incorrect.');
+        assert.equal(err.message, 'Pass phrase is incorrect. Check your CAPS LOCK key.');
         done();
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
@@ -242,6 +242,19 @@ describe( 'Customer', function () {
         assert.equal(d.toUTCString(), last.data.log_in_at.toUTCString());
         done();
       });
+    });
+
+    it( 'returns invalid if: correct pass phrase, too many bad log-ins', function (done) {
+      River.new()
+      .job('reset log in col vals', function (j) {
+        Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {log_in_at: '$now', bad_log_in_count: 4}, j);
+      })
+      .on_next('invalid', function (j, err) {
+        assert.equal("Too many bad log-ins for today. Try again tomorrow.", err.message);
+        done();
+      })
+      .job('simulate real-world read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
+      .run(function(){ throw new Error('this is not supposed to be reached.');});
     });
   }); // === describe read_by_screen_name
 

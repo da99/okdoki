@@ -434,7 +434,7 @@ Customer.read_by_id = function (opts, flow) {
              RETURNING *;", {id: row.id}, j);
       })
       .job(function (j, rows) {
-        return j.finish('invalid', 'Pass phrase is incorrect.');
+        return j.finish('invalid', 'Pass phrase is incorrect. Check your CAPS LOCK key.');
       }).run();
     });
   })
