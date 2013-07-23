@@ -413,11 +413,11 @@ Customer.read_by_id = function (opts, flow) {
     ;";
 
     Topogo.new(Customer.TABLE_NAME)
-    .run(sql, {id: row.id}, j);
+    .run_and_return_at_most_1(sql, {id: row.id}, j);
   })
 
-  .job('check log in count', function (j, rows) {
-    var row = rows[0] || customer_row;
+  .job('check log in count', function (j, last_row) {
+    var row = last_row || customer_row;
     if (!p)
       return j.finish(row);
     if (row.bad_log_in_count < 4)
@@ -497,7 +497,7 @@ Customer.prototype.update = function (new_data, flow) {
     });
 
     Topogo.new(TABLE_NAME)
-    .update(me.data.id, set, j)
+    .update_where_set(me.data.id, set, j)
 
   })
 

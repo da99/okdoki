@@ -84,7 +84,7 @@ Room_Seat.create_by_room = function (room, flow) {
               // "RETURNING * ;",
   River.new(flow)
   .job('update', function (j) {
-    TABLE.update(data, {last_seen_at: '$now'}, j);
+    TABLE.update_where_set(data, {last_seen_at: '$now'}, j);
   })
   .job(function (j, rows) {
     if (rows.length > 0)
@@ -205,7 +205,7 @@ Room_Seat.enter = function (room, life, flow) {
   River.new(flow)
   .job('read', function (j) {
     TABLE
-    .update_one({chat_room: room, owner: life},
+    .update_one_where_set({chat_room: room, owner: life},
             {last_seen_at: '$now', is_in   : 't'}, j);
   })
   .job('create', function (j, row) {
@@ -236,7 +236,7 @@ Room_Seat.leave = function (chat_room, life, flow) {
   River.new(flow)
   .job('update', function (j) {
     TABLE
-    .update_one({
+    .update_one_where_set({
       chat_room: chat_room,
       owner: life
     }, {last_seen_at: '$now', is_in   : 'f'}, j);

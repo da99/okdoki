@@ -210,7 +210,7 @@ S.create = function (customer, job) {
     // ==== has not been created.
     River.new(j)
     .job('update owner _id', function (j2) {
-      Topogo.new(TABLE_NAME).update(r.id, {owner_id: r.id}, j2);
+      Topogo.new(TABLE_NAME).update_where_set(r.id, {owner_id: r.id}, j2);
     })
     .job('set customer id', function (j2, r) {
       customer.data.id = customer.sanitized_data.id = r.id;
@@ -529,7 +529,7 @@ S.update = function ( customer, flow ) {
 
   River.new(arguments)
   .job('update screen name', me.data.screen_name, function (j) {
-    Topogo.new(TABLE_NAME).update(row.id, set, j)
+    Topogo.new(TABLE_NAME).update_where_set(row.id, set, j)
   })
   .job(function (j, row) {
     customer.push_screen_name_row(_.extend(set, row, final_data));

@@ -29,7 +29,7 @@ Counter.create = function (parent_type, parent_id, child_type, child_id, flow) {
   River.new(flow)
   .job(function (j) {
     Topogo.new(TABLE_NAME)
-    .update_and_return({
+    .update_and_return_where_set({
       parent_type_id : parent_type_id,
       parent_id      : parent_id,
       child_type_id  : child_type_id,

@@ -163,7 +163,7 @@ describe( 'Screen_Name', function () {
       .job('age', 'trashed screen name', function (j) {
         Topogo
         .new(Screen_Name.TABLE_NAME)
-        .update(id, {trashed_at: h.ago('-3d')}, j)
+        .update_where_set(id, {trashed_at: h.ago('-3d')}, j)
       })
       .job('deletes old', 'screen names', [Screen_Name, 'delete_trashed'])
       .job('read', 'screen names', [Customer, 'read_by_id', c.data.id])

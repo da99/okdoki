@@ -243,7 +243,7 @@ F.update = function ( customer, flow ) {
 
   River.new(arguments)
   .job('update screen name', me.data.screen_name, function (j) {
-    Topogo.new(TABLE_NAME).update(row.id, set, j)
+    Topogo.new(TABLE_NAME).update_where_set(row.id, set, j)
   })
   .job(function (j, row) {
     customer.push_screen_name_row(_.extend(set, row, final_data));

@@ -46,7 +46,7 @@ Follow.create_by_website = function (website, raw_data, flow) {
   River.new(flow)
   .job(function (j) {
     TABLE
-    .update(data, {trashed_at: null}, j);
+    .update_where_set(data, {trashed_at: null}, j);
   })
   .job(function (j, row) {
     if (row)

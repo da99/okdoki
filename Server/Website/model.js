@@ -177,7 +177,7 @@ Uni.update = function (vals, flow) {
   River.new(arguments)
 
   .job('update', where.screen_name, function (j) {
-    TABLE.update({owner_id: where.owner_id}, updated_vals, j);
+    TABLE.update_where_set({owner_id: where.owner_id}, updated_vals, j);
   })
 
   .job('create if no found', where.screen_name, function (j) {

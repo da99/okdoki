@@ -115,10 +115,9 @@ describe( 'Customer', function () {
       River.new()
       .job('get current date', function (j) {
         Topogo.new('any table')
-        .run("SELECT current_date as date; ", {}, j);
+        .run_and_return_at_most_1("SELECT current_date as date; ", {}, j);
       })
-      .run(function (fin, rows) {
-        var r = rows[0];
+      .run(function (fin, r) {
         assert.equal(r.date.toUTCString(), c.data.log_in_at.toUTCString());
         done();
       });
@@ -206,7 +205,7 @@ describe( 'Customer', function () {
     it( 'increases bad_log_in_count by one if incorrect pass_phrase supplied', function (done) {
       River.new()
       .job('ensure bad_log_in_count', function (j) {
-        Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {bad_log_in_count: 3}, j);
+        Topogo.new(Customer.TABLE_NAME).update_where_set(customer.data.id, {bad_log_in_count: 3}, j);
       })
       .on_next('invalid', function (j, err) {
         River.new()
@@ -247,7 +246,7 @@ describe( 'Customer', function () {
     it( 'returns invalid if: correct pass phrase, too many bad log-ins', function (done) {
       River.new()
       .job('reset log in col vals', function (j) {
-        Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {log_in_at: '$now', bad_log_in_count: 4}, j);
+        Topogo.new(Customer.TABLE_NAME).update_where_set(customer.data.id, {log_in_at: '$now', bad_log_in_count: 4}, j);
       })
       .on_next('invalid', function (j, err) {
         assert.equal("Too many bad log-ins for today. Try again tomorrow.", err.message);
@@ -307,7 +306,7 @@ describe( 'Customer', function () {
       River.new(null)
       .job('update trashed_at', function (j) {
         Topogo.new(Customer.TABLE_NAME)
-        .update(customer_id, { trashed_at: trashed_at }, j)
+        .update_where_set(customer_id, { trashed_at: trashed_at }, j)
       })
       .job('delete customers', [Customer, 'delete_trashed'])
       .job('read customer', [Customer, 'read_by_id', customer_id])
@@ -325,7 +324,7 @@ describe( 'Customer', function () {
 
       .job('update trashed_at', function (j) {
         Topogo.new(Customer.TABLE_NAME)
-        .update(customer_id, {trashed_at: h.ago('-3d')}, j)
+        .update_where_set(customer_id, {trashed_at: h.ago('-3d')}, j)
       })
 
       .job('delete customers', [Customer, 'delete_trashed'])

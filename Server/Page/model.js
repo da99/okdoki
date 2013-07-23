@@ -166,7 +166,7 @@ Page.prototype._update = function (raw_data, flow) {
 
   River.new(flow)
   .job(function (j) {
-    TABLE.update({id: me.data.id}, data, j);
+    TABLE.update_where_set({id: me.data.id}, data, j);
   })
   .job(function (j, row) {
     if (row)
