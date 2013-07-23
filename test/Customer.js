@@ -205,15 +205,15 @@ describe( 'Customer', function () {
 
     it( 'increases bad_log_in_count by one if incorrect pass_phrase supplied', function (done) {
       River.new()
-      .job(function (j) {
+      .job('ensure bad_log_in_count', function (j) {
         Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {bad_log_in_count: 3}, j);
       })
       .on_next('invalid', function (j, err) {
         River.new()
-        .job(function (j) {
+        .job('read customer', function (j) {
           Topogo.new(Customer.TABLE_NAME).read_one(customer.data.id, j);
         })
-        .job(function (j, c) {
+        .job('assert bad log_in_count', function (j, c) {
           assert.equal(4, c.bad_log_in_count);
           j.finish();
         })
@@ -221,10 +221,28 @@ describe( 'Customer', function () {
           done();
         });
       })
-      .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
+      .job('simulate real-world read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
       .run(function(){ throw new Error('this is not supposed to be reached.');});
     });
 
+    it( 'updates log_in_at to PG current_date when logging in', function (done) {
+      var d = null;
+      River.new()
+      .job('select current_date', function (j) {
+        Topogo.new(Customer.TABLE_NAME)
+        .run("SELECT current_date AS date", {}, j);
+      })
+      .job('ensure old date for log_in_at', function (j, rows) {
+        d = rows[0].date;
+        Topogo.new(Customer.TABLE_NAME)
+        .run("UPDATE @table SET log_in_at = '1999-01-01';", {}, j);
+      })
+      .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: pass_phrase}])
+      .run(function (fin, last) {
+        assert.equal(d.toUTCString(), last.data.log_in_at.toUTCString());
+        done();
+      });
+    });
   }); // === describe read_by_screen_name
 
 

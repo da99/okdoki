@@ -404,14 +404,16 @@ Customer.read_by_id = function (opts, flow) {
     customer_row = row;
     if (!p)
       return j.finish(row);
+
     if (date(row.log_in_at) === date(new Date)) {
       if (row.bad_log_in_count < 4)
         return j.finish(row);
       else
         return j.finish('invalid', 'Too many bad log-ins for today. Try again tomorrow.');
     }
+
     Topogo.new(Customer.TABLE_NAME)
-    .update({id: row.id}, {log_in_at: date(new Date), bad_log_in_count: 0}, j);
+    .update({id: row.id}, {log_in_at: '$now', bad_log_in_count: 0}, j);
   })
 
   .job('hash pass phrase', function (j, row) {
@@ -429,7 +431,7 @@ Customer.read_by_id = function (opts, flow) {
         Topogo.new(Customer.TABLE_NAME)
         .run("UPDATE @table SET bad_log_in_count = (bad_log_in_count + 1)    \n\
                        WHERE id = @id                                        \n\
-             RETURNING id, bad_log_in_count;", {id: row.id}, j);
+             RETURNING *;", {id: row.id}, j);
       })
       .job(function (j, rows) {
         return j.finish('invalid', 'Pass phrase is incorrect.');
@@ -439,12 +441,12 @@ Customer.read_by_id = function (opts, flow) {
 
   .job(function (j, row) {
     me.is_new                = false;
-    me.customer_id           = customer_row.id;
-    me.data.id               = customer_row.id;
-    me.data.email            = customer_row.email;
-    me.data.trashed_at       = customer_row.trashed_at;
-    me.data.log_in_at        = customer_row.log_in_at;
-    me.data.bad_log_in_count = customer_row.bad_log_in_count;
+    me.customer_id           = row.id;
+    me.data.id               = row.id;
+    me.data.email            = row.email;
+    me.data.trashed_at       = row.trashed_at;
+    me.data.log_in_at        = row.log_in_at;
+    me.data.bad_log_in_count = row.bad_log_in_count;
     return j.finish(me);
   })
   .job('read screen names', opts.id, [Screen_Name, 'read_list', me])
