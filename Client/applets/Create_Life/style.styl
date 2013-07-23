@@ -8,11 +8,23 @@ toggle_link()
   font-weight: bold
 
 #Toggle_Feature_Packs
+  h2
+    font-size: 110%
+    padding: 4px
+    margin: 0 40px 10px 30px
+    text-align: center
+    color: #fff
+    text-shadow: #4d4d4d 0.1em 0.1em 0.1em;
+    font-weight: normal
+    background: $glass_black_lighter
+    border-radius: 6px 6px 0 0
+  div.box
+    margin: 0 40px 10px 30px
   div.item
     padding: 0 0 3px 0
   a:link
     &.on, &.off
-      margin: 0 3px
+      margin: 0 3px 0 0
       border-radius: 3px
     &.on:hover
       background: $avacado
@@ -27,5 +39,5 @@ toggle_link()
       background: $orange
   div.is_on
     a:link.on
-      background: $avacado
+      background: #59AD38
       toggle_link()

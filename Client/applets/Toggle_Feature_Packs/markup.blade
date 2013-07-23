@@ -1,23 +1,19 @@
 
 function item(name)
   - var sn = name.toUpperCase().replace(/[^a-z0-9]{1,}/ig, '_');
-  div.item.is_on
-    span.name #{name}&nbsp;
-    a.on(href="#on") On
-    a.off(href="#off") Off
-    input(type="hidden", value="#{sn}")
+  div.box
+    div.content
+      div.item.is_on
+        a.on(href="#on") On
+        a.off(href="#off") Off
+        span.name #{name}&nbsp;
+        input(type="hidden", value="#{sn}")
 
 append Toggle_Feature_Packs
   div#Toggle_Feature_Packs
-    div.box#Toggle_MM_Feature_Packs
-      h3 Available Feature Packs:
-      div.content
-        div.list
-          call item("Chit Chat")
+    h2 ~ Settings (for this page) ~
+    call item("Chit Chat Streaming")
 
-    div.box#Toggle_Techie_Feature_Packs
-      h3 Geeky Feature Packs:
-      div.content
-        div.list
-          call item("RSS News Wire")
-          call item("Uni Console")
+    h2 ~ Genius Settings (for this page) ~
+    call item("RSS News Wire")
+    call item("Status Console")

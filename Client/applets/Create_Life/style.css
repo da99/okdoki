@@ -1,9 +1,23 @@
+#Toggle_Feature_Packs h2 {
+  font-size: 110%;
+  padding: 4px;
+  margin: 0 40px 10px 30px;
+  text-align: center;
+  color: #fff;
+  text-shadow: #4d4d4d 0.1em 0.1em 0.1em;
+  font-weight: normal;
+  background: rgba(0,0,0,0.3);
+  border-radius: 6px 6px 0 0;
+}
+#Toggle_Feature_Packs div.box {
+  margin: 0 40px 10px 30px;
+}
 #Toggle_Feature_Packs div.item {
   padding: 0 0 3px 0;
 }
 #Toggle_Feature_Packs a:link.on,
 #Toggle_Feature_Packs a:link.off {
-  margin: 0 3px;
+  margin: 0 3px 0 0;
   border-radius: 3px;
 }
 #Toggle_Feature_Packs a:link.on:hover {
@@ -21,7 +35,7 @@
   background: #ff8f00;
 }
 #Toggle_Feature_Packs div.is_on a:link.on {
-  background: #b0c460;
+  background: #59ad38;
   color: #fff;
   text-decoration: none;
   border-radius: 3px;
