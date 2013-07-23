@@ -106,6 +106,24 @@ describe( 'Customer', function () {
       assert.deepEqual([screen_name.toUpperCase()], c.screen_names());
     });
 
+    it( 'sets log_in_at to current date', function (done) {
+      var c = customer;
+      var n = new Date();
+      var date = (new Date(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), 0, 0, 0)).toUTCString();
+
+
+      River.new()
+      .job('get current date', function (j) {
+        Topogo.new('any table')
+        .run("SELECT current_date as date; ", {}, j);
+      })
+      .run(function (fin, rows) {
+        var r = rows[0];
+        assert.equal(r.date.toUTCString(), c.data.log_in_at.toUTCString());
+        done();
+      });
+    });
+
   }); // === describe create
 
 
@@ -180,6 +198,28 @@ describe( 'Customer', function () {
       .on_next('invalid', function (j, err) {
         assert.equal(err.message, 'Pass phrase is incorrect.');
         done();
+      })
+      .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
+      .run(function(){ throw new Error('this is not supposed to be reached.');});
+    });
+
+    it( 'increases log_in_count by one if incorrect pass_phrase supplied', function (done) {
+      River.new()
+      .job(function (j) {
+        Topogo.new(Customer.TABLE_NAME).update(customer.data.id, {log_in_count: 3}, j);
+      })
+      .on_next('invalid', function (j, err) {
+        River.new()
+        .job(function (j) {
+          Topogo.new(Customer.TABLE_NAME).read_one(customer.data.id, j);
+        })
+        .job(function (j, c) {
+          assert.equal(4, c.log_in_count);
+          j.finish();
+        })
+        .run(function () {
+          done();
+        });
       })
       .job('read:', screen_name, [Customer, 'read_by_screen_name', {screen_name: screen_name, pass_phrase: 'no pass phrase'}])
       .run(function(){ throw new Error('this is not supposed to be reached.');});

@@ -394,10 +394,27 @@ Customer.read_by_id = function (opts, flow) {
     bcrypt.compare(p, row.pass_phrase_hash, function (err, result) {
       if (err)
         return j.finish('invalid', 'Unable to process pass phrase.');
-      if (!result)
-        return j.finish('invalid', 'Pass phrase is incorrect.');
+      if (result)
+        return j.finish(row);
 
-      j.finish(row);
+      River.new(j)
+      .job(function (j) {
+        Topogo.new(Customer.TABLE_NAME)
+        .run("UPDATE @table SET log_in_at = current_date, log_in_count = '1' \n\
+                       WHERE id = @id AND log_in_at != current_date          \n\
+             RETURNING id;", {id: row.id}, j);
+      })
+      .job(function (j, rows) {
+        if (rows.length)
+          return j.finish(rows[0]);
+        Topogo.new(Customer.TABLE_NAME)
+        .run("UPDATE @table SET log_in_count = (log_in_count + 1)            \n\
+                       WHERE id = @id                                        \n\
+             RETURNING id;", {id: row.id}, j);
+      })
+      .job(function (j) {
+        return j.finish('invalid', 'Pass phrase is incorrect.');
+      }).run();
     });
   })
 
@@ -407,6 +424,8 @@ Customer.read_by_id = function (opts, flow) {
     me.data.id         = row.id;
     me.data.email      = row.email;
     me.data.trashed_at = row.trashed_at;
+    me.data.log_in_at  = row.log_in_at;
+    me.data.log_in_count=row.log_in_count;
     return j.finish(me);
   })
   .job('read screen names', opts.id, [Screen_Name, 'read_list', me])
