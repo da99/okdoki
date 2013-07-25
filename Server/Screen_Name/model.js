@@ -157,8 +157,8 @@ var Validate_Create = Check.new('create screen name', function (vc) {
     var val = v.val;
     if (_.isString(val))
       val = parseInt(val);
-    if (!_.isNumber(val) || (val < 1) || val > 2)
-      val = 1;
+    if (!_.isNumber(val) || (val < 0) || val > 2)
+      val = 0;
     v.update_sanitized_value(val);
   });
 
@@ -189,7 +189,7 @@ S.create = function (customer, job) {
       owner_id     : customer.data.id || 0,
       screen_name  : sn.sanitized_data.screen_name,
       display_name : sn.sanitized_data.screen_name,
-      type_id      : sn.sanitized_data.type_id || 1
+      type_id      : sn.sanitized_data.type_id || 0
     };
 
     Topogo.new(TABLE_NAME)

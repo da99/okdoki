@@ -13,7 +13,7 @@ m.migrate = function (dir, r) {
     var sql = " \
     CREATE TABLE IF NOT EXISTS \"" + table + "\" (    \
     id                  serial PRIMARY KEY,           \
-    type_id             smallint DEFAULT 1 NOT NULL,  \
+    type_id             smallint DEFAULT 0 NOT NULL,  \
     $owner_id           ,                             \
     screen_name         varchar(15) NOT NULL UNIQUE,  \
     display_name        varchar(15) NOT NULL,         \
