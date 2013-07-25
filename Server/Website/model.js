@@ -12,7 +12,7 @@ var Uni  = exports.Website = function () {};
 var TABLE_NAME = Uni.TABLE_NAME = 'Website';
 var TABLE      = Uni.TABLE = Topogo.new(TABLE_NAME);
 
-Uni.TYPE_IDS = {1: "Screen Name Profile Website"};
+Uni.TYPE_IDS = {0: "Screen Name Profile Website"};
 
 Uni.require = function (target) {
   if (target.Screen_Name)
@@ -41,7 +41,7 @@ Uni.prototype.screen_name = function (sn) {
 
 
 Uni.prototype.is_update_able = function () {
-  if (this.data.type_id === 1)
+  if (this.data.type_id === 0)
     return _.contains( this.screen_name().customer().screen_name_ids(), this.data.owner_id) ||
     this.screen_name().is_update_able();
   else
@@ -68,7 +68,7 @@ var Validate_Create = Check.new('create home page', function (vc) {
   });
 
   vc.define('type_id', function (vador) {
-    vador.between(1,100); //, "Invalid website type.");
+    vador.between(0,100); //, "Invalid website type.");
   });
 
   vc.define('owner_id', function (vador) {
@@ -116,7 +116,7 @@ Uni.read = function (q, flow) {
 Uni.read_by_screen_name = function (screen_name, flow) {
   var sn = screen_name.data.screen_name;
   var vals = {
-    type_id: 1,
+    type_id: 0,
     sn_id:  screen_name.data.id,
     sn_ids: screen_name.customer(),
     TABLES: {
