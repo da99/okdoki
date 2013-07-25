@@ -31,6 +31,7 @@ exports.route = function (mod) {
 
     if (opts.is_customer) {
       opts['title'] =  "My Okdoki";
+      opts['packs'] = ['chit_chat', 'rss_news_wire', 'panels'];
       return OK.render_template();
     } else {
       opts['title'] = 'OkDoki.com';

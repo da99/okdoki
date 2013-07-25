@@ -23,13 +23,15 @@ append content
     span.sub
       | doki
     span.wat_wat
-      | :&nbsp;Multi-Life Chat
+      | :&nbsp;Multi-Life Chat & Publishing
 
   //- ===========================================================
   div.col#Interact
 
     block Create_Life
-    block Toggle_Feature_Packs
+    div#Options
+      h2 Options
+      block Creates
 
 
 
@@ -40,6 +42,6 @@ append content
 
 
 call applet("Create_Life")
-call applet("Toggle_Feature_Packs")
+call applet("customer_life_settings")
 
 

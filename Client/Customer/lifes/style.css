@@ -8,6 +8,17 @@ div.APP_ERROR {
   font-size: 140%;
   font-weight: bold;
 }
+h2 {
+  font-size: 110%;
+  padding: 4px;
+  margin: 0 10px 10px 0;
+  text-align: center;
+  color: #fff;
+  text-shadow: #4d4d4d 0.1em 0.1em 0.1em;
+  font-weight: normal;
+  background: rgba(0,0,0,0.3);
+  border-radius: 6px 6px 0 0;
+}
 form div.field span.label,
 form div.field label {
   display: block;
@@ -152,4 +163,26 @@ h4 {
 #Prices span.sub {
   font-size: 90%;
   color: #888;
+}
+#Options div.setting {
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+#Options div.setting a:link.off {
+  display: none;
+}
+#Options div.setting a:link.on,
+#Options div.setting a:link.off {
+  margin: 0 3px 0 0;
+  border-radius: 3px;
+}
+#Options div.setting a:link.on:hover {
+  background: $green;
+}
+#Options div.setting a:link.off:hover {
+  background: #ff8f00;
+}
+#Options div.content {
+  display: none;
 }

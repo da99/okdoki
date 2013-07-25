@@ -8,6 +8,7 @@ module.exports.migrate = function (dir, r) {
     var sql = ' \
     CREATE TABLE IF NOT EXISTS "' + table + '" (                \n\
     id                   serial primary key,                    \n\
+    perm_level           smallint NOT NULL DEFAULT 0,           \n\
     email                varchar(150),                          \n\
     pass_phrase_hash     varchar(100) NOT NULL,                 \n\
     log_in_at            date NOT NULL DEFAULT current_date,    \n\

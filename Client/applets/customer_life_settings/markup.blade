@@ -1,0 +1,38 @@
+
+
+append Creates
+
+  div.box
+    div.setting
+      a.on(href="#show") Show
+      a.off(href="#hide") Hide
+    h3 Add an RSS Feed
+    div.content
+      form#Create_RSS_Sub(action="/rss/sub", method="POST")
+        div.fields
+          div.field.url
+            label(for="NEW_RSS_SUB_URL") URL:
+            input#NEW_RSS_SUB_URL(type="text", value="")
+        div.buttons
+          button.submit Subscribe
+
+
+  div.box
+    div.setting
+      a.on(href="#show") Show
+      a.off(href="#off") Hide
+    h3 Create a WWW applet
+    div.content
+      form#Create_WWW_Applet(action="/applet", method="POST")
+        div.fields
+          div.field.url
+            label(for="NEW_APPLET_URL") URL of Your Code:
+            input#NEW_APPLET_URL(type="text", value="")
+          div.field.title
+            label(for="NEW_APPLET_TITLE") TITLE:
+            input#NEW_APPLET_TITLE(type="text", value="")
+          div.field.desc
+            label(for="NEW_APPLET_DESC") Brief Description:
+            textarea#NEW_APPLET_DESC
+        div.buttons
+          button.submit Create

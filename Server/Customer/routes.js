@@ -25,6 +25,14 @@ module.exports.route = function (mod) {
     });
   });
 
+  app.post('/settings/list', function (req, resp, next) {
+    resp.json([
+      'draw settings box', ["rss_news_wire", "RSS News Wire"],
+      'is on', [],
+      'is genius', []
+    ]);
+  });
+
 }; // === exports.route
 
 

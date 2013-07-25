@@ -11,12 +11,12 @@ var _         = require("underscore")._
 ;
 
 
-var MODEL = exports.MODEL = Ok.Model.new(function () {});
+var Feature_Pack = exports.Feature_Pack = Ok.Model.new(function () {});
 
-var TABLE_NAME = exports.MODEL.TABLE_NAME = "MODEL";
+var TABLE_NAME = exports.Feature_Pack.TABLE_NAME = "Feature_Pack";
 var TABLE = Topogo.new(TABLE_NAME);
 
-MODEL._new = function () {
+Feature_Pack._new = function () {
   var o = this;
   return o;
 };
@@ -32,7 +32,7 @@ function null_if_empty(str) {
 // ================================================================
 // ================== Create ======================================
 // ================================================================
-MODEL.create = function (raw_data, flow) {
+Feature_Pack.create = function (raw_data, flow) {
   var data = {
   };
 
@@ -41,7 +41,7 @@ MODEL.create = function (raw_data, flow) {
     TABLE.create(data, j);
   })
   .job(function (j, record) {
-    j.finish(MODEL.new(record));
+    j.finish(Feature_Pack.new(record));
   })
   .run();
 };
