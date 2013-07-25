@@ -62,7 +62,7 @@ append Chat_Rooms_Enter
       form#Create_Chat_Room_Seat(action="/chat_room/seat", method="POST")
         div.fields
           div.field.screen_name
-            input(type="text", value="", name="chat_room")
+            input(type="text", value="", name="chat_room", maxlength="50")
         div.buttons
           call span_as()
           button.submit Enter

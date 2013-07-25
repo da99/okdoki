@@ -31,7 +31,7 @@ append content
             div.fields
               div.field.title
                 label Title:
-                input(type="text", name="title", value="#{title}")
+                input(type="text", name="title", value="#{title}", maxlength="100")
               div.field.body
                 label Body:
                 textarea#The_Body(name="body") #{page_body}

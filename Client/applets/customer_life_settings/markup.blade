@@ -12,7 +12,7 @@ append Creates
         div.fields
           div.field.url
             label(for="NEW_APPLET_SUB") Screen Name of Applet:
-            input#NEW_APPLET_SUB(type="text", value="")
+            input#NEW_APPLET_SUB(type="text", value="", maxlength="40")
         div.buttons
           button.submit Create
 
@@ -44,7 +44,7 @@ append Creates
             input#NEW_APPLET_URL(type="text", value="")
           div.field.title
             label(for="NEW_APPLET_TITLE") TITLE:
-            input#NEW_APPLET_TITLE(type="text", value="")
+            input#NEW_APPLET_TITLE(type="text", value="", maxlength="80")
           div.field.desc
             label(for="NEW_APPLET_DESC") Brief Description:
             textarea#NEW_APPLET_DESC
