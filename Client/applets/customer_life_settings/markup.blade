@@ -5,6 +5,20 @@ append Creates
   div.box
     div.setting
       a.on(href="#show") Show
+      a.off(href="#off") Hide
+    h3 Subscribe to a WWW applet
+    div.content
+      form#Create_WWW_Applet_Sub(action="/applet", method="POST")
+        div.fields
+          div.field.url
+            label(for="NEW_APPLET_SUB") Screen Name of Applet:
+            input#NEW_APPLET_SUB(type="text", value="")
+        div.buttons
+          button.submit Create
+
+  div.box
+    div.setting
+      a.on(href="#show") Show
       a.off(href="#hide") Hide
     h3 Add an RSS Feed
     div.content
@@ -21,7 +35,7 @@ append Creates
     div.setting
       a.on(href="#show") Show
       a.off(href="#off") Hide
-    h3 Create a WWW applet
+    h3 Publish a WWW applet
     div.content
       form#Create_WWW_Applet(action="/applet", method="POST")
         div.fields

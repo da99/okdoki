@@ -21,7 +21,7 @@ create_event('chat room msg');
 
 // === Submitting a msg ===
 
-on('before success #Write_To_Chat_Room', function (o) {
+on('before success #Write_Chit_Chat', function (o) {
   o.flow.stop();
   o.form.reset_status();
   Chat_Msgs.Write.find('textarea').val("");
@@ -135,7 +135,7 @@ on('after leave chat room', function (o) {
 
 
 function get_msgs() {
-  if (APP_ERROR)
+  if (window.hasOwnProperty('APP_ERROR') && APP_ERROR)
     return;
 
   post("/chat_room/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {

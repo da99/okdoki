@@ -13,8 +13,9 @@ append templates
 
 append Chat_Msgs_Write
   div.box#Write
+    h3 Write a new chit chat message:
     div.content
-      form#Write_To_Chat_Room(action="/chat_room/msg", method="post")
+      form#Write_Chit_Chat(action="/chat_room/msg", method="post")
         div.fields
           div.field.body
             span.label Type your message:

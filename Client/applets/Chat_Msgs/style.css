@@ -1,5 +1,5 @@
-#Write {
-  display: none;
+#Write div.content {
+  padding-top: 0;
 }
 #Write div.to_room,
 #Write div.as_this_life {

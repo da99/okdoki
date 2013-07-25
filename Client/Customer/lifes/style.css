@@ -169,19 +169,25 @@ h4 {
   padding: 0;
   margin: 0;
 }
-#Options div.setting a:link.off {
-  display: none;
-}
 #Options div.setting a:link.on,
 #Options div.setting a:link.off {
-  margin: 0 3px 0 0;
   border-radius: 3px;
+}
+#Options div.setting a:link.on {
+  margin: 0 4px 0 0;
+}
+#Options div.setting a:link.off {
+  display: none;
+  margin: 0 3px 0 0;
 }
 #Options div.setting a:link.on:hover {
   background: $green;
 }
 #Options div.setting a:link.off:hover {
   background: #ff8f00;
+}
+#Options h3 {
+  padding-bottom: 1px;
 }
 #Options div.content {
   display: none;

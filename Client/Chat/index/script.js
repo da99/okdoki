@@ -1,4 +1,4 @@
-var Show_Say           = $('#Write_To_Chat_Room');
+var Show_Say           = $('#Write_Chit_Chat');
 var IN_CHAT_ROOM       = false;
 var MAX_CHAT_MSG_TOTAL = 250;
 var TOTAL_CHAT_MSG     = 0;
@@ -231,7 +231,7 @@ $(function () {
   });
 
   // ================ Talk to the Chat Room......
-  form('#Write_To_Chat_Room', function (f) {
+  form('#Write_Chit_Chat', function (f) {
 
     f.at_least_one_not_empty('textarea');
 
