@@ -10,17 +10,17 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE UNLOGGED TABLE "' + table + '" (       \n\
+    var sql = 'CREATE UNLOGGED TABLE "@T" (                       \n\
     chat_room             varchar(100) NOT NULL,                  \n\
     owner                 varchar(100) NOT NULL,                  \n\
     created_at            $now_tz,                                \n\
     $trashed_at,                                                  \n\
     last_seen_at          $now_tz,                                \n\
-    is_in                 boolean DEFAULT false                   \n\
-    );';
+    is_in                 boolean DEFAULT false,                  \n\
+    CONSTRAINT "@T_seat" UNIQUE (chat_room, owner)                \n\
+    );'.replace('@T', table);
     r.create(sql,
-             "ALTER TABLE  \"" + table + "\" ADD CONSTRAINT \"" + table + "_seat\" UNIQUE (chat_room, owner);",
-             "CREATE INDEX \"" + table + "_owner\" ON \"" + table + "\" ( owner );"
+             'CREATE INDEX "@T_owner" ON "@T" ( owner );'.replace('@T', table)
             );
 
   }

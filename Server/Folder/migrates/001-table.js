@@ -14,19 +14,18 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
+    var sql = 'CREATE TABLE "@T" (                              \n\
     id                  serial PRIMARY KEY,                     \n\
     num                 smallint DEFAULT 0 NOT NULL,            \n\
     website_id          $id_type,                               \n\
     $owner_id           ,                                       \n\
     title               varchar(123),                           \n\
     $created_at         ,                                       \n\
-    $trashed_at                                                 \n\
-    );";
-    r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_num\"    UNIQUE (website_id, num)",
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_title\"  UNIQUE (website_id, title)"
-            );
+    $trashed_at         ,                                       \n\
+    CONSTRAINT          "@T_num"    UNIQUE (website_id, num)    \n\
+    CONSTRAINT          "@T_title"  UNIQUE (website_id, title)  \n\
+    );'.replace('@T', table);
+    r.create(sql);
 
   }
 };
