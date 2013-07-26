@@ -7,6 +7,7 @@ if (!process.env.IS_DEV) {
 
 var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
+var Customer = require('../Server/Customer/model').Customer;
 var TABLE = Topogo.new('Customer');
 
 
