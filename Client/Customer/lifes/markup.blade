@@ -28,20 +28,25 @@ append content
   //- ===========================================================
   div.col#Interact
 
-    block Chat_Msgs_Write
     block Create_Life
-    div#Options
-      //- h2 Options
-      block Creates
+    block WWW_Applet_Sub
+
+    //- div#Options
+      //- h2 For Programmers
+      //- block WwW_Applet_Create
 
 
 
   //- ===========================================================
-  div.col#Chat
-    block Chat_Msgs_List
+  div.col#Msgs
+    block Msgs_List
 
 
 
 call applet("Create_Life")
+call applet("WWW_Applet_Sub")
+
+
+
 
 
