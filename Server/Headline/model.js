@@ -1,5 +1,10 @@
 
-var  _        = require('underscore')
+var _         = require("underscore")._
+
+, Screen_Name = require("../Screen_Name/model").Screen_Name
+, Ok          = require('../Ok/model')
+, log         = require("../App/base").log
+
 , Check       = require('da_check').Check
 , River       = require('da_river').River
 , Topogo      = require('topogo').Topogo
@@ -9,51 +14,46 @@ var  _        = require('underscore')
 ;
 
 
-var TABLE_NAME = 'Message_Board';
-var TABLE      = Topogo.new(TABLE_NAME);
+var Headline = exports.Headline = Ok.Model.new(function () {});
 
-var MB = exports.Message_Board = function () {};
+var TABLE_NAME = exports.Headline.TABLE_NAME = "Headline";
+var TABLE = Topogo.new(TABLE_NAME);
 
-MB.new = function (data) {
-  var mb = new MB();
-  mb.data = data || {};
-  return mb;
+Headline._new = function () {
+  var o = this;
+  return o;
 };
 
 // ================================================================
 // ================== Helpers =====================================
 // ================================================================
-function empty_or (str, def) {
-  var d = (str || "").trim();
-  if (d.length)
-    return d;
-  return def;
-}
 
-function empty_or_null (str) {
-  var d = (str || "").trim();
-  if (d.length)
-    return d;
-  return null;
+function null_if_empty(str) {
+  if (!str) return null;
+  str = str.trim();
+  if (!str.length)
+    return null;
+  return str;
 }
 
 // ================================================================
 // ================== Create ======================================
 // ================================================================
 
-MB.create = function (raw_data, flow) {
+Headline.create = function (raw_data, flow) {
   var data = {
     owner      : raw_data.owner,
     author     : raw_data.author,
     body       : e_e_e(raw_data.body),
     body_html  : Bling_Bling.new(raw_data.body_html).to_html();
   };
+
   River.new(flow)
   .job(function (j) {
     TABLE.create(data, j);
   })
-  .job(function (j, r) {
-    j.finish(MB.new(_.pick(r, 'body', 'created_at')));
+  .job(function (j, record) {
+    j.finish(Headline.new(record));
   })
   .run();
 };
@@ -61,7 +61,8 @@ MB.create = function (raw_data, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-MB.read_by_website = function (website, flow) {
+
+Headline.read_by_website = function (website, flow) {
   var sql = "  \
   SELECT id, title, body, created_at, author_id         \n\
   FROM  @table                                          \n\
@@ -90,16 +91,13 @@ MB.read_by_website = function (website, flow) {
 // ================== Update ======================================
 // ================================================================
 
-
 // ================================================================
 // ================== Trash/Untrash ===============================
 // ================================================================
 
-
 // ================================================================
 // ================== Delete ======================================
 // ================================================================
-
 
 
 

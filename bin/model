@@ -40,7 +40,7 @@ case "$1" in
 
   create)
     compile_template "model"
-    bin/model create_routes "$1"
+    bin/model create_routes "$model"
     ;;
 
   create_routes)

@@ -1,6 +1,6 @@
 
 
-var table = "Message_Board";
+var table = "Headline";
 var m     = module.exports = {};
 
 var _     = require('underscore');
@@ -16,8 +16,6 @@ m.migrate = function (dir, r) {
 
     var sql = 'CREATE TABLE IF NOT EXISTS "@T" (                \n\
     id             serial PRIMARY KEY,                          \n\
-    is_public      boolean DEFAULT false,                       \n\
-    owner          varchar(50) NOT NULL,                        \n\
     author         varchar(50) NOT NULL,                        \n\
     body           text NOT NULL,                               \n\
     body_html      text NOT NULL,                               \n\
