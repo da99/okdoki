@@ -14,18 +14,17 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
+    var sql = 'CREATE TABLE IF NOT EXISTS "@T" (                \n\
     id             serial PRIMARY KEY,                          \n\
-    type_id        smallint DEFAULT 1 NOT NULL,                 \n\
-    website_id     int DEFAULT 0 NOT NULL,                      \n\
-    $author_id     ,                                            \n\
-    title          varchar(180) DEFAULT NULL,                   \n\
-    body           text,                                        \n\
-    body_html      text,                                        \n\
+    is_public      boolean DEFAULT false,                       \n\
+    owner          varchar(50) NOT NULL,                        \n\
+    author         varchar(50) NOT NULL,                        \n\
+    body           text NOT NULL,                               \n\
+    body_html      text NOT NULL,                               \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
-    );";
+    );'.replace('@T', table);
     r.create(sql);
 
   }

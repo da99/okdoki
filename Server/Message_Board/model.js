@@ -4,6 +4,8 @@ var  _        = require('underscore')
 , River       = require('da_river').River
 , Topogo      = require('topogo').Topogo
 , Screen_Name = require('../Screen_Name/model').Screen_Name
+, Bling_Bling = require("bling_bling").Bling_Bling
+, e_e_e       = require('escape_escape_escape').Sanitize.html;
 ;
 
 
@@ -39,19 +41,19 @@ function empty_or_null (str) {
 // ================== Create ======================================
 // ================================================================
 
-MB.create_by_website = function (website, raw_data, flow) {
+MB.create = function (raw_data, flow) {
   var data = {
-    website_id : website.data.id,
-    author_id  : raw_data.author_id,
-    title      : empty_or_null(raw_data.title),
-    body       : empty_or(raw_data.body, "Stake it!")
+    owner      : raw_data.owner,
+    author     : raw_data.author,
+    body       : e_e_e(raw_data.body),
+    body_html  : Bling_Bling.new(raw_data.body_html).to_html();
   };
   River.new(flow)
   .job(function (j) {
     TABLE.create(data, j);
   })
   .job(function (j, r) {
-    j.finish(MB.new(_.pick(r, 'title', 'body', 'created_at')));
+    j.finish(MB.new(_.pick(r, 'body', 'created_at')));
   })
   .run();
 };
