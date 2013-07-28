@@ -4,6 +4,7 @@ var _         = require("underscore")._
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
+, H           = require("../App/Helpers").H
 
 , Check       = require('da_check').Check
 , River       = require('da_river').River
@@ -20,6 +21,17 @@ var TABLE = Topogo.new(TABLE_NAME);
 
 Headline._new = function () {
   var o = this;
+  return o;
+};
+
+Headline.prototype.public_data = function () {
+  var o = {
+    dom_id           : 'headline_' + this.data.id + '_' + this.data.created_at.getTime(),
+    author           : this.data.author,
+    preview          : H.preview(this.data.body),
+    body_html        : this.data.body_html,
+    created_at_epoch : this.data.created_at.getTime()
+  };
   return o;
 };
 
@@ -43,7 +55,7 @@ Headline.create = function (raw_data, flow) {
   var data = {
     author     : raw_data.author,
     body       : e_e_e(raw_data.body),
-    body_html  : Bling_Bling.new(raw_data.body_html).to_html();
+    body_html  : Bling_Bling.new(raw_data.body).to_html()
   };
 
   River.new(flow)

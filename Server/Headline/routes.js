@@ -14,17 +14,15 @@ exports.route = function (mod) {
   app.post("/Headline", function (req, resp, next) {
     var data = _.clone(req.body);
     mod.New_River(req, resp, next)
-    .read_one('screen_name', function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
-    })
     .create_one(function (j, sn) {
-      Headline.create_by_screen_name(sn, data, j);
+      Headline.create({author: req.body.as_this_life, body: req.body.body}, j);
     })
     .job(function (j, model) {
+      var o = model.public_data();
       resp.json({
         success : true,
-        msg     : 'Created: ',
-        model   : model.public_data()
+        msg     : 'Created: ' + o.preview,
+        model   : o
       });
     })
     .run();
