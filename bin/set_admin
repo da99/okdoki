@@ -9,7 +9,7 @@ var Topogo = require("topogo").Topogo;
 var River  = require("da_river").River;
 var Customer = require('../Server/Customer/model').Customer;
 var TABLE = Topogo.new('Customer');
-
+var is_first = false;
 
 River.new()
 .job('read', function (j) {
@@ -18,6 +18,7 @@ River.new()
 .job('create if', function (j, last) {
   if (last)
     return j.finish(last);
+  is_first = true;
   Customer.create({
     pass_phrase: "i h8 this",
     confirm_pass_phrase: "i h8 this",
@@ -25,7 +26,18 @@ River.new()
     ip: '0.0.0.0'
   }, j);
 })
-.job(function (j, row) {
+.job('create 2nd', function (j, last) {
+  if (!is_first)
+    return j.finish(last);
+  Customer.create({
+    pass_phrase: "i h8 this",
+    confirm_pass_phrase: "i h8 this",
+    screen_name: "a_kay",
+    ip: '0.0.0.0'
+  }, j)
+})
+
+.job('set perm', function (j) {
   var sql = "\
     UPDATE @table           \n\
     SET perm_level = 100    \n\
@@ -36,6 +48,7 @@ River.new()
   ;";
   TABLE.run(sql, {}, j);
 })
+
 .run(function (fin, last) {
   console.log(last);
   Topogo.close();
