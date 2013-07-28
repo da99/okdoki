@@ -8,9 +8,8 @@ var _         = require("underscore")._
 , Check       = require('da_check').Check
 , River       = require('da_river').River
 , Topogo      = require('topogo').Topogo
-, Screen_Name = require('../Screen_Name/model').Screen_Name
 , Bling_Bling = require("bling_bling").Bling_Bling
-, e_e_e       = require('escape_escape_escape').Sanitize.html;
+, e_e_e       = require('escape_escape_escape').Sanitize.html
 ;
 
 
@@ -42,7 +41,6 @@ function null_if_empty(str) {
 
 Headline.create = function (raw_data, flow) {
   var data = {
-    owner      : raw_data.owner,
     author     : raw_data.author,
     body       : e_e_e(raw_data.body),
     body_html  : Bling_Bling.new(raw_data.body_html).to_html();

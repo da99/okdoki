@@ -8,7 +8,9 @@ window.onerror = function (errorMsg, url, lineNumber) {
     return old_err.apply(null, arguments);
 
   if (window.$) {
-    var o = $('<div/>');
+    var dom_id = "APP_ERROR_BIG_MSG";
+    var o = ($('#' + dom_id).length) ? $('#' + dom_id) : $('<div/>');
+    o.attr('id', dom_id);
     o.addClass('APP_ERROR');
     o.text("Unexpected error. Refresh this page.");
     $('body').prepend(o);
