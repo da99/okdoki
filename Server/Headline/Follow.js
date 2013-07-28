@@ -13,7 +13,7 @@ var _         = require("underscore")._
 
 var Follow = exports.Follow = Ok.Model.new(function () {});
 
-var TABLE_NAME = exports.Follow.TABLE_NAME = "Follow";
+var TABLE_NAME = exports.Follow.TABLE_NAME = "Headline_Follow";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Follow._new = function () {
@@ -58,6 +58,31 @@ Follow.create = function (raw_data, flow) {
 // ================================================================
 // ================== Update ======================================
 // ================================================================
+
+Follow.after_create_headline = function (headline, flow) {
+  var d = headline.data;
+  River.new(flow)
+  .job('update author follow', function (j) {
+    TABLE.update_one({owner: d.author, publisher: d.author},
+                     {updated_at: '$now', last_read_at: '$now'}, j);
+  })
+
+  .job('create author follow if needed', function (j, last) {
+    if (last)
+      return j.finish(last);
+    TABLE.create({owner: d.author, publisher: d.author}, j);
+  })
+
+  .job('update follows', function (j, last) {
+    TABLE.update_where_set({publisher: d.author}, {last_read_at: '$now'}, j);
+  })
+
+  .job(function (j) {
+    j.finish(headline);
+  })
+
+  .run();
+};
 
 // ================================================================
 // ================== Trash/Untrash ===============================

@@ -2,6 +2,7 @@
 var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
+, Follow      = require("../Headline/Follow").Follow
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 , H           = require("../App/Helpers").H
@@ -58,7 +59,7 @@ Headline.create = function (raw_data, flow) {
     body_html  : Bling_Bling.new(raw_data.body).to_html()
   };
 
-  var row = null;
+  var obj = null;
 
   River.new(flow)
 
@@ -66,35 +67,19 @@ Headline.create = function (raw_data, flow) {
     TABLE.create(data, j);
   })
 
-  .job('update author follow', function (j, last) {
-    row = last;
-
-    var sql = "\
-      UPDATE @table                \n\
-      SET                          \n\
-        updated_at   = $now,       \n\
-        last_read_at = $now        \n\
-      WHERE                        \n\
-        owner     = $author        \n\
-        publisher = $author        \n\
-      RETURNING id                 \n\
-    ;";
-    Follow.TABLE.run_and_get_at_most_1(sql, {author: data.author}, j);
+  .job('save record', function (j, row) {
+    obj = Headline.new(row);
+    j.finish(obj);
   })
 
-  .job('create author follow if needed', function (j, last) {
-    if (last)
-      return j.finish(last);
-    Follow.TABLE.create({owner: data.author, publisher: data.author}, j);
-  })
-
-  .job('update follows', function (j, last) {
-    Follow.TABLE.update_where_set({publisher: data.author}, {last_read_at: '$now'}, j);
+  .job('update follow', function (j ) {
+    Follow.after_create_headline(obj, j);
   })
 
   .job(function (j) {
-    j.finish(Headline.new(row));
+    j.finish(obj);
   })
+
   .run();
 };
 
