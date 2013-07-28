@@ -70,6 +70,11 @@ case "$cmd" in
     run_all
     ;;
 
+  reset)
+    bin/migrate down "$2"
+    bin/migrate up
+    ;;
+
   *)
     echo "Unknown command: $cmd"
     exit 1

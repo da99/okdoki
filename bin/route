@@ -2,8 +2,7 @@
 # -*- bash -*-
 #
 # Examples:
-#    bin/model create Chat
-#    bin/model file   Chat Chat_Room_Fav
+#    bin/route Chat
 #
 cmd="$1"
 model="$2"
@@ -11,15 +10,15 @@ file_name="$3"
 set -u -e -o pipefail
 
 function compile_template {
-  mkdir -p Server/$model
+  tmpl="Server/App/routes.template.js"
   class_name="$model"
 
-  tmpl="Server/App/model.template.js"
+  mkdir -p Server/$model
   if [[ -z "$file_name" ]]
   then
-    new_file="Server/$model/model.js"
+    new_file="Server/$model/routes.js"
   else
-    new_file="Server/$model/$file_name.js"
+    new_file="Server/$model/routes.$file_name.js"
     class_name="$file_name"
   fi
 
@@ -34,9 +33,9 @@ function compile_template {
 }
 
 case "$cmd" in
+
   create)
     compile_template
-    bin/route create "$model" "$file_name"
     ;;
 
   *)
