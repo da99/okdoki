@@ -58,8 +58,17 @@ Headline.create = function (raw_data, flow) {
     body_html  : Bling_Bling.new(raw_data.body).to_html()
   };
 
+  var row = null;
+
   River.new(flow)
-  .job('update author sub', function (j) {
+
+  .job('create message', function (j) {
+    TABLE.create(data, j);
+  })
+
+  .job('update author follow', function (j, last) {
+    row = last;
+
     var sql = "\
       UPDATE @table                \n\
       SET                          \n\
@@ -72,16 +81,19 @@ Headline.create = function (raw_data, flow) {
     ;";
     Follow.TABLE.run_and_get_at_most_1(sql, {author: data.author}, j);
   })
-  .job('create author sub if needed', function (j, last) {
+
+  .job('create author follow if needed', function (j, last) {
     if (last)
       return j.finish(last);
     Follow.TABLE.create({owner: data.author, publisher: data.author}, j);
   })
-  .job('create message', function (j) {
-    TABLE.create(data, j);
+
+  .job('update follows', function (j, last) {
+    Follow.TABLE.update_where_set({publisher: data.author}, {last_read_at: '$now'}, j);
   })
-  .job(function (j, record) {
-    j.finish(Headline.new(record));
+
+  .job(function (j) {
+    j.finish(Headline.new(row));
   })
   .run();
 };
