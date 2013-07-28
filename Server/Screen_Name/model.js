@@ -271,7 +271,7 @@ S.read_by_screen_name = function (n, customer, flow) {
 };
 
 S.find_screen_name_keys = function (arr) {
-  var key = _.detect([ 'screen_name_id', 'owner_id', 'author_id', 'follower_id'], function (k) {
+  var key = _.detect([ 'screen_name_id', 'publisher_id', 'owner_id', 'author_id', 'follower_id'], function (k) {
     return (arr[0] || '').hasOwnProperty(k);
   }) || 'screen_name_id';
 
