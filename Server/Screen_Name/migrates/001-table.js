@@ -14,6 +14,7 @@ m.migrate = function (dir, r) {
     CREATE TABLE IF NOT EXISTS \"" + table + "\" (    \
     id                  serial PRIMARY KEY,           \
     type_id             smallint DEFAULT 0 NOT NULL,  \
+    is_public           boolean  DEFAULT 'f' NOT NULL,\
     $owner_id           ,                             \
     screen_name         varchar(15) NOT NULL UNIQUE,  \
     display_name        varchar(15) NOT NULL,         \
