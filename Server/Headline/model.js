@@ -59,7 +59,25 @@ Headline.create = function (raw_data, flow) {
   };
 
   River.new(flow)
-  .job(function (j) {
+  .job('update author sub', function (j) {
+    var sql = "\
+      UPDATE @table                \n\
+      SET                          \n\
+        updated_at   = $now,       \n\
+        last_read_at = $now        \n\
+      WHERE                        \n\
+        owner     = $author        \n\
+        publisher = $author        \n\
+      RETURNING id                 \n\
+    ;";
+    Follow.TABLE.run_and_get_at_most_1(sql, {author: data.author}, j);
+  })
+  .job('create author sub if needed', function (j, last) {
+    if (last)
+      return j.finish(last);
+    Follow.TABLE.create({owner: data.author, publisher: data.author}, j);
+  })
+  .job('create message', function (j) {
     TABLE.create(data, j);
   })
   .job(function (j, record) {
