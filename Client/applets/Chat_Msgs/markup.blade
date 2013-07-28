@@ -1,33 +1,4 @@
 
-append templates
-  div.msg(id="{dom_id}")
-    div.meta
-      span.name {author}
-      span.said &nbsp;said in&nbsp;
-      span.room_name {chat_room}
-      input(type="hidden", name="author", value="{author}")
-      input(type="hidden", name="chat_room", value="{chat_room}")
-    div.body
-      | {body}
-
-
-append Chat_Msgs_Write
-  div.box#Write
-    h3 Write a new chit chat message:
-    div.content
-      form#Write_Chit_Chat(action="/chat_room/msg", method="post")
-        div.fields
-          div.field.body
-            span.label Type your message:
-            textarea(name="body")
-        div.buttons
-          call span_as()
-          button.submit Send.
-
-
-append Chat_Msgs_List
-  div#Messages
-
 
 
 

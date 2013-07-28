@@ -25,6 +25,7 @@ var banned_screen_names = [
   '^megauni',
   '^miniuni',
   '^okdoki',
+  '^(me|mine|my|mi|I)$',
   '^pet-',
   '^bot-',
   '^(online|contact|info|official|about|news|home)$',

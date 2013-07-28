@@ -28,6 +28,7 @@ append content
   //- ===========================================================
   div.col#Interact
 
+    block Message_Create
     block Create_Life
     block WWW_Applet_Sub
 
@@ -39,11 +40,13 @@ append content
 
   //- ===========================================================
   div.col#Msgs
-    block Msgs_List
+    div#Messages
 
 
 
 call applet("Create_Life")
+call applet("Message_Create")
+call applet("Message_Read")
 
 
 

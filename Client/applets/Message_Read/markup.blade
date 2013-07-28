@@ -1,0 +1,13 @@
+
+append templates
+  div.msg(id="{dom_id}")
+    div.meta
+      span.name {author}
+      span.said &nbsp;said in&nbsp;
+      span.room_name {chat_room}
+      input(type="hidden", name="author", value="{author}")
+      input(type="hidden", name="chat_room", value="{chat_room}")
+    div.body
+      | {body}
+
+
