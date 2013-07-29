@@ -11,7 +11,7 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = " \
-    CREATE TABLE IF NOT EXISTS \"" + table + "\" (    \
+    CREATE TABLE \"" + table + "\" (                  \
     id                  serial PRIMARY KEY,           \
     type_id             smallint DEFAULT 0 NOT NULL,  \
     $owner_id           ,                             \

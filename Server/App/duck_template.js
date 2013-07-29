@@ -14,7 +14,7 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS "@T" (                \n\
+    var sql = 'CREATE TABLE "@T" (                              \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
