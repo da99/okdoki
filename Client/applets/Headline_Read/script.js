@@ -111,31 +111,31 @@ on('headline', function (msg) {
 // });
 
 
-// function get_msgs() {
-  // if (window.hasOwnProperty('APP_ERROR') && APP_ERROR)
-    // return;
+function get_msgs(custom_o) {
+  if (window.hasOwnProperty('APP_ERROR') && APP_ERROR)
+    return;
 
-  // post("/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {
-    // if (err)
-      // return;
-    // add_these_pending_msgs(result.msg_list || []);
-    // setTimeout(get_msgs, 1000 * 10);
-  // });
-// }
+  post("/heart_beep", _.extend(custom_o || {}, {}), function (err, result) {
+    if (err)
+      return;
+    draw_all_msgs(result.list);
+    var t = (result.list.length) ? 10 : 5;
+    setTimeout(get_msgs, 1000 * t);
+  });
+}
 
-// function add_these_pending_msgs(list) {
-  // PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(list);
-// }
 
-// function draw_all_msgs() {
+function draw_all_msgs(list) {
   // var m = PENDING_CHAT_MSG.shift();
   // if (!m || (m.dom_id && $('#' + m.dom_id).length))
     // return;
-  // emit('chat room msg', m);
-// }
+  _.each(list, function (o) {
+    emit('headline', o);
+  });
+}
 
 
-// get_msgs();
+get_msgs({get_old: true});
 
 // setInterval(draw_all_msgs, 1500);
 

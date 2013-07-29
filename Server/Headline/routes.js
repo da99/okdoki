@@ -30,6 +30,28 @@ exports.route = function (mod) {
   });
 
   // ============ READ =================================================
+
+  app.post('/heart_beep', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+
+    .job('read list', function (j) {
+      if (req.body.get_old)
+        Headline.read_old_list(req.user, j);
+      else
+        Headline.read_new_list(req.user, req.body.start_at, j);
+    })
+
+    .run(function (fin, list) {
+      resp.json({
+        success : true,
+        msg     : "Done.",
+        list    : _.map(list, function (o) {
+          return o.public_data();
+        })
+      });
+    });
+  });
+
   app.get("/Headline/:id", function (req, resp, next) {
     var OK            = mod.New_Request(arguments);
     var opts          = OK.template_data('Headline/show_one');

@@ -105,6 +105,37 @@ Headline.read_by_website = function (website, flow) {
   .run();
 };
 
+Headline.read_old_list = function (customer, flow) {
+  var sql = "\
+    SELECT *                          \n\
+    FROM @table                       \n\
+    WHERE author IN (                 \n\
+      SELECT publisher as author      \n\
+      FROM  \"Headline_Follow\"       \n\
+      WHERE owner IN (                \n\
+       SELECT screen_name             \n\
+       FROM \"Screen_Name\"           \n\
+       WHERE owner_id = @owner_id     \n\
+      )                               \n\
+    )                                 \n\
+    LIMIT 50                          \n\
+  ;";
+  River.new(flow)
+  .job('read list', function (j) {
+    TABLE.run(sql, {owner_id: customer.data.id}, j);
+  })
+  .job('to objects', function (j, list) {
+    j.finish(_.map(list, function (o) {
+      return Headline.new(o);
+    }));
+  })
+  .run();
+};
+
+Headline.read_new_list = function () {
+  
+};
+
 // ================================================================
 // ================== Update ======================================
 // ================================================================
