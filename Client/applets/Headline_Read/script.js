@@ -116,10 +116,12 @@ function get_msgs(custom_o) {
     return;
 
   post("/heart_beep", _.extend(custom_o || {}, {}), function (err, result) {
-    if (err)
-      return;
-    draw_all_msgs(result.list);
-    var t = (result.list.length) ? 10 : 5;
+    var t = 5;
+    if (!err) {
+      draw_all_msgs(result.list);
+      if (result.list.length)
+        t = 10;
+    }
     setTimeout(get_msgs, 1000 * t);
   });
 }

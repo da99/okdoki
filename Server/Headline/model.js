@@ -105,25 +105,22 @@ Headline.read_by_website = function (website, flow) {
   .run();
 };
 
-var READ_LIST = "\
-    SELECT *                          \n\
-    FROM @table                       \n\
-    WHERE author IN (                 \n\
-      SELECT publisher as author      \n\
-      FROM  \"Headline_Follow\"       \n\
-      WHERE owner IN (                \n\
-       SELECT screen_name             \n\
-       FROM \"Screen_Name\"           \n\
-       WHERE owner_id = @owner_id     \n\
-     ) AND last_read_at !@ updated_at \n\
-    )                                 \n\
-    LIMIT 50                          \n\
-  ;";
-
 Headline.read_old_list = function (customer, flow) {
   River.new(flow)
   .job('read list', function (j) {
-    TABLE.run(READ_LIST.replace('!@', '>='), {owner_id: customer.data.id}, j);
+  var READ_LIST = "\
+      SELECT *                          \n\
+      FROM @table                       \n\
+      WHERE author IN (                 \n\
+        SELECT publisher as author      \n\
+        FROM  \"Headline_Follow\"       \n\
+        WHERE owner IN @ids             \n\
+         AND last_read_at >= updated_at \n\
+      )                                 \n\
+      LIMIT 50                          \n\
+    ;";
+
+    TABLE.run(READ_LIST, {ids: customer.screen_name_ids()}, j);
   })
   .job('to objects', function (j, list) {
     j.finish(_.map(list, function (o) {
@@ -135,8 +132,26 @@ Headline.read_old_list = function (customer, flow) {
 
 Headline.read_new_list = function (customer, flow) {
   River.new(flow)
-  .job('read list', function (j) {
-    TABLE.run(READ_LIST.replace('!@', '<'), {owner_id: customer.data.id}, j);
+  .job('update list', function (j) {
+    var sql = "\
+    UPDATE \"Headline_Follow\"      \n\
+      SET  last_read_at = $now      \n\
+    WHERE id IN ( SELECT id         \n\
+      FROM \"Headline_Follow\"      \n\
+      WHERE                         \n\
+      owner    IN @ids              \n\
+      AND last_read_at < updated_at \n\
+      LIMIT 4                       \n\
+    )                               \n\
+    RETURNING *                     \n\
+    ;";
+    TABLE.run(sql, {ids: customer.screen_name_ids()}, j);
+  })
+  .job('read list', function (j, list) {
+    var pubs = _.map(list, function (o) { return o.publisher; });
+    if (!pubs.length)
+      return j.finish([]);
+    TABLE.run("SELECT * FROM @table WHERE author IN @names", {names: pubs}, j);
   })
   .job('to objects', function (j, list) {
     j.finish(_.map(list, function (o) {
