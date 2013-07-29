@@ -4,6 +4,7 @@ var _         = require("underscore")._
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
+, H           = require("../App/Helpers").H
 
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
@@ -25,13 +26,7 @@ MODEL._new = function () {
 // ================== Helpers =====================================
 // ================================================================
 
-function null_if_empty(str) {
-  if (!str) return null;
-  str = str.trim();
-  if (!str.length)
-    return null;
-  return str;
-}
+
 
 // ================================================================
 // ================== Create ======================================

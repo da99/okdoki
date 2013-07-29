@@ -1,4 +1,5 @@
 var _ = require('underscore')._;
+var Canon_SN = require('../../Client/js/Screen_Name').canonize_screen_name;
 
 var S = /\s+/g;
 
@@ -21,5 +22,22 @@ exports.H = {
     if (!str.length)
       return null;
     return str;
-  }
+  },
+
+  is_json : function (str) {
+    var is = false;
+    try {
+      JSON.parse(str);
+      is = true;
+    } catch (e) {
+      is = false;
+    }
+    return is;
+  },
+
+  canonize_screen_name : Canon_SN
+
 };
+
+
+
