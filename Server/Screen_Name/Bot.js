@@ -9,6 +9,8 @@ var _         = require("underscore")._
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
 , Check       = require('da_check').Check
+, E           = require('escape_escape_escape').Sanitize.html
+, UN_ESCAPE   = require('escape_escape_escape').Sanitize.un_escape
 ;
 
 
@@ -28,6 +30,7 @@ Bot.prototype.public_data = function () {
     prefix:me.data.prefix,
     owner: me.data.owner,
     screen_name: me.data.prefix + '@' + me.data.owner,
+    code : me.data.code
   };
 };
 
@@ -94,11 +97,13 @@ Bot.update = function (data, flow) {
   if (clean.about_me)
     clean.about_me = H.null_if_empty(clean.about_me);
 
-  if (clean.code)
-    clean.code = H.null_if_empty(clean.code);
-
-  if (clean.code && !H.is_json(clean.code))
-    return flow.finish('invalid', 'Invalid code.');
+  if (clean.code) {
+    clean.code = UN_ESCAPE(clean.code);
+    if (!H.is_json(clean.code)) {
+      return flow.finish('invalid', 'Code is invalid JSON.');
+    }
+    clean.code = JSON.stringify(E(JSON.parse(clean.code)));
+  }
 
   River.new(flow)
   .job('update', function (j) {
