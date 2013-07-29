@@ -110,7 +110,8 @@ div.box div.content {
   border-bottom: 7px solid #b0c460;
   margin: 0;
 }
-#Me_Intro div.the_life_of {
+#Me_Intro div.the_life_of,
+#Me_Intro div.what_am_i {
   font-family: 'Libertinage', Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 140%;
   color: #f00919;

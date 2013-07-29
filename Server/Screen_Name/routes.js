@@ -148,6 +148,20 @@ exports.route = function (mod) {
 
   });
 
+  app.put('/Bot', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job('update', function (j) {
+      Bot.update({
+        prefix : req.body.prefix,
+        owner  : req.body.as_this_life,
+        code   : req.body.code
+      }, j);
+    })
+    .run(function (j, last) {
+      var bot = last.public_data();
+      resp.json({success: true, msg: "Update successful.", bot: bot});
+    });
+  });
 
   // =============== DELETE/TRASH ===================================
 

@@ -1,0 +1,14 @@
+#Sidebar div.status {
+  text-align: left;
+  border-bottom: 1px dashed #ccc;
+}
+#Sidebar div.status h3 {
+  display: inline;
+}
+#Sidebar div.status div.content {
+  display: inline;
+  border: 0;
+}
+#Sidebar div.not_ready {
+  background: #ffea74;
+}

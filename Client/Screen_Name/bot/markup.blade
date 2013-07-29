@@ -9,28 +9,51 @@ append templates
 append content
 
   //- ===========================================================
-  //- ===========================================================
-  //- ===========================================================
-  div#Me
-
-    div.box
-      h3
-        span Box
-        span.sub (Mail)
-      div.content
-        | [placeholder]
-
 
   div#Sidebar
 
     div#Me_Intro
       h3.name #{screen_name}
-      div.what_am_i (bot)
+      div.what_am_i (i'm a bot)
+
+    div.box.status.not_ready
+      h3 Status:
+      div.content
+        | Not ready.
 
     div.box
-      h3 ~ ~ ~
       div.content
-        | * * *
+        | I'm already using this bot as ...
+        form#Bot_Use_Create(action="/Bot/use", method="POST")
+          div.buttons
+            button.submit Use this bot.
+
+    div.box
+      h3 About me:
+      div.content
+        form#Bot_About_Me_Update(action="/Bot", method="POST")
+          div.fields
+            div.field.about_me
+              textarea(name="about_me")
+          div.buttons
+            input(type="hidden", value="PUT", name="_method")
+            input(type="hidden", value="#{screen_name}", name="screen_name")
+            button.submit Update "About me."
+
+    div.box
+      h3  Code:
+      div.content
+        form#Bot_Code_Update(action="/Bot", method="POST")
+          div.fields
+            div.field.code
+              textarea(name="code")
+          div.buttons
+            input(type="hidden", value="PUT", name="_method")
+            input(type="hidden", value="#{bot.prefix}", name="prefix")
+            input(type="hidden", value="#{bot.owner}", name="as_this_life")
+            button.submit Update code.
 
 
+  //- ===========================================================
+  //- ===========================================================
 

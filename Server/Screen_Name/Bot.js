@@ -4,11 +4,11 @@ var _         = require("underscore")._
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
+, H           = require("../App/Helpers").H
 
 , Topogo      = require("topogo").Topogo
 , River       = require("da_river").River
 , Check       = require('da_check').Check
-, Canon_SN    = require("../../Client/js/Screen_Name").canonize_screen_name
 ;
 
 
@@ -25,6 +25,7 @@ Bot._new = function () {
 Bot.prototype.public_data = function () {
   var me = this;
   return {
+    prefix:me.data.prefix,
     owner: me.data.owner,
     screen_name: me.data.prefix + '@' + me.data.owner,
   };
@@ -34,20 +35,18 @@ Bot.prototype.public_data = function () {
 // ================== Helpers =====================================
 // ================================================================
 
-function null_if_empty(str) {
-  if (!str) return null;
-  str = str.trim();
-  if (!str.length)
-    return null;
-  return str;
+function extract_name(o) {
+  if (o.screen_name)
+    return H.canonize_screen_name(o.screen_name).split('@');
+  return [o.prefix, o.owner];
 }
 
 // ================================================================
 // ================== Create ======================================
 // ================================================================
 Bot.create = function (raw_data, flow) {
-  var prefix = null_if_empty(raw_data.prefix.toLowerCase().replace(Screen_Name.INVALID_CHARS, '').slice(0,15));
-  var owner  = null_if_empty(raw_data.owner);
+  var prefix = H.null_if_empty(raw_data.prefix.toLowerCase().replace(Screen_Name.INVALID_CHARS, '').slice(0,15));
+  var owner  = H.null_if_empty(raw_data.owner);
   var sn     = prefix + '@' + owner;
   var data = {
     type_id     : 0,
@@ -88,6 +87,31 @@ Bot.read_by_screen_name = function (sn, flow) {
 // ================================================================
 // ================== Update ======================================
 // ================================================================
+Bot.update = function (data, flow) {
+  var clean = _.pick(data, 'code', 'about_me');
+  var sn    = extract_name(data);
+
+  if (clean.about_me)
+    clean.about_me = H.null_if_empty(clean.about_me);
+
+  if (clean.code)
+    clean.code = H.null_if_empty(clean.code);
+
+  if (clean.code && !H.is_json(clean.code))
+    return flow.finish('invalid', 'Invalid code.');
+
+  River.new(flow)
+  .job('update', function (j) {
+    TABLE.update_one({
+      prefix: sn[0],
+      owner: sn[1]
+    }, clean, j);
+  })
+  .job('to object', function (j, row) {
+    j.finish(Bot.new(row));
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Trash/Untrash ===============================
