@@ -73,6 +73,17 @@ Bot.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Bot.read_by_screen_name = function (sn, flow) {
+  var pieces = sn.split('@');
+  River.new(flow)
+  .job('read', function (j) {
+    TABLE.read_one({prefix: pieces[0], owner: pieces[1]}, j);
+  })
+  .job('to object', function (j, last) {
+    j.finish(Bot.new(last));
+  })
+  .run();
+};
 
 // ================================================================
 // ================== Update ======================================

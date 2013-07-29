@@ -1,0 +1,36 @@
+include "../../layout.blade"
+
+append styles
+  call css("/Screen_Name/me/style.css")
+
+
+append templates
+
+append content
+
+  //- ===========================================================
+  //- ===========================================================
+  //- ===========================================================
+  div#Me
+
+    div.box
+      h3
+        span Box
+        span.sub (Mail)
+      div.content
+        | [placeholder]
+
+
+  div#Sidebar
+
+    div#Me_Intro
+      h3.name #{screen_name}
+      div.what_am_i (bot)
+
+    div.box
+      h3 ~ ~ ~
+      div.content
+        | * * *
+
+
+

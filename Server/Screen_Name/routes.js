@@ -46,8 +46,8 @@ exports.route = function (mod) {
   // =============== READ ===========================================
 
   app.get('/me/:screen_name', function (req, resp, next) {
-    if (req.params.screen_name.toUpperCase() !== req.params.screen_name)
-      return resp.redirect(301, "/me/" + req.params.screen_name.toUpperCase())
+    if (Canon_SN(req.params.screen_name) !== req.params.screen_name)
+      return resp.redirect(301, "/me/" + Canon_SN(req.params.screen_name))
     var OK     = mod.New_Request(req, resp, next);
     var data   = null;
 
@@ -64,6 +64,25 @@ exports.route = function (mod) {
       OK.render_template();
     })
     .run();
+  });
+
+  app.get('/bot/:screen_name', function (req, resp, next) {
+    if (Canon_SN(req.params.screen_name) !== req.params.screen_name)
+      return resp.redirect(301, "/bot/" + Canon_SN(req.params.screen_name))
+
+    var OK = mod.New_Request(req, resp, next);
+    mod.New_River(req, resp, next)
+    .job('read', function (j) {
+      Bot.read_by_screen_name(req.params.screen_name, j);
+    })
+    .run(function (fin, o) {
+      if (!o)
+        return req.next();
+      var data = OK.template_data('Screen_Name/bot');
+      data['bot']   = o.public_data();
+      data['title'] = data['bot'].screen_name;
+      OK.render_template();
+    });
   });
 
   // =============== UPDATE =========================================
