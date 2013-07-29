@@ -38,7 +38,7 @@ exports.route = function (mod) {
       if (req.body.get_old)
         Headline.read_old_list(req.user, j);
       else
-        Headline.read_new_list(req.user, req.body.start_at, j);
+        Headline.read_new_list(req.user, j);
     })
 
     .run(function (fin, list) {

@@ -105,8 +105,7 @@ Headline.read_by_website = function (website, flow) {
   .run();
 };
 
-Headline.read_old_list = function (customer, flow) {
-  var sql = "\
+var READ_LIST = "\
     SELECT *                          \n\
     FROM @table                       \n\
     WHERE author IN (                 \n\
@@ -116,13 +115,15 @@ Headline.read_old_list = function (customer, flow) {
        SELECT screen_name             \n\
        FROM \"Screen_Name\"           \n\
        WHERE owner_id = @owner_id     \n\
-      )                               \n\
+     ) AND last_read_at !@ updated_at \n\
     )                                 \n\
     LIMIT 50                          \n\
   ;";
+
+Headline.read_old_list = function (customer, flow) {
   River.new(flow)
   .job('read list', function (j) {
-    TABLE.run(sql, {owner_id: customer.data.id}, j);
+    TABLE.run(READ_LIST.replace('!@', '>='), {owner_id: customer.data.id}, j);
   })
   .job('to objects', function (j, list) {
     j.finish(_.map(list, function (o) {
@@ -132,8 +133,17 @@ Headline.read_old_list = function (customer, flow) {
   .run();
 };
 
-Headline.read_new_list = function () {
-  
+Headline.read_new_list = function (customer, flow) {
+  River.new(flow)
+  .job('read list', function (j) {
+    TABLE.run(READ_LIST.replace('!@', '<'), {owner_id: customer.data.id}, j);
+  })
+  .job('to objects', function (j, list) {
+    j.finish(_.map(list, function (o) {
+      return Headline.new(o);
+    }));
+  })
+  .run();
 };
 
 // ================================================================
