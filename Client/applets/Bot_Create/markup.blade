@@ -1,0 +1,15 @@
+
+append Bot_Create
+  div.box#New_Bot
+    div.setting
+      a.on(href="#show") Show
+    h3 Create a Bot
+    div.content
+      form#Bot_Create(action="/Bot", method="POST")
+        div.fields
+          div.field.prefix
+            label(for="NEW_BOT_SCREEN_NAME") Screen Name:
+            input#NEW_BOT_SCREEN_NAME(name="prefix", type="text")
+        div.buttons
+          call span_as()
+          button.submit Create

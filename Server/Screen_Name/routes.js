@@ -1,10 +1,12 @@
 
 var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
+, Bot         = require('../Screen_Name/Bot').Bot
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Follow      = require('../Follow/model').Follow
 , log         = require("../App/base").log
+, Canon_SN    = require("../../Client/js/Screen_Name").canonize_screen_name
 ;
 
 exports.route = function (mod) {
@@ -28,6 +30,17 @@ exports.route = function (mod) {
       OK.json_success("Your new life has been created: " + sn.data.screen_name, {screen_name: sn.data.screen_name});
     })
     .run();
+  });
+
+  app.post('/Bot', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job('create', function (j) {
+      Bot.create({prefix: req.body.prefix, owner: req.body.as_this_life}, j);
+    })
+    .run(function (fin, o) {
+      var bot = o.public_data();
+      return resp.json({success: true, msg: "Bot created: " + bot.screen_name, bot: bot});
+    });
   });
 
   // =============== READ ===========================================

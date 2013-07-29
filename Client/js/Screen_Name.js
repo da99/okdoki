@@ -30,7 +30,17 @@ function canonize_screen_name (str) {
   else
     str = $.trim(str);
 
-  return str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
+  var sn = str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
+
+  if (sn.indexOf('@') > 0) {
+    var temp = sn.split('@');
+    sn = temp.pop().toUpperCase();
+
+    while(temp.length)
+      sn = temp.pop().toLowerCase() + '@' + sn;
+  }
+
+  return sn;
 
 }
 
