@@ -131,6 +131,11 @@ ul.screen_names li:last-child:after {
 #Create_Screen_Name div.sn_type label {
   display: inline;
 }
+#Msgs {
+  float: left;
+  min-width: 300px;
+  width: 54%;
+}
 html.w600_minus div.col {
   float: none;
   width: auto;

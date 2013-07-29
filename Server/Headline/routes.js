@@ -19,10 +19,11 @@ exports.route = function (mod) {
     })
     .job(function (j, model) {
       var o = model.public_data();
+      o.is_me = true;
       resp.json({
         success : true,
         msg     : 'Created: ' + o.preview,
-        model   : o
+        headline: o
       });
     })
     .run();

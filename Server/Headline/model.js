@@ -27,11 +27,12 @@ Headline._new = function () {
 
 Headline.prototype.public_data = function () {
   var o = {
-    dom_id           : 'headline_' + this.data.id + '_' + this.data.created_at.getTime(),
-    author           : this.data.author,
-    preview          : H.preview(this.data.body),
-    body_html        : this.data.body_html,
-    created_at_epoch : this.data.created_at.getTime()
+    dom_id             : 'headline_' + this.data.id + '_' + this.data.created_at.getTime(),
+    author             : this.data.author,
+    preview            : H.preview(this.data.body),
+    body_html          : Bling_Bling.new(this.data.body).to_html(),
+    is_clean_body_html : true,
+    created_at_epoch   : this.data.created_at.getTime()
   };
   return o;
 };
@@ -40,13 +41,6 @@ Headline.prototype.public_data = function () {
 // ================== Helpers =====================================
 // ================================================================
 
-function null_if_empty(str) {
-  if (!str) return null;
-  str = str.trim();
-  if (!str.length)
-    return null;
-  return str;
-}
 
 // ================================================================
 // ================== Create ======================================
@@ -55,8 +49,7 @@ function null_if_empty(str) {
 Headline.create = function (raw_data, flow) {
   var data = {
     author     : raw_data.author,
-    body       : e_e_e(raw_data.body),
-    body_html  : Bling_Bling.new(raw_data.body).to_html()
+    body       : e_e_e(raw_data.body)
   };
 
   var obj = null;

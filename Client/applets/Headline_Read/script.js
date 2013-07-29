@@ -7,58 +7,35 @@
 //
 // ======================================
 
-var CHAT_MSG_OLDEST_EPOCH = 0;
-var CHAT_MSG_LOOP      = false;
-var PENDING_CHAT_MSG   = [];
-var Chat_Msgs          = function () { };
-Chat_Msgs.Room_Count   = 0;
-Chat_Msgs.MAX          = 300;
-Chat_Msgs.DOM          = $('#Messages');
-Chat_Msgs.Write        = $('#Write');
-Chat_Msgs.Room_Menu    = Chat_Msgs.Write.find('select[name="chat_room"]');
+var Headline_Read = {
+  MAX       : 300,
+  DOM       : $('#Headlines'),
+  Write     : $('#Headline_Create')
+};
 
-create_event('chat room msg');
+create_event('headline');
 
 // === Submitting a msg ===
-
-on('before success #Write_Chit_Chat', function (o) {
+on('before success #Headline_Create', function (o) {
   o.flow.stop();
   o.form.reset_status();
-  Chat_Msgs.Write.find('textarea').val("");
-  emit('chat room msg', o.data.chat_msg);
+  Headline_Read.Write.find('textarea').val("");
+  emit('headline', o.data.headline);
 });
 
 
-// === Record time of oldest message
-on('chat room msg', function (o) {
-  if (!o.created_at_epoch)
-    return;
-
-  if (!o.is_chat_room_msg)
-    return;
-
-  var time = parseInt(o.created_at_epoch);
-  if (time >= CHAT_MSG_OLDEST_EPOCH)
-    CHAT_MSG_OLDEST_EPOCH = time;
-});
-
-// === Added message to DOM
-on('chat room msg', function (msg) {
-  if (!msg.body && msg.msg)
-    msg.body = msg.msg;
-
+// === Add headline to DOM
+on('headline', function (msg) {
   var template_msg = _.defaults(msg, {
-    author_screen_name : '',
-    room_name          : '',
-    dom_id             : 'm' + (msg.dom_id || msg.id || (new Date).getTime()),
-    author             : msg.author || '',
-    chat_room          : msg.room_name || ''
+    dom_id : msg.dom_id || ('m' + msg.id + '_' + (new Date).getTime()),
+    author : msg.author || '',
+    body   : msg.body || ''
   });
 
-  var o = Template.compile('div.msg', template_msg);
+  var o = Template.compile('div.headline.msg', template_msg);
 
-  if (msg.is_clean_body)
-    o.find('div.body').html(msg.body);
+  if (msg.is_clean_body_html)
+    o.find('div.body').html(msg.body_html);
 
   if (msg.link) {
     var a = $('<a/>');
@@ -69,11 +46,11 @@ on('chat room msg', function (msg) {
   }
 
   o.find('a').attr('target', '_blank');
-  Chat_Msgs.DOM.prepend(o);
+  Headline_Read.DOM.prepend(o);
 });
 
 // === Add CSS classes.
-on('chat room msg', function (msg) {
+on('headline', function (msg) {
   var o = $('#' + msg.dom_id);
 
   if (msg.is_official)
@@ -92,70 +69,70 @@ on('chat room msg', function (msg) {
 });
 
 // === Remove extra messages
-on('chat room msg', function (msg) {
-  var length = Chat_Msgs.DOM.find('div.msg').length;
-  if (length > Chat_Msgs.MAX)
-    Chat_Msgs.DOM.find('div.msg').last().remove();
+on('headline', function (msg) {
+  var list = Headline_Read.DOM.find('div.msg');
+  if (list.length > Headline_Read.MAX)
+    list.last().remove();
 });
 
 // ======  Entering/Leaving Chat Rooms ====
-on('after enter chat room', function (o) {
-  var menu = Chat_Msgs.Room_Menu;
-  var opt  = $('<option></option>');
-  opt.attr('value', o.room.name);
+// on('after enter chat room', function (o) {
+  // var menu = Headline_Read.Room_Menu;
+  // var opt  = $('<option></option>');
+  // opt.attr('value', o.room.name);
 
-  opt.text(o.room.name);
-  menu.prepend(opt);
-  if (menu.find('option').length > 1)
-    menu.parent('span.to').show();
-  else
-    menu.parent('span.to').hide();
-  Chat_Msgs.Write.show();
+  // opt.text(o.room.name);
+  // menu.prepend(opt);
+  // if (menu.find('option').length > 1)
+    // menu.parent('span.to').show();
+  // else
+    // menu.parent('span.to').hide();
+  // Headline_Read.Write.show();
 
-  CHAT_MSG_LOOP = true;
-});
+  // CHAT_MSG_LOOP = true;
+// });
 
-on('after leave chat room', function (o) {
-  var menu = Chat_Msgs.Room_Menu;
+// on('after leave chat room', function (o) {
+  // var menu = Headline_Read.Room_Menu;
 
-  menu.find('option').each(function (i, opt) {
-    if ($(opt).attr('value') === o.room.name)
-      $(opt).remove();
-  });
+  // menu.find('option').each(function (i, opt) {
+    // if ($(opt).attr('value') === o.room.name)
+      // $(opt).remove();
+  // });
 
-  if (menu.find('option').length < 2)
-    menu.parent('span.to').hide();
+  // if (menu.find('option').length < 2)
+    // menu.parent('span.to').hide();
 
-  if (menu.find('option').length < 1) {
-    Chat_Msgs.Write.hide();
-    CHAT_MSG_LOOP = false;
-  }
+  // if (menu.find('option').length < 1) {
+    // Headline_Read.Write.hide();
+    // CHAT_MSG_LOOP = false;
+  // }
 
-});
+// });
 
 
-function get_msgs() {
-  if (window.hasOwnProperty('APP_ERROR') && APP_ERROR)
-    return;
+// function get_msgs() {
+  // if (window.hasOwnProperty('APP_ERROR') && APP_ERROR)
+    // return;
 
-  post("/chat_room/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {
-    if (err)
-      return;
-    add_these_pending_msgs(result.msg_list || []);
-    setTimeout(get_msgs, 1000 * 10);
-  });
-}
+  // post("/heart_beep", {start_at: CHAT_MSG_OLDEST_EPOCH}, function (err, result) {
+    // if (err)
+      // return;
+    // add_these_pending_msgs(result.msg_list || []);
+    // setTimeout(get_msgs, 1000 * 10);
+  // });
+// }
 
-function add_these_pending_msgs(list) {
-  PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(list);
-}
+// function add_these_pending_msgs(list) {
+  // PENDING_CHAT_MSG = PENDING_CHAT_MSG.concat(list);
+// }
 
-function draw_all_msgs() {
-  var m = PENDING_CHAT_MSG.shift();
-  if (!m || (m.dom_id && $('#' + m.dom_id).length))
-    return;
-  emit('chat room msg', m);
-}
+// function draw_all_msgs() {
+  // var m = PENDING_CHAT_MSG.shift();
+  // if (!m || (m.dom_id && $('#' + m.dom_id).length))
+    // return;
+  // emit('chat room msg', m);
+// }
 
 
 // get_msgs();

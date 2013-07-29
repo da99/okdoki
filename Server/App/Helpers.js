@@ -13,5 +13,13 @@ exports.H = {
     if (pieces.length < 13)
       return str;
     return pieces.slice(0, 10).join(' ') + '...';
+  },
+
+  null_if_empty : function (str) {
+    if (!str) return null;
+    str = str.trim();
+    if (!str.length)
+      return null;
+    return str;
   }
 };
