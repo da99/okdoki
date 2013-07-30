@@ -2,6 +2,7 @@
 var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
+, Bot_Use     = require("../Screen_Name/Bot_Use").Bot_Use
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 , H           = require("../App/Helpers").H
@@ -27,11 +28,11 @@ Bot._new = function () {
 Bot.prototype.public_data = function () {
   var me = this;
   return {
-    prefix:me.data.prefix,
-    owner: me.data.owner,
-    screen_name: me.data.prefix + '@' + me.data.owner,
-    code : me.data.code,
-    o_code : me.data.code && E_E_E(JSON.parse(UN_ESCAPE(me.data.code)))
+    prefix      :me.data.prefix,
+    owner       : me.data.owner,
+    screen_name : me.data.prefix + '@' + me.data.owner,
+    code        : me.data.code,
+    o_code      : me.data.code && E_E_E(JSON.parse(UN_ESCAPE(me.data.code)))
   };
 };
 
@@ -84,15 +85,15 @@ Bot.read_list_to_run = function (sn, flow) {
               FROM @table                           \n\
               WHERE id in (                         \n\
                 SELECT bot_id                       \n\
-                FROM \"Bot_Use\"                    \n\
+                FROM @BU                            \n\
                 WHERE owner = @sn                   \n\
               )                                     \n\
-              ", {sn: sn}, j);
+              ;", {sn: sn, TABLES: {BU: Bot_Use.TABLE_NAME}}, j);
   })
   .job('to objects', function (j, list) {
+    console.log(list)
     j.finish(_.map(list, function (r) {
-      var o = Bot.new(r);
-      return o.public_data();
+      return Bot.new(r).public_data();
     }));
   })
   .run();
