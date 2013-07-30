@@ -103,6 +103,20 @@ exports.route = function (mod) {
     });
   });
 
+  app.get('/bots', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job('read', function (j) {
+      Bot.read_list_to_run(req.params.screen_name, j);
+    })
+    .run(function (fin, list) {
+      return resp.json({
+        success: true,
+        msg: "List read.",
+        bots: list
+      });
+    });
+  });
+
   // =============== UPDATE =========================================
 
   OK.put('/screen_names/:name', function (req, resp, next) {

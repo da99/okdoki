@@ -76,6 +76,28 @@ Bot.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
+Bot.read_list_to_run = function (sn, flow) {
+  River.new(flow)
+  .job('read', function (j) {
+    TABLE.run("\
+              SELECT *                              \n\
+              FROM @table                           \n\
+              WHERE id in (                         \n\
+                SELECT bot_id                       \n\
+                FROM \"Bot_Use\"                    \n\
+                WHERE owner = @sn                   \n\
+              )                                     \n\
+              ", {sn: sn}, j);
+  })
+  .job('to objects', function (j, list) {
+    j.finish(_.map(list, function (r) {
+      var o = Bot.new(r);
+      return o.public_data();
+    }));
+  })
+  .run();
+};
+
 Bot.read_by_screen_name = function (sn, flow) {
   var pieces = sn.split('@');
   River.new(flow)
