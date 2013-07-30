@@ -87,11 +87,10 @@ Bot.read_list_to_run = function (sn, flow) {
                 SELECT bot_id                       \n\
                 FROM @BU                            \n\
                 WHERE owner = @sn                   \n\
-              )                                     \n\
+              ) AND code IS NOT NULL                \n\
               ;", {sn: sn, TABLES: {BU: Bot_Use.TABLE_NAME}}, j);
   })
   .job('to objects', function (j, list) {
-    console.log(list)
     j.finish(_.map(list, function (r) {
       return Bot.new(r).public_data();
     }));
