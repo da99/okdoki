@@ -362,7 +362,8 @@ app.configure(function () {
 
       req.body.life_id      = req.user.screen_name_id(life);
       req.body.as_this_life = req.user.canonize_screen_name(life);
-    }
+
+    } // === if
 
     next();
   });

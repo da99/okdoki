@@ -26,6 +26,8 @@ append content
         | I'm already using this bot as ...
         form#Bot_Use_Create(action="/Bot/use", method="POST")
           div.buttons
+            input(type="hidden", name="bot", value="#{screen_name}")
+            call span_as()
             button.submit Use this bot.
 
     div.box

@@ -31,7 +31,7 @@ Bot.prototype.public_data = function () {
     owner: me.data.owner,
     screen_name: me.data.prefix + '@' + me.data.owner,
     code : me.data.code,
-    o_code : E_E_E(JSON.parse(UN_ESCAPE(me.data.code)))
+    o_code : me.data.code && E_E_E(JSON.parse(UN_ESCAPE(me.data.code)))
   };
 };
 

@@ -2,6 +2,7 @@
 var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Bot         = require('../Screen_Name/Bot').Bot
+, Bot_Use     = require('../Screen_Name/Bot_Use').Bot_Use
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Follow      = require('../Follow/model').Follow
@@ -47,8 +48,8 @@ exports.route = function (mod) {
     mod.New_River(req, resp, next)
     .job('create', function (j) {
       Bot_Use.create({
-        screen_name : req.body.screen_name,
-        owner       : req.body.as_this_life
+        bot   : req.body.bot,
+        owner : req.body.as_this_life
       }, j);
     })
     .run(function (fin, o) {
