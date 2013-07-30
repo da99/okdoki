@@ -50,6 +50,27 @@ WWW_Applet.run = function (meta, o) {
   a.run();
 };
 
+WWW_Applet.FUNC_NAMES = {};
+
+// ================================================================
+// ================== Helpers =====================================
+// ================================================================
+
+function define(str, func) {
+  WWW_Applet.FUNC_NAMES[str] = func;
+  return WWW_Applet;
+}
+
+WWW_Applet.INVALID_CSS_CHARS = /[^a-zA-Z0-9\#\_\ ]+/ig;
+
+function css_attr(str) {
+  return str.replace(WWW_Applet.INVALID_CSS_CHARS, '');
+}
+
+function css(ele, str, val) {
+  return $(ele).css(str, css_attr(val));
+}
+
 // ================================================================
 // ================== "Instance" Methods ==========================
 // ================================================================
@@ -86,13 +107,6 @@ WWW_Applet.prototype.dom_by_id = function (str) {
   var me = this;
   return $(me.dom_ns(str));
 };
-
-WWW_Applet.FUNC_NAMES = {};
-
-function define(str, func) {
-  WWW_Applet.FUNC_NAMES[str] = func;
-  return WWW_Applet;
-}
 
 define("box", function (id) {
   var me = this;
@@ -135,6 +149,11 @@ define('is text of', function (id) {
 });
 
 
+define('padding', function (str) {
+  var me = this;
+  css( _.last(me.stack), 'padding', str);
+  return me;
+});
 
 
 
