@@ -24,15 +24,19 @@ window.onerror = function (errorMsg, url, lineNumber) {
   return false;
 };
 
-
+// ===========================================
+// TODO: Middle click should pass right
+// through. Right now, it is over-ridden
+// when it should not.
+// ===========================================
 function attach_console_link_click(e) {
   var href = $(e).attr('href');
   if (href.indexOf('/log') > -1 || href.indexOf('#') > -1 )
     return;
 
-  on_click(e, function () {
+  on_click(e, function (ev) {
     var o = $(this);
-    if (Customer_Lifes.in_chat_rooms.length)
+    if (ev.which === 2 || Customer_Lifes.in_chat_rooms.length)
       window.open(o.attr('href'), '_blank');
     else
       window.location.href = o.attr('href');
@@ -56,9 +60,9 @@ function hide_option(e) {
 
 // ================ ON LOAD ======================
 $(function () {
-  $('a').each(function (i, e) {
-    attach_console_link_click(e);
-  });
+  // $('a').each(function (i, e) {
+    // attach_console_link_click(e);
+  // });
 
   $('#Options a.on').each(function (i, l) {
     on_click(l, show_option);
@@ -69,11 +73,11 @@ $(function () {
   });
 });
 
-on('template compiled' , function (o) {
-  $(o.dom).find('a').each(function (i, e) {
-    attach_console_link_click(e);
-  });
-});
+// on('template compiled' , function (o) {
+  // $(o.dom).find('a').each(function (i, e) {
+    // attach_console_link_click(e);
+  // });
+// });
 
 
 // === When to open links in a new window.
