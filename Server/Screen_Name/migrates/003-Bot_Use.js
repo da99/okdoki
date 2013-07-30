@@ -1,6 +1,6 @@
 
 
-var table = "Feature_Pack";
+var table = "Bot_Use";
 var m     = module.exports = {};
 
 var _     = require('underscore');
@@ -14,19 +14,17 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS "@T" (                \n\
+    var sql = 'CREATE TABLE "@T" (                              \n\
     id             serial PRIMARY KEY,                          \n\
     owner          varchar(50) NOT NULL,                        \n\
-    file_name      varchar(50) NOT NULL,                        \n\
-    show_on        smallint    NOT NULL DEFAULT 1,              \n\
-    body           text        NOT NULL,                        \n\
+    bot            varchar(50) NOT NULL,                        \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at    ,                                            \n\
-    CONSTRAINT     "@T_owner_file_name"                         \n\
-                   UNIQUE (owner, file_name)                    \n\
+    CONSTRAINT "@T_owner_bot" UNIQUE (owner, bot)               \n\
     );'.replace(/@T/g, table);
+    r.create(sql,
+            'CREATE INDEX "@T_bot_owner" ON "@T" (bot, owner)'.replace(/@T/g, table));
 
-    r.create(sql);
   }
 };

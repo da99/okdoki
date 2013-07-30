@@ -22,9 +22,9 @@ m.migrate = function (dir, r) {
     updated_at     $now_tz NOT NULL,                            \n\
     last_read_at   $now_tz NOT NULL,                            \n\
     $trashed_at                                                 \n\
-    );'.replace('@T', table);
+    );'.replace(/@T/g, table);
     r.create(sql,
-            "CREATE INDEX ON \"@T\" (owner, publisher)".replace('@T', table)
+            "CREATE INDEX ON \"@T\" (owner, publisher)".replace(/@T/g, table)
             );
 
   }

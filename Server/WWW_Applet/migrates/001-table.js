@@ -26,7 +26,7 @@ m.migrate = function (dir, r) {
     $trashed_at    ,                                            \n\
     CONSTRAINT     "@T_screen_name_owner"                       \n\
                    UNIQUE (screen_name, owner)                  \n\
-    );'.replace('@T', table);
+    );'.replace(/@T/g, table);
     r.create(sql);
 
   }

@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
              "to_id"       int DEFAULT NULL,                         \n\
              trashed_at    $null_tz,                                 \n\
              CONSTRAINT    "@T_from_id" UNIQUE ("from_id", "to_id")  \n\
-             );'.replace('@T', table));
+             );'.replace(/@T/g, table));
 
   }
 };

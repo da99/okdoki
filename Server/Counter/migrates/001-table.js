@@ -14,16 +14,16 @@ m.migrate = function (dir, r) {
 
   } else {
 
-    var sql = 'CREATE TABLE IF NOT EXISTS "@TABLE" (            \n\
+    var sql = 'CREATE TABLE IF NOT EXISTS "@T" (            \n\
     id             serial PRIMARY KEY,                          \n\
     parent_type_id smallint DEFAULT 0 NOT NULL,                 \n\
     parent_id      int DEFAULT 0 NOT NULL,                      \n\
     child_type_id  smallint DEFAULT 0 NOT NULL,                 \n\
     child_id       int DEFAULT 0 NOT NULL,                      \n\
     count          smallint DEFAULT 0 NOT NULL,                 \n\
-    CONSTRAINT     "@TABLE_item_count\"                         \n\
+    CONSTRAINT     "@T_item_count\"                         \n\
                    UNIQUE (parent_type_id, parent_id, child_type_id, child_id)" \n\
-    );'.replace('@TABLE', table);
+    );'.replace(/@T/g, table);
     r.create(sql);
 
   }

@@ -24,7 +24,7 @@ m.migrate = function (dir, r) {
     $trashed_at         ,                                       \n\
     CONSTRAINT          "@T_num"    UNIQUE (website_id, num)    \n\
     CONSTRAINT          "@T_title"  UNIQUE (website_id, title)  \n\
-    );'.replace('@T', table);
+    );'.replace(/@T/g, table);
     r.create(sql);
 
   }

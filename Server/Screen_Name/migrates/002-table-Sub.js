@@ -24,7 +24,7 @@ m.migrate = function (dir, r) {
     $updated_at    ,                                            \n\
     $trashed_at    ,                                            \n\
     CONSTRAINT "@T_name" UNIQUE (owner, prefix)                 \n\
-    );'.replace('@T', table);
+    );'.replace(/@T/g, table);
     r.create(sql);
 
   }

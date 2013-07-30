@@ -21,7 +21,7 @@ m.migrate = function (dir, r) {
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
-    );'.replace('@T', table);
+    );'.replace(/@T/g, table);
     r.create(sql);
 
   }

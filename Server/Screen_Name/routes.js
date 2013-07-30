@@ -43,6 +43,23 @@ exports.route = function (mod) {
     });
   });
 
+  app.post('/Bot/use', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job('create', function (j) {
+      Bot_Use.create({
+        screen_name : req.body.screen_name,
+        owner       : req.body.as_this_life
+      }, j);
+    })
+    .run(function (fin, o) {
+      var use = o.public_data();
+      return resp.json({
+        success: true,
+        msg: 'You are now using, ' + use.screen_name + ', with ' + use.owner + '.'
+      });
+    });
+  });
+
   // =============== READ ===========================================
 
   app.get('/me/:screen_name', function (req, resp, next) {

@@ -18,8 +18,10 @@ m.migrate = function (dir, r) {
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\
-    );'.replace('@T', table);
-    r.create(sql);
+    );'.replace(/@T/g, table);
+    r.create(sql,
+             'CREATE INDEX "@T_" ON "@T" ()'.replace(/@T/g, table)
+            );
 
   }
 };

@@ -18,9 +18,9 @@ m.migrate = function (dir, r) {
     last_seen_at          $now_tz,                                \n\
     is_in                 boolean DEFAULT false,                  \n\
     CONSTRAINT "@T_seat" UNIQUE (chat_room, owner)                \n\
-    );'.replace('@T', table);
+    );'.replace(/@T/g, table);
     r.create(sql,
-             'CREATE INDEX "@T_owner" ON "@T" ( owner );'.replace('@T', table)
+             'CREATE INDEX "@T_owner" ON "@T" ( owner );'.replace(/@T/g, table)
             );
 
   }
