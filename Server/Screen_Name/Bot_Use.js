@@ -2,6 +2,7 @@
 var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
+, Bot         = require("../Screen_Name/Bot").Bot
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 , H           = require("../App/Helpers").H
@@ -41,17 +42,28 @@ Bot_Use.prototype.public_data = function () {
 // ================== Create ======================================
 // ================================================================
 Bot_Use.create = function (raw_data, flow) {
+  var sn = raw_data.bot.split('@');
   var data = {
-    bot: raw_data.bot,
-    owner: raw_data.owner
+    prefix: sn[0],
+    publisher: sn[1],
+    owner: raw_data.owner,
+    TABLES: {T: Bot.TABLE_NAME}
   };
 
   River.new(flow)
   .job(function (j) {
-    TABLE.create(data, j);
+    var sql = "\
+      INSERT INTO @table (bot_id, owner)                    \n\
+      SELECT id, @owner AS owner                            \n\
+      FROM  @T                                              \n\
+      WHERE prefix = @prefix AND owner = @publisher         \n\
+      RETURNING *                                           \n\
+    ;";
+    TABLE
+    .run_and_return_at_most_1(sql, data, j);
   })
   .job(function (j, record) {
-    j.finish(Bot_Use.new(record));
+    j.finish(Bot_Use.new(_.extend({bot: raw_data.bot}, record)));
   })
   .run();
 };
