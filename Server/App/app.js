@@ -3,6 +3,11 @@ var e_e_e = require('escape_escape_escape').Sanitize.html;
 var IS_DEV = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
 var server = null;
+var Tally_Ho = require('tally_ho').Tally_Ho;
+
+// ================================================================
+// ================== Events ======================================
+// ================================================================
 
 // ================================================================
 // ================== Require the Packages ========================
@@ -53,7 +58,6 @@ exports.is_allow_unauth_path = function (req) {
   var i = ALLOW_UNAUTH_PATHS.indexOf(req.method.toUpperCase() + ':' + req.path.toUpperCase());
   return i > -1;
 };
-
 
 var New_River = exports.New_River = function (req, resp, next) {
   if (req.length) {
@@ -194,6 +198,24 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
     }
   };
 };
+
+
+// ================================================================
+// ================== Event Emitter ===============================
+// ================================================================
+
+var EVE = exports.emitter = Tally_Ho.new();
+
+EVE.on('parent emit', function (flow) {
+  if (flow.data.length) {
+    flow.data = {http: flow.data};
+    flow.data.req = flow.data.http[0];
+    flow.data.resp= flow.data.http[1];
+    flow.data.next= flow.data.http[2];
+  }
+
+  return flow.finish();
+});
 
 
 

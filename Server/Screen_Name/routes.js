@@ -12,8 +12,9 @@ var _         = require('underscore')
 
 exports.route = function (mod) {
 
-  var OK = mod.app;
+  var OK  = mod.app;
   var app = mod.app;
+  var EVE = mod.flow;
 
 
   // =============== CREATE =========================================
@@ -63,9 +64,21 @@ exports.route = function (mod) {
 
   // =============== READ ===========================================
 
+  // ==== Redirect to canonical screen name.
+  app.get('/:type/:screen_name', function (req, resp, next) {
+    var type = req.params.type;
+    var sn   = req.params.screen_name;
+    if (['me', 'bot'].indexOf(type) < 0)
+      return next();
+
+    var canon = Canon_SN(sn);
+    if (canon !== sn)
+      return resp.redirect(301, "/" + type + "/" + canon);
+    return next();
+  });
+
+
   app.get('/me/:screen_name', function (req, resp, next) {
-    if (Canon_SN(req.params.screen_name) !== req.params.screen_name)
-      return resp.redirect(301, "/me/" + Canon_SN(req.params.screen_name))
     var OK     = mod.New_Request(req, resp, next);
     var data   = null;
 
@@ -85,8 +98,6 @@ exports.route = function (mod) {
   });
 
   app.get('/bot/:screen_name', function (req, resp, next) {
-    if (Canon_SN(req.params.screen_name) !== req.params.screen_name)
-      return resp.redirect(301, "/bot/" + Canon_SN(req.params.screen_name))
 
     var OK = mod.New_Request(req, resp, next);
     mod.New_River(req, resp, next)
