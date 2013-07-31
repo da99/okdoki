@@ -61,7 +61,7 @@ function define(str, func) {
   return WWW_Applet;
 }
 
-WWW_Applet.INVALID_CSS_CHARS = /[^a-zA-Z0-9\#\_\ ]+/ig;
+WWW_Applet.INVALID_CSS_CHARS = /[^a-zA-Z0-9\#\_\-\ ]+/ig;
 
 function css_attr(str) {
   return str.replace(WWW_Applet.INVALID_CSS_CHARS, '');
@@ -131,6 +131,7 @@ define('list', function () {
   return me;
 });
 
+// From: http://stackoverflow.com/questions/5915096/get-random-item-from-array-with-jquery
 define('random item', function () {
   var me = this;
   var list = _.last(me.stack);
@@ -149,10 +150,12 @@ define('is text of', function (id) {
 });
 
 
-define('padding', function (str) {
-  var me = this;
-  css( _.last(me.stack), 'padding', str);
-  return me;
+_.each(['padding', 'font-size'], function (attr) {
+  define(attr, function (val) {
+    var me = this;
+    css( _.last(me.stack), attr, val);
+    return me;
+  });
 });
 
 
