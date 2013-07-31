@@ -10,6 +10,7 @@ var Refresh = 4 // seconds
 , Ok        = require('../Ok/model')
 , path      = require('path')
 , log       = require("../App/base").log
+, EVE       = require('tally_ho').Tally_Ho
 ;
 
 var valid_chars = "a-zA-Z0-9\\-\\_\\.";
@@ -252,25 +253,16 @@ S.read_by_id = function (id, flow) {
   .run();
 };
 
-S.read_by_screen_name = function (n, customer, flow) {
-  if (arguments.length === 2) {
-    flow = customer;
-    customer = null;
-  }
+EVE.on('read life by screen name', function (flow) {
+  var sn = flow.data.screen_name;
+  EVE.run(flow, function (j) {
+    Topogo.new(TABLE_NAME)
+    .read_one({screen_name: sn.toUpperCase()}, j);
+  }, function (j) {
+    j.finish(S.new(j.last));
+  });
+});
 
-  River.new(flow)
-  .job('read screen name:', n, function (j) {
-    Topogo.new(TABLE_NAME).read_one({screen_name: n.toUpperCase()}, j)
-  })
-  .job(function (j, r) {
-    if (!r)
-      return j.finish();
-    var sn = S.new(r);
-    sn.customer(customer || stranger);
-    j.finish(sn);
-  })
-  .run();
-};
 
 S.find_screen_name_keys = function (arr) {
   var key = _.detect([ 'screen_name_id', 'publisher_id', 'owner_id', 'author_id', 'follower_id'], function (k) {

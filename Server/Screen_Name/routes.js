@@ -78,28 +78,25 @@ exports.route = function (mod) {
   });
 
   app.get('/me/:screen_name', function (req, resp, next) {
-    var OK     = mod.New_Request(req, resp, next);
-    var data   = null;
+    var OK     = req.OK;
 
-    mod.New_River(req, resp, next)
-    .read_one('screen_name', function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
-    })
-    .job(function (j, list) {
-      if (!list)
-        return req.next();
-      var uni = list.website;
-      data               = OK.template_data('Screen_Name/me');
-      data['title']      = "The life of " + req.params.screen_name;
+    EVE.emit('read life by screen name', {screen_name: req.params.screen_name}, function (o) {
+      var life = o.val;
+      if (!life)
+        return next();
+
+      var data      = OK.template_data('Screen_Name/me');
+      data['title'] = "The life of " + life.data.screen_name;
       OK.render_template();
-    })
-    .run();
+    });
+    return;
+
   });
 
   app.get('/bot/:screen_name', function (req, resp, next) {
 
     EVE.emit('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
-      var bot = o.last;
+      var bot = o.val;
 
       if (!bot)
         return req.next();
