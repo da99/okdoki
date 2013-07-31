@@ -12,6 +12,7 @@ var _         = require("underscore")._
 , Check       = require('da_check').Check
 , E_E_E       = require('escape_escape_escape').Sanitize.html
 , UN_ESCAPE   = require('escape_escape_escape').Sanitize.un_escape
+, EVE         = require('tally_ho').Tally_Ho
 ;
 
 
@@ -97,6 +98,16 @@ Bot.read_list_to_run = function (sn, flow) {
   })
   .run();
 };
+
+EVE.on('read bot by screen name', function (flow) {
+  var pieces = flow.data.screen_name.split('@');
+
+  EVE.run(flow, function (j) {
+    TABLE.read_one({prefix: pieces[0], owner: pieces[1]}, j);
+  }, function (j) {
+    j.finish(Bot.new(j.last));
+  });
+});
 
 Bot.read_by_screen_name = function (sn, flow) {
   var pieces = sn.split('@');

@@ -1,9 +1,11 @@
-var blade = require('blade');
-var e_e_e = require('escape_escape_escape').Sanitize.html;
-var IS_DEV = !!process.env.IS_DEV;
+
+
+var blade     = require('blade');
+var e_e_e     = require('escape_escape_escape').Sanitize.html;
+var IS_DEV    = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
-var server = null;
-var Tally_Ho = require('tally_ho').Tally_Ho;
+var server    = null;
+var EVE       = require('tally_ho').Tally_Ho;
 
 // ================================================================
 // ================== Events ======================================
@@ -201,27 +203,6 @@ var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) 
 
 
 // ================================================================
-// ================== Event Emitter ===============================
-// ================================================================
-
-var EVE = exports.emitter = Tally_Ho.new();
-
-EVE.on('parent emit', function (flow) {
-  if (flow.data.length) {
-    flow.data = {http: flow.data};
-    flow.data.req = flow.data.http[0];
-    flow.data.resp= flow.data.http[1];
-    flow.data.next= flow.data.http[2];
-  }
-
-  return flow.finish();
-});
-
-
-
-
-
-// ================================================================
 // ================== Basic Options ==============================*
 // ================================================================
 
@@ -397,7 +378,8 @@ app.configure(function () {
   app.use(app.router)
 
   // ==============================================================
-  // Escape the data: ==============================================
+  // Escape the data: =============================================
+  // Set up default helpers, like New_Request: ====================
   // ==============================================================
   app.all('*', function (req, resp, next) {
     _.each("params query body cookies".split(" "), function (k, i) {
@@ -413,6 +395,8 @@ app.configure(function () {
 
       req[k] = e_e_e(req[k]);
     });
+
+    req.OK = New_Request(req, resp, next);
     next();
   });
 

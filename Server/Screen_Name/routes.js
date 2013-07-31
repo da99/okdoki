@@ -8,13 +8,13 @@ var _         = require('underscore')
 , Follow      = require('../Follow/model').Follow
 , log         = require("../App/base").log
 , Canon_SN    = require("../../Client/js/Screen_Name").canonize_screen_name
+, EVE         = require('tally_ho').Tally_Ho
 ;
 
 exports.route = function (mod) {
 
   var OK  = mod.app;
   var app = mod.app;
-  var EVE = mod.flow;
 
 
   // =============== CREATE =========================================
@@ -77,7 +77,6 @@ exports.route = function (mod) {
     return next();
   });
 
-
   app.get('/me/:screen_name', function (req, resp, next) {
     var OK     = mod.New_Request(req, resp, next);
     var data   = null;
@@ -99,19 +98,21 @@ exports.route = function (mod) {
 
   app.get('/bot/:screen_name', function (req, resp, next) {
 
-    var OK = mod.New_Request(req, resp, next);
-    mod.New_River(req, resp, next)
-    .job('read', function (j) {
-      Bot.read_by_screen_name(req.params.screen_name, j);
-    })
-    .run(function (fin, o) {
-      if (!o)
+    EVE.emit('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
+      var bot = o.last;
+
+      if (!bot)
         return req.next();
-      var data = OK.template_data('Screen_Name/bot');
-      data['bot']   = o.public_data();
+
+      var OK   = req.OK;
+
+      var data      = OK.template_data('Screen_Name/bot');
+      data['bot']   = bot.public_data();
       data['title'] = data['bot'].screen_name;
+
       OK.render_template();
     });
+
   });
 
   app.get('/bots/for/:screen_name', function (req, resp, next) {
