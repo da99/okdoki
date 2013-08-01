@@ -88,13 +88,18 @@ Bot.read_list_to_run = function (sn, flow) {
   .job('read', function (j) {
     TABLE.run("\
               SELECT *                              \n\
-              FROM @table                           \n\
-              WHERE id in (                         \n\
+              FROM @table RIGHT JOIN @SNS           \n\
+                   ON @table.screen_name_sub_id =   \n\
+                      @SNS.id                       \n\
+              WHERE @SNS.id in (                    \n\
                 SELECT bot_id                       \n\
                 FROM @BU                            \n\
                 WHERE owner = @sn                   \n\
               ) AND code IS NOT NULL                \n\
-              ;", {sn: sn, TABLES: {BU: "Bot_Use"}}, j);
+              ;", {sn: sn, TABLES: {
+                SNS: "Screen_Name_Sub",
+                BU: "Bot_Use"
+              }}, j);
   })
   .job('to objects', function (j, list) {
     j.finish(_.map(list, function (r) {
