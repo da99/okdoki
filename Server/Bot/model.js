@@ -18,7 +18,7 @@ var _         = require("underscore")._
 
 var Bot = exports.Bot = Ok.Model.new(function () {});
 
-var TABLE_NAME = exports.Bot.TABLE_NAME = "Screen_Name_Sub";
+var TABLE_NAME = exports.Bot.TABLE_NAME = "Bot";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Bot._new = function () {
@@ -54,6 +54,7 @@ Bot.create = function (raw_data, flow) {
   var prefix = H.null_if_empty(raw_data.prefix.toLowerCase().replace(Screen_Name.INVALID_CHARS, '').slice(0,15));
   var owner  = H.null_if_empty(raw_data.owner);
   var sn     = prefix + '@' + owner;
+  var sn_sub = null;
   var data = {
     type_id     : 0,
     prefix      : prefix,
@@ -62,14 +63,19 @@ Bot.create = function (raw_data, flow) {
 
   River.new(flow)
   .job(function (j) {
-    TABLE
+    Topogo.new("Screen_Name_Sub")
     .on_dup(function (constraint_name) {
       j.finish('invalid', "Name already taken: " + sn);
     })
     .create(data, j);
   })
+  .job(function (j, last) {
+    sn_sub = last;
+    TABLE
+    .create({screen_name_sub_id: last.id}, j);
+  })
   .job(function (j, record) {
-    j.finish(Bot.new(record));
+    j.finish(Bot.new(_.extend({}, sn_sub, record)));
   })
   .run();
 };
@@ -100,13 +106,33 @@ Bot.read_list_to_run = function (sn, flow) {
 };
 
 EVE.on('read bot by screen name', function (flow) {
-  var pieces = flow.data.screen_name.split('@');
 
   EVE.run(flow, function (j) {
-    TABLE.read_one({prefix: pieces[0], owner: pieces[1]}, j);
+    var pieces = flow.data.screen_name.split('@');
+    var data = {prefix: pieces[0], owner: pieces[1]};
+    var sql = "\
+      SELECT *                       \n\
+      FROM @table RIGHT JOIN         \n\
+        \"Screen_Name_Sub\"          \n\
+        ON @table.screen_name_sub_id = \
+           \"Screen_Name_Sub\".id    \n\
+      WHERE prefix = @prefix AND     \n\
+            owner  = @owner          \n\
+      LIMIT 1                        \n\
+    ;";
+
+    River.new()
+    .job(function (j) {
+      TABLE.run_and_return_at_most_1(sql, data, j);
+    })
+    .job(function (job, last) {
+      j.finish(last);
+    })
+    .run();
   }, function (j) {
     j.finish(Bot.new(j.last));
   });
+
 });
 
 Bot.read_by_screen_name = function (sn, flow) {
@@ -140,11 +166,17 @@ Bot.update = function (data, flow) {
   }
 
   River.new(flow)
-  .job('update', function (j) {
-    TABLE.update_one({
+  .job('read sn', function (j) {
+    Topogo.new("Screen_Name_Sub")
+    .read_one({
       prefix: sn[0],
       owner: sn[1]
-    }, clean, j);
+    }, j);
+  })
+  .job('update bot', function (j, last) {
+    if (!last)
+      return j.finish("invalid", "Bot not found: " + sn.join('@'));
+    TABLE.update_one({screen_name_sub_id: last.id}, clean, j);
   })
   .job('to object', function (j, row) {
     j.finish(Bot.new(row));
