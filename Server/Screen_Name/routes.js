@@ -1,8 +1,8 @@
 
 var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
-, Bot         = require('../Screen_Name/Bot').Bot
-, Bot_Use     = require('../Screen_Name/Bot_Use').Bot_Use
+, Bot         = require('../Bot/model').Bot
+, Bot_Use     = require('../Bot/Use').Bot_Use
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Follow      = require('../Follow/model').Follow
@@ -80,7 +80,7 @@ exports.route = function (mod) {
   app.get('/me/:screen_name', function (req, resp, next) {
     var OK     = req.OK;
 
-    EVE.emit('read life by screen name', {screen_name: req.params.screen_name}, function (o) {
+    EVE.run('read life by screen name', {screen_name: req.params.screen_name}, function (o) {
       var life = o.val;
       if (!life)
         return next();
@@ -95,7 +95,7 @@ exports.route = function (mod) {
 
   app.get('/bot/:screen_name', function (req, resp, next) {
 
-    EVE.emit('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
+    EVE.run('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
       var bot = o.val;
 
       if (!bot)

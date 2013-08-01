@@ -2,7 +2,7 @@
 var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
-, Bot_Use     = require("../Screen_Name/Bot_Use").Bot_Use
+, Bot_Use     = require("../Bot/Use").Bot_Use
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 , H           = require("../App/Helpers").H

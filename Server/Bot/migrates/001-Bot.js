@@ -1,6 +1,6 @@
 
 
-var table = 'Screen_Name_Sub';
+var table = "Bot";
 var m     = module.exports = {};
 
 var _     = require('underscore');
@@ -15,14 +15,12 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = 'CREATE TABLE "@T" (                              \n\
-    id             serial PRIMARY KEY,                          \n\
-    type_id        smallint DEFAULT 0 NOT NULL,                 \n\
-    prefix         varchar(50) NOT NULL,                        \n\
-    owner          varchar(50) NOT NULL,                        \n\
+    screen_name_sub_id                                          \n\
+       int PRIMARY KEY references \"Screen_Name_Sub\"(id),      \n\
+    code           text,                                        \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
-    $trashed_at    ,                                            \n\
-    CONSTRAINT "@T_name" UNIQUE (owner, prefix)                 \n\
+    $trashed_at                                                 \n\
     );'.replace(/@T/g, table);
     r.create(sql);
 
