@@ -125,14 +125,7 @@ EVE.on('read bot by screen name', function (flow) {
       LIMIT 1                        \n\
     ;";
 
-    River.new()
-    .job(function (j) {
-      TABLE.run_and_return_at_most_1(sql, data, j);
-    })
-    .job(function (job, last) {
-      j.finish(last);
-    })
-    .run();
+    TABLE.run_and_return_at_most_1(sql, data, j);
   }, function (j) {
     j.finish(Bot.new(j.last));
   });
