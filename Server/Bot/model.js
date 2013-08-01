@@ -2,7 +2,6 @@
 var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
-, Bot_Use     = require("../Bot/Use").Bot_Use
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 , H           = require("../App/Helpers").H
@@ -95,7 +94,7 @@ Bot.read_list_to_run = function (sn, flow) {
                 FROM @BU                            \n\
                 WHERE owner = @sn                   \n\
               ) AND code IS NOT NULL                \n\
-              ;", {sn: sn, TABLES: {BU: Bot_Use.TABLE_NAME}}, j);
+              ;", {sn: sn, TABLES: {BU: "Bot_Use"}}, j);
   })
   .job('to objects', function (j, list) {
     j.finish(_.map(list, function (r) {
