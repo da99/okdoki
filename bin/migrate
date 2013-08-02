@@ -50,11 +50,24 @@ case "$cmd" in
     ;;
 
   down)
+
+    # === Reverse mods to delete tables in reverse.
+    new_mods=()
+    for (( idx=${#mods[@]}-1 ; idx >= 0 ; idx-- ))
+    do
+      new_mods+=( "${mods[idx]}" )
+    done
+
+    mods=("${new_mods[@]}")
+
+    # === Ensure dev machine.
     if [ ! -n "${IS_DEV+x}" ]
     then
       echo "This is not a dev machine."
       exit 1
     fi
+
+    # === Run.
     if [[ "$cmd" == "$full_cmd" ]]
     then
       run_all
