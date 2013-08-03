@@ -1,8 +1,10 @@
 include "../../layout.blade"
 
-append styles
-  call css("/Screen_Name/me/style.css")
+function show_settings()
+  a.show_more(href="#show_more") Other settings...
 
+prepend styles
+  call css("/Screen_Name/me/style.css")
 
 append templates
 
@@ -16,21 +18,7 @@ append content
       h3.name #{screen_name}
       div.what_am_i (i'm a bot)
 
-    div.box.status.not_ready
-      h3 Status:
-      div.content
-        | Not ready.
-
-    div.box
-      div.content
-        | I'm already using this bot as ...
-        form#Bot_Use_Create(action="/Bot/use", method="POST")
-          div.buttons
-            input(type="hidden", name="bot", value="#{screen_name}")
-            call span_as()
-            button.submit Use this bot.
-
-    div.box
+    div.box#About_Me
       h3 About me:
       div.content
         form#Bot_About_Me_Update(action="/Bot", method="POST")
@@ -42,38 +30,56 @@ append content
             input(type="hidden", value="#{screen_name}", name="screen_name")
             button.submit Update "About me."
 
-    div.box
-      h3  Code:
-      div.content
-        form#Bot_Code_Update(action="/Bot", method="POST")
-          div.fields
-            div.field.code
-              textarea(name="code") #{bot.code}
-          div.buttons
-            input(type="hidden", value="PUT", name="_method")
-            input(type="hidden", value="#{bot.prefix}", name="prefix")
-            input(type="hidden", value="#{bot.owner}", name="as_this_life")
-            button.submit Update code.
+    h2 Code
+
+    div#Code
+
+      - for (var x in Bot_Code.types)
+        - var code_type = Bot_Code.types[x]
+        div.box.update_code
+          div.show_more
+            a.show_more(href="#show_more") Show
+            h4.name On #{code_type.charAt(0).toUpperCase() + code_type.slice(1)}
+          div.show
+            h3 On #{code_type.toUpperCase()}
+            div.content
+
+              form(id="Bot_Code_#{code_type}", action="/Bot", method="POST")
+                div.fields
+                  div.field.code
+                    textarea(name="code") #{bot.code}
+                div.buttons
+                  input(type="hidden", value="PUT", name="_method")
+                  input(type="hidden", value="#{bot.prefix}", name="prefix")
+                  input(type="hidden", value="#{bot.owner}", name="as_this_life")
+                  input(type="hidden", value="#{bot.type}", name="type")
+                  button.submit Update
+                  a.show_less(href='#cancel') Cancel
 
   #Options
     h2 For My Audience
-    div.box
-      div.content
-        - for (var x in customer_screen_names)
-          div.setting
-            call on_off()
-            span.name #{customer_screen_names[x]}
+    - for (var x in customer_screen_names)
+      div.setting
+        call on_off('off', true)
+        span.name #{customer_screen_names[x]}
+        input(type="hidden", value="#{customer_screen_names[x]}", name="as_this_life")
 
     h2 For My Use
-    div.box
-      div.content
-        div.setting
-          call on_off()
-          span.name Multi-Life Home
-        - for (var x in customer_screen_names)
-          div.setting
-            call on_off("on")
-            span.name #{customer_screen_names[x]}
+    div.setting
+      call on_off('off', true)
+      span.name Multi-Life Home
+      form(id="settings_multi_life", action="/bot/settings/multi_life", method="PUT")
+        div.fields
+          div.field
+            label Zip Code:
+            input(type="text", name="zip_code", value="")
+        div.buttons
+          button.submit Submit
+    - for (var x in customer_screen_names)
+      div.setting
+        call on_off("on", true)
+        span.name #{customer_screen_names[x]}
+        input(type="hidden", value="#{customer_screen_names[x]}", name="as_this_life")
 
 
   //- ===========================================================

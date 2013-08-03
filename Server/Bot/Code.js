@@ -11,10 +11,17 @@ var _         = require("underscore")._
 ;
 
 
-var Code = exports.Code = Ok.Model.new(function () {});
+var Code = Ok.Model.new(exports, 'Bot_Code');
 
-var TABLE_NAME = exports.Code.TABLE_NAME = "Code";
+var TABLE_NAME = Code.TABLE_NAME = "Code";
 var TABLE = Topogo.new(TABLE_NAME);
+
+Code.types = [
+  'settings',
+  'all',
+  'multi_life',
+  'life'
+];
 
 Code._new = function () {
   var o = this;

@@ -1,3 +1,9 @@
+#Sidebar {
+  background: transparent;
+}
+#Sidebar h2 {
+  margin: 10px 0;
+}
 #Sidebar div.status {
   text-align: left;
   border-bottom: 1px dashed #ccc;
@@ -12,17 +18,37 @@
 #Sidebar div.not_ready {
   background: #ffea74;
 }
+#Sidebar #About_Me div.content {
+  border: 0;
+}
+#Sidebar div.box div.content {
+  padding-bottom: 10px;
+}
+div.update_code h4 {
+  display: inline;
+  font-weight: normal;
+}
+div.update_code a.show_less {
+  float: right;
+}
+div.update_code div.show_more {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px dashed #ccc;
+}
+div.update_code div.show {
+  display: none;
+}
+div.update_code:last-child div.show_more {
+  border-bottom: 0;
+}
 #Options {
   margin: 10px 0 10px 10px;
   float: left;
   min-width: 300px;
 }
-#Options div.box {
-  margin: 0 0 10px 0;
-}
-#Options div.box div.content {
+#Options div.setting {
+  background: #fff;
+  margin: 10px 0;
   padding: 10px 5px 10px 10px;
-}
-#Options div.box div.content div.setting {
-  padding: 3px 0;
 }

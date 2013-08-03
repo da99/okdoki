@@ -1,7 +1,6 @@
 
 var _         = require("underscore")._
 
-, Screen_Name = require("../Screen_Name/model").Screen_Name
 , Ok          = require('../Ok/model')
 , log         = require("../App/base").log
 , H           = require("../App/Helpers").H
@@ -14,6 +13,7 @@ var _         = require("underscore")._
 , F           = require('tally_ho').Tally_Ho
 ;
 
+require('./Code');
 
 var Bot = exports.Bot = Ok.Model.new(function () {});
 

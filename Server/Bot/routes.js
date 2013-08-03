@@ -7,6 +7,7 @@ var _ = require("underscore")._
 
 var Bot       = Ok.Bot
 , Bot_Use     = Ok.Bot_Use
+, Bot_Code    = Ok.Bot_Code
 , Screen_Name = Ok.Screen_Name
 ;
 
@@ -54,13 +55,12 @@ exports.route = function (mod) {
       if (!bot)
         return req.next();
 
-      var OK   = req.OK;
+      var data         = req.OK.template_data('Bot/bot');
+      data['bot']      = bot.public_data();
+      data['title']    = data['bot'].screen_name;
+      data['Bot_Code'] = Bot_Code;
 
-      var data      = OK.template_data('Bot/bot');
-      data['bot']   = bot.public_data();
-      data['title'] = data['bot'].screen_name;
-
-      OK.render_template();
+      req.OK.render_template();
     });
 
   });

@@ -27,14 +27,10 @@ a:visited:hover {
   background: #966e7f;
 }
 a:link.on,
-a:link.off {
+a:link.off,
+a:link.show_more {
   border-radius: 3px;
-}
-a:link.on {
   margin: 0 4px 0 0;
-}
-a:link.off {
-  margin: 0 3px 0 0;
 }
 a:link.on:hover {
   background: #59ad38;

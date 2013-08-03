@@ -1,11 +1,13 @@
 !!! 5
 html(lang='en')
 
-  function on_off(val)
+  function on_off(val, show_more)
     - var _class = (!val || val === 'off') ? 'off' : 'on'
     span(class="on_off #{_class}")
       a.on(href="#on") On
       a.off(href="#off") Off
+      - if (show_more)
+        a.show_more(href="#more_settings") Settings
 
   function span_as()
     span.as_this_life

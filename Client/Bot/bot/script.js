@@ -3,6 +3,15 @@
 
 $(function () {
 
+  on_click('#Code a.show_more', function () {
+    $(this).parent().hide();
+    $(this).parents('div.update_code').find('div.show').show();
+  });
+
+  on_click('#Code a.show_less', function () {
+    $(this).parents('div.update_code').find('div.show').hide();
+    $(this).parents('div.update_code').find('div.show_more').show();
+  });
 
 }); // ==== jquery on dom ready
 
