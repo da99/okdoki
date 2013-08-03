@@ -1,8 +1,18 @@
 var _ = require('underscore')._
 ;
 
+exports.models = {};
+
 exports.Model = {
   new : function (m) {
+    if (arguments.length === 2) {
+      var exp  = arguments[0];
+      var name = arguments[1];
+      if (exp[name])
+        throw new Error(name + " already defined.");
+      exports.Model[name] = exp[name] = exports.Model.new(function () {});;
+      return exp[name];
+    }
 
     if (m.new) {
       throw new Error(".new already defined.");
