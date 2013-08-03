@@ -1,6 +1,12 @@
 !!! 5
 html(lang='en')
 
+  function on_off(val)
+    - var _class = (!val || val === 'off') ? 'off' : 'on'
+    span(class="on_off #{_class}")
+      a.on(href="#on") On
+      a.off(href="#off") Off
+
   function span_as()
     span.as_this_life
       span.as as:&nbsp;

@@ -12,3 +12,17 @@
 #Sidebar div.not_ready {
   background: #ffea74;
 }
+#Options {
+  margin: 10px 0 10px 10px;
+  float: left;
+  min-width: 300px;
+}
+#Options div.box {
+  margin: 0 0 10px 0;
+}
+#Options div.box div.content {
+  padding: 10px 5px 10px 10px;
+}
+#Options div.box div.content div.setting {
+  padding: 3px 0;
+}

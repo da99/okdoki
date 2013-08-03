@@ -1,3 +1,6 @@
+h2 {
+  margin: 0 10px 10px 0;
+}
 body {
   background: #fafafa url("/img/patterns/wood_pattern.png");
 }
@@ -7,17 +10,6 @@ div.APP_ERROR {
   padding: 10px;
   font-size: 140%;
   font-weight: bold;
-}
-h2 {
-  font-size: 110%;
-  padding: 4px;
-  margin: 0 10px 10px 0;
-  text-align: center;
-  color: #fff;
-  text-shadow: #4d4d4d 0.1em 0.1em 0.1em;
-  font-weight: normal;
-  background: rgba(0,0,0,0.3);
-  border-radius: 6px 6px 0 0;
 }
 form div.field span.label,
 form div.field label {
@@ -173,23 +165,6 @@ h4 {
   float: right;
   padding: 0;
   margin: 0;
-}
-#Options div.setting a:link.on,
-#Options div.setting a:link.off {
-  border-radius: 3px;
-}
-#Options div.setting a:link.on {
-  margin: 0 4px 0 0;
-}
-#Options div.setting a:link.off {
-  display: none;
-  margin: 0 3px 0 0;
-}
-#Options div.setting a:link.on:hover {
-  background: $green;
-}
-#Options div.setting a:link.off:hover {
-  background: #ff8f00;
 }
 #Options h3 {
   padding-bottom: 1px;

@@ -26,11 +26,47 @@ a:visited:hover {
   color: #fff;
   background: #966e7f;
 }
+a:link.on,
+a:link.off {
+  border-radius: 3px;
+}
+a:link.on {
+  margin: 0 4px 0 0;
+}
+a:link.off {
+  margin: 0 3px 0 0;
+}
+a:link.on:hover {
+  background: #59ad38;
+}
+a:link.off:hover {
+  background: #ff8f00;
+}
+span.on a:link.on,
+span.off a:link.off {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: default;
+}
+span.on a:link.on {
+  background: #59ad38;
+}
+span.off a:link.off {
+  background: #ff8f00;
+}
 h2 {
-  font-size: 1em;
   line-height: 1.5em;
   padding: 0;
   margin: 0;
+  font-size: 110%;
+  padding: 4px;
+  text-align: center;
+  color: #fff;
+  text-shadow: #4d4d4d 0.1em 0.1em 0.1em;
+  font-weight: normal;
+  background: rgba(0,0,0,0.3);
+  border-radius: 6px 6px 0 0;
 }
 h3 {
   padding: 0;

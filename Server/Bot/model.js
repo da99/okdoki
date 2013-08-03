@@ -11,7 +11,7 @@ var _         = require("underscore")._
 , Check       = require('da_check').Check
 , E_E_E       = require('escape_escape_escape').Sanitize.html
 , UN_ESCAPE   = require('escape_escape_escape').Sanitize.un_escape
-, EVE         = require('tally_ho').Tally_Ho
+, F           = require('tally_ho').Tally_Ho
 ;
 
 
@@ -109,9 +109,9 @@ Bot.read_list_to_run = function (sn, flow) {
   .run();
 };
 
-EVE.on('read bot by screen name', function (flow) {
+F.on('read Bot by screen name', function (flow) {
 
-  EVE.run(flow, function (j) {
+  F.run(flow, function (j) {
     var pieces = flow.data.screen_name.split('@');
     var data = {prefix: pieces[0], owner: pieces[1]};
     var sql = "\

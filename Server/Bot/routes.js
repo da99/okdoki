@@ -48,7 +48,7 @@ exports.route = function (mod) {
 
   app.get('/bot/:screen_name', function (req, resp, next) {
 
-    F.run('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
+    F.run('read Bot by screen name', {screen_name: req.params.screen_name}, function (o) {
       var bot = o.val;
 
       if (!bot)

@@ -55,6 +55,26 @@ append content
             input(type="hidden", value="#{bot.owner}", name="as_this_life")
             button.submit Update code.
 
+  #Options
+    h2 For My Audience
+    div.box
+      div.content
+        - for (var x in customer_screen_names)
+          div.setting
+            call on_off()
+            span.name #{customer_screen_names[x]}
+
+    h2 For My Use
+    div.box
+      div.content
+        div.setting
+          call on_off()
+          span.name Multi-Life Home
+        - for (var x in customer_screen_names)
+          div.setting
+            call on_off("on")
+            span.name #{customer_screen_names[x]}
+
 
   //- ===========================================================
   //- ===========================================================
