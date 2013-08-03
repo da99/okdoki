@@ -1,6 +1,6 @@
 
 
-var table = "Bot_Use";
+var table = "Bot_For_Aud";
 var m     = module.exports = {};
 
 var _     = require('underscore');
@@ -15,16 +15,20 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = 'CREATE TABLE "@T" (                              \n\
-    id             serial PRIMARY KEY,                          \n\
+    id             SERIAL PRIMARY KEY,                          \n\
     bot_id         int DEFAULT 0 NOT NULL,                      \n\
-    owner          varchar(50) NOT NULL,                        \n\
+    target_type    smallint DEFAULT 0 NOT NULL,                 \n\
+    target_id      int NOT NULL,                                \n\
+    is_on          boolean DEFAULT \'f\' NOT NULL,              \n\
+    is_except      boolean DEFAULT \'f\' NOT NULL,              \n\
+    settings       text,                                        \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at    ,                                            \n\
-    CONSTRAINT "@T_owner_bot_id" UNIQUE (owner, bot_id)         \n\
+    CONSTRAINT "@T_use" UNIQUE (target_type, target_id, bot_id, is_except) \n\
     );'.replace(/@T/g, table);
     r.create(sql,
-            'CREATE INDEX "@T_bot_id_owner" ON "@T" (bot_id, owner)'.replace(/@T/g, table)
+             'CREATE INDEX "@T_target" ON "@T" (target_type, target_id)'.replace(/@T/g, table)
             );
 
   }
