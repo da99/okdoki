@@ -2,7 +2,7 @@
 var _         = require('underscore')
 , Screen_Name = require('../Screen_Name/model').Screen_Name
 , Bot         = require('../Bot/model').Bot
-, Bot_Use     = require('../Bot/Use').Bot_Use
+, Bot_Use     = require('../Bot/Use').Use
 , Website     = require('../Website/model').Website
 , Folder      = require('../Folder/model').Folder
 , Follow      = require('../Follow/model').Follow
@@ -32,34 +32,6 @@ exports.route = function (mod) {
       OK.json_success("Your new life has been created: " + sn.data.screen_name, {screen_name: sn.data.screen_name});
     })
     .run();
-  });
-
-  app.post('/Bot', function (req, resp, next) {
-    mod.New_River(req, resp, next)
-    .job('create', function (j) {
-      Bot.create({prefix: req.body.prefix, owner: req.body.as_this_life}, j);
-    })
-    .run(function (fin, o) {
-      var bot = o.public_data();
-      return resp.json({success: true, msg: "Bot created: " + bot.screen_name, bot: bot});
-    });
-  });
-
-  app.post('/Bot/use', function (req, resp, next) {
-    mod.New_River(req, resp, next)
-    .job('create', function (j) {
-      Bot_Use.create({
-        bot   : req.body.bot,
-        owner : req.body.as_this_life
-      }, j);
-    })
-    .run(function (fin, o) {
-      var use = o.public_data();
-      return resp.json({
-        success: true,
-        msg: 'You are now using, ' + use.screen_name + ', with ' + use.owner + '.'
-      });
-    });
   });
 
   // =============== READ ===========================================
@@ -187,21 +159,6 @@ exports.route = function (mod) {
        write.json_success(resp, msg, {updated: public});
      });
 
-  });
-
-  app.put('/Bot', function (req, resp, next) {
-    mod.New_River(req, resp, next)
-    .job('update', function (j) {
-      Bot.update({
-        prefix : req.body.prefix,
-        owner  : req.body.as_this_life,
-        code   : req.body.code
-      }, j);
-    })
-    .run(function (j, last) {
-      var bot = last.public_data();
-      resp.json({success: true, msg: "Update successful.", bot: bot});
-    });
   });
 
   // =============== DELETE/TRASH ===================================
