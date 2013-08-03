@@ -24,9 +24,9 @@ var _         = require("underscore")._
 ;
 
 
-var Bot_Use = Ok.Model.new(exports, 'Use');
+var Bot_Use = Ok.Model.new(exports, 'Bot_Use');
 
-var TABLE_NAME = exports.Use.TABLE_NAME = "Bot_Use";
+var TABLE_NAME = Bot_Use.TABLE_NAME = "Bot_Use";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Bot_Use._new = function () {

@@ -514,6 +514,7 @@ require('../Session/routes').route(module.exports);
 require('./routes').route(module.exports);
 require('../Customer/routes').route(module.exports);
 require('../Screen_Name/routes').route(module.exports);
+require('../Bot/routes').route(module.exports);
 require('../Headline/routes').route(module.exports);
 
 

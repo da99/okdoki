@@ -1,10 +1,13 @@
 
-var _         = require("underscore")._
-, Bot       = require("./model").Bot
-, Bot_Use     = require('../Bot/Use').Use
-, Screen_Name = require("../Screen_Name/model").Screen_Name
-, Website     = require("../Website/model").Website
-, log         = require("../App/base").log
+var _ = require("underscore")._
+, Ok  = require("../Ok/model").Model
+, log = require("../App/base").log
+, F   = require("tally_ho").Tally_Ho
+;
+
+var Bot       = Ok.Bot
+, Bot_Use     = Ok.Bot_Use
+, Screen_Name = Ok.Screen_Name
 ;
 
 exports.route = function (mod) {
@@ -43,11 +46,37 @@ exports.route = function (mod) {
 
   // ============ READ =================================================
 
-  app.get("/Bot/:id", function (req, resp, next) {
-    var OK            = mod.New_Request(arguments);
-    var opts          = OK.template_data('Bot/show_one');
-    opts['title']     = "Bot #" + req.params.id;
-    return OK.render_template();
+  app.get('/bot/:screen_name', function (req, resp, next) {
+
+    F.run('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
+      var bot = o.val;
+
+      if (!bot)
+        return req.next();
+
+      var OK   = req.OK;
+
+      var data      = OK.template_data('Bot/bot');
+      data['bot']   = bot.public_data();
+      data['title'] = data['bot'].screen_name;
+
+      OK.render_template();
+    });
+
+  });
+
+  app.get('/bots/for/:screen_name', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job('read', function (j) {
+      Bot.read_list_to_run(req.params.screen_name, j);
+    })
+    .run(function (fin, list) {
+      return resp.json({
+        success: true,
+        msg: "List read.",
+        bots: list
+      });
+    });
   });
 
   // ============ UPDATE ===============================================

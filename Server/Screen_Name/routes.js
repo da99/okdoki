@@ -65,39 +65,6 @@ exports.route = function (mod) {
 
   });
 
-  app.get('/bot/:screen_name', function (req, resp, next) {
-
-    EVE.run('read bot by screen name', {screen_name: req.params.screen_name}, function (o) {
-      var bot = o.val;
-
-      if (!bot)
-        return req.next();
-
-      var OK   = req.OK;
-
-      var data      = OK.template_data('Screen_Name/bot');
-      data['bot']   = bot.public_data();
-      data['title'] = data['bot'].screen_name;
-
-      OK.render_template();
-    });
-
-  });
-
-  app.get('/bots/for/:screen_name', function (req, resp, next) {
-    mod.New_River(req, resp, next)
-    .job('read', function (j) {
-      Bot.read_list_to_run(req.params.screen_name, j);
-    })
-    .run(function (fin, list) {
-      return resp.json({
-        success: true,
-        msg: "List read.",
-        bots: list
-      });
-    });
-  });
-
   // =============== UPDATE =========================================
 
   OK.put('/screen_names/:name', function (req, resp, next) {
