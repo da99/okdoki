@@ -57,15 +57,15 @@ Bot_Use.create = function (raw_data, flow) {
   var data = {
     prefix: sn[0],
     publisher: sn[1],
-    owner: raw_data.owner,
+    owner_id: raw_data.aud.screen_name_id(raw_data.owner),
     TABLES: {T: "Screen_Name_Sub"}
   };
 
   River.new(flow)
   .job(function (j) {
     var sql = "\
-      INSERT INTO @table (bot_id, owner)                    \n\
-      SELECT id, @owner AS owner                            \n\
+      INSERT INTO @table (bot_id, owner_id)                 \n\
+      SELECT id, @owner_id AS owner_id                      \n\
       FROM   @T                                             \n\
       WHERE  prefix = @prefix AND owner = @publisher        \n\
       RETURNING *                                           \n\

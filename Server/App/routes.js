@@ -2,11 +2,14 @@
 var _         = require('underscore')
 , Customer    = require('../Customer/model').Customer
 , Chat_Room_Seat=require('../Chat/Room_Seat').Room_Seat
+, log         = require("../App/base").log
+
 , blade       = require('blade')
 , Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
-, log         = require("../App/base").log
+, F           = require('tally_ho').Tally_Ho
+
 ;
 
 var MESS = {
@@ -32,7 +35,12 @@ exports.route = function (mod) {
     if (opts.is_customer) {
       opts['title'] =  "My Okdoki";
       opts['packs'] = ['chit_chat', 'rss_news_wire', 'panels'];
-      return OK.render_template();
+
+      F.run("read Multi-Life Page", { customer: req.user, Bots: {Own: [], Use: []} }, function (f) {
+        opts['Bots.Own'] = f.data.Bots.Own;
+        opts['Bots.Use'] = f.data.Bots.Use;
+        return OK.render_template();
+      });
     } else {
       opts['title'] = 'OkDoki.com';
       return OK.render_template();

@@ -69,7 +69,13 @@ var S = exports.Screen_Name = Ok.Model.new(function () {});
 
 S.TABLE_NAME = TABLE_NAME;
 S.expire_in = 4; // Refresh rate.
+
 S.sub_type_ids = ['bot'];
+S.sub_type_map = {};
+_.each(S.sub_type_ids, function (v, i) {
+  S.sub_type_map[i] = v;
+});
+
 S.INVALID_CHARS = INVALID_CHARS;
 
 Website.require(exports);

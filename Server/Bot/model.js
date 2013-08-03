@@ -46,6 +46,14 @@ function extract_name(o) {
   return [o.prefix, o.owner];
 }
 
+Bot.prototype.public_data = function () {
+  var me = this;
+  return {
+    screen_name: me.data.screen_name
+  };
+};
+
+
 // ================================================================
 // ================== Create ======================================
 // ================================================================
@@ -82,6 +90,29 @@ Bot.create = function (raw_data, flow) {
 // ================================================================
 // ================== Read ========================================
 // ================================================================
+
+F.on('read Multi-Life Page', function (f) {
+  if (!f.data.Bots)
+    f.finish();
+  F.run(function (f2) {
+    var sql = "\
+      SELECT prefix,                              \n\
+        screen_name AS owner_screen_name,         \n\
+        CONCAT(prefix, '@', owner_screen_name)    \n\
+        AS screen_name                            \n\
+      FROM @SUBS INNER JOIN @SNAMES               \n\
+        ON  @SUBS.owner_id = @SNAMES.id           \n\
+      WHERE type_id = @bot_type                   \n\
+    ;";
+    TABLE.run(sql, {
+      TABLES: {SN_SUBS: Ok.Screen_Name.TABLE_NAME},
+      sn_ids: f2.data.customer.screen_name_ids(),
+      bot_type: Ok.Screen_Name.sub_type_map['bot']
+    }, f2);
+  }, function (f2) {
+    f.finish(Bot.public_data(f2.last));
+  });
+});
 
 Bot.read_list_to_run = function (sn, flow) {
   River.new(flow)
