@@ -1,4 +1,17 @@
 
+// =======================================
+// Tables:
+//   Bot_For_Aud:
+//     A creator can apply a bot to their publication
+//     multiple times, with different settings and groups:
+//
+//        all pages   use Bot 1 - settings 1
+//        all folders use Bot 1 - settings 2
+//
+//    Editors can also add uses to other's publications.
+//
+//
+// =======================================
 var _         = require("underscore")._
 
 , Screen_Name = require("../Screen_Name/model").Screen_Name
