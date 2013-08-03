@@ -15,21 +15,21 @@ m.migrate = function (dir, r) {
   } else {
 
     var sql = 'CREATE TABLE "@T" (                              \n\
-    id             serial PRIMARY KEY,                          \n\
-    owner          varchar(50) NOT NULL,                        \n\
-    bot_id         int DEFAULT 0 NOT NULL,                      \n\
-    target_type    smallint DEFAULT 0 NOT NULL,                 \n\
-    target_id      int NOT NULL,                                \n\
-    is_on          boolean DEFAULT \'f\' NOT NULL,              \n\
-    is_except      boolean DEFAULT \'f\' NOT NULL,              \n\
+    id             serial   PRIMARY KEY,                        \n\
+    owner_id       int      NOT NULL references \"Screen_Name_Sub\"(id), \n\
+    bot_id         int      NOT NULL,                           \n\
+    target_type    smallint NOT NULL,                           \n\
+    target_id      int      NOT NULL,                           \n\
+    is_on          boolean  NOT NULL DEFAULT \'f\' ,            \n\
+    is_except      boolean  NOT NULL DEFAULT \'f\' ,            \n\
     settings       text,                                        \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at    ,                                            \n\
-    CONSTRAINT "@T_owner" UNIQUE (owner, bot_id, target_type, target_id, is_except) \n\
+    CONSTRAINT "@T_owner" UNIQUE (owner_id, bot_id, target_type, target_id, is_except) \n\
     );'.replace(/@T/g, table);
     r.create(sql,
-            'CREATE INDEX "@T_target" ON "@T" (target_id, target_type, owner)'.replace(/@T/g, table)
+            'CREATE INDEX "@T_target" ON "@T" (target_id, target_type, owner_id)'.replace(/@T/g, table)
             );
 
   }

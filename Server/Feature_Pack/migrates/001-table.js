@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
 
     var sql = 'CREATE TABLE IF NOT EXISTS "@T" (                \n\
     id             serial PRIMARY KEY,                          \n\
-    owner          varchar(50) NOT NULL,                        \n\
+    owner_id       int NOT NULL,                                \n\
     file_name      varchar(50) NOT NULL,                        \n\
     show_on        smallint    NOT NULL DEFAULT 1,              \n\
     body           text        NOT NULL,                        \n\
@@ -24,7 +24,7 @@ m.migrate = function (dir, r) {
     $updated_at    ,                                            \n\
     $trashed_at    ,                                            \n\
     CONSTRAINT     "@T_owner_file_name"                         \n\
-                   UNIQUE (owner, file_name)                    \n\
+                   UNIQUE (owner_id, file_name)                 \n\
     );'.replace(/@T/g, table);
 
     r.create(sql);

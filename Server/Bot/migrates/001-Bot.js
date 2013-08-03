@@ -17,7 +17,6 @@ m.migrate = function (dir, r) {
     var sql = 'CREATE TABLE "@T" (                              \n\
     screen_name_sub_id                                          \n\
        int PRIMARY KEY references \"Screen_Name_Sub\"(id),      \n\
-    code           text,                                        \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at                                                 \n\

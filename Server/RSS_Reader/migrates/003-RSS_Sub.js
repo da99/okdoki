@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
 
     var sql = "CREATE TABLE IF NOT EXISTS \"" + table + "\" (   \n\
     id             serial PRIMARY KEY,                          \n\
-    owner          varchar(50) NOT NULL,                        \n\
+    owner_id       int NOT NULL,                                \n\
     feed_id        int NOT NULL,                                \n\
     nick_name      varchar(100) DEFAULT NULL,                   \n\
     last_read_id   int NOT NULL DEFAULT 0,                      \n\
@@ -27,7 +27,7 @@ m.migrate = function (dir, r) {
     );";
 
     r.create(sql,
-             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_owner_and_feed_id\"  UNIQUE (owner, feed_id)"
+             "ALTER TABLE \"" + table + "\" ADD CONSTRAINT \"" + table + "_owner_id_and_feed_id\"  UNIQUE (owner_id, feed_id)"
             );
 
   }

@@ -16,7 +16,7 @@ m.migrate = function (dir, r) {
 
     var sql = 'CREATE TABLE IF NOT EXISTS "@T" (                \n\
     id             serial PRIMARY KEY,                          \n\
-    owner          varchar(50) NOT NULL,                        \n\
+    owner_id       int NOT NULL,                                \n\
     publisher      varchar(50) NOT NULL,                        \n\
     $created_at    ,                                            \n\
     updated_at     $now_tz NOT NULL,                            \n\
@@ -24,7 +24,7 @@ m.migrate = function (dir, r) {
     $trashed_at                                                 \n\
     );'.replace(/@T/g, table);
     r.create(sql,
-            "CREATE INDEX ON \"@T\" (owner, publisher)".replace(/@T/g, table)
+            "CREATE INDEX ON \"@T\" (owner_id, publisher)".replace(/@T/g, table)
             );
 
   }
