@@ -8,7 +8,7 @@ var _         = require('underscore')
 , Follow      = require('../Follow/model').Follow
 , log         = require("../App/base").log
 , Canon_SN    = require("../../Client/js/Screen_Name").canonize_screen_name
-, EVE         = require('tally_ho').Tally_Ho
+, F           = require('tally_ho').Tally_Ho
 ;
 
 exports.route = function (mod) {
@@ -50,16 +50,15 @@ exports.route = function (mod) {
   });
 
   app.get('/me/:screen_name', function (req, resp, next) {
-    var OK     = req.OK;
 
-    EVE.run('read life by screen name', {screen_name: req.params.screen_name}, function (o) {
+    F.run('read life by screen name', {screen_name: req.params.screen_name}, function (o) {
       var life = o.val;
       if (!life)
         return next();
 
-      var data      = OK.template_data('Screen_Name/me');
+      var data      = req.OK.template_data('Screen_Name/me');
       data['title'] = "The life of " + life.data.screen_name;
-      OK.render_template();
+      req.OK.render_template();
     });
     return;
 

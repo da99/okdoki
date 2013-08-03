@@ -36,15 +36,16 @@ append content
 
       - for (var x in Bot_Code.types)
         - var code_type = Bot_Code.types[x]
+        - var type_in_word = code_type.charAt(0).toUpperCase() + code_type.slice(1)
         div.box.update_code
           div.show_more
             a.show_more(href="#show_more") Show
-            h4.name On #{code_type.charAt(0).toUpperCase() + code_type.slice(1)}
+            h4.name On #{type_in_word}
           div.show
-            h3 On #{code_type.toUpperCase()}
+            h3 On #{type_in_word}
             div.content
 
-              form(id="Bot_Code_#{code_type}", action="/Bot", method="POST")
+              form(id="Bot_Code_#{code_type}", action="/Bot/Code", method="POST")
                 div.fields
                   div.field.code
                     textarea(name="code") #{bot.code}
@@ -52,7 +53,7 @@ append content
                   input(type="hidden", value="PUT", name="_method")
                   input(type="hidden", value="#{bot.prefix}", name="prefix")
                   input(type="hidden", value="#{bot.owner}", name="as_this_life")
-                  input(type="hidden", value="#{bot.type}", name="type")
+                  input(type="hidden", value="#{Bot_Code.types[x]}", name="type")
                   button.submit Update
                   a.show_less(href='#cancel') Cancel
 

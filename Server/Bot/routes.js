@@ -96,6 +96,12 @@ exports.route = function (mod) {
     });
   });
 
+  app.put('/Bot/Code', function (req, resp, next) {
+    F.run("update Bot Code", {aud: req.user, data: req.body}, function () {
+      resp.json({success: false, msg: req.body.type});
+    });
+  });
+
 }; // ==== exports.routes
 
 

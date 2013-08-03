@@ -24,9 +24,13 @@
 #Sidebar div.box div.content {
   padding-bottom: 10px;
 }
+div.update_code h3 {
+  font-size: 100%;
+}
 div.update_code h4 {
   display: inline;
   font-weight: normal;
+  color: #000;
 }
 div.update_code a.show_less {
   float: right;
