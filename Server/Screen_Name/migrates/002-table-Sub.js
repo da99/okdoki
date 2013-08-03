@@ -17,13 +17,13 @@ m.migrate = function (dir, r) {
     var sql = 'CREATE TABLE "@T" (                              \n\
     id             serial PRIMARY KEY,                          \n\
     type_id        smallint DEFAULT 0 NOT NULL,                 \n\
-    prefix         varchar(50) NOT NULL,                        \n\
+    sub_sn         varchar(20) NOT NULL,                        \n\
     owner_id       int NOT NULL references                      \n\
       \"Screen_Name\"(id) ,                                     \n\
     $created_at    ,                                            \n\
     $updated_at    ,                                            \n\
     $trashed_at    ,                                            \n\
-    CONSTRAINT "@T_name" UNIQUE (owner_id, prefix)              \n\
+    CONSTRAINT "@T_name" UNIQUE (owner_id, sub_sn)              \n\
     );'.replace(/@T/g, table);
     r.create(sql);
 

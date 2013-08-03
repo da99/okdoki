@@ -7,9 +7,9 @@ append Bot_Create
     div.content
       form#Bot_Create(action="/Bot", method="POST")
         div.fields
-          div.field.prefix
+          div.field.sub_sn
             label(for="NEW_BOT_SCREEN_NAME") Screen Name:
-            input#NEW_BOT_SCREEN_NAME(name="prefix", type="text")
+            input#NEW_BOT_SCREEN_NAME(name="sub_sn", type="text")
         div.buttons
           call span_as()
           button.submit Create

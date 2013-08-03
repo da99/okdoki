@@ -19,7 +19,7 @@ exports.route = function (mod) {
   app.post('/Bot', function (req, resp, next) {
     mod.New_River(req, resp, next)
     .job('create', function (j) {
-      Bot.create({prefix: req.body.prefix, owner: req.body.as_this_life}, j);
+      Bot.create({sub_sn: req.body.sub_sn, owner: req.body.as_this_life}, j);
     })
     .run(function (fin, o) {
       var bot = o.public_data();
@@ -85,7 +85,7 @@ exports.route = function (mod) {
     mod.New_River(req, resp, next)
     .job('update', function (j) {
       Bot.update({
-        prefix : req.body.prefix,
+        sub_sn : req.body.sub_sn,
         owner  : req.body.as_this_life,
         code   : req.body.code
       }, j);

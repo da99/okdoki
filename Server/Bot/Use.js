@@ -55,7 +55,7 @@ Bot_Use.prototype.public_data = function () {
 Bot_Use.create = function (raw_data, flow) {
   var sn = raw_data.bot.split('@');
   var data = {
-    prefix: sn[0],
+    sub_sn: sn[0],
     publisher: sn[1],
     owner_id: raw_data.aud.screen_name_id(raw_data.owner),
     TABLES: {T: "Screen_Name_Sub"}
@@ -67,7 +67,7 @@ Bot_Use.create = function (raw_data, flow) {
       INSERT INTO @table (bot_id, owner_id)                 \n\
       SELECT id, @owner_id AS owner_id                      \n\
       FROM   @T                                             \n\
-      WHERE  prefix = @prefix AND owner = @publisher        \n\
+      WHERE  sub_sn = @sub_sn AND owner = @publisher        \n\
       RETURNING *                                           \n\
     ;";
     TABLE
