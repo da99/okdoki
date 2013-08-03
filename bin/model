@@ -13,6 +13,7 @@ set -u -e -o pipefail
 function compile_template {
   mkdir -p Server/$model
   class_name="$model"
+  db_table_name="$model"
 
   tmpl="Server/App/model.template.js"
   if [[ -z "$file_name" ]]
@@ -21,6 +22,7 @@ function compile_template {
   else
     new_file="Server/$model/$file_name.js"
     class_name="$file_name"
+    db_table_name="${model}_${file_name}"
   fi
 
   if [[ -f "$new_file" ]]
@@ -28,6 +30,7 @@ function compile_template {
     echo "skipping creationg of file:"
   else
     sed "s/MODEL/$class_name/g" "$tmpl" >> "$new_file"
+    sed "s/DB_TABLE_NAME/${db_table_name}/g" "$new_file" -i
   fi
 
   echo "$new_file"
