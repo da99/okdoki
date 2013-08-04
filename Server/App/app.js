@@ -61,6 +61,21 @@ exports.is_allow_unauth_path = function (req) {
   return i > -1;
 };
 
+var resp_404 = exports.resp_404 = function (req, resp, msg) {
+  return resp_error(req, resp, msg, 404);
+};
+
+var resp_error = exports.resp_error = function (req, resp, msg, stat) {
+  if (req.accepts('html')) {
+    stat = stat || 200;
+    return resp.status(stat).render('Error/error', {msg: msg});
+  } else
+    return resp.json({success: false, msg: msg});
+};
+
+var resp_invalid = exports.resp_invalid = resp_error;
+
+
 var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) {
   if (raw_args.length) {
     var req = raw_args[0], resp = raw_args[1], next = raw_args[2];
@@ -342,12 +357,22 @@ app.configure(function () {
   app.all('*', function (req, resp, next) {
     var f = F.new(F);
     req.F = f;
-    f.on('not_found', 'invalid', function (f) {
-      if (req.accepts('html'))
-        return resp.send(f.data.error.message);
-      else
-        return resp.json({success: false, msg: f.data.error.message});
+
+    f.on('not_found', function (f) {
+      resp_404(req, resp, f.data.error.message);
     });
+
+    f.on('invalid', function (f) {
+      resp_invalid(req, resp, f.data.error.message);
+    });
+
+    resp.if_not_found = function (msg) {
+      return function (f) {
+        if (!f.data.last || (_.isArray(f.data.last) && !f.data.last.length))
+          return resp_404(req, resp, msg);
+        f.finish(f.last);
+      };
+    };
 
     _.each("params query body cookies".split(" "), function (k, i) {
       if (!req[k])

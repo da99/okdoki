@@ -56,7 +56,7 @@ Code.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
-F.on('after read Bot by screen name', function (f) {
+F.on('attach Bot_Code', function (f) {
 
   var bot = f.val;
 

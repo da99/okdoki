@@ -46,21 +46,29 @@ exports.route = function (mod) {
 
   app.get('/bot/:screen_name', function (req, resp, next) {
 
-    F.run('read Bot by screen name', {screen_name: req.params.screen_name}, function (o) {
-      var bot = o.val;
+    var sn = req.params.screen_name;
 
-      if (!bot)
-        return req.next();
+    req.F.run(
+      'read Bot by screen name',
+      {screen_name: sn},
+      resp.if_not_found("Bot not found: " + sn),
+      'attach Bot_Code',
+      function (o) {
+        var bot = o.val;
 
-      var data         = req.OK.template_data('Bot/bot');
-      data['bot']      = bot.public_data();
-      data['title']    = data['bot'].screen_name;
-      data['Bot_Code'] = Bot_Code;
+        if (!bot)
+          return req.next();
 
-      req.OK.render_template();
-    });
+        var data         = req.OK.template_data('Bot/bot');
+        data['bot']      = bot.public_data();
+        data['title']    = data['bot'].screen_name;
+        data['Bot_Code'] = Bot_Code;
 
-  });
+        req.OK.render_template();
+      }
+    );
+
+  }); // === end
 
   app.get('/bots/for/:screen_name', function (req, resp, next) {
     mod.New_River(req, resp, next)
