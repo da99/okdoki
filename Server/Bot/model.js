@@ -119,16 +119,17 @@ F.on('read Bot by screen name', function (flow) {
 
   F.run(flow, function (j) {
     var pieces = flow.data.screen_name.split('@');
-    var data = {sub_sn: pieces[0], owner: pieces[1]};
+    var data = {sub_sn: pieces[0], owner: pieces[1], TABLES: {
+      SUB: Ok.Model.Screen_Name_Sub.TABLE_NAME,
+      SN:  Ok.Model.Screen_Name.TABLE_NAME
+    }};
     var sql = "\
-      SELECT *                       \n\
-      FROM @table RIGHT JOIN         \n\
-        \"Screen_Name_Sub\"          \n\
-        ON @table.screen_name_sub_id = \
-           \"Screen_Name_Sub\".id    \n\
-      WHERE sub_sn = @sub_sn AND     \n\
-            owner  = @owner          \n\
-      LIMIT 1                        \n\
+      SELECT *                             \n\
+      FROM @SUB INNER JOIN @SN             \n\
+        ON @SUB.owner_id = @SN.id          \n\
+      WHERE screen_name = @owner AND       \n\
+            sub_sn = @sub_sn               \n\
+      LIMIT 1                              \n\
     ;";
 
     TABLE.run_and_return_at_most_1(sql, data, j);

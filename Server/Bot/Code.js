@@ -69,7 +69,7 @@ F.on('after read Bot by screen name', function (f) {
     ";
     TABLE.run(sql, {BOT_ID: bot.data.id}, f2);
   }, function (f2) {
-    bot.Code = Bot_Code.new(f2.last);
+    bot.Code = Code.new(f2.last);
     f.finish();
   });
 
