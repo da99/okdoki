@@ -5,7 +5,7 @@ var e_e_e     = require('escape_escape_escape').Sanitize.html;
 var IS_DEV    = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
 var server    = null;
-var EVE       = require('tally_ho').Tally_Ho;
+var F         = require('tally_ho').Tally_Ho;
 
 // ================================================================
 // ================== Events ======================================
@@ -59,48 +59,6 @@ exports.allow_unauth_path = function (meth, path) {
 exports.is_allow_unauth_path = function (req) {
   var i = ALLOW_UNAUTH_PATHS.indexOf(req.method.toUpperCase() + ':' + req.path.toUpperCase());
   return i > -1;
-};
-
-var New_River = exports.New_River = function (req, resp, next) {
-  if (req.length) {
-    resp = req[1];
-    next = req[2];
-    req  = req[0];
-  }
-
-  var r = River.new(null);
-  var invalid_or_not_found = function (j) {
-    if (req.accepts('html'))
-      resp.send(j.job.error.message);
-    else
-      resp.json({success: false, msg: j.job.error.message});
-  };
-
-  r.on_next('invalid', invalid_or_not_found);
-  r.on_next('not_found', invalid_or_not_found);
-
-  r.read_one = function () {
-    var args = _.toArray(arguments);
-    var func = args.pop();
-    var name = args[0];
-    args.push(function (j, last) {
-      if (args.length === 2 && func.length === 2 && !last) {
-        log(last)
-        log('Not found: ', name);
-        return j.finish(null);
-      }
-      return func.apply(null, arguments);
-    });
-    r.job.apply(r, args);
-    return r;
-  };
-
-  r.create_one = r.read_one;
-  r.read_list  = r.read_one;
-  r.update_one = r.read_one;
-  r.trash      = r.read_one;
-
-  return r;
 };
 
 var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) {
@@ -382,6 +340,15 @@ app.configure(function () {
   // Set up default helpers, like New_Request: ====================
   // ==============================================================
   app.all('*', function (req, resp, next) {
+    var f = F.new(F);
+    req.F = f;
+    f.on('not_found', 'invalid', function (f) {
+      if (req.accepts('html'))
+        return resp.send(f.data.error.message);
+      else
+        return resp.json({success: false, msg: f.data.error.message});
+    });
+
     _.each("params query body cookies".split(" "), function (k, i) {
       if (!req[k])
         throw new Error('Unknown key: ' + k);
