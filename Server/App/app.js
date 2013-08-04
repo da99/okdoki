@@ -522,13 +522,9 @@ app.use(function (req, resp, next) {
   log('body: ', req.body)
 
   if (req.accepts('html')) {
-    resp.send(404, "<html><head><title>" + req.path + " : Not Found</title></head><body>Not found. Check spelling of the address.</body></html>");
+    resp_404(req, resp, "Page Not found: " + req.path);
   } else {
-    if (req.accepts('html')) {
-      resp.send(404, req.path + " : Not Found. Check spelling of the address.");
-    } else {
-      resp.json(404, {success: false, msg: "Page not found."});
-    }
+    resp_404(req, resp, "Page Not found.");
   }
 });
 
@@ -544,9 +540,7 @@ app.use(function (err, req, resp, next) {
   if (status === 403)
     msg = RELOG_MSG;
 
-  return (req.accepts('html')) ?
-    resp.send(status, msg) :
-    resp.json(status, {success: false, msg: msg});
+  return resp_error(req, resp, msg, status);
 });
 
 
