@@ -175,6 +175,9 @@ h4 {
 #Options div.box div.content div.list {
   padding: 0 0 10px 0;
 }
+#Options div.box div.content div.list a:link {
+  display: block;
+}
 #Options div.has_bots div.setting {
   display: none;
 }

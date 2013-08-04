@@ -4,10 +4,11 @@ var _         = require('underscore')
 , Check       = require('da_check').Check
 , River       = require('da_river').River
 , Topogo      = require('topogo').Topogo
-, Screen_Name = require('../Screen_Name/model').Screen_Name
 , UID         = require('../App/UID').UID
 , warn        = require('../App/base').warn
 , log         = require('../App/base').log
+, Ok          = require('../Ok/model')
+, F           = require('tally_ho').Tally_Ho
 ;
 
 // ================================================================
@@ -325,7 +326,7 @@ Customer.create = function (new_vals, flow) {
   })
 
   .job('create', 'screen name', function (j) {
-    Screen_Name.create(me, j);
+    Ok.Model.Screen_Name.create(me, j);
   })
 
   .job('hash pass phrase', function (j) {
@@ -367,17 +368,11 @@ Customer.read_by_screen_name = function (opts, flow) {
 
   var c_opts = _.pick(opts, 'screen_name', 'pass_phrase');
 
-  River.new(flow)
-  .job_must_find('Screen_name', opts.screen_name, function (j) {
-    Screen_Name.read_by_screen_name(j.id, j);
-  })
-  .job_must_find('Customer', opts.screen_name, function (j) {
-    var last = j.river.last_reply();
+  F.run(opts, "read life by screen name", function (f) {
+    var last = f.last;
     c_opts.id = last.data.owner_id;
-    Customer.read_by_id(c_opts, j);
-  })
-  .run();
-
+    Customer.read_by_id(c_opts, flow);
+  });
 };
 
 Customer.read_by_id = function (opts, flow) {
@@ -463,7 +458,7 @@ Customer.read_by_id = function (opts, flow) {
     me.data.bad_log_in_count = row.bad_log_in_count;
     return j.finish(me);
   })
-  .job('read screen names', opts.id, [Screen_Name, 'read_list', me])
+  .job('read screen names', opts.id, [Ok.Model.Screen_Name, 'read_list', me])
   .run();
 
 };
@@ -580,7 +575,7 @@ Customer.delete_trashed = function (flow) {
 
     final.customers = rows;
 
-    Screen_Name.delete_by_owner_ids(_.pluck(rows, 'id'), j);
+    Ok.Model.Screen_Name.delete_by_owner_ids(_.pluck(rows, 'id'), j);
   })
 
   .job(function (j, sn_rows) {
