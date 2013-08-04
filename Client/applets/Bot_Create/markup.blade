@@ -1,12 +1,15 @@
 
 append Bot_Create
-  div.box#New_Bot
+  - var has_bots = (Bots.Own.length) ? 'has_bots' : ''
+  div.box#New_Bot(class="#{has_bots}")
     div.setting
       a.on(href="#show") Show
     h3 Create a Bot
     div.content
-      - for(var x in Bots.Own)
-        p #{Bots.Own[x].screen_name}
+      - if (Bots.Own.length)
+        div.list
+          - for(var x in Bots.Own)
+            a(href="/bot/#{Bots.Own[x].screen_name}") #{Bots.Own[x].screen_name}
       form#Bot_Create(action="/Bot", method="POST")
         div.fields
           div.field.sub_sn

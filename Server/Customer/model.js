@@ -176,6 +176,10 @@ Customer.prototype.screen_names = function () {
   return _.pluck(_.values(rows).reverse(), 'screen_name');
 };
 
+Customer.prototype.screen_name = function (id) {
+  return this.screen_name_row( this.screen_name_menu()[id] ).screen_name;
+};
+
 Customer.prototype.screen_name_id = function (name) {
   return this.screen_name_row(name).id;
 };

@@ -33,19 +33,24 @@ Sub._new = function () {
 
 Sub.to_type_id = function (str_or_num) {
   return _.invert(Sub.type_map)[str_or_num] || 0;
-}
+};
+
+Sub.prototype.public_data = function () {
+  var me = this;
+  return {sub_sn: me.data.sub_sn};
+};
 
 F.on('add screen names using user', function (f) {
-  f.finish(_.map(f.last, function (o) {
-    var key = o.hasOwnProperty('owner_id') ? 'owner_id' : 'author_id';
-    var sn  = f.data.user.to_screen_name(o[key]);
+  var arr = (_.isArray(f.last)) ? f.last : [f.last];
+  var new_arr = _.map(arr, function (o) {
+    H.attach_screen_name_using_user(o, f.data.user);
+    return o;
+  });
 
-    o.screen_name = (o.sub_sn) ?
-      (o.sub_sn + '@' + sn) :
-      sn;
-
-    return o.screen_name;
-  }));
+  return (_.isArray(f.last)) ?
+    f.finish(new_arr):
+    f.finish(new_arr.pop());
+    ;
 });
 
 // ================================================================
@@ -58,14 +63,14 @@ F.on('create Screen_Name_Sub', function (flow) {
     type_id  : Sub.to_type_id(flow.data.type)
   };
 
-  F.run(flow, function (f) {
+  F.run(flow, flow.data, function (f) {
     TABLE
     .on_dup(function (constraint_name) {
       f.finish('invalid', "You've already: " + data.sub_sn + '@' + flow.data.as_this_life);
     })
     .create(data, f);
-  }, function (f) {
-    f.finish(Screen_Name_Sub.new(f.last));
+  }, 'add screen names using user', function (f) {
+    f.finish(Sub.new(f.last));
   });
 });
 

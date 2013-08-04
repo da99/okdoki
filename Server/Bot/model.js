@@ -49,15 +49,11 @@ Bot.prototype.public_data = function () {
 // ================================================================
 
 F.on('create Bot', function (flow) {
-  F.run('create Screen Name Sub', {type: 'bot'}, flow.data, function (f) {
-    var sub = f.last;
-
-    F.run(flow, function (f) {
-      TABLE.create({screen_name_sub_id: sub.data.id}, f);
-    }, function (f) {
-      j.finish(Bot.new(_.extend({}, sub.public_data(), f.last)));
-    });
-
+  F.run(flow, 'create Screen_Name_Sub', {type: 'bot'}, flow.data, function (f) {
+    f.data.Screen_Name_Sub = f.last;
+    TABLE.create({screen_name_sub_id: f.last.data.id}, f);
+  }, function (f) {
+      f.finish(Bot.new(_.extend({}, f.data.Screen_Name_Sub.public_data(), f.last)));
   });
 });
 
@@ -76,7 +72,7 @@ F.on('read Multi-Life Page', function (f) {
 });
 
 F.on('read Bot list for owner', function (f) {
-  F.run(f, function (f2) {
+  F.run(f, f.data, function (f2) {
     var sql = "\
       SELECT owner_id, sub_sn                     \n\
       FROM @SUBS                                  \n\

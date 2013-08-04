@@ -17,17 +17,14 @@ exports.route = function (mod) {
   // ============ CREATE ===============================================
 
   app.post('/Bot', function (req, resp, next) {
-    mod.New_River(req, resp, next)
-    .job('create', function (j) {
-      Bot.create({sub_sn: req.body.sub_sn, owner: req.body.as_this_life}, j);
-    })
-    .run(function (fin, o) {
-      var bot = o.public_data();
+    var data = {sub_sn: req.body.sub_sn, as_this_life: req.body.as_this_life, user: req.user};
+    F.run('create Bot', data, function (f) {
+      var bot = f.last.public_data();
       return resp.json({success: true, msg: "Bot created: " + bot.screen_name, bot: bot});
     });
   });
 
-  app.post('/Bot/use', function (req, resp, next) {
+  app.post('/Bot/Use', function (req, resp, next) {
     mod.New_River(req, resp, next)
     .job('create', function (j) {
       Bot_Use.create({
