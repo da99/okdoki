@@ -53,7 +53,7 @@ F.on('create Bot', function (flow) {
     f.data.Screen_Name_Sub = f.last;
     TABLE.create({screen_name_sub_id: f.last.data.id}, f);
   }, function (f) {
-      f.finish(Bot.new(_.extend({}, f.data.Screen_Name_Sub.public_data(), f.last)));
+    f.finish(Bot.new(_.extend({}, f.data.Screen_Name_Sub.public_data(), f.last)));
   });
 });
 

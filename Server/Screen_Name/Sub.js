@@ -37,7 +37,11 @@ Sub.to_type_id = function (str_or_num) {
 
 Sub.prototype.public_data = function () {
   var me = this;
-  return {sub_sn: me.data.sub_sn};
+  return {
+    sub_sn      : me.data.sub_sn,
+    screen_name : me.data.screen_name,
+    owner       : me.data.owner
+  };
 };
 
 F.on('add screen names using user', function (f) {

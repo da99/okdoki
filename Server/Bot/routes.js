@@ -20,7 +20,6 @@ exports.route = function (mod) {
     var data = {sub_sn: req.body.sub_sn, as_this_life: req.body.as_this_life, user: req.user};
     F.run('create Bot', data, function (f) {
       var bot = f.last.public_data();
-      console.log(f.last.public_data())
       return resp.json({success: true, msg: "Bot created: " + bot.screen_name, bot: bot});
     });
   });
