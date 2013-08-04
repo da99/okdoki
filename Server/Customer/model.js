@@ -125,6 +125,12 @@ Customer.prototype.push_sanitized_data = function (k, val) {
   }
 };
 
+// ==========================================================
+// NOTE: Screen name rows are used in arrays to keep
+//       them in order of date created/id.
+//       This is why they are not kept more efficiently
+//       with {name: row, name: row}.
+// ==========================================================
 Customer.prototype.push_screen_name_row = function (r) {
   var me    = this;
   var rows  = me.data.screen_name_rows;
