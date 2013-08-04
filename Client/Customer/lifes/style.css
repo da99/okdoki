@@ -169,6 +169,15 @@ h4 {
 #Options h3 {
   padding-bottom: 1px;
 }
-#Options div.content {
+#Options div.box div.content {
   display: none;
+}
+#Options div.box div.content div.list {
+  padding: 0 0 10px 0;
+}
+#Options div.has_bots div.setting {
+  display: none;
+}
+#Options div.has_bots div.content {
+  display: block;
 }
