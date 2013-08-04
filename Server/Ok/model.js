@@ -36,6 +36,7 @@ exports.Model = {
 
       if (m.prototype._new)
         o._new();
+      o.is_ok_model = true;
       return o;
     };
 
@@ -46,7 +47,16 @@ exports.Model = {
     };
 
     m.prototype.get_data = exports.Model.get_data;
+    m.public_data        = exports.Model.public_data;
     return m;
+  },
+
+  public_data: function (arr) {
+    return _.map(arr, function (o) {
+      if (o.is_ok_model)
+        return o.public_data();
+      return this.new(o).public_data();
+    });
   },
 
   get_data: function (args) {

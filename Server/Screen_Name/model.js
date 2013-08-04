@@ -13,6 +13,8 @@ var Refresh = 4 // seconds
 , EVE       = require('tally_ho').Tally_Ho
 ;
 
+require('./Sub');
+
 var valid_chars = "a-zA-Z0-9\\-\\_\\.";
 var VALID_SCREEN_NAME = new RegExp( '^[' + valid_chars + ']{4,15}$' );
 var INVALID_CHARS = new RegExp( '[^' + valid_chars + ']', 'ig' );
@@ -65,16 +67,10 @@ var stranger = {
 // ================== Main Stuff ==================================
 // ================================================================
 
-var S = exports.Screen_Name = Ok.Model.new(function () {});
+var S = Ok.Model.new(exports, 'Screen_Name');
 
 S.TABLE_NAME = TABLE_NAME;
 S.expire_in = 4; // Refresh rate.
-
-S.sub_type_ids = ['bot'];
-S.sub_type_map = {};
-_.each(S.sub_type_ids, function (v, i) {
-  S.sub_type_map[i] = v;
-});
 
 S.INVALID_CHARS = INVALID_CHARS;
 

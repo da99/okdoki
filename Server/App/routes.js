@@ -36,9 +36,11 @@ exports.route = function (mod) {
       opts['title'] =  "My Okdoki";
       opts['packs'] = ['chit_chat', 'rss_news_wire', 'panels'];
 
-      F.run("read Multi-Life Page", { customer: req.user, Bots: {Own: [], Use: []} }, function (f) {
-        opts['Bots.Own'] = f.data.Bots.Own;
-        opts['Bots.Use'] = f.data.Bots.Use;
+      F.run("read Multi-Life Page", { user: req.user, Bots: {Own: [], Use: []} }, function (f) {
+        opts['Bots'] = {
+          Own: f.data.Bots.Own,
+          Use: f.data.Bots.Use
+        };
         return OK.render_template();
       });
     } else {

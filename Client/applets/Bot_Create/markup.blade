@@ -5,6 +5,8 @@ append Bot_Create
       a.on(href="#show") Show
     h3 Create a Bot
     div.content
+      - for(var x in Bots.Own)
+        p #{Bots.Own[x].screen_name}
       form#Bot_Create(action="/Bot", method="POST")
         div.fields
           div.field.sub_sn

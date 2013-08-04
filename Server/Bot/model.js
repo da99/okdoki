@@ -15,9 +15,9 @@ var _         = require("underscore")._
 
 require('./Code');
 
-var Bot = exports.Bot = Ok.Model.new(function () {});
+var Bot = Ok.Model.new(exports, 'Bot');
 
-var TABLE_NAME = exports.Bot.TABLE_NAME = "Bot";
+var TABLE_NAME = Bot.TABLE_NAME = "Bot";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Bot._new = function () {
@@ -25,16 +25,6 @@ Bot._new = function () {
   return o;
 };
 
-Bot.prototype.public_data = function () {
-  var me = this;
-  return {
-    sub_sn      : me.data.sub_sn,
-    owner       : me.data.owner,
-    screen_name : me.data.sub_sn + '@' + me.data.owner,
-    code        : me.data.code,
-    o_code      : me.data.code && E_E_E(JSON.parse(UN_ESCAPE(me.data.code)))
-  };
-};
 
 // ================================================================
 // ================== Helpers =====================================
@@ -57,35 +47,20 @@ Bot.prototype.public_data = function () {
 // ================================================================
 // ================== Create ======================================
 // ================================================================
-Bot.create = function (raw_data, flow) {
-  var sub_sn = H.null_if_empty(raw_data.sub_sn.toLowerCase().replace(Screen_Name.INVALID_CHARS, '').slice(0,15));
-  var owner  = H.null_if_empty(raw_data.owner);
-  var sn     = sub_sn + '@' + owner;
-  var sn_sub = null;
-  var data = {
-    type_id     : 0,
-    sub_sn      : sub_sn,
-    owner       : owner
-  };
 
-  River.new(flow)
-  .job(function (j) {
-    Topogo.new("Screen_Name_Sub")
-    .on_dup(function (constraint_name) {
-      j.finish('invalid', "Name already taken: " + sn);
-    })
-    .create(data, j);
-  })
-  .job(function (j, last) {
-    sn_sub = last;
-    TABLE
-    .create({screen_name_sub_id: last.id}, j);
-  })
-  .job(function (j, record) {
-    j.finish(Bot.new(_.extend({}, sn_sub, record)));
-  })
-  .run();
-};
+F.on('create Bot', function (flow) {
+  F.run('create Screen Name Sub', {type: 'bot'}, flow.data, function (f) {
+    var sub = f.last;
+
+    F.run(flow, function (f) {
+      TABLE.create({screen_name_sub_id: sub.data.id}, f);
+    }, function (f) {
+      j.finish(Bot.new(_.extend({}, sub.public_data(), f.last)));
+    });
+
+  });
+});
+
 
 // ================================================================
 // ================== Read ========================================
@@ -94,23 +69,27 @@ Bot.create = function (raw_data, flow) {
 F.on('read Multi-Life Page', function (f) {
   if (!f.data.Bots)
     f.finish();
-  F.run(function (f2) {
+  F.run(f, 'read Bot list for owner', f.data, function (f2) {
+    f.data.Bots.Own = Bot.public_data(f2.last);
+    f2.finish();
+  });
+});
+
+F.on('read Bot list for owner', function (f) {
+  F.run(f, function (f2) {
     var sql = "\
-      SELECT sub_sn,                              \n\
-        screen_name AS owner_screen_name,         \n\
-        CONCAT(sub_sn, '@', owner_screen_name)    \n\
-        AS screen_name                            \n\
-      FROM @SUBS INNER JOIN @SNAMES               \n\
-        ON  @SUBS.owner_id = @SNAMES.id           \n\
+      SELECT owner_id, sub_sn                     \n\
+      FROM @SUBS                                  \n\
       WHERE type_id = @bot_type                   \n\
+            AND owner_id IN @sn_ids               \n\
     ;";
     TABLE.run(sql, {
-      TABLES: {SN_SUBS: Ok.Screen_Name.TABLE_NAME},
-      sn_ids: f2.data.customer.screen_name_ids(),
-      bot_type: Ok.Screen_Name.sub_type_map['bot']
+      TABLES: {SUBS: Ok.Model.Screen_Name_Sub.TABLE_NAME},
+      sn_ids: f.data.user.screen_name_ids(),
+      bot_type: Ok.Model.Screen_Name_Sub.to_type_id('bot')
     }, f2);
-  }, function (f2) {
-    f.finish(Bot.public_data(f2.last));
+  }, "add screen names using user", function (f2) {
+    f2.finish(Bot.new(f2.last));
   });
 });
 
