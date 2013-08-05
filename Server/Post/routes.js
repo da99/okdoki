@@ -72,7 +72,7 @@ OK.post('/post/:name', function (req, resp, next) {
 
   .on_finish(function (r) {
     var record = r.last_reply();
-    write.json_success(resp, r.data('msg'), {rows: [record.public_data()]});
+    write.json_success(resp, r.data('msg'), {rows: [record.to_client_side()]});
   })
 
   .run();

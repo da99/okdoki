@@ -35,7 +35,7 @@ Sub.to_type_id = function (str_or_num) {
   return _.invert(Sub.type_map)[str_or_num] || 0;
 };
 
-Sub.prototype.public_data = function () {
+Sub.prototype.to_client_side = function () {
   var me = this;
   return {
     sub_sn      : me.data.sub_sn,
@@ -67,15 +67,19 @@ F.on('create Screen_Name_Sub', function (flow) {
     type_id  : Sub.to_type_id(flow.data.type)
   };
 
-  F.run(flow, flow.data, function (f) {
-    TABLE
-    .on_dup(function (constraint_name) {
-      f.finish('invalid', "You've already: " + data.sub_sn + '@' + flow.data.as_this_life);
-    })
-    .create(data, f);
-  }, 'add screen names using user', function (f) {
-    f.finish(Sub.new(f.last));
-  });
+  flow.detour(
+    function (f) {
+      TABLE
+      .on_dup(function (constraint_name) {
+        f.finish('invalid', "You've already: " + data.sub_sn + '@' + flow.data.as_this_life);
+      })
+      .create(data, f);
+    },
+    'add screen names using user',
+    function (f) {
+      f.finish(Sub.to_client_side(f.last));
+    }
+  );
 });
 
 // ================================================================

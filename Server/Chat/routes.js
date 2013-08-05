@@ -235,7 +235,7 @@ exports.route = function (mod) {
       OK.json({
         success: true,
         msg: "Message sent to the chat room.",
-        chat_msg: _.extend({is_me: true}, msg.public_data())
+        chat_msg: _.extend({is_me: true}, msg.to_client_side())
       });
     });
 

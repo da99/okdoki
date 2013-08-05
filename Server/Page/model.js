@@ -90,7 +90,7 @@ Page.create = function (raw_data, flow) {
 // ================== Read ========================================
 // ================================================================
 
-Page.prototype.public_data = function () {
+Page.prototype.to_client_side = function () {
   return this.get_data('title', 'body', 'created_at', 'updated_at', 'trashed_at');
 };
 

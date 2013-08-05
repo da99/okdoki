@@ -40,7 +40,7 @@ function null_if_empty(str) {
   return str;
 }
 
-Msg.prototype.public_data = function () {
+Msg.prototype.to_client_side = function () {
   return public_chat_room_msg_data(this.data);
 };
 

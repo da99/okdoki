@@ -24,7 +24,7 @@ exports.route = function (mod) {
       resp.json({
         success : true,
         msg     : 'Created: ',
-        model   : model.public_data()
+        model   : model.to_client_side()
       });
     })
     .run();

@@ -33,7 +33,7 @@ Room_Seat.prototype.max_time = function () {
   return MAX_TIME;
 };
 
-Room_Seat.prototype.public_data = function (o) {
+Room_Seat.prototype.to_client_side = function (o) {
   return _.pick(this.data, 'chat_room', 'owner', 'last_seen_at', 'is_in' );
 };
 

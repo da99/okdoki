@@ -18,7 +18,7 @@ exports.route = function (mod) {
       Headline.create({author: req.body.as_this_life, body: req.body.body}, j);
     })
     .job(function (j, model) {
-      var o = model.public_data();
+      var o = model.to_client_side();
       o.is_me = true;
       resp.json({
         success : true,
@@ -46,7 +46,7 @@ exports.route = function (mod) {
         success : true,
         msg     : "Done.",
         list    : _.map(list, function (o) {
-          return o.public_data();
+          return o.to_client_side();
         })
       });
     });

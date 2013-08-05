@@ -25,7 +25,7 @@ Headline._new = function () {
   return o;
 };
 
-Headline.prototype.public_data = function () {
+Headline.prototype.to_client_side = function () {
   var o = {
     dom_id             : 'headline_' + this.data.id + '_' + this.data.created_at.getTime(),
     author             : this.data.author,

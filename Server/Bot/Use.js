@@ -34,12 +34,12 @@ Bot_Use._new = function () {
   return o;
 };
 
-Bot_Use.prototype.public_data = function () {
+Bot_Use.prototype.to_client_side = function () {
   var me = this;
   return {
-    bot: me.data.bot,
-    owner: me.data.owner,
-    screen_name: me.data.bot
+    bot         : me.data.bot,
+    owner       : me.data.owner,
+    screen_name : me.data.bot
   };
 };
 

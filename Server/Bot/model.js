@@ -36,7 +36,7 @@ function extract_name(o) {
   return [o.sub_sn, o.owner];
 }
 
-Bot.prototype.public_data = function () {
+Bot.prototype.to_client_side = function () {
   var me = this;
   return {
     screen_name: me.data.screen_name
@@ -49,12 +49,26 @@ Bot.prototype.public_data = function () {
 // ================================================================
 
 F.on('create Bot', function (flow) {
-  F.run(flow, 'create Screen_Name_Sub', {type: 'bot'}, flow.data, function (f) {
-    f.data.Screen_Name_Sub = f.last;
-    TABLE.create({screen_name_sub_id: f.last.data.id}, f);
-  }, function (f) {
-    f.finish(Bot.new(_.extend({}, f.data.Screen_Name_Sub.public_data(), f.last)));
-  });
+  flow.detour(
+
+    'create Screen_Name_Sub', {type: 'bot'},
+
+    function (f) {
+      f.data.Screen_Name_Sub = f.last;
+      TABLE.create({screen_name_sub_id: f.last.data.id}, f);
+    },
+
+    function (f) {
+      var data = _.extend(
+        {},
+        f.data.Screen_Name_Sub,
+        f.last
+      );
+
+      f.finish(Bot.to_public_data(data));
+    }
+
+  );
 });
 
 
@@ -62,31 +76,41 @@ F.on('create Bot', function (flow) {
 // ================== Read ========================================
 // ================================================================
 
-F.on('read Multi-Life Page', function (f) {
+F.on('read Multi-Life Page', function (flow) {
   if (!f.data.Bots)
-    f.finish();
-  F.run(f, 'read Bot list for owner', f.data, function (f2) {
-    f.data.Bots.Own = Bot.public_data(f2.last);
-    f2.finish();
-  });
+    return f.finish();
+  flow.detour(
+    'read Bot list for owner',
+    function (f2) {
+      f.data.Bots.Own = Bot.to_client_side(f2.last);
+      f2.finish();
+    }
+  );
 });
 
-F.on('read Bot list for owner', function (f) {
-  F.run(f, f.data, function (f2) {
-    var sql = "\
+F.on('read Bot list for owner', function (flow) {
+  flow.run(
+
+    function (f2) {
+      var sql = "\
       SELECT owner_id, sub_sn                     \n\
-      FROM @SUBS                                  \n\
+      FROM @Screen_Name_Sub                       \n\
       WHERE type_id = @bot_type                   \n\
             AND owner_id IN @sn_ids               \n\
-    ;";
-    TABLE.run(sql, {
-      TABLES: {SUBS: Ok.Model.Screen_Name_Sub.TABLE_NAME},
-      sn_ids: f.data.user.screen_name_ids(),
-      bot_type: Ok.Model.Screen_Name_Sub.to_type_id('bot')
-    }, f2);
-  }, "add screen names using user", function (f2) {
-    f2.finish(Bot.new(f2.last));
-  });
+      ;";
+      TABLE.run(sql, {
+        sn_ids   : flow.data.user.screen_name_ids(),
+        bot_type : Ok.Model.Screen_Name_Sub.to_type_id('bot')
+      }, f2);
+    },
+
+    "add screen names using user",
+
+    function (f2) {
+      f2.finish(Bot.to_client_side(f2.last));
+    }
+
+  );
 });
 
 Bot.read_list_to_run = function (sn, flow) {
@@ -109,7 +133,7 @@ Bot.read_list_to_run = function (sn, flow) {
   })
   .job('to objects', function (j, list) {
     j.finish(_.map(list, function (r) {
-      return Bot.new(r).public_data();
+      return Bot.to_client_side(r);
     }));
   })
   .run();

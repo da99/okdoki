@@ -18,10 +18,17 @@ exports.route = function (mod) {
 
   app.post('/Bot', function (req, resp, next) {
     var data = {sub_sn: req.body.sub_sn, as_this_life: req.body.as_this_life, user: req.user};
-    req.Ok.run('create Bot', data, function (f) {
-      var bot = f.last.public_data();
-      return resp.json({success: true, msg: "Bot created: " + bot.screen_name, bot: bot});
-    });
+    req.Ok.run(
+      'create Bot', data,
+      function (f) {
+        var bot = f.last.public_data();
+        return resp.json({
+          success : true,
+          msg     : "Bot created: " + bot.screen_name,
+          bot     : bot
+        });
+      }
+    );
   });
 
   app.post('/Bot/Use', function (req, resp, next) {
@@ -53,7 +60,7 @@ exports.route = function (mod) {
       resp.Ok.if_not_found("Bot not found: " + sn),
       'attach Bot_Code',
       function (f) {
-        var bot = f.val.public_data();
+        var bot = f.val.to_client_side();
         resp.Ok.render_template('Bot/bot', {
           bot      : bot,
           title    : bot.screen_name,
@@ -90,7 +97,7 @@ exports.route = function (mod) {
       }, j);
     })
     .run(function (j, last) {
-      var bot = last.public_data();
+      var bot = last.to_client_side();
       resp.json({success: true, msg: "Update successful.", bot: bot});
     });
   });

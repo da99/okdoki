@@ -72,7 +72,7 @@ exports.route = function (mod) {
         return next();
       var opts          = OK.template_data('Page/show');
       opts['title']     = page.data.title;
-      opts['page']      = page.public_data();
+      opts['page']      = page.to_client_side();
       opts['page_num']  = page.data.num;
       opts['folder_num'] = page.folder().data.num;
       opts['folder_title'] = page.folder().data.title;
@@ -109,7 +109,7 @@ exports.route = function (mod) {
     .run(function (fin, page) {
       if (!page)
         return next();
-      var data = page.public_data();
+      var data = page.to_client_side();
       data.body_html = Bling_Bling.new(page.data.body).to_html();
       resp.json({success: true, msg: "Page has been updated.", page: data});
     });
