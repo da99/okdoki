@@ -113,31 +113,33 @@ F.on('read Bot list for owner', function (flow) {
   );
 });
 
-Bot.read_list_to_run = function (sn, flow) {
-  River.new(flow)
-  .job('read', function (j) {
-    TABLE.run("\
-              SELECT *                              \n\
-              FROM @table RIGHT JOIN @SNS           \n\
-                   ON @table.screen_name_sub_id =   \n\
-                      @SNS.id                       \n\
-              WHERE @SNS.id in (                    \n\
-                SELECT bot_id                       \n\
-                FROM @BU                            \n\
-                WHERE owner = @sn                   \n\
-              ) AND code IS NOT NULL                \n\
-              ;", {sn: sn, TABLES: {
-                SNS: "Screen_Name_Sub",
-                BU: "Bot_Use"
-              }}, j);
-  })
-  .job('to objects', function (j, list) {
-    j.finish(_.map(list, function (r) {
-      return Bot.to_client_side(r);
-    }));
-  })
-  .run();
-};
+F.on('read Bot list to run', function (flow) {
+
+  flow.detour(
+    function (f) {
+      TABLE.run( Ok.SQL(
+        "\
+        SELECT *                              \n\
+        FROM @table RIGHT JOIN @Screen_Name   \n\
+        ON @table.screen_name_sub_id =        \n\
+        @Screen_Name.id                       \n\
+        WHERE @Screen_Name.id in (          \n\
+        SELECT bot_id                       \n\
+        FROM @Bot_Use                       \n\
+        WHERE owner = @sn                   \n\
+        ) AND code IS NOT NULL              \n\
+        ;"
+      ), {sn: sn}, f);
+    }, // === func
+
+    function (f) {
+      f.finish(_.map(f.last, function (r) {
+        return Bot.to_client_side(r);
+      }));
+    }
+  ); // === .detour
+
+}); // === .on
 
 F.on('read Bot by screen name', function (flow) {
 
