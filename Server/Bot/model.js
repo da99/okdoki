@@ -125,6 +125,7 @@ F.on('read Bot by screen name', function (flow) {
         sub_sn: pieces[0],
         owner: pieces[1]
       };
+
       var sql = Ok.SQL("\
         SELECT CONCAT(sub_sn, '@', @Screen_Name.screen_name) AS screen_name      \n\
         FROM @Screen_Name_Sub INNER JOIN @Screen_Name                   \n\

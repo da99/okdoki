@@ -17,7 +17,7 @@ exports.SQL = function (sql) {
 };
 
 exports.Model = {
-  new : function (m) {
+  -new- : function (m) {
     if (arguments.length === 2) {
       var exp  = arguments[0];
       var name = arguments[1];
@@ -52,6 +52,7 @@ exports.Model = {
       if (m.prototype._new)
         o._new();
       o.is_ok_model = true;
+
       return o;
     };
 
@@ -63,13 +64,28 @@ exports.Model = {
 
     m.prototype.get_data = exports.Model.get_data;
     m.public_data        = exports.Model.public_data;
+
+    var pd = m.public_data();
+
     return m;
   },
 
   public_data: function (arr) {
+    var model = this;
     return _.map(arr, function (o) {
-      if (o.is_ok_model)
-        return o.public_data();
+      if (o.is_ok_model) {
+        var pd = o._public_data();
+
+        Object.defineProperty(pd, "model", {
+          enumerable: false,
+          value     : o
+        });
+
+        Object.defineProperty(pd, "is_public_data", {
+          enumerable: false,
+          value     : true
+        });
+      }
       return this.new(o).public_data();
     });
   },
