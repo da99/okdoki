@@ -1,7 +1,20 @@
 var _ = require('underscore')._
 ;
 
-exports.models = {};
+exports.__model_list = [];
+exports.__replace_table = null;
+
+exports.SQL = function (sql) {
+  var k = exports.__model_list;
+  ;
+  if (!exports.__replace_table) {
+    exports.__replace_table = new RegExp('@(' + k.join('|') + ')','ig')
+  }
+  var reg_ex = exports.__replace_table;
+  return sql.replace(reg_ex, function (full, name) {
+    return '"' + (exports.Model[name].TABLE_NAME || s) + '"';
+  });
+};
 
 exports.Model = {
   new : function (m) {
@@ -11,6 +24,8 @@ exports.Model = {
       if (exp[name])
         throw new Error(name + " already defined.");
       exports.Model[name] = exp[name] = exports.Model.new(function () {});;
+      exports.__model_list.push(name);
+      exports.__replace_table = null;
       return exp[name];
     }
 

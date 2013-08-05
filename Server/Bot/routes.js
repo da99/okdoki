@@ -53,10 +53,9 @@ exports.route = function (mod) {
       resp.Ok.if_not_found("Bot not found: " + sn),
       'attach Bot_Code',
       function (o) {
-        var bot = o.val;
-
+        var bot = o.val.public_data();
         resp.Ok.render_template('Bot/bot', {
-          bot      : bot.public_data(),
+          bot      : bot,
           title    : bot.screen_name,
           Bot_Code : Bot_Code
         });

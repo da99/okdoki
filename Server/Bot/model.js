@@ -117,39 +117,34 @@ Bot.read_list_to_run = function (sn, flow) {
 
 F.on('read Bot by screen name', function (flow) {
 
-  F.run(flow, function (j) {
-    var pieces = flow.data.screen_name.split('@');
-    var data = {sub_sn: pieces[0], owner: pieces[1], TABLES: {
-      SUB: Ok.Model.Screen_Name_Sub.TABLE_NAME,
-      SN:  Ok.Model.Screen_Name.TABLE_NAME
-    }};
-    var sql = "\
-      SELECT *                             \n\
-      FROM @SUB INNER JOIN @SN             \n\
-        ON @SUB.owner_id = @SN.id          \n\
-      WHERE screen_name = @owner AND       \n\
-            sub_sn = @sub_sn               \n\
-      LIMIT 1                              \n\
-    ;";
+  flow.detour(
 
-    TABLE.run_and_return_at_most_1(sql, data, j);
-  }, function (j) {
-    j.finish(Bot.new(j.last));
-  });
+    function (j) {
+      var pieces = j.data.screen_name.split('@');
+      var data = {
+        sub_sn: pieces[0],
+        owner: pieces[1]
+      };
+      var sql = Ok.SQL("\
+        SELECT CONCAT(sub_sn, '@', @Screen_Name.screen_name) AS screen_name      \n\
+        FROM @Screen_Name_Sub INNER JOIN @Screen_Name                   \n\
+              ON @Screen_Name_Sub.owner_id = @Screen_Name.id            \n\
+        WHERE screen_name = @owner AND       \n\
+              sub_sn = @sub_sn               \n\
+        LIMIT 1                              \n\
+      ;");
+
+      TABLE.run_and_return_at_most_1(sql, data, j);
+    },
+
+    function (j) {
+      j.finish(Bot.new(j.last));
+    }
+
+  );
 
 });
 
-Bot.read_by_screen_name = function (sn, flow) {
-  var pieces = sn.split('@');
-  River.new(flow)
-  .job('read', function (j) {
-    TABLE.read_one({sub_sn: pieces[0], owner: pieces[1]}, j);
-  })
-  .job('to object', function (j, last) {
-    j.finish(Bot.new(last));
-  })
-  .run();
-};
 
 // ================================================================
 // ================== Update ======================================
