@@ -15,9 +15,9 @@ var _         = require("underscore")._
 ;
 
 
-var Headline = exports.Headline = Ok.Model.new(function () {});
+var Headline = Ok.Model.new(exports, 'Headline');
 
-var TABLE_NAME = exports.Headline.TABLE_NAME = "Headline";
+var TABLE_NAME = Headline.TABLE_NAME = "Headline";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Headline._new = function () {

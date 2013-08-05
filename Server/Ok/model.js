@@ -74,7 +74,7 @@ var Model = {
     return o;
   },
 
-  new_class : function (exp, name) {
+  "new"     : function (exp, name) {
     if (exp[name])
       throw new Error(name + " already defined.");
     if (Model.map[name])

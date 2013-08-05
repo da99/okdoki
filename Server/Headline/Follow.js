@@ -11,9 +11,9 @@ var _         = require("underscore")._
 ;
 
 
-var Follow = exports.Follow = Ok.Model.new(function () {});
+var Follow = Ok.Model.new(exports, 'Follow');
 
-var TABLE_NAME = exports.Follow.TABLE_NAME = "Headline_Follow";
+var TABLE_NAME = Follow.TABLE_NAME = "Headline_Follow";
 var TABLE = Topogo.new(TABLE_NAME);
 
 Follow._new = function () {

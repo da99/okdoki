@@ -27,26 +27,24 @@ exports.route = function (mod) {
   var app = mod.app;
 
   app.get( '/' , function (req, resp, next) {
-    var OK = mod.New_Request(arguments);
-    var opts = req.user ?
-      OK.template_data('Customer/lifes') :
-      OK.template_data('App/top_slash') ;
-
-    if (opts.is_customer) {
-      opts['title'] =  "My Okdoki";
-      opts['packs'] = ['chit_chat', 'rss_news_wire', 'panels'];
-
-      F.run("read Multi-Life Page", { user: req.user, Bots: {Own: [], Use: []} }, function (f) {
-        opts['Bots'] = {
-          Own: f.data.Bots.Own,
-          Use: f.data.Bots.Use
-        };
-        return OK.render_template();
+    if (!req.user) {
+      return resp.Ok.render_template('App/top_slash', {
+        title: 'OkDoki.com'
       });
-    } else {
-      opts['title'] = 'OkDoki.com';
-      return OK.render_template();
-    };
+    }
+
+    F.run(
+      "read Multi-Life Page", { user: req.user, Bots: {Own: [], Use: []} },
+      function (f) {
+        return resp.Ok.render_template('Customer/lifes', {
+          title : "My Okdoki",
+          Bots  : {
+            Own : f.data.Bots.Own,
+            Use : f.data.Bots.Use
+          }
+        });
+      }
+    );
 
   });
 

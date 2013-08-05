@@ -16,7 +16,6 @@ var _         = require('underscore')
 // ================================================================
 
 
-var TABLE_NAME = 'Customer';
 
 // ================================================================
 // =============== Main Object ====================================
@@ -34,7 +33,8 @@ Customer.new = function () {
   return mem;
 };
 
-Customer.TABLE_NAME = TABLE_NAME;
+var TABLE_NAME = Customer.TABLE_NAME = 'Customer';
+var TABLE      = Customer.TABLE      = Topogo.new(TABLE_NAME);
 
 // ================================================================
 // =============== Helper Methods==================================
@@ -398,74 +398,88 @@ Customer.read_by_id = function (opts, flow) {
     delete opts.pass_phrase;
   }
 
-  River.new(flow)
+  F.run(
+    opts,
+    function (j) { TABLE.read_one(opts, j); },
 
-  .job_must_find('Customer', screen_name || opts.id, function (j) {
-    Topogo.new(TABLE_NAME)
-    .read_one(opts, j);
-  })
+    function (j, last) {
+      if (!last)
+        return flow.finish(null);
+      return j.finish(last);
+    },
 
-  .job('update log_in_at', function (j, row) {
-    customer_row = row;
-    if (!p)
-      return j.finish(row);
+    function (j) { // Record log in attempt if password provided.
+      customer_row = j.last;
+      if (!p)
+        return j.finish(j.last);
 
-    var sql = "\
+      var sql = "\
       UPDATE @table                                      \n\
       SET log_in_at = CURRENT_DATE, bad_log_in_count = 0 \n\
       WHERE log_in_at != CURRENT_DATE AND id = @id       \n\
       RETURNING *                                        \n\
-    ;";
+      ;";
 
-    Topogo.new(Customer.TABLE_NAME)
-    .run_and_return_at_most_1(sql, {id: row.id}, j);
-  })
+      TABLE.run_and_return_at_most_1(sql, {id: row.id}, j);
+    },
 
-  .job('check log in count', function (j, last_row) {
-    var row = last_row || customer_row;
-    if (!p)
-      return j.finish(row);
-    if (row.bad_log_in_count < 4)
-      return j.finish(row);
-    else
-      return j.finish('invalid', 'Too many bad log-ins for today. Try again tomorrow.');
-  })
+    function (j, last_row) { // check log in count
+      var row = last_row || customer_row;
+      if (!p)
+        return j.finish(row);
+      if (row.bad_log_in_count < 4)
+        return j.finish(row);
+      else
+        return j.finish('invalid', 'Too many bad log-ins for today. Try again tomorrow.');
+    },
 
-  .job('hash pass phrase', function (j, row) {
-    if (!p)
-      return j.finish(row);
-
-    bcrypt.compare(p, customer_row.pass_phrase_hash, function (err, result) {
-      if (err)
-        return j.finish('invalid', 'Unable to process pass phrase.');
-      if (result)
+    function (j, row) { // hash pass phrase
+      if (!p)
         return j.finish(row);
 
-      River.new(j)
-      .job(function (j) {
-        Topogo.new(Customer.TABLE_NAME)
-        .run("UPDATE @table SET bad_log_in_count = (bad_log_in_count + 1)    \n\
-                       WHERE id = @id                                        \n\
-             RETURNING *;", {id: row.id}, j);
-      })
-      .job(function (j, rows) {
-        return j.finish('invalid', 'Pass phrase is incorrect. Check your CAPS LOCK key.');
-      }).run();
-    });
-  })
+      bcrypt.compare(p, customer_row.pass_phrase_hash, function (err, result) {
+        if (err)
+          return j.finish('invalid', 'Unable to process pass phrase.');
+        if (result)
+          return j.finish(row);
 
-  .job(function (j, row) {
-    me.is_new                = false;
-    me.customer_id           = row.id;
-    me.data.id               = row.id;
-    me.data.email            = row.email;
-    me.data.trashed_at       = row.trashed_at;
-    me.data.log_in_at        = row.log_in_at;
-    me.data.bad_log_in_count = row.bad_log_in_count;
-    return j.finish(me);
-  })
-  .job('read screen names', opts.id, [Ok.Model.Screen_Name, 'read_list', me])
-  .run();
+        F.run(
+          function (j) {
+            Topogo.new(Customer.TABLE_NAME)
+            .run(
+              "UPDATE @table SET bad_log_in_count = (bad_log_in_count + 1)    \n\
+              WHERE id = @id                                        \n\
+              RETURNING *;",
+              {id: row.id},
+              j
+            );
+          },
+          function () {
+            return j.finish('invalid', 'Pass phrase is incorrect. Check your CAPS LOCK key.');
+          }
+        );
+      });
+    }, // === func
+
+    function (j, row) {
+      me.is_new                = false;
+      me.customer_id           = row.id;
+      me.data.id               = row.id;
+      me.data.email            = row.email;
+      me.data.trashed_at       = row.trashed_at;
+      me.data.log_in_at        = row.log_in_at;
+      me.data.bad_log_in_count = row.bad_log_in_count;
+      return j.finish(me);
+    },
+
+    function (j) { // === read screen name
+      Ok.Model.Screen_Name.read_list(me, j);
+    },
+
+    function (j, last) {
+      flow.finish(last);
+    }
+  ); // === .row
 
 };
 
