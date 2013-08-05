@@ -48,23 +48,18 @@ exports.route = function (mod) {
 
     var sn = req.params.screen_name;
 
-    req.F.run(
-      'read Bot by screen name',
-      {screen_name: sn},
-      resp.if_not_found("Bot not found: " + sn),
+    req.Ok.run(
+      'read Bot by screen name', {screen_name: sn},
+      resp.Ok.if_not_found("Bot not found: " + sn),
       'attach Bot_Code',
       function (o) {
         var bot = o.val;
 
-        if (!bot)
-          return req.next();
-
-        var data         = req.OK.template_data('Bot/bot');
-        data['bot']      = bot.public_data();
-        data['title']    = data['bot'].screen_name;
-        data['Bot_Code'] = Bot_Code;
-
-        req.OK.render_template();
+        resp.Ok.render_template('Bot/bot', {
+          bot      : bot.public_data(),
+          title    : bot.screen_name,
+          Bot_Code : Bot_Code
+        });
       }
     );
 

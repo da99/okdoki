@@ -76,103 +76,6 @@ var resp_error = exports.resp_error = function (req, resp, msg, stat) {
 var resp_invalid = exports.resp_invalid = resp_error;
 
 
-var New_Request = exports.New_Request = function (raw_args, raw_resp, raw_next) {
-  if (raw_args.length) {
-    var req = raw_args[0], resp = raw_args[1], next = raw_args[2];
-  } else {
-    var req = raw_args, resp = raw_resp, next = raw_next;
-  };
-
-  return {
-    status : function (code) {
-      if (code)
-        this._status = code;
-      return this._status || 200;
-    },
-    html:  function (str) {
-      this.last_modified_now();
-      this.ETag_from(str);
-      resp.send(str);
-    },
-    text: function (str) {
-      resp.set('Content-Type', 'text/plain');
-      this.last_modified_now();
-      this.ETag_from(str);
-      return resp.send(str);
-    },
-    json: function (data, stat) {
-      this.last_modified_now();
-      this.ETag_from(data);
-      if (stat)
-        resp.status(stat);
-      resp.json(data);
-    },
-    json_success: function (msg, o) {
-      if (!o)
-        o = {};
-      o.msg     = msg;
-      o.success = true;
-      this.json(o);
-    },
-    json_fail: function (msg, o, stat) {
-      if (!o)
-        o = {};
-      o.msg     = msg;
-      o.success = false;
-      this.json(o, (stat || 404));
-    },
-    template_data : function (name, data) {
-      if (!this._template_data) {
-        var opts = this._template_data = {
-          homepage_belongs_to_viewer: false,
-          template_name : name,
-          is_customer   : !!req.user,
-          is_stranger   : !req.user,
-          is_top_slash  : req.path === '/',
-          IS_DEV        : IS_DEV,
-          customer      : req.user,
-          screen_name   : req.params.screen_name,
-          is_owner      : false,
-          token         : req.session._csrf,
-          _csrf         : req.session._csrf,
-          aud           : req.user,
-          is_testing    : !!process.env.IS_TESTING,
-          mtimes        : mtimes,
-          add_mtime     : function (f) {
-            if (mtimes[f])
-              return f + '?' + mtimes[f];
-            else
-              return f;
-          }
-        };
-
-        if (opts.is_customer) {
-          opts.customer_screen_names = req.user.screen_names();
-          opts.customer_has_one_life = opts.customer_screen_names.length === 1;
-        }
-
-        if (opts.is_customer && opts.screen_name)
-          opts.is_owner = req.user.is(opts.screen_name);
-
-      }
-      if (data)
-        _.extend(this._template_data, data);
-      return this._template_data;
-    },
-    last_modified_now : function () {
-      resp.set('Last-Modified', (new Date).toUTCString());
-    },
-    ETag_from : function (data) {
-      resp.set('ETag', (new Date).getTime().toString());
-    },
-    render_template: function (name, data) {
-      if (name)
-        this.template_data.apply(this, arguments);
-      this.last_modified_now();
-      return resp.render(this.template_data().template_name + '/markup', this.template_data());
-    }
-  };
-};
 
 
 // ================================================================
@@ -366,14 +269,6 @@ app.configure(function () {
       resp_invalid(req, resp, f.data.error.message);
     });
 
-    resp.if_not_found = function (msg) {
-      return function (f) {
-        if (!f.data.last || (_.isArray(f.data.last) && !f.data.last.length))
-          return resp_404(req, resp, msg);
-        f.finish(f.last);
-      };
-    };
-
     _.each("params query body cookies".split(" "), function (k, i) {
       if (!req[k])
         throw new Error('Unknown key: ' + k);
@@ -388,7 +283,113 @@ app.configure(function () {
       req[k] = e_e_e(req[k]);
     });
 
-    req.OK = New_Request(req, resp, next);
+    resp.Ok = {
+      if_not_found : function (msg) {
+        return function (f) {
+          if (!f.last || (_.isArray(f.last) && !f.last.length))
+            return resp_404(req, resp, msg);
+          f.finish(f.last);
+        };
+      },
+      template_data : function (name, data) {
+        if (!this._template_data) {
+          var opts = this._template_data = {
+            homepage_belongs_to_viewer: false,
+            template_name : name,
+            is_customer   : !!req.user,
+            is_stranger   : !req.user,
+            is_top_slash  : req.path === '/',
+            IS_DEV        : IS_DEV,
+            customer      : req.user,
+            screen_name   : req.params.screen_name,
+            is_owner      : false,
+            token         : req.session._csrf,
+            _csrf         : req.session._csrf,
+            aud           : req.user,
+            is_testing    : !!process.env.IS_TESTING,
+            mtimes        : mtimes,
+            add_mtime     : function (f) {
+              if (mtimes[f])
+                return f + '?' + mtimes[f];
+              else
+                return f;
+            }
+          };
+
+          if (opts.is_customer) {
+            opts.customer_screen_names = req.user.screen_names();
+            opts.customer_has_one_life = opts.customer_screen_names.length === 1;
+          }
+
+          if (opts.is_customer && opts.screen_name)
+            opts.is_owner = req.user.is(opts.screen_name);
+
+        }
+        if (data)
+          _.extend(this._template_data, data);
+        return this._template_data;
+      },
+
+      render_template: function (name, data) {
+        if (name)
+          this.template_data.apply(this, arguments);
+        this.last_modified_now();
+        return resp.render(this.template_data().template_name + '/markup', this.template_data());
+      },
+      last_modified_now : function () { resp.set('Last-Modified', (new Date).toUTCString()); },
+      ETag_from : function (data) { resp.set('ETag', (new Date).getTime().toString()); },
+
+      status : function (code) {
+        if (code)
+          this._status = code;
+        return this._status || 200;
+      },
+
+      html:  function (str) {
+        this.last_modified_now();
+        this.ETag_from(str);
+        resp.send(str);
+      },
+
+      text: function (str) {
+        resp.set('Content-Type', 'text/plain');
+        this.last_modified_now();
+        this.ETag_from(str);
+        return resp.send(str);
+      },
+
+      json: function (data, stat) {
+        this.last_modified_now();
+        this.ETag_from(data);
+        if (stat)
+          resp.status(stat);
+        resp.json(data);
+      },
+
+      json_success: function (msg, o) {
+        if (!o)
+          o = {};
+        o.msg     = msg;
+        o.success = true;
+        this.json(o);
+      },
+
+      json_fail: function (msg, o, stat) {
+        if (!o)
+          o = {};
+        o.msg     = msg;
+        o.success = false;
+        this.json(o, (stat || 404));
+      }
+
+    };
+
+    req.Ok = {
+      run : function () {
+        return f.run.apply(f, arguments);
+      }
+    };
+
     next();
   });
 
