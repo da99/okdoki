@@ -15,10 +15,9 @@ var _         = require("underscore")._
 
 require('./Code');
 
-var Bot = Ok.Model.new(exports, 'Bot');
-
+var Bot        = Ok.Model.new(exports, 'Bot');
 var TABLE_NAME = Bot.TABLE_NAME = "Bot";
-var TABLE = Topogo.new(TABLE_NAME);
+var TABLE      = Topogo.new(TABLE_NAME);
 
 Bot._new = function () {
   var o = this;
@@ -76,7 +75,7 @@ F.on('create Bot', function (flow) {
 // ================== Read ========================================
 // ================================================================
 
-F.on('read Multi-Life Page', function (flow) {
+F.on('after read Multi-Life Page', function (flow) {
   if (!f.data.Bots)
     return f.finish();
   flow.detour(
@@ -121,13 +120,14 @@ F.on('read Bot list to run', function (flow) {
         "\
         SELECT *                              \n\
         FROM @table RIGHT JOIN @Screen_Name   \n\
-        ON @table.screen_name_sub_id =        \n\
-        @Screen_Name.id                       \n\
-        WHERE @Screen_Name.id in (          \n\
-        SELECT bot_id                       \n\
-        FROM @Bot_Use                       \n\
-        WHERE owner = @sn                   \n\
-        ) AND code IS NOT NULL              \n\
+               ON @table.screen_name_sub_id = \n\
+                 @Screen_Name.id              \n\
+        WHERE @Screen_Name.id in (            \n\
+          SELECT bot_id                       \n\
+          FROM @Bot_Use                       \n\
+          WHERE owner = @sn                   \n\
+        )                                     \n\
+        AND code IS NOT NULL                  \n\
         ;"
       ), {sn: sn}, f);
     }, // === func
@@ -176,7 +176,9 @@ F.on('read Bot by screen name', function (flow) {
 // ================================================================
 // ================== Update ======================================
 // ================================================================
-Bot.update = function (data, flow) {
+
+F.on('update Bot', function (flow) {
+  var data  = flow.data;
   var clean = _.pick(data, 'code', 'about_me');
   var sn    = extract_name(data);
 
@@ -191,24 +193,24 @@ Bot.update = function (data, flow) {
     clean.code = JSON.stringify(E_E_E(JSON.parse(clean.code)));
   }
 
-  River.new(flow)
-  .job('read sn', function (j) {
-    Topogo.new("Screen_Name_Sub")
-    .read_one({
-      sub_sn: sn[0],
-      owner: sn[1]
-    }, j);
-  })
-  .job('update bot', function (j, last) {
-    if (!last)
-      return j.finish("invalid", "Bot not found: " + sn.join('@'));
-    TABLE.update_one({screen_name_sub_id: last.id}, clean, j);
-  })
-  .job('to object', function (j, row) {
-    j.finish(Bot.new(row));
-  })
-  .run();
-};
+  flow.detour(
+
+    "read Screen_Name_Sub", { sub_sn: sn[0], owner: sn[1] },
+
+    function (j) {
+      if (!j.last)
+        return j.finish("invalid", "Bot not found: " + sn.join('@'));
+      TABLE.update_one({screen_name_sub_id: last.id}, clean, j);
+    },
+
+    function (j) {
+      j.finish(Bot.to_client_side(j.last));
+    }
+
+  ); // === .detour
+
+}); // === .on
+
 
 // ================================================================
 // ================== Trash/Untrash ===============================
