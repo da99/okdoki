@@ -65,6 +65,8 @@ describe( 'Unauthenticated users:', function () {
 
   it('escapes screen names, not just canon-ize them')
 
+  it('exits gracefully for SIGTERM')
+  it('exits gracefully for SIGINT')
 }); // === end desc
 
 describe( 'Auth users (aka Customers)', function () {

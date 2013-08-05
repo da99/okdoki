@@ -1,96 +1,18 @@
 var _ = require('underscore')._
 ;
 
-exports.__model_list = [];
-exports.__replace_table = null;
+var Model = {
+  map           : {},
+  map_keys      : [],
+  replace_table : null,
 
-exports.SQL = function (sql) {
-  var k = exports.__model_list;
-  ;
-  if (!exports.__replace_table) {
-    exports.__replace_table = new RegExp('@(' + k.join('|') + ')','ig')
-  }
-  var reg_ex = exports.__replace_table;
-  return sql.replace(reg_ex, function (full, name) {
-    return '"' + (exports.Model[name].TABLE_NAME || s) + '"';
-  });
-};
-
-exports.Model = {
-  -new- : function (m) {
-    if (arguments.length === 2) {
-      var exp  = arguments[0];
-      var name = arguments[1];
-      if (exp[name])
-        throw new Error(name + " already defined.");
-      exports.Model[name] = exp[name] = exports.Model.new(function () {});;
-      exports.__model_list.push(name);
-      exports.__replace_table = null;
-      return exp[name];
-    }
-
-    if (m.new) {
-      throw new Error(".new already defined.");
-    }
-
-    m.new = function (data) {
-      if (arguments.length === 1 && !data)
-        return null;
-
-      var o = new m;
-
-      if (data) {
-        if (_.isArray(data)) {
-          return _.map(data, function (v) {
-            return m.new(v);
-          });
-        }
-
-        o.data = data;
-      }
-
-      if (m.prototype._new)
-        o._new();
-      o.is_ok_model = true;
-
-      return o;
-    };
-
-    m.prototype.update = function () {
-      if (!this.is_update_able())
-        return _.last(arguments).finish();
-      return this._update.apply(this, arguments);
-    };
-
-    m.prototype.get_data = exports.Model.get_data;
-    m.public_data        = exports.Model.public_data;
-
-    var pd = m.public_data();
-
-    return m;
+  instance_update : function () {
+    if (!this.is_update_able())
+      return _.last(arguments).finish();
+    return this._update.apply(this, arguments);
   },
 
-  public_data: function (arr) {
-    var model = this;
-    return _.map(arr, function (o) {
-      if (o.is_ok_model) {
-        var pd = o._public_data();
-
-        Object.defineProperty(pd, "model", {
-          enumerable: false,
-          value     : o
-        });
-
-        Object.defineProperty(pd, "is_public_data", {
-          enumerable: false,
-          value     : true
-        });
-      }
-      return this.new(o).public_data();
-    });
-  },
-
-  get_data: function (args) {
+  instance_get_data: function (args) {
     var me   = this;
     var args = _.flatten(_.toArray(arguments));
     var data = {};
@@ -100,6 +22,95 @@ exports.Model = {
     });
 
     return data;
+  },
+
+  class_to_client_side: function (raw_arr) {
+    var arr = _.flatten(_.toArray(arguments));
+    var me  = this;
+
+    var objs =  _.map(arr, function (o) {
+      var data  = (o.is_ok_model) ? o.to_client_side() : o;
+      var model = (o.is_ok_model) ? o : me.new(data);
+
+      Object.defineProperty(data, "model", {
+        enumerable : false,
+        value      : model
+      });
+
+      Object.defineProperty(data, "is_client_side", {
+        enumerable: false,
+        value     : true
+      });
+
+      return data;
+    });
+
+    if (arr.length === 1 && !_.isArray(raw_arr) )
+      return objs[0];
+    return objs;
+  },
+
+  new_instance  : function (data) {
+    if (arguments.length === 1 && !data)
+      return null;
+
+    var o = new m;
+
+    if (data) {
+      if (_.isArray(data)) {
+        return _.map(data, function (v) {
+          return m.new(v);
+        });
+      }
+
+      o.data = data;
+    }
+
+    if (m.prototype._new)
+      o._new();
+
+    o.is_ok_model = true;
+
+    return o;
+  },
+
+  new_class : function (exp, name) {
+    if (exp[name])
+      throw new Error(name + " already defined.");
+    if (Model.map[name])
+      throw new Error(name + " already an Ok Model.");
+
+    var m = Model.map[name] = exp[name] = function () {};
+    Model.replace_table = null;
+    Model.map_keys.push(name);
+
+    // === "Class" methods
+    m.new            = Model.new_instance;
+    m.to_client_side = Model.class_to_client_side;
+
+    // === "instance" methods
+    m.prototype.update   = Model.instance_update;
+    m.prototype.get_data = Model.instance_get_data;
+
+    return m;
+  },
+
+  SQL : function (sql) {
+    if (!Model.replace_table) {
+      Model.replace_table = new RegExp('@(' + Model.map_keys.join('|') + ')','ig')
+    }
+
+    var reg_ex = Model.replace_table;
+    return sql.replace(reg_ex, function (full, name) {
+      return '"' + (Model.map[name].TABLE_NAME || s) + '"';
+    });
   }
 
 };
+
+
+exports.Model = Model;
+
+
+
+
