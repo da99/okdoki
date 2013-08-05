@@ -601,7 +601,7 @@ var on_close = function () {
 };
 
 process.on('SIGINT',  on_close);
-process.on('SIGTERm', on_close);
+process.on('SIGTERM', on_close);
 
 
 
