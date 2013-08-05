@@ -18,7 +18,7 @@ exports.route = function (mod) {
 
   app.post('/Bot', function (req, resp, next) {
     var data = {sub_sn: req.body.sub_sn, as_this_life: req.body.as_this_life, user: req.user};
-    F.run('create Bot', data, function (f) {
+    req.Ok.run('create Bot', data, function (f) {
       var bot = f.last.public_data();
       return resp.json({success: true, msg: "Bot created: " + bot.screen_name, bot: bot});
     });
@@ -52,8 +52,8 @@ exports.route = function (mod) {
       'read Bot by screen name', {screen_name: sn},
       resp.Ok.if_not_found("Bot not found: " + sn),
       'attach Bot_Code',
-      function (o) {
-        var bot = o.val.public_data();
+      function (f) {
+        var bot = f.val.public_data();
         resp.Ok.render_template('Bot/bot', {
           bot      : bot,
           title    : bot.screen_name,

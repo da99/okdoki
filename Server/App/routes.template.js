@@ -15,31 +15,35 @@ exports.route = function (mod) {
   // ============ CREATE ===============================================
 
   app.post("/MODEL", function (req, resp, next) {
-    var data = _.clone(req.body);
-    mod.New_River(req, resp, next)
-    .read_one('screen_name', function (j) {
-      Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
-    })
-    .create_one(function (j, sn) {
-      MODEL.create_by_screen_name(sn, data, j);
-    })
-    .job(function (j, model) {
-      resp.json({
-        success : true,
-        msg     : 'Created: ',
-        model   : model.public_data()
-      });
-    })
-    .run();
+
+    var data = _.pick(req.body, as_this_life);
+
+    req.Ok.run(
+      'create MODEL', data,
+      function (f) {
+        resp.json({
+          success : true,
+          msg     : 'Created: ',
+          model   : f.last.model.to_client_side()
+        });
+      }
+    );
+
   });
 
   // ============ READ =================================================
 
   app.get("/MODEL/:id", function (req, resp, next) {
-    var OK            = mod.New_Request(arguments);
-    var opts          = OK.template_data('MODEL/show_one');
-    opts['title']     = "MODEL #" + req.params.id;
-    return OK.render_template();
+    req.Ok.run(
+      "read MODEL", {id: req.params.id},
+      resp.Ok.if_not_found("MODEL not found: " + id),
+      function (f) {
+        var model = f.val.public_data();
+        resp.Ok.render_template('Model/model', {
+          title: "Model: id"
+        });
+      }
+    );
   });
 
 }; // ==== exports.routes

@@ -11,8 +11,7 @@ var _         = require("underscore")._
 , F           = require('tally_ho').Tally_Ho
 ;
 
-
-var MODEL = Ok.Model.new(exports, 'DB_TABLE_NAME');
+var MODEL      = Ok.Model.new(exports, 'DB_TABLE_NAME');
 var TABLE_NAME = exports.MODEL.TABLE_NAME = "DB_TABLE_NAME";
 var TABLE      = Topogo.new(TABLE_NAME);
 
@@ -30,23 +29,27 @@ MODEL._new = function () {
 // ================================================================
 // ================== Create ======================================
 // ================================================================
-MODEL.create = function (raw_data, flow) {
+
+F.on('create MODEL', function (flow) {
   var data = {
   };
 
-  River.new(flow)
-  .job(function (j) {
-    TABLE.create(data, j);
-  })
-  .job(function (j, record) {
-    j.finish(MODEL.new(record));
-  })
-  .run();
-};
+  flow.detour(
+    function (f) {
+      TABLE.create(data, f);
+    },
+    function (f) {
+      f.finish(MODEL.new(f.last));
+    }
+  );
+});
+
+
 
 // ================================================================
 // ================== Read ========================================
 // ================================================================
+
 
 
 // ================================================================
