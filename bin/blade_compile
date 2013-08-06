@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+file="$1"
+set -u -e -o pipefail
+
+
+folder="Server/Blade"
+mkdir -p $folder
+
+new_file="$folder/$( echo "$file" | tr "/" _ ).js"
+
+blade_mod="node_modules/blade"
+blade="$blade_mod/bin/blade"
+
+# Create/re-create runtime.
+runtime="$folder/runtime.js"
+echo "var window = {};"               > $runtime
+cat $blade_mod/lib/runtime.js        >> $runtime
+echo "exports.blade = window.blade;" >> $runtime
+
+
+$blade -C $file "$new_file"
+echo ""                                                >> "$new_file"
+echo "var runtime = require('./runtime');"     >> "$new_file"
+echo "var blade = runtime.blade;"                      >> "$new_file"
+echo "exports.render = anonymous;"                     >> "$new_file"
+
+echo $new_file
