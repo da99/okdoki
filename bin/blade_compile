@@ -7,6 +7,15 @@
 file="$1"
 set -u -e -o pipefail
 
+if [[ "$file" == "all" ]]
+then
+  all=$(find Client -iregex '.*\.blade' )
+  for i in $all
+  do
+    bin/blade_compile $i
+  done
+  exit 0
+fi
 
 folder="Server/Blade"
 mkdir -p $folder
@@ -23,7 +32,7 @@ cat $blade_mod/lib/runtime.js        >> $runtime
 echo "exports.blade = window.blade;" >> $runtime
 
 
-$blade -C $file "$new_file"
+$blade -C -m $file "$new_file"
 echo ""                                                >> "$new_file"
 echo "var runtime = require('./runtime');"     >> "$new_file"
 echo "var blade = runtime.blade;"                      >> "$new_file"

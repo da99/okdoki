@@ -5,6 +5,7 @@ var IS_DEV    = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
 var server    = null;
 var F         = require('tally_ho').Tally_Ho;
+var Render    = require('../Blade/Render').render;
 
 // ================================================================
 // ================== Events ======================================
@@ -107,6 +108,7 @@ app.configure(function () {
 
   // Settings:
   app.enable('trust proxy');
+  app.engine('blade_compile', Render);
   app.set('views', app_dir + '/Client');
   app.locals.pretty = true;
 
@@ -334,7 +336,9 @@ app.configure(function () {
         this.last_modified_now();
         return resp.render(this.template_data().template_name + '/markup', this.template_data());
       },
+
       last_modified_now : function () { resp.set('Last-Modified', (new Date).toUTCString()); },
+
       ETag_from : function (data) { resp.set('ETag', (new Date).getTime().toString()); },
 
       status : function (code) {

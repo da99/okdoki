@@ -1,0 +1,4 @@
+function anonymous(locals,cb,__){with(__=__||[],__.r=__.r||blade.Runtime,__.func||(__.func={},__.blocks={},__.chunk={}),__.locals=locals||{},__.filename="/home/da/DEV/apps/okdoki/Client/applets/Mail_Box/markup.blade",__.locals)__.r.blockMod("a","Session_Nav",__,function(a){a.push('<a href="#urgent" class="urgent"><span class="number">0</span><span class="body"> Urgent</span></a><a href="#i_am_bored" class="im_bored"><span class="number">0</span><span class="body"> I\'m Bored</span></a><a href="#good" class="good_news"><span class="number">0</span><span class="body"> Good News</span></a><a href="#bad" class="bad_news"><span class="number">0</span><span class="body"> Bad News</span></a><a href="#other" class="other"><span class="number">0</span><span class="body"> Other Mail</span></a>')});__.inc||__.r.done(__),cb(null,__.join(""),__)}
+var runtime = require('./runtime');
+var blade = runtime.blade;
+exports.render = anonymous;

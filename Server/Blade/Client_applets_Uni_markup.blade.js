@@ -1,0 +1,4 @@
+function anonymous(locals,cb,__){with(__=__||[],__.r=__.r||blade.Runtime,__.func||(__.func={},__.blocks={},__.chunk={}),__.locals=locals||{},__.filename="/home/da/DEV/apps/okdoki/Client/applets/Uni/markup.blade",__.locals)__.push('<div id="Create_Website" class="box"><h3>Create a new website:</h3><div class="content"><form method="POST"'),__.r.attrs({action:{v:"/me/"+__.r.escape(null==(__.z=screen_name)?"":__.z)+"/create/website",e:1}},__),__.push('><div class="fields"><div class="field title"><span class="label">Title:</span><input type="text" name="title" maxlength="100"'),__.r.attrs({value:{v:void 0,e:1}},__),__.push('/></div></div><div class="buttons"><button class="submit">Create</button></div></form></div></div>');__.inc||__.r.done(__),cb(null,__.join(""),__)}
+var runtime = require('./runtime');
+var blade = runtime.blade;
+exports.render = anonymous;

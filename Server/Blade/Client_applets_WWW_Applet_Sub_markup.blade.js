@@ -1,0 +1,4 @@
+function anonymous(locals,cb,__){with(__=__||[],__.r=__.r||blade.Runtime,__.func||(__.func={},__.blocks={},__.chunk={}),__.locals=locals||{},__.filename="/home/da/DEV/apps/okdoki/Client/applets/WWW_Applet_Sub/markup.blade",__.locals)__.r.blockMod("a","WWW_Applet_Sub",__,function(_){_.push('<div class="box"><h3>Subscribe to a WWW applet:</h3><div class="content"><form action="/applet" method="POST" id="Create_WWW_Applet_Sub"><div class="fields"><div class="field url"><label for="NEW_APPLET_SUB">Screen Name of Applet:</label><input type="text" maxlength="40" id="NEW_APPLET_SUB"'),_.r.attrs({value:{v:void 0,e:1}},_),_.push('/></div></div><div class="buttons"><button class="submit">Create</button></div></form></div></div>')});__.inc||__.r.done(__),cb(null,__.join(""),__)}
+var runtime = require('./runtime');
+var blade = runtime.blade;
+exports.render = anonymous;
