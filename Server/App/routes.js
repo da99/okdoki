@@ -4,7 +4,6 @@ var _         = require('underscore')
 , Chat_Room_Seat=require('../Chat/Room_Seat').Room_Seat
 , log         = require("../App/base").log
 
-, blade       = require('blade')
 , Faker       = require('Faker')
 , Topogo      = require('topogo').Topogo
 , River       = require('da_river').River
@@ -33,7 +32,7 @@ exports.route = function (mod) {
       });
     }
 
-    F.run(
+    req.Ok.run(
       "read Multi-Life Page", { user: req.user, Bots: {Own: [], Use: []} },
       function (f) {
         return resp.Ok.render_template('Customer/lifes', {

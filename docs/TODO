@@ -4,6 +4,7 @@ Security:
 =============================
 - Put CSRF in different compression context:
 http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf
+https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
 
 - Fix remember me: 1 week instead of current value
 

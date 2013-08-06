@@ -1,6 +1,5 @@
 
 
-var blade     = require('blade');
 var e_e_e     = require('escape_escape_escape').Sanitize.html;
 var IS_DEV    = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
@@ -108,7 +107,6 @@ app.configure(function () {
 
   // Settings:
   app.enable('trust proxy');
-  app.set('view engine', 'blade');
   app.set('views', app_dir + '/Client');
   app.locals.pretty = true;
 
