@@ -1,0 +1,26 @@
+
+Security:
+=============================
+1 moonrocks nginx conf: 
+https://github.com/leafo/moonrocks-site/blob/master/nginx.conf
+
+2 Put CSRF in different compression context:
+http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf
+https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
+
+3 Fix remember me: 1 week instead of current value
+
+4 Review mozilla web app guidelines.
+
+5 Security headers: http://blog.liftsecurity.io/post/37388272578/writing-secure-express-js-apps
+
+6 Server tokens: http://arstechnica.com/gadgets/2012/11/how-to-set-up-a-safe-and-secure-web-server/4/
+
+7 run rootkit finders
+
+8 Repeatable check of SSL/TLS ciphers.
+ http://blog.cloudflare.com/staying-on-top-of-tls-attacks 
+
+
+
+

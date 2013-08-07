@@ -1,77 +1,59 @@
 
-
-Security:
-=============================
-- moonrocks nginx conf: 
-https://github.com/leafo/moonrocks-site/blob/master/nginx.conf
-
-- Put CSRF in different compression context:
-http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf
-https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
-
-- Fix remember me: 1 week instead of current value
-
-- Review mozilla web app guidelines.
-
-- Security headers: http://blog.liftsecurity.io/post/37388272578/writing-secure-express-js-apps
-
-- Server tokens: http://arstechnica.com/gadgets/2012/11/how-to-set-up-a-safe-and-secure-web-server/4/
-
-- run rootkit finders
-
-- Repeatable check of SSL/TLS ciphers.
- http://blog.cloudflare.com/staying-on-top-of-tls-attacks 
+Performance/User-Happiness
 
 =============================
-- international domains
+1 international domains
 
-- strip all non-okid screen names in im body, then send to bot.
-- add template vars to response IMs from bots:
+2 strip all non-okid screen names in im body, then send to bot.
+
+3 add template vars to response IMs from bots:
   @{{SCREEN NAME}}
   {{FIRST NAME}}
 
-- Make sure all content in/out is utf8
+4 Make sure all content in/out is utf8
 
-- figure out why homepage is being used as cached when 
+5 figure out why homepage is being used as cached when 
   back button is used in browser
 
-- Show "please sign in" if AJAX request is being made w/o loggig in.
+6 Show "please sign in" if AJAX request is being made w/o loggig in.
 
-- When customer updates their info/profile, update their redis cache.
+7 When customer updates their info/profile, update their redis cache.
   - example: one window open to /chat, another edits their profile.
 
-- Check for memory leaks in the client side.
+8 Check for memory leaks in the client side.
 
-- Anti-framing: http://simonholywell.com/post/2013/04/three-things-i-set-on-new-servers.html
+9 Anti-framing: http://simonholywell.com/post/2013/04/three-things-i-set-on-new-servers.html
 
-- rotate logs
+10. rotate logs
 
-- Ensure tiemzone of postgrsql "/etc/postgresql/9.2/main/postgresql.conf"
+11. Ensure tiemzone of postgrsql "/etc/postgresql/9.2/main/postgresql.conf"
   is: timezone = 'UTC'
   http://justatheory.com/computers/databases/postgresql/use-timestamptz.html
 
-- SEND runtime error report
-- Why 130 error code when bin/watch closes server?
+12.  SEND runtime error report
 
-- put 123 char limit on titles, text inputs, etc.
+13.  put 123 char limit on titles, text inputs, etc.
 
-- create indexes for Folder, Page, etc.
+14.  create indexes for Folder, Page, etc.
 
-- on MODEL.new:
+15.   on MODEL.new:
    set .is_new to false when .data is set
 
-- paging for pages in a folder;
+16.  paging for pages in a folder;
 
-- when server restarts, a process is shon "Bad gateway"
+17.   when server restarts, a process is shon "Bad gateway"
 
 
-- GLOBAL WINDOW error for client.
+18.  GLOBAL WINDOW error for client.
 
-- jslint all js files
 
-- utf8
+19.  jslint all js files
 
-- show error message when: invalid when screen name and sub_sn are too long
+
+20.  utf8
+
+
+21.   show error message when: invalid when screen name and sub_sn are too long
 
 
 
