@@ -32,7 +32,7 @@ cat $blade_mod/lib/runtime.js        >> $runtime
 echo "exports.blade = window.blade;" >> $runtime
 
 
-$blade -C -m $file "$new_file"
+$blade -C $file "$new_file"
 echo ""                                                >> "$new_file"
 echo "var runtime = require('./runtime');"     >> "$new_file"
 echo "var blade = runtime.blade;"                      >> "$new_file"

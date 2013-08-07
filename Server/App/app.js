@@ -354,7 +354,12 @@ app.configure(function () {
         if (name)
           this.template_data.apply(this, arguments);
         this.last_modified_now();
-        return resp.render(this.template_data().template_name + '/markup', this.template_data());
+        Render(this.template_data().template_name + '/markup', this.template_data(), function (err, content) {
+          if (err) {
+            resp_error(req, resp, err || "Unknown rendering error. Try again later.");
+          } else
+            return resp.send(content);
+        });
       },
 
       last_modified_now : function () { resp.set('Last-Modified', (new Date).toUTCString()); },
