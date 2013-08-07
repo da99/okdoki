@@ -323,7 +323,7 @@ S.replace_screen_names = function (arr, flow) {
 };
 
 S.read_list = function (c, flow) {
-  River.new(arguments)
+  River.new()
   .job('read screen names', c.data.id, function (j) {
     Topogo.new(TABLE_NAME)
     .read_list({owner_id: j.id}, j);
@@ -333,6 +333,9 @@ S.read_list = function (c, flow) {
       c.push_screen_name_row(row);
     });
     return j.finish(c);
+  })
+  .job(function (j, last) {
+    flow.finish(last);
   })
   .run();
 };

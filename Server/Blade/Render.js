@@ -4,7 +4,7 @@ var Cache_Names = {};
 var ALL_SLASH = /\//ig;
 
 function canon_name(str) {
-  return path.resolve( str.replace(ALL_SLASH, "_") );
+  return path.resolve( 'Server/Blade/Client_' + str.replace(ALL_SLASH, "_") + '.blade.js');
 }
 
 function Get_Render_Func(raw_str) {
@@ -16,7 +16,6 @@ function Get_Render_Func(raw_str) {
 }
 
 function render(raw_name, locals, func) {
-  console.log(locals);
   Get_Render_Func(raw_name).render(locals, func);
 }
 

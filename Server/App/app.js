@@ -62,18 +62,31 @@ exports.is_allow_unauth_path = function (req) {
 };
 
 var resp_404 = exports.resp_404 = function (req, resp, msg) {
-  return resp_error(req, resp, msg, 404);
+  return resp_error(req, resp, msg, 404, "keep");
 };
 
-var resp_error = exports.resp_error = function (req, resp, msg, stat) {
-  if (req.accepts('html')) {
-    stat = stat || 200;
-    return resp.status(stat).render('Error/error', {msg: msg});
-  } else
+var resp_error = exports.resp_error = function (req, resp, msg, stat, keep) {
+  if (!keep) {
+    log(msg);
+    msg = "Something broke. Try again later...";
+  }
+
+  if (!req.accepts('html'))
     return resp.json({success: false, msg: msg});
+
+  stat = stat || 500;
+  Render('Error/error', {msg: msg}, function (err, content) {
+    if (err) {
+      log(err);
+      return resp.status(stat).send(msg);
+    } else
+      return resp.status(stat).send(content);
+  })
 };
 
-var resp_invalid = exports.resp_invalid = resp_error;
+var resp_invalid = exports.resp_invalid = function (req, resp, msgs, stat) {
+  return resp_error(req, resp, nsg, stat, "keep");
+};
 
 
 
@@ -108,8 +121,11 @@ app.configure(function () {
 
   // Settings:
   app.enable('trust proxy');
-  app.engine('blade_compile', Render);
-  app.set('views', app_dir + '/Client');
+
+  // app.engine('blade_compile', Render);
+  // app.set('views', app_dir + '/Client');
+  // app.set('view engine', 'blade_compile');
+
   app.locals.pretty = true;
 
   // ================================================================
@@ -267,6 +283,10 @@ app.configure(function () {
 
     f.on('invalid', function (f) {
       resp_invalid(req, resp, f.data.error.message);
+    });
+
+    f.on('error', function (f) {
+      resp_error(req, resp, f.data.error.message);
     });
 
     _.each("params query body cookies".split(" "), function (k, i) {

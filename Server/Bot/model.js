@@ -76,27 +76,27 @@ F.on('create Bot', function (flow) {
 // ================================================================
 
 F.on('after read Multi-Life Page', function (flow) {
-  if (!f.data.Bots)
-    return f.finish();
+  if (!flow.data.Bots)
+    return flow.finish();
   flow.detour(
     'read Bot list for owner',
     function (f2) {
-      f.data.Bots.Own = Bot.to_client_side(f2.last);
+      flow.data.Bots.Own = Bot.to_client_side(f2.last);
       f2.finish();
     }
   );
 });
 
 F.on('read Bot list for owner', function (flow) {
-  flow.run(
+  flow.detour(
 
     function (f2) {
-      var sql = "\
+      var sql = Ok.Model.SQL("\
       SELECT owner_id, sub_sn                     \n\
       FROM @Screen_Name_Sub                       \n\
       WHERE type_id = @bot_type                   \n\
             AND owner_id IN @sn_ids               \n\
-      ;";
+      ;");
       TABLE.run(sql, {
         sn_ids   : flow.data.user.screen_name_ids(),
         bot_type : Ok.Model.Screen_Name_Sub.to_type_id('bot')
