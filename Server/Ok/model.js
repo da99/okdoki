@@ -29,6 +29,8 @@ var Model = {
     var me  = this;
 
     var objs =  _.map(arr, function (o) {
+      if (o.model && o.model.to_client_side)
+        return o;
       var data  = (o.is_ok_model) ? o.to_client_side() : o;
       var model = (o.is_ok_model) ? o : me.new(data);
 
@@ -54,6 +56,7 @@ var Model = {
     if (arguments.length === 1 && !data)
       return null;
 
+    var m = this;
     var o = new m;
 
     if (data) {
@@ -79,8 +82,10 @@ var Model = {
       throw new Error(name + " already defined.");
     if (Model.map[name])
       throw new Error(name + " already an Ok Model.");
+    if (Model[name])
+      throw new Error(name + " already on Ok.Model.");
 
-    var m = Model.map[name] = exp[name] = function () {};
+    var m = Model[name] = Model.map[name] = exp[name] = function () {};
     Model.replace_table = null;
     Model.map_keys.push(name);
 
@@ -102,7 +107,10 @@ var Model = {
 
     var reg_ex = Model.replace_table;
     return sql.replace(reg_ex, function (full, name) {
-      return '"' + (Model.map[name].TABLE_NAME || s) + '"';
+      if (name && Model.map[name])
+        return '"' + (Model.map[name].TABLE_NAME || s) + '"';
+      else
+        return full;
     });
   }
 
