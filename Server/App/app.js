@@ -75,13 +75,7 @@ var resp_error = exports.resp_error = function (req, resp, msg, stat, keep) {
     return resp.json({success: false, msg: msg});
 
   stat = stat || 500;
-  Render('Error/error', {msg: msg}, function (err, content) {
-    if (err) {
-      log(err);
-      return resp.status(stat).send(msg);
-    } else
-      return resp.status(stat).send(content);
-  })
+  return resp.status(stat).send(Render('Error/error', {msg: msg}));
 };
 
 var resp_invalid = exports.resp_invalid = function (req, resp, msgs, stat) {
@@ -354,12 +348,9 @@ app.configure(function () {
         if (name)
           this.template_data.apply(this, arguments);
         this.last_modified_now();
-        Render(this.template_data().template_name + '/markup', this.template_data(), function (err, content) {
-          if (err) {
-            resp_error(req, resp, err || "Unknown rendering error. Try again later.");
-          } else
-            return resp.send(content);
-        });
+        // var content = Render(this.template_data().template_name + '/markup', this.template_data());
+        var content = Render("Dot_Why_home", {arr: [1,2,3], msg: "test"});
+        return resp.send(content);
       },
 
       last_modified_now : function () { resp.set('Last-Modified', (new Date).toUTCString()); },

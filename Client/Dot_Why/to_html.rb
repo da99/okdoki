@@ -16,7 +16,7 @@ class Layout < Erector::Widget
             @_blocks[word.to_sym] ||= []
             if (pos == :top)
               @_blocks[word.to_sym].unshift(b)
-            else if (pos == :replace)
+            elsif (pos == :replace)
               @_blocks[word.to_sym] = [b]
             else
               @_blocks[word.to_sym].push(b)
@@ -59,11 +59,11 @@ class Layout < Erector::Widget
   end
 end
 
-class FAQ < Layout
+class The_Partial < Layout
 
   def initialize *args
     super
-    eval(File.read("t.rb"), nil, "t.rb", 1)
+    eval(File.read("#{ARGV[0]}"), nil, "t.rb", 1)
   end
 
 
@@ -79,7 +79,7 @@ class FAQ < Layout
 
 end
 
-page = FAQ.new
+page = The_Partial.new
 puts page.to_html(:prettyprint=>true)
 
 # puts( FAQ.new.to_html(:prettyprint => true ) )

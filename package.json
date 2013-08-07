@@ -15,7 +15,7 @@
    , "stylus"            : "x.x.x"
    , "nib"               : "x.x.x"
    , "chokidar"          : "x.x.x"
-   , "blade"             : "x.x.x"
+   , "diet-dot"          : "x.x.x"
    , "Faker"             : "x.x.x"
 
    , "passport"          : "0.x.x"

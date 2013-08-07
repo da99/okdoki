@@ -49,6 +49,22 @@ function get(uri, func) {
 
 // ==================================================
 // ==================================================
+
+describe( 'app', function () {
+
+  it('escapes url params');
+  it('escapes post data');
+  it('escapes query string');
+
+  it('escapes screen names, not just canon-ize them')
+
+  it('exits gracefully for SIGTERM')
+  it('exits gracefully for SIGINT')
+
+  it( 'renders an error page just with {msg: ""}' )
+
+}); // === end desc
+
 describe( 'Unauthenticated users:', function () {
   it('sends a secure/HTTP only cookie')
 
@@ -59,14 +75,6 @@ describe( 'Unauthenticated users:', function () {
 
   it('sends a HTTP response if unauthenticated for POST requests, HTTP-accept')
 
-  it('escapes url params');
-  it('escapes post data');
-  it('escapes query string');
-
-  it('escapes screen names, not just canon-ize them')
-
-  it('exits gracefully for SIGTERM')
-  it('exits gracefully for SIGINT')
 }); // === end desc
 
 describe( 'Auth users (aka Customers)', function () {
