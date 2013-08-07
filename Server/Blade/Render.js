@@ -4,6 +4,7 @@ var DOT = require('diet-dot');
 var path = require('path');
 var Cache_Names = {};
 var ALL_SLASH = /\//ig;
+var E = require('escape_escape_escape').Sanitize.HTML;
 
 function canon_name(str) {
   return path.resolve( 'Server/HTML_Templates/Client_' + str.replace(ALL_SLASH, "_") + '.js');
@@ -19,7 +20,7 @@ function Get_Render_Func(raw_str) {
 
 function render(raw_name, locals) {
   console.log(locals)
-  return Get_Render_Func(raw_name).render(locals);
+  return Get_Render_Func(raw_name).render(E(locals));
 }
 
 exports.render = render;
