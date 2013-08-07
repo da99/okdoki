@@ -2,6 +2,9 @@
 
 Security:
 =============================
+- moonrocks nginx conf: 
+https://github.com/leafo/moonrocks-site/blob/master/nginx.conf
+
 - Put CSRF in different compression context:
 http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf
 https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
@@ -16,6 +19,8 @@ https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
 
 - run rootkit finders
 
+- Repeatable check of SSL/TLS ciphers.
+ http://blog.cloudflare.com/staying-on-top-of-tls-attacks 
 
 =============================
 - international domains
