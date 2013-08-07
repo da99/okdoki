@@ -13,7 +13,7 @@ styles {
 main {
   p {
     dot_array("arr") {
-      dot "v", "\n"
+      dot_v "v", "\n"
     }
   }
 }

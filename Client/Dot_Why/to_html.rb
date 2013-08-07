@@ -47,9 +47,9 @@ class Layout < Erector::Widget
 
   def content
     rawtext "<!DOCTYPE html>"
-    html do
+    html(:lang=>'en') do
       head do
-        title "Hello"
+        title { dot "title" }
         styles
       end
       body do
@@ -66,9 +66,20 @@ class The_Partial < Layout
     eval(File.read("#{ARGV[0]}"), nil, "t.rb", 1)
   end
 
+  def dot_i str = "i", v = nil
+    rawdot str, v
+  end
+
+  def dot_v str = "v", v = nil
+    rawdot str, v
+  end
+
+  def rawdot val, v = nil
+    text "[[=" + val + "]]" + (v || "")
+  end
 
   def dot name, v = ""
-    text "[[=" + name + "]]" + v
+    rawdot "data." + name, v
   end
 
   def dot_array name

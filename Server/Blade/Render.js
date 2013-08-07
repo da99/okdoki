@@ -18,6 +18,7 @@ function Get_Render_Func(raw_str) {
 }
 
 function render(raw_name, locals) {
+  console.log(locals)
   return Get_Render_Func(raw_name).render(locals);
 }
 

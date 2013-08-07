@@ -75,7 +75,7 @@ var resp_error = exports.resp_error = function (req, resp, msg, stat, keep) {
     return resp.json({success: false, msg: msg});
 
   stat = stat || 500;
-  return resp.status(stat).send(Render('Error/error', {msg: msg}));
+  return resp.status(stat).send(Render('Error/error', {title: "An error occurred", msg: msg}));
 };
 
 var resp_invalid = exports.resp_invalid = function (req, resp, msgs, stat) {
@@ -349,7 +349,7 @@ app.configure(function () {
           this.template_data.apply(this, arguments);
         this.last_modified_now();
         // var content = Render(this.template_data().template_name + '/markup', this.template_data());
-        var content = Render("Dot_Why_home", {arr: [1,2,3], msg: "test"});
+        var content = Render("Dot_Why_home", {arr: [1,2,3], title: "test"});
         return resp.send(content);
       },
 
