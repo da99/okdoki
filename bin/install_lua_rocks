@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+# -*- js   -*-
+#
+set -u -e -o pipefail
+
+
+luarocks install dkjson --tree=lua
+
+cd lua
+wget https://raw.github.com/LuaDist/lua/5.1.5/etc/strict.lua
+
+
