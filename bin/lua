@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#!/usr/bin/env node
+# -*- js   -*-
+#
+#!/usr/bin/env lua
+# -*- js   -*-
+#
+set -u -e -o pipefail
+
+
+LUA_PATH="lua/share/lua/5.1/?.lua;;" lua -l lua/strict "$@"
+
+
