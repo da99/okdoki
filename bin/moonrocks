@@ -10,6 +10,7 @@
 set -u -e -o pipefail
 
 
-LUA_PATH="lua/share/lua/5.1/?.lua;;" lua -l lua/strict "$@"
-
+echo "obsoelte"
+exit 1
+lua/.luarocks/bin/moonrocks --tree=lua/.luarocks "$@"
 
