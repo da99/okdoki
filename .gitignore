@@ -6,3 +6,5 @@ Server/App/file_times.js
 Client/App/js/okdoki.js
 logs/*
 lua/*
+nginx.conf.compiled
+.rocks
