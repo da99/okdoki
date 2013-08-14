@@ -20,4 +20,4 @@ fi
 
 set -u
 
-NODE_ENV=production PORT=$PORT node Server/App/app.js $PORT
+RACK_ENV=production PORT=$PORT bundle exec unicorn -p $PORT -E production -c conf/unicorn.rb conf/config.ru
