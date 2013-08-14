@@ -8,3 +8,4 @@ logs/*
 lua/*
 nginx.conf.compiled
 .rocks
+.bundle

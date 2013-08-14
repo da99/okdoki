@@ -2,5 +2,5 @@
 require "sinatra"
 
 get "/" do
-  "hello world"
+  File.read("Client/App/top_slash/markup.html")
 end
