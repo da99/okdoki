@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-set -o pipefail
-set -e
+target="$DEPLOY_PATH"
+this_dir="$(pwd)"
+set -o pipefail -e
 PORT="$PORT"
 echo "$PORT"
 set -u
@@ -18,6 +19,16 @@ then
   PORT="$@"
 fi
 
-set -u
+mkdir -p openresty
 
-RACK_ENV=production PORT=$PORT BUNDLE_GEMFILE=conf/Gemfile bundle exec unicorn -p $PORT -E production -c conf/unicorn.rb conf/config.ru
+if [[ -z "$target" ]]
+then
+  nginx=openresty/nginx/sbin/nginx
+  conf=$this_dir/conf/nginx.dev.conf
+else
+  nginx=/apps/$APP_NAME/openresty/nginx/sbin/nginx
+  conf=$this_dir/conf/nginx.conf
+fi
+
+$nginx -p $this_dir/openresty -c $conf
+

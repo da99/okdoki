@@ -6,4 +6,5 @@ render = function(self)
     return p("h3llo 4")
   end)
 end
-return print(dump.dump(package.loaded))
+-- return print(dump.dump(package.loaded))
+ngx.say("hello")

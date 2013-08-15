@@ -10,3 +10,4 @@ nginx.conf.compiled
 .rocks
 .bundle
 conf/.vendor
+openresty
