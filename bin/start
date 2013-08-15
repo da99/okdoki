@@ -19,15 +19,22 @@ then
   PORT="$@"
 fi
 
-mkdir -p openresty
-
 if [[ -z "$target" ]]
 then
   nginx=openresty/nginx/sbin/nginx
   conf=$this_dir/conf/nginx.dev.conf
 else
+
+  if [[ ! -d /apps/$APP_NAME/openresty ]]
+  then
+    cd /apps/$APP_NAME
+    /apps/boot_ups/bin/install_openresty
+    cd $target
+  fi
+
   nginx=/apps/$APP_NAME/openresty/nginx/sbin/nginx
   conf=$this_dir/conf/nginx.conf
+
 fi
 
 $nginx -p $this_dir/openresty -c $conf
