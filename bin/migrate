@@ -21,7 +21,7 @@ fi
 
 function run_all {
 
-  for m in "${mods[@]}"
+  for m in ${mods[@]}
   do
     cd "Server/$m"
     echo "$m"
