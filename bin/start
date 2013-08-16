@@ -1,41 +1,42 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-target="$DEPLOY_PATH"
-this_dir="$(pwd)"
+# target="$DEPLOY_PATH"
+# this_dir="$(pwd)"
 set -o pipefail -e
-PORT="$PORT"
-echo "$PORT"
+# PORT="$PORT"
+# echo "$PORT"
 set -u
 
 
-if [[ -z "$PORT" ]]
-then
-  PORT="1111";
-fi
+# if [[ -z "$PORT" ]]
+# then
+  # PORT="1111";
+# fi
 
-if [[ -n "$@" ]]
-then
-  PORT="$@"
-fi
+# if [[ -n "$@" ]]
+# then
+  # PORT="$@"
+# fi
 
-if [[ -z "$target" ]]
-then
-  nginx=openresty/nginx/sbin/nginx
-  conf=$this_dir/conf/nginx.dev.conf
-else
+# if [[ -z "$target" ]]
+# then
+  # nginx=openresty/nginx/sbin/nginx
+  # conf=$this_dir/conf/nginx.dev.conf
+# else
 
-  if [[ ! -d /apps/$APP_NAME/openresty ]]
-  then
-    cd /apps/$APP_NAME
-    /apps/boot_ups/bin/install_openresty
-    cd $target
-  fi
+  # if [[ ! -d /apps/$APP_NAME/openresty ]]
+  # then
+    # cd /apps/$APP_NAME
+    # /apps/boot_ups/bin/install_openresty
+    # cd $target
+  # fi
 
-  nginx=/apps/$APP_NAME/openresty/nginx/sbin/nginx
-  conf=$this_dir/conf/nginx.conf
+  # nginx=/apps/$APP_NAME/openresty/nginx/sbin/nginx
+  # conf=$this_dir/conf/nginx.conf
 
-fi
+# fi
 
-$nginx -p $this_dir/openresty -c $conf
+# $nginx -p $this_dir/openresty -c $conf
 
+openresty/nginx/sbin/nginx -p $(pwd)/logs -c $(pwd)/conf/nginx.dev.conf
