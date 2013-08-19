@@ -39,4 +39,5 @@ set -u
 
 # $nginx -p $this_dir/openresty -c $conf
 
+eval "$(luarocks path)"
 openresty/nginx/sbin/nginx -p $(pwd)/logs -c $(pwd)/conf/nginx.dev.conf
