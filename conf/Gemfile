@@ -5,8 +5,10 @@ gem "sinatra"
 gem 'unicorn'
 gem 'sequel'
 gem 'content-security-policy'
+gem 'sanitize'
 
 group :development do
   gem 'dot_why'
+  gem 'mustache'
 end
 

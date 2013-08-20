@@ -33,7 +33,7 @@ main {
     applet("New_Customer")
 
     div.footer! {
-      p "(c) 2012-2013 OKdoki.com. Some rights reserved."
+      p "(c) 2012-{{YEAR}} OKdoki.com. Some rights reserved."
       p "All other copyrights belong to their respective owners."
       p {
         span "Cover Photo: "
