@@ -4,6 +4,7 @@ require "rack/protection"
 require "content-security-policy"
 require "./Server/Fake_Mustache/index"
 require "./Server/Escape_All/index"
+require 'sequel'
 
 ContentSecurityPolicy.configure do |csp|
   csp['default-src'] =  "'self'";
@@ -29,3 +30,9 @@ end
 get "/:hello" do
   params[:hello]
 end
+
+
+
+
+# -- DB
+DB = Sequel.connect(ENV['DATABASE_URL'])
