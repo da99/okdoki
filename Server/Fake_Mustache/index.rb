@@ -1,5 +1,5 @@
 
-require "sanitize"
+require "escape_utils"
 
 class Fake_Mustache
 
@@ -24,7 +24,9 @@ class Fake_Mustache
   end
 
   def escapeHTML var
-    Sanitize.clean(var.to_s)
+    EscapeUtils.escape_html(
+      EscapeUtils.unescape_html var.to_s
+    )
   end
 
 end # === class
