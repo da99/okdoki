@@ -11,3 +11,4 @@
 /conf/.vendor
 /openresty/
 /current
+/nginx.root.conf

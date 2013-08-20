@@ -17,4 +17,5 @@ fi
 
 export PORT=$PORT
 export RACK_ENV=production
+export PATH="/apps/ruby/ruby-2.0.0-p247/bin:$PATH"
 bin/bundle exec unicorn -p $PORT -E production -c conf/unicorn.rb conf/config.ru
