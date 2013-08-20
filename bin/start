@@ -1,43 +1,20 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-# target="$DEPLOY_PATH"
-# this_dir="$(pwd)"
-set -o pipefail -e
-# PORT="$PORT"
-# echo "$PORT"
-set -u
+PORT="$PORT"
+set -e -u -o pipefail
 
 
-# if [[ -z "$PORT" ]]
-# then
-  # PORT="1111";
-# fi
+# --- lua
+# eval "$(luarocks path)"
+# openresty/nginx/sbin/nginx -p $(pwd)/logs -c $(pwd)/conf/nginx.dev.conf
 
-# if [[ -n "$@" ]]
-# then
-  # PORT="$@"
-# fi
+# --- ruby
+if [[ -z "$PORT" ]]
+then
+  PORT=1111
+fi
 
-# if [[ -z "$target" ]]
-# then
-  # nginx=openresty/nginx/sbin/nginx
-  # conf=$this_dir/conf/nginx.dev.conf
-# else
-
-  # if [[ ! -d /apps/$APP_NAME/openresty ]]
-  # then
-    # cd /apps/$APP_NAME
-    # /apps/boot_ups/bin/install_openresty
-    # cd $target
-  # fi
-
-  # nginx=/apps/$APP_NAME/openresty/nginx/sbin/nginx
-  # conf=$this_dir/conf/nginx.conf
-
-# fi
-
-# $nginx -p $this_dir/openresty -c $conf
-
-eval "$(luarocks path)"
-openresty/nginx/sbin/nginx -p $(pwd)/logs -c $(pwd)/conf/nginx.dev.conf
+export PORT=$PORT
+export RACK_ENV=production
+bin/bundle exec unicorn -p $PORT -E production -c conf/unicorn.rb conf/config.ru
