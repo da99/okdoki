@@ -1,9 +1,13 @@
 
-require "escape_utils"
+require "./Server/Escape_All/index"
 
 class Fake_Mustache
 
   CACHE = {}
+
+  def escapeHTML var
+    Escape_All.e(var.to_s)
+  end
 
   def initialize file, data
     @data      = data
@@ -21,12 +25,6 @@ class Fake_Mustache
   def render
     ctx = self
     instance_eval @file, @file_name, 1
-  end
-
-  def escapeHTML var
-    EscapeUtils.escape_html(
-      EscapeUtils.unescape_html var.to_s
-    )
   end
 
 end # === class
