@@ -1,5 +1,11 @@
 
 require "sinatra"
+require "rack/protection"
+
+set :session_secret, "temp-spassweod-for-now-#{Time.now}"
+enable :sessions
+use Rack::Protection
+
 Temp = {:home=>nil}
 
 get "/" do
