@@ -4,6 +4,17 @@ require "escape_utils"
 
 module Escape_All
 
+  module Sinatra
+    def clean
+      @clean_params ||= begin
+                          params.keys.each do |k|
+                            params[Escape_All.escape(k.to_s).to_sym] = Escape_All.escape(params[k])
+                          end
+                          params
+                        end
+    end
+  end # === module
+
   class << self
 
     def e o

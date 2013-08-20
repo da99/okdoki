@@ -52,19 +52,32 @@ function get(uri, func) {
 
 describe( 'app', function () {
 
+  // #1
   it('escapes url params');
+
+  // #2
   it('escapes post data');
+
+  // #3
   it('escapes query string');
 
+  // #4
   it('escapes screen names, not just canon-ize them')
 
+  // #5
   it('exits gracefully for SIGTERM')
+
+  // #6
   it('exits gracefully for SIGINT')
 
+  // #7
   it( 'renders an error page just with {msg: ""}' )
 
-  // #1
+  // #8
   it( 'uses Content Securoty polciy')
+
+  // #9
+  it( 'escapes params for each route' )
 
 }); // === end desc
 
