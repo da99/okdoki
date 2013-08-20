@@ -63,6 +63,9 @@ describe( 'app', function () {
 
   it( 'renders an error page just with {msg: ""}' )
 
+  // #1
+  it( 'uses Content Securoty polciy')
+
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {
