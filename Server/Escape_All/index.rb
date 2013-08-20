@@ -5,13 +5,20 @@ require "escape_utils"
 module Escape_All
 
   module Sinatra
-    def clean
-      @clean_params ||= begin
-                          params.keys.each do |k|
-                            params[Escape_All.escape(k.to_s).to_sym] = Escape_All.escape(params[k])
-                          end
-                          params
-                        end
+    def params
+      if !@clean_params
+        dirty = super
+        if dirty.empty?
+          return dirty
+        end
+      end
+
+      o = {}
+      dirty = super
+      super.keys.each do |k|
+        o[Escape_All.escape(k.to_s).to_sym] = Escape_All.escape(dirty[k])
+      end
+      o
     end
   end # === module
 

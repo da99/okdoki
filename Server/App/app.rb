@@ -21,3 +21,6 @@ get "/" do
   Fake_Mustache.new("Public/App/top_slash/markup.mustache.html", {:YEAR=>Time.now.year}).render()
 end
 
+get "/:hello" do
+  params[:hello]
+end
