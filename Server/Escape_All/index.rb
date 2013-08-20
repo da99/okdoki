@@ -6,19 +6,17 @@ module Escape_All
 
   module Sinatra
     def params
-      if !@clean_params
-        dirty = super
-        if dirty.empty?
-          return dirty
-        end
-      end
+      @clean_params ||= begin
+                          dirty = super
+                          return dirty if dirty.empty?
 
-      o = {}
-      dirty = super
-      super.keys.each do |k|
-        o[Escape_All.escape(k.to_s).to_sym] = Escape_All.escape(dirty[k])
-      end
-      o
+                          o = {}
+                          super.keys.each do |k|
+                            o[Escape_All.escape(k.to_s).to_sym] = Escape_All.escape(dirty[k])
+                          end
+
+                          o
+                        end
     end
   end # === module
 
