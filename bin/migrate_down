@@ -36,8 +36,9 @@ def file_to_ver str
 end
 
 
-files = Dir.glob('Server/#{name}/migrates/*.sql').sort.reverse.map { |f|
+files = Dir.glob("Server/#{name}/migrates/*.sql").sort.reverse.map { |f|
   ver = file_to_ver(f)
+
   if ver <= rec[:version]
     [ ver, File.read(f).split('-- DOWN').last ]
   end
