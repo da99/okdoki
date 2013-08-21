@@ -36,7 +36,7 @@ end
 
 new_file = "Server/#{name}/migrates/#{ver_str}-#{sub_str.join('-')}.sql"
 File.open(new_file, 'a') do |f|
-  f.puts "\n\n\n-- DOWN\n\n\n"
+  f.puts "\n\n\n\n-- DOWN\n\n\n\n"
 end
 
 exec "gvim #{new_file}"
