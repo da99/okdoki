@@ -1,10 +1,15 @@
 
-require "sinatra"
-require "rack/protection"
-require "content-security-policy"
-require "./Server/Fake_Mustache/index"
-require "./Server/Escape_All/index"
+require 'sinatra'
+require 'rack/protection'
+require 'content-security-policy'
+require './Server/Fake_Mustache/index'
+require './Server/Escape_All/index'
 require 'Jam_Func'
+
+ss = ENV['SESSION_SECRET']
+if !ss
+  raise "No session secret set."
+end
 
 # -- DB
 require 'sequel'
@@ -17,8 +22,14 @@ ContentSecurityPolicy.configure do |csp|
 end
 
 # -- configure
-set :session_secret, "temp-secret-for-dev-#{Time.now}"
-enable :sessions
+use Rack::Session::Cookie, {
+  :key          => 'session.rack.rack',
+  :path         => "/",
+  :expire_after => 60 * 60 * 24 * 7,  # 1 weeks
+  :secret       => ss,
+  :httponly     => true,
+  :secure       => true
+}
 
 # -- Middleware
 use Rack::Protection
@@ -32,6 +43,9 @@ get "/" do
   Fake_Mustache.new("Public/App/top_slash/markup.mustache.html", {:YEAR=>Time.now.year}).render()
 end
 
+get "/unauthenticated" do
+  "Not logged in"
+end
 
 # ---------------------------- The Models --------------------------
 models = %w{
