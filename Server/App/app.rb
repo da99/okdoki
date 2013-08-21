@@ -1,10 +1,11 @@
 
-require 'sinatra'
 require 'rack/protection'
 require 'content-security-policy'
+require 'sinatra'
+
+require 'Jam_Func'
 require './Server/Fake_Mustache/index'
 require './Server/Escape_All/index'
-require 'Jam_Func'
 
 ss = ENV['SESSION_SECRET']
 if !ss
@@ -50,9 +51,10 @@ end
 # ---------------------------- The Models --------------------------
 models = %w{
   Customer
+  Ok_Session
 }.map { |w|
   require "./Server/#{w}/model"
-  require "./Server/#{w}/route"
+  require "./Server/#{w}/routes"
   m = Object.const_get(w)
 }
 
