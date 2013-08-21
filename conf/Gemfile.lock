@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Jam_Func (0.1.1)
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
@@ -38,6 +39,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  Jam_Func
   content-security-policy
   dot_why
   escape_utils
