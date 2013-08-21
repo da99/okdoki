@@ -17,7 +17,8 @@ end
 action_sub = ARGV[2]
 
 `mkdir -p Server/#{name}/migrates`
-files=(`ls Server/#{name}/migrates/*.sql` || "").split("\n").sort
+
+files = Dir.glob('Server/#{name}/migrates/*.sql').sort
 
 if files.empty?
   ver=1
