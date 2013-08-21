@@ -18,8 +18,14 @@ action_sub = ARGV[2]
 
 `mkdir -p Server/#{name}/migrates`
 files=(`ls Server/#{name}/migrates/*.sql` || "").split("\n").sort
-last=files.last.split('/').last || "/0"
-ver=last.split('/').last.split('-').first.to_i + 1
+
+if files.empty?
+  ver=1
+else
+  last=files.last.split('/').last || "/0"
+  ver=last.split('/').last.split('-').first.to_i + 1
+end
+
 
 if ver < 10
   ver_str = "00#{ver}"
