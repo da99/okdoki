@@ -35,7 +35,7 @@ def file_to_ver str
   str.split('/').pop.split('-').first.to_i
 end
 
-files = `ls Server/#{name}/migrates/*.sql`.split("\n").sort.reverse.map { |f|
+files = (`ls Server/#{name}/migrates/*.sql` || "").split("\n").sort.reverse.map { |f|
   ver = file_to_ver(f)
   if ver <= rec[:version]
     [ ver, File.read(f).split('-- DOWN').last ]
