@@ -18,7 +18,7 @@ action_sub = ARGV[2]
 
 `mkdir -p Server/#{name}/migrates`
 
-files = Dir.glob('Server/#{name}/migrates/*.sql').sort
+files = Dir.glob("Server/#{name}/migrates/*.sql").sort
 
 if files.empty?
   ver=1
