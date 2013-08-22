@@ -17,8 +17,12 @@ then
   exit 0
 fi
 
-html=${file/.rb/.mustache.html}
+html=${file/.rb/.mustache.rb}
 
-bin/bundle exec dot_why ./Public/layout.rb $file $@ | pandoc > $html
+tmp=$(mktemp)
+bin/bundle exec dot_why ./Public/layout.rb $file $@ | pandoc > $tmp
+bin/bundle exec mustache -c $tmp > $html
+
+rm $tmp
 echo -e "\n=== wrote: $html\n"
 
