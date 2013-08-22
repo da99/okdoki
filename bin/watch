@@ -4,6 +4,6 @@
 #
 set -u -e -o pipefail
 
-$UP/watch/CLOSE_WRITE bin/_watch
+$UP/watch/CLOSE_WRITE bin/_watch "$@"
 
 

@@ -15,5 +15,7 @@ gem 'Jam_Func'
 group :development do
   gem 'dot_why'
   gem 'mustache'
+  gem 'bacon'
+  gem 'Bacon_Colored'
 end
 

@@ -3,12 +3,17 @@ require './Server/Ok/model'
 
 class Customer
 
+  include Ok::Model
+  extend Ok::Model_Extend
+
   # =====================================================
   # Errors
   # =====================================================
 
-  class Invalid < Ok::Invalid
-  end
+
+  # =====================================================
+  # Settings
+  # =====================================================
 
   Jam = Jam_Func.new
 
@@ -18,13 +23,7 @@ class Customer
   # Class
   # =====================================================
 
-  class << self
-
-    def create o
-      c = new
-      raise Customer::Invalid.new(c, "Not ready")
-    end
-
-  end # === class self
+  # class << self
+  # end # === class self
 
 end # === Customer

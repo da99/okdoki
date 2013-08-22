@@ -1,11 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Bacon_Colored (0.1.2)
+      bacon
+      colored
     Jam_Func (0.1.1)
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
     backports (3.3.3)
+    bacon (1.2.0)
+    colored (1.2)
     content-security-policy (0.1.3)
       rack (~> 1.4)
     dot_why (0.1.0)
@@ -52,7 +57,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  Bacon_Colored
   Jam_Func
+  bacon
   content-security-policy
   dot_why
   escape_utils

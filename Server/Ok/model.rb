@@ -16,7 +16,7 @@ module Ok
 
     def create new_data
       m = new
-      m.do_create new_data
+      m.create new_data
       m
     end
 
@@ -29,6 +29,10 @@ module Ok
     def spec name
       @spec = name
       Validator.new(self, name)
+    end
+
+    def initialize data = nil
+      @data = data || {}
     end
 
   end # === module

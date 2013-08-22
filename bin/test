@@ -3,6 +3,9 @@
 #
 set -e -u -o pipefail
 
+bin/bundle exec bacon "$@"
+exit 0
+
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
 white=$(tput setaf 7)

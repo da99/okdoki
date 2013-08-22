@@ -53,13 +53,23 @@ then
       $green $(bin/compile_html $FILE)
       $green $(restart_server)
     else
-      echo "Unknown file: $FILE"
+      if [[ ! -z "$@" ]]
+      then
+        bin/test "$@"
+      else
+        echo "Unknown file: $FILE"
+      fi
     fi
 
   else
     echo "=== ignoring: $FILE"
   fi
 
+else
+  if [[ ! -z "$@" ]]
+  then
+    bin/test "$@"
+  fi
 fi
 
 

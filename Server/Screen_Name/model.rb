@@ -1,4 +1,7 @@
 
+require './Server/Ok/model'
+require 'Jam_Func'
+
 class Screen_Name
 
   include Ok::Model
@@ -69,11 +72,7 @@ class Screen_Name
   # Instance
   # =====================================================
 
-  def initialize rec = nil
-    @data = rec || {}
-  end
-
-  def do_create new_data
+  def create new_data
     # === Validate the data.
     @new_data = new_data
     @clean_data = {}
