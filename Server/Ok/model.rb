@@ -30,6 +30,14 @@ module Ok
     attr_reader :data, :clean_data, :new_data
 
     def validate name
+      if clean_data.has_key?(name)
+        validate! name
+      else
+        Validator_Empty.new(self, name)
+      end
+    end
+
+    def validate! name
       @spec = name
       Validator.new(self, name)
     end
@@ -43,6 +51,7 @@ module Ok
   class Validator
 
     attr_reader :model, :name, :english_name, :clean_data
+
     def initialize model, name
       @e            = model.class::Invalid
       @model        = model
@@ -98,6 +107,16 @@ module Ok
       self
     end
 
+    def set_to_nil_if_empty val
+      set_to(nil, lambda { |v|
+        if v.kind_of? String
+          v.strip.size == 0
+        else
+          v.size == 0
+        end
+      })
+    end
+
     def not_match pats, msg = nil
       if !pats.kind_of? Array
         pats = [pats]
@@ -121,5 +140,18 @@ module Ok
       self
     end
 
+  end # === class Validator
+
+  validator_meths = Validator.public_instance_methods - Object.public_instance_methods
+  class Validator_Empty
+    validator_meths.each { |meth|
+      class_eval "
+      def #{meth} *args
+        self
+      end
+      "
+    }
   end # === class
+
+
 end # === module Ok
