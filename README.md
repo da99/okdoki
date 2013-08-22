@@ -3,11 +3,6 @@
 What is Okdoki?
 -----------------
 
-Turn your life into a website. Your
-friends help you manage it.
+This thing is so not finished. Hang up and try again later.
 
-
-Disclaimer:
------------
-This software is not ready for human consumption.
 
