@@ -27,8 +27,8 @@ class Screen_Name
   VALID             = /^[#{VALID_CHARS}]{4,15}$/i
   VALID_ENGLISH     = "Screen name must be: 4-15 valid chars: 0-9 a-z A-Z _ - ."
   INVALID           = /[^#{VALID_CHARS}]/
-  Table_Name        = 'screen_name'
-  TABLE             = nil
+  Table_Name        = :screen_name
+  TABLE             = DB[Table_Name]
   BANNED_SCREEN_NAMES = [
     /^MEGAUNI/i,
     /^MINIUNI/i,
@@ -72,41 +72,41 @@ class Screen_Name
   # Instance
   # =====================================================
 
-  def create new_data
+  def create raw_data
     # === Validate the data.
-    @new_data = new_data
+    @new_data = raw_data
     @clean_data = {}
 
-    spec(:screen_name).
+    validate(:screen_name).
       clean('strip', 'upper').
       be('not empty').
       match(VALID, VALID_ENGLISH).
       not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
 
-    @clean_data[:display_name] = @clean_data[:screen_name]
-
-    spec(:type_id).
+    validate(:type_id).
       clean('to_i').
       set_to(0, lambda { |v| v < 0 || v > 2 })
 
     insert_data = {
-       :owner_id     => @new_data[:customer] ? @new_data[:customer].data.id : 0,
+       :owner_id     => new_data[:customer] ? new_data[:customer].data.id : 0,
        :screen_name  => clean_data[:screen_name],
        :display_name => clean_data[:screen_name],
        :type_id      => (clean_data[:type_id] || 0)
     }
 
-    new_record = db_insert(insert_data, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
+    new_record = TABLE.returning.insert(insert_data).first
+
+    #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 
     @data.merge! new_record
-    return self if insert_data[:owner_id] > 0
+    return self if new_data[:customer]
 
 
     # // ==== This is a new customer
     # // ==== so we must use the screen name id
     # // ==== as the owner_id because customer record
     # // ==== has not been created.
-    db_update_where_set(self.data.id, {:owner_id=>self.data.id})
+    TABLE.where(:id=>self.data[:id]).update(:owner_id=>self.data[:id])
 
     self
   end # === def create

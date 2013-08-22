@@ -4,6 +4,7 @@
 #
 
 FIRST_RUN="$FIRST_RUN"
+CMD="$CMD"
 set -u -e -o pipefail
 
 if [[ -z "$IS_DEV" ]]

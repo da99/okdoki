@@ -10,6 +10,17 @@ describe "Screen Name: Errors" do
 
 end # === describe
 
+describe "Screen Name: create" do
+
+  it "creates record if data validates" do
+    sn = Screen_Name.create(:screen_name=>'ted1')
+    Screen_Name::TABLE.where(:id=>sn.data[:id])
+    .first[:screen_name]
+    .should.equal "TED1"
+  end
+
+end # === describe
+
 describe "Screen Name: create :screen_name" do
 
   it "raises Invalid, not be empty" do

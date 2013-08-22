@@ -15,8 +15,7 @@ if !ss
 end
 
 # -- DB
-require 'sequel'
-DB = Sequel.connect(ENV['DATABASE_URL'])
+require './Server/Ok/model'
 
 
 ContentSecurityPolicy.configure do |csp|

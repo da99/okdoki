@@ -1,5 +1,8 @@
+require 'sequel'
+DB = Sequel.connect(ENV['DATABASE_URL'])
 
 module Ok
+
   class Invalid < RuntimeError
 
     attr_reader :model, :msg
@@ -24,9 +27,9 @@ module Ok
 
   module Model
 
-    attr_reader :clean_data, :new_data
+    attr_reader :data, :clean_data, :new_data
 
-    def spec name
+    def validate name
       @spec = name
       Validator.new(self, name)
     end
