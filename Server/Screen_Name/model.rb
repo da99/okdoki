@@ -94,7 +94,12 @@ class Screen_Name
        :type_id      => (clean_data[:type_id] || 0)
     }
 
+    begin
     new_record = TABLE.returning.insert(insert_data).first
+    rescue Sequel::UniqueConstraintViolation => e
+      raise e unless e.message['"screen_name_screen_name_key"']
+      raise self.class::Invalid.new(self, "Screen name already taken: #{clean_data[:screen_name]}")
+    end
 
     #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 

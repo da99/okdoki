@@ -41,4 +41,14 @@ describe "Screen Name: create :screen_name" do
     should.match(/Screen name not allowed/)
   end
 
+  it "raises Invalid for duplicate name" do
+    lambda {
+      Screen_Name.create(:screen_name=>"ted3")
+      Screen_Name.create(:screen_name=>"ted3")
+    }.should.raise(Screen_Name::Invalid).
+
+    message.
+    should.match(/Screen name already taken: ted3/i)
+  end
+
 end # === describe
