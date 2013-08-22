@@ -2,20 +2,25 @@
 #
 #
 #
+
 FIRST_RUN="$FIRST_RUN"
 set -u -e -o pipefail
 
 if [[ -z "$IS_DEV" ]]
 then
   echo "Not a dev machine." 1>&2
-  exit 1
+  exit 1000
 fi
 
-start_server () {
-  bin/start &
-}
+unicorn_pid="$(pgrep -f "unicorn master" || true)"
+
 
 restart_server () {
+  if [[ -z "$unicorn_pid" ]]
+  then
+    return
+  fi
+
   unicorn=/tmp/unicorn.dev.restart
   since=0
 
@@ -26,41 +31,35 @@ restart_server () {
 
   touch $unicorn
 
-  if [[ "$since" > 3 ]]
+  if [[ "$since" -gt "3" ]]
   then
-    echo "Restarting the server..."
-    pkill -HUP  -f  "unicorn master"
+    echo "=== $since seconds: Restarting the server..."
+    pkill -HUP  -f  "unicorn master" || echo "Server is down."
   else
-    echo "Seconds since last restart: $since"
-    echo "-------- No restart -------"
+    echo "=== No restart: $since secs"
   fi
+
 }
 
 if [[ -z "$FIRST_RUN" ]]
 then
+
   if [[ $FILE =~ ".rb" ]]
   then
 
     if [[ "$FILE" =~ "Public/" && ! "$FILE" =~ "mustache." ]]
     then
-      echo "Template: $FILE"
-      bin/compile_html $FILE
+      $yellow $(bin/compile_html $FILE)
+      $yellow $(restart_server)
     else
       echo "Unknown file: $FILE"
     fi
 
-    restart_server
-    echo "=========================="
+  else
+    echo "=== ignoring: $FILE"
   fi
+
 fi
 
-cleanup () {
-  echo "Quitting..."
-  sleep 2 # Wait for unicorn to finish starting.
-  pkill -QUIT -f "unicorn master"
-  echo "Done"
-}
 
 # trap cleanup SIGINT SIGTERM EXIT
-
-echo ""
