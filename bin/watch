@@ -16,9 +16,23 @@ start_server () {
 }
 
 restart_server () {
-  if [[ $FILE =~ ".rb" ]]
+  unicorn=/tmp/unicorn.dev.restart
+  since=0
+
+  if [[ -f $unicorn ]]
   then
-    pkill -HUP  -f  "unicorn master" || echo "$? -- process"
+    since="$(expr "$(date +%s)" - "$(stat $unicorn -c %Y)" )"
+  fi
+
+  touch $unicorn
+
+  if [[ "$since" > 3 ]]
+  then
+    echo "Restarting the server..."
+    pkill -HUP  -f  "unicorn master"
+  else
+    echo "Seconds since last restart: $since"
+    echo "-------- No restart -------"
   fi
 }
 
@@ -31,10 +45,12 @@ then
     then
       echo "Template: $FILE"
       bin/compile_html $FILE
+    else
+      echo "Unknown file: $FILE"
     fi
 
-    echo "Restarting the server..."
     restart_server
+    echo "=========================="
   fi
 fi
 
@@ -47,5 +63,4 @@ cleanup () {
 
 # trap cleanup SIGINT SIGTERM EXIT
 
-echo "=========================="
 echo ""
