@@ -1,37 +1,61 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-cmd="$1"
-full_cmd="$@"
+action="$1"
+shift
+
+model="$1"
+shift
+
+other="$@"
+
 set -u -e -o pipefail
 
-# mods=( Chat Website Folder Page Follow Feature_Pack RSS_Reader );
-mods=( Customer Screen_Name Headline Bot );
+mods=( Customer Screen_Name );
 
-export DUCK_TEMPLATE=$(pwd)/Server/App/duck_template.js
-bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"
-
-
-if [[ "$cmd" == "" ]]
+if [[ -z "$action" ]]
 then
-  cmd="up"
-  full_cmd="up"
+  action="up"
 fi
 
 
-function run_all {
+function run_up {
 
   for m in ${mods[@]}
   do
-    cd "Server/$m"
-    echo "$m"
-    $bin $full_cmd
-    cd ../..
+    echo "=== Migrating: up $m"
+    bin/migrate_up $m
+    echo ""
   done
 
 }
 
-case "$cmd" in
+function run_down {
+
+  # === Ensure dev machine.
+  if [ ! -n "${IS_DEV+x}" ]
+  then
+    echo "This is not a dev machine."
+    exit 1
+  fi
+
+  # === Reverse list
+  new_mods=()
+  for (( idx=${#mods[@]}-1 ; idx >= 0 ; idx-- ))
+  do
+    new_mods+=( "${mods[idx]}" )
+  done
+
+  for m in ${new_mods[@]}
+  do
+    echo "=== Migrating: down $m"
+    bin/migrate_down $m
+    echo ""
+  done
+
+}
+
+case "$action" in
   create)
     if [[ ! "${mods[@]}" == *"$2"* ]]
     then
@@ -39,58 +63,33 @@ case "$cmd" in
       exit 1
     fi
 
-    cd "Server/$2"
-    $bin create $3
-    cd ../..
-    echo "created: $2 $3"
+    bin/migrate_create "$@"
     ;;
 
   list)
-    $bin $full_cmd
-    ;;
-
-  down)
-
-    # === Reverse mods to delete tables in reverse.
-    new_mods=()
-    for (( idx=${#mods[@]}-1 ; idx >= 0 ; idx-- ))
-    do
-      new_mods+=( "${mods[idx]}" )
-    done
-
-    mods=("${new_mods[@]}")
-
-    # === Ensure dev machine.
-    if [ ! -n "${IS_DEV+x}" ]
-    then
-      echo "This is not a dev machine."
-      exit 1
-    fi
-
-    # === Run.
-    if [[ "$cmd" == "$full_cmd" ]]
-    then
-      run_all
-    else
-      cd "Server/$2"
-      echo "$2"
-      $bin down
-      cd ../..
-    fi
-    ;;
-
-  up)
-    run_all
+    echo "not ready"
+    echo 1
     ;;
 
   reset)
-    bin/migrate down "$2"
-    bin/migrate up
+    bin/migrate down "$model"
+    bin/migrate up   "$model"
     ;;
 
   *)
-    echo "Unknown command: $cmd"
-    exit 1
+    if [[ "$action" != "up" &&  "$action" != "down" ]]
+    then
+      echo "Unknown command: $action"
+      exit 1
+    fi
+
+    if [[ -z "$model" ]]
+    then
+      run_$action
+    else
+      bin/migrate_$action $model
+    fi
+
     ;;
 
 esac
