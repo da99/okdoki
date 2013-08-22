@@ -29,17 +29,16 @@ module Ok
 
     attr_reader :data, :clean_data, :new_data
 
-    def validate name
-      if clean_data.has_key?(name)
-        validate! name
-      else
-        Validator_Empty.new(self, name)
-      end
-    end
-
-    def validate! name
+    def validate name, req
       @spec = name
-      Validator.new(self, name)
+      v = nil
+      if clean_data.has_key?(name) || req
+        v = Validator.new(self, name)
+        v.not_empty() if req && !clean_data.has_key?(name)
+      else
+        v = Validator_Empty.new(self, name)
+      end
+      v
     end
 
     def initialize data = nil
@@ -155,3 +154,67 @@ module Ok
 
 
 end # === module Ok
+
+
+
+
+
+
+module Miscel
+
+def add_leading_zero n
+  (n = '0' + n;) if (n < 10)
+  n
+end
+
+def date d
+  m   = add_leading_zero(d.getUTCMonth() + 1);
+  day = add_leading_zero(d.getUTCDate());
+  d.getUTCFullYear() + '-' + m + '-' + day;
+end # === def
+
+def add_s v
+  (v > 1 ? 's' : '')
+end
+
+def human_durs durs
+  msg = []
+  d = durs.day
+  h = durs.hour
+  m = durs.minute
+  v = null
+
+  if (d === 1 && h === 23 && m > 45)
+    d = 2
+    h = 0
+    m = 0
+  end
+
+  v = d
+  if (v > 0)
+    msg.push( v + " day" + add_s(v) )
+  end
+
+  v = h
+  if (v > 0)
+    msg.push(v + " hr" + add_s(v))
+  end
+
+  v = m
+  if (v > 0)
+    msg.push(v + " min" + add_s(v))
+  end
+
+  msg.join(', ')
+end # === def human_durs
+
+
+end # === Miscel
+
+
+
+
+
+
+
+
