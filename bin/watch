@@ -1,65 +1,9 @@
 #!/usr/bin/env bash
+# -*- bash -*-
 #
 #
-#
-
-FIRST_RUN="$FIRST_RUN"
 set -u -e -o pipefail
 
-if [[ -z "$IS_DEV" ]]
-then
-  echo "Not a dev machine." 1>&2
-  exit 1000
-fi
-
-unicorn_pid="$(pgrep -f "unicorn master" || true)"
+$UP/watch/CLOSE_WRITE bin/_watch
 
 
-restart_server () {
-  if [[ -z "$unicorn_pid" ]]
-  then
-    return
-  fi
-
-  unicorn=/tmp/unicorn.dev.restart
-  since=0
-
-  if [[ -f $unicorn ]]
-  then
-    since="$(expr "$(date +%s)" - "$(stat $unicorn -c %Y)" )"
-  fi
-
-  touch $unicorn
-
-  if [[ "$since" -gt "3" ]]
-  then
-    echo "=== $since seconds: Restarting the server..."
-    pkill -HUP  -f  "unicorn master" || echo "Server is down."
-  else
-    echo "=== No restart: $since secs"
-  fi
-
-}
-
-if [[ -z "$FIRST_RUN" ]]
-then
-
-  if [[ $FILE =~ ".rb" ]]
-  then
-
-    if [[ "$FILE" =~ "Public/" && ! "$FILE" =~ "mustache." ]]
-    then
-      $yellow $(bin/compile_html $FILE)
-      $yellow $(restart_server)
-    else
-      echo "Unknown file: $FILE"
-    fi
-
-  else
-    echo "=== ignoring: $FILE"
-  fi
-
-fi
-
-
-# trap cleanup SIGINT SIGTERM EXIT
