@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+set -u -e -o pipefail
+
+if [[ -z "$(command -v pandoc)" ]]
+then
+  $yellow "=== Installing pandoc..."
+  sudo apt-get install pandoc
+fi
+
+bin/bundle install
+bin/bundle update
+
+

@@ -1,361 +1,51 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
+#
+#
+#
+FIRST_RUN="$FIRST_RUN"
+set -u -e -o pipefail
 
-if (process.argv.indexOf('test') > 0)
-  process.env.IS_TESTING = true;
+if [[ -z "$IS_DEV" ]]
+then
+  echo "Not a dev machine." 1>&2
+  exit 1
+fi
 
-var _                  = require('underscore');
-var chokidar           = require('chokidar');
-var exec               = require("child_process").exec;
-var spawn              = require("child_process").spawn;
-var fs                 = require("fs");
-var term               = require('cli-color');
-var akui               = require('akui');
-
-var client_file_mtimes = null;
-var client_file        = "Server/App/file_times";
-var full_client_file   = require.resolve('../' + client_file);
-var orig_mtimes        = require(full_client_file).data;
-delete require.cache[full_client_file];
-
-var throw_err= function (err) {
-  throw err;
-};
-
-var shell    = function (cmd, func) {
-  return exec(cmd, function (err, o, e) {
-    if ( o ) process.stdout.write(o);
-    if ( e ) process.stdout.write(e);
-    if (err) throw err;
-    if (func)
-      func(o, e);
-  });
-};
-
-
-exec("bin/file_times", function (err, o, e) {
-
-  if (err)
-    throw err;
-
-
-  client_file_mtimes = require(full_client_file).data;
-  var styls = _.select(_.keys(client_file_mtimes), function (k) {
-    return k.match('.styl') && (client_file_mtimes[k] !== orig_mtimes[k]);
-  });
-
-  if (styls.length) {
-
-    exec('stylus ' + styls.join(" "), function (err, o, e) {
-      if (err)
-        throw err;
-      console.log(o + '');
-      if (e)
-        console.log(e + '');
-      start_watching();
-    });
-
-  } else {
-    start_watching();
-  }
-
-});
-
-// ================================================================
-// ================== Stream Test Results =========================
-// ================================================================
-
-var stop_stream = false;
-
-function stream_results() {
-  akui.stream_results(function (r, is_fin, stat) {
-    if (stop_stream)
-      return;
-
-    if (r === 'timeout') {
-      console.log('Akui: timed out.');
-    } else {
-
-      if (r.length) {
-        _.each(r, function (pair) {
-          var file = pair[0];
-          var results = pair[1];
-          var fail_color = (results.fail.length) ? "%r" : "%w";
-          var msg = file + ' ' + term.green("pass: " + results.pass.length);
-          if (results.fail.length)
-            msg += term.red("fail: " + results.fail.length);
-          console.log(msg);
-        });
-      }
-
-      if (is_fin) {
-        console.log(term.bold("UI testing done."));
-        return;
-      }
-    }
-  });
+start_server () {
+  bin/start &
 }
 
-if (process.env.IS_TESTING)
-  stream_results();
-
-
-
-// ================================================================
-// ================== Start watching... ===========================
-// ================================================================
-
-var watchers          = [];
-var watched_dirs      = [];
-var server_started    = false;
-var server_restarting = false;
-
-function is_client_file(f) {
-  return client_file_mtimes && client_file_mtimes[to_client_file( f )];
+restart_server () {
+  if [[ $FILE =~ ".rb" ]]
+  then
+    pkill -HUP  -f  "unicorn master" || echo "$? -- process"
+  fi
 }
 
-function to_client_file(f) {
-  return f.replace('Client', '');
+if [[ -z "$FIRST_RUN" ]]
+then
+  if [[ $FILE =~ ".rb" ]]
+  then
+
+    if [[ "$FILE" =~ "Public/" && ! "$FILE" =~ "mustache." ]]
+    then
+      echo "Template: $FILE"
+      bin/compile_html $FILE
+    fi
+
+    echo "Restarting the server..."
+    restart_server
+  fi
+fi
+
+cleanup () {
+  echo "Quitting..."
+  sleep 2 # Wait for unicorn to finish starting.
+  pkill -QUIT -f "unicorn master"
+  echo "Done"
 }
 
-function update_client_file(f) {
-  if (is_client_file(f)) {
-    console.log("Client file updated: ", f);
-    console.log("old: ", client_file_mtimes[to_client_file(f)]);
-    client_file_mtimes[to_client_file( f )] = (new Date()).getTime();
-    fs.writeFile(client_file + '.js', "exports.data = " + JSON.stringify(client_file_mtimes));
-    console.log("new: ", client_file_mtimes[to_client_file(f)]);
-    exec('bin/hup');
-    return f;
-  }
-}
+# trap cleanup SIGINT SIGTERM EXIT
 
-function is_static(f) {
-  if (f.match(client_file + '.js'))
-      return true;
-  if (f.match('Server') || f.match('node_module'))
-    return false;
-  return !f.match('test/ui') && f.match(/\.(styl|css|cssus|js)$/);
-}
-
-function upgrade() {
-  shell("bin/upgrade skip_npm skip_os skip_download", function () {
-    console.log("JS files re-combined.\n");
-  });
-}
-
-function watch(dirs, func) {
-  watched_dirs.push(dirs);
-  var w = chokidar.watch(dirs,  {ignored: /^\./, persistent: true, interval: 190});
-  watchers.push(w);
-  return w;
-}
-
-function start_watching() {
-  watch("bin/watch")
-  .on('change', function (f) {
-    console.log("\nFile bin/watch has changed. Exiting.");
-    shutdown_all();
-  })
-  .on('error', throw_err);
-  ;
-
-  watch( ["Client/App/js/_base.js", "bin/upgrade", "Client/applets/form/script.js"] )
-  .on('change', function (filename) {
-    upgrade();
-  })
-  .on('error', throw_err);
-  ;
-
-  watch( ["Server/", "Client/", 'test/ui', 'node_modules/topogo'] )
-  .on('add', function (f) {
-    if (is_static(f))
-      return;
-    if (f.match(client_file))
-      return;
-
-    if (!server_started)
-      return;
-
-    console.log("\nadded: " + f);
-    restart_server();
-  })
-  .on('change', function (filename) {
-    if (is_static(filename))
-      return;
-
-    console.log("\nchanged: " + filename);
-    restart_server();
-  })
-  .on('unlink', function (filename) {
-    if (is_static(filename))
-      return;
-
-    console.log("\ndeleted: " + filename);
-    restart_server();
-  })
-  .on('error', throw_err);
-  ;
-
-
-  watch( "Client/" )
-  .on('add', function (f) {
-    if (!server_started)
-      return;
-    stylus_changed(f, 'change');
-  })
-  .on('change', function (f) {
-    update_client_file(f);
-    stylus_changed(f, 'change');
-  })
-  .on('unlink', function (f) { stylus_changed(f, 'unlink'); })
-  ;
-
-  // watch(['test', 'models', 'lib'])
-  // .on('add', function (f) {
-  // if (!server_started)
-  // return;
-  // run_tests(f);
-  // })
-  // .on('change', run_tests)
-  // .on('change', run_tests)
-  // ;
-
-
-  console.log("Watching: ", _.flatten(watched_dirs).join(', '), "\n");
-
-  restart_server();
-} // === start_watching
-
-function run_tests(f) {
-  console.log("  changed: " + f);
-  exec("bin/dev/mocha", function (err, o, e) {
-    if (o) process.stdout.write(o);
-    if (e) process.stdout.write(e);
-    if (err)
-      process.stdout.write("Error message: " + err.message);
-  });
-}
-
-function stylus_changed(file_name, event) {
-  if (!file_name.match(/\.styl$/))
-    return;
-  var css       = stylus_to_css(file_name);
-  var folder    = template_family(file_name);
-  var base_name = file_name.split('/').pop();
-
-  console.log("");
-
-  if (event === 'unlink') {
-    console.log("  deleted:  " + file_name);
-    console.log("  deleting: " + css);
-
-    // For some reason the file is sometimes deleted,
-    // after the folder. Using a conditional
-    // prevents an warning from being printed.
-    shell(' if [ -e ' + css + ' ] ; then trash-put ' + css + ' ; fi ');
-  } else {
-    shell("bin/compile_all_style_files " + file_name , function () {
-    });
-  }
-
-} // function
-
-function template_family(stylus) {
-  var pieces = stylus.split('/');
-  pieces.shift();
-  pieces.pop();
-  if (pieces.length)
-    return pieces.join('/');
-  return null;
-}
-
-function stylus_to_css(stylus) {
-  return stylus
-  .replace(/\.stylus$/i, ".css")
-  .replace(/\.styl$/i, ".css")
-  .replace(/.stylus.css$/i, ".css")
-  ;
-}
-
-function shutdown_server(func) {
-  exec('bin/stop', function (err, so, se) {
-    if (so) console.log(so);
-    if (se) console.log(se);
-    if (err && !err.message.indexOf("no process found")) {
-      console.log("Exiting because: " + err);
-      process.exit(1);
-    }
-    func();
-  });
-}
-
-function server_response(data) {
-  if (data.toString().indexOf("isten") > 0) {
-    server_started = true;
-    server_restarting = false;
-  }
-  if (data.toString().indexOf('server closed:')) {
-    server_started = false;
-    server_restarting = false;
-  }
-}
-
-function restart_server(func) {
-
-  if (server_restarting) {
-    console.log("Waiting for server to restart...");
-    return;
-  }
-
-  server_restarting = true;
-
-  var server = spawn("bin/restart");
-  server.stdout.on('data', function (data) {
-    server_response(data);
-    process.stdout.write("" + data);
-  });
-
-  server.stderr.on('data', function (data) {
-    server_response(data);
-    process.stderr.write("" + data);
-  });
-
-  server.on('close', function (code) {
-    var msg = 'server closed: ' + code;
-    server_response(msg);
-    console.log(msg, "\n");
-  });
-
-  if (func)
-    func();
-}
-
-function shutdown_all() {
-  shutdown_server(function () {
-    close();
-  });
-}
-
-function close() {
-  var w = watchers.pop();
-  if (w) {
-    w.close();
-    close();
-  } else {
-    stop_stream = false;
-    akui.quit();
-  }
-  // else {
-    // process.exit(0);
-  // }
-}
-
-process.on('SIGINT',  shutdown_all);
-process.on('SIGTERM', shutdown_all);
-
-
-
-
-
-
-
+echo "=========================="
+echo ""
