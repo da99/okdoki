@@ -3,6 +3,7 @@
 #
 set -e -u -o pipefail
 
+bin/migrate reset > /dev/null
 bin/bundle exec bacon "$@"
 exit 0
 
@@ -13,29 +14,7 @@ reset_color=$(tput sgr0)
 bold_white_on_green=$(tput bold)${white}${green_bg}
 bold_white=$(tput bold)${white}
 
-# echo ""
-# echo "Resetting db..."
-# bin/migrate reset
 
-echo ""
-echo "Running nodejs/mocha tests..."
-files="$@"
-
-if [[ -z "$@" ]]
-then
-files="\
-  test/Customer.js    \
-  test/Screen_Name.js \
-  test/Ok.Model.js    \
-  test/app.js         \
-"
-fi
-
-IS_TESTING=true NODE_ENV=production mocha --timeout 2000 --colors $files
-
-# NODE_ENV=production mocha --timeout 5500 --colors test/Chat_Bot.js "$@"
-
-# echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
 
 
 

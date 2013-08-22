@@ -30,15 +30,15 @@ class Screen_Name
   Table_Name        = 'screen_name'
   TABLE             = nil
   BANNED_SCREEN_NAMES = [
-    /^megauni/,
-    /^miniuni/,
-    /^okdoki/,
-    /^(me|mine|my|mi|I)$/,
-    /^pet-/,
-    /^bot-/,
-    /^(online|contact|info|official|about|news|home)$/,
-    /^(undefined|def|sex|sexy|xxx|ted|larry)$/,
-    /^[.]+-cola$/
+    /^MEGAUNI/i,
+    /^MINIUNI/i,
+    /^OKDOKI/i,
+    /^(ME|MINE|MY|MI|i)$/i,
+    /^PET-/i,
+    /^BOT-/i,
+    /^(ONLINE|CONTACT|INFO|OFFICIAL|ABOUT|NEWS|HOME)$/i,
+    /^(UNDEFINED|DEF|SEX|SEXY|XXX|TED|LARRY)$/i,
+    /^[.]+-COLA$/i
   ]
 
   # =====================================================
@@ -86,14 +86,14 @@ class Screen_Name
     @clean_data[:display_name] = @clean_data[:screen_name]
 
     spec(:type_id).
-      clean('to number').
-      set_to(0, clean[:type_id] < 0 || clean[:type_id] > 2)
+      clean('to_i').
+      set_to(0, lambda { |v| v < 0 || v > 2 })
 
     insert_data = {
-      # :owner_id     => @new_data[:customer] ? @new_data[:customer].data.id || 0,
-      # :screen_name  => clean[:screen_name],
-      # :display_name => clean[:screen_name],
-      # :type_id      => (clean[:type_id] || 0)
+       :owner_id     => @new_data[:customer] ? @new_data[:customer].data.id : 0,
+       :screen_name  => clean_data[:screen_name],
+       :display_name => clean_data[:screen_name],
+       :type_id      => (clean_data[:type_id] || 0)
     }
 
     new_record = db_insert(insert_data, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
