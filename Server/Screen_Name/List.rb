@@ -1,23 +1,20 @@
 
 class Screen_Name
 
-  class List
+  class List # === Not called an Array to avoid confusion.
 
-    include Enumerable
+    include Ok::Model::List
 
     def initialize arr = nil
       @names = arr || []
     end # === def initialize
 
-    def each
-      @names.each { |n| yield n }
+    def names
+      pluck :screen_name
     end
 
-    def push *args
-      args.flatten.each { |a|
-        @names.push a
-      }
-      @names
+    def ids
+      pluck :id
     end
 
   end # === class List ===
