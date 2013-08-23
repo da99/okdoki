@@ -21,10 +21,7 @@ class Fake_Mustache
     file       = "Public/#{raw_file}/markup.mustache.rb"
     @data      = data
     @file_name = file
-    @file      = self.class::CACHE[file]
-    if !@file
-      @file = self.class::CACHE[file] = File.read(file)
-    end
+    @file      = (self.class::CACHE[file] ||= File.read(file))
   end
 
   def [] key
