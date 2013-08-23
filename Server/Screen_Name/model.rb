@@ -1,6 +1,7 @@
 
 require './Server/Ok/model'
-require 'Jam_Func'
+
+require_crutd :Screen_Name
 
 class Screen_Name
 
@@ -22,7 +23,6 @@ class Screen_Name
   # =====================================================
 
 
-  Jam = Jam_Func.new
   VALID_CHARS       = "a-zA-Z0-9\\-\\_\\."
   VALID             = /^[#{VALID_CHARS}]{4,15}$/i
   VALID_ENGLISH     = "Screen name must be: 4-15 valid chars: 0-9 a-z A-Z _ - ."
@@ -72,48 +72,6 @@ class Screen_Name
   # Instance
   # =====================================================
 
-  def create raw_data
-    # === Validate the data.
-    @new_data = raw_data
-    @clean_data = {}
-
-    validate(:screen_name)
-
-    validate(:type_id)
-
-    insert_data = {
-       :owner_id     => new_data[:customer] ? new_data[:customer].data.id : 0,
-       :screen_name  => clean_data[:screen_name],
-       :display_name => clean_data[:screen_name],
-       :type_id      => (clean_data[:type_id] || 0)
-    }
-
-    begin
-      new_record = TABLE.returning.insert(insert_data).first
-    rescue Sequel::UniqueConstraintViolation => e
-      raise e unless e.message['"screen_name_screen_name_key"']
-      raise self.class::Invalid.new(self, "Screen name already taken: #{clean_data[:screen_name]}")
-    end
-
-    #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
-
-    @data.merge! new_record
-    return self if new_data[:customer]
-
-
-    # // ==== This is a new customer
-    # // ==== so we must use the screen name id
-    # // ==== as the owner_id because customer record
-    # // ==== has not been created.
-    TABLE.where(:id=>self.data[:id]).update(:owner_id=>self.data[:id])
-
-    self
-  end # === def create
-
-  # // ================================================================
-  # // =================== Update =====================================
-  # // ================================================================
-
   def validate *args
     if args.first == :screen_name
       super(*args).
@@ -131,19 +89,6 @@ class Screen_Name
       super
     end
   end
-
-  def update raw_data
-    validate :screen_name
-    validate :about
-    validate :type_id
-    validate(:nick_name)
-      .set_to_nil_if_empty()
-
-    # -------------------------------
-    # === Update row in customer list
-    # -------------------------------
-
-  end # === def update
 
 end # === Screen_Name ========================================
 
