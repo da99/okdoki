@@ -11,7 +11,7 @@ set -u -e -o pipefail
 
 if [[ -z "$files" ]]
 then
-  files=$(find ./Client -iregex '.*\.styl')
+  files=$(find ./Public -iregex '.*\.styl')
 fi
 
 for i in $files

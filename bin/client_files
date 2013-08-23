@@ -3,7 +3,7 @@
 #
 set -u -e -o pipefail
 
-files="$(find Client/ -type f \( -name '*.js' -or -name "*.css" -or -name "*.gif" -or -name "*.jpg" -or -name "*.styl" \))"
+files="$(find Public/ -type f \( -name '*.js' -or -name "*.css" -or -name "*.gif" -or -name "*.jpg" -or -name "*.styl" \))"
 
 for f in $files
 do

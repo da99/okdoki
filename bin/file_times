@@ -29,7 +29,7 @@ exec('bin/client_files', function (err, raw_o, raw_e) {
     var path = data[0];
     var key = (path.match('.styl')) ?
       path :
-      path.replace('Client', '');
+      path.replace('Public', '');
     map[key] = parseInt(data[1]);
   }
 

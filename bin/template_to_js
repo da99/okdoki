@@ -7,7 +7,7 @@
 set -u -e -o pipefail
 
 temp_file=/tmp/$(echo $1 | tr "/" "_")
-ruby Client/Dot_Why/to_html.rb "$@" > $temp_file
-node Client/Dot_Why/to_dot.js $temp_file
+ruby Public/Dot_Why/to_html.rb "$@" > $temp_file
+node Public/Dot_Why/to_dot.js $temp_file
 
 

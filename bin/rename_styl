@@ -8,7 +8,7 @@ set -u -e -o pipefail
 
 
 
-files=$(find ./Client -type f -name \*.stylus)
+files=$(find ./Public -type f -name \*.stylus)
 
 
 for i in $files

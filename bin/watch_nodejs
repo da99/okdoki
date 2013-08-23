@@ -119,7 +119,7 @@ function to_client_file(f) {
 
 function update_client_file(f) {
   if (is_client_file(f)) {
-    console.log("Client file updated: ", f);
+    console.log("Public file updated: ", f);
     console.log("old: ", client_file_mtimes[to_client_file(f)]);
     client_file_mtimes[to_client_file( f )] = (new Date()).getTime();
     fs.writeFile(client_file + '.js', "exports.data = " + JSON.stringify(client_file_mtimes));
@@ -159,14 +159,14 @@ function start_watching() {
   .on('error', throw_err);
   ;
 
-  watch( ["Client/App/js/_base.js", "bin/upgrade", "Client/applets/form/script.js"] )
+  watch( ["Public/App/js/_base.js", "bin/upgrade", "Public/applets/form/script.js"] )
   .on('change', function (filename) {
     upgrade();
   })
   .on('error', throw_err);
   ;
 
-  watch( ["Server/", "Client/", 'test/ui', 'node_modules/topogo'] )
+  watch( ["Server/", "Public/", 'test/ui', 'node_modules/topogo'] )
   .on('add', function (f) {
     if (is_static(f))
       return;
@@ -197,7 +197,7 @@ function start_watching() {
   ;
 
 
-  watch( "Client/" )
+  watch( "Public/" )
   .on('add', function (f) {
     if (!server_started)
       return;

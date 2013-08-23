@@ -6,7 +6,7 @@
 #
 set -u -e -o pipefail
 
-app_dir="Client/applets"
+app_dir="Public/applets"
 cd $app_dir
 mkdir -p $1
 cd $1
