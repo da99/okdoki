@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 
 flips="$@"
-js="Client/js"
+js="Public/js"
 base_file="$js/vendor/all.js"
 
 if [[ ! "$@" == *skip_os* ]]
@@ -16,22 +16,6 @@ then
   sudo apt-get upgrade
   sudo npm update
 fi
-
-if [[ ! "$@" == *skip_npm* ]]
-then
-  npm prune
-  npm install
-  npm update
-  npm rebuild
-
-  # If you use hiredis, be sure to rebuild it
-  # whenever you upgrade your version of node.
-  # There are mysterious failures that can happen
-  # between node and native code modules after a
-  # node upgrade.
-  # npm rebuild hiredis
-fi
-
 
 function re_download {
   if [[ ! "$flips" == *skip_download* ]]

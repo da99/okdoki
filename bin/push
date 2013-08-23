@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-# -*- bash -*-
-#
-set -u
-set -e
-
-echo "Pushing to github..." && echo "" && git push && echo "" && echo "Pushing to heroku..." && echo "" && git push heroku master
