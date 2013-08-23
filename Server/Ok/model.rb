@@ -29,12 +29,11 @@ module Ok
 
     attr_reader :data, :clean_data, :new_data
 
-    def validate name, req
+    def validate name
       @spec = name
       v = nil
-      if clean_data.has_key?(name) || req
+      if clean_data.has_key?(name)
         v = Validator.new(self, name)
-        v.not_empty() if req && !clean_data.has_key?(name)
       else
         v = Validator_Empty.new(self, name)
       end
@@ -64,20 +63,17 @@ module Ok
       @e.new(model, msg || "#{@english_name} is invalid.")
     end
 
-    def be req, msg = nil
-      case req
-      when'not empty'
-
-        val = clean_data[name]
-        raise "Must be string or array: #{val}" unless val.respond_to?(:size)
-        is_empty = (val.kind_of?(String) && val.strip.empty?) || val.empty?
-        raise e(msg || "#{english_name} may not be empty." ) if is_empty
-      else
-        raise "Unknown request: #{name}"
-      end
-
-      self
-    end # === def
+    #
+    # Applies only to Strings or Arrays.
+    # Ensures value has been set and not:
+    #   String.strip.empty? && Array.empty?
+    #
+    def required msg = nil
+      val = clean_data[name]
+      raise "Must be string or array: #{val}" unless val.respond_to?(:size)
+      is_empty = (val.kind_of?(String) && val.strip.empty?) || val.empty?
+      raise e(msg || "#{english_name} is required." ) if is_empty
+    end
 
     def clean *args
       args.each { |a|
@@ -141,15 +137,22 @@ module Ok
 
   end # === class Validator
 
-  validator_meths = Validator.public_instance_methods - Object.public_instance_methods
   class Validator_Empty
-    validator_meths.each { |meth|
-      class_eval "
-      def #{meth} *args
-        self
+
+    meths = Validator.public_instance_methods - Object.public_instance_methods
+
+    meths.each { |meth|
+      case meth
+      when :required
+      else
+        class_eval %!
+          def #{meth} *args
+            self
+          end
+        !
       end
-      "
     }
+
   end # === class
 
 

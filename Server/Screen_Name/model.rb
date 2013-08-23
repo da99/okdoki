@@ -118,7 +118,7 @@ class Screen_Name
     if args.first == :screen_name
       super(*args).
         clean('strip', 'upper').
-        be('not empty').
+        required().
         match(VALID, VALID_ENGLISH).
         not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
     elsif args.first == :type_id
