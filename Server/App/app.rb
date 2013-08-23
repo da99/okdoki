@@ -6,8 +6,9 @@ require 'rack/contrib'
 
 require 'Jam_Func'
 require './Server/Fake_Mustache/index'
-require './Server/Escape_All/index'
-require './Server/JSON_Success'
+require './Server/Ok/Escape_All'
+require './Server/Ok/Guard'
+require './Server/Ok/JSON_Success'
 
 ss = ENV['SESSION_SECRET']
 if !ss
@@ -38,9 +39,11 @@ use Rack::Protection
 use ContentSecurityPolicy
 use Rack::PostBodyContentTypeParser
 
+use Ok::Guard
+
 # -- Helpers
-helpers Escape_All::Sinatra
-helpers JSON_Success
+helpers Ok::Escape_All::Helper
+helpers Ok::JSON_Success::Helper
 
 # -- Routes
 get "/" do
