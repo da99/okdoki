@@ -35,7 +35,7 @@ module Ok
 end # === module Ok ===
 
 
-use Ok::Guard
+use Ok::Guard, skip: ['POST:/sign-in', 'POST:/Customer']
 extend Ok::Guard::DSL
 
 
