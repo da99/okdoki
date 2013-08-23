@@ -6,22 +6,16 @@ require './Server/Screen_Name/model'
 # =====================================================
 
 
-post '/Screen_Name' do
-  puts params[:screen_name]
+post '/me' do
+  params[:user] = request[:user]
   begin
-    Screen_Name.create(params)
+    sn = Screen_Name.create(request[:user], params)
+    name = sn.data[:screen_name]
+    json true, "Your new life has been created: #{name}" , {screen_name: name}
   rescue Ok::Invalid => e
     json false, e.msg
   end
 end # === post
-
-post('/me' do
-  params[:user] = request[:user]
-  sn = Screen_Name.create(c);
-  name = sn.data[:screen_name]
-
-  json true, "Your new life has been created: #{name}" , {screen_name: name}
-end
 
 
 # =====================================================
@@ -33,14 +27,14 @@ end
 get '/:type/:screen_name' do
   type = params[:type]
   sn   = params[:screen_name]
-  pass if ['me', 'bot'].include?(type)
+  pass unless ['me', 'bot'].include?(type)
 
   canon = Screen_Name.to_canon(sn);
 
   if canon == sn
     pass
   else
-    redirect 301, "/#{type}/#{canon}"
+    redirect to("/#{type}/#{canon}"), 301
   end
 end
 
