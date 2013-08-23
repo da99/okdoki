@@ -1,65 +1,19 @@
 
 class Screen_Name
 
-S.read_by_id = function (id, flow) {
-  River.new(flow)
-  .job('read screen name id:', id, function (j) {
-    Topogo.new(TABLE_NAME).read_by_id(id, j);
-  })
-  .job(function (j, r) {
-    return j.finish(S.new(r));
-  })
-  .run();
-};
+  class << self
 
-EVE.on('read life by screen name', function (flow) {
-  var sn = flow.data.screen_name;
-  EVE.run(flow, function (j) {
-    Topogo.new(TABLE_NAME)
-    .read_one({screen_name: sn.toUpperCase()}, j);
-  }, function (j) {
-    j.finish(S.new(j.last));
-  });
-});
+    def read_by_id id
+      r = TABLE[:id=>id]
+      Screen_Name.new r, "Screen name not found."
+    end
 
+    def read_by_screen_name raw_sn
+      r = TABLE.limit(1)[:screen_name=>Screen_Name.canonize(raw_sn)]
+      new r, "Screen name not found: #{raw_sn}"
+    end
 
-S.find_screen_name_keys = function (arr) {
-  var key = _.detect([ 'screen_name_id', 'publisher_id', 'owner_id', 'author_id', 'follower_id'], function (k) {
-    return (arr[0] || '').hasOwnProperty(k);
-  }) || 'screen_name_id';
-
-  var new_key = key.replace('_id', '_screen_name');
-  return [key, new_key];
-};
-
-
-S.attach_screen_names = function (arr, flow) {
-  var keys = S.find_screen_name_keys(arr);
-  var key = keys[0];
-  var new_key = keys[1];
-
-  var vals = _.pluck(arr, key);
-  if (!vals.length)
-    return flow.finish([]);
-
-  River.new(flow)
-  .job(function (j) {
-    TABLE.read_list({id: vals}, j);
-  })
-  .job(function (j, names) {
-    var map = {};
-    _.each(names, function (n) {
-      map[n.id] = n.screen_name;
-    });
-
-    _.each(arr, function (r, i) {
-      arr[i][new_key] = map[arr[i][key]];
-    });
-
-    j.finish(arr);
-  })
-  .run();
-};
+  end # === class self ===
 
 S.replace_screen_names = function (arr, flow) {
   var keys = S.find_screen_name_keys(arr);

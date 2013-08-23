@@ -23,6 +23,7 @@ class Screen_Name
   # =====================================================
 
 
+  SCREEN_NAME_KEYS    = [:screen_name_id, :publisher_id, :owner_id, :author_id, :follower_id]
   BEGIN_AT_OR_HASH    = /^(\@|\#)/
   ALL_WHITE_SPACE     = /\s+/
   VALID_CHARS         = "a-zA-Z0-9\\-\\_\\."
@@ -107,6 +108,33 @@ class Screen_Name
     else
       super
     end
+  end
+
+  def find_screen_name_keys arr
+    rec     = arr[0] || {:screen_name_id=>nil}
+    key     = SCREEN_NAME_KEYS.detect { |k| rec.has_key? k }
+    key     = key || :screen_name_id
+    new_key = key.to_s.sub('_id', '_screen_name').to_sym
+    [key, new_key]
+  end
+
+  def attach_screen_names arr
+    keys    = find_screen_name_keys(arr)
+    key     = keys[0]
+    new_key = keys[1]
+
+    vals = arr.map { |v| v[key] }
+    return [] if vals.empty?
+
+    names = TABLE[id: vals]
+    map = {}
+    names.each { |n| map[n[:id]] = n[:screen_name] }
+
+    arr.each do |r, i|
+      arr[i][new_key] = map[arr[i][key]]
+    end
+
+    arr
   end
 
 end # === Screen_Name ========================================

@@ -14,6 +14,10 @@ end
 
 module Ok
 
+  # =====================================================
+  # Errors
+  # =====================================================
+
   class Invalid < RuntimeError
 
     attr_reader :model, :msg
@@ -26,6 +30,24 @@ module Ok
 
   end # === class Invalid ===
 
+  class Not_Found < RuntimeError
+
+    def initialize msg = nil
+      if !msg
+        msg = "Not found."
+      elsif !msg.kind_of? String
+        msg = "#{msg.class} not found."
+      end
+      @msg = msg
+      super(@msg)
+    end
+
+  end # === class Not_Found ===
+
+  # =====================================================
+  # Modules
+  # =====================================================
+
   module Model_Extend
 
     def create new_data
@@ -35,6 +57,10 @@ module Ok
     end
 
   end # === module Model_Extend ===
+
+  # =====================================================
+  # Model (the main stuff)
+  # =====================================================
 
   module Model
 
@@ -59,8 +85,17 @@ module Ok
       v
     end
 
-    def initialize data = nil
-      @data = data || {}
+    def initialize *args
+      if args.empty?
+        @data = {}
+      elsif args.size == 1
+        @data = args.first || {}
+      else
+        @data = args.first || {}
+        if !@data # === record was not found
+          raise Not_Found.new(args.last)
+        end
+      end
     end
 
   end # === module Model ===
