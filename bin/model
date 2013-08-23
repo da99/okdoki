@@ -26,6 +26,9 @@ compile_all () {
   compile_template trash  "model/trash.rb"
   compile_template delete "model/delete.rb"
 
+  tmpl="Server/Ok/templates/routes.rb"
+  compile_template route "routes.rb"
+
 }
 
 template () {
@@ -44,10 +47,10 @@ template () {
 
 }
 
+
 case "$cmd" in
   create)
     compile_all
-    bin/route create "$model"
     ;;
 
   *)
