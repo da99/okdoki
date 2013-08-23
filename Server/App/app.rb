@@ -41,35 +41,14 @@ require './Server/Ok/Guard'          # 3
 require './Server/Ok/JSON_Success'   # 4
 # ----------------------------------------------------
 
-# -- Routes ------------------------------------------
-get "/" do
-  if !request[:user]
-    return Fake_Mustache.new('App/top_slash', {
-      :title => 'OkDoki.com',
-      :YEAR  => Time.now.year
-    }).render
-  end
-
-  opts = { :user => req.user, :Bots => {:Own => [], :Use => []} }
-  Fake_Mustache.new('Customer/lifes', {
-    :title => "My Okdoki",
-    :Bots  => { :Own => f.data.Bots.Own, :Use => f.data.Bots.Use }
-  })
-end # === get /
-
-get "/unauthenticated" do
-  "Not logged in"
-end
-
-# --------------- The Models -------------------------
-models = %w{
+# --- Routes -----------------------------------------
+%w{
+  App
   Customer
   Screen_Name
   Ok_Session
 }.map { |w|
-  require "./Server/#{w}/model"
   require "./Server/#{w}/routes"
-  m = Object.const_get(w)
 }
 
 

@@ -1,4 +1,5 @@
 
+require './Server/Customer/model'
 
 unguard :post, '/Customer' do
   begin

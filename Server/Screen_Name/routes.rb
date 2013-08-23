@@ -1,4 +1,6 @@
 
+require './Server/Screen_Name/model'
+
 post '/Screen_Name' do
   puts params[:screen_name]
   begin
