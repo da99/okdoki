@@ -44,20 +44,16 @@ get '/:type/:screen_name' do
   end
 end
 
-  app.get('/me/:screen_name', function (req, resp, next) {
+get '/me/:screen_name' do
 
-    F.run('read life by screen name', {screen_name: req.params.screen_name}, function (o) {
-      var life = o.val;
-      if (!life)
-        return next();
+  begin
+    life = Screen_Name.read_by_screen_name params.screen_name
+    html 'Screen_Name/me', title: "The life of #{life.data[:screen_name]}"
+  rescue Screen_Name::Not_Found => e
+    pass
+  end
 
-      var data      = req.OK.template_data('Screen_Name/me');
-      data['title'] = "The life of " + life.data.screen_name;
-      req.OK.render_template();
-    });
-    return;
-
-  });
+end
 
 
 
@@ -66,66 +62,37 @@ end
 # =====================================================
 
 
-  OK.put('/screen_names/:name', function (req, resp, next) {
-    var n = req.params.name;
-    var new_vals = _.pick(req.body,
-                          'read_able',
-                          'read_able_list',
-                          'about',
-                          'at_url',
-                          'at_pass_phrase',
-                          'bot_url',
-                          'bot_pass_phrase'
-                         );
+put '/screen_names/:name' do
+  n = params[:name]
+  begin
+    sn = Screen_Name.update params, request[:user]
+    c   = request[:user]
+    msg = case sn.data[:read_able]
+          when 'W'
+            "Updated settings: Anyone online may see this homepage."
+          when 'N'
+            "Updated settings: no one but you can see this homepage."
+          when 'S'
+            "Updated settings: The following may see your homepage: " + c.sanitized_data.read_able_list.join(', ')
+          else
+            if c.sanitized_data.about
+              'Your "About Me" section has been updated.'
+            elsif (c.sanitized_data.new_screen_name)
+              'Your screen name has been updated.'
+            else
+              'Your web app info has been updated.'
+            end
+          end # === case
 
-     var r = New_River(next);
+    json true,  msg, updated: sn.to_public
 
-     r
+  rescue Screen_Name::Invalid => e
 
-     .on_next('invalid', function (j) {
-       write.json_fail(resp, j.invalid_msg);
-     })
+    json false, e.msg
 
-     .job('update screen name:', n, [Screen_Name, 'update', req.user, n, new_vals])
+  end # === begin
 
-     .run(function (r) {
-
-       var c   = req.user;
-       var msg = null;
-
-       switch (c.sanitized_data.read_able) {
-         case 'W':
-           msg = "Updated settings: Anyone online may see this homepage.";
-         break;
-         case 'N':
-           msg = "Updated settings: no one but you can see this homepage.";
-         break;
-         case 'S':
-           msg = "Updated settings: The following may see your homepage: " + c.sanitized_data.read_able_list.join(', ');
-         break;
-         default:
-           if (c.sanitized_data.about) {
-           msg = 'Your "About Me" section has been updated.';
-         } else if (c.sanitized_data.new_screen_name) {
-           msg = 'Your screen name has been updated.';
-         } else {
-           msg = 'Your web app info has been updated.';
-         };
-
-       };
-
-       var public = {};
-       _.each(new_vals, function (v, k) {
-         if (c.sanitized_data.hasOwnProperty(k))
-           public[k] = c.sanitized_data[k];
-         if (k.indexOf('pass_phrase') > -1 && (public[k] || '').trim().length > 0)
-           public[k] = '[hidden]';
-       });
-
-       write.json_success(resp, msg, {updated: public});
-     });
-
-  });
+end # === post /screen_name/:name
 
 
 # =====================================================
