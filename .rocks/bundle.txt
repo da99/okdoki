@@ -1,9 +1,0 @@
-ansicolors 1.0.2-3
-dkjson 2.3-1
-lapis 0.0.3-1
-lpeg 0.12-1
-lua-cjson 2.1.0-1
-luafilesystem 1.6.2-1
-luasocket 2.0.2-5
-penlight 1.2.1-1
-underscore dev-1
