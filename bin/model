@@ -5,41 +5,49 @@
 #    bin/model create Chat
 #    bin/model file   Chat Chat_Room_Fav
 #
+
 cmd="$1"
-model="$2"
-file_name="$3"
+class="$2"
+instance="$(echo $class | tr '[A-Z]' '[a-z]')"
+
 set -u -e -o pipefail
 
-function compile_template {
-  mkdir -p Server/$model
-  class_name="$model"
-  db_table_name="$model"
+compile_all () {
+  mkdir -p Server/$class/model
 
-  tmpl="Server/App/model.template.js"
-  if [[ -z "$file_name" ]]
-  then
-    new_file="Server/$model/model.js"
-  else
-    new_file="Server/$model/$file_name.js"
-    class_name="$file_name"
-    db_table_name="${model}_${file_name}"
-  fi
+
+  tmpl="Server/Ok/templates/model.rb"
+  compile_template model "model.rb"
+
+  tmpl="Server/Ok/templates/model.action.rb"
+  compile_template create "model/create.rb"
+  compile_template read   "model/read.rb"
+  compile_template update "model/update.rb"
+  compile_template trash  "model/trash.rb"
+  compile_template delete "model/delete.rb"
+
+}
+
+template () {
+  action="$1"
+  new_file="Server/$class/$2"
 
   if [[ -f "$new_file" ]]
   then
-    echo "skipping creationg of file:"
+    echo "=== already exists: $new_file"
   else
-    sed "s/MODEL/$class_name/g" "$tmpl" >> "$new_file"
-    sed "s/DB_TABLE_NAME/${db_table_name}/g" "$new_file" -i
+    sed "s/MODEL/$class_name/g"  "$tmpl" >> "$new_file"
+    sed "s/!model/$instance/g"   -i "$new_file"
+    sed "s/!action/$action/g"    -i "$new_file"
+    echo "=== created: $new_file"
   fi
 
-  echo "$new_file"
 }
 
 case "$cmd" in
   create)
-    compile_template
-    bin/route create "$model" "$file_name"
+    compile_all
+    bin/route create "$model"
     ;;
 
   *)
