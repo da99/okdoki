@@ -6,7 +6,7 @@ module Ok
 
   module Escape_All
 
-    module Sinatra
+    module Helper
       def params
         @clean_params ||= begin
                             dirty = super
