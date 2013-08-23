@@ -92,6 +92,10 @@ class Screen_Name
   # Instance
   # =====================================================
 
+  def is? raw_str
+    data[:screen_name] == Screen_Name.canonize(raw_str)
+  end
+
   def validate *args
     case args.first
     when :screen_name

@@ -9,6 +9,16 @@ class Screen_Name
       @names = arr || []
     end # === def initialize
 
+    def include? unknown
+      name = if unknown.is_a? String
+        unknown
+      else
+        unknown.data[:screen_name]
+      end
+
+      !!@names.detect { |sn| sn.is? name }
+    end
+
     def names
       pluck :screen_name
     end
