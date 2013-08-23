@@ -4,6 +4,14 @@ DB = Sequel.connect(ENV['DATABASE_URL'])
 require './Server/Ok/Validate'
 require './Server/Ok/Helpers'
 
+CRUTD_Actions = [:create, :read, :update, :trash, :delete]
+
+def require_crutd klass
+  CRUTD_Actions.each { |action|
+    require "./Server/#{klass}/model/#{action}"
+  }
+end
+
 module Ok
 
   class Invalid < RuntimeError

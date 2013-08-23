@@ -17,17 +17,17 @@ compile_all () {
 
 
   tmpl="Server/Ok/templates/model.rb"
-  compile_template model "model.rb"
+  template model "model.rb"
 
   tmpl="Server/Ok/templates/model.action.rb"
-  compile_template create "model/create.rb"
-  compile_template read   "model/read.rb"
-  compile_template update "model/update.rb"
-  compile_template trash  "model/trash.rb"
-  compile_template delete "model/delete.rb"
+  template create "model/create.rb"
+  template read   "model/read.rb"
+  template update "model/update.rb"
+  template trash  "model/trash.rb"
+  template delete "model/delete.rb"
 
   tmpl="Server/Ok/templates/routes.rb"
-  compile_template route "routes.rb"
+  template route "routes.rb"
 
 }
 
@@ -37,9 +37,9 @@ template () {
 
   if [[ -f "$new_file" ]]
   then
-    echo "=== already exists: $new_file"
+    $yellow "=== already exists: $new_file"
   else
-    sed "s/MODEL/$class_name/g"  "$tmpl" >> "$new_file"
+    sed "s/MODEL/$class/g"  "$tmpl" >> "$new_file"
     sed "s/!model/$instance/g"   -i "$new_file"
     sed "s/!action/$action/g"    -i "$new_file"
     echo "=== created: $new_file"

@@ -1,10 +1,7 @@
 
 require './Server/Ok/model'
-require "./Server/MODEL/model/create"
-require "./Server/MODEL/model/read"
-require "./Server/MODEL/model/update"
-require "./Server/MODEL/model/trash"
-require "./Server/MODEL/model/delete"
+
+require_crutd
 
 class MODEL
 
@@ -15,7 +12,7 @@ class MODEL
   # Settings
   # =====================================================
 
-  Table_Name = :~model
+  Table_Name = :!model
   TABLE = DB[Table_Name]
 
   # =====================================================

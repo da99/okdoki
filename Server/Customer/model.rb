@@ -1,7 +1,8 @@
 
 require './Server/Ok/model'
 require './Server/Screen_Name/model'
-require 'Jam_Func'
+
+require_crutd
 
 class Customer
 
@@ -9,8 +10,6 @@ class Customer
   # =====================================================
   # Settings
   # =====================================================
-
-  Jam = Jam_Func.new
 
   Table_Name = :customer
   TABLE = DB[Table_Name]
