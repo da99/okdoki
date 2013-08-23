@@ -1,83 +1,62 @@
 
 class Customer
 
+  class << self
+
+    def delete_trashed
+
+      final = {customers: [], screen_names: []}
+
+      rows = Ok.delete_trashed(self)
+
+      if !rows.empty?
+        final[:customers] = rows
+        Screen_Name.delete_trashed_customer(rows)
+      end
+
+      final[:screen_names] = rows
+      final
+
+    end # === def delete_trashed
+
+  end # === class self ===
+
   def trash
-    raise "not done"
+    Ok.trash(self)
+    data[:trashed_at] = last[:trashed_at]
+    self
   end # === def trash
 
-Customer.prototype.generate_trash_msg = function (name_or_row) {
-  var me = this;
+  def generate_trash_msg name_or_row
 
-  if (name_or_row.screen_name) {
-    var name = name_or_row.screen_name;
-    var r    = name_or_row;
-  } else {
-    var name = name_or_row;
-    var r    = me.screen_name_row(name);
-  }
+    if name_or_row[:screen_name]
+      name = name_or_row[:screen_name]
+      r    = name_or_row
+    else
+      name = name_or_row
+      r    = screen_name_row(name)
+    end
 
-  if (!r.trashed_at) {
+    if !r[:trashed_at]
 
-    r.trash_msg = null;
+      r[:trash_msg] = nil
 
-  } else {
-    var durs    = new Duration(new Date(Date.now()), reltime.parse(r.trashed_at, "48 hours"));
-    var is_past = durs.days < 1 && durs.hour < 1 && durs.minute < 1;
-    r.trash_msg = "Screen name, " + r.screen_name;
+    else
+      durs          = Duration(Date(Date.now()), reltime.parse(r[:trashed_at], "48 hours"))
+      is_past       = durs.days < 1 && durs.hour < 1 && durs.minute < 1
+      r[:trash_msg] = "Screen name, #{r[:screen_name]}"
 
-    if (is_past) {
-      r.trash_msg += ", has been deleted. There is no undo.";
-    } else {
-      r.trash_msg += ", has been put in trash.";
-      r.trash_msg += " You have " + human_durs(durs) + " from now to change your mind before it gets completely deleted.";
-    }
+      if is_past
+        r[:trash_msg] += ", has been deleted. There is no undo."
+      else
+        r[:trash_msg] += ", has been put in trash."
+        r[:trash_msg] += " You have #{human_durs(durs)} from now to change your mind before it gets completely deleted."
+      end
 
-  }
+    end
 
-  return r.trash_msg;
-};
-
-Customer.prototype.trash = function (flow) {
-  var me = this;
-  River.new()
-  .job(function (j) {
-    Topogo.new(TABLE_NAME)
-    .trash(me.data.id, j);
-  })
-  .run(function (fin, last) {
-    me.data.trashed_at = last.trashed_at;
-    flow.finish(me);
-  });
-};
-
-Customer.delete_trashed = function (flow) {
-
-  var final = {customers: [], screen_names: []};
-
-  River.new(flow)
-
-  .job('delete customers', function (j) {
-    Topogo.new(TABLE_NAME)
-    .delete_trashed(j)
-  })
-
-  .job(function (j, rows) {
-    if (!rows.length)
-      return j.finish(rows);
-
-    final.customers = rows;
-
-    Ok.Model.Screen_Name.delete_by_owner_ids(_.pluck(rows, 'id'), j);
-  })
-
-  .job(function (j, sn_rows) {
-    final.screen_names = sn_rows;
-    return j.finish(final);
-  })
-
-  .run();
-
-};
+    r[:trash_msg]
+  end # === def generate_trash_msg ===
 
 end # === class Customer trash ===
 
