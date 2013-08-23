@@ -82,14 +82,23 @@ describe( 'app', function () {
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {
+  # 1
   it('sends a secure/HTTP only cookie')
 
+  # 2
   it('does not store any data in session')
 
+  # 3
   it('sends a JSON response if unauthenticated for POST requests, JSON-accept')
+
+  # 4
   it('sends a JSON response if 403/forbidden   for POST requests, JSON-accept')
 
+  # 5
   it('sends a HTTP response if unauthenticated for POST requests, HTTP-accept')
+
+  # 6
+  it 'prevents access if CSRF is invalid.'
 
 }); // === end desc
 

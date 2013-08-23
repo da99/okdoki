@@ -2,7 +2,7 @@
 require './Server/Ok/model'
 require './Server/Screen_Name/model'
 
-require_crutd
+require_crutd :Customer
 
 class Customer
 
@@ -13,8 +13,6 @@ class Customer
 
   Table_Name = :customer
   TABLE = DB[Table_Name]
-
-  Jam.on 'test', lambda { |o| o[:Customer] = true }
 
   # =====================================================
   # Class

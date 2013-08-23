@@ -1,11 +1,5 @@
 
 # ================ Rack Middle + DSL ===================
-
-def unguard
-  return meth, path
-  Ok::Guard::UNGUARDED.push [meth, path]
-end # === def unguard
-
 module Ok
 
   class Guard
@@ -17,23 +11,25 @@ module Ok
     end
 
     def call env
-      puts env
-      @app.call env
+      meth = env['REQUEST_METHOD']
+      path = env['PATH_INFO']
+
+      if ['HEAD', 'GET'].include?(meth) || Ok::Guard::UNGUARDED.include?([meth, path])
+        return @app.call env
+      end
+
+      [404, {}, ["Not Done"]]
     end
 
+    module DSL
+
+      def unguard *args, &blok
+        Ok::Guard::UNGUARDED.push [args.first, args[1]]
+        send *args, &blok
+      end # === def unguard
+
+    end # === module DSL ===
+
   end # === class Guard ===
-
-  class DSL
-
-    [:get, :post, :put, :delete].each { |meth|
-      instance_eval %!
-        def #{meth} *args, &blok
-          Ok::Guard:UNGUARDED.push [#{meth.to_s.upcase}, args.first]
-          super
-        end
-      !
-    }
-
-  end # === class DSL ===
 
 end # === module Ok ===

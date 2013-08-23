@@ -1,6 +1,6 @@
 
 
-unguard.post '/Customer' do
+unguard :post, '/Customer' do
   begin
     c = Customer.create(params)
     sign_in(c)
@@ -18,7 +18,7 @@ end # === post Customer
 
 post '/settings/list' do
   json true, MultiJson.dump([
-    'draw settings box', ["rss_news_wire", "RSS News Wire"], 
+    'draw settings box', ["rss_news_wire", "RSS News Wire"],
     'is on', [],
     'is genius', []
   ])

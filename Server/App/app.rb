@@ -1,8 +1,8 @@
 
-require 'rack/protection'
 require 'content-security-policy'
 require 'sinatra'
 require 'rack/contrib'
+require 'rack/csrf'
 
 require 'Jam_Func'
 require './Server/Fake_Mustache/index'
@@ -25,6 +25,7 @@ ContentSecurityPolicy.configure do |csp|
 end
 
 # -- configure
+rack_key = 'session.rack.rack'
 use Rack::Session::Cookie, {
   :key          => 'session.rack.rack',
   :path         => "/",
@@ -35,15 +36,28 @@ use Rack::Session::Cookie, {
 }
 
 # -- Middleware
-use Rack::Protection
-use ContentSecurityPolicy
+use ContentSecurityPolicy            # 1
+use Rack::Protection::RemoteReferrer # 2
+use Rack::Csrf, :raise => true       # 3
+
 use Rack::PostBodyContentTypeParser
 
 use Ok::Guard
+extend Ok::Guard::DSL
 
 # -- Helpers
 helpers Ok::Escape_All::Helper
 helpers Ok::JSON_Success::Helper
+
+helpers do
+  def csrf_token
+    Rack::Csrf.csrf_token(env)
+  end
+
+  def csrf_tag
+    Rack::Csrf.csrf_tag(env)
+  end
+end
 
 # -- Routes
 get "/" do
