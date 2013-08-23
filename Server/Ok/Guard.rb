@@ -33,3 +33,10 @@ module Ok
   end # === class Guard ===
 
 end # === module Ok ===
+
+
+use Ok::Guard
+extend Ok::Guard::DSL
+
+
+

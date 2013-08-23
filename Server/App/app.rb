@@ -2,13 +2,8 @@
 require 'content-security-policy'
 require 'sinatra'
 require 'rack/contrib'
-require 'rack/csrf'
 
-require 'Jam_Func'
 require './Server/Fake_Mustache/index'
-require './Server/Ok/Escape_All'
-require './Server/Ok/Guard'
-require './Server/Ok/JSON_Success'
 
 ss = ENV['SESSION_SECRET']
 if !ss
@@ -25,7 +20,6 @@ ContentSecurityPolicy.configure do |csp|
 end
 
 # -- configure
-rack_key = 'session.rack.rack'
 use Rack::Session::Cookie, {
   :key          => 'session.rack.rack',
   :path         => "/",
@@ -35,31 +29,19 @@ use Rack::Session::Cookie, {
   :secure       => true
 }
 
-# -- Middleware
+# -- Middleware & Helpers ----------------------------
 use ContentSecurityPolicy            # 1
 use Rack::Protection::RemoteReferrer # 2
-use Rack::Csrf, :raise => true       # 3
+use Rack::PostBodyContentTypeParser  # 3
 
-use Rack::PostBodyContentTypeParser
+# --- Order matters because they set up middelware ---
+require './Server/Ok/Escape_All'     # 1
+require './Server/Ok/CSRF'           # 2
+require './Server/Ok/Guard'          # 3
+require './Server/Ok/JSON_Success'   # 4
+# ----------------------------------------------------
 
-use Ok::Guard
-extend Ok::Guard::DSL
-
-# -- Helpers
-helpers Ok::Escape_All::Helper
-helpers Ok::JSON_Success::Helper
-
-helpers do
-  def csrf_token
-    Rack::Csrf.csrf_token(env)
-  end
-
-  def csrf_tag
-    Rack::Csrf.csrf_tag(env)
-  end
-end
-
-# -- Routes
+# -- Routes ------------------------------------------
 get "/" do
   Fake_Mustache.new("Public/App/top_slash/markup.mustache.rb", {:YEAR=>Time.now.year}).render()
 end
@@ -68,7 +50,7 @@ get "/unauthenticated" do
   "Not logged in"
 end
 
-# ---------------------------- The Models --------------------------
+# --------------- The Models -------------------------
 models = %w{
   Customer
   Screen_Name
@@ -78,10 +60,6 @@ models = %w{
   require "./Server/#{w}/routes"
   m = Object.const_get(w)
 }
-
-Jam = Jam_Func.new() # (*(models.map { |m| m::Jam }))
-
-
 
 
 
