@@ -15,25 +15,6 @@ class Screen_Name
 
   end # === class self ===
 
-S.replace_screen_names = function (arr, flow) {
-  var keys = S.find_screen_name_keys(arr);
-  var key = keys[0];
-  var new_key = keys[1];
-
-  River.new(flow)
-  .job(function (j) {
-    S.attach_screen_names(arr, j);
-  })
-  .job(function (j, new_arr) {
-    _.each(new_arr, function (r, i) {
-      new_arr[i][key] = undefined;
-    });
-
-    j.finish(new_arr);
-  })
-  .run();
-};
-
 S.read_list = function (c, flow) {
   River.new()
   .job('read screen names', c.data.id, function (j) {

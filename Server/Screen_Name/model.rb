@@ -118,6 +118,24 @@ class Screen_Name
     [key, new_key]
   end
 
+  #
+  # Like :attach_screen_names,
+  # except it also removes related screen name id
+  # key. Useful for sending records to an audience.
+  #
+  def replace_screen_names arr
+    keys    = find_screen_name_keys(arr)
+    key     = keys[0]
+    new_key = keys[1]
+
+    new_arr = attach_screen_names arr
+    new_arr.each do |r, i|
+      new_arr[i][key] = nil
+    end
+
+    new_arr
+  end
+
   def attach_screen_names arr
     keys    = find_screen_name_keys(arr)
     key     = keys[0]
