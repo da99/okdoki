@@ -38,6 +38,8 @@ class Screen_Name
     # // ==== as the owner_id because customer record
     # // ==== has not been created.
     TABLE.where(:id=>self.data[:id]).update(:owner_id=>self.data[:id])
+    new_data[:customer].data[:id] = self.data[:id]
+    new_data[:customer].data[:screen_names].push self
 
     self
   end # === def create

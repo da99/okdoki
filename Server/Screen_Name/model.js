@@ -1,80 +1,12 @@
 
-
-
-
-
 // ================================================================
 // ================== Create ======================================
 // ================================================================
 
-S.create = function (customer, job) {
-
-  var id = UID.create_id();
-  var sn = S.new({});
-  sn.new_data = customer.new_data;
-
-  var insert_data = {};
-
-  River.new(job)
-
-  .job('validate', 'screen name', function (j) {
-    Validate_Create.run(sn, j);
-  })
-
-  .job('create', 'screen name', function (j) {
-
-    insert_data = {
-      owner_id     : customer.data.id || 0,
-      screen_name  : sn.sanitized_data.screen_name,
-      display_name : sn.sanitized_data.screen_name,
-      type_id      : sn.sanitized_data.type_id || 0
-    };
-
-    Topogo.new(TABLE_NAME)
-    .on_dup("screen_name", function (name) {
-      j.finish('invalid', 'Screen name already taken: ' + sn.new_data.screen_name);
-    })
-    .create(insert_data, j);
-
-  })
-
-  .job(function (j, r) {
-    if (customer.data.id)
-      return j.finish(r);
-
-    // ==== This is a new customer
-    // ==== so we must use the screen name id
-    // ==== as the owner_id because customer record
-    // ==== has not been created.
-    River.new(j)
-    .job('update owner _id', function (j2) {
-      Topogo.new(TABLE_NAME).update_where_set(r.id, {owner_id: r.id}, j2);
-    })
-    .job('set customer id', function (j2, r) {
-      customer.data.id = customer.sanitized_data.id = r.id;
-      j.finish(r);
-    })
-    .run();
-
-  })
-
-  .job(function (j, r) {
-    var data = _.extend(insert_data, r);
-    customer.push_screen_name_row(data);
-    return j.finish(S.new(data));
-  })
-
-  .run();
-
-};
 
 // ================================================================
 // ================== Read ========================================
 // ================================================================
-
-S.prototype.is_world_read_able = function () {
-  return _.contains(this.data.read_able || [], WORLD);
-};
 
 S.read_by_id = function (id, flow) {
   River.new(flow)
