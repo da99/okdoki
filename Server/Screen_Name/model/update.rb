@@ -3,6 +3,7 @@ class Screen_Name
 
   def update raw_data
     @new_data = raw_data
+
     c = raw_data[:customer]
     validate :screen_name
     validate(:about).
@@ -21,7 +22,7 @@ class Screen_Name
       update(clean_data).
       first
 
-    @data.merge data
+    @data.merge! data
 
     self
   end # === def update

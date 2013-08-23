@@ -55,12 +55,12 @@ class Screen_Name
       sn.gsub(INVALID, "")
     end
 
-    def canonize_screen_name str
+    def canonize str
       return str unless str
 
       sn = str.strip.upcase.gsub(BEGIN_AT_OR_HASH, '').gsub(ALL_WHITE_SPACE, '-');
 
-      if sn.index('@') > 0
+      if sn.index('@')
         temp = sn.split('@');
         sn = temp.pop.upcase
 
@@ -101,7 +101,6 @@ class Screen_Name
     when :screen_name
       super(*args).
         clean('strip', 'upcase').
-        required().
         match(VALID, VALID_ENGLISH).
         not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
     when :type_id
@@ -109,7 +108,7 @@ class Screen_Name
         clean('to_i').
         set_to(0, lambda { |v| v < 0 || v > 2 })
     when :about
-      super(*args).is_null_if_empty
+      super(*args).set_to_nil_if_empty
     else
       super
     end

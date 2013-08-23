@@ -19,6 +19,10 @@ class Screen_Name
       !!@names.detect { |sn| sn.is? name }
     end
 
+    def [] raw_name
+      @names.detect { |sn| sn.is? raw_name }
+    end
+
     def names
       pluck :screen_name
     end

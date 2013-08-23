@@ -11,7 +11,7 @@ module Ok
       @name            = name
       @english_name    = @name.to_s.capitalize.gsub('_', ' ')
       @clean_data      = model.clean_data
-      clean_data[name] = model.new_data[name]
+      @clean_data[name]= model.new_data[name]
     end
 
     def e msg = nil
@@ -117,6 +117,23 @@ module Ok
       end
     }
 
+    def initialize model, name
+      super
+      clean_data.delete name
+    end
+
   end # === class Validate_Empty
 
 end # === module Ok
+
+
+
+
+
+
+
+
+
+
+
+

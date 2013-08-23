@@ -6,7 +6,7 @@ class Screen_Name
     @new_data = raw_data
     @clean_data = {}
 
-    validate(:screen_name)
+    validate(:screen_name).required
 
     validate(:type_id)
 
@@ -14,7 +14,7 @@ class Screen_Name
       one_of_these(['@W', '@P', '@N'], "Allowed values: @W (world) @P (private) @N (no one)")
 
     insert_data = {
-       :owner_id     => new_data[:customer] ? new_data[:customer].data[:id] : 0,
+       :owner_id     => new_data[:customer].data[:id] ? new_data[:customer].data[:id] : 0,
        :screen_name  => clean_data[:screen_name],
        :display_name => clean_data[:screen_name],
        :type_id      => (clean_data[:type_id] || 0)
