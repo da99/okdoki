@@ -118,6 +118,11 @@ class Screen_Name
     [key, new_key]
   end
 
+  def read_list c
+    c.screen_names.push TABLE[owner_id: c.data[:id]].all
+    c.screen_names
+  end
+
   #
   # Like :attach_screen_names,
   # except it also removes related screen name id
