@@ -3,7 +3,6 @@ require 'content-security-policy'
 require 'sinatra'
 require 'rack/contrib'
 
-require './Server/Fake_Mustache/index'
 
 ss = ENV['SESSION_SECRET']
 if !ss
@@ -39,6 +38,7 @@ require './Server/Ok/Escape_All'     # 1
 require './Server/Ok/CSRF'           # 2
 require './Server/Ok/Guard'          # 3
 require './Server/Ok/JSON_Success'   # 4
+require './Server/Ok/HTML_Render'    # 5
 # ----------------------------------------------------
 
 # --- Routes -----------------------------------------

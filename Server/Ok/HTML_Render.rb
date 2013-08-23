@@ -1,6 +1,14 @@
 
 require "./Server/Ok/Escape_All"
 
+helpers do
+
+  def html view_name, o
+    Fake_Mustache.new(view_name, o).render
+  end
+
+end # === helpers
+
 class Fake_Mustache
 
   CACHE = {}
