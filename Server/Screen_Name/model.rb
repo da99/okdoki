@@ -23,12 +23,14 @@ class Screen_Name
   # =====================================================
 
 
-  VALID_CHARS       = "a-zA-Z0-9\\-\\_\\."
-  VALID             = /^[#{VALID_CHARS}]{4,15}$/i
-  VALID_ENGLISH     = "Screen name must be: 4-15 valid chars: 0-9 a-z A-Z _ - ."
-  INVALID           = /[^#{VALID_CHARS}]/
-  Table_Name        = :screen_name
-  TABLE             = DB[Table_Name]
+  BEGIN_AT_OR_HASH    = /^(\@|\#)/
+  ALL_WHITE_SPACE     = /\s+/
+  VALID_CHARS         = "a-zA-Z0-9\\-\\_\\."
+  VALID               = /^[#{VALID_CHARS}]{4,15}$/i
+  VALID_ENGLISH       = "Screen name must be: 4-15 valid chars: 0-9 a-z A-Z _ - ."
+  INVALID             = /[^#{VALID_CHARS}]/
+  Table_Name          = :screen_name
+  TABLE               = DB[Table_Name]
   BANNED_SCREEN_NAMES = [
     /^MEGAUNI/i,
     /^MINIUNI/i,
@@ -51,49 +53,40 @@ class Screen_Name
       sn.gsub(INVALID, "")
     end
 
+    def canonize_screen_name str
+      return str unless str
 
-var BEGIN_AT_OR_HASH = /^(@|#)/;
-var ALL_WHITE_SPACE  = /\s+/g;
-// ================================================================
-// ================== DSL =========================================
-// ================================================================
+      if (str.trim)
+        str = str.trim();
+      else
+        str = $.trim(str);
+      end
 
-function canonize_screen_name (str) {
-  if (!str)
-    return str;
+      sn = str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
 
-  if (str.trim)
-    str = str.trim();
-  else
-    str = $.trim(str);
+      if (sn.indexOf('@') > 0)
+        var temp = sn.split('@');
+        sn = temp.pop().toUpperCase();
 
-  var sn = str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
+        while not temp.empty?
+          sn = temp.pop.downcase + '@' + sn
+        end
+      end
 
-  if (sn.indexOf('@') > 0) {
-    var temp = sn.split('@');
-    sn = temp.pop().toUpperCase();
+      return sn;
 
-    while(temp.length)
-      sn = temp.pop().toLowerCase() + '@' + sn;
-  }
-
-  return sn;
-
-}
-
-
-
+    end # === def canonize_screen_name
 
   end # === class self ==================================
 
   def to_url *args
     raw_sn = args.shift()
     sn = self.class.filter(raw_sn)
-    return null if !sn.size
+    return nil if !sn.empty?
 
     args.unshift(sn)
     args.unshift('/me')
-    args.join('/')
+    File.join(*args)
   end
 
   # =====================================================
@@ -108,7 +101,7 @@ function canonize_screen_name (str) {
   def validate *args
     if args.first == :screen_name
       super(*args).
-        clean('strip', 'upper').
+        clean('strip', 'upcase').
         required().
         match(VALID, VALID_ENGLISH).
         not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')

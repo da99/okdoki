@@ -100,25 +100,17 @@ end # === post /screen_name/:name
 # =====================================================
 
 
-  OK.post('/undo/trash/:screen_name/:name', function (req, resp, next) {
-    var n = req.params.name;
-    var r = New_River(next);
-    r
-    .job('undo trash screen name', n, [Screen_Name, 'undo_trash', req.user, n])
-    .run(function () {
-      write.json_success(resp, "Screen name, " + n + ", has been taken out of the trash.");
-    });
-  });
+post '/undo/trash/:screen_name/:name' do
+  n = params[:name]
+  Screen_Name.undo_trash(request[:user], n)
+  json true, "Screen name, #{n}, has been taken out of the trash."
+end
 
-  OK.post('/trash/:screen_name/:name', function (req, resp, next) {
-    var name = req.params.name;
-    var r = New_River(next);
-    r
-    .job('trash screen name', n, [Screen_Name, 'trash', req.user, n])
-    .run(function () {
-      write.json_success(resp, c.screen_name_row(name).trash_msg);
-    });
-  });
+post '/trash/:screen_name/:name' do
+  name = params[:name]
+  Screen_Name.trash(request[:user], n)
+  json true, user.screen_name(name).trash_msg
+end
 
 
 

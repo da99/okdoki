@@ -10,6 +10,9 @@ class Screen_Name
 
     validate(:type_id)
 
+    validate(:read_able).
+      contains_only(['@W', '@P', '@N'], "Allowed values: @W (world) @P (private) @N (no one)")
+
     insert_data = {
        :owner_id     => new_data[:customer] ? new_data[:customer].data.id : 0,
        :screen_name  => clean_data[:screen_name],
