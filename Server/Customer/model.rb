@@ -51,6 +51,8 @@ class Customer
     when :confirm_pass_phrase
       super.
       equals(clean_data[:pass_phrase], "Pass phrase is different than pass phrase confirmation.")
+    when :email
+      raise "not ready"
     when :ip
       super.
         not_empty('IP address is required.').

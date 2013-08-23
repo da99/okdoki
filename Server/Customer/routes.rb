@@ -1,7 +1,7 @@
 
 require './Server/Customer/model'
 
-unguard :post, '/Customer' do
+post '/Customer' do
   begin
     c = Customer.create(params)
     sign_in(c)
