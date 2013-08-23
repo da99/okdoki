@@ -1,5 +1,6 @@
 
 require './Server/Ok/model'
+require './Server/Screen_Name/List'
 
 require_crutd :Screen_Name
 

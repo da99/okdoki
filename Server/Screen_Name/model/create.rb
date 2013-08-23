@@ -30,7 +30,8 @@ class Screen_Name
     #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 
     @data.merge! new_record
-    return self if new_data[:customer]
+
+    return self unless new_data[:customer]
 
 
     # // ==== This is a new customer

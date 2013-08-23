@@ -43,6 +43,13 @@ class Customer
   # Instance
   # =====================================================
 
+  attr_reader :screen_names
+
+  def initialize *args
+    @screen_names = Screen_Name::List.new()
+    super
+  end
+
   def validate name
     case name
     when :pass_phrase
