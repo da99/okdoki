@@ -51,6 +51,39 @@ class Screen_Name
       sn.gsub(INVALID, "")
     end
 
+
+var BEGIN_AT_OR_HASH = /^(@|#)/;
+var ALL_WHITE_SPACE  = /\s+/g;
+// ================================================================
+// ================== DSL =========================================
+// ================================================================
+
+function canonize_screen_name (str) {
+  if (!str)
+    return str;
+
+  if (str.trim)
+    str = str.trim();
+  else
+    str = $.trim(str);
+
+  var sn = str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
+
+  if (sn.indexOf('@') > 0) {
+    var temp = sn.split('@');
+    sn = temp.pop().toUpperCase();
+
+    while(temp.length)
+      sn = temp.pop().toLowerCase() + '@' + sn;
+  }
+
+  return sn;
+
+}
+
+
+
+
   end # === class self ==================================
 
   def to_url *args
