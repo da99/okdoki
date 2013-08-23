@@ -56,31 +56,24 @@ class Screen_Name
     def canonize_screen_name str
       return str unless str
 
-      if (str.trim)
-        str = str.trim();
-      else
-        str = $.trim(str);
-      end
+      sn = str.strip.upcase.gsub(BEGIN_AT_OR_HASH, '').gsub(ALL_WHITE_SPACE, '-');
 
-      sn = str.toUpperCase().replace(BEGIN_AT_OR_HASH, '').replace(ALL_WHITE_SPACE, '-');
-
-      if (sn.indexOf('@') > 0)
-        var temp = sn.split('@');
-        sn = temp.pop().toUpperCase();
+      if sn.index('@') > 0
+        temp = sn.split('@');
+        sn = temp.pop.upcase
 
         while not temp.empty?
           sn = temp.pop.downcase + '@' + sn
         end
       end
 
-      return sn;
-
+      sn
     end # === def canonize_screen_name
 
   end # === class self ==================================
 
   def to_url *args
-    raw_sn = args.shift()
+    raw_sn = args.shift
     sn = self.class.filter(raw_sn)
     return nil if !sn.empty?
 
@@ -93,23 +86,23 @@ class Screen_Name
   # Class
   # =====================================================
 
-
   # =====================================================
   # Instance
   # =====================================================
 
   def validate *args
-    if args.first == :screen_name
+    case args.first
+    when :screen_name
       super(*args).
         clean('strip', 'upcase').
         required().
         match(VALID, VALID_ENGLISH).
         not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
-    elsif args.first == :type_id
+    when :type_id
       super(*args).
         clean('to_i').
         set_to(0, lambda { |v| v < 0 || v > 2 })
-    elsif args.first == :about
+    when :about
       super(*args).is_null_if_empty
     else
       super
