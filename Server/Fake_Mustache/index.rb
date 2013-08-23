@@ -1,5 +1,5 @@
 
-require "./Server/Escape_All/index"
+require "./Server/Ok/Escape_All"
 
 class Fake_Mustache
 

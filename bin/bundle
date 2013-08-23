@@ -2,7 +2,6 @@
 # -*- bash -*-
 #
 set -u -e -o pipefail
-. bin/paths.sh
 
 export RACK_ENV=production
 export BUNDLE_GEMFILE=conf/Gemfile
