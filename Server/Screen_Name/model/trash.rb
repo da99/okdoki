@@ -1,32 +1,30 @@
 
 class Screen_Name
 
-S.untrash = function (id, flow) {
-  Topogo.new(TABLE_NAME)
-  .untrash(id, flow);
-};
+  class << self
 
-S.trash = function (id, flow) {
-  Topogo.new(TABLE_NAME)
-  .trash(id, flow);
-};
+    def delete_trashed
+      Ok.deleted_trashed s
+    end
 
-S.delete_trashed = function (flow) {
-  Topogo.new(TABLE_NAME)
-  .delete_trashed(flow);
-};
+    def delete_by_owner_ids arr
+      sql = %^
+        DELETE FROM #{Table_Name} WHERE owner_id IN (
+          #{ arr.map { |n, i| "$#{i+1}" }).join(', ') }
+        ) RETURNING * ;
+      ^
+      TABLE[sql, arr]
+    end
 
-S.delete_by_owner_ids = function (arr, flow) {
-  var sql = "DELETE FROM \"" + TABLE_NAME + "\" WHERE owner_id IN ( " +
-    _.map(arr, function (n, i) { return "$" + (i + 1); }).join(', ') +
-    " ) RETURNING * ;";
+  end # === class self ===
 
-  Topogo
-  .run(sql, arr, flow);
-};
+  def untrash id
+    Ok.untrash self, id
+  end
 
-
-
+  def trash id
+    Ok.trash self, id
+  end
 
 end # === class Screen_Name trash ===
 

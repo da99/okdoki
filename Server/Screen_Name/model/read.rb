@@ -4,8 +4,7 @@ class Screen_Name
   class << self
 
     def read_by_id id
-      r = TABLE[:id=>id]
-      Screen_Name.new r, "Screen name not found."
+      Screen_Name.new TABLE.limit(1)[:id=>id], "Screen name not found."
     end
 
     def read_by_screen_name raw_sn
