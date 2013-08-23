@@ -43,8 +43,19 @@ require './Server/Ok/JSON_Success'   # 4
 
 # -- Routes ------------------------------------------
 get "/" do
-  Fake_Mustache.new("Public/App/top_slash/markup.mustache.rb", {:YEAR=>Time.now.year}).render()
-end
+  if !request[:user]
+    return Fake_Mustache.new('App/top_slash', {
+      :title => 'OkDoki.com',
+      :YEAR  => Time.now.year
+    }).render
+  end
+
+  opts = { :user => req.user, :Bots => {:Own => [], :Use => []} }
+  Fake_Mustache.new('Customer/lifes', {
+    :title => "My Okdoki",
+    :Bots  => { :Own => f.data.Bots.Own, :Use => f.data.Bots.Use }
+  })
+end # === get /
 
 get "/unauthenticated" do
   "Not logged in"

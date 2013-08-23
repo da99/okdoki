@@ -9,7 +9,8 @@ class Fake_Mustache
     Ok::Escape_All.e(var.to_s)
   end
 
-  def initialize file, data
+  def initialize raw_file, data
+    file       = "Public/#{raw_file}/markup.mustache.rb"
     @data      = data
     @file_name = file
     @file      = self.class::CACHE[file]

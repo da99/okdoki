@@ -1,3 +1,12 @@
+#
+#
+#  From:
+#
+#    http://stackoverflow.com/questions/11451161/sinatra-csrf-authenticity-tokens
+#
+#
+#
+
 require 'rack/csrf'
 
 use Rack::Csrf, :raise => true
