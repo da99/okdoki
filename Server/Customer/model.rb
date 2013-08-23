@@ -6,6 +6,7 @@ require_crutd :Customer
 
 class Customer
 
+  include Ok::Model
 
   # =====================================================
   # Settings

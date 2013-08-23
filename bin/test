@@ -1,12 +1,27 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+skip=$1
 set -e -u -o pipefail
 
-bin/migrate reset > /dev/null
-bin/bundle exec bacon "$@"
-exit 0
+if [[ "$skip" == "fast" ]]
+then
+  shift
+else
+  bin/migrate reset > /dev/null
+fi
 
+if [[ -z "$@" ]]
+then
+  for f in tests/Screen_Name/*.rb
+  do
+    bin/bundle exec bacon $f
+  done
+else
+  bin/bundle exec bacon "$@"
+fi
+
+exit 0
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
 white=$(tput setaf 7)

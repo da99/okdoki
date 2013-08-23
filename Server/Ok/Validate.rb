@@ -6,11 +6,11 @@ module Ok
     attr_reader :model, :name, :english_name, :clean_data
 
     def initialize model, name
-      @e            = model.class::Invalid
-      @model        = model
-      @name         = name
-      @english_name = @name.to_s.capitalize.gsub('_', ' ')
-      @clean_data   = model.clean_data
+      @e               = model.class::Invalid
+      @model           = model
+      @name            = name
+      @english_name    = @name.to_s.capitalize.gsub('_', ' ')
+      @clean_data      = model.clean_data
       clean_data[name] = model.new_data[name]
     end
 
@@ -28,14 +28,18 @@ module Ok
       raise "Must be string or array: #{val}" unless val.respond_to?(:size)
       is_empty = (val.kind_of?(String) && val.strip.empty?) || val.empty?
       raise e(msg || "#{english_name} is required." ) if is_empty
+
+      self
     end
+
+    IGNORE_METHODS = self.public_instance_methods
 
     def clean *args
       args.each { |a|
         case a
         when 'strip'
           clean_data[name] = (clean_data[name] || "").strip
-        when 'upper'
+        when 'upcase'
           clean_data[name] = clean_data[name].upcase
         when 'to_i'
           clean_data[name] = clean_data[name].to_i
@@ -90,11 +94,16 @@ module Ok
       self
     end
 
+    def one_of_these arr, msg
+      raise e(msg) unless arr.index(model.clean_data[name])
+      self
+    end
+
   end # === class Validate
 
-  class Validate_Empty
+  class Validate_Empty < Validate
 
-    meths = Validate.public_instance_methods - Object.public_instance_methods
+    meths = Validate.public_instance_methods - Object.public_instance_methods - IGNORE_METHODS
 
     meths.each { |meth|
       case meth

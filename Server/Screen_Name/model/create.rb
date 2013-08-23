@@ -11,10 +11,10 @@ class Screen_Name
     validate(:type_id)
 
     validate(:read_able).
-      contains_only(['@W', '@P', '@N'], "Allowed values: @W (world) @P (private) @N (no one)")
+      one_of_these(['@W', '@P', '@N'], "Allowed values: @W (world) @P (private) @N (no one)")
 
     insert_data = {
-       :owner_id     => new_data[:customer] ? new_data[:customer].data.id : 0,
+       :owner_id     => new_data[:customer] ? new_data[:customer].data[:id] : 0,
        :screen_name  => clean_data[:screen_name],
        :display_name => clean_data[:screen_name],
        :type_id      => (clean_data[:type_id] || 0)
@@ -39,7 +39,7 @@ class Screen_Name
     # // ==== has not been created.
     TABLE.where(:id=>self.data[:id]).update(:owner_id=>self.data[:id])
     new_data[:customer].data[:id] = self.data[:id]
-    new_data[:customer].data[:screen_names].push self
+    new_data[:customer].screen_names.push self
 
     self
   end # === def create

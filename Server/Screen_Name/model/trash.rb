@@ -10,7 +10,7 @@ class Screen_Name
     def delete_by_owner_ids arr
       sql = %^
         DELETE FROM #{Table_Name} WHERE owner_id IN (
-          #{ arr.map { |n, i| "$#{i+1}" }).join(', ') }
+          #{ arr.map { |n, i| "$#{i+1}" }.join(', ') }
         ) RETURNING * ;
       ^
       TABLE[sql, arr]

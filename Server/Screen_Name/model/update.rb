@@ -6,10 +6,10 @@ class Screen_Name
     c = raw_data[:customer]
     validate :screen_name
     validate(:about).
-      .set_to_nil_if_empty
+      set_to_nil_if_empty
     validate :type_id
-    validate(:nick_name)
-      .set_to_nil_if_empty
+    validate(:nick_name).
+      set_to_nil_if_empty
 
     if clean_data[:screen_name]
       clean_data[:display_name] = clean_data[:screen_name]

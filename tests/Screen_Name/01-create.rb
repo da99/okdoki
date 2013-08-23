@@ -1,19 +1,12 @@
 
 require './Server/Screen_Name/model'
+require './Server/Customer/model'
 require 'Bacon_Colored'
-
-describe "Screen Name: Errors" do
-
-  it "defines an Invalid exception" do
-    Screen_Name.const_defined?(:Invalid).should.be.equal true
-  end
-
-end # === describe
 
 describe "Screen Name: create" do
 
   it "creates record if data validates" do
-    sn = Screen_Name.create(:screen_name=>'ted1')
+    sn = Screen_Name.create(:screen_name=>'ted1', :customer=>Customer.new(id: 0))
     Screen_Name::TABLE.where(:id=>sn.data[:id])
     .first[:screen_name]
     .should.equal "TED1"
