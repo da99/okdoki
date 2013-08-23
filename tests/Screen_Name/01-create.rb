@@ -16,13 +16,13 @@ end # === describe
 
 describe "Screen Name: create :screen_name" do
 
-  it "raises Invalid, can't be empty" do
+  it "raises Invalid if screen name is empty" do
     lambda {
       Screen_Name.create({:screen_name=>""})
     }.should.raise(Screen_Name::Invalid).
 
     message.
-    should.match(/Screen name is required/)
+    should.match(/Screen name must be: /)
   end
 
   it "megauni is not allowed (despite case)" do
@@ -36,8 +36,8 @@ describe "Screen Name: create :screen_name" do
 
   it "raises Invalid for duplicate name" do
     lambda {
-      Screen_Name.create(:screen_name=>"ted3")
-      Screen_Name.create(:screen_name=>"ted3")
+      Screen_Name.create(:customer=>Customer.new, :screen_name=>"ted3")
+      Screen_Name.create(:customer=>Customer.new, :screen_name=>"ted3")
     }.should.raise(Screen_Name::Invalid).
 
     message.

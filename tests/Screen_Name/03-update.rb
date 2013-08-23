@@ -27,6 +27,7 @@ describe 'Screen-Name: :update' do
 
 end # === describe update
 
+lambda {
 describe 'trash' do
 
   before do
@@ -82,6 +83,7 @@ describe 'delete' do
 
 end # === describe delete
 
+}
 
 
 
