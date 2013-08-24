@@ -31,7 +31,10 @@ class Screen_Name
     #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 
     @data.merge! new_record
-    @data[:owner_id] = @data[:id] if is_new_owner
+    if is_new_owner
+      @data[:owner_id] = @data[:id]
+      new_data[:customer].clean_data[:id] = @data[:id]
+    end
 
     return self unless new_data[:customer]
 

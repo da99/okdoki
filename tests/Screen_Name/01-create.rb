@@ -46,7 +46,14 @@ describe "Screen Name: create" do
   it "updates :owner_id (of returned SN obj) to its :id if Customer is new and has no id" do
     name = new_name
     sn = Screen_Name.create(:screen_name=>name, :customer=>Customer.new({}))
-    assert :equal, sn.data[:owner_id], sn.data[:id]
+    assert :equal, sn.data[:id], sn.data[:owner_id]
+  end
+
+  it "updates :owner_id (of customer.clean_data) to its :id if Customer is new and has no id" do
+    name = new_name
+    c    = Customer.new({})
+    sn = Screen_Name.create(:screen_name=>name, :customer=>c)
+    assert :equal, sn.data[:id], c.clean_data[:id]
   end
 
 end # === describe
