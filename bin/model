@@ -31,7 +31,6 @@ compile_all () {
   template route "Server/$class/routes.rb"
 
   tmpl="Server/Ok/templates/test.rb"
-  template test "tests/$class/00-err-types.rb" "exceptions"
   template test "tests/$class/01-create.rb"    "create"
   template test "tests/$class/02-read.rb"      "read"
   template test "tests/$class/03-update.rb"    "update"
