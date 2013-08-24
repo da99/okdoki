@@ -31,26 +31,35 @@ compile_all () {
   template route "Server/$class/routes.rb"
 
   tmpl="Server/Ok/templates/test.rb"
-  template test "tests/$class/00-err-types.rb"
-  template test "tests/$class/01-create.rb"
-  template test "tests/$class/02-read.rb"
-  template test "tests/$class/03-update.rb"
-  template test "tests/$class/04-trash.rb"
-  template test "tests/$class/05-delete.rb"
+  template test "tests/$class/00-err-types.rb" "exceptions"
+  template test "tests/$class/01-create.rb"    "create"
+  template test "tests/$class/02-read.rb"      "read"
+  template test "tests/$class/03-update.rb"    "update"
+  template test "tests/$class/04-trash.rb"     "trash"
+  template test "tests/$class/05-delete.rb"    "delete"
 
 }
 
 template () {
   action="$1"
-  new_file="$2"
+  shift
+
+  new_file="$1"
+  shift
+
+  sub_action="$@"
 
   if [[ -f "$new_file" ]]
   then
     $yellow "=== already exists: $new_file"
   else
     sed "s/MODEL/$class/g"  "$tmpl" >> "$new_file"
-    sed "s/!model/$instance/g"   -i "$new_file"
-    sed "s/!action/$action/g"    -i "$new_file"
+    sed "s/!model/$instance/g"           -i "$new_file"
+    sed "s/!action/$action/g"            -i "$new_file"
+    if [[ ! -z "$sub_action" ]]
+    then
+      sed "s/!sub_action/$sub_action/g"    -i "$new_file"
+    fi
     echo "=== created: $new_file"
   fi
 
