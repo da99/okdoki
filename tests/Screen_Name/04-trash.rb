@@ -1,18 +1,27 @@
 require './tests/helpers'
 
+
+def create
+  name = new_name
+  c = Customer.new(data: 0)
+  sn = Screen_Name.create(:screen_name=>name, :customer=>c)
+  {name: name, c: c, sn: sn, id: sn.data[:id]}
+end
+
+def find o
+  Screen_Name::TABLE[id: o[:sn].data[:id]]
+end
+
+
 describe "Screen_Name" do
 
   describe 'trash' do
 
     it "it updates screen-name's :trashed_at to now @ UTC" do
-      name = new_name
-      c = Customer.new(data: 0)
-      sn = Screen_Name.create(:screen_name=>name, :customer=>c)
-
-      sn.trash
-      reply = Screen_Name::TABLE[:id=>sn.data[:id]]
-      diff = (Time.now.utc.to_i - reply[:trashed_at].to_i)
-      diff.should.be less_than(3)
+      o = create
+      o[:sn].trash
+      updated = find(o)
+      updated[:trashed_at].should.be within_secs(3)
     end # === it
 
   end # === describe trash ===
@@ -20,20 +29,14 @@ describe "Screen_Name" do
   describe 'untrash' do
 
     it "it updates screen-name's :trashed_at to nil" do
-      id = c.screen_name_id(sn)
-      Screen_Name.trash(id)
-      Screen_Name.untrash(id)
-      new_sn = Screen_Name::TABLE[:id=>id].first
-
-      new_sn.trashed_at.should.equal nil
-
+      o = create
+      o[:sn].trash
+      o[:sn].untrash
+      new_sn = find(o)
+      new_sn[:trashed_at].should.equal nil
     end # === it
 
   end # === describe trash ===
-
-
-
-
 
 end # === describe Screen_Name ===
 

@@ -16,3 +16,7 @@ end
 def less_than x
   lambda { |o| o < x }
 end
+
+def within_secs x
+  lambda { |o| (Time.now.utc.to_i - o.to_i).abs < x }
+end

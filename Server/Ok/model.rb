@@ -51,11 +51,19 @@ module Ok
 
   class << self
 
-    def trash table, opts
+    def trash o, key
+      table = o.class::TABLE
       table.
         returning.
-        where(opts).
+        where( key => o.data[key] ).
         update :trashed_at => Sequel.lit("timezone('UTC'::text, now())")
+    end
+
+    def untrash o, key
+      o.class::TABLE.
+        returning.
+        where( key => o.data[key] ).
+        update :trashed_at => nil
     end
 
   end # === class self ===

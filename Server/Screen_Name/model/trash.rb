@@ -18,12 +18,14 @@ class Screen_Name
 
   end # === class self ===
 
-  def untrash id
-    Ok.untrash self, id
+  def untrash
+    rows = Ok.untrash self, :id
+    @data.merge!( rows.first || {} )
+    self
   end
 
   def trash
-    rows = Ok.trash TABLE, id: self.data[:id]
+    rows = Ok.trash self, :id
     @data.merge!( rows.first || {} )
     self
   end
