@@ -2,89 +2,63 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
-describe( 'create:', function () {
+describe 'create:' do
 
-  it( 'checks min length of screen_name', function (done) {
-  var opts = { pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'};
+  it 'checks min length of screen_name' do
 
-  River.new(null)
-  .on_next('invalid', function (j) {
-    assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);
-    done();
-  })
-  .job('create', 'w missing name', [Customer, 'create', opts])
-  .run(function (r) {
-    throw new Error('Unreachable.');
-  });
-});
+    lambda {
+      Customer.create pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'
+    }.should.raise(Customer::Invalid).
+    message.
+    should.match /Screen name is required/
 
-it( 'checks max length of screen_name', function (done) {
-  var screen_name = "12345678901234567890";
-  var opts = {
-    screen_name: screen_name,
-    pass_phrase: pass_phrase,
-    confirm_pass_phrase: pass_phrase,
-    ip: '00.000.000'
-  };
+  end # === it
 
-  River.new(null)
-  .on_next('invalid', function (j) {
-    assert.equal(j.job.error.message.indexOf('Screen name must be: '), 0);
-    done();
-  })
-  .job(function (j) { Customer.create(opts, j); })
-  .run(h.throw_it);
-});
+  it 'checks max length of screen_name' do
+    screen_name = "12345678901234567890"
+    lambda {
+      Customer.create(
+        screen_name: screen_name,
+        pass_phrase: pass_phrase,
+        confirm_pass_phrase: pass_phrase,
+        ip: '00.000.000'
+      )
+    }.should.raise(Customer::Invalid).
+    message.should.match /Screen name must be 4-16 valid chars:/
+  end
 
-it( 'checks pass_phrase and confirm_pass_phrase match', function (done) {
-  var screen_name = "123456789";
-  var opts = {
-    screen_name: screen_name,
-    pass_phrase: pass_phrase,
-    confirm_pass_phrase: pass_phrase + "a",
-    ip: '00.000.000'
-  };
+  it 'checks pass_phrase and confirm_pass_phrase match' do
+    screen_name = "123456789";
+    lambda {
+      Customer.new(
+        screen_name: screen_name,
+        pass_phrase: pass_phrase,
+        confirm_pass_phrase: pass_phrase + "a",
+        ip: '00.000.000'
+      )
+    }.should.raise(Customer::Invalid).
+    message.should.match "Pass phrase is different than pass phrase confirmation."
+  end
 
-  River.new(null)
-  .on_next('invalid', function (j) {
-    assert.equal(j.job.error.message, "Pass phrase is different than pass phrase confirmation.");
-    done();
-  })
-  .job(function (j) { Customer.create(opts, j); })
-  .run(h.throw_it);
-});
+  it 'saves screen_name to Customer object' do
+    o = create
+    o[:c].screen_names.names.should == [o[:name].upcase]
+  end
 
-it( 'saves screen_name to Customer object', function () {
-  assert.deepEqual(customer.screen_names(), [screen_name.toUpperCase()]);
-});
+  it 'saves Customer id to Customer object' do
+    c = create
 
-it( 'saves Customer id to Customer object', function () {
-  var c = customer;
+    # Has the customer id been saved?
+    c.data[:id].should.be.is_a Numeric
+  end
 
-  // Has the customer id been saved?
-  assert.equal(customer_id, c.data.id);
+  it 'sets log_in_at to current date' do
+    c = create
+    date = DB["SELECT current_date as date;"][:current_date]
+    (c.data[:log_in_at].to_i - date.to_i).abs.
+      should.be lambda { |o| o < 2}
+  end
 
-  // Has the screen name been saved?
-  assert.deepEqual([screen_name.toUpperCase()], c.screen_names());
-});
-
-it( 'sets log_in_at to current date', function (done) {
-  var c = customer;
-  var n = new Date();
-  var date = (new Date(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), 0, 0, 0)).toUTCString();
-
-
-  River.new()
-  .job('get current date', function (j) {
-    Topogo.new('any table')
-    .run_and_return_at_most_1("SELECT current_date as date; ", {}, j);
-  })
-  .run(function (fin, r) {
-    assert.equal(r.date.toUTCString(), c.data.log_in_at.toUTCString());
-    done();
-  });
-});
-
-}); // === describe create
+end # === desc create
 
 

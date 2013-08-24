@@ -67,5 +67,56 @@ class Customer
 
 end # === class Customer ===
 
+def assert action, target, *args, &blok
+  Should.new(actual).be.send(action, *args, &blok) 
+end
+
+def assert_not action, target, *args, &blok
+  assert(:not, target).send(*args, &blok)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

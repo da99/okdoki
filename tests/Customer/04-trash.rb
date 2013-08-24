@@ -3,25 +3,22 @@ require './tests/helpers'
 require './Server/Customer/model'
 
 
-describe( 'trash', function () {
+describe 'trash' do
 
-  it( 'it updates Customer trashed_at date', function (done) {
-  var f = '%Y-%m-%dT%H:%M';
-  River.new('trash customer', null)
-  .job('trash customer', customer_id, [customer, 'trash'])
-  .job('assert trashed_at changed', function (j, last) {
-    assert.equal(h.is_recent(customer.data.trashed_at), true);
-    j.finish(customer);
-  })
-  .job('read customer', customer_id, [Customer, 'read_by_id', customer_id])
-  .run(function (r, last) {
-    var c = last;
-    assert.equal(h.is_recent(c.data.trashed_at), true);
-    done();
-  });
-}); // it
+  it 'it updates Customer trashed_at date' do
 
-}); // === describe trash
+    customer = Customer.read_by_id(customer_id)
+    customer.trash
+
+    assert within_secs(2), customer.data[:trashed_at]
+
+    c = Customer.read_by_id(customer_id)
+
+    assert within_secs(2), c.data[:trashed_at]
+
+  end # === it
+
+end # === describe trash
 
 
 
