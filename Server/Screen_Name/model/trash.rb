@@ -1,6 +1,8 @@
 
 class Screen_Name
 
+  TRASH_KEY = :id
+
   class << self
 
     def delete_trashed
@@ -17,18 +19,6 @@ class Screen_Name
     end
 
   end # === class self ===
-
-  def untrash
-    rows = Ok.untrash self, :id
-    @data.merge!( rows.first || {} )
-    self
-  end
-
-  def trash
-    rows = Ok.trash self, :id
-    @data.merge!( rows.first || {} )
-    self
-  end
 
 end # === class Screen_Name trash ===
 

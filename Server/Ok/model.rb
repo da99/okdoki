@@ -50,22 +50,6 @@ module Ok
   # =====================================================
 
   class << self
-
-    def trash o, key
-      table = o.class::TABLE
-      table.
-        returning.
-        where( key => o.data[key] ).
-        update :trashed_at => Sequel.lit("timezone('UTC'::text, now())")
-    end
-
-    def untrash o, key
-      o.class::TABLE.
-        returning.
-        where( key => o.data[key] ).
-        update :trashed_at => nil
-    end
-
   end # === class self ===
 
 
@@ -119,6 +103,26 @@ module Ok
           raise Not_Found.new(args.last)
         end
       end
+    end
+
+    def trash
+      alter_trash :in
+    end
+
+    def untrash
+      alter_trash :out
+    end
+
+    def alter_trash into_trash
+      key =  self.class::TRASH_KEY
+      val = into_trash == :in ? Sequel.lit("timezone('UTC'::text, now())") : nil
+      row = self.class::TABLE.
+        returning.
+        where( key => data[key] ).
+        update(:trashed_at => val).
+        first
+      @data.merge!( row ) if row
+      self
     end
 
   end # === module Model ===
