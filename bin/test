@@ -11,17 +11,22 @@ else
   bin/migrate reset > /dev/null
 fi
 
-if [[ -z "$@" ]]
+if [[ ! -z "$@" ]]
 then
-  for f in tests/Screen_Name/*.rb
+  bin/bundle exec bacon "$@"
+  exit 0
+fi
+
+mods=( Ok Screen_Name )
+for m in ${mods[@]}
+do
+  for f in tests/$m/*.rb
   do
     bin/bundle exec bacon $f
   done
-else
-  bin/bundle exec bacon "$@"
-fi
+done # === mod loop
 
-exit 0
+
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
 white=$(tput setaf 7)
