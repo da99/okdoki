@@ -65,6 +65,12 @@ module Ok
       m
     end
 
+    def empty_trash
+      self::TABLE.
+        where("trashed_at <= (timezone('UTC'::text, now()) - interval '72 hours')").
+        delete
+    end
+
   end # === module Model_Extend ===
 
   # =====================================================

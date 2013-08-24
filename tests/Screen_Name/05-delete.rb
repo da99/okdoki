@@ -1,19 +1,32 @@
 
-describe 'delete' do
+require './tests/helpers'
+include Screen_Name::Test
 
-  before do
-    create_test_customer
-    create_test_customer
-  end
+Screen_Name::TABLE.update(:trashed_at=>nil)
 
-  it 'it deletes screen-name record of more than 2 days old' do
-    id = c.screen_name_id(sn)
+describe ':empty_trash' do
 
-    Screen_Name::TABLE.where(:id=>id).update(:trashed_at=>h.ago('-3d'))
-    Screen_Name.delete_trashed()
-    last = Customer.read_by_id(c.datta[:id])
 
-    last.screen_names.size.should.equal 0
+  it 'does not delete screen-name records of less than 3 days old' do
+    o = create
+    o[:sn].trash
+
+    Screen_Name.empty_trash
+
+    updated = find_record(o)
+    updated[:id].should.equal o[:sn].data[:id]
+  end # === it
+
+  it 'it deletes screen-name record of more than 3 days old' do
+    o = create
+    o[:sn].trash
+
+    Screen_Name::TABLE.
+      where(id: o[:id]).
+      update(trashed_at: Sequel.lit("trashed_at - interval '72 hours'"))
+
+    Screen_Name.empty_trash
+    find_record(o).should.equal nil
   end # === it
 
 end # === describe delete

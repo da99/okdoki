@@ -1,23 +1,22 @@
 
-require './Server/Screen_Name/model'
+require './tests/helpers'
 require './Server/Customer/model'
-require 'Bacon_Colored'
+
+include Screen_Name::Test
 
 describe 'Screen-Name:' do
 
-  before do
-    `bin/migrate reset`
-  end
 
   describe ":update" do
 
     it 'updates screen name' do
-      c = Customer.new
-      Screen_Name.create(screen_name: 'ted1', customer: c)
-      sn = c.screen_names['ted1']
-      sn.update screen_name: 'ted2'
+      o = create
+      c = o[:c]
+      sn = o[:sn]
+      name = "updated_#{sn.data[:screen_name]}"
+      sn.update screen_name: name
 
-      rec = Screen_Name::TABLE[screen_name: 'TED2']
+      rec = Screen_Name::TABLE[screen_name: name.upcase]
       rec[:id].should.equal sn.data[:id]
     end # === it
 

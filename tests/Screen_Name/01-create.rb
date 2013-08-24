@@ -1,15 +1,17 @@
 
-require './Server/Screen_Name/model'
+require './tests/helpers'
 require './Server/Customer/model'
-require 'Bacon_Colored'
+
+include Screen_Name::Test
 
 describe "Screen Name: create" do
 
   it "creates record if data validates" do
-    sn = Screen_Name.create(:screen_name=>'ted1', :customer=>Customer.new(id: 0))
+    name = new_name
+    sn = Screen_Name.create(:screen_name=>name, :customer=>Customer.new(id: 0))
     Screen_Name::TABLE.where(:id=>sn.data[:id])
     .first[:screen_name]
-    .should.equal "TED1"
+    .should.equal name.upcase
   end
 
 end # === describe
@@ -35,13 +37,14 @@ describe "Screen Name: create :screen_name" do
   end
 
   it "raises Invalid for duplicate name" do
+    name = new_name
     lambda {
-      Screen_Name.create(:customer=>Customer.new, :screen_name=>"ted3")
-      Screen_Name.create(:customer=>Customer.new, :screen_name=>"ted3")
+      Screen_Name.create(:customer=>Customer.new, :screen_name=>name)
+      Screen_Name.create(:customer=>Customer.new, :screen_name=>name)
     }.should.raise(Screen_Name::Invalid).
 
     message.
-    should.match(/Screen name already taken: ted3/i)
+    should.match(/Screen name already taken: #{name}/i)
   end
 
 end # === describe
