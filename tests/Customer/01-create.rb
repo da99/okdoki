@@ -11,10 +11,13 @@ describe 'create:' do
   it 'checks min length of screen_name' do
 
     lambda {
-      Customer.create screen_name: new_name, password: "A", confirm_password: "A", ip: '000.00.00'
-    }.should.raise(Customer::Invalid).
+      Customer.create screen_name: "a",
+      password: "this is my password",
+      confirm_password: "this is my password",
+      ip: '000.00.00'
+    }.should.raise(Screen_Name::Invalid).
     message.
-    should.match /Pass phrase must be: 3 or more words with spaces/
+    should.match /Screen name must be: 4-15 valid chars/
 
   end # === it
 
@@ -23,12 +26,12 @@ describe 'create:' do
     lambda {
       Customer.create(
         screen_name: screen_name,
-        pass_phrase: pass_phrase,
-        confirm_pass_phrase: pass_phrase,
+        password: PASSWORD,
+        confirm_password: PASSWORD,
         ip: '00.000.000'
       )
-    }.should.raise(Customer::Invalid).
-    message.should.match /Screen name must be 4-16 valid chars:/
+    }.should.raise(Screen_Name::Invalid).
+    message.should.match /Screen name must be: 4-15 valid chars/
   end
 
   it 'checks pass_phrase and confirm_pass_phrase match' do
