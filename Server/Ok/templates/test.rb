@@ -1,6 +1,6 @@
 
+require './tests/helpers'
 require './Server/MODEL/model'
-require 'Bacon_Colored'
 
 describe "MODEL: !sub_action" do
 

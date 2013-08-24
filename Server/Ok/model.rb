@@ -46,6 +46,22 @@ module Ok
   end # === class Not_Found ===
 
   # =====================================================
+  # Helpers
+  # =====================================================
+
+  class << self
+
+    def trash table, opts
+      table.
+        returning.
+        where(opts).
+        update :trashed_at => Sequel.lit("timezone('UTC'::text, now())")
+    end
+
+  end # === class self ===
+
+
+  # =====================================================
   # Modules
   # =====================================================
 
