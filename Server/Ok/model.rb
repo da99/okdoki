@@ -59,6 +59,16 @@ module Ok
 
   module Model_Extend
 
+    def new *args
+      if args.size == 1 && args.first.is_a?(Array)
+        args.first.map { |r|
+          super(r)
+        }
+      else
+        super
+      end
+    end
+
     def create new_data
       m = new
       m.create new_data
