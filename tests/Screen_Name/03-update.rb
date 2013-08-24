@@ -6,7 +6,6 @@ include Screen_Name::Test
 
 describe 'Screen-Name:' do
 
-
   describe ":update" do
 
     it 'updates screen name' do

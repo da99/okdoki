@@ -42,4 +42,30 @@ class Screen_Name
   end
 end # === class Screen_Name ===
 
+module Customer
+
+  module Test
+
+    def delete_all
+      Customer::TABLE.delete
+      Screen_Name::TABLE.delete
+    end
+
+    def create_sample sn
+
+      o = {
+        screen_name: sn,
+        pass_phrase: "this is a pass",
+        confirm_pass_phrase: "this is a pass",
+        ip: '000.00.000'
+      }
+
+      Customer.create o
+    end
+
+  end # === module Test ===
+
+end # === module Customer ===
+
+
 
