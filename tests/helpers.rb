@@ -67,12 +67,24 @@ class Customer
 
 end # === class Customer ===
 
-def assert action, target, *args, &blok
-  Should.new(actual).be.send(action, *args, &blok) 
+def assert action, target, actual, *args, &blok
+  case action
+  when :zero
+    Should.new(target).be.equal 0
+  else
+    args.unshift target
+    Should.new(actual).be.send(action, *args, &blok)
+  end
 end
 
-def assert_not action, target, *args, &blok
-  assert(:not, target).send(*args, &blok)
+def assert_not action, target, actual, *args, &blok
+  case action
+  when :zero
+    Should.new(target).be.not.equal 0
+  else
+    args.unshift target
+    Should.new(actual).be.not.send(action, *args, &blok)
+  end
 end
 
 
