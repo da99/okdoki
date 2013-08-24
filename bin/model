@@ -14,26 +14,35 @@ set -u -e -o pipefail
 
 compile_all () {
   mkdir -p Server/$class/model
+  mkdir -p tests/$class
 
 
   tmpl="Server/Ok/templates/model.rb"
   template model "model.rb"
 
   tmpl="Server/Ok/templates/model.action.rb"
-  template create "model/create.rb"
-  template read   "model/read.rb"
-  template update "model/update.rb"
-  template trash  "model/trash.rb"
-  template delete "model/delete.rb"
+  template create "Server/$class/model/create.rb"
+  template read   "Server/$class/model/read.rb"
+  template update "Server/$class/model/update.rb"
+  template trash  "Server/$class/model/trash.rb"
+  template delete "Server/$class/model/delete.rb"
 
   tmpl="Server/Ok/templates/routes.rb"
-  template route "routes.rb"
+  template route "Server/$class/routes.rb"
+
+  tmpl="Server/Ok/templates/test.rb"
+  template test "tests/$class/00-err-types.rb"
+  template test "tests/$class/01-create.rb"
+  template test "tests/$class/02-read.rb"
+  template test "tests/$class/03-update.rb"
+  template test "tests/$class/04-trash.rb"
+  template test "tests/$class/05-delete.rb"
 
 }
 
 template () {
   action="$1"
-  new_file="Server/$class/$2"
+  new_file="$2"
 
   if [[ -f "$new_file" ]]
   then
