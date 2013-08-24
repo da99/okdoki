@@ -85,6 +85,8 @@ module Ok
 
       def included klass
         klass.extend Model_Extend
+        klass.const_set :Not_Found, Class.new(Not_Found)
+        klass.const_set :Invalid,   Class.new(Invalid)
       end
 
     end # === class self ===

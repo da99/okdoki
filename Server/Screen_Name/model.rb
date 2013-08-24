@@ -16,9 +16,6 @@ class Screen_Name
   class Dup < Ok::Invalid
   end
 
-  class Invalid < Ok::Invalid
-  end
-
   # =====================================================
   # Settings
   # =====================================================

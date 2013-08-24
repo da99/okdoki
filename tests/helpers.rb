@@ -42,7 +42,7 @@ class Screen_Name
   end
 end # === class Screen_Name ===
 
-module Customer
+class Customer
 
   module Test
 
@@ -65,7 +65,7 @@ module Customer
 
   end # === module Test ===
 
-end # === module Customer ===
+end # === class Customer ===
 
 
 
