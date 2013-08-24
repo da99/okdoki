@@ -34,6 +34,31 @@ describe 'create:' do
     message.should.match /Screen name must be: 4-15 valid chars/
   end
 
+  it 'checks min length of password' do
+    lambda {
+      Customer.create screen_name: "abcd",
+      password: "t",
+      confirm_password: "t",
+      ip: '000.00.00'
+    }.should.raise(Customer::Invalid).
+    message.
+    should.match /Pass phrase must be at least 3 words, with spaces./
+  end # === it
+
+  it 'checks max length of password' do
+    pswd = "100000 10000 " * 100
+    lambda {
+      Customer.create(
+        screen_name: new_name,
+        password: pswd,
+        confirm_password: pswd,
+        ip: '00.000.000'
+      )
+    }.should.raise(Customer::Invalid).
+    message.
+    should.match /Pass phrase is too long/
+  end
+
   it 'checks pass_phrase and confirm_pass_phrase match' do
     screen_name = "123456789";
     lambda {

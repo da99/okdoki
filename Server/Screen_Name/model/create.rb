@@ -5,6 +5,7 @@ class Screen_Name
     # === Validate the data.
     @new_data = raw_data
     @clean_data = {}
+    is_new_owner = !new_data[:customer].data[:id]
 
     validate(:screen_name).required
 
@@ -14,7 +15,7 @@ class Screen_Name
       one_of_these(['@W', '@P', '@N'], "Allowed values: @W (world) @P (private) @N (no one)")
 
     insert_data = {
-       :owner_id     => new_data[:customer].data[:id] ? new_data[:customer].data[:id] : 0,
+       :owner_id     => is_new_owner ? 0 : new_data[:customer].data[:id],
        :screen_name  => clean_data[:screen_name],
        :display_name => clean_data[:screen_name],
        :type_id      => (clean_data[:type_id] || 0)
@@ -30,6 +31,7 @@ class Screen_Name
     #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 
     @data.merge! new_record
+    @data[:owner_id] = @data[:id] if is_new_owner
 
     return self unless new_data[:customer]
 

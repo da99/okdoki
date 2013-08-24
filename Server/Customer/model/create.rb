@@ -10,7 +10,7 @@ class Customer
 
     new_vals[:customer] = self
     sn = Screen_Name.create(new_data)
-
+puts sn.data[:owner_id]
     rec = TABLE.
       returning(:id).
       insert({
