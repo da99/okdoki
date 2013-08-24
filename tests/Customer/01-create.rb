@@ -2,15 +2,19 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
+include Customer::Test
+
+PASSWORD="this_is_my pass word"
+
 describe 'create:' do
 
   it 'checks min length of screen_name' do
 
     lambda {
-      Customer.create pass_phrase: pass_phrase, confirm_pass_phrase: pass_phrase, ip: '000.00.00'
+      Customer.create screen_name: new_name, password: "A", confirm_password: "A", ip: '000.00.00'
     }.should.raise(Customer::Invalid).
     message.
-    should.match /Screen name is required/
+    should.match /Pass phrase must be: 3 or more words with spaces/
 
   end # === it
 
@@ -42,21 +46,21 @@ describe 'create:' do
 
   it 'saves screen_name to Customer object' do
     o = create
-    o[:c].screen_names.names.should == [o[:name].upcase]
+    assert :==, o[:c].screen_names.names, [o[:name].upcase]
   end
 
   it 'saves Customer id to Customer object' do
     c = create
 
     # Has the customer id been saved?
-    c.data[:id].should.be.is_a Numeric
+    assert :is_a, c.data[:id], Numeric
   end
 
   it 'sets log_in_at to current date' do
-    c = create
+    c    = create
     date = DB["SELECT current_date as date;"][:current_date]
-    (c.data[:log_in_at].to_i - date.to_i).abs.
-      should.be lambda { |o| o < 2}
+    diff = (c.data[:log_in_at].to_i - date.to_i).abs
+    assert lambda { |o| o < 2}, diff
   end
 
 end # === desc create

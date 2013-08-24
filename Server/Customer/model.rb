@@ -68,8 +68,8 @@ class Customer
       raise "not ready"
     when :ip
       super.
-        not_empty('IP address is required.').
-        be(lambda { |v| v > 5 }, 'Valid ip address is required.')
+        required('IP address is required.').
+        be(lambda { |v| v.size > 5 }, 'Valid ip address is required.')
     else
       super
     end # === case

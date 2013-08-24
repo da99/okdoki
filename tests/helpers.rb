@@ -46,44 +46,53 @@ class Customer
 
   module Test
 
+    include Screen_Name::Test
+
     def delete_all
       Customer::TABLE.delete
       Screen_Name::TABLE.delete
     end
 
-    def create_sample sn
-
-      o = {
-        screen_name: sn,
+    def create sn
+      sn = new_name
+      c = Customer.create screen_name: sn,
         pass_phrase: "this is a pass",
         confirm_pass_phrase: "this is a pass",
         ip: '000.00.000'
-      }
-
-      Customer.create o
+      {c: c, sn: name, pw: "this is a pass"}
     end
 
   end # === module Test ===
 
 end # === class Customer ===
 
-def assert action, target, actual, *args, &blok
+def assert action, *args, &blok
   case action
   when :zero
-    Should.new(target).be.equal 0
+    Should.new(args.shift).be.equal 0
+  when :one
+    Should.new(args.shift).be.equal 1
+  when Proc
+    Should.new(args.shift).be args.shift
   else
-    args.unshift target
-    Should.new(actual).be.send(action, *args, &blok)
+    expect = args.shift
+    actual = args.shift
+    Should.new(actual).be.send(action, expect, *args, &blok)
   end
 end
 
-def assert_not action, target, actual, *args, &blok
+def assert_not action, *args, &blok
   case action
   when :zero
-    Should.new(target).be.not.equal 0
+    Should.new(args.shift).be.not.equal 0
+  when :one
+    Should.new(args.shift).be.not.equal 1
+  when Proc
+    Should.new(args.shift).not.be args.shift
   else
-    args.unshift target
-    Should.new(actual).be.not.send(action, *args, &blok)
+    expect = args.shift
+    actual = args.shift
+    Should.new(actual).be.not.send(action, expect, *args, &blok)
   end
 end
 

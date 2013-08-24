@@ -111,6 +111,9 @@ module Ok
     end
 
     def initialize *args
+      @clean_data = {}
+      @new_data   = {}
+
       if args.empty?
         @data = {}
       elsif args.size == 1

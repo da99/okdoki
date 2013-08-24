@@ -34,6 +34,12 @@ module Ok
 
     IGNORE_METHODS = self.public_instance_methods
 
+    def be l, msg
+      result = !! l.call(clean_data[name])
+      raise e(msg) unless result
+      self
+    end
+
     def clean *args
       args.each { |a|
         case a
