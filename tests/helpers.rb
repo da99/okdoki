@@ -23,7 +23,10 @@ class Screen_Name
   module Test
 
     def new_name
-      @i ||= Screen_Name::TABLE.count
+      @i ||= begin
+               r = Screen_Name::TABLE.order(:id).last
+               (r && r[:screen_name].split('_').last.to_i) || 1
+             end
       @i += 1
       "ted_#{@i}"
     end

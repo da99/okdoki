@@ -2,20 +2,27 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
+include Customer::Test
 
 describe 'read_by_id:' do
 
   it 'reads Customer from DB using customer id' do
-    c = Customer.read_by_id(id)
-    c.data[:id].should.equal == customer_id
+    o  = create
+    id = o[:c][:id]
+    c  = Customer.read_by_id(id)
+
+    assert :==, id, c.data[:id]
   end
 
   it 'reads screen-names' do
-    c = Customer.read_by_id(id)
-    c.screen_names.names.should.equal [screen_name.upcase]
+    o  = create
+    id = o[:c][:id]
+    c  = Customer.read_by_id(id)
+
+    assert :==, o[:c].screen_names.names, c.screen_names.names
   end
 
-  it 'executes not found func' do
+  it 'raises Customer::Not_Found' do
     lambda {
       Customer.read_by_id(0)
     }.should.raise(Customer::Not_Found).
