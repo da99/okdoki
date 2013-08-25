@@ -55,6 +55,17 @@ class Customer
     super
   end
 
+  def is? var
+    screen_names.include? var
+  end
+
+  # NOTE: We have to put newlines. In case of an error,
+  # the error message won't include the password if the password
+  # is on it's own line.
+  def encode_password val
+    Sequel.lit "\ncrypt(\n?\n, gen_salt('bf', 13))", val
+  end
+
   def validate name
     case name
     when :password
@@ -75,10 +86,6 @@ class Customer
       super
     end # === case
   end # === def validate
-
-  def is? var
-    screen_names.include? var
-  end
 
 end # === Customer
 

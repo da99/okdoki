@@ -14,7 +14,7 @@ class Customer
     rec = TABLE.
       returning(:id).
       insert({
-        pswd_hash: Sequel.lit("crypt(?, gen_salt('bf', 11))", clean_data[:password]),
+        pswd_hash: encode_password(clean_data[:password]),
         id: clean_data[:id]
       }).first
 
