@@ -17,7 +17,12 @@ class Customer
       # === Check if too many bad attempts by ip address.
       ip_row = Log_In_By_IP.create_or_read_by_ip ip
 
-      c = read_by_screen_name(screen_name)
+      begin
+        c = read_by_screen_name(screen_name)
+      rescue Screen_Name::Not_Found => e
+        ip_row.inc_bad_log_in_count
+        raise e
+      end
 
       # === Update old attempt by screen name
       new_attempt = TABLE.
@@ -44,7 +49,7 @@ class Customer
 
 
       if bad_login
-        ip_row.update_bad_log_in_by_one
+        ip_row.inc_bad_log_in_count
         raise Wrong_Pass_Word.new(c, 'Pass phrase is incorrect. Check your CAPS LOCK key.')
       end
 
