@@ -14,11 +14,12 @@ class Customer
 
     def read_by_screen_name_and_pass_word screen_name, pass_word, ip
 
-      # === Get stats for ip address.
+      # === Check if too many bad attempts by ip address.
       ip_row = Log_In_By_IP.create_or_read_by_ip ip
 
       c = read_by_screen_name(screen_name)
 
+      # === Update old attempt by screen name
       new_attempt = TABLE.
         returning.
         where("log_in_at != ? AND id = ?", Ok::Model::PG::UTC_NOW_DATE, c.data[:id]).
@@ -33,13 +34,17 @@ class Customer
         end
       end
 
+      # === Check if password is correct.
+      #     Record bad attempt if incorrect.
       bad_login = TABLE.
         returning.
         where(" id = ? AND pswd_hash != ? ", c.data[:id], c.decode_pass_word(pass_word)).
         update(" bad_log_in_count = (bad_log_in_count + 1) ").
         first
 
+
       if bad_login
+        ip_row.update_bad_log_in_by_one
         raise Wrong_Pass_Word.new(c, 'Pass phrase is incorrect. Check your CAPS LOCK key.')
       end
 

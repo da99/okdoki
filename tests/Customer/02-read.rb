@@ -49,6 +49,14 @@ Customer::Log_In_By_IP::TABLE.delete
 
 describe 'read_by_screen_name_and_pass_word' do
 
+  before do
+    Customer::TABLE.
+      update(bad_log_in_count: 0)
+    Customer::Log_In_By_IP::TABLE.
+      where(ip: IP).
+      update(bad_log_in_count: 0)
+  end
+
   it 'reads customer if passed a hash with: screen_name, correct pass_word' do
     c = Customer.read_by_screen_name_and_pass_word(OC[:sn], OC[:pw], IP)
     assert :==, C.data[:id], c.data[:id]
@@ -74,6 +82,24 @@ describe 'read_by_screen_name_and_pass_word' do
 
     c = Customer::TABLE[id: C.data[:id]]
     assert :==, 4, c[:bad_log_in_count]
+  end
+
+  it 'increases IP :bad_log_in_count by 1 if incorrect pass word, correct screen name supplied' do
+    begin
+      Customer.read_by_screen_name_and_pass_word OC[:sn], "incorrect", IP
+    rescue Customer::Wrong_Pass_Word
+    end
+    r = Customer::Log_In_By_IP::TABLE[ip: IP]
+    assert :==, 1, r[:bad_log_in_count]
+  end
+
+  it 'increases IP :bad_log_in_count by 1 if incorrect pass word, unknown screen name supplied' do
+    begin
+      Customer.read_by_screen_name_and_pass_word "uknown sn", "incorrect", IP
+    rescue Screen_Name::Not_Found
+    end
+    r = Customer::Log_In_By_IP::TABLE[ip: IP]
+    assert :==, 1, r[:bad_log_in_count]
   end
 
   it 'updates log_in_at to PG current_date when logging in' do
@@ -103,7 +129,6 @@ describe 'read_by_screen_name_and_pass_word' do
   end
 
   it 'returns Too_Many_Bad_Logins if: correct pass phrase, too many bad log-ins' do
-    # reset log in col vals
     Customer::TABLE.
       where(id: C.data[:id]).
       update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
@@ -117,12 +142,6 @@ describe 'read_by_screen_name_and_pass_word' do
 
   it 'returns Too_Many_Bad_Logins if: correct pass phrase, no bad log ins by screen name, ' +
     ' too many bad log-ins by IP' do
-
-    # reset log in col vals
-    Customer::TABLE.
-      where(id: C.data[:id]).
-      update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 0)
-
     Customer::Log_In_By_IP::TABLE.
       where(ip: IP).
       update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)

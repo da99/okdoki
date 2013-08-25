@@ -47,5 +47,11 @@ class Customer
       data[:bad_log_in_count] > 3
     end
 
+    def update_bad_log_in_by_one
+      self.class::TABLE.
+        where(ip: data[:ip]).
+        update(" bad_log_in_count = ( bad_log_in_count + 1 ) ")
+    end
+
   end # === class Log_In_By_IP ===
 end # === class Customer ===
