@@ -8,7 +8,7 @@ describe 'read_by_id:' do
 
   it 'reads Customer from DB using customer id' do
     o  = create
-    id = o[:c][:id]
+    id = o[:c].data[:id]
     c  = Customer.read_by_id(id)
 
     assert :==, id, c.data[:id]

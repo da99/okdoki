@@ -19,26 +19,12 @@ class Customer
       self
     end # === def read_screen_names
 
-    def read_by_id opts
+    def read_by_id id
+      new(TABLE.limit(1)[id: id])
+    end # === def
 
-      if opts.kind_of?(String) || opts.kind_of?(Numeric)
-        opts = {id: opts}
-      end
-
-      customer_row       = nil
-      me                 = Customer.new
-      screen_name        = opts[:screen_name]
-      opts[:screen_name] = nil
-      p                  = nil
-
-      if opts.has_key?(:pass_phrase)
-        p = opts[:pass_phrase]
-        opts[:pass_phrase] = nil
-      end
-
-      customer_row = TABLE.limit(1)[opts]
-
-      return customer_row unless p
+    def login screen_name, password
+      # unless p
 
       sql = %^
       UPDATE @table
@@ -76,7 +62,7 @@ class Customer
 
       Ok.Model.Screen_Name.read_list(me, j)
       last
-    end # === def
+    end # === def login
 
   end # === class self ===
 
