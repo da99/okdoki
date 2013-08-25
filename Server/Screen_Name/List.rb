@@ -5,8 +5,17 @@ class Screen_Name
 
     include Ok::Model::List
 
-    def initialize arr = nil
-      @names = arr || []
+    def initialize var = nil
+      @customer = nil
+      @list     = []
+
+      case var
+      when Customer
+        @customer = var
+        @list     = Screen_Name.read_by_customer(var)
+      when Array
+        @list = var
+      end
     end # === def initialize
 
     def include? unknown
@@ -16,11 +25,11 @@ class Screen_Name
         unknown.data[:screen_name]
       end
 
-      !!@names.detect { |sn| sn.is? name }
+      !!@list.detect { |sn| sn.is? name }
     end
 
     def [] raw_name
-      @names.detect { |sn| sn.is? raw_name }
+      @list.detect { |sn| sn.is? raw_name }
     end
 
     def names

@@ -18,7 +18,6 @@ def within_secs x
   }
 end
 
-
 class Screen_Name
   module Test
 

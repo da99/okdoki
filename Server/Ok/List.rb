@@ -6,16 +6,16 @@ module Ok
       include ::Enumerable
 
       def pluck key
-        @names.map { |n| n.data[key] }
+        @list.map { |n| n.data[key] }
       end
 
       def each
-        @names.each { |n| yield n }
+        @list.each { |n| yield n }
       end
 
       def push *args
-        @names.concat args.flatten
-        @names
+        @list.concat args.flatten
+        @list
       end
 
     end # === module Enumerable ===

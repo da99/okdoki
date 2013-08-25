@@ -14,12 +14,11 @@ describe 'read_by_id:' do
     assert :==, id, c.data[:id]
   end
 
-  it 'reads screen-names' do
-    o  = create
-    id = o[:c][:id]
-    c  = Customer.read_by_id(id)
+  it 'fills up screen name list' do
+    o = create
+    c = Customer.read_by_id(o[:c].data[:id])
 
-    assert :==, o[:c].screen_names.names, c.screen_names.names
+    assert :==, [o[:sn].upcase], c.screen_names.names
   end
 
   it 'raises Customer::Not_Found' do

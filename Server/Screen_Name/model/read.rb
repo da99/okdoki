@@ -12,6 +12,10 @@ class Screen_Name
       new r, "Screen name not found: #{raw_sn}"
     end
 
+    def read_by_customer c
+      new TABLE.where(owner_id: c.data[:id]).all
+    end
+
   end # === class self ===
 
 end # === class Screen_Name read ===

@@ -51,8 +51,8 @@ class Customer
   attr_reader :screen_names
 
   def initialize *args
-    @screen_names = Screen_Name::List.new()
     super
+    @screen_names = Screen_Name::List.new(self)
   end
 
   def is? var
