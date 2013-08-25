@@ -86,11 +86,10 @@ describe 'read_by_screen_name_and_pass_word' do
   end
 
   it 'returns Too_Many_Bad_Logins if: correct pass phrase, too many bad log-ins' do
-    now = Ok::Model::PG::UTC_NOW 
     # reset log in col vals
     Customer::TABLE.
       where(id: C.data[:id]).
-      update(log_in_at: now, bad_log_in_count: 4)
+      update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
 
     lambda {
       Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw]
