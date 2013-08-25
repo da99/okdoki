@@ -11,7 +11,7 @@ other="$@"
 
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Screen_Name_Sub );
+mods=( Customer Screen_Name );
 
 if [[ -z "$action" ]]
 then
@@ -57,13 +57,13 @@ function run_down {
 
 case "$action" in
   create)
-    if [[ ! "${mods[@]}" == *"$2"* ]]
+    if [[ ! "${mods[@]}" == *"$model"* ]]
     then
-      echo "$2 not in list."
+      echo "$model not in list."
       exit 1
     fi
 
-    bin/migrate_create "$@"
+    bin/migrate_create "$model" "$@"
     ;;
 
   list)
