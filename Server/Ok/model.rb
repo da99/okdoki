@@ -78,6 +78,7 @@ module Ok
 
     def empty_trash
       self::TABLE.
+        returning.
         where("trashed_at <= (timezone('UTC'::text, now()) - interval '72 hours')").
         delete
     end

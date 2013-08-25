@@ -2,42 +2,39 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
+include Customer::Test
+OC = create
+C  = OC[:c]
+
 describe 'delete_trashed' do
 
   it 'it does not delete Customer records less than 2 days old' do
-    trashed_at = h.ago('-1d -22h')
-
     Customer::TABLE.
-      where(id: customer_id).
-      update(trashed_at: trashed_at)
+      where(id: C.data[:id]).
+      update(trashed_at: Sequel.lit(" #{Ok::Model::PG::UTC_NOW_RAW} - interval '70 hours' "))
 
     Customer.empty_trash
 
-    last = Customer.read_by_id customer_id
-
-    age = h.utc_diff(last.data.trashed_at)
-    almost_2_days = h.utc_diff(h.ago('-1d -22h'))
-    assert :equal, (age - almost_2_days) < 1000, true
+    last = Customer.read_by_id C.data[:id]
+    assert :==, C.data[:id], last.data[:id]
   end # === it
 
-  it 'it deletes Customer and Screen-Names records more than 2 days old' do
-
+  it 'it deletes Customer and Screen-Names' do
     Customer::TABLE.
-      where(id: customer_id).
-      update trashed_at: h.ago('-3d')
+      where(id: C.data[:id]).
+      update(trashed_at: Sequel.lit(" #{Ok::Model::PG::UTC_NOW_RAW} - interval '72 hours' "))
 
     Customer.empty_trash
 
     lambda {
-      Customer.read_by_id customer_id
+      Customer.read_by_id C.data[:id]
     }.should.raise(Customer::Not_Found).
       message.
-      should.match "Customer, #{customer_id}, not found."
-
+      should.match(/Customer not found./)
 
     # read screen names
-    rows = Screen_Name::TABLE.where(owner_id: customer_id)
-    assert :equal, rows.length, 0
+    count = Screen_Name::TABLE.where(owner_id: C.data[:id]).count
+    assert :==, count, 0
   end # === it
 
 end # === describe delete

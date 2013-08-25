@@ -5,20 +5,10 @@ class Customer
 
   class << self
 
-    def delete_trashed
-
-      final = {customers: [], screen_names: []}
-
-      rows = Ok.delete_trashed(self)
-
-      if !rows.empty?
-        final[:customers] = rows
-        Screen_Name.delete_trashed_customer(rows)
-      end
-
-      final[:screen_names] = rows
-      final
-
+    def empty_trash
+      rows = super
+      ids = rows.map { |r| r[:id] }
+      Screen_Name.delete_by_owner_ids ids
     end # === def delete_trashed
 
   end # === class self ===
