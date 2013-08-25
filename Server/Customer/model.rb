@@ -18,7 +18,8 @@ class Customer
   # =====================================================
   # Errors
   # =====================================================
-
+  Wrong_Pass_Word = Class.new(Ok::Invalid)
+  Too_Many_Bad_Logins = Class.new(Ok::Invalid)
 
   # =====================================================
   # Class
@@ -47,6 +48,13 @@ class Customer
   # is on it's own line.
   def encode_pass_word val
     Sequel.lit "\ncrypt(\n?\n, gen_salt('bf', 13))", val
+  end
+
+  # NOTE: We have to put newlines. In case of an error,
+  # the error message won't include the pass_word if the pass_word
+  # is on it's own line.
+  def decode_pass_word val
+    Sequel.lit "\ncrypt(\n?\n, pswd_hash)", val
   end
 
   def validate name

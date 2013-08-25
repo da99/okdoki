@@ -46,55 +46,56 @@ describe 'read_by_screen_name' do
 end # === describe read_by_screen_name
 
 describe 'read_by_screen_name_and_pass_word' do
-  it 'reads customer if passed a hash with: screen_name, correct pass_phrase' do
-    c = Customer.read_by_screen_name(screen_name: screen_name, pass_phrase: pass_phrase)
-    assert :equal, customer_id, c.data[:id]
+
+  it 'reads customer if passed a hash with: screen_name, correct pass_word' do
+    c = Customer.read_by_screen_name_and_pass_word(OC[:sn], OC[:pw])
+    assert :==, C.data[:id], c.data[:id]
   end
 
-  it 'does not read customer if passed a hash with: screen_name, incorrect pass_phrase' do
+  it 'raises Customer::Wrong_Pass_Word if passed a hash with: screen_name, incorrect pass_phrase' do
     lambda {
-      Customer.read_by_screen_name screen_name: screen_name, pass_phrase: 'no pass phrase'
-    }.should.raise.
+      Customer.read_by_screen_name_and_pass_word OC[:sn], 'no pass phrase'
+    }.should.raise(Customer::Wrong_Pass_Word).
     message.should.
-    match 'Pass phrase is incorrect. Check your CAPS LOCK key.'
+    match(/Pass phrase is incorrect. Check your CAPS LOCK key/)
   end
 
-  it 'increases bad_log_in_count by one if incorrect pass_phrase supplied' do
-      Customer::TABLE.
-        where(:id=>customer.data[:id]).
-        update(bad_log_in_count: 3)
+  it 'increases :bad_log_in_count by 1 if incorrect pass_phrase supplied' do
+    Customer::TABLE.
+      where(:id=>C.data[:id]).
+      update(bad_log_in_count: 3)
 
-      Customer.read_by_screen_name screen_name: screen_name, pass_phrase: 'no pass phrase'
+    begin
+      Customer.read_by_screen_name_and_pass_word OC[:sn], 'no pass phrase'
+    rescue Customer::Wrong_Pass_Word
+    end
 
-      c = Customer::TABLE[id: customer.data[:id]]
-      assert :equal, 4, c.bad_log_in_count
+    c = Customer::TABLE[id: C.data[:id]]
+    assert :==, 4, c.data[:bad_log_in_count]
   end
 
   it 'updates log_in_at to PG current_date when logging in' do
-    d = Customer::TABLE["SELECT current_date AS date"][:date]
+    d = DB["SELECT current_date AS date"].first[:date]
 
     # ensure old date for log_in_at
-    Customer::TABLE["UPDATE @table SET log_in_at = '1999-01-01';"]
+    Customer::TABLE.update(:log_in_at => '1999-01-01')
 
-    last = Customer.read_by_screen_name screen_name: screen_name, pass_phrase: pass_phrase
-    assert :equal, d.to_i, last.data.log_in_at.to_i
+    last = Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw]
+    assert :==, d.to_s, last.data[:log_in_at].to_s
   end
 
-  it 'returns invalid if: correct pass phrase, too many bad log-ins' do
-    now = Sequel.lit("timezone('UTC'::text, now()")
+  it 'returns Too_Many_Bad_Logins if: correct pass phrase, too many bad log-ins' do
+    now = Ok::Sequel::UTC_NOW 
     # reset log in col vals
-    Customer::TABLE.where(id: customer.data[:id]).update(log_in_at: now, bad_log_in_count: 4)
+    Customer::TABLE.
+      where(id: C.data[:id]).
+      update(log_in_at: now, bad_log_in_count: 4)
 
     lambda {
-      Customer.read_by_screen_name screen_name: screen_name, pass_phrase: pass_phrase
-    }.should.raise( Customer::Invalid ).
-      message.should.match "Too many bad log-ins for today. Try again tomorrow."
-  end
-
-  it 'sets log_in_at to current date' do
-    o    = read_by_screen_name sn
-    date = DB["SELECT current_date as date;"].first[:date]
-    assert :==, date, o[:c].data[:log_in_at]
+      Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw]
+    }.should.raise( Customer::Too_Many_Bad_Logins ).
+      message.
+      should.match(/Too many bad log-ins for today. Try again tomorrow/)
   end
 
 end # === describe :read_by_screen_name_and_pass_word

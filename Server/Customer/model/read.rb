@@ -13,42 +13,33 @@ class Customer
     end # === def
 
 
-    def login screen_name, pass_word
-      # unless p
+    def read_by_screen_name_and_pass_word screen_name, pass_word
+      c = read_by_screen_name(screen_name)
 
-      sql = %^
-      UPDATE @table
-      SET log_in_at = CURRENT_DATE, bad_log_in_count = 0
-      WHERE log_in_at != CURRENT_DATE AND id = @id
-      RETURNING *
-      ^
+      last_row = TABLE.
+        returning.
+        where("log_in_at != ? AND id = ?", Ok::Model::PG::UTC_NOW_DATE, c.data[:id]).
+        update(log_in_at: Ok::Model::PG::UTC_NOW_DATE, bad_log_in_count: 0).
+        first
 
-      last_row = DB[sql, id: row[:id]].first
-
-      row = last_row || customer_row
-
-      if (row[:bad_log_in_count] < 4)
-        raise Invalid.new(Customer.new(row), 'Too many bad log-ins for today. Try again tomorrow.')
+      if !last_row  # === User has logged-in previously today.
+        if c.data[:bad_log_in_count] > 3
+          raise Too_Many_Bad_Logins.new(c, 'Too many bad log-ins for today. Try again tomorrow.')
+        end
       end
 
-      if p
-        TABLE[ %^
-          UPDATE @table SET bad_log_in_count = (bad_log_in_count + 1)
-            WHERE id = @id
-            RETURNING *
-        ^, {id: row.id}
-        ]
-        raise Invalid.new(self, 'Pass phrase is incorrect. Check your CAPS LOCK key.')
+      bad_login = TABLE.
+        returning.
+        where(" id = ? AND pswd_hash != ? ", c.data[:id], c.decode_pass_word(pass_word)).
+        update(" bad_log_in_count = (bad_log_in_count + 1) ").
+        first
+
+      if bad_login
+        puts bad_login
+        raise Wrong_Pass_Word.new(c, 'Pass phrase is incorrect. Check your CAPS LOCK key.')
       end
 
-      me.is_new                = false
-      me.customer_id           = row.id
-      me.data.id               = row.id
-      me.data.email            = row.email
-      me.data.trashed_at       = row.trashed_at
-      me.data.log_in_at        = row.log_in_at
-      me.data.bad_log_in_count = row.bad_log_in_count
-      me
+      c
     end # === def login
 
   end # === class self ===

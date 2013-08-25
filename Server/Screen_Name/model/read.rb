@@ -18,6 +18,10 @@ class Screen_Name
 
   end # === class self ===
 
+  def owner
+    @owner ||= Customer.read_by_id(data[:owner_id])
+  end
+
 end # === class Screen_Name read ===
 
 
