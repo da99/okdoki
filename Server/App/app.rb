@@ -3,6 +3,10 @@ require 'content-security-policy'
 require 'sinatra'
 require 'rack/contrib'
 
+lang=ENV['LANG']
+if lang['UTF-8']
+  raise "env $LANG is not set."
+end
 
 ss = ENV['SESSION_SECRET']
 if !ss
