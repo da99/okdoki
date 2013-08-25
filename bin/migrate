@@ -11,7 +11,7 @@ other="$@"
 
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Bot I_Know_Them );
+mods=( Customer Screen_Name Bot I_Know_Them Chit_Chat );
 
 if [[ -z "$action" ]]
 then

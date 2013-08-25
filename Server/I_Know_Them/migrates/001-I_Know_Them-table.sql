@@ -16,5 +16,6 @@ CREATE TABLE i_know_them (
 
 -- DOWN
 
+DROP TABLE i_know_them;
 
 
