@@ -57,6 +57,16 @@ module Ok
       self
     end # === def
 
+    def at_most val, msg
+      raise e(msg) if clean_data[name].size > val
+      self
+    end
+
+    def at_least val, msg
+      raise e(msg) if clean_data[name].size < val
+      self
+    end
+
     def set_to val, func = nil
       if func
         (clean_data[name] = val) if func.call(clean_data[name])
@@ -64,6 +74,11 @@ module Ok
         clean_data[name] = val
       end
 
+      self
+    end
+
+    def equals val, msg
+      raise e(msg) if clean_data[name] != val
       self
     end
 

@@ -57,13 +57,14 @@ class Customer
 
   def validate name
     case name
-    when :pass_phrase
+    when :password
       super(name).
-        between(6, 100).
-        be(lambda { |v| v.size > 6 }, 'Pass phrase must be two words or more... with spaces.')
-    when :confirm_pass_phrase
+        at_least(6, 'Pass phrase is too short.').
+        at_most(300, 'Pass phrase is too big.').
+        be(lambda { |v| v.split.size >= 3 }, 'Pass phrase must be three words or more... with spaces.')
+    when :confirm_password
       super.
-      equals(clean_data[:pass_phrase], "Pass phrase is different than pass phrase confirmation.")
+        equals(clean_data[:password], "Pass phrase is different than pass phrase confirmation.")
     when :email
       raise "not ready"
     when :ip

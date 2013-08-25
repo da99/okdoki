@@ -36,13 +36,13 @@ describe 'create:' do
 
   it 'checks min length of password' do
     lambda {
-      Customer.create screen_name: "abcd",
+      Customer.create screen_name: new_name,
       password: "t",
       confirm_password: "t",
       ip: '000.00.00'
     }.should.raise(Customer::Invalid).
     message.
-    should.match /Pass phrase must be at least 3 words, with spaces./
+    should.match /Pass phrase is too short./
   end # === it
 
   it 'checks max length of password' do
@@ -56,7 +56,7 @@ describe 'create:' do
       )
     }.should.raise(Customer::Invalid).
     message.
-    should.match /Pass phrase is too long/
+    should.match /Pass phrase is too big/
   end
 
   it 'checks pass_phrase and confirm_pass_phrase match' do
