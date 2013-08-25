@@ -62,14 +62,14 @@ describe 'create:' do
   it 'checks pass_phrase and confirm_pass_phrase match' do
     screen_name = "123456789";
     lambda {
-      Customer.new(
+      Customer.create(
         screen_name: screen_name,
-        pass_phrase: pass_phrase,
-        confirm_pass_phrase: pass_phrase + "a",
+        password: PASSWORD,
+        confirm_password: PASSWORD + "a",
         ip: '00.000.000'
       )
     }.should.raise(Customer::Invalid).
-    message.should.match "Pass phrase is different than pass phrase confirmation."
+    message.should.match /Pass phrase is different than pass phrase confirmation/
   end
 
   it 'saves screen_name to Customer object' do

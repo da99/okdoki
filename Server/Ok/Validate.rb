@@ -25,8 +25,7 @@ module Ok
     #
     def required msg = nil
       val = clean_data[name]
-      raise "Must be string or array: #{val}" unless val.respond_to?(:size)
-      is_empty = (val.kind_of?(String) && val.strip.empty?) || val.empty?
+      is_empty = !val || (val.kind_of?(String) && val.strip.empty?) || val.empty?
       raise e(msg || "#{english_name} is required." ) if is_empty
 
       self

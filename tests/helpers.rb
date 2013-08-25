@@ -53,11 +53,11 @@ class Customer
       Screen_Name::TABLE.delete
     end
 
-    def create sn
+    def create
       sn = new_name
       c = Customer.create screen_name: sn,
-        pass_phrase: "this is a pass",
-        confirm_pass_phrase: "this is a pass",
+        password: "this is a pass",
+        confirm_password: "this is a pass",
         ip: '000.00.000'
       {c: c, sn: name, pw: "this is a pass"}
     end
