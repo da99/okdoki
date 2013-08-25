@@ -26,6 +26,15 @@ class Bot_Use
   # Instance
   # =====================================================
 
+  def to_public
+    {
+      bot:         data[:bot],
+      owner:       data[:owner],
+      screen_name: data[:bot]
+    }
+  end
+
+
 
 end # === class Bot_Use ===
 
