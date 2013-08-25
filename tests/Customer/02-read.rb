@@ -15,15 +15,17 @@ describe 'read_by_id:' do
   end
 
   it 'fills up screen name list' do
-    o = create
-    c = Customer.read_by_id(o[:c].data[:id])
+    o  = create
+    sn = o[:sn].upcase
+    c  = Customer.read_by_id(o[:c].data[:id])
 
-    assert :==, [o[:sn].upcase], c.screen_names.names
+    assert :==, [sn], c.screen_names.names
   end
 
   it 'raises Customer::Not_Found' do
     lambda {
-      Customer.read_by_id(0)
+      c= Customer.read_by_id(0)
+      puts c.data
     }.should.raise(Customer::Not_Found).
     message.
     should.match /Customer not found/

@@ -20,4 +20,11 @@ describe ":new" do
     o.data[:id].should == 1
   end
 
+  it "raises Not_Found if args.size == 1, args.first == nil" do
+    lambda {
+      My_Model.new nil
+    }.should.raise(My_Model::Not_Found)
+    .message.should.match /My Model not found/
+  end
+
 end # === describe sdff ===

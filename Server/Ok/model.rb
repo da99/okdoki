@@ -81,6 +81,10 @@ module Ok
         delete
     end
 
+    def english_name
+      self.to_s.gsub('_', ' ')
+    end
+
   end # === module Model_Extend ===
 
   # =====================================================
@@ -116,12 +120,12 @@ module Ok
 
       if args.empty?
         @data = {}
-      elsif args.size == 1
+      elsif
         @data = args.first || {}
-      else
-        @data = args.first || {}
-        if !@data # === record was not found
-          raise Not_Found.new(args.last)
+
+        # === record was not found
+        unless args.first
+          raise self.class::Not_Found.new(args.last || "#{self.class.english_name} not found.")
         end
       end
     end

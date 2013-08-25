@@ -4,6 +4,8 @@ Performance/User-Happiness
 =============================
 1 international domains
 
+1.a. NOTE: auto-vaccum
+
 2 strip all non-okid screen names in im body, then send to bot.
 
 3 add template vars to response IMs from bots:
@@ -54,7 +56,6 @@ Performance/User-Happiness
 
 
 21.   show error message when: invalid when screen name and sub_sn are too long
-
 
 
 

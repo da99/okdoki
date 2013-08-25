@@ -20,7 +20,7 @@ class Customer
     end # === def read_screen_names
 
     def read_by_id id
-      new(TABLE.limit(1)[id: id])
+      new TABLE.limit(1)[id: id]
     end # === def
 
     def login screen_name, password
