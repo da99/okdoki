@@ -9,7 +9,7 @@ post '/sign-in' do
   end
 
   if (!params.pass_phrase || params.pass_phrase.strip.empty? )
-    return json false, "Password is required."
+    return json false, "Pass phrase is required."
   end
 
   sign_in

@@ -5,8 +5,8 @@ class Customer
     @new_data = new_vals
 
     validate(:ip)
-    validate(:password).required('Pass phrase is required.')
-    validate(:confirm_password).required("Pass phrase confirmation is required.")
+    validate(:pass_word).required('Pass phrase is required.')
+    validate(:confirm_pass_word).required("Pass phrase confirmation is required.")
 
     new_vals[:customer] = self
     Screen_Name.create(new_data)
@@ -14,7 +14,7 @@ class Customer
     rec = TABLE.
       returning(:id).
       insert({
-        pswd_hash: encode_password(clean_data[:password]),
+        pswd_hash: encode_pass_word(clean_data[:pass_word]),
         id: clean_data[:id]
       }).first
 

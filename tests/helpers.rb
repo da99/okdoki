@@ -58,8 +58,8 @@ class Customer
     def create
       sn = new_name
       c = Customer.create screen_name: sn,
-        password: "this is a pass",
-        confirm_password: "this is a pass",
+        pass_word: "this is a pass",
+        confirm_pass_word: "this is a pass",
         ip: '000.00.000'
       {c: c, sn: sn, pw: "this is a pass"}
     end

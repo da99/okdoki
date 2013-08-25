@@ -25,23 +25,6 @@ class Customer
   # =====================================================
 
   class << self
-
-    def read_by_screen_name opts
-      if opts.kind_of? String
-        opts = {:screen_name => opts}
-      end
-
-      sn = Screen_Name.read_by_screen_name(opts)
-
-      c_opts = {
-        :id=>sn.data.id,
-        :screen_name=>opts[:screen_name],
-        :password=>opts[:pass_phrase]
-      }
-
-      Customer.read_by_id(c_opts)
-    end # === def
-
   end # === class self
 
   # =====================================================
@@ -60,22 +43,22 @@ class Customer
   end
 
   # NOTE: We have to put newlines. In case of an error,
-  # the error message won't include the password if the password
+  # the error message won't include the pass_word if the pass_word
   # is on it's own line.
-  def encode_password val
+  def encode_pass_word val
     Sequel.lit "\ncrypt(\n?\n, gen_salt('bf', 13))", val
   end
 
   def validate name
     case name
-    when :password
+    when :pass_word
       super(name).
         at_least(6, 'Pass phrase is too short.').
         at_most(300, 'Pass phrase is too big.').
         be(lambda { |v| v.split.size >= 3 }, 'Pass phrase must be three words or more... with spaces.')
-    when :confirm_password
+    when :confirm_pass_word
       super.
-        equals(clean_data[:password], "Pass phrase is different than pass phrase confirmation.")
+        equals(clean_data[:pass_word], "Pass phrase is different than pass phrase confirmation.")
     when :email
       raise "not ready"
     when :ip

@@ -4,7 +4,7 @@ require './Server/Customer/model'
 
 include Customer::Test
 
-PASSWORD="this_is_my pass word"
+PASS_WORD="this_is_my pass word"
 
 describe 'create:' do
 
@@ -12,8 +12,8 @@ describe 'create:' do
 
     lambda {
       Customer.create screen_name: "a",
-      password: "this is my password",
-      confirm_password: "this is my password",
+      pass_word: "this is my password",
+      confirm_pass_word: "this is my password",
       ip: '000.00.00'
     }.should.raise(Screen_Name::Invalid).
     message.
@@ -26,32 +26,32 @@ describe 'create:' do
     lambda {
       Customer.create(
         screen_name: screen_name,
-        password: PASSWORD,
-        confirm_password: PASSWORD,
+        pass_word: PASS_WORD,
+        confirm_pass_word: PASS_WORD,
         ip: '00.000.000'
       )
     }.should.raise(Screen_Name::Invalid).
     message.should.match /Screen name must be: 4-15 valid chars/
   end
 
-  it 'checks min length of password' do
+  it 'checks min length of pass_word' do
     lambda {
       Customer.create screen_name: new_name,
-      password: "t",
-      confirm_password: "t",
+      pass_word: "t",
+      confirm_pass_word: "t",
       ip: '000.00.00'
     }.should.raise(Customer::Invalid).
     message.
     should.match /Pass phrase is too short./
   end # === it
 
-  it 'checks max length of password' do
+  it 'checks max length of pass_word' do
     pswd = "100000 10000 " * 100
     lambda {
       Customer.create(
         screen_name: new_name,
-        password: pswd,
-        confirm_password: pswd,
+        pass_word: pswd,
+        confirm_pass_word: pswd,
         ip: '00.000.000'
       )
     }.should.raise(Customer::Invalid).
@@ -64,8 +64,8 @@ describe 'create:' do
     lambda {
       Customer.create(
         screen_name: screen_name,
-        password: PASSWORD,
-        confirm_password: PASSWORD + "a",
+        pass_word: PASS_WORD,
+        confirm_pass_word: PASS_WORD + "a",
         ip: '00.000.000'
       )
     }.should.raise(Customer::Invalid).

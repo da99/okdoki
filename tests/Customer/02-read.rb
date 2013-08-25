@@ -4,6 +4,9 @@ require './Server/Customer/model'
 
 include Customer::Test
 
+OC = create
+C  = OC[:c]
+
 describe 'read_by_id:' do
 
   it 'reads Customer from DB using customer id' do
@@ -35,16 +38,14 @@ end # === describe read_by_id ===
 
 describe 'read_by_screen_name' do
 
-  it 'reads customer if passed screen-name as string' do
-    c = Customer.read_by_screen_name(screen_name)
-    assert :equal, customer_id, c.data[:id]
+  it 'reads customer if passed screen name as string' do
+    c = Customer.read_by_screen_name(OC[:sn])
+    assert :==, C.data[:id], c.data[:id]
   end
 
-  it 'reads customer if passed a hash with: screen_name' do
-    c = Customer.read_by_screen_name(:screen_name => screen_name)
-    assert :equal, customer_id, c.data[:id]
-  end
+end # === describe read_by_screen_name
 
+describe 'read_by_screen_name_and_pass_word' do
   it 'reads customer if passed a hash with: screen_name, correct pass_phrase' do
     c = Customer.read_by_screen_name(screen_name: screen_name, pass_phrase: pass_phrase)
     assert :equal, customer_id, c.data[:id]
@@ -95,8 +96,8 @@ describe 'read_by_screen_name' do
     date = DB["SELECT current_date as date;"].first[:date]
     assert :==, date, o[:c].data[:log_in_at]
   end
-end # === describe read_by_screen_name
 
+end # === describe :read_by_screen_name_and_pass_word
 
 
 

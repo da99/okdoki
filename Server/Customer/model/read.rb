@@ -3,27 +3,17 @@ class Customer
 
   class << self
 
-    def read_screen_names
-      id = data[:id]
-
-      names = TABLE[owner_id: id]
-
-      raise Invalid.new(self, "No screen names found for customer id: #{id}") if names.empty?
-
-      data[:screen_name_rows] = nil
-
-      names.each do |k, v|
-        screen_names.push v
-      end
-
-      self
-    end # === def read_screen_names
-
     def read_by_id id
       new TABLE.limit(1)[id: id]
     end # === def
 
-    def login screen_name, password
+    def read_by_screen_name name
+      sn = Screen_Name.read_by_screen_name(name)
+      Customer.read_by_id(sn.data[:owner_id])
+    end # === def
+
+
+    def login screen_name, pass_word
       # unless p
 
       sql = %^
