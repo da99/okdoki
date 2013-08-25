@@ -75,7 +75,7 @@ def assert action, *args, &blok
   when :one
     Should.new(args.shift).be.equal 1
   when Proc
-    Should.new(args.shift).be args.shift
+    Should.new(args.shift).be action
   else
     expect = args.shift
     actual = args.shift
@@ -90,7 +90,7 @@ def assert_not action, *args, &blok
   when :one
     Should.new(args.shift).be.not.equal 1
   when Proc
-    Should.new(args.shift).not.be args.shift
+    Should.new(args.shift).not.be action
   else
     expect = args.shift
     actual = args.shift

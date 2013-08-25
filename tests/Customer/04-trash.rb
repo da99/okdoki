@@ -2,19 +2,19 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
+include Customer::Test
+OC = create
+C  = OC[:c]
 
 describe 'trash' do
 
   it 'it updates Customer trashed_at date' do
 
-    customer = Customer.read_by_id(customer_id)
-    customer.trash
+    c = Customer.read_by_id(C.data[:id])
+    c.trash
 
-    assert within_secs(2), customer.data[:trashed_at]
-
-    c = Customer.read_by_id(customer_id)
-
-    assert within_secs(2), c.data[:trashed_at]
+    updated = Customer.read_by_id(C.data[:id])
+    assert within_secs(2), updated.data[:trashed_at]
 
   end # === it
 

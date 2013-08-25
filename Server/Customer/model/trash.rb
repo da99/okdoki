@@ -1,6 +1,8 @@
 
 class Customer
 
+  TRASH_KEY = :id
+
   class << self
 
     def delete_trashed
@@ -20,12 +22,6 @@ class Customer
     end # === def delete_trashed
 
   end # === class self ===
-
-  def trash
-    Ok.trash(self)
-    data[:trashed_at] = last[:trashed_at]
-    self
-  end # === def trash
 
   def generate_trash_msg name_or_row
 
