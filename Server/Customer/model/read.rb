@@ -1,4 +1,3 @@
-
 class Customer
 
   class << self
@@ -14,19 +13,9 @@ class Customer
 
 
     def read_by_screen_name_and_pass_word screen_name, pass_word, ip
+
       # === Get stats for ip address.
-      ip_row = IP_TABLE[:ip=>ip]
-
-      if !ip_row
-        ip_row = IP_TABLE.
-          returning.
-          insert(ip: ip).
-          first
-      end
-
-      if ip_row[:bad_log_in_count] > 3
-        raise Too_Many_Bad_Logins.new(Customer.new(), 'Too many bad log-ins for today. Try again tomorrow.')
-      end
+      ip_row = Log_In_By_IP.create_or_read_by_ip ip
 
       c = read_by_screen_name(screen_name)
 
@@ -39,7 +28,7 @@ class Customer
       if new_attempt
         c.data.merge! new_attempt
       else
-        if c.data[:bad_log_in_count] > 3
+        if c.too_many_bad_logins?
           raise Too_Many_Bad_Logins.new(c, 'Too many bad log-ins for today. Try again tomorrow.')
         end
       end
@@ -58,6 +47,10 @@ class Customer
     end # === def login
 
   end # === class self ===
+
+  def too_many_bad_logins?
+    data[:bad_log_in_count] > 3
+  end
 
 end # === class Customer read ===
 

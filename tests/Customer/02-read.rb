@@ -45,7 +45,7 @@ describe 'read_by_screen_name' do
 
 end # === describe read_by_screen_name
 
-Customer::IP_TABLE.delete
+Customer::Log_In_By_IP::TABLE.delete
 
 describe 'read_by_screen_name_and_pass_word' do
 
@@ -87,6 +87,21 @@ describe 'read_by_screen_name_and_pass_word' do
     assert :==, d.to_s, last.data[:log_in_at].to_s
   end
 
+  it 'updates log_in_at of IP TABLE to PG current_date when logging in' do
+    d = DB["SELECT current_date AS date"].first[:date]
+
+    # ensure ip entry exists
+    Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw], IP
+
+    # ensure old date in IP TABLE
+    Customer::Log_In_By_IP::TABLE.update(:log_in_at => '1999-01-01')
+
+    # Log in again.
+    Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw], IP
+
+    assert :==, d.to_s, Customer::Log_In_By_IP::TABLE.where(ip: IP).first[:log_in_at].to_s
+  end
+
   it 'returns Too_Many_Bad_Logins if: correct pass phrase, too many bad log-ins' do
     # reset log in col vals
     Customer::TABLE.
@@ -108,7 +123,7 @@ describe 'read_by_screen_name_and_pass_word' do
       where(id: C.data[:id]).
       update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 0)
 
-    Customer::IP_TABLE.
+    Customer::Log_In_By_IP::TABLE.
       where(ip: IP).
       update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
 

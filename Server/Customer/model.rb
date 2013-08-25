@@ -1,6 +1,7 @@
 
 require './Server/Ok/model'
 require './Server/Screen_Name/model'
+require './Server/Customer/Log_In_By_IP'
 
 require_crutd :Customer
 
@@ -14,7 +15,6 @@ class Customer
 
   Table_Name = :customer
   TABLE = DB[Table_Name]
-  IP_TABLE = DB[:customer_bad_log_in_by_ip]
 
   # =====================================================
   # Errors
