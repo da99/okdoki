@@ -1,7 +1,7 @@
 
 require './Server/Ok/model'
 
-require_crutd
+require_crutd :MODEL
 
 class MODEL
 

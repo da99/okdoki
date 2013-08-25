@@ -3,7 +3,7 @@ require './Server/Ok/model'
 
 require_crutd
 
-class Screen_Name
+class I_Know_Them
 
   include Ok::Model
 
@@ -12,7 +12,7 @@ class Screen_Name
   # Settings
   # =====================================================
 
-  Table_Name = :screen_name
+  Table_Name = :i_know_them
   TABLE = DB[Table_Name]
 
   # =====================================================
@@ -27,7 +27,7 @@ class Screen_Name
   # =====================================================
 
 
-end # === class Screen_Name ===
+end # === class I_Know_Them ===
 
 
 

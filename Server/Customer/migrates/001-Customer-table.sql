@@ -1,6 +1,6 @@
 
 CREATE TABLE customer (
-  id                   serial primary key,
+  id                   serial PRIMARY KEY,
   perm_level           smallint     NOT NULL DEFAULT 0,
   email                varchar(150)          DEFAULT NULL,
   pswd_hash            varchar(100) NOT NULL,

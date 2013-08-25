@@ -18,7 +18,7 @@ compile_all () {
 
 
   tmpl="Server/Ok/templates/model.rb"
-  template model "model.rb"
+  template model "Server/$class/model.rb"
 
   tmpl="Server/Ok/templates/model.action.rb"
   template create "Server/$class/model/create.rb"
