@@ -24,11 +24,10 @@ describe 'read_by_id:' do
 
   it 'raises Customer::Not_Found' do
     lambda {
-      c= Customer.read_by_id(0)
-      puts c.data
+      Customer.read_by_id(0)
     }.should.raise(Customer::Not_Found).
     message.
-    should.match /Customer not found/
+    should.match(/Customer not found/)
   end
 
 end # === describe read_by_id ===

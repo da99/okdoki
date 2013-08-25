@@ -44,7 +44,7 @@ class Customer
       if p
         TABLE[ %^
           UPDATE @table SET bad_log_in_count = (bad_log_in_count + 1)
-            WHERE id = @id 
+            WHERE id = @id
             RETURNING *
         ^, {id: row.id}
         ]
@@ -58,10 +58,7 @@ class Customer
       me.data.trashed_at       = row.trashed_at
       me.data.log_in_at        = row.log_in_at
       me.data.bad_log_in_count = row.bad_log_in_count
-      return me
-
-      Ok.Model.Screen_Name.read_list(me, j)
-      last
+      me
     end # === def login
 
   end # === class self ===

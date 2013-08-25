@@ -9,7 +9,7 @@ class Customer
     validate(:confirm_password).required("Pass phrase confirmation is required.")
 
     new_vals[:customer] = self
-    sn = Screen_Name.create(new_data)
+    Screen_Name.create(new_data)
 
     rec = TABLE.
       returning(:id).

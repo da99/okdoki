@@ -132,7 +132,6 @@ class Screen_Name
   def replace_screen_names arr
     keys    = find_screen_name_keys(arr)
     key     = keys[0]
-    new_key = keys[1]
 
     new_arr = attach_screen_names arr
     new_arr.each do |r, i|
