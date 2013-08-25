@@ -16,13 +16,15 @@ class Customer
     def read_by_screen_name_and_pass_word screen_name, pass_word
       c = read_by_screen_name(screen_name)
 
-      last_row = TABLE.
+      new_attempt = TABLE.
         returning.
         where("log_in_at != ? AND id = ?", Ok::Model::PG::UTC_NOW_DATE, c.data[:id]).
         update(log_in_at: Ok::Model::PG::UTC_NOW_DATE, bad_log_in_count: 0).
         first
 
-      if !last_row  # === User has logged-in previously today.
+      if new_attempt
+        c.data.merge! new_attempt
+      else
         if c.data[:bad_log_in_count] > 3
           raise Too_Many_Bad_Logins.new(c, 'Too many bad log-ins for today. Try again tomorrow.')
         end
@@ -35,7 +37,6 @@ class Customer
         first
 
       if bad_login
-        puts bad_login
         raise Wrong_Pass_Word.new(c, 'Pass phrase is incorrect. Check your CAPS LOCK key.')
       end
 

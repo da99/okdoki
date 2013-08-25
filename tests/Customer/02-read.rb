@@ -71,7 +71,7 @@ describe 'read_by_screen_name_and_pass_word' do
     end
 
     c = Customer::TABLE[id: C.data[:id]]
-    assert :==, 4, c.data[:bad_log_in_count]
+    assert :==, 4, c[:bad_log_in_count]
   end
 
   it 'updates log_in_at to PG current_date when logging in' do
@@ -81,11 +81,12 @@ describe 'read_by_screen_name_and_pass_word' do
     Customer::TABLE.update(:log_in_at => '1999-01-01')
 
     last = Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw]
+
     assert :==, d.to_s, last.data[:log_in_at].to_s
   end
 
   it 'returns Too_Many_Bad_Logins if: correct pass phrase, too many bad log-ins' do
-    now = Ok::Sequel::UTC_NOW 
+    now = Ok::Model::PG::UTC_NOW 
     # reset log in col vals
     Customer::TABLE.
       where(id: C.data[:id]).
