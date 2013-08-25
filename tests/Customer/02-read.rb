@@ -83,6 +83,11 @@ describe 'read_by_screen_name' do
       message.should.match "Too many bad log-ins for today. Try again tomorrow."
   end
 
+  it 'sets log_in_at to current date' do
+    o    = read_by_screen_name sn
+    date = DB["SELECT current_date as date;"].first[:date]
+    assert :==, date, o[:c].data[:log_in_at]
+  end
 end # === describe read_by_screen_name
 
 

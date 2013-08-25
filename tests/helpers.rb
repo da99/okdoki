@@ -59,7 +59,7 @@ class Customer
         password: "this is a pass",
         confirm_password: "this is a pass",
         ip: '000.00.000'
-      {c: c, sn: name, pw: "this is a pass"}
+      {c: c, sn: sn, pw: "this is a pass"}
     end
 
   end # === module Test ===

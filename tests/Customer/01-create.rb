@@ -74,21 +74,14 @@ describe 'create:' do
 
   it 'saves screen_name to Customer object' do
     o = create
-    assert :==, o[:c].screen_names.names, [o[:name].upcase]
+    assert :==, o[:c].screen_names.names, [o[:sn].upcase]
   end
 
   it 'saves Customer id to Customer object' do
-    c = create
+    o = create
 
     # Has the customer id been saved?
-    assert :is_a, c.data[:id], Numeric
-  end
-
-  it 'sets log_in_at to current date' do
-    c    = create
-    date = DB["SELECT current_date as date;"][:current_date]
-    diff = (c.data[:log_in_at].to_i - date.to_i).abs
-    assert lambda { |o| o < 2}, diff
+    assert :is_a, Numeric, o[:c].data[:id]
   end
 
 end # === desc create
