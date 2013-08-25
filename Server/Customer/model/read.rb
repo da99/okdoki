@@ -25,14 +25,14 @@ class Customer
       end
 
       # === Update old attempt by screen name
-      new_attempt = TABLE.
+      new_attempt_for_today = TABLE.
         returning.
         where("log_in_at != ? AND id = ?", Ok::Model::PG::UTC_NOW_DATE, c.data[:id]).
         update(log_in_at: Ok::Model::PG::UTC_NOW_DATE, bad_log_in_count: 0).
         first
 
-      if new_attempt
-        c.data.merge! new_attempt
+      if new_attempt_for_today
+        c.data.merge! new_attempt_for_today
       else
         if c.too_many_bad_logins?
           raise Too_Many_Bad_Logins.new(c, 'Too many bad log-ins for today. Try again tomorrow.')
