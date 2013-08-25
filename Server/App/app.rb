@@ -4,7 +4,7 @@ require 'sinatra'
 require 'rack/contrib'
 
 lang=ENV['LANG']
-if lang['UTF-8']
+if not lang['UTF-8']
   raise "env $LANG is not set."
 end
 
