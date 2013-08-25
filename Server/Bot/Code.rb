@@ -11,6 +11,7 @@ class Bot
       life
     }
 
+    code = clean_code new_data[:code]
   end # === class Code ===
 end # === class Bot ===
 

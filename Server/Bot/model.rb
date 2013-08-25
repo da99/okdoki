@@ -39,7 +39,7 @@ class Bot
   end
 
   def clean_code str
-    JSON.encode(ESCAPE_ALL(JSON.parse(UNESCAPE str))
+    JSON.encode(ESCAPE_ALL(JSON.parse(UNESCAPE str)))
   end
 
 end # === class Bot ===
