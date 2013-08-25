@@ -2,10 +2,12 @@
 
 CREATE TABLE chit_chat (
   id                SERIAL PRIMARY KEY,
+
+  type              smallint                 NOT NULL,
   from_id           integer                  NOT NULL,
   from_type         smallint                 NOT NULL,
-  to_id             integer                  NOT NULL,
-  to_type           smallint                 NOT NULL,
+
+  body              text                     NOT NULL,
 
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone,
@@ -13,8 +15,7 @@ CREATE TABLE chit_chat (
 
 );
 
-CREATE INDEX chit_chat_from_to  ON  chit_chat  ( from_id,  from_type,  to_id,    to_type );
-CREATE INDEX chit_chat_to_from  ON  chit_chat  ( to_id,    to_type,    from_id,  from_type );
+CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( created_at, from_id,  from_type, type );
 
 -- DOWN
 
