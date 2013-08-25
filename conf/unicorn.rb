@@ -5,8 +5,9 @@ if ENV['USER'] == 'root'
   user "deploy_okdoki", "deploy_okdoki"
 end
 
+preload_app true
+
 before_fork do |server, worker|
-  if defined? DB
-    DB.disconnect()
-  end
+  DB.disconnect if defined? DB
 end
+
