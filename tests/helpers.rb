@@ -68,33 +68,41 @@ class Customer
 
 end # === class Customer ===
 
-def assert action, *args, &blok
+def should_args action, *args
   case action
-  when :zero
-    Should.new(args.shift).be.equal 0
-  when :one
-    Should.new(args.shift).be.equal 1
+  when :zero, 0
+    [ args.shift, [], :==, [0] ]
+  when :one, 1
+    [ args.shift, [], :==, [1] ]
   when Proc
-    Should.new(args.shift).be action
+    [ args.shift, [], nil, [action] ]
   else
     expect = args.shift
     actual = args.shift
-    Should.new(actual).be.send(action, expect, *args, &blok)
+    [ actual, [], action, args.unshift(expect) ]
   end
 end
 
-def assert_not action, *args, &blok
-  case action
-  when :zero
-    Should.new(args.shift).be.not.equal 0
-  when :one
-    Should.new(args.shift).be.not.equal 1
-  when Proc
-    Should.new(args.shift).not.be action
+def assert *args
+  make_should *should_args(*args)
+end
+
+def assert_not old_args
+  args = should_args(*old_args)
+  args[1].push :not
+  make_should *args
+end
+
+def make_should o, bes_nots, meth, args
+  s = Should.new(o)
+  (bes_nots || []).each { |m|
+    s = s.send(m)
+  }
+
+  if meth
+    s.be.send(meth, *args)
   else
-    expect = args.shift
-    actual = args.shift
-    Should.new(actual).be.not.send(action, expect, *args, &blok)
+    s.be(*args)
   end
 end
 
