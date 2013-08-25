@@ -3,6 +3,8 @@ require './Server/Screen_Name/model'
 require './Server/Customer/model'
 require 'Bacon_Colored'
 
+IP = '127.0.0.1'
+
 def customer
   Customer.new(:data)
 end

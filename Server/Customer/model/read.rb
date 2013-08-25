@@ -13,7 +13,21 @@ class Customer
     end # === def
 
 
-    def read_by_screen_name_and_pass_word screen_name, pass_word
+    def read_by_screen_name_and_pass_word screen_name, pass_word, ip
+      # === Get stats for ip address.
+      ip_row = IP_TABLE[:ip=>ip]
+
+      if !ip_row
+        ip_row = IP_TABLE.
+          returning.
+          insert(ip: ip).
+          first
+      end
+
+      if ip_row[:bad_log_in_count] > 3
+        raise Too_Many_Bad_Logins.new(Customer.new(), 'Too many bad log-ins for today. Try again tomorrow.')
+      end
+
       c = read_by_screen_name(screen_name)
 
       new_attempt = TABLE.

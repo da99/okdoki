@@ -14,6 +14,7 @@ class Customer
 
   Table_Name = :customer
   TABLE = DB[Table_Name]
+  IP_TABLE = DB[:customer_bad_log_in_by_ip]
 
   # =====================================================
   # Errors

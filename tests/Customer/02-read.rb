@@ -45,16 +45,18 @@ describe 'read_by_screen_name' do
 
 end # === describe read_by_screen_name
 
+Customer::IP_TABLE.delete
+
 describe 'read_by_screen_name_and_pass_word' do
 
   it 'reads customer if passed a hash with: screen_name, correct pass_word' do
-    c = Customer.read_by_screen_name_and_pass_word(OC[:sn], OC[:pw])
+    c = Customer.read_by_screen_name_and_pass_word(OC[:sn], OC[:pw], IP)
     assert :==, C.data[:id], c.data[:id]
   end
 
   it 'raises Customer::Wrong_Pass_Word if passed a hash with: screen_name, incorrect pass_phrase' do
     lambda {
-      Customer.read_by_screen_name_and_pass_word OC[:sn], 'no pass phrase'
+      Customer.read_by_screen_name_and_pass_word OC[:sn], 'no pass phrase', IP
     }.should.raise(Customer::Wrong_Pass_Word).
     message.should.
     match(/Pass phrase is incorrect. Check your CAPS LOCK key/)
@@ -66,7 +68,7 @@ describe 'read_by_screen_name_and_pass_word' do
       update(bad_log_in_count: 3)
 
     begin
-      Customer.read_by_screen_name_and_pass_word OC[:sn], 'no pass phrase'
+      Customer.read_by_screen_name_and_pass_word OC[:sn], 'no pass phrase', IP
     rescue Customer::Wrong_Pass_Word
     end
 
@@ -80,7 +82,7 @@ describe 'read_by_screen_name_and_pass_word' do
     # ensure old date for log_in_at
     Customer::TABLE.update(:log_in_at => '1999-01-01')
 
-    last = Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw]
+    last = Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw], IP
 
     assert :==, d.to_s, last.data[:log_in_at].to_s
   end
@@ -92,7 +94,26 @@ describe 'read_by_screen_name_and_pass_word' do
       update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
 
     lambda {
-      Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw]
+      Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw], IP
+    }.should.raise( Customer::Too_Many_Bad_Logins ).
+      message.
+      should.match(/Too many bad log-ins for today. Try again tomorrow/)
+  end
+
+  it 'returns Too_Many_Bad_Logins if: correct pass phrase, no bad log ins by screen name, ' +
+    ' too many bad log-ins by IP' do
+
+    # reset log in col vals
+    Customer::TABLE.
+      where(id: C.data[:id]).
+      update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 0)
+
+    Customer::IP_TABLE.
+      where(ip: IP).
+      update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
+
+    lambda {
+      Customer.read_by_screen_name_and_pass_word OC[:sn], OC[:pw], IP
     }.should.raise( Customer::Too_Many_Bad_Logins ).
       message.
       should.match(/Too many bad log-ins for today. Try again tomorrow/)
