@@ -1,22 +1,24 @@
 
 class Customer
 
-  def update new_data
-    @new_data = new_data
+  def update raw_data
+    @new_data = raw_data
 
     set = {}
 
-    email.split(' ').each do |key, i|
-      if clean_data.has_key?(key)
-        set[key] = clean_data[key]
+    [:email].each do |key, i|
+      if new_data.has_key?(key)
+        set[key] = new_data[key]
       end
     end
 
-    TABLE.
+    r = TABLE.
+      returning.
       where(id: data[:id]).
-      update(set)
+      update(set).
+      first
 
-    @data = r
+    @data.merge! r
     self
   end # === def update
 
