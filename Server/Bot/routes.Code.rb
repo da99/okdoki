@@ -1,6 +1,6 @@
 
 var _         = require("underscore")._
-, Code       = require("./model").Code
+, Bot_Use       = require("./model").Bot_Use
 , Screen_Name = require("../Screen_Name/model").Screen_Name
 , Website     = require("../Website/model").Website
 , log         = require("../App/base").log
@@ -11,14 +11,32 @@ exports.route = function (mod) {
 
   // ============ CREATE ===============================================
 
-  app.post("/Code", function (req, resp, next) {
+  app.post('/Bot/Use', function (req, resp, next) {
+    mod.New_River(req, resp, next)
+    .job('create', function (j) {
+      Bot_Use.create({
+        bot   : req.body.bot,
+        owner : req.body.as_this_life
+      }, j);
+    })
+    .run(function (fin, o) {
+      var use = o.public_data();
+      return resp.json({
+        success: true,
+        msg: 'You are now using, ' + use.screen_name + ', with ' + use.owner + '.'
+      });
+    });
+  });
+
+
+  app.post("/Bot_Use", function (req, resp, next) {
     var data = _.clone(req.body);
     mod.New_River(req, resp, next)
     .read_one('screen_name', function (j) {
       Screen_Name.read_by_screen_name(req.params.screen_name, req.user, j);
     })
     .create_one(function (j, sn) {
-      Code.create_by_screen_name(sn, data, j);
+      Bot_Use.create_by_screen_name(sn, data, j);
     })
     .job(function (j, model) {
       resp.json({
@@ -32,10 +50,10 @@ exports.route = function (mod) {
 
   // ============ READ =================================================
 
-  app.get("/Code/:id", function (req, resp, next) {
+  app.get("/Bot_Use/:id", function (req, resp, next) {
     var OK            = mod.New_Request(arguments);
-    var opts          = OK.template_data('Code/show_one');
-    opts['title']     = "Code #" + req.params.id;
+    var opts          = OK.template_data('Bot_Use/show_one');
+    opts['title']     = "Bot_Use #" + req.params.id;
     return OK.render_template();
   });
 
