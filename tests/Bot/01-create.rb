@@ -19,7 +19,7 @@ describe "Bot: create for Customer" do
     assert :==, ID, bot.data[:owner_id]
   end
 
-  it "sets owner_type to 0 for Customer" do
+  it "sets owner_type to 0" do
     bot = Bot.create C
     assert :==, 0, bot.data[:owner_type]
   end
