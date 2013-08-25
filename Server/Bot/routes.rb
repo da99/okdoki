@@ -2,7 +2,7 @@
 require './Server/Bot/model'
 
 # ============ CREATE ===============================================
-#
+
 post '/Bot' do
   data = {sub_sn: req.body.sub_sn, as_this_life: req.body.as_this_life, user: req.user}
   begin
