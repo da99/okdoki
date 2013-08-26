@@ -4,6 +4,10 @@ require './tests/helpers'
 include Screen_Name::Test
 
 O  = create
+S  = O[:sn]
+
+S2 = create[:sn]
+B2 = S2.create :bot
 
 describe "Screen Name: create" do
 
@@ -59,7 +63,7 @@ describe "Screen Name: create" do
 
 end # === describe
 
-describe "Screen_Name :bot :create" do
+describe "Screen_Name :create :bot" do
 
   before do
     Bot::TABLE.delete
@@ -78,5 +82,14 @@ describe "Screen_Name :bot :create" do
   end
 
 end # === describe Bot: create ===
+
+describe "Screen_Name :create :bot_use" do
+
+  it "sets :bot_id to bot.id" do
+    u = S.create :bot_use, B2
+    assert :==, B2.id, u.bot_id
+  end
+
+end # === describe Screen_Name :create :bot_use ===
 
 

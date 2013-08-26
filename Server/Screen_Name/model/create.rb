@@ -5,8 +5,7 @@ class Screen_Name
     return( @bot = Bot.create self ) if raw_data == :bot
 
     if raw_data == :bot_use
-      Bot_Use.create(self, *args)
-      return self
+      return Bot_Use.create(self, *args)
     end
 
     # === Validate the data.
