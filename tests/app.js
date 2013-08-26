@@ -82,6 +82,9 @@ describe( 'app', function () {
   // #10
   it 'prevents session hijacking (rack protection) when useragent changes'
 
+  // #11
+  it 'escapes all URL fields in the database (_url) to RFC specs'
+
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {
