@@ -5,7 +5,7 @@ require './Server/Chit_Chat/model'
 include Customer::Test
 
 O = create
-C = o[:c]
+C = O[:c]
 
 N1 = new_name
 C.create :screen_name, N1

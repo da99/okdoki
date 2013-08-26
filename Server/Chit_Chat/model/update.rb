@@ -10,7 +10,6 @@ class Chit_Chat
           returning.
           where(sn_id: u.screen_names.ids).
           update(last_read_at: Ok::Model::PG::UTC_NOW).
-          all.
           map { |r| r[:sn_id] }
 
         Chit_Chat.create_last_read(u.screen_names.ids.select { |i|

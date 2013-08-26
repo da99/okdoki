@@ -1,7 +1,12 @@
 
 class Customer
 
-  def create new_vals
+  def create new_vals, *args
+
+    if new_vals == :screen_name
+      return Screen_Name.create :screen_name=>args.first, :customer=>self
+    end
+
     @new_data = new_vals
 
     validate(:ip)

@@ -7,7 +7,7 @@ class Chit_Chat
       case u
       when Array
         return [] if u.empty?
-        TABLE_LAST_READ.multi_insert(u.map { |i| {sn_id: i} }) unless new_rows.empty?
+        TABLE_LAST_READ.multi_insert(u.map { |i| {sn_id: i} }) unless u.empty?
       when Screen_Name
         TABLE_LAST_READ.
           returning.

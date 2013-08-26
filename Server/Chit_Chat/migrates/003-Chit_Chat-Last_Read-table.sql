@@ -8,6 +8,6 @@ CREATE TABLE chit_chat_last_read (
 
 -- DOWN
 
-DROP TABLE chit_chat_to CASCADE;
+DROP TABLE chit_chat_last_read CASCADE;
 
 
