@@ -1,6 +1,7 @@
 
 require './Server/Ok/model'
 require './Server/Ok/Escape_All'
+require 'multi_json'
 
 require_crutd :Bot_Code
 
@@ -45,11 +46,19 @@ class Bot_Code
     data[:bot_id]
   end
 
+  def code
+    data[:code]
+  end
+
+  def target_as_word
+    TYPES[data[:target]]
+  end
+
   def validate key
     case key
     when :code
       super(key).
-        set_to(Ok::Escape_All.escape(clean_data[:code]))
+        set_to(MultiJson.dump Ok::Escape_All.escape(clean_data[:code]))
     when :target
       super(key).
         in(Bot_Code::TYPES, "'target' must be one of these: #{Bot_Code::TYPES.join ', '}").

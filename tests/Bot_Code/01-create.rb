@@ -7,7 +7,7 @@ include Screen_Name::Test
 O = create
 S = O[:sn]
 B = S.create :bot
-C = Bot_Code.create B, target: 'custom', code: ['hello', []]
+C = Bot_Code.create B, target: 'custom', code: ['<b>hello</b>', []]
 
 describe "Bot_Code: create" do
 
@@ -39,6 +39,14 @@ describe "Bot_Code: create" do
 
   it "sets :bot_id to :id of bot passed" do
     assert :==, B.id, C.bot_id
+  end
+
+  it "encodes code to JSON" do
+    assert :==, MultiJson.dump(Ok::Escape_All.escape ['<b>hello</b>', []]), C.code
+  end
+
+  it "HTML escapes code to JSON" do
+    assert :==, MultiJson.dump(Ok::Escape_All.escape ['<b>hello</b>', []]), C.code
   end
 
 end # === describe Bot_Code: create ===
