@@ -7,12 +7,11 @@ class Screen_Name
 
     def initialize var = nil
       @customer = nil
-      @list     = []
+      @list     = nil
 
       case var
       when Customer
         @customer = var
-        @list     = Screen_Name.read_by_customer(var)
       when Array
         @list = var
       end
@@ -25,11 +24,17 @@ class Screen_Name
         unknown.data[:screen_name]
       end
 
-      !!@list.detect { |sn| sn.is? name }
+      !!list.detect { |sn| sn.is? name }
+    end
+
+    def list
+      @list ||= begin
+                  Screen_Name.read_by_customer(@customer)
+                end
     end
 
     def [] raw_name
-      @list.detect { |sn| sn.is? raw_name }
+      list.detect { |sn| sn.is? raw_name }
     end
 
     def names
