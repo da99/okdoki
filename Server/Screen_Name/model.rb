@@ -57,6 +57,7 @@ class Screen_Name
 
     def canonize str
       return str unless str
+      return str.map {|s| canonize s } if str.is_a?(Array)
 
       sn = str.strip.upcase.gsub(BEGIN_AT_OR_HASH, '').gsub(ALL_WHITE_SPACE, '-');
 

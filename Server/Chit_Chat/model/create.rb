@@ -16,11 +16,24 @@ class Chit_Chat
       end
     end
 
-    def create sn, body
+    def create sn, opts
+      if opts.is_a? String
+        opts = {body: opts}
+      end
       row = TABLE.
         returning.
-        insert(type: 0, from_id: sn.id, from_type: 0, body: body).
-        first
+        insert(
+          type: 0,
+          from_id: sn.id,
+          from_type: 0,
+          body: opts[:body]
+        ).first
+
+      if opts[:to] && !opts[:to].empty?
+        ids = Screen_Name.read_by_screen_names(opts[:to]).map(&:id)
+        TABLE_TO.multi_insert(ids.map { |i| {chit_chat_id: row[:id], to_id: i, to_type: 0} })
+      end
+
       Chit_Chat.new row, sn
     end
 
