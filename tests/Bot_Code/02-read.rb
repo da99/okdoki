@@ -8,20 +8,20 @@ O = create
 S = O[:sn]
 B = S.create :bot
 C = []
-C << B.create(target: 'settings', code: [])
-C << B.create(target: 'custom',   code: [])
+C << B.create(:code, target: 'settings', code: [])
+C << B.create(:code, target: 'custom',   code: [])
 
 describe "Bot_Code: read_by_bot" do
 
   it "returns an Array of Bot_Code" do
-    arr = Bot_Code.read_by_bot(B)
+    arr = Bot_Code.read_all_for_bot(B)
     arr.each { |b|
-      assert :==, Bot, b.class
+      assert :==, Bot_Code, b.class
     }
   end
 
   it "returns bots with :bot_id set to bot.id" do
-    arr = Bot_Code.read_by_bot(B)
+    arr = Bot_Code.read_all_for_bot(B)
     arr.each { |b|
       assert :==, B.id, b.bot_id
     }
