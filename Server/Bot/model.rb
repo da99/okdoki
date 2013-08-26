@@ -37,12 +37,21 @@ class Bot
   # Instance
   # =====================================================
 
+  def initialize *args
+    @screen_name = args.pop if args.size > 1
+    super(*args)
+  end
+
   def to_public
     { codes: codes.to_public }
   end
 
   def clean_code str
     JSON.encode(ESCAPE_ALL(JSON.parse(UNESCAPE str)))
+  end
+
+  def name
+    @screen_name.name
   end
 
 end # === class Bot ===

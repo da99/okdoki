@@ -5,7 +5,7 @@ class Bot
     def read_by_screen_name sn
       row = Bot::TABLE[sn_id: sn.data[:id], sn_type: Bot::SN_TYPES::SN]
       if row
-        Bot.new(row)
+        Bot.new(row, sn)
       else
         raise self::Not_Found.new("Bot not found for: #{sn.name}")
       end

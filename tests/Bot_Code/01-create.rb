@@ -14,16 +14,16 @@ describe "Bot_Code: create" do
   it "raises an error if bot.id is null" do
     lambda {
       Bot_Code.create Bot.new({}), target: 'custom', code: ['hello', []]
-    }.should.raise(PG::NotNullViolation).
+    }.should.raise(Sequel::NotNullConstraintViolation).
       message.should.match(/null value in column "bot_id"/)
   end
 
   it "raises Bot_Code::Invalid if is dup: bot_id, target" do
     s = create[:sn]
     b = s.create :bot
-    c = b.create target: 'settings', code: []
+    c = b.create :code, target: 'settings', code: ['hello', []]
     lambda {
-      b.create target: 'settings', code: []
+      b.create :code, target: 'settings', code: ['hello', []]
     }.should.raise(Bot_Code::Invalid).
     message.should.match(/Bot code already exists for: #{s.name} settings/)
   end
@@ -31,9 +31,9 @@ describe "Bot_Code: create" do
   it "does not raise Bot_Code::Invalid if dup: bot_id, target = custom" do
     s = create[:sn]
     b = s.create :bot
-    c = b.create target: 'custom', code: []
+    c = b.create :code, target: 'custom', code: ['hello', []]
     lambda {
-      b.create target: 'custom', code: []
+      b.create :code, target: 'custom', code: ['hello', []]
     }.should.not.raise
   end
 
