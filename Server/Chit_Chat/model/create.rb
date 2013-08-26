@@ -16,6 +16,14 @@ class Chit_Chat
       end
     end
 
+    def create sn, body
+      row = TABLE.
+        returning.
+        insert(type: 0, from_id: sn.id, from_type: 0, body: body).
+        first
+      Chit_Chat.new row, sn
+    end
+
   end # === class self ===
 
 end # === class Chit_Chat create ===

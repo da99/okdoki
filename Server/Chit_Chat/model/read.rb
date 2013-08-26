@@ -1,6 +1,8 @@
 
 class Chit_Chat
 
+  attr_reader :from
+
   class << self
 
     def last_read_for u
@@ -14,6 +16,14 @@ class Chit_Chat
       end
     end
   end # === class self ===
+
+  %w{ from_id from_type body }.each { |n|
+    eval %^
+      def #{n}
+        data[:#{n}]
+      end
+    ^
+  }
 
 end # === class Chit_Chat read ===
 

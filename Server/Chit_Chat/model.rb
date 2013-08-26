@@ -15,6 +15,9 @@ class Chit_Chat
   Table_Name = :chit_chat
   TABLE = DB[Table_Name]
   TABLE_LAST_READ = DB[:chit_chat_last_read]
+  TYPES = %{
+    chit_chat
+  }
 
   # =====================================================
   # Class
@@ -26,6 +29,15 @@ class Chit_Chat
   # =====================================================
   # Instance
   # =====================================================
+
+  def initialize *args
+    if args.size == 2
+      @from = args.pop
+      super(*args)
+    else
+      super
+    end
+  end
 
 
 end # === class Chit_Chat ===
