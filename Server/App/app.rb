@@ -14,6 +14,7 @@ use ContentSecurityPolicy              # 1
 use Rack::Protection::RemoteReferrer   # 2
 use Rack::PostBodyContentTypeParser    # 3
 use Rack::Protection::EscapedParams    # 4
+use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
 require './Server/Ok/Escape_All'     # 1
