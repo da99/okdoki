@@ -157,6 +157,20 @@ end # === describe :read_by_screen_name_and_pass_word
 
 describe "Customer :screen_names" do
 
+  it "gets latest ids after multiple :create :screen_name, NAME" do
+    o = create
+    c = o[:c]
+    names = [o[:sn].upcase]
+    4.times do |i|
+      n = new_name
+      names << n.upcase
+      c.create :screen_name, n
+    end
+
+    ids = Screen_Name::TABLE.select(:id).where(screen_name: names).map { |r| r[:id] }
+    assert :equal, ids, c.screen_names.ids
+  end
+
   it "gets latest names after multiple :create :screen_name, NAME" do
     o = create
     c = o[:c]
