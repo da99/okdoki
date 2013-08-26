@@ -19,8 +19,13 @@ class Bot_Use
   # Class
   # =====================================================
 
-  # class << self
-  # end # === class self ===
+  class << self
+
+    def table_for_owners sn
+      Bot_Use::TABLE.where(sn_type: 0, sn_id: sn.id)
+    end
+
+  end # === class self ===
 
   # =====================================================
   # Instance

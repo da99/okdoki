@@ -2,6 +2,7 @@
 require './Server/Ok/model'
 require './Server/Screen_Name/List'
 require './Server/Bot/model'
+require "./Server/Bot_Use/model"
 
 require_crutd :Screen_Name
 

@@ -28,6 +28,10 @@ class Screen_Name
              end
   end
 
+  def bot_uses
+    @bot_uses ||= Bot_Use.read_bots_for_screen_name(self)
+  end
+
 end # === class Screen_Name read ===
 
 

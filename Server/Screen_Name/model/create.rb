@@ -1,8 +1,13 @@
 
 class Screen_Name
 
-  def create raw_data
+  def create raw_data, *args
     return( @bot = Bot.create self ) if raw_data == :bot
+
+    if raw_data == :bot_use
+      Bot_Use.create(self, *args)
+      return self
+    end
 
     # === Validate the data.
     @new_data = raw_data

@@ -7,7 +7,11 @@ O  = create
 O[:sn].create :bot
 S  = Screen_Name.read_by_id O[:sn].data[:id]
 
-describe "Screen Name :bot" do
+S2 = create[:sn]
+B2 = S2.create :bot
+S.create :bot_use, B2
+
+describe "Screen_Name :bot" do
 
   before do
     @s = S
@@ -26,3 +30,15 @@ describe "Screen Name :bot" do
   end
 
 end # === describe
+
+describe "Screen_Name :bot_uses" do
+
+  it "returns an enumerable with Bots" do
+    l = S.bot_uses
+    l.each { |b|
+      assert :==, Bot, b.class
+    }
+  end
+
+end # === describe Screen_Name :bot_uses ===
+

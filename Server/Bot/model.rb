@@ -25,12 +25,18 @@ class Bot
   # =====================================================
 
   class << self
+
     def extract_name o
       if o.data[:screen_name]
         return Screen_Name.canonize(o.data[:screen_name]).split('@');
         return [o.sub_sn, o.owner];
       end
     end
+
+    def table_for_non_owner sn
+      TABLE
+    end
+
   end # === class self ===
 
   # =====================================================

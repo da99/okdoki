@@ -14,7 +14,6 @@ class Bot_Use
       first
 
     Bot_Use.new rec, sn, bot
-
   end # === def create
 
 end # === class Bot_Use create ===
