@@ -103,7 +103,7 @@ module Ok
       self
     end
 
-    def in arr, msg
+    def in arr, msg = nil
       raise e(msg) unless arr.include?(clean_data[name])
       self
     end

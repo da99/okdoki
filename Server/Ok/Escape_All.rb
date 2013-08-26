@@ -1,23 +1,25 @@
 
 require "escape_utils"
 
-helpers do
+if respond_to? :helpers
+  helpers do
 
-  def params
-    @clean_params ||= begin
-                        dirty = super
-                        return dirty if dirty.empty?
+    def params
+      @clean_params ||= begin
+                          dirty = super
+                          return dirty if dirty.empty?
 
-                        o = {}
-                        super.keys.each do |k|
-                          o[Ok::Escape_All.escape(k.to_s).to_sym] = Ok::Escape_All.escape(dirty[k])
+                          o = {}
+                          super.keys.each do |k|
+                            o[Ok::Escape_All.escape(k.to_s).to_sym] = Ok::Escape_All.escape(dirty[k])
+                          end
+
+                          o
                         end
+    end
 
-                        o
-                      end
-  end
-
-end # === end helpers
+  end # === end helpers
+end
 
 
 module Ok
@@ -31,7 +33,7 @@ module Ok
       def escape o
         if o.kind_of? Array
           return o.map do |v|
-            Escape_All.e(v)
+            Escape_All.escape(v)
           end
         end
 
@@ -39,7 +41,7 @@ module Ok
           new_o = {}
 
           o.each do |k, v|
-            new_o[k] = Escape_All.e(v)
+            new_o[k] = Escape_All.escape(v)
           end
 
           return new_o
