@@ -1,6 +1,5 @@
 
 require './tests/helpers'
-require './Server/Customer/model'
 
 include Screen_Name::Test
 

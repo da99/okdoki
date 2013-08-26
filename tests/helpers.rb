@@ -1,5 +1,4 @@
 
-require './Server/Screen_Name/model'
 require './Server/Customer/model'
 require 'Bacon_Colored'
 
