@@ -161,6 +161,10 @@ class Screen_Name
     arr
   end
 
+  def name
+    data[:screen_name]
+  end
+
 end # === Screen_Name ========================================
 
 

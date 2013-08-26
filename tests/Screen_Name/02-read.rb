@@ -17,8 +17,12 @@ describe "Screen Name :bot" do
     assert :==, Bot, @s.bot.class
   end
 
-  it "returns a bot instance with :sn_id = data[:id], :sn_type = 0" do
-    assert :==, Bot, @s.bot.class
+  it "returns a bot instance with :sn_id = data[:id]" do
+    assert :==, @s.data[:id], @s.bot.data[:sn_id]
+  end
+
+  it "returns a bot instance with :sn_type = 0" do
+    assert 0, @s.bot.data[:sn_type]
   end
 
 end # === describe
