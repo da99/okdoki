@@ -3,14 +3,19 @@ class Bot
   class List
 
     def initialize owner, type
-      case type
-      when :owner
-        @list = Bot::TABLE.
-          where(owner_id: owner.data[:id], owner_type: Bot::CUSTOMER_OWNER).
-          all
-      else
-        raise "Unknown type: #{type}"
-      end
+      @owner = owner
+      @type = type
+    end
+
+    def list
+      @list ||= begin
+                  case @owner
+                  when Customer
+                    Bot.read_by_owner_customer(@owner)
+                  else
+                    raise "Unknown type: #{type}"
+                  end
+                end
     end
 
   end # === class List ===
