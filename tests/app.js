@@ -79,6 +79,9 @@ describe( 'app', function () {
   // #9
   it( 'escapes params for each route' )
 
+  // #10
+  it 'prevents session hijacking (rack protection) when useragent changes'
+
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {

@@ -33,6 +33,7 @@ use Rack::Session::Cookie, {
 }
 
 # -- Middleware & Helpers ----------------------------
+set :protection, :session => true    # 0
 use ContentSecurityPolicy            # 1
 use Rack::Protection::RemoteReferrer # 2
 use Rack::PostBodyContentTypeParser  # 3
