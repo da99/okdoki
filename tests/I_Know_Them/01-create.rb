@@ -2,10 +2,7 @@
 require './tests/helpers'
 require './Server/I_Know_Them/model'
 
-describe "I_Know_Them: create" do
+include Screen_Name::Test
 
-  
-
-end # === describe I_Know_Them: create ===
 
 

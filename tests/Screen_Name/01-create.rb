@@ -6,8 +6,14 @@ include Screen_Name::Test
 O  = create
 S  = O[:sn]
 
+O1 = create
+S1 = O1[:sn]
+
 S2 = create[:sn]
 B2 = S2.create :bot
+
+O3 = create
+S3 = O3[:sn]
 
 describe "Screen Name: create" do
 
@@ -91,5 +97,45 @@ describe "Screen_Name :create :bot_use" do
   end
 
 end # === describe Screen_Name :create :bot_use ===
+
+describe "Screen_Name :create :i_know_them" do
+
+  before do
+    I_Know_Them::TABLE.delete
+  end
+
+  it "returns an I_Know_Them with :target_id = target.id" do
+    ikt = S1.create :i_know_them, S2
+    assert :==, ikt.target_id, S2.id
+  end
+
+  it "returns an I_Know_Them with :owner_id = owner.id" do
+    ikt = S1.create :i_know_them, S2
+    assert :==, ikt.owner_id, S1.id
+  end
+
+  it "is a follow by default" do
+    ikt = S1.create :i_know_them, S2
+    assert :==, true, ikt.is_follow
+  end
+
+end # === describe  ===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

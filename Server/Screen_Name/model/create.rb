@@ -8,6 +8,10 @@ class Screen_Name
       return Bot_Use.create(self, *args)
     end
 
+    if raw_data == :i_know_them
+      return I_Know_Them.create(self, *args)
+    end
+
     # === Validate the data.
     @new_data = raw_data
     @clean_data = {}

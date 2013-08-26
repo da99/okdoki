@@ -9,13 +9,15 @@ CREATE TABLE i_know_them (
 
   created_at             timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at             timestamp with time zone,
-  trashed_at             timestamp with time zone
+  trashed_at             timestamp with time zone,
+
+  CONSTRAINT             "i_know_them_owner" UNIQUE (owner_id, target_id)
 );
 
 
 
 -- DOWN
 
-DROP TABLE i_know_them;
+DROP TABLE i_know_them CASCADE;
 
 
