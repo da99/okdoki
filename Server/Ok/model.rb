@@ -70,9 +70,9 @@ module Ok
       end
     end
 
-    def create new_data
+    def create new_data, *args
       m = new
-      m.create new_data
+      m.create new_data, *args
       m
     end
 
@@ -130,6 +130,10 @@ module Ok
           raise self.class::Not_Found.new(args.last || "#{self.class.english_name} not found.")
         end
       end
+    end
+
+    def id
+      data[:id]
     end
 
     def trash

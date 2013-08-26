@@ -103,6 +103,11 @@ module Ok
       self
     end
 
+    def in arr, msg
+      raise e(msg) unless arr.include?(clean_data[name])
+      self
+    end
+
     def match pats, msg = nil
       if !pats.kind_of? Array
         pats = [pats]
