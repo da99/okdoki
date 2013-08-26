@@ -13,9 +13,6 @@ if !ss
   raise "No session secret set."
 end
 
-# -- DB
-require './Server/Ok/model'
-
 
 ContentSecurityPolicy.configure do |csp|
   csp['default-src'] =  "'self'";
@@ -24,7 +21,7 @@ end
 
 # -- configure
 use Rack::Session::Cookie, {
-  :key          => 'session.rack.rack',
+  :key          => 'rack.session',
   :path         => "/",
   :expire_after => 60 * 60 * 24 * 7,  # 1 weeks
   :secret       => ss,
@@ -32,8 +29,9 @@ use Rack::Session::Cookie, {
   :secure       => true
 }
 
+
 # -- Middleware & Helpers ----------------------------
-set :protection, :session => true    # 0
+use Rack::Protection::SessionHijacking # 0
 use ContentSecurityPolicy            # 1
 use Rack::Protection::RemoteReferrer # 2
 use Rack::PostBodyContentTypeParser  # 3
@@ -45,6 +43,9 @@ require './Server/Ok/Guard'          # 3
 require './Server/Ok/JSON_Success'   # 4
 require './Server/Ok/HTML_Render'    # 5
 # ----------------------------------------------------
+
+# -- DB
+require './Server/Ok/model'
 
 # --- Routes -----------------------------------------
 %w{
