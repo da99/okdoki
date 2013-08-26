@@ -1,27 +1,19 @@
 
 class Bot_Use
 
-  def create raw
-    @new_data = raw
-    sn = new_data[:bot].split('@')
-    clean = {
-      sub_sn: sn[0],
-      publisher: sn[1],
-      owner_id: raw_data.aud.screen_name_id(raw_data.owner),
-      TABLES: {T: "Screen_Name_Sub"}
-    };
+  def create sn, bot
+    @new_data = @clean_data = {
+      bot_id: bot.id,
+      sn_id: sn.id,
+      sn_type: 0
+    }
 
-    sql = "\
-        INSERT INTO @table (bot_id, owner_id)
-        SELECT id, @owner_id AS owner_id
-        FROM   @T
-        WHERE  sub_sn = @sub_sn AND owner = @publisher
-        RETURNING *
-    ;"
+    rec = TABLE.
+      returning.
+      insert(clean_data).
+      first
 
-    record = DB[sql].first
-
-    Bot::Use.new {bot: new_data[:bot]}.merge(record)
+    Bot_Use.new rec, sn, bot
 
   end # === def create
 

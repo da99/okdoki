@@ -26,6 +26,18 @@ class Bot_Use
   # Instance
   # =====================================================
 
+  attr_reader :screen_name, :bot
+
+  def initialize *args
+    if args.size == 3
+      @bot = args.pop
+      @screen_name = args.pop
+      super(*args)
+    else
+      super
+    end
+  end
+
   def to_public
     {
       bot:         data[:bot],
@@ -33,8 +45,6 @@ class Bot_Use
       screen_name: data[:bot]
     }
   end
-
-
 
 end # === class Bot_Use ===
 
