@@ -14,6 +14,7 @@ class Chit_Chat
 
   Table_Name = :chit_chat
   TABLE = DB[Table_Name]
+  TABLE_LAST_READ = DB[:chit_chat_last_read]
 
   # =====================================================
   # Class
