@@ -63,8 +63,15 @@ describe "Screen Name: create" do
   it "updates :owner_id (of customer.clean_data) to its :id if Customer is new and has no id" do
     name = new_name
     c    = Customer.new({})
-    sn = Screen_Name.create(:screen_name=>name, :customer=>c)
+    sn   = Screen_Name.create(:screen_name=>name, :customer=>c)
     assert :equal, sn.data[:id], c.clean_data[:id]
+  end
+
+  it "does not update it's :owner_id if Customer has data[:id]" do
+    name = new_name
+    c    = Customer.new({id: 1})
+    sn   = Screen_Name.create(:screen_name=>name, :customer=>c)
+    assert :equal, 1, Screen_Name::TABLE.where(id: sn.id).first[:owner_id]
   end
 
 end # === describe
