@@ -38,7 +38,6 @@ class Customer
   def initialize *args
     super
     @screen_names = Screen_Name::List.new(self)
-    @bots         = Bot::List.new(self)
   end
 
   def is? var

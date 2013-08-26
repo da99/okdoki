@@ -2,6 +2,12 @@
 class Screen_Name
 
   def create raw_data
+    case raw_data
+    when :bot
+      @bot = Bot.create self
+      return bot
+    end
+
     # === Validate the data.
     @new_data = raw_data
     @clean_data = {}

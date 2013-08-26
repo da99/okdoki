@@ -37,7 +37,7 @@ class Bot
   # =====================================================
 
   def to_public
-    { screen_name: data[:screen_name] }
+    { codes: codes.to_public }
   end
 
   def clean_code str

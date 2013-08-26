@@ -4,7 +4,7 @@ class Bot
   def create owner
     row = TABLE.
       returning.
-      insert(owner_id: owner.data[:id], owner_type: 0).
+      insert(sn_id: owner.data[:id], sn_type: (owner.is_a?(Screen_Name) ? 0 : 1)).
       first
     @data = row
     self

@@ -4,6 +4,8 @@ require './Server/Customer/model'
 
 include Screen_Name::Test
 
+O  = create
+
 describe "Screen Name: create" do
 
   it "creates record if data validates" do
@@ -57,3 +59,25 @@ describe "Screen Name: create" do
   end
 
 end # === describe
+
+describe "Screen_Name :bot :create" do
+
+  before do
+    Bot::TABLE.delete
+    @s = O[:sn]
+    @id = @s.data[:id]
+  end
+
+  it "sets sn_id to Screen_Name id" do
+    bot = @s.create :bot
+    assert :==, @id, bot.data[:sn_id]
+  end
+
+  it "sets sn_type to 0" do
+    bot = @s.create :bot
+    assert :==, 0, bot.data[:sn_type]
+  end
+
+end # === describe Bot: create ===
+
+

@@ -18,6 +18,8 @@ class Screen_Name
 
   end # === class self ===
 
+  attr_reader :bot
+
   def owner
     @owner ||= Customer.read_by_id(data[:owner_id])
   end
