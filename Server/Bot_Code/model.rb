@@ -15,10 +15,10 @@ class Bot_Code
   Table_Name = :bot_code
   TABLE = DB[Table_Name]
   TYPES = %w{
-      settings
-      all
-      multi_life
-      life
+    custom
+    settings
+    omni
+    profile
   }
 
   code = clean_code new_data[:code]
