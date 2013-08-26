@@ -9,8 +9,9 @@ CREATE TABLE chit_chat_to (
 
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone,
-  trashed_at        timestamp with time zone
+  trashed_at        timestamp with time zone,
 
+  CONSTRAINT        "chit_chat_to_msg" UNIQUE (chit_chat_id, to_id, to_type)
 );
 
 

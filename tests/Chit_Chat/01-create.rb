@@ -32,3 +32,11 @@ describe "Chit_Chat: :create sn, body" do
 end # === describe Chit_Chat: create ===
 
 
+describe "Chit_Chat :create w/:to" do
+
+  it "creates a chit_chat_to record for each to_id" do
+    
+  end
+
+end # === describe Chit_Chat :create w/:to ===
+
