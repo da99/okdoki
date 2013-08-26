@@ -25,7 +25,7 @@ module Ok
     #
     def required msg = nil
       val = clean_data[name]
-      is_empty = !val || (val.kind_of?(String) && val.strip.empty?) || val.empty?
+      is_empty = !val || (val.kind_of?(String) && val.strip.empty?) || (val.respond_to?(:empty?) && val.empty?)
       raise e(msg || "#{english_name} is required." ) if is_empty
 
       self
