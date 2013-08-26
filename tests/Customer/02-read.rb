@@ -157,7 +157,7 @@ end # === describe :read_by_screen_name_and_pass_word
 
 describe "Customer :screen_names" do
 
-  it "gets latest ids after multiple :create :screen_name, NAME" do
+  it "gets latest names after multiple :create :screen_name, NAME" do
     o = create
     c = o[:c]
     names = [o[:sn].upcase]
