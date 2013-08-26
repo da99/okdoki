@@ -18,9 +18,7 @@ class Customer
         id: clean_data[:id]
       }).first
 
-    @data.merge! rec
-
-    self
+    self.class.new rec
   end # === create
 
 end # === class Customer create ===

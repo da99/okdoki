@@ -32,24 +32,24 @@ class Screen_Name
 
     #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 
-    @data.merge! new_record
+    me = self.class.new(new_record)
     if is_new_owner
-      @data[:owner_id] = @data[:id]
-      new_data[:customer].clean_data[:id] = @data[:id]
+      me.data[:owner_id] = me.id
+      new_data[:customer].clean_data[:id] = me.id
     end
 
-    return self unless new_data[:customer]
+    return me unless new_data[:customer]
 
 
     # // ==== This is a new customer
     # // ==== so we must use the screen name id
     # // ==== as the owner_id because customer record
     # // ==== has not been created.
-    TABLE.where(:id=>self.data[:id]).update(:owner_id=>self.data[:id])
-    new_data[:customer].data[:id] = self.data[:id]
-    new_data[:customer].screen_names.push self
+    TABLE.where(:id=>me.id).update(:owner_id=>me.id)
+    new_data[:customer].data[:id] = me.id
+    new_data[:customer].screen_names.push me
 
-    self
+    me
   end # === def create
 
 

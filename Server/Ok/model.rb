@@ -73,7 +73,6 @@ module Ok
     def create new_data, *args
       m = new
       m.create new_data, *args
-      m
     end
 
     def empty_trash
