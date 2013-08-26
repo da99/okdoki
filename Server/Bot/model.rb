@@ -15,8 +15,9 @@ class Bot
   Table_Name = :bot
   TABLE = DB[Table_Name]
 
-  module OWNERS
-    SCREEN_NAME = 0
+  module SN_TYPES
+    SN     = 0
+    SN_SUB = 1
   end # === module OWNERS ===
 
   # =====================================================

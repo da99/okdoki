@@ -90,6 +90,11 @@ class Screen_Name
   # Instance
   # =====================================================
 
+  def initialize *args
+    @bot = nil
+    super
+  end
+
   def is? raw_str
     data[:screen_name] == Screen_Name.canonize(raw_str)
   end
@@ -118,11 +123,6 @@ class Screen_Name
     key     = key || :screen_name_id
     new_key = key.to_s.sub('_id', '_screen_name').to_sym
     [key, new_key]
-  end
-
-  def read_list c
-    c.screen_names.push TABLE[owner_id: c.data[:id]].all
-    c.screen_names
   end
 
   #
