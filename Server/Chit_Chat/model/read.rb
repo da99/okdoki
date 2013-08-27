@@ -15,9 +15,19 @@ class Chit_Chat
         raise "Unknown type: #{u.class}"
       end
     end
+
+    def read_inbox sn
+      new DB[%^
+        SELECT chit_chat.*
+        FROM chit_chat INNER JOIN chit_chat_to
+          ON chit_chat.id = chit_chat_to.chit_chat_id
+        WHERE chit_chat_to.from_id != ?
+      ^, sn.id].limit(111).all
+    end
+
   end # === class self ===
 
-  %w{ from_id from_type body }.each { |n|
+  %w{ id from_id from_type body }.each { |n|
     eval %^
       def #{n}
         data[:#{n}]

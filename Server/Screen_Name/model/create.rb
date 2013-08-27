@@ -2,7 +2,15 @@
 class Screen_Name
 
   def create raw_data, *args
-    return( @bot = Bot.create self ) if raw_data == :bot
+
+    case raw_data
+    when :bot
+      return( @bot = Bot.create self )
+    when :chit_chat
+      return Chit_Chat.create(self, *args)
+    when :i_know_them
+      return I_Know_Them.create(self, *args)
+    end
 
     if raw_data == :bot_use
       return Bot_Use.create(self, *args)

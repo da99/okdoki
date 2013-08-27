@@ -12,10 +12,10 @@ class Chit_Chat
   # Settings
   # =====================================================
 
-  Table_Name      = :chit_chat
-  TABLE           = DB[Table_Name]
+  TABLE           = DB[:chit_chat]
   TABLE_TO        = DB[:chit_chat_to]
   TABLE_LAST_READ = DB[:chit_chat_last_read]
+
   TYPES           = %{
     chit_chat
   }

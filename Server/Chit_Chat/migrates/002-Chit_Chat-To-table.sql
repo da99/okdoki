@@ -4,8 +4,9 @@ CREATE TABLE chit_chat_to (
   id                SERIAL PRIMARY KEY,
 
   chit_chat_id      integer                  NOT NULL,
-  to_id             integer                  NOT NULL,
-  to_type           smallint                 NOT NULL,
+  from_id           integer                  NOT NULL,
+  to_id             integer                  DEFAULT NULL,
+  to_type           smallint                 DEFAULT NULL,
 
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone,

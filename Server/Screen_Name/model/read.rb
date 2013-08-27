@@ -36,6 +36,15 @@ class Screen_Name
     @bot_uses ||= Bot_Use.read_bots_for_screen_name(self)
   end
 
+  def read type, *args
+    case type
+    when :chit_chat_inbox
+      Chit_Chat.read_inbox self
+    else
+      raise "Unknown action: #{type}"
+    end
+  end
+
 end # === class Screen_Name read ===
 
 
