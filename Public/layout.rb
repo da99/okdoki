@@ -5,6 +5,8 @@ module Dot_Why
   class Template
 
     def applet *args
+      file_name = "Public/applets/#{args.first}/markup.rb"
+      eval File.read(file_name), nil, file_name, 1 
     end
 
     blocks :scripts

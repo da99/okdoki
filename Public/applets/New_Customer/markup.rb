@@ -16,7 +16,7 @@ div.box.New_Customer! {
         div.field.pass_phrase {
           label(for:"NEW_CUSTOMER_PASS_PHRASE") {
             span.main "Pass phrase"
-            span.sub  "(for better security, use spaces and words)"
+            span.sub  " (for better security, use spaces and words)"
             span.main ":"
           }
           input.field.NEW_CUSTOMER_PASS_PHRASE!(type:'password', name:"pass_phrase", value:"")
