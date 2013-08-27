@@ -29,11 +29,18 @@ class Chit_Chat
                             FROM i_know_them
                             WHERE owner_id = ? AND is_follow = true
                     )
+                    AND created_at > (
+                    SELECT coalesce(MIN(last_read_at), timestamp '2001-09-28 01:00')
+                                      FROM chit_chat_last_read
+                                      WHERE sn_id = ?
+                      LIMIT 1
+                    )
+
           GROUP BY  from_id
         ) AS meta
         ON chit_chat.id = meta.cc_id
         ORDER BY chit_chat.id DESC
-      ^, sn.id].limit(111).all
+      ^, sn.id, sn.id].limit(111).all
     end
 
   end # === class self ===
