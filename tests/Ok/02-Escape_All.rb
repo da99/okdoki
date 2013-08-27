@@ -94,6 +94,12 @@ describe ':escape' do
       assert :==, t, Ok::Escape_All.escape(a)
     end
 
+    it "escapes values of keys with _#{k} that are valid https uri" do
+      a = {:key=>{:"my_#{k}" => "https://www.yahoo.com/&"}}
+      t = {:key=>{:"my_#{k}" => "https://www.yahoo.com/&amp;"}}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
+
     it "escapes values of keys with _#{k} that are valid uri" do
       a = {:key=>{:"my_#{k}" => "http://www.yahoo.com/&"}}
       t = {:key=>{:"my_#{k}" => "http://www.yahoo.com/&amp;"}}

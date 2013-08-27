@@ -74,7 +74,7 @@ module Ok
 
       def e_uri str
         uri = URI.parse(str)
-        if uri.kind_of?(URI::HTTP)
+        if uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
           str
         else
           nil
