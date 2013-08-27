@@ -77,7 +77,11 @@ module Ok
         if uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
           str
         else
-          nil
+          if uri.kind_of?(URI::Generic) && uri.path
+            str
+          else
+            nil
+          end
         end
       rescue URI::InvalidURIError
         nil

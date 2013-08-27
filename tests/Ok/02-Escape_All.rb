@@ -105,6 +105,12 @@ describe ':escape' do
       t = {:key=>{:"my_#{k}" => "http://www.yahoo.com/&amp;"}}
       assert :==, t, Ok::Escape_All.escape(a)
     end
+
+    it "escapes values of keys with _#{k} that are valid /path" do
+      a = {:key=>{:"my_#{k}" => "/path/mine/&"}}
+      t = {:key=>{:"my_#{k}" => "/path/mine/&amp;"}}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
   }
 
 end # === end desc
