@@ -1,4 +1,11 @@
 
+class String
+
+
+end #=== string
+
+# =====================================================================
+
 require "escape_utils"
 
 if respond_to? :helpers
@@ -24,34 +31,69 @@ end
 
 module Ok
   module Escape_All
-    class << self
 
-      def e o
-        EscapeUtils.escape_html(EscapeUtils.unescape_html(o.to_s.force_encoding 'utf-8'))
+    ENCODING_OPTIONS_CLEAN_UTF8 = {
+      :invalid           => :replace,  # Replace invalid byte sequences
+      :undef             => :replace,  # Replace anything not defined in ASCII
+      :replace           => ''         # Use a blank for those replacements
+      # :newline => :universal
+      # :universal_newline => true       # Always break lines with \n, not \r\n
+    }
+
+    opts = Regexp::FIXEDENCODING | Regexp::IGNORECASE
+
+    # tabs, etc.
+    Control = Regexp.new("[[:cntrl:]]".force_encoding('utf-8'), opts)   # unicode whitespaces, like 160 codepoint
+    # From:
+    # http://www.rubyinside.com/the-split-is-not-enough-whitespace-shenigans-for-rubyists-5980.html
+    White_Space =  Regexp.new("[[:space:]]".force_encoding('utf-8'), opts)
+
+
+    def new_regexp str
+      Regexp.new(clean_utf8(str), Regexp::FIXEDENCODING | Regexp::IGNORECASE)
+    end
+
+    class << self # ===============================================================================
+
+      # From:
+      # http://stackoverflow.com/questions/1268289/how-to-get-rid-of-non-ascii-characters-in-ruby
+      #
+      # Test:
+      # [160, 160,64, 116, 119, 101, 108, 108, 121, 109, 101, 160, 102, 105, 108, 109].
+      #   inject('', :<<)
+      #
+      def clean_utf8 s
+        s.
+          encode(Encoding.find('utf-8'), ENCODING_OPTIONS_CLEAN_UTF8).
+          gsub(Escape_All::Control,    "\n").
+          gsub(Escape_All::White_Space, " ")
+      end
+
+
+      def e raw
+        o = clean_utf8(raw)
+        EscapeUtils.escape_html(EscapeUtils.unescape_html o)
       end
 
       def escape o
-        if o.kind_of? Array
-          return o.map do |v|
-            Escape_All.escape(v)
-          end
-        end
+        return(o.map { |v| Escape_All.escape(v) }) if o.kind_of? Array
 
         if o.kind_of? Hash
           new_o = {}
 
-          o.each do |k, v|
-            new_o[k] = Escape_All.escape(v)
-          end
+          o.each { |k, v| new_o[k] = Escape_All.escape(v) }
 
           return new_o
         end
 
-        Escape_All.e(o)
+        return Escape_All.e(o) if o.is_a?(String)
+
+        raise "Unknown type: #{o.class}"
 
       end # === def
 
-    end # === class self ===
+    end # === class self ==========================================================================
+
   end # === mod Escape_All ===
 end # === module Ok ===
 
