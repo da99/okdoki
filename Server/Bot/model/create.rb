@@ -1,8 +1,8 @@
 
 class Bot
 
-  def create sn, raw = nil
-    return Bot_Code.create(self, raw) if sn == :code
+  def create sn, *args
+    return Bot_Code.create(self, *args) if sn == :code
     begin
       row = TABLE.
         returning.

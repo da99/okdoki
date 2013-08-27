@@ -1,3 +1,4 @@
+require "./Server/Bot_Code/model"
 
 class Screen_Name
 
@@ -33,7 +34,31 @@ class Screen_Name
   end
 
   def bot_uses
-    @bot_uses ||= Bot_Use.read_bots_for_screen_name(self)
+    @bot_uses ||= begin
+                    bots = Hash[ Bot.new(
+                      DB[%^
+                        SELECT *
+                        FROM bot
+                        WHERE id IN (
+                          SELECT bot_id
+                          FROM bot_use
+                          WHERE sn_id = :sn_id AND is_on IS TRUE
+                        )
+                      ^, :sn_id=>id].all
+                    ).map { |b| [b.id, b] } ]
+
+                    codes = Bot_Code.new(DB[%^
+                      SELECT *
+                      FROM bot_code
+                      WHERE bot_id IN ( :ids )
+                    ^, :ids=>bots.keys].all)
+
+                    codes.each { |c|
+                      bots[c.bot_id].codes c
+                    }
+
+                    bots.values
+                  end
   end
 
   def read type, *args

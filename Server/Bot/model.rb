@@ -45,6 +45,7 @@ class Bot
 
   def initialize *args
     @screen_name = args.pop if args.size > 1
+    @codes       = []
     super(*args)
   end
 

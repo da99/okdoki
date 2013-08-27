@@ -5,7 +5,7 @@ CREATE TABLE bot_use (
   bot_id       integer   NOT NULL DEFAULT 0,
   sn_id        integer   NOT NULL,
 
-  is_on        boolean   NOT NULL DEFAULT false,
+  is_on        boolean   NOT NULL DEFAULT true,
   settings     text      NOT NULL DEFAULT '{}',
 
   created_at   timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),

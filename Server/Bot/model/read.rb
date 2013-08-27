@@ -12,4 +12,27 @@ class Bot
     end
 
   end # === class self ===
+
+  def codes *args
+    if args.empty?
+      @codes ||= Bot_Code.new(
+        DB[%^
+          SELECT *
+          FROM bot_code
+          WHERE bot_id = :id
+        ^, :id=>id].all
+      )
+    else
+      @codes.concat args
+    end
+  end
+
+  "id bot_id".split.each { |k|
+    eval %^
+      def #{k}
+        data[:#{k}]
+      end
+    ^
+  }
+
 end # === class Bot ===
