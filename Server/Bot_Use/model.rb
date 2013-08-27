@@ -22,7 +22,7 @@ class Bot_Use
   class << self
 
     def table_for_owners sn
-      Bot_Use::TABLE.where(sn_type: 0, sn_id: sn.id)
+      Bot_Use::TABLE.where(sn_id: sn.id)
     end
 
   end # === class self ===

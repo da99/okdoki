@@ -13,7 +13,7 @@ describe "Bot :create" do
     Bot::TABLE.delete
   end
 
-  it "raises Bot::Invalid if bot already created with dup :sn_id and :sn_type = 0" do
+  it "raises Bot::Invalid if bot already created with dup :sn_id " do
     Bot.create S
     lambda {
       Bot.create S

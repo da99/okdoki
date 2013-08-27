@@ -89,11 +89,6 @@ describe "Screen_Name :create :bot" do
     assert :==, @id, bot.data[:sn_id]
   end
 
-  it "sets sn_type to 0" do
-    bot = @s.create :bot
-    assert :==, 0, bot.data[:sn_type]
-  end
-
 end # === describe Bot: create ===
 
 describe "Screen_Name :create :bot_use" do

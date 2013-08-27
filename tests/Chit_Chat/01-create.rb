@@ -25,11 +25,6 @@ describe "Chit_Chat: :create sn, body" do
     assert :==, S1.id, cc.from_id
   end
 
-  it "sets :from_type to 0" do
-    cc = Chit_Chat.create S1, new_body
-    assert 0, cc.from_type
-  end
-
   it "sets :body" do
     b = new_body
     cc = Chit_Chat.create S1, b

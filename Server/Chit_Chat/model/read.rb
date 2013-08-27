@@ -45,7 +45,7 @@ class Chit_Chat
 
   end # === class self ===
 
-  %w{ id from_id from_type body cc_count }.each { |n|
+  %w{ id from_id body cc_count }.each { |n|
     eval %^
       def #{n}
         data[:#{n}]

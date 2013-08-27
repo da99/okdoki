@@ -16,7 +16,7 @@ CREATE TABLE screen_name (
 CREATE INDEX "screen_name_owner_id_idx"
   ON "screen_name"
   USING btree
-  (owner_id);
+  (owner_id, type_id);
 
 -- DOWN
 

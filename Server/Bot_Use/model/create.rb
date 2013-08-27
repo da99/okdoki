@@ -4,8 +4,7 @@ class Bot_Use
   def create sn, bot
     @new_data = @clean_data = {
       bot_id: bot.id,
-      sn_id: sn.id,
-      sn_type: 0
+      sn_id: sn.id
     }
 
     rec = TABLE.

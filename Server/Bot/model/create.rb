@@ -6,7 +6,7 @@ class Bot
     begin
       row = TABLE.
         returning.
-        insert(sn_id: sn.data[:id], sn_type: (sn.is_a?(Screen_Name) ? 0 : 1)).
+        insert(sn_id: sn.data[:id]).
         first
 
       Bot.new( row, sn )

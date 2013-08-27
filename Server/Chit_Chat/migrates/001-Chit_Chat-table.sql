@@ -5,7 +5,6 @@ CREATE TABLE chit_chat (
 
   type              smallint                 NOT NULL,
   from_id           integer                  NOT NULL,
-  from_type         smallint                 NOT NULL,
 
   body              text                     NOT NULL,
 
@@ -15,7 +14,7 @@ CREATE TABLE chit_chat (
 
 );
 
-CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( from_id,  from_type, type );
+CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( from_id, type );
 
 -- DOWN
 

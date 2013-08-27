@@ -31,10 +31,6 @@ describe "Bot.read_by_screen_name" do
     assert :==, @s.data[:id], @b.data[:sn_id]
   end
 
-  it "returns a bot instance with :sn_type = 0" do
-    assert 0, @b.data[:sn_type]
-  end
-
 end # === describe
 
 

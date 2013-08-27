@@ -25,7 +25,6 @@ class Chit_Chat
         insert(
           type: 0,
           from_id: sn.id,
-          from_type: 0,
           body: opts[:body]
         ).first
 

@@ -18,10 +18,6 @@ describe "Bot_Use: create" do
     assert :==, S2.id, U.data[:sn_id]
   end
 
-  it "creates a record with: sn_type = 0" do
-    assert 0, U.data[:sn_type]
-  end
-
   it "creates a record with: bot_id = bot.id" do
     assert :==, B1.id, U.data[:bot_id]
   end
