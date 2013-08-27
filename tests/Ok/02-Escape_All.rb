@@ -50,24 +50,24 @@ describe ':un_e' do
 end # === describe :un_e
 
 
-describe 'Sanitize' do
+describe ':escape' do
 
   it 'does not re-escape already escaped text mixed with HTML' do
     h = "<p>Hi</p>";
     e = Ok::Escape_All.e(h);
     o = e + h;
-    assert :==, Ok::Escape_All.e(o), Ok::Escape_All.e(h + h)
+    assert :==, Ok::Escape_All.escape(o), Ok::Escape_All.escape(h + h)
   end
 
   it 'escapes special chars: "Hello ©®∆"' do
     s = "Hello & World ©®∆"
     t = "Hello &amp; World &#169;&#174;&#8710;"
     t = "Hello &amp; World &copy;&reg;&#x2206;"
-    assert :==, t, Ok::Escape_All.e(s)
+    assert :==, t, Ok::Escape_All.escape(s)
   end
 
   # it 'escapes all 70 different combos of "<"' do
-    # assert :==, "&lt; %3C", Ok::Escape_All.e(BRACKET).split.uniq.join(' ')
+    # assert :==, "&lt; %3C", Ok::Escape_All.escape(BRACKET).split.uniq.join(' ')
   # end
 
   it 'escapes all keys in nested objects' do
@@ -78,7 +78,7 @@ describe 'Sanitize' do
 
   it 'escapes all values in nested objects' do
     html = "<b>test</b>"
-    t    = {name: {name: Ok::Escape_All.e(html)}}
+    t    = {name: {name: Ok::Escape_All.escape(html)}}
     assert :==, t, Ok::Escape_All.escape({name:{name: html}})
   end
 
@@ -87,5 +87,21 @@ describe 'Sanitize' do
     assert :==, [{name: {name: Ok::Escape_All.escape(html)}}], Ok::Escape_All.escape([{name:{name: html}}])
   end
 
+  'uri url href'.split.each { |k|
+    it "sets nil any keys ending with _#{k} and have invalid uri" do
+      a = {:key=>{:"my_#{k}" => "javascript:alert(s)"}}
+      t = {:key=>{:"my_#{k}" => nil                  }}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
+
+    it "escapes values of keys with _#{k} that are valid uri" do
+      a = {:key=>{:"my_#{k}" => "http://www.yahoo.com/&"}}
+      t = {:key=>{:"my_#{k}" => "http://www.yahoo.com/&amp;"}}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
+  }
+
 end # === end desc
+
+
 

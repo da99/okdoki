@@ -1,6 +1,7 @@
 
 require "escape_utils"
 require "htmlentities"
+require "uri"
 
 # =====================================================================
 if respond_to? :helpers
@@ -71,23 +72,37 @@ module Ok
         EscapeUtils.unescape_html clean_utf8(raw)
       end
 
-      def e o
+      def e o, key = nil
         # EscapeUtils.escape_html(un_e o)
-        Coder.encode(un_e(o), :named, :hexadecimal)
+        if key && (key.to_s["_uri"] || key.to_s["_url"] || key.to_s["_href"])
+          clean = begin
+                    es = e(o)
+                    uri = URI.parse(es)
+                    if uri.kind_of?(URI::HTTP)
+                      es
+                    else
+                      nil
+                    end
+                  rescue URI::InvalidURIError
+                    nil
+                  end
+        else
+          Coder.encode(un_e(o), :named, :hexadecimal)
+        end
       end
 
-      def escape o
+      def escape o, key = nil
         return(o.map { |v| Escape_All.escape(v) }) if o.kind_of? Array
 
         if o.kind_of? Hash
           new_o = {}
 
-          o.each { |k, v| new_o[Escape_All.escape(k)] = Escape_All.escape(v) }
+          o.each { |k, v| new_o[Escape_All.escape(k)] = Escape_All.escape(v, k) }
 
           return new_o
         end
 
-        return Escape_All.e(o) if o.is_a?(String)
+        return Escape_All.e(o, key) if o.is_a?(String)
 
         if o.is_a?(Symbol)
           return Escape_All.e(o.to_s).to_sym
