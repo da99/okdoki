@@ -5,11 +5,20 @@ module Dot_Why
   class Template
 
     def applet *args
+      styles {
+        stylesheet "/applets/#{args.first}/style"
+      }
+
+      scripts {
+        script "/applets/#{args.first}/script"
+      }
+
       file_name = "Public/applets/#{args.first}/markup.rb"
-      eval File.read(file_name), nil, file_name, 1 
+      eval File.read(file_name), nil, file_name, 1
     end
 
     blocks :scripts
+    blocks :styles
 
     def script name
       full = "#{name}.js"
@@ -38,6 +47,8 @@ module Dot_Why
     end
 
     def content
+      eval_main
+
       rawtext "<!DOCTYPE html>"
       html(:lang=>'en') do
         head do
@@ -53,10 +64,14 @@ module Dot_Why
           stylesheet 'forms'
 
           styles
+
         end
+
         body do
+
           main
-          scripts {
+
+          scripts(:top) {
             script('/js/vendor/all')
 
             script("/js/Common")
