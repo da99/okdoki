@@ -89,6 +89,25 @@ describe "Chit_Chat: read_inbox" do
     assert :==, ["msg 4", "msg 2"], list.map(&:body)
   end
 
+  it "grabs a count of other messages waiting to be read" do
+    S1.create :i_know_them, S2
+    S1.create :i_know_them, S3
+
+    S2.create :chit_chat, "msg 1"
+    S2.create :chit_chat, "msg 2"
+    S2.create :chit_chat, "msg 3"
+
+    S3.create :chit_chat, "msg 4"
+    S3.create :chit_chat, "msg 5"
+
+    S4.create :chit_chat, "msg 6"
+    S5.create :chit_chat, "msg 7"
+
+    list = S1.read :chit_chat_inbox
+
+    assert :==, [1, 2], list.map(&:cc_count)
+  end
+
 end # === describe Chit_Chat: read ===
 
 

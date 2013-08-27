@@ -21,7 +21,7 @@ class Chit_Chat
         SELECT *
         FROM chit_chat INNER JOIN (
           SELECT    MAX(chit_chat_id) AS cc_id,
-                    COUNT(id)         AS cc_count
+                    (COUNT(id) - 1)   AS cc_count
           FROM      chit_chat_to
           WHERE     to_id IS NULL
                     AND from_id IN (
@@ -38,7 +38,7 @@ class Chit_Chat
 
   end # === class self ===
 
-  %w{ id from_id from_type body }.each { |n|
+  %w{ id from_id from_type body cc_count }.each { |n|
     eval %^
       def #{n}
         data[:#{n}]
