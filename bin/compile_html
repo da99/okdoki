@@ -9,7 +9,7 @@ shift
 
 if [[ "$file" =~ "all" ]]
 then
-  files=$( $UP/util/files_with_ext Public/ .rb | grep -v layout.rb )
+  files=$( $UP/util/files_with_ext Public/ .rb | grep markup.rb | grep -v applets/ )
   for f in $files
   do
     $0 $f

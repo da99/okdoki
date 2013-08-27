@@ -1,19 +1,19 @@
-var _     = require("underscore")
-, Customer= require("../Server/Customer/model").Customer
-, River   = require("da_river").River
-, h       = require("./helpers")
-, assert  = require("assert")
-, request = require("request")
-, exec    = require("child_process").exec
-, spawn   = require("child_process").spawn
-, cheerio = require("cheerio")
-, expect  = require("expect.js")
-;
 
-process.env.PORT = '1111';
 
-var use_log = false;
-var _csrf = null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var j = request.jar();
 
 function post(data, func) {

@@ -30,5 +30,6 @@ group :development do
   gem 'mustache'
   gem 'bacon'
   gem 'Bacon_Colored'
+  gem 'httparty'
 end
 
