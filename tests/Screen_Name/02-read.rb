@@ -48,5 +48,22 @@ describe "Screen_Name :bot_uses" do
     }
   end
 
+  it "does not return code from other bots" do
+    s3  = create[:sn]
+    bot = s3.create :bot
+    bot.create :code, target: 'custom', code: ['<b>hello</b>', []]
+    bot.create :code, target: 'custom', code: ['<b>hello</b>', []]
+
+    S.bot_uses.each { |b|
+      b.codes.size.
+        should == 2
+    }
+  end
+
 end # === describe Screen_Name :bot_uses ===
+
+
+
+
+
 
