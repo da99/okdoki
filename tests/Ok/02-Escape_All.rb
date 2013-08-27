@@ -18,4 +18,74 @@ describe ":clean_utf8" do
 
 end # === describe :clean_utf8 ===
 
+BRACKET = " < %3C &lt &lt; &LT &LT; &#60 &#060 &#0060
+&#00060 &#000060 &#0000060 &#60; &#060; &#0060; &#00060;
+&#000060; &#0000060; &#x3c &#x03c &#x003c &#x0003c &#x00003c
+&#x000003c &#x3c; &#x03c; &#x003c; &#x0003c; &#x00003c;
+&#x000003c; &#X3c &#X03c &#X003c &#X0003c &#X00003c &#X000003c
+&#X3c; &#X03c; &#X003c; &#X0003c; &#X00003c; &#X000003c;
+&#x3C &#x03C &#x003C &#x0003C &#x00003C &#x000003C &#x3C; &#x03C;
+&#x003C; &#x0003C; &#x00003C; &#x000003C; &#X3C &#X03C
+&#X003C &#X0003C &#X00003C &#X000003C &#X3C; &#X03C; &#X003C; &#X0003C;
+&#X00003C; &#X000003C; \x3c \x3C \u003c \u003C ".strip
+
+
+describe ':un_e' do
+
+  it 'un-escapes escaped text mixed with HTML' do
+    s = "<p>Hi&amp;</p>";
+    assert :==, "<p>Hi&</p>", Ok::Escape_All.un_e(s);
+  end
+
+  # it 'un-escapes special chars: "Hello ©®∆"' do
+    # s = "Hello &amp; World &#169;&#174;&#8710;"
+    # t = "Hello & World ©®∆"
+    # assert :==, t, Ok::Escape_All.un_e(s)
+  # end
+
+  # it 'un-escapes all 70 different combos of "<"' do
+    # assert :==, "< %3C", Ok::Escape_All.un_e(BRACKET).split.uniq.join(' ')
+  # end
+
+end # === describe :un_e
+
+
+describe 'Sanitize' do
+
+  it 'does not re-escape already escaped text mixed with HTML' do
+    h = "<p>Hi</p>";
+    e = Ok::Escape_All.e(h);
+    o = e + h;
+    assert :==, Ok::Escape_All.e(o), Ok::Escape_All.e(h + h)
+  end
+
+  it 'escapes special chars: "Hello ©®∆"' do
+    s = "Hello & World ©®∆"
+    t = "Hello &amp; World &#169;&#174;&#8710;"
+    t = "Hello &amp; World &copy;&reg;&#x2206;"
+    assert :==, t, Ok::Escape_All.e(s)
+  end
+
+  # it 'escapes all 70 different combos of "<"' do
+    # assert :==, "&lt; %3C", Ok::Escape_All.e(BRACKET).split.uniq.join(' ')
+  # end
+
+  it 'escapes all keys in nested objects' do
+    html = "<b>test</b>"
+    t    = {" a &gt;" => {" a &gt;" => Ok::Escape_All.escape(html) }}
+    assert :==, t, Ok::Escape_All.escape({" a >" => {" a >" => html}})
+  end
+
+  it 'escapes all values in nested objects' do
+    html = "<b>test</b>"
+    t    = {name: {name: Ok::Escape_All.e(html)}}
+    assert :==, t, Ok::Escape_All.escape({name:{name: html}})
+  end
+
+  it 'escapes all values in nested arrays' do
+    html = "<b>test</b>"
+    assert :==, [{name: {name: Ok::Escape_All.escape(html)}}], Ok::Escape_All.escape([{name:{name: html}}])
+  end
+
+end # === end desc
 

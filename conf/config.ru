@@ -1,5 +1,7 @@
 
 require "./Server/App/app"
+require 'escape_utils/html/rack' # to patch Rack::Utils
+require 'escape_utils/html/cgi' # to patch CGI
 
 lang=ENV['LANG']
 if not lang['UTF-8']

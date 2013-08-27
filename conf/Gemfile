@@ -12,6 +12,7 @@ gem 'content-security-policy'
 gem 'escape_utils'
 gem 'pg'
 gem 'Jam_Func'
+gem 'htmlentities'
 
 group :development do
   gem 'dot_why'

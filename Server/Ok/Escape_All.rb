@@ -1,13 +1,8 @@
 
-class String
-
-
-end #=== string
+require "escape_utils"
+require "htmlentities"
 
 # =====================================================================
-
-require "escape_utils"
-
 if respond_to? :helpers
   helpers do
 
@@ -27,10 +22,13 @@ if respond_to? :helpers
 
   end # === end helpers
 end
+# =====================================================================
 
 
 module Ok
   module Escape_All
+
+    Coder = HTMLEntities.new(:xhtml1)
 
     ENCODING_OPTIONS_CLEAN_UTF8 = {
       :invalid           => :replace,  # Replace invalid byte sequences
@@ -69,10 +67,13 @@ module Ok
           gsub(Escape_All::White_Space, " ")
       end
 
+      def un_e raw
+        EscapeUtils.unescape_html clean_utf8(raw)
+      end
 
-      def e raw
-        o = clean_utf8(raw)
-        EscapeUtils.escape_html(EscapeUtils.unescape_html o)
+      def e o
+        # EscapeUtils.escape_html(un_e o)
+        Coder.encode(un_e(o), :named, :hexadecimal)
       end
 
       def escape o
@@ -81,12 +82,16 @@ module Ok
         if o.kind_of? Hash
           new_o = {}
 
-          o.each { |k, v| new_o[k] = Escape_All.escape(v) }
+          o.each { |k, v| new_o[Escape_All.escape(k)] = Escape_All.escape(v) }
 
           return new_o
         end
 
         return Escape_All.e(o) if o.is_a?(String)
+
+        if o.is_a?(Symbol)
+          return Escape_All.e(o.to_s).to_sym
+        end
 
         raise "Unknown type: #{o.class}"
 
