@@ -27,7 +27,7 @@ module Ok
     class << self
 
       def e o
-        EscapeUtils.escape_html(EscapeUtils.unescape_html(o))
+        EscapeUtils.escape_html(EscapeUtils.unescape_html(o.to_s.force_encoding 'utf-8'))
       end
 
       def escape o
