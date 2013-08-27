@@ -31,6 +31,14 @@ describe "Chit_Chat: :create sn, body" do
     assert :==, b, cc.body
   end
 
+  it "raises Chit_Chat::Invalid if body is greater than 1000 chars" do
+    lambda {
+      b = new_body
+      Chit_Chat.create S1, ("0123456789" * 101)
+    }.should.raise(Chit_Chat::Invalid)
+    .msg.should.match(/Too many characters: 10 over the limit/)
+  end
+
 end # === describe Chit_Chat: create ===
 
 
