@@ -21,8 +21,13 @@ class Chit_Chat
         SELECT chit_chat.*
         FROM chit_chat INNER JOIN chit_chat_to
           ON chit_chat.id = chit_chat_to.chit_chat_id
-        WHERE chit_chat_to.from_id != ?
-      ^, sn.id].limit(111).all
+        WHERE chit_chat_to.from_id != ? AND
+              chit_chat_to.from_id IN (
+                SELECT target_id
+                FROM i_know_them
+                WHERE owner_id = ? AND is_follow = true
+              )
+      ^, sn.id, sn.id].limit(111).all
     end
 
   end # === class self ===

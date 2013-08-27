@@ -36,11 +36,23 @@ describe "Chit_Chat: read_inbox" do
     I_Know_Them::TABLE.delete
   end
 
-  it "grabs a list of records from people they follow" do
+  it "grabs an array of Chit_Chats from people they follow" do
     S1.create :i_know_them, S2
     S1.create :i_know_them, S3
     S2.create :chit_chat, "msg 1"
     S3.create :chit_chat, "msg 2"
+
+    list = S1.read :chit_chat_inbox
+
+    assert :==, ["msg 1", "msg 2"], list.map(&:body)
+  end
+
+  it "does not grab from people they don't follow" do
+    S1.create :i_know_them, S2
+    S1.create :i_know_them, S3
+    S2.create :chit_chat, "msg 1"
+    S3.create :chit_chat, "msg 2"
+    S4.create :chit_chat, "msg 3"
 
     list = S1.read :chit_chat_inbox
 
