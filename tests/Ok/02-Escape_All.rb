@@ -1,6 +1,7 @@
 
 require "./tests/helpers"
 require "./Server/Ok/Escape_All"
+require "addressable/uri"
 
 describe ":clean_utf8" do
 
@@ -109,6 +110,12 @@ describe ':escape' do
     it "escapes values of keys with _#{k} that are valid /path" do
       a = {:key=>{:"my_#{k}" => "/path/mine/&"}}
       t = {:key=>{:"my_#{k}" => "/path/mine/&amp;"}}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
+
+    it "allows unicode uris" do
+      a = {:key=>{:"my_#{k}" => "http://кц.рф"}}
+      t = {:key=>{:"my_#{k}" => "http://&#x43a;&#x446;.&#x440;&#x444;"}}
       assert :==, t, Ok::Escape_All.escape(a)
     end
   }

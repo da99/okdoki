@@ -8,6 +8,7 @@ GEM
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
+    addressable (2.3.5)
     backports (3.3.3)
     bacon (1.2.0)
     colored (1.2)
@@ -67,6 +68,7 @@ PLATFORMS
 DEPENDENCIES
   Bacon_Colored
   Jam_Func
+  addressable
   bacon
   content-security-policy
   dot_why

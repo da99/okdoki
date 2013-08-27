@@ -73,17 +73,13 @@ module Ok
       end
 
       def e_uri str
-        uri = URI.parse(str)
-        if uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+        uri = Addressable::URI.parse(str)
+        if ["http","https","ftp"].include?(uri.scheme) || uri.path.index('/') == 0
           str
         else
-          if uri.kind_of?(URI::Generic) && uri.path
-            str
-          else
-            nil
-          end
+          nil
         end
-      rescue URI::InvalidURIError
+      rescue Addressable::URI::InvalidURIError
         nil
       end
 
