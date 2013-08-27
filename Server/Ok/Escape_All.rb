@@ -72,20 +72,21 @@ module Ok
         EscapeUtils.unescape_html clean_utf8(raw)
       end
 
+      def e_uri str
+        uri = URI.parse(str)
+        if uri.kind_of?(URI::HTTP)
+          str
+        else
+          nil
+        end
+      rescue URI::InvalidURIError
+        nil
+      end
+
       def e o, key = nil
         # EscapeUtils.escape_html(un_e o)
         if key && (key.to_s["_uri"] || key.to_s["_url"] || key.to_s["_href"])
-          clean = begin
-                    es = e(o)
-                    uri = URI.parse(es)
-                    if uri.kind_of?(URI::HTTP)
-                      es
-                    else
-                      nil
-                    end
-                  rescue URI::InvalidURIError
-                    nil
-                  end
+          clean = e_uri(e(o))
         else
           Coder.encode(un_e(o), :named, :hexadecimal)
         end
