@@ -88,7 +88,20 @@ describe ':escape' do
     assert :==, [{name: {name: Ok::Escape_All.escape(html)}}], Ok::Escape_All.escape([{name:{name: html}}])
   end
 
-  'uri url href'.split.each { |k|
+  'uri url href'.split.each { |k| # ==============================================
+
+    it "escapes values of keys :#{k} that are valid /path" do
+      a = {:key=>{:"#{k}" => "/path/mine/&"}}
+      t = {:key=>{:"#{k}" => "/path/mine/&amp;"}}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
+
+    it "sets nil any keys ending with :#{k} and have invalid uri" do
+      a = {:key=>{:"#{k}" => "javascript:alert(s)"}}
+      t = {:key=>{:"#{k}" => nil                  }}
+      assert :==, t, Ok::Escape_All.escape(a)
+    end
+
     it "sets nil any keys ending with _#{k} and have invalid uri" do
       a = {:key=>{:"my_#{k}" => "javascript:alert(s)"}}
       t = {:key=>{:"my_#{k}" => nil                  }}
@@ -107,7 +120,7 @@ describe ':escape' do
       assert :==, t, Ok::Escape_All.escape(a)
     end
 
-    it "escapes values of keys with _#{k} that are valid /path" do
+    it "escapes values of keys ending with _#{k} that are valid /path" do
       a = {:key=>{:"my_#{k}" => "/path/mine/&"}}
       t = {:key=>{:"my_#{k}" => "/path/mine/&amp;"}}
       assert :==, t, Ok::Escape_All.escape(a)

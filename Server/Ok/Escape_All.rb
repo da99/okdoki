@@ -29,6 +29,9 @@ end
 module Ok
   module Escape_All
 
+    Underscore_URI_KEY = /_(uri|url|href)$/
+    URI_KEY            = /^(uri|url|href)$/
+
     Coder = HTMLEntities.new(:xhtml1)
 
     ENCODING_OPTIONS_CLEAN_UTF8 = {
@@ -83,9 +86,15 @@ module Ok
         nil
       end
 
+      def is_uri_key raw_key
+        return false unless raw_key
+        k = raw_key.to_s.strip.downcase
+        k && (k[Underscore_URI_KEY] || k[URI_KEY])
+      end
+
       def e o, key = nil
         # EscapeUtils.escape_html(un_e o)
-        if key && (key.to_s["_uri"] || key.to_s["_url"] || key.to_s["_href"])
+        if is_uri_key(key)
           clean = e_uri(e(o))
         else
           Coder.encode(un_e(o), :named, :hexadecimal)
