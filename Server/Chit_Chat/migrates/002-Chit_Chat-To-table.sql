@@ -17,6 +17,7 @@ CREATE TABLE chit_chat_to (
 
 
 CREATE INDEX chit_chat_to_idx  ON  chit_chat_to  ( to_id, to_type );
+CREATE INDEX chit_chat_to_from_idx  ON  chit_chat_to  ( from_id, to_id );
 
 
 -- DOWN

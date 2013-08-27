@@ -20,7 +20,7 @@ def update_created_at msg, days
     update(created_at: days_ago(days))
 end
 
-4.times do |i|
+5.times do |i|
   o = create
   s = o[:sn]
   Object.const_set :"O#{i+1}", o
@@ -44,7 +44,7 @@ describe "Chit_Chat: read_inbox" do
 
     list = S1.read :chit_chat_inbox
 
-    assert :==, ["msg 1", "msg 2"], list.map(&:body)
+    assert :==, ["msg 1", "msg 2"], list.map(&:body).sort
   end
 
   it "does not grab from people they don't follow" do
@@ -56,7 +56,37 @@ describe "Chit_Chat: read_inbox" do
 
     list = S1.read :chit_chat_inbox
 
-    assert :==, ["msg 1", "msg 2"], list.map(&:body)
+    assert :==, ["msg 1", "msg 2"], list.map(&:body).sort
+  end
+
+  it "grabs msgs in reverse :created_at" do
+    S1.create :i_know_them, S2
+    S1.create :i_know_them, S3
+    S2.create :chit_chat, "msg 1"
+    S3.create :chit_chat, "msg 2"
+    S4.create :chit_chat, "msg 3"
+
+    list = S1.read :chit_chat_inbox
+
+    assert :==, ["msg 2", "msg 1"], list.map(&:body)
+  end
+
+  it "grabs only the latest message from each author" do
+    S1.create :i_know_them, S2
+    S1.create :i_know_them, S3
+
+    S2.create :chit_chat, "msg 1"
+    S2.create :chit_chat, "msg 2"
+
+    S3.create :chit_chat, "msg 3"
+    S3.create :chit_chat, "msg 4"
+
+    S4.create :chit_chat, "msg 5"
+    S5.create :chit_chat, "msg 6"
+
+    list = S1.read :chit_chat_inbox
+
+    assert :==, ["msg 4", "msg 2"], list.map(&:body)
   end
 
 end # === describe Chit_Chat: read ===

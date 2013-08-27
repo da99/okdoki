@@ -18,16 +18,22 @@ class Chit_Chat
 
     def read_inbox sn
       new DB[%^
-        SELECT chit_chat.*
-        FROM chit_chat INNER JOIN chit_chat_to
-          ON chit_chat.id = chit_chat_to.chit_chat_id
-        WHERE chit_chat_to.from_id != ? AND
-              chit_chat_to.from_id IN (
-                SELECT target_id
-                FROM i_know_them
-                WHERE owner_id = ? AND is_follow = true
-              )
-      ^, sn.id, sn.id].limit(111).all
+        SELECT *
+        FROM chit_chat INNER JOIN (
+          SELECT    MAX(chit_chat_id) AS cc_id,
+                    COUNT(id)         AS cc_count
+          FROM      chit_chat_to
+          WHERE     to_id IS NULL
+                    AND from_id IN (
+                            SELECT target_id
+                            FROM i_know_them
+                            WHERE owner_id = ? AND is_follow = true
+                    )
+          GROUP BY  from_id
+        ) AS meta
+        ON chit_chat.id = meta.cc_id
+        ORDER BY chit_chat.id DESC
+      ^, sn.id].limit(111).all
     end
 
   end # === class self ===
