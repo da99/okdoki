@@ -19,7 +19,8 @@ $(function () {
   });
 
   on('after success #create_account', function (o) {
-    document.location.href = o.data.location;
+    window.location.reload(true);
+    // document.location.href = o.data.location;
   })
 
 }); // $(function) ======================================
