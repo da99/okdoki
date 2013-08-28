@@ -10,7 +10,7 @@ post '/user' do
     json(
       true,
       :msg      => "Account created. Please wait as page is re-loaded...",
-      :location => c.to_href
+      :location => "/"
     )
   rescue Screen_Name::Dup => err
     json false, err.msg

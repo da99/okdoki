@@ -19,7 +19,7 @@ $(function () {
   });
 
   on('after success #create_account', function (o) {
-    document.location.href = result.location;
+    document.location.href = o.data.location;
   })
 
 }); // $(function) ======================================
