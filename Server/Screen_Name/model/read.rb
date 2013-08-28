@@ -70,6 +70,10 @@ class Screen_Name
     end
   end
 
+  def to_href
+    "/me/#{name}"
+  end
+
 end # === class Screen_Name read ===
 
 

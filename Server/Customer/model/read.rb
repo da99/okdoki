@@ -62,6 +62,10 @@ class Customer
     data[:bad_log_in_count] > 3
   end
 
+  def to_href
+    screen_names.first.to_href
+  end
+
 end # === class Customer read ===
 
 
