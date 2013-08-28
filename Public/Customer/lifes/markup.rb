@@ -2,6 +2,14 @@
 
 title '{{title}}'
 
+styles {
+  stylesheet '/Customer/lifes/style'
+}
+
+scripts {
+  script '/Customer/lifes/script'
+}
+
 templates do
   li.screen_name {
     a.name('', href:'/me/{name}')
