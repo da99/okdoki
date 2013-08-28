@@ -55,7 +55,7 @@ describe ':escape' do
 
   it 'does not re-escape already escaped text mixed with HTML' do
     h = "<p>Hi</p>";
-    e = Ok::Escape_All.e(h);
+    e = Ok::Escape_All.escape(h);
     o = e + h;
     assert :==, Ok::Escape_All.escape(o), Ok::Escape_All.escape(h + h)
   end
@@ -144,6 +144,12 @@ describe ':escape' do
     assert :==, a, Ok::Escape_All.escape(a)
   end
 
+  [true, false].each do |v|
+    it "does not escape #{v.inspect}" do
+      a = {:something=>v}
+      assert :==, a, Ok::Escape_All.escape(a)
+    end
+  end
 end # === end desc
 
 

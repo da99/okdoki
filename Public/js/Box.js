@@ -19,7 +19,7 @@ var _csrf  = function (obj) {
     obj['_csrf'] = _csrf();
     return obj;
   }
-  return $.trim($('#_csrf').text());
+  return $.trim($('#CSRF').text());
 }
 
 var log = function (msg) {

@@ -92,12 +92,12 @@ module Ok
         k && (k[Underscore_URI_KEY] || k[URI_KEY])
       end
 
-      def e o, key = nil
+      def _e o, key = nil
         # EscapeUtils.escape_html(un_e o)
         if key && key.to_s['pass_']
           o
         elsif is_uri_key(key)
-          clean = e_uri(e(o))
+          clean = e_uri(_e(o))
         else
           Coder.encode(un_e(o), :named, :hexadecimal)
         end
@@ -114,14 +114,17 @@ module Ok
           return new_o
         end
 
-        return Escape_All.e(o, key) if o.is_a?(String)
+        return Escape_All._e(o, key) if o.is_a?(String)
 
         if o.is_a?(Symbol)
-          return Escape_All.e(o.to_s).to_sym
+          return Escape_All._e(o.to_s).to_sym
+        end
+
+        if o == true || o == false
+          return o
         end
 
         raise "Unknown type: #{o.class}"
-
       end # === def
 
     end # === class self ==========================================================================
