@@ -1,46 +1,48 @@
 
+require 'pty'
 require 'httparty'
 
 def get str
   HTTParty.get( 'https://localhost' + str )
 end
 
-server = nil
+Record = { started: false }
+
+f = nil
 
 kill = lambda { |*a|
+  old = `ps aux`['unicorn master']
   `pkill -QUIT -f "unicorn master"`
-  while `ps aux`['unicorn master']
-    sleep 0.1
-  end
-  puts "Server killed"
+  f.resume if f && Record[:started] # = throw(:ready)
+  puts "=== Server killed\n\n" if old
 }
 
 Signal.trap("INT", kill)
 Signal.trap("EXIT", kill)
 
-# kill.call
+kill.call
 
 
-require 'pty'
-catch :ready do
-  begin
-    PTY.spawn( "bin/start" ) do |stdin, stdout, pid|
-      begin
-        # Do stuff with the output here. Just printing to show it works
-        stdin.each { |line|
-          print line
-          throw(:ready) if line['worker'] && line['read']
-        }
-      rescue Errno::EIO
-        exit 1
-      end
+f = Fiber.new {
+  PTY.spawn( "bin/start" ) do |stdin, stdout, pid|
+    begin
+      # Do stuff with the output here. Just printing to show it works
+      stdin.each { |line|
+        print line
+        Fiber.yield if line['worker'] && line['read']
+        # throw(:ready) if line['worker'] && line['read']
+      }
+    rescue Errno::EIO
+      exit 1 if !Record[:started]
+      # puts "=== Server output has ended.\n\n"
+      Fiber.yield
     end
-  rescue PTY::ChildExited
-    exit 1
   end
-end
+}
 
-puts "server started"
+f.resume
+
+Record[:started] = true
 
 
 require 'Bacon_Colored'
@@ -52,4 +54,7 @@ describe "/" do
   end
 
 end # === describe it runs ===
+
+
+
 
