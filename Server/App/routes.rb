@@ -1,8 +1,10 @@
 get "/" do
+  puts csrf_tag
   if !request[:user]
     return html 'App/top_slash', {
       title: 'OkDoki.com',
-      YEAR: Time.now.year
+      YEAR: Time.now.year,
+      _csrf: csrf_token
     }
   end
 

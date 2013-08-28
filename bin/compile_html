@@ -20,7 +20,7 @@ fi
 html=${file/.rb/.mustache.rb}
 
 tmp=$(mktemp)
-bin/bundle exec dot_why ./Public/layout.rb $file "$@" | pandoc > $tmp
+bin/bundle exec dot_why ./Public/layout.rb $file "$@"  > $tmp
 
 bin/bundle exec ruby -e "require('mustache'); puts Mustache::Template.new(File.read('$tmp')).compile;"  > $html
 

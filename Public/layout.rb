@@ -71,6 +71,10 @@ module Dot_Why
 
           main
 
+          text! %^
+            <script type="text/_csrf" id="CSRF">{{_csrf}}</script>
+          ^
+
           scripts(:top) {
             script('/js/vendor/all')
 

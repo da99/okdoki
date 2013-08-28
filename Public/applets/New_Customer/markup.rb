@@ -3,7 +3,7 @@ div.box.New_Customer! {
   h3 "Create a New Account"
   div.content {
 
-    form(id: 'create_account', action: '/customer', method: 'post') {
+    form(id: 'create_account', action: '/user', method: 'post') {
 
       div.fields {
 

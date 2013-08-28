@@ -113,14 +113,23 @@ end
 module Server
   module Test
 
-    def new_client
-      agent = Mechanize.new
-      agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      agent
+    def client
+      @client ||= new_client
     end
 
-    def get str
-      HTTParty.get( 'https://localhost' + str )
+    def get url, *args
+      client.get "https://localhost#{url}", *args
+    end
+
+    def post url, *args
+      client.post "https://localhost#{url}", *args
+    end
+
+    def new_client
+      agent = Mechanize.new
+      # http://icfun.blogspot.com/2012/05/ruby-opensslsslsslerror-with-mechanize.html
+      agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      agent
     end
 
     def tests_started? *args
@@ -156,7 +165,7 @@ module Server
         begin
           # Do stuff with the output here. Just printing to show it works
           stdin.each { |line|
-            # print line
+            print line if line['app error']
             Fiber.yield if line['worker'] && line['read']
           }
         rescue Errno::EIO
