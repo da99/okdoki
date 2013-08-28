@@ -11,7 +11,12 @@ module Ok
       @name            = name
       @english_name    = @name.to_s.capitalize.gsub('_', ' ')
       @clean_data      = model.clean_data
-      @clean_data[name]= model.new_data[name]
+      key = if model.new_data.has_key?(name.to_s)
+              name.to_s
+            else
+              name
+            end
+      @clean_data[name]= model.new_data[key]
     end
 
     def e msg = nil
