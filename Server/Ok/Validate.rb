@@ -6,6 +6,7 @@ module Ok
     attr_reader :model, :name, :english_name, :clean_data
 
     class << self
+
       def new model, name
         s_name = name.to_s
         new_data = model.new_data
@@ -20,6 +21,7 @@ module Ok
           Ok::Validate_Empty.new(model, name)
         end
       end
+
     end # === class self ===
 
     def initialize model, name
@@ -149,9 +151,9 @@ module Ok
 
   end # === class Validate
 
-  class Validate_Empty < Validate
+  class Validate_Empty
 
-    meths = Validate.public_instance_methods - Object.public_instance_methods - IGNORE_METHODS
+    meths = Validate.public_instance_methods - Validate::IGNORE_METHODS
 
     meths.each { |meth|
       case meth
@@ -166,8 +168,7 @@ module Ok
     }
 
     def initialize model, name
-      super
-      clean_data.delete name
+      super()
     end
 
   end # === class Validate_Empty
