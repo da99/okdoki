@@ -133,6 +133,17 @@ describe ':escape' do
     end
   }
 
+  # === password field
+  it "does not escape :pass_word key" do
+    a = {:pass_word=>"&&&"}
+    assert :==, a, Ok::Escape_All.escape(a)
+  end
+
+  it "does not escape :confirm_pass_word key" do
+    a = {:confirm_pass_word=>"&&&"}
+    assert :==, a, Ok::Escape_All.escape(a)
+  end
+
 end # === end desc
 
 

@@ -94,7 +94,9 @@ module Ok
 
       def e o, key = nil
         # EscapeUtils.escape_html(un_e o)
-        if is_uri_key(key)
+        if key && key.to_s['pass_']
+          o
+        elsif is_uri_key(key)
           clean = e_uri(e(o))
         else
           Coder.encode(un_e(o), :named, :hexadecimal)
