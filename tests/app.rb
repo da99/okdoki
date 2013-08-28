@@ -6,14 +6,20 @@ def get str
   HTTParty.get( 'https://localhost' + str )
 end
 
-Record = { started: false }
+def tests_started? *args
+  if args.empty?
+    @started
+  else
+    @started = args.first
+  end
+end
 
 f = nil
 
 kill = lambda { |*a|
   old = `ps aux`['unicorn master']
   `pkill -QUIT -f "unicorn master"`
-  f.resume if f && Record[:started] # = throw(:ready)
+  f.resume if f && tests_started?
   puts "=== Server killed\n\n" if old
 }
 
@@ -28,12 +34,11 @@ f = Fiber.new {
     begin
       # Do stuff with the output here. Just printing to show it works
       stdin.each { |line|
-        print line
+        # print line
         Fiber.yield if line['worker'] && line['read']
-        # throw(:ready) if line['worker'] && line['read']
       }
     rescue Errno::EIO
-      exit 1 if !Record[:started]
+      exit 1 if !tests_started?
       # puts "=== Server output has ended.\n\n"
       Fiber.yield
     end
@@ -42,7 +47,7 @@ f = Fiber.new {
 
 f.resume
 
-Record[:started] = true
+tests_started? true
 
 
 require 'Bacon_Colored'
