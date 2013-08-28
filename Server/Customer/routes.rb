@@ -2,7 +2,6 @@
 require './Server/Customer/model'
 
 post '/user' do
-  sfdf
   begin
     c = Customer.create(params)
     sign_in(c)

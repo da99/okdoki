@@ -4,7 +4,7 @@ require "htmlentities"
 require "uri"
 
 # =====================================================================
-if respond_to? :helpers
+if respond_to? :helpers, true
   helpers do
 
     def params

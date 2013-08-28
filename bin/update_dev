@@ -10,6 +10,7 @@ then
   sudo apt-get install pandoc
 fi
 
+sudo apt-get install libxslt1-dev libxml2-dev
 bin/bundle install
 bin/bundle update
 

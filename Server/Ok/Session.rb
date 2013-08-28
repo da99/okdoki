@@ -16,11 +16,11 @@ module Ok
       path = env['PATH_INFO']
 
       full = "#{meth}:#{path}"
-      if !@guard.include?(full) && (['HEAD', 'GET'].include?(meth) || @options.include?(full))
+      if !@guard.include?(full) && (['HEAD', 'GET'].include?(meth) || @skip.include?(full))
         return @app.call env
       end
 
-      [404, {}, ["Not Done"]]
+      [404, {}, ["Not Found"]]
     end
 
     module Helpers # === Sinatra Helpers ================================
@@ -62,7 +62,7 @@ end # === module Ok ===
 # =====================================================
 # Use it as middleware, set-up Sinatra routes
 # =====================================================
-if respond_to? :helpers
+if respond_to? :helpers, true
 
   use     Ok::Session,         skip: ['POST:/sign-in', 'POST:/user']
   helpers Ok::Session::Helpers
@@ -93,9 +93,20 @@ if respond_to? :helpers
 
   end # === post
 
+
+  if ENV['IS_DEV']
+    puts "IS DEV"
+    get "/test/session" do
+      a = ""
+      session.each { |k, v|
+        a  << "#{k}: #{v}<br />"
+      }
+      a
+    end
+  end
+
 end # === Sinatra =====================================
 # =====================================================
-
 
 
 

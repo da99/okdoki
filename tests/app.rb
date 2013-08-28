@@ -1,23 +1,33 @@
 require './tests/helpers'
 require 'multi_json'
-include Server::Test
-start_server
 
+# start_server
+class C
+  include Server::Test
+end
 
-Home = get "/"
-csrf = (Home/'#CSRF').first
-if csrf
-  csrf = csrf.content
+client = CLIENT = C.new
+
+def GET *args
+  CLIENT.GET *args
+end
+
+def POST *args
+  CLIENT.POST *args
+end
+
+def _csrf
+  CLIENT._csrf
 end
 
 describe "/" do
 
   it "returns a 200" do
-    Home.code.to_i.should == 200
+    GET('/').code.to_i.should == 200
   end
 
   it "includes a _csrf value" do
-    (Home / "#CSRF").size.should == 1
+    (GET('/')/ "#CSRF").size.should == 1
   end
 
 end # === describe it runs ===
@@ -25,15 +35,18 @@ end # === describe it runs ===
 
 describe "POST /user" do
 
-  it "creates a new user" do
-puts csrf
-    r = post(
-      "/user",
-      MultiJson.dump({'_csrf' => csrf, 'screen_name'=>'ted1', 'pass_phrase'=>'this is mey  passw'}),
-      'Content-Type'=>'application/json'
-    )
-    r.code.to_i.should == 200
-    r.body.should == "test"
+  it "tells user confirm_pass_phrase is required." do
+    r = POST( "/user", 'screen_name'=>'ted1', 'pass_phrase'=>'this is mey  passw')
+    reply = MultiJson.load(r.body)
+    reply['success'].should == false
+    reply['msg'].should == "Pass phrase and conform pass phrase do not match"
+  end
+
+  it "raises an error if no _csrf token passed" do
+    lambda {
+      r = POST( "/user", {'screen_name'=>'ted1', 'pass_phrase'=>'this is mey  passw'}, 'X-CSRF-Token' => nil)
+    }.should.raise(Mechanize::ResponseCodeError).
+      response_code.to_i.should == 500
   end
 
 end # === describe

@@ -1,5 +1,4 @@
 get "/" do
-  puts csrf_tag
   if !request[:user]
     return html 'App/top_slash', {
       title: 'OkDoki.com',
