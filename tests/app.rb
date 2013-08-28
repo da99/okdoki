@@ -10,7 +10,9 @@ server = nil
 
 kill = lambda { |*a|
   `pkill -QUIT -f "unicorn master"`
-  sleep 0.2
+  while `ps aux`['unicorn master']
+    sleep 0.1
+  end
 }
 
 kill.call
