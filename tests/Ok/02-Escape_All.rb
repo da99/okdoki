@@ -150,6 +150,12 @@ describe ':escape' do
       assert :==, a, Ok::Escape_All.escape(a)
     end
   end
+
+  it "does not escape numbers" do
+    a = {:something=>1}
+    assert :==, a, Ok::Escape_All.escape(a)
+  end
+
 end # === end desc
 
 

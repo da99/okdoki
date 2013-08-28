@@ -120,7 +120,7 @@ module Ok
           return Escape_All._e(o.to_s).to_sym
         end
 
-        if o == true || o == false
+        if o == true || o == false || o.kind_of?(Numeric)
           return o
         end
 
