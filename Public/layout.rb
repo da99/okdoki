@@ -20,9 +20,14 @@ module Dot_Why
     blocks :scripts
     blocks :styles
 
-    def script name
-      full = "#{name}.js"
-      super(:type=>"text/javascript", :src=>"#{full}")
+    def script *args
+      if args.size == 1 && args.first.is_a?(String)
+        name = args.first
+        full = "#{name}.js"
+        super(:type=>"text/javascript", :src=>"#{full}")
+      else
+        super
+      end
     end
 
     def title txt = nil
@@ -71,9 +76,13 @@ module Dot_Why
 
           main
 
-          text! %^
-            <script type="text/_csrf" id="CSRF">{{_csrf}}</script>
-          ^
+          script("{{_csrf}}", type: "text/_csrf", id: "CSRF")
+
+          script(type: "text/x-okdoki", id: "templates") {
+            div.loading('{{msg}}')
+            div.success('{{msg}}')
+            div.errors('{{msg}}')
+          }
 
           scripts(:top) {
             script('/js/vendor/all')
