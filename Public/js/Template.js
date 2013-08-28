@@ -36,14 +36,25 @@ var Template = {
     var t = Template.html().find(se);
     if (!t.length)
       throw new Error('Template not found: ' + se);
+    return outer_html(t);
     return outer_html(t).replace(this.VARS_REGEXP, "<%- $1 %>");
   },
 
-  compile: function (se, data) {
-    if (!this.FNS[se])
-      this.FNS[se] = _.template(this.read(se));
+  escape : function(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+  },
 
-    var o = $(this.FNS[se](data));
+  compile: function (se, data) {
+    var txt = this.read(se);
+    var me  = this;
+
+    _.each(data, function (v, k) {
+      log(k, v, txt, 'done')
+      txt = txt.replace( new RegExp(me.escape('{' + k+'}'), 'g'), v);
+    });
+
+
+    var o = $(txt);
     emit('template compiled', {dom: o});
     return o;
   }

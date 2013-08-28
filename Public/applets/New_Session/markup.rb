@@ -16,7 +16,7 @@ div.box.New_Session! {
 
         div.field.passphrase {
           label( "Pass phrase:", for:"LOGIN_PASS_PHRASE")
-          input.field.LOGIN_PASS_PHRASE!(type:'password', name:"pass_phrase", value:"")
+          input.field.LOGIN_PASS_PHRASE!(type:'password', name:"pass_word", value:"")
         }
 
         div.field.buttons {

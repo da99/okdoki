@@ -96,7 +96,7 @@ if respond_to? :helpers, true
 
   if ENV['IS_DEV']
     get "/test/session" do
-      pass if ENV['HTTP_X_REAL_IP'] != '127.0.0.1'
+      pass if env['HTTP_X_REAL_IP'] != '127.0.0.1'
       a = "Session: \n"
       session.each { |k, v| a  << "#{k}: #{v}\n<br />" }
       a << "Headers:\n"

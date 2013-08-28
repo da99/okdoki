@@ -79,9 +79,9 @@ module Dot_Why
           script("{{_csrf}}", type: "text/_csrf", id: "CSRF")
 
           script(type: "text/x-okdoki", id: "templates") {
-            div.loading('{{msg}}')
-            div.success('{{msg}}')
-            div.errors('{{msg}}')
+            div.loading('{msg}')
+            div.success('{msg}')
+            div.errors('{msg}')
           }
 
           scripts(:top) {

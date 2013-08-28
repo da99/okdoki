@@ -19,14 +19,14 @@ div.box.New_Customer! {
             span.sub  " (for better security, use spaces and words)"
             span.main ":"
           }
-          input.field.NEW_CUSTOMER_PASS_PHRASE!(type:'password', name:"pass_phrase", value:"")
+          input.field.NEW_CUSTOMER_PASS_PHRASE!(type:'password', name:"pass_word", value:"")
         }
 
         div.field.confirm_pass_phrase {
           label(for:"NEW_CUSTOMER_CONFIRM_PASS_PHRASE") {
             span.main "Re-type the pass phrase:"
           }
-          input.field.NEW_CUSTOMER_CONFIRM_PASS_PHRASE!(type:'password', name:"confirm_pass_phrase", value:"")
+          input.field.NEW_CUSTOMER_CONFIRM_PASS_PHRASE!(type:'password', name:"confirm_pass_word", value:"")
         }
 
 
