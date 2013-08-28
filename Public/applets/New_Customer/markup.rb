@@ -31,7 +31,7 @@ div.box.New_Customer! {
 
 
         div.buttons {
-          input(type: 'hidden', name: "_csrf", value: "{{_csrf}}")
+          # input(type: 'hidden', name: "_csrf", value: "{{_csrf}}")
           button.submit "Create Account"
         }
 

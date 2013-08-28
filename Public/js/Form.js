@@ -32,7 +32,7 @@ function form_to_json(selector) {
     log("No form found for: " + selector);
     return;
   }
-  return _csrf( $(e).serializeJSON() );
+  return $(e).serializeJSON();
 }
 
 
