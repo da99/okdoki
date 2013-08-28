@@ -1,6 +1,4 @@
 
-require './Server/Ok_Session/model'
-
 # ================ Rack Middle + DSL ===================
 module Ok
 
@@ -56,16 +54,15 @@ module Ok
 
     end # === module Helpers ============================================
 
-  end # === class Guard ===
+  end # === class Session ===
 
 end # === module Ok ===
-
 
 
 # =====================================================
 # Use it as middleware, set-up Sinatra routes
 # =====================================================
-if respond_to? :helpers do
+if respond_to? :helpers
 
   use     Ok::Session,         skip: ['POST:/sign-in', 'POST:/user']
   helpers Ok::Session::Helpers
@@ -81,7 +78,7 @@ if respond_to? :helpers do
 
     return json(false, "Pass phrase is required.") if (params[:pass] || "").strip.empty?
 
-    return begin
+    begin
       sign_in Customer.find_by_screen_name_and_pass_word(params[:screen_name], params[:pass_phrase])
       json true, "You are now logged in to: #{request.host}"
 
@@ -92,9 +89,9 @@ if respond_to? :helpers do
       json(false, e.msg)
     end
 
+    return
+
   end # === post
-
-
 
 end # === Sinatra =====================================
 # =====================================================
