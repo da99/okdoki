@@ -101,6 +101,9 @@ describe( 'app', function () {
   // # 16
   it 'escapes html not starting with a valid html5'
 
+  // # 17
+  it 'makes sure X-REAL-IP is set in the env'
+
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {
