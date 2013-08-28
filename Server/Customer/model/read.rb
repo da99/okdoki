@@ -66,6 +66,10 @@ class Customer
     screen_names.first.to_href
   end
 
+  def bot_uses
+    nil
+  end
+
 end # === class Customer read ===
 
 

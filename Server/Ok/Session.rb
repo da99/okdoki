@@ -31,8 +31,8 @@ module Ok
 
       def user
         @customer ||= begin
-                        sn = session[:screen_name]
-                        !!sn && Customer.find_by_screen_name(session[:screen_name])
+                        sn = session['screen_name']
+                        !!sn && Customer.read_by_screen_name(sn)
                       rescue Customer::Not_Found => e
                         nil
                       end

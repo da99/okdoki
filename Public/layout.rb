@@ -4,6 +4,21 @@ STAMP = Time.now.to_i
 module Dot_Why
   class Template
 
+    def as_this_life_menu
+      select(name:"as_this_life") {
+        text '{{# screen_names}}'
+        option('{{name}}', value="{{name}}")
+        text '{{/ screen_names}}'
+      }
+    end
+
+    def span_as
+      span.as_this_life {
+        span.as " as: "
+        as_this_life_menu()
+      }
+    end
+
     def applet *args
       styles {
         stylesheet "/applets/#{args.first}/style"
@@ -19,6 +34,7 @@ module Dot_Why
 
     blocks :scripts
     blocks :styles
+    blocks :templates
 
     def script *args
       if args.size == 1 && args.first.is_a?(String)
@@ -82,6 +98,7 @@ module Dot_Why
             div.loading.msg('')
             div.success.msg('')
             div.errors.msg('')
+            templates
           }
 
           scripts(:top) {
