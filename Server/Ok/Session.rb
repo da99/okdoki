@@ -47,9 +47,14 @@ module Ok
       def log_out
         session.keys.each { |k| session[k] = nil }
         session.clear
-        cookies.keys.each { |k|
-          cookies.delete k, { path: '/', domain: ".#{request.host}" }
-        }
+        # request.cookies.keys.each { |k|
+          # response.cookies.set_cookie(
+            # k, :value=>"none",
+            # :domain => ".#{request.host}",
+            # :path => "/",
+            # :expires => Date.new(2001,1,1)
+          # )
+        # }
       end
 
     end # === module Helpers ============================================

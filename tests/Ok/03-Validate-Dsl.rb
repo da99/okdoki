@@ -21,4 +21,9 @@ describe ":validate" do
     o.clean_data[:hello].should == 'ok dokie'
   end
 
+  it "can accept new_data as symbols" do
+    o = My_Model.create(hello: 'hi there')
+    o.clean_data[:hello].should == 'ok dokie'
+  end
+
 end # === describe sdff ===
