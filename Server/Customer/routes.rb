@@ -1,7 +1,7 @@
 
 require './Server/Customer/model'
 
-post '/Customer' do
+post '/user' do
   begin
     c = Customer.create(params)
     sign_in(c)

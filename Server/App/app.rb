@@ -17,11 +17,11 @@ use Rack::Protection::EscapedParams    # 4
 use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
+require './Server/Ok/Session'        # 0
 require './Server/Ok/Escape_All'     # 1
 require './Server/Ok/CSRF'           # 2
-require './Server/Ok/Guard'          # 3
-require './Server/Ok/JSON_Success'   # 4
-require './Server/Ok/HTML_Render'    # 5
+require './Server/Ok/JSON_Success'   # 3
+require './Server/Ok/HTML_Render'    # 4
 # ----------------------------------------------------
 
 # -- DB
@@ -32,7 +32,6 @@ require './Server/Ok/model'
   App
   Customer
   Screen_Name
-  Ok_Session
 }.map { |w|
   require "./Server/#{w}/routes"
 }

@@ -85,6 +85,12 @@ describe( 'app', function () {
   // #11
   it 'escapes all URL fields in the database (_url) to RFC specs'
 
+  // #12
+  it 'sanitizes :return_to url after sign-in & account creation'
+
+  // # 13
+  it 'deletes all cookies up log-out'
+
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {
