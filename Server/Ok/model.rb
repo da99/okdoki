@@ -108,11 +108,7 @@ module Ok
 
     def validate name
       @spec = name
-      if new_data.has_key?(name)
-        Ok::Validate.new(self, name)
-      else
-        Ok::Validate_Empty.new(self, name)
-      end
+      Ok::Validate.new(self, name)
     end
 
     def initialize *args

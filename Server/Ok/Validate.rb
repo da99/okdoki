@@ -5,6 +5,23 @@ module Ok
 
     attr_reader :model, :name, :english_name, :clean_data
 
+    class << self
+      def new model, name
+        s_name = name.to_s
+        new_data = model.new_data
+        if new_data.has_key?(s_name)
+          new_data[name] = new_data[s_name]
+          new_data.delete(s_name)
+        end
+
+        if new_data.has_key?(name)
+          super model, name
+        else
+          Ok::Validate_Empty.new(model, name)
+        end
+      end
+    end # === class self ===
+
     def initialize model, name
       @e               = model.class::Invalid
       @model           = model
@@ -16,6 +33,7 @@ module Ok
             else
               name
             end
+
       @clean_data[name]= model.new_data[key]
     end
 
