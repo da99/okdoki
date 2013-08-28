@@ -6,7 +6,6 @@ require 'rack/contrib'
 ContentSecurityPolicy.configure do |csp|
   csp['default-src'] =  "'self' *.okdoki.com localhost";
   csp['img-src']     =  "*"
-  csp['script-src']  =  "'self' 'unsafe-inline'"
 end
 
 # -- Middleware & Helpers ----------------------------
