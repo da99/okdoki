@@ -211,7 +211,7 @@ OK_FORM.prototype.submit = function () {
       return ;
     }
 
-    var data = (typeof raw === 'string') ? JSON.parse(raw) : raw;
+    var data = (typeof raw === 'string') ? to_json_result(raw) : raw;
 
     log("Form results: " + f.dom_id, data.msg);
 

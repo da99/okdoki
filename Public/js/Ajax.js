@@ -39,7 +39,7 @@ function post() {
 function json_then(func) {
   return function (err, results) {
     if (!err && typeof(results) === 'string')
-      results = JSON.parse(results);
+      results = to_json_result(results);
 
     if (func.length === 2) {
       func(err, results);
@@ -47,7 +47,7 @@ function json_then(func) {
       if (err)
         log(err);
       else {
-        func(JSON.parse(results));
+        func(to_json_result(results));
       }
       return;
     }
@@ -57,7 +57,7 @@ function json_then(func) {
 
 
 
-// from:http://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try 
+// from: http://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try 
 function to_json_result(raw_text) {
   var text  = "" + raw_text;
   var fails = {success: false};
