@@ -1,7 +1,7 @@
 
 require './Server/Customer/model'
 require 'Bacon_Colored'
-require 'httparty'
+require 'mechanize'
 
 IP = '127.0.0.1'
 
@@ -112,6 +112,12 @@ end
 
 module Server
   module Test
+
+    def new_client
+      agent = Mechanize.new
+      agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      agent
+    end
 
     def get str
       HTTParty.get( 'https://localhost' + str )

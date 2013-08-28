@@ -25,9 +25,6 @@ GEM
     htmlentities (4.3.1)
     http-cookie (1.0.1)
       domain_name (~> 0.5)
-    httparty (0.11.0)
-      multi_json (~> 1.0)
-      multi_xml (>= 0.5.2)
     kgio (2.8.0)
     mechanize (2.7.2)
       domain_name (~> 0.5, >= 0.5.1)
@@ -41,7 +38,6 @@ GEM
     mime-types (1.24)
     mini_portile (0.5.1)
     multi_json (1.7.9)
-    multi_xml (0.5.5)
     mustache (0.99.4)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9)
@@ -99,7 +95,6 @@ DEPENDENCIES
   dot_why
   escape_utils
   htmlentities
-  httparty
   mechanize
   multi_json
   mustache
