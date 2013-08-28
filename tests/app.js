@@ -91,6 +91,16 @@ describe( 'app', function () {
   // # 13
   it 'deletes all cookies up log-out'
 
+  // # 14
+  it 'escapes HTML'
+
+
+  // # 15
+  it 'escapes json'
+
+  // # 16
+  it 'escapes html not starting with a valid html5'
+
 }); // === end desc
 
 describe( 'Unauthenticated users:', function () {
