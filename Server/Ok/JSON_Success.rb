@@ -1,4 +1,5 @@
 
+require "./Server/Ok/Escape_All"
 require 'multi_json'
 
 # === Sinatra Helper
@@ -18,7 +19,7 @@ helpers do
       end
     }
     content_type :json
-    MultiJson.dump o
+    MultiJson.dump Ok::Escape_All.escape(o)
   end
 
 end # === module Helper ===

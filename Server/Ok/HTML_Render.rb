@@ -14,7 +14,7 @@ class Fake_Mustache
   CACHE = {}
 
   def escapeHTML var
-    Ok::Escape_All.e(var.to_s)
+    Ok::Escape_All.escape(var.to_s)
   end
 
   def initialize raw_file, data

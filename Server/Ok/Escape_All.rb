@@ -4,25 +4,25 @@ require "htmlentities"
 require "uri"
 
 # =====================================================================
-if respond_to? :helpers, true
-  helpers do
+# if respond_to? :helpers, true
+  # helpers do
 
-    def params
-      @clean_params ||= begin
-                          dirty = super
-                          return dirty if dirty.empty?
+    # def params
+      # @clean_params ||= begin
+                          # dirty = super
+                          # return dirty if dirty.empty?
 
-                          o = {}
-                          super.keys.each do |k|
-                            o[Ok::Escape_All.escape(k.to_s).to_sym] = Ok::Escape_All.escape(dirty[k])
-                          end
+                          # o = {}
+                          # super.keys.each do |k|
+                            # o[Ok::Escape_All.escape(k.to_s).to_sym] = Ok::Escape_All.escape(dirty[k])
+                          # end
 
-                          o
-                        end
-    end
+                          # o
+                        # end
+    # end
 
-  end # === end helpers
-end
+  # end # === end helpers
+# end
 # =====================================================================
 
 
