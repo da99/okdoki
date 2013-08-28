@@ -21,9 +21,6 @@ create_event('template compiled');
 
 var Template = {
 
-  FNS         : {},
-  VARS_REGEXP : /\{([^\}]+)\}/g,
-
   html : function (html) {
     if (html)
       this._html = $(html).wrap('<p/>').parent();
@@ -37,20 +34,15 @@ var Template = {
     if (!t.length)
       throw new Error('Template not found: ' + se);
     return outer_html(t);
-    return outer_html(t).replace(this.VARS_REGEXP, "<%- $1 %>");
-  },
-
-  escape : function(s) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
   },
 
   compile: function (se, data) {
-    var txt = this.read(se);
+    var txt = $(this.read(se));
     var me  = this;
 
     _.each(data, function (v, k) {
-      log(k, v, txt, 'done')
-      txt = txt.replace( new RegExp(me.escape('{' + k+'}'), 'g'), v);
+      txt.closest('.' + k).text(v);
+      txt.find('.' + k).text(v);
     });
 
 
