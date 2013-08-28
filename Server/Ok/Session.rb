@@ -20,7 +20,7 @@ module Ok
         return @app.call env
       end
 
-      [404, {}, ["Not Found"]]
+      [401, {}, ["Not Allowed."]]
     end
 
     module Helpers # === Sinatra Helpers ================================
@@ -97,11 +97,11 @@ if respond_to? :helpers, true
   if ENV['IS_DEV']
     puts "IS DEV"
     get "/test/session" do
-      a = ""
-      session.each { |k, v|
-        a  << "#{k}: #{v}<br />"
-      }
-      a
+      a = "Session: \n"
+      session.each { |k, v| a  << "#{k}: #{v}\n<br />" }
+      a << "Headers:\n"
+      env.each { |k, v| a  << "#{k}: #{v}\n<br />" }
+      "<pre>" + a + "</pre>"
     end
   end
 

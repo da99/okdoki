@@ -3,7 +3,9 @@ require './Server/Customer/model'
 
 post '/user' do
   begin
-    c = Customer.create(params)
+    args = params.dup
+    args[:ip] = env['HTTP_X_REAL_IP']
+    c = Customer.create(args)
     sign_in(c)
     json(
       true,
