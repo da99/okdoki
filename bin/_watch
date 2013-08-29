@@ -42,49 +42,64 @@ restart_server () {
 
 }
 
-if [[ -z "$FIRST_RUN" ]]
+if [[ ! -z "$FIRST_RUN" ]]
 then
 
-  if [[ $FILE =~ ".rb" && ! "$FILE" =~ "layout.rb"  ]]
+
+  if [[ -z "$@" ]]
   then
-
-    if [[ "$FILE" =~ "Public/" && ! "$FILE" =~ "mustache." ]]
-    then
-      $yellow "=== Please wait... compiling..."
-      if [[ "$FILE" =~ "applets" ]]
-      then
-        bin/compile_html all
-      else
-        bin/compile_html $FILE
-      fi
-      $green $(restart_server)
-    else
-      if [[ ! -z "$@" ]]
-      then
-        bin/test "$@"
-      else
-        if [[ "$FILE" =~ "Server/" ]]
-        then
-          $green $(restart_server)
-        else
-          if [[ ! "$FILE" =~ "markup.mustache.rb" ]]
-          then
-            echo "Unknown file: $FILE"
-          fi
-        fi # --- restart server if Server/
-      fi
-    fi
-
+    restart_server
   else
-    echo "=== ignoring: $FILE"
+    bin/test "$@"
   fi
 
-else
-  restart_server
+  exit 0
+fi # === done first run
+
+is_done=""
+
+if [[ "$FILE" =~ ".js"  || "$FILE" == "bin/upgrade" ]] 
+then
+  is_done="true"
+  bin/upgrade skip_npm skip_os skip_download
+fi
+
+if [[ "$FILE" =~ ".styl" ]]
+then
+  is_done="true"
+  bin/compile_all_style_files "$FILE"
+fi
+
+if [[ "$FILE" =~ "Public/" && "$FILE" =~ ".rb"  && ! "$FILE" =~ "mustache." ]]
+then
+  is_done="true"
+  $yellow "=== Please wait... compiling..."
+  if [[ "$FILE" =~ "applets" ]]
+  then
+    bin/compile_html all
+  else
+    bin/compile_html $FILE
+  fi
+  $green $(restart_server)
+fi
+
+if [[ "$FILE" =~ "Server/" ]]
+then
+  is_done="true"
+
   if [[ ! -z "$@" ]]
   then
     bin/test "$@"
+  else
+    $green $(restart_server)
   fi
+
+fi # === Server/ files
+
+
+if [[ -z "$is_done" ]]
+then
+  echo "=== ignoring: $FILE"
 fi
 
 
