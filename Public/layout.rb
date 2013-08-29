@@ -4,6 +4,14 @@ STAMP = Time.now.to_i
 module Dot_Why
   class Template
 
+    def view_name
+      @view_name ||= begin
+                       base = File.basename(main_file).sub(".rb", '')
+                       dir  = File.dirname(mail_file)
+                       "#{dir}/#{base}"
+                     end
+    end
+
     def as_this_life_menu
       select(name:"as_this_life") {
         text '{{# screen_names}}'

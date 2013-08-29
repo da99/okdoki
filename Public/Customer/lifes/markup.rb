@@ -2,6 +2,7 @@
 
 title '{{title}}'
 
+
 styles {
   stylesheet '/Customer/lifes/style'
 }
@@ -10,16 +11,16 @@ scripts {
   script '/Customer/lifes/script'
 }
 
-templates do
+applet("Create_Life")
+applet("Bot_Create")
+
+templates {
   li.screen_name {
     a.name('', href:'/me/{name}')
   }
-end
+}
 
 main  {
-
-  applet("Create_Life")
-  applet("Bot_Create")
 
   #//- ===========================================================
   div.Logo! {

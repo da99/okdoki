@@ -7,15 +7,7 @@
       - if (show_more)
         a.show_more(href="#more_settings") Settings
 
-  function span_as()
-    span.as_this_life
-      span.as as:&nbsp;
-      call as_this_life_menu()
 
-  function as_this_life_menu()
-    select(name="as_this_life")
-      - for (var x in customer_screen_names)
-        option(value="#{customer_screen_names[x]}") #{customer_screen_names[x]}
 
   function script(name)
     script(src="#{add_mtime(name)}")
