@@ -92,7 +92,11 @@ section :main do
       div.content "* * *"
     }
 
-    section :Bot_Create
+    div.Options! {
+      h2 "Options for Eggheads"
+      section :Bot_Create
+    }
+
   }
 
 end # === section :content

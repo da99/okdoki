@@ -5,13 +5,13 @@
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/css/lenka-stabilo.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/circus.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/vanilla.reset.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/okdoki.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/forms.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Create_Life/style.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Customer/lifes/style.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/lenka-stabilo.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/circus.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/vanilla.reset.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/okdoki.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/forms.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/applets/Create_Life/style.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Customer/lifes/style.css?1377790806" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div id="Logo"><span class="main">ok</span><span class="sub">doki</span><span class="wat_wat">: Multi-Life Chat & Publishing</span></div>
     <div class="col" id="Interact">      <div class="box" id="Create_Life">        <div class="mini_box my_life">

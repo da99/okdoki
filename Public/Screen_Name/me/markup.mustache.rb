@@ -5,13 +5,13 @@
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/css/lenka-stabilo.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/circus.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/vanilla.reset.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/okdoki.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/forms.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Bot_Create/style.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Screen_Name/me/style.css?1377782317" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/lenka-stabilo.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/circus.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/vanilla.reset.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/okdoki.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/forms.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/applets/Bot_Create/style.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Screen_Name/me/style.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div id="Me">      <div class="box">
         <h3><span>Box</span><span class="sub">(Mail)</span></h3>
@@ -25,17 +25,20 @@
         <h3>~ ~ ~</h3>
         <div class="content">* * *</div>
       </div>
-      {{^bot}}      <div class="box" id="New_Bot">        <div class="setting"><a class="on" href="#show">Show</a></div>
-        <h3>Create a Bot</h3>
-        <div class="content">          <form action="/Bot" id="Bot_Create" method="POST">            <div class="fields">              <div class="field sub_sn">
-                <label for="NEW_BOT_SCREEN_NAME">Screen Name:</label>
+      <div id="Options">
+        <h2>Options for Eggheads</h2>
+        {{^bot}}        <div class="box" id="New_Bot">          <div class="setting"><a class="on" href="#show">Show</a></div>
+          <h3>Create a Bot</h3>
+          <div class="content">            <form action="/Bot" id="Bot_Create" method="POST">              <div class="fields">                <div class="field sub_sn">
+                  <label for="NEW_BOT_SCREEN_NAME">Screen Name:</label>
 <input id="NEW_BOT_SCREEN_NAME" name="sub_sn" type="text" /></div>
-            </div>
-            <div class="buttons"><input name="as_this_life" type="hidden" value="{{screen_name.screen_name}}" /><button class="submit">Create</button></div>
-          </form>
+              </div>
+              <div class="buttons"><input name="as_this_life" type="hidden" value="{{screen_name.screen_name}}" /><button class="submit">Create</button></div>
+            </form>
+          </div>
         </div>
-      </div>
-      {{/bot}}</div>
+        {{/bot}}</div>
+    </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
       <div class="success msg"></div>

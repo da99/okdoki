@@ -55,7 +55,7 @@ then
 fi # === done first run
 
 is_done=""
-
+echo "$FILE"
 if [[ "$FILE" =~ ".js"  || "$FILE" == "bin/upgrade" ]] 
 then
   is_done="true"
@@ -78,7 +78,7 @@ then
   else
     bin/compile_html $FILE
   fi
-  $green $(restart_server)
+  restart_server
 fi
 
 if [[ "$FILE" =~ "Server/" ]]
@@ -89,7 +89,7 @@ then
   then
     bin/test "$@"
   else
-    $green $(restart_server)
+    restart_server
   fi
 
 fi # === Server/ files
