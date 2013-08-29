@@ -7,7 +7,7 @@ class Bot
       if row
         Bot.new(row, sn)
       else
-        raise self::Not_Found.new("Bot not found for: #{sn.name}")
+        raise self::Not_Found.new("Bot not found for: #{sn.screen_name}")
       end
     end
 

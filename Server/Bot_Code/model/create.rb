@@ -16,7 +16,7 @@ class Bot_Code
       Bot_Code.new(row, bot)
     rescue Sequel::UniqueConstraintViolation => e
       raise e unless e.message['duplicate key value violates unique constraint "bot_code_target_idx"']
-      raise Bot_Code::Invalid.new(self, "Bot code already exists for: #{bot.name} #{TYPES[clean_data[:target]]}")
+      raise Bot_Code::Invalid.new(self, "Bot code already exists for: #{bot.screen_name} #{TYPES[clean_data[:target]]}")
     end
   end # === def create
 

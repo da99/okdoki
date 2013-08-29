@@ -37,7 +37,7 @@ class Screen_Name
       list.detect { |sn| sn.is? raw_name }
     end
 
-    def names
+    def screen_names
       pluck :screen_name
     end
 

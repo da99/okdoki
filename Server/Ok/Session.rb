@@ -42,7 +42,7 @@ module Ok
 
       def sign_in c
         log_out
-        session[:screen_name] = c.screen_names.names.first
+        session[:screen_name] = c.screen_names.screen_names.first
         true
       end
 

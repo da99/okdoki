@@ -53,8 +53,8 @@ class Bot
     JSON.encode(ESCAPE_ALL(JSON.parse(UNESCAPE str)))
   end
 
-  def name
-    @screen_name.name
+  def screen_name
+    @screen_name.screen_name
   end
 
 end # === class Bot ===

@@ -5,13 +5,13 @@
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/css/lenka-stabilo.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/circus.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/vanilla.reset.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/okdoki.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/forms.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Bot_Create/style.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Screen_Name/me/style.css?1377781620" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/lenka-stabilo.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/circus.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/vanilla.reset.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/okdoki.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/forms.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/applets/Bot_Create/style.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Screen_Name/me/style.css?1377781888" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div id="Me">      <div class="box">
         <h3><span>Box</span><span class="sub">(Mail)</span></h3>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div id="Sidebar">      <div id="Me_Intro">        <div class="the_life_of">The life of...</div>
-        <h3 class="name">{{screen_name.name}}</h3>
+        <h3 class="name">{{screen_name.screen_name}}</h3>
       </div>
       <div class="box">
         <h3>~ ~ ~</h3>
@@ -31,7 +31,7 @@
                 <label for="NEW_BOT_SCREEN_NAME">Screen Name:</label>
 <input id="NEW_BOT_SCREEN_NAME" name="sub_sn" type="text" /></div>
             </div>
-            <div class="buttons"><input name="as_this_life" type="hidden" value="{{screen_name.name}}" /><button class="submit">Create</button></div>
+            <div class="buttons"><input name="as_this_life" type="hidden" value="{{screen_name.screen_name}}" /><button class="submit">Create</button></div>
           </form>
         </div>
       </div>

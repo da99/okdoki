@@ -12,7 +12,7 @@ class Bot
       Bot.new( row, sn )
     rescue Sequel::UniqueConstraintViolation => e
       raise e unless e.message['"bot_screen_name"']
-      raise self.class::Invalid.new(self, "Bot already exists for: #{sn.name}")
+      raise self.class::Invalid.new(self, "Bot already exists for: #{sn.screen_name}")
     end
   end # === def create
 

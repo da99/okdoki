@@ -88,10 +88,6 @@ class Screen_Name
     super
   end
 
-  def is? raw_str
-    data[:screen_name] == Screen_Name.canonize(raw_str)
-  end
-
   def validate *args
     case args.first
     when :screen_name
@@ -108,14 +104,6 @@ class Screen_Name
     else
       super
     end
-  end
-
-  def find_screen_name_keys arr
-    rec     = arr[0] || {:screen_name_id=>nil}
-    key     = SCREEN_NAME_KEYS.detect { |k| rec.has_key? k }
-    key     = key || :screen_name_id
-    new_key = key.to_s.sub('_id', '_screen_name').to_sym
-    [key, new_key]
   end
 
   #
@@ -152,10 +140,6 @@ class Screen_Name
     end
 
     arr
-  end
-
-  def name
-    data[:screen_name]
   end
 
 end # === Screen_Name ========================================

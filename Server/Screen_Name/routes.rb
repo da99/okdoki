@@ -42,7 +42,7 @@ get '/me/:screen_name' do
   begin
     life = Screen_Name.read_by_screen_name params[:screen_name]
     html 'Screen_Name/me', {
-      :title       => "The life of #{life.name}",
+      :title       => "The life of #{life.screen_name}",
       :screen_name => life.to_public,
       :bot         => life.bot(:to_public),
       :bot_uses    => life.bot_uses(:to_public),

@@ -84,7 +84,7 @@ section :main do
 
     div.Me_Intro! {
       div.the_life_of "The life of..."
-      h3.name "{{screen_name.name}}"
+      h3.name "{{screen_name.screen_name}}"
     }
 
     div.box {
