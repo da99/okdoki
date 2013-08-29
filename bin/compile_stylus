@@ -20,8 +20,9 @@ else
   if [[ "$file" =~ "Public/css/_" ]]
   then
     base="$(basename $file)"
-    base=${base#.styl}
-    files=$(egrep -ir --include=*.{styl} "$base" ./Public)
+    base=${base%.styl}
+
+    files=$(egrep -lir --include=*.styl "$base" ./Public || echo "")
     for f in $files
     do
       stylus $f
