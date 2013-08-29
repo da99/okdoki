@@ -23,6 +23,14 @@ helpers do
 
 end # === helpers
 
+class Mustache
+  class Context
+    def escapeHTML str
+      Ok::Escape_All.escape str
+    end
+  end
+end # === class Mustache
+
 class Fake_Mustache
 
   CACHE = {}

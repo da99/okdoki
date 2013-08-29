@@ -1,6 +1,7 @@
 get "/" do
   if logged_in?
     opts = { user: nil, Bots: {Own: [], Use: []} }
+
     html 'Customer/lifes', {
       :title        => "My Okdoki",
       :bots         => user.bots,

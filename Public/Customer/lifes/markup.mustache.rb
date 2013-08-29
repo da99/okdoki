@@ -5,20 +5,20 @@
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/css/lenka-stabilo.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/circus.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/vanilla.reset.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/okdoki.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/forms.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Create_Life/style.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Bot_Create/style.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Customer/lifes/style.css?1377773697" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/lenka-stabilo.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/circus.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/vanilla.reset.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/okdoki.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/forms.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/applets/Create_Life/style.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/applets/Bot_Create/style.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Customer/lifes/style.css?1377776753" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div id="Logo"><span class="main">ok</span><span class="sub">doki</span><span class="wat_wat">: Multi-Life Chat & Publishing</span></div>
     <div class="col" id="Interact">      <div class="box" id="Create_Life">        <div class="mini_box my_life">
           <h3>My Life(s):</h3>
           <div class="content">            <ul class="screen_names">{{# screen_names }}
-              <li><a href="{{name.to_href}}">{{name}}</a></li>
+              <li><a href="{{href}}">{{name}}</a></li>
               {{/ screen_names }}</ul>
           </div>
         </div>
@@ -36,10 +36,10 @@
       </div>
       <div id="Options">
         <h2>Options for Eggheads</h2>
-        <div class="{{has_bots}}" id="New_Bot">          <div class="setting"><a class="on" href="#show">Show</a></div>
+        <div class="box {{has_bots}}" id="New_Bot">          <div class="setting"><a class="on" href="#show">Show</a></div>
           <h3>Create a Bot</h3>
-          <div class="content">            <div class="list">{{#bots}}<a href="/bot/{{name}}">{{name}}</a>{{/bots}}</div>
-            {{#bots}}            <form action="/Bot" id="Bot_Create" method="POST">              <div class="fields">                <div class="field sub_sn">
+          <div class="content">            <div class="list">{{# bots }}<a href="{{href}}">{{name}}</a>{{/ bots }}</div>
+            <form action="/Bot" id="Bot_Create" method="POST">              <div class="fields">                <div class="field sub_sn">
                   <label for="NEW_BOT_SCREEN_NAME">Screen Name:</label>
 <input id="NEW_BOT_SCREEN_NAME" name="sub_sn" type="text" /></div>
               </div>
@@ -47,7 +47,7 @@
                     <option>{{name}}</option>
                     {{/ screen_names}}</select></span><button class="submit">Create</button></div>
             </form>
-            {{/bots}}</div>
+          </div>
         </div>
       </div>
     </div>
