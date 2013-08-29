@@ -56,11 +56,11 @@ fi # === done first run
 
 is_done=""
 
-if [[ ( ! "$FILE" =~ "vendor" ) && ( "$FILE" =~ ".js"  || "$FILE" == "bin/upgrade" ) ]]
-then
-  is_done="true"
-  bin/upgrade skip_npm skip_os skip_download
-fi
+# if [[ ( ! "$FILE" =~ "vendor" ) && ( "$FILE" =~ ".js"  || "$FILE" == "bin/upgrade" ) ]]
+# then
+  # is_done="true"
+  # bin/upgrade skip_npm skip_os skip_download
+# fi
 
 if [[ "$FILE" =~ ".styl" ]]
 then
@@ -106,5 +106,7 @@ if [[ -z "$is_done" ]]
 then
   echo "=== ignoring: $FILE"
 fi
+
+
 
 

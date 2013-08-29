@@ -3,14 +3,14 @@
 
 $(function () {
 
-  get('/bots/for/' + Screen_Name.screen_name(), function (err, result) {
-    if (err) {
-      log('Error in /bots: ', err);
-      return;
-    }
+  // get('/bots/for/' + Screen_Name.screen_name(), function (err, result) {
+    // if (err) {
+      // log('Error in /bots: ', err);
+      // return;
+    // }
 
-    WWW_Applet.run_these(result.bots);
-  });
+    // WWW_Applet.run_these(result.bots);
+  // });
 
 }); // ==== jquery on dom ready
 
