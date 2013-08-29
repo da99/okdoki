@@ -12,7 +12,7 @@ section :Create_Life do
         ul.screen_names {
           mustache :screen_names do
             li {
-              a("{{name}}", href:"{{href}}")
+              a("{{screen_name}}", href:"{{href}}")
             }
           end
         }

@@ -8,9 +8,9 @@ module Dot_Why
 
     def as_this_life_menu
       select(name:"as_this_life") {
-        text '{{# screen_names}}'
-        option('{{name}}', value="{{name}}")
-        text '{{/ screen_names}}'
+        mustache :screen_names do
+          option('{{screen_name}}', value="{{screen_name}}")
+        end
       }
     end
 

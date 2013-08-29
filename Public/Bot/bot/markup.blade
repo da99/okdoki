@@ -27,7 +27,7 @@ append content
               textarea(name="about_me") #{bot.about_me}
           div.buttons
             input(type="hidden", value="PUT", name="_method")
-            input(type="hidden", value="#{screen_name}", name="screen_name")
+            input(type="hidden", value="{{screen_name}}", name="screen_name")
             button.submit Update "About me."
 
     h2 Code

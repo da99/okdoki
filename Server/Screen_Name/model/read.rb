@@ -80,7 +80,7 @@ class Screen_Name
   end
 
   def href
-    "/me/#{name}"
+    "/me/#{screen_name}"
   end
 
   def to_public
