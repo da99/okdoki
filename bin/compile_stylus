@@ -4,7 +4,7 @@
 #!/usr/bin/env node
 # -*- js   -*-
 #
-files="$@"
+files="$1"
 set -u -e -o pipefail
 
 
@@ -12,9 +12,11 @@ set -u -e -o pipefail
 if [[ -z "$files" ]]
 then
   files=$(find ./Public -iregex '.*\.styl')
+else
+  if [[ "$files" =~ "Public/css" ]]
+  then
+  else
+    stylus $file
+  fi
 fi
 
-for i in $files
-do
-  stylus $i
-done
