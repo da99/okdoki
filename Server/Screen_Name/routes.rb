@@ -40,10 +40,11 @@ end
 get '/me/:screen_name' do
 
   begin
-    life = Screen_Name.read_by_screen_name params.screen_name
+    life = Screen_Name.read_by_screen_name params[:screen_name]
     html 'Screen_Name/me', {
       :title       => "The life of #{life.name}",
-      :screen_name => life.to_public
+      :screen_name => life.to_public,
+      :is_owner    => false
     }
   rescue Screen_Name::Not_Found => e
     pass
