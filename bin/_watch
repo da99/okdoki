@@ -17,7 +17,6 @@ unicorn_pid () {
  pgrep -f "unicorn master" || echo ""
 }
 
-
 restart_server () {
 
   unicorn=/tmp/unicorn.dev.restart
@@ -35,7 +34,6 @@ restart_server () {
     echo "=== $since seconds: Restarting the server..."
     pkill -f "unicorn master" || true
     bin/start &
-    echo "Done"
   else
     echo "=== No restart: $since secs"
   fi
@@ -103,4 +101,3 @@ then
 fi
 
 
-# trap cleanup SIGINT SIGTERM EXIT
