@@ -42,6 +42,15 @@ module Dot_Why
       end
     end
 
+    def view_name
+      @view_name ||= begin
+                       name = main_file.sub('/markup.rb', '')
+                       dir = File.basename(File.dirname name)
+                       file = File.basename name
+                       "#{dir}/#{file}"
+                     end
+    end
+
     def content
       eval_main
 
@@ -64,7 +73,7 @@ module Dot_Why
           end
 
           section :scripts do
-            script "/#{view_name}/script" 
+            script "/#{view_name}/script"
           end
 
           section :styles
