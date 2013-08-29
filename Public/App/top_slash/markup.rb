@@ -1,7 +1,7 @@
 
 title "Okdoki: Not Ready"
 
-main {
+section(:main) {
 
   div.sidebar.sidebar! {
 
