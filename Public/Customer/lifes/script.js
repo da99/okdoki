@@ -51,13 +51,6 @@ $(function () {
     // attach_console_link_click(e);
   // });
 
-  $('#Options a.on').each(function (i, l) {
-    on_click(l, show_option);
-  });
-
-  $('#Options a.off').each(function (i, l) {
-    on_click(l, hide_option);
-  });
 });
 
 // on('template compiled' , function (o) {

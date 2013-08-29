@@ -26,3 +26,12 @@ function hide_option(e) {
   $(parent.find('a.on')[0]).show();
 }
 
+$(function () {
+  $('#Options a.on').each(function (i, l) {
+    on_click(l, show_option);
+  });
+
+  $('#Options a.off').each(function (i, l) {
+    on_click(l, hide_option);
+  });
+});
