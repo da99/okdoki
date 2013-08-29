@@ -55,8 +55,8 @@ then
 fi # === done first run
 
 is_done=""
-echo "$FILE"
-if [[ "$FILE" =~ ".js"  || "$FILE" == "bin/upgrade" ]] 
+
+if [[ ( ! "$FILE" =~ "vendor" ) && ( "$FILE" =~ ".js"  || "$FILE" == "bin/upgrade" ) ]]
 then
   is_done="true"
   bin/upgrade skip_npm skip_os skip_download

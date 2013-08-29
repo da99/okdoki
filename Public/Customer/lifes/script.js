@@ -44,19 +44,6 @@ function attach_console_link_click(e) {
 
 }
 
-function show_option(e) {
-  var parent = $(this).parents('div.box');
-  parent.find('div.content').show();
-  $(this).hide();
-  $(parent.find('a.off')[0]).show();
-}
-
-function hide_option(e) {
-  var parent = $(this).parents('div.box');
-  parent.find('div.content').hide();
-  $(this).hide();
-  $(parent.find('a.on')[0]).show();
-}
 
 // ================ ON LOAD ======================
 $(function () {
