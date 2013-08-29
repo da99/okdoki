@@ -13,11 +13,13 @@ then
   exit 1000
 fi
 
-unicorn_pid="$(pgrep -f "unicorn master" || true)"
+unicorn_pid () {
+ pgrep -f "unicorn master" || echo ""
+}
 
 
 restart_server () {
-  if [[ -z "$unicorn_pid" ]]
+  if [[ -z "$(unicorn_pid)" ]]
   then
     return
   fi
@@ -35,7 +37,11 @@ restart_server () {
   if [[ "$since" -gt "3" ]]
   then
     echo "=== $since seconds: Restarting the server..."
-    pkill -HUP  -f  "unicorn master" || echo "Server is down."
+    old="$(unicorn_pid)"
+    kill -USR2 "$old"  || echo "=== Server is down"
+    sleep 3
+    kill -QUIT  "$old" || true
+    echo "Done"
   else
     echo "=== No restart: $since secs"
   fi
@@ -63,10 +69,15 @@ then
       then
         bin/test "$@"
       else
-        if [[ ! "$FILE" =~ "markup.mustache.rb" ]]
+        if [[ "$FILE" =~ "Server/" ]]
         then
-          echo "Unknown file: $FILE"
-        fi
+          $green $(restart_server)
+        else
+          if [[ ! "$FILE" =~ "markup.mustache.rb" ]]
+          then
+            echo "Unknown file: $FILE"
+          fi
+        fi # --- restart server if Server/
       fi
     fi
 

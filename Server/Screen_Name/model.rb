@@ -75,16 +75,6 @@ class Screen_Name
 
   end # === class self ==================================
 
-  def to_url *args
-    raw_sn = args.shift
-    sn = self.class.filter(raw_sn)
-    return nil if !sn.empty?
-
-    args.unshift(sn)
-    args.unshift('/me')
-    File.join(*args)
-  end
-
   # =====================================================
   # Class
   # =====================================================

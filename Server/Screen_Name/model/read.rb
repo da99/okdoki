@@ -70,8 +70,15 @@ class Screen_Name
     end
   end
 
-  def to_href
+  def href
     "/me/#{name}"
+  end
+
+  def to_public
+    {
+      :name => name,
+      :href => href
+    }
   end
 
 end # === class Screen_Name read ===

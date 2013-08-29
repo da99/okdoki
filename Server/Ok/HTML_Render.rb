@@ -1,10 +1,24 @@
 
 require "./Server/Ok/Escape_All"
+require "mustache"
 
 helpers do
 
   def html view_name, o
-    Fake_Mustache.new(view_name, o).render
+    Mustache.raise_on_context_miss = true
+    file = "./Public/#{view_name}/markup.mustache.rb"
+    Fake_Mustache::CACHE[file] ||= File.read(file)
+
+    # --- add has_? helpers
+    o.keys.each { |k|
+      if o[k].is_a? Enumerable
+        o[:"has_#{k}"] = o[k].empty? ? '' : "has_#{k}"
+      end
+    }
+
+    o[:_csrf] = csrf_token
+
+    Mustache.render(Fake_Mustache::CACHE[file], o)
   end
 
 end # === helpers
@@ -24,8 +38,21 @@ class Fake_Mustache
     @file      = (self.class::CACHE[file] ||= File.read(file))
   end
 
-  def [] key
-    @data[key]
+  def dup
+    @data.dup
+  end
+
+  def [] raw_key
+    sym = raw_key.to_sym
+    s   = raw_key.to_s
+
+    val = @data[sym] || @data[s]
+
+    if !val && !@data.has_key?(sym) && !@data.has_key?(s)
+      raise "Missing key for mustache: #{raw_key.inspect}"
+    end
+
+    val
   end
 
   def render

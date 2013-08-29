@@ -186,17 +186,17 @@ describe "Customer :screen_names" do
 
 end # === describe Customer :screen_names ===
 
-describe ":to_href" do
+describe ":href" do
 
   it "returns Customer href of first screen name" do
     o = create
     c = o[:c]
     s = o[:sn]
 
-    c.to_href.should == "/me/#{s.upcase}"
+    c.href.should == "/me/#{s.upcase}"
   end
 
-end # === describe :to_href ===
+end # === describe :href ===
 
 
 

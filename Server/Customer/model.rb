@@ -33,8 +33,6 @@ class Customer
   # Instance
   # =====================================================
 
-  attr_reader :screen_names, :bots
-
   def initialize *args
     super
     @screen_names = Screen_Name::List.new(self)

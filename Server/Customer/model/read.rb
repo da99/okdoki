@@ -62,12 +62,24 @@ class Customer
     data[:bad_log_in_count] > 3
   end
 
-  def to_href
-    screen_names.first.to_href
+  def href
+    screen_names.first.href
+  end
+
+  def bots
+    []
   end
 
   def bot_uses
-    nil
+    []
+  end
+
+  def screen_names cmd = nil
+    if cmd
+      @screen_names.list.map(&cmd)
+    else
+      @screen_names
+    end
   end
 
 end # === class Customer read ===
