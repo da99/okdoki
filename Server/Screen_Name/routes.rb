@@ -7,9 +7,8 @@ require './Server/Screen_Name/model'
 
 
 post '/me' do
-  params[:user] = request[:user]
   begin
-    sn = Screen_Name.create(request[:user], params)
+    sn   = Screen_Name.create(user, params)
     name = sn.data[:screen_name]
     json true, "Your new life has been created: #{name}" , {screen_name: name}
   rescue Ok::Invalid => e
@@ -29,7 +28,7 @@ get '/:type/:screen_name' do
   sn   = params[:screen_name]
   pass unless ['me', 'bot'].include?(type)
 
-  canon = Screen_Name.to_canon(sn);
+  canon = Screen_Name.canonize(sn);
 
   if canon == sn
     pass
@@ -42,7 +41,10 @@ get '/me/:screen_name' do
 
   begin
     life = Screen_Name.read_by_screen_name params.screen_name
-    html 'Screen_Name/me', title: "The life of #{life.data[:screen_name]}"
+    html 'Screen_Name/me', {
+      :title       => "The life of #{life.name}",
+      :screen_name => life.to_public
+    }
   rescue Screen_Name::Not_Found => e
     pass
   end
