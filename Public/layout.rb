@@ -4,12 +4,24 @@ STAMP = Time.now.to_i
 module Dot_Why
   class Template
 
+    class << self
+      alias_method :def_section, :blocks
+      alias_method :def_sections, :blocks
+    end # === class self ===
+
     def view_name
       @view_name ||= begin
                        base = File.basename(main_file).sub(".rb", '')
                        dir  = File.dirname(main_file)
                        "#{dir}/#{base}"
                      end
+    end
+
+    def use_file name
+      @files ||= {}
+      raise "File already used: #{name.inspect}" if @files[name]
+      @files[name] = true
+      name
     end
 
     def as_this_life_menu
@@ -40,15 +52,13 @@ module Dot_Why
       eval File.read(file_name), nil, file_name, 1
     end
 
-    blocks :scripts
-    blocks :styles
-    blocks :js_templates
+    def_sections :scripts, :styles, :js_templates
 
     def script *args
       if args.size == 1 && args.first.is_a?(String)
         name = args.first
         full = "#{name}.js"
-        super(:type=>"text/javascript", :src=>"#{full}")
+        super(:type=>"text/javascript", :src=>"#{use_file full}")
       else
         super
       end
@@ -72,7 +82,7 @@ module Dot_Why
                       "/css/#{name}.css?#{STAMP}"
                     end
                  end
-      link(:rel=>'stylesheet', :type=>'text/css', :href=>filename, :media=>'screen')
+      link(:rel=>'stylesheet', :type=>'text/css', :href=>use_file(filename), :media=>'screen')
     end
 
     def content
