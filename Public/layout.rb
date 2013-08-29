@@ -1,5 +1,4 @@
 
-STAMP = Time.now.to_i
 
 module Dot_Why
   class Template
@@ -12,6 +11,10 @@ module Dot_Why
           option('{{screen_name}}', value="{{screen_name}}")
         end
       }
+    end
+
+    def file_stamp
+      '{{file_stamp}}'
     end
 
     def span_as

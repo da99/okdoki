@@ -17,6 +17,7 @@ helpers do
     }
 
     o[:_csrf] = csrf_token
+    o[:file_stamp] = (@file_stamp ||= Time.now.to_i)
 
     Mustache.render(Fake_Mustache::CACHE[file], o)
   end

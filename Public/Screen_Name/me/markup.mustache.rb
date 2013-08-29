@@ -5,13 +5,13 @@
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/css/lenka-stabilo.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/circus.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/vanilla.reset.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/okdoki.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/css/forms.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Bot_Create/style.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Screen_Name/me/style.css?1377790583" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/lenka-stabilo.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/circus.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/vanilla.reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/okdoki.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/css/forms.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/applets/Bot_Create/style.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Screen_Name/me/style.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div id="Me">      <div class="box">
         <h3><span>Box</span><span class="sub">(Mail)</span></h3>

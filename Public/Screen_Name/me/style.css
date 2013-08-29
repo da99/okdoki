@@ -97,6 +97,9 @@ div.box div.content {
 #Sidebar div.box:last-child div.content {
   border: 0;
 }
+#Options {
+  margin-top: 10px;
+}
 #Me_Intro {
   text-align: center;
   padding: 15px 0 15px 0;
