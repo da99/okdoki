@@ -5,13 +5,13 @@ title '{{title}}'
 applet("Create_Life")
 applet("Bot_Create")
 
-js_templates {
+section :js_templates do
   li.screen_name {
     a.name('', href:'/me/{name}')
   }
-}
+end
 
-main  {
+section(:main)  {
 
   #//- ===========================================================
   div.Logo! {
@@ -23,11 +23,11 @@ main  {
   # //- ===========================================================
   div.col.Interact! {
 
-    Create_Life()
+    section :Create_Life
 
     div.Options! {
       h2 "Options for Eggheads"
-      Bot_Create()
+      section :Bot_Create
     }
 
   }

@@ -1,6 +1,8 @@
 
 
-def Create_Life
+def_section :Create_Life
+
+section :Create_Life do
 
   div.box.Create_Life! do
 
@@ -42,4 +44,5 @@ def Create_Life
       end
     }
   end
-end
+
+end # === section Create_Life

@@ -5,9 +5,44 @@ module Dot_Why
   class Template
 
     class << self
-      alias_method :def_section, :blocks
-      alias_method :def_sections, :blocks
+
+      attr_reader :sections
+
+      def def_sections *args
+        @sections ||= {}
+        args.each { |v|
+          @sections[v] = true
+        }
+      end
+
+      alias_method :def_section, :def_sections
+
     end # === class self ===
+
+    def_sections :scripts, :styles, :js_templates, :main
+
+    def def_sections *args
+      self.class.def_sections *args
+    end
+    alias_method :def_section, :def_sections
+
+    def section name, pos = :bottom, *args, &b
+      raise "Section not defined: #{name}" if !self.class.sections[name]
+
+      if not block_given?
+        (@_blocks[name] || []).each  { |bl| bl.call }
+        return
+      end
+
+      @_blocks[name] ||= []
+      if (pos == :top)
+        @_blocks[name].unshift(b)
+      elsif (pos == :replace)
+        @_blocks[name] = [b]
+      else
+        @_blocks[name].push(b)
+      end
+    end # === def section
 
     def view_name
       @view_name ||= begin
@@ -40,19 +75,18 @@ module Dot_Why
     end
 
     def applet *args
-      styles {
+      section :styles do
         stylesheet "/applets/#{args.first}/style"
-      }
+      end
 
-      scripts {
+      section :scripts do
         script "/applets/#{args.first}/script"
-      }
+      end
 
       file_name = "Public/applets/#{args.first}/markup.rb"
       eval File.read(file_name), nil, file_name, 1
     end
 
-    def_sections :scripts, :styles, :js_templates
 
     def script *args
       if args.size == 1 && args.first.is_a?(String)
@@ -102,11 +136,15 @@ module Dot_Why
           stylesheet 'okdoki'
           stylesheet 'forms'
 
-          styles { stylesheet "/#{view_name}/style" }
+          section :styles do
+            stylesheet "/#{view_name}/style"
+          end
 
-          scripts { script "/#{view_name}/script" }
+          section :scripts do
+            script "/#{view_name}/script" 
+          end
 
-          styles
+          section :styles
 
         end
 
@@ -120,10 +158,10 @@ module Dot_Why
             div.loading.msg('')
             div.success.msg('')
             div.errors.msg('')
-            js_templates
+            section :js_templates
           }
 
-          scripts(:top) {
+          section :scripts, :top do
             script('/js/vendor/all')
 
             script("/js/Common")
@@ -138,9 +176,9 @@ module Dot_Why
 
             script("/js/Screen_Name")
             script("/js/Customer")
-          }
+          end
 
-          scripts
+          section :scripts
         end
       end
     end

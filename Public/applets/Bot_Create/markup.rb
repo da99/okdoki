@@ -1,6 +1,7 @@
 
-def Bot_Create
+def_section :Bot_Create
 
+section :Bot_Create do
 
   div.box.New_Bot!(class:"{{has_bots}}") do
     div.setting { a.on('Show', href:"#show") }
@@ -30,4 +31,5 @@ def Bot_Create
       text '{{/bots}}'
     end
   end
-end
+
+end # === section Bot_Create
