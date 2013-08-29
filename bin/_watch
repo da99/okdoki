@@ -58,7 +58,10 @@ then
       then
         bin/test "$@"
       else
-        echo "Unknown file: $FILE"
+        if [[ ! "$FILE" =~ "markup.mustache.rb" ]]
+        then
+          echo "Unknown file: $FILE"
+        fi
       fi
     fi
 
