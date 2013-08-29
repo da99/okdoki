@@ -1,4 +1,6 @@
 
+require 'sinatra/cookies'
+
 # ================ Rack Middle + DSL ===================
 module Ok
 
@@ -47,14 +49,7 @@ module Ok
       def log_out
         session.keys.each { |k| session[k] = nil }
         session.clear
-        # request.cookies.keys.each { |k|
-          # response.cookies.set_cookie(
-            # k, :value=>"none",
-            # :domain => ".#{request.host}",
-            # :path => "/",
-            # :expires => Date.new(2001,1,1)
-          # )
-        # }
+        cookies.keep_if { |k,v| false }
       end
 
     end # === module Helpers ============================================
