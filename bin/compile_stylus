@@ -11,7 +11,7 @@ set -u -e -o pipefail
 
 if [[ -z "$file" ]]
 then
-  files=$(find ./Public -iregex '.*\.styl')
+  files=$(find ./Public -type f -iregex '.*\.styl' \( ! -iname '_*\.styl' \) )
   for f in $files
   do
     stylus $f
