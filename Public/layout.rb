@@ -7,7 +7,7 @@ module Dot_Why
     def view_name
       @view_name ||= begin
                        base = File.basename(main_file).sub(".rb", '')
-                       dir  = File.dirname(mail_file)
+                       dir  = File.dirname(main_file)
                        "#{dir}/#{base}"
                      end
     end
@@ -42,7 +42,7 @@ module Dot_Why
 
     blocks :scripts
     blocks :styles
-    blocks :templates
+    blocks :js_templates
 
     def script *args
       if args.size == 1 && args.first.is_a?(String)
@@ -92,6 +92,10 @@ module Dot_Why
           stylesheet 'okdoki'
           stylesheet 'forms'
 
+          styles { stylesheet "/#{view_name}/style" }
+
+          scripts { script "/#{view_name}/script" }
+
           styles
 
         end
@@ -102,11 +106,11 @@ module Dot_Why
 
           script("{{_csrf}}", type: "text/_csrf", id: "CSRF")
 
-          script(type: "text/x-okdoki", id: "templates") {
+          script(type: "text/x-okdoki", id: "js_templates") {
             div.loading.msg('')
             div.success.msg('')
             div.errors.msg('')
-            templates
+            js_templates
           }
 
           scripts(:top) {

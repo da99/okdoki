@@ -3,7 +3,7 @@
 
 $(function () {
   // Read templates (html) and save for later use.
-  Template.html( $('#templates').html() );
+  Template.html( $('#js_templates').html() );
 });
 
 

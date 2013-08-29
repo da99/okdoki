@@ -1,14 +1,6 @@
 
 title "Okdoki: Not Ready"
 
-styles {
-  stylesheet '/App/top_slash/style'
-}
-
-scripts {
-  script '/App/top_slash/script'
-}
-
 main {
 
   div.sidebar.sidebar! {

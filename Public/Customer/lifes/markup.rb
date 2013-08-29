@@ -2,19 +2,10 @@
 
 title '{{title}}'
 
-
-styles {
-  stylesheet '/Customer/lifes/style'
-}
-
-scripts {
-  script '/Customer/lifes/script'
-}
-
 applet("Create_Life")
 applet("Bot_Create")
 
-templates {
+js_templates {
   li.screen_name {
     a.name('', href:'/me/{name}')
   }
