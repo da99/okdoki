@@ -21,6 +21,12 @@ module Dot_Why
       }
     end
 
+    def mustach name
+      text "{{# #{name} }}"
+      yield
+      text "{{/ #{name} }}"
+    end
+
     def applet *args
       section :styles do
         stylesheet "/applets/#{args.first}/style"

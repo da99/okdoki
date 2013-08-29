@@ -10,11 +10,11 @@ section :Create_Life do
       h3 "My Life(s):"
       div.content do
         ul.screen_names {
-          text '{{# screen_names}}'
+          mustache :screen_names do
             li {
               a("{{name}}", href:"{{name.to_html}}") 
             }
-          text '{{/ screen_names }}'
+          end
         }
       end
     }
