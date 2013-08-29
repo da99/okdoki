@@ -35,4 +35,8 @@ class Bot
     ^
   }
 
+  def to_public
+    { codes: codes.to_public, screen_name: data[:screen_name] }
+  end
+
 end # === class Bot ===

@@ -38,10 +38,6 @@ class Customer
     @screen_names = Screen_Name::List.new(self)
   end
 
-  def is? var
-    screen_names.include? var
-  end
-
   # NOTE: We have to put newlines. In case of an error,
   # the error message won't include the pass_word if the pass_word
   # is on it's own line.

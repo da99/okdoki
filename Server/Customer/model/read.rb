@@ -58,6 +58,10 @@ class Customer
 
   end # === class self ===
 
+  def is? var
+    screen_names.include? var
+  end
+
   def too_many_bad_logins?
     data[:bad_log_in_count] > 3
   end

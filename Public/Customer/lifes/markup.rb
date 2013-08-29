@@ -3,7 +3,6 @@
 title '{{title}}'
 
 applet("Create_Life")
-applet("Bot_Create")
 
 section :js_templates do
   li.screen_name {
@@ -27,7 +26,11 @@ section(:main)  {
 
     div.Options! {
       h2 "Options for Eggheads"
-      section :Bot_Create
+      div.box {
+        div.content {
+          p %^None yet.^
+        }
+      }
     }
 
   }

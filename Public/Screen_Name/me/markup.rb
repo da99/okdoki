@@ -5,14 +5,17 @@ def folder(f)
   }
 end
 
+title '{{title}}'
+applet("Bot_Create")
+
 section :js_templates do
 
   mustache :is_owner do
 
-    div.customer_screen_names "{{customer_screen_names}}"
+    # div.customer_screen_names "{{customer_screen_names}}"
 
 
-    folder(num: "{num}", title: "{title}")
+    # folder(num: "{num}", title: "{title}")
 
     div.msg {
       div.meta {
@@ -81,7 +84,7 @@ section :main do
 
     div.Me_Intro! {
       div.the_life_of "The life of..."
-      h3.name "{{screen_name}}"
+      h3.name "{{screen_name.name}}"
     }
 
     div.box {
@@ -89,6 +92,7 @@ section :main do
       div.content "* * *"
     }
 
+    section :Bot_Create
   }
 
 end # === section :content

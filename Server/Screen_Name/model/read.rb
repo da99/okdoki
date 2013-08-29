@@ -27,19 +27,24 @@ class Screen_Name
     @owner ||= Customer.read_by_id(data[:owner_id])
   end
 
-  def bot
-    @bot ||= begin
-               Bot.read_by_screen_name self
-             end
+  def bot cmd = nil
+    if !@bot_read
+      @bot_read = true
+      @bot = Bot.read_by_screen_name(self) rescue nil
+    end
+
+    return @bot.send(cmd) if cmd && @bot
+    @bot
   end
 
-  def bot_uses
+  def bot_uses cmd = nil
     @bot_uses ||= begin
                     bots = Hash[ Bot.new(
                       DB[%^
-                        SELECT *
-                        FROM bot
-                        WHERE id IN (
+                        SELECT bot.*, screen_name.screen_name as screen_name
+                        FROM bot inner join screen_name
+                          ON bot.sn_id = screen_name.id
+                        WHERE bot.id IN (
                           SELECT bot_id
                           FROM bot_use
                           WHERE sn_id = :sn_id AND is_on IS TRUE
@@ -59,7 +64,11 @@ class Screen_Name
 
                     bots.values
                   end
-  end
+
+    return @bot_uses unless cmd
+
+    @bot_uses.map(&cmd)
+  end # === def bot_uses
 
   def read type, *args
     case type

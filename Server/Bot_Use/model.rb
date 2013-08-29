@@ -43,14 +43,6 @@ class Bot_Use
     end
   end
 
-  def to_public
-    {
-      bot:         data[:bot],
-      owner:       data[:owner],
-      screen_name: data[:bot]
-    }
-  end
-
 end # === class Bot_Use ===
 
 

@@ -49,10 +49,6 @@ class Bot
     super(*args)
   end
 
-  def to_public
-    { codes: codes.to_public }
-  end
-
   def clean_code str
     JSON.encode(ESCAPE_ALL(JSON.parse(UNESCAPE str)))
   end

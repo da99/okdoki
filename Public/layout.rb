@@ -22,9 +22,16 @@ module Dot_Why
     end
 
     def mustache name
-      text "{{# #{name} }}"
+      if name.to_s['^']
+        pre = name
+        post = "/#{name.to_s.sub('^', '')}"
+      else
+        pre = "##{name}"
+        post = "/#{name}"
+      end
+      text "{{#{pre}}}"
       yield
-      text "{{/ #{name} }}"
+      text "{{#{post}}}"
     end
 
     def applet *args
