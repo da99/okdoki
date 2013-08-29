@@ -51,7 +51,12 @@ then
     if [[ "$FILE" =~ "Public/" && ! "$FILE" =~ "mustache." ]]
     then
       $yellow "=== Please wait... compiling..."
-      $green $(bin/compile_html $FILE)
+      if [[ "$FILE" =~ "applets" ]]
+      then
+        $green $(bin/compile_html all)
+      else
+        $green $(bin/compile_html $FILE)
+      fi
       $green $(restart_server)
     else
       if [[ ! -z "$@" ]]
