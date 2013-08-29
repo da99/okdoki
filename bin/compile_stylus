@@ -4,17 +4,28 @@
 #!/usr/bin/env node
 # -*- js   -*-
 #
-files="$1"
+file="$1"
 set -u -e -o pipefail
 
 
 
-if [[ -z "$files" ]]
+if [[ -z "$file" ]]
 then
   files=$(find ./Public -iregex '.*\.styl')
+  for f in $files
+  do
+    stylus $f
+  done
 else
-  if [[ "$files" =~ "Public/css" ]]
+  if [[ "$file" =~ "Public/css/_" ]]
   then
+    base="$(basename $file)"
+    base=${base#.styl}
+    files=$(egrep -ir --include=*.{styl} "$base" ./Public)
+    for f in $files
+    do
+      stylus $f
+    done
   else
     stylus $file
   fi

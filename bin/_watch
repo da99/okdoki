@@ -67,7 +67,7 @@ fi
 if [[ "$FILE" =~ ".styl" ]]
 then
   is_done="true"
-  bin/compile_all_style_files "$FILE"
+  bin/compile_stylus "$FILE"
 fi
 
 if [[ "$FILE" =~ "Public/" && "$FILE" =~ ".rb"  && ! "$FILE" =~ "mustache." ]]
