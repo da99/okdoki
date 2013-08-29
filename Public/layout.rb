@@ -21,7 +21,7 @@ module Dot_Why
       }
     end
 
-    def mustach name
+    def mustache name
       text "{{# #{name} }}"
       yield
       text "{{/ #{name} }}"

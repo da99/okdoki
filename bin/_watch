@@ -53,9 +53,9 @@ then
       $yellow "=== Please wait... compiling..."
       if [[ "$FILE" =~ "applets" ]]
       then
-        $green $(bin/compile_html all)
+        bin/compile_html all
       else
-        $green $(bin/compile_html $FILE)
+        bin/compile_html $FILE
       fi
       $green $(restart_server)
     else
