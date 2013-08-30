@@ -30,6 +30,11 @@ end # === get /settings
 
 get "/bots" do
   html "Bot/all", {
-    :bots => []
+    :bots => Bot.new(DB[%^
+      SELECT bot.*, screen_name.screen_name
+      FROM bot INNER JOIN screen_name
+        ON bot.sn_id = screen_name.id
+      ORDER BY screen_name ASC
+    ^].all)
   }
 end # === get /bots

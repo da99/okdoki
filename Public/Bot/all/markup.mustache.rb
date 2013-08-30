@@ -17,6 +17,8 @@
       No bots have been created yet. Please come back in
       a few hours.
     </div>
+    {{/bots}}{{#bots}}    <div class="bot">      <div class="name"><a href="{{href}}">{{screen_name}}</a></div>
+    </div>
     {{/bots}}
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>

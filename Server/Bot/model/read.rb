@@ -35,6 +35,16 @@ class Bot
     ^
   }
 
+
+  def screen_name
+    puts data.inspect
+    data[:screen_name] || @screen_name.screen_name
+  end
+
+  def href
+    "/me/#{screen_name}"
+  end
+
   def to_public
     { codes: codes.to_public, screen_name: data[:screen_name] }
   end

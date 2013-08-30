@@ -16,5 +16,13 @@ section :main do
     ^
   end # === ^bots
 
+  mustache :bots do
+    div.bot {
+      div.name {
+        a("{{screen_name}}", :href=>"{{href}}")
+      }
+    }
+  end # === :bots
+
 end # === section :main
 
