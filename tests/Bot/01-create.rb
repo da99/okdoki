@@ -10,7 +10,7 @@ S = O[:sn]
 describe "Bot :create" do
 
   before do
-    Bot::TABLE.delete
+    # Bot::TABLE.delete
   end
 
   it "raises Bot::Invalid if bot already created with dup :sn_id " do

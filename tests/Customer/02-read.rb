@@ -45,7 +45,7 @@ describe 'read_by_screen_name' do
 
 end # === describe read_by_screen_name
 
-Customer::Log_In_By_IP::TABLE.delete
+# Customer::Log_In_By_IP::TABLE.delete
 
 describe 'read_by_screen_name_and_pass_word' do
 

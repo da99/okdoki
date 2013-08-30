@@ -79,7 +79,7 @@ end # === describe
 describe "Screen_Name :create :bot" do
 
   before do
-    Bot::TABLE.delete
+    # Bot::TABLE.delete
     @s = O[:sn]
     @id = @s.data[:id]
   end
@@ -103,7 +103,7 @@ end # === describe Screen_Name :create :bot_use ===
 describe "Screen_Name :create :i_know_them" do
 
   before do
-    I_Know_Them::TABLE.delete
+    # I_Know_Them::TABLE.delete
   end
 
   it "returns an I_Know_Them with :target_id = target.id" do

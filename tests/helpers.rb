@@ -52,10 +52,10 @@ class Customer
 
     include Screen_Name::Test
 
-    def delete_all
-      Customer::TABLE.delete
-      Screen_Name::TABLE.delete
-    end
+    # def delete_all
+      # Customer::TABLE.delete
+      # Screen_Name::TABLE.delete
+    # end
 
     def create
       sn = new_name

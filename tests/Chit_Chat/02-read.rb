@@ -39,10 +39,10 @@ end
 describe "Chit_Chat: read_inbox" do
 
   before do
-    Chit_Chat::TABLE.delete
-    Chit_Chat::TABLE_TO.delete
-    Chit_Chat::TABLE_LAST_READ.delete
-    I_Know_Them::TABLE.delete
+    # Chit_Chat::TABLE.delete
+    # Chit_Chat::TABLE_TO.delete
+    # Chit_Chat::TABLE_LAST_READ.delete
+    # I_Know_Them::TABLE.delete
 
     S1.create :i_know_them, S2
     S1.create :i_know_them, S3
