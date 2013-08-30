@@ -37,7 +37,6 @@ class Bot
 
 
   def screen_name
-    puts data.inspect
     data[:screen_name] || @screen_name.screen_name
   end
 
