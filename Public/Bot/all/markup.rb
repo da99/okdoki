@@ -18,7 +18,7 @@ div.Sidebar! {
   }
 
   div.box {
-    h3 "How to use your Okdoki bots:"
+    h3 "Intro:"
     div.content {
       red_cloth %^
         Here you can turn off/on various bots.
@@ -29,14 +29,6 @@ div.Sidebar! {
   }
 
 } # === Sidebar!
-
-
-  mustache '^bots' do
-    div.Empty! %^
-      No bots have been created yet. Please come back in
-      a few hours.
-    ^
-  end # === ^bots
 
   div.bot_list! do
     mustache :bots do

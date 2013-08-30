@@ -17,15 +17,11 @@
         <h3 class="name">bots.</h3>
       </div>
       <div class="box">
-        <h3>How to use your Okdoki bots:</h3>
+        <h3>Intro:</h3>
         <div class="content"><p>Here you can turn off/on various bots. Once you are done, go back <a href="/">home</a> to start using them.</p></div>
       </div>
     </div>
-    {{^bots}}    <div id="Empty">
-      No bots have been created yet. Please come back in
-      a few hours.
-    </div>
-    {{/bots}}    <div id="bot_list">{{#bots}}      <div class="bot">        <div class="header"><a class="on on_active" href="#on">on</a><a class="off off_active" href="#off">off</a><a class="name" href="{{href}}">{{screen_name}}</a></div>
+    <div id="bot_list">{{#bots}}      <div class="bot">        <div class="header"><a class="on on_active" href="#on">on</a><a class="off off_active" href="#off">off</a><a class="name" href="{{href}}">{{screen_name}}</a></div>
       </div>
       {{/bots}}</div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
