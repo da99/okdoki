@@ -64,9 +64,12 @@ end # === section :templates
 
 section :main do
 
-  # ===========================================================
-  # ===========================================================
-  # ===========================================================
+  mustache "logged_in?" do
+    div.Nav_Bar! {
+      a.Log_Out!('Log-out', :href=>'/log-out')
+    }
+  end
+
   div.Me! do
 
     div.box {
@@ -90,7 +93,7 @@ section :main do
       h3 "How to use your Okdoki bots:"
       div.content {
         red_cloth %^
-          To turn off your current bots, go to: "/settings":/settings
+          To turn off/on bots, go to: "/settings":/settings
         ^
 
         red_cloth %^

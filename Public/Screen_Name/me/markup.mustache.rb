@@ -12,7 +12,8 @@
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/Screen_Name/me/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
-  <body>    <div id="Me">      <div class="box">
+  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a></div>
+    {{/logged_in?}}    <div id="Me">      <div class="box">
         <h3><span>Box</span><span class="sub">(Mail)</span></h3>
         <div class="content">[placeholder]</div>
       </div>
@@ -22,7 +23,7 @@
       </div>
       <div class="box">
         <h3>How to use your Okdoki bots:</h3>
-        <div class="content"><p>To turn off your current bots, go to: <a href="/settings">/settings</a></p><p>To find more bots to play with:  <a href="/bots">/bots</a></p></div>
+        <div class="content"><p>To turn off/on bots, go to: <a href="/settings">/settings</a></p><p>To find more bots to play with:  <a href="/bots">/bots</a></p></div>
       </div>
     </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>

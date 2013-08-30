@@ -187,6 +187,14 @@ div.edit_able_s div.edit_able div.error {
 div.edit_able_s div.edit_able div.input_able div.label {
   color: #2d2d2d;
 }
+#Nav_Bar {
+  background: #fff;
+  background: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: bold;
+  padding: 0 5px 2px 5px;
+}
 #Session_Nav {
   float: right;
   padding: 0 5px 2px 5px;
