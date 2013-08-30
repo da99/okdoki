@@ -40,11 +40,11 @@ NOT_FOUND = File.read("./Public/errors/404.html")
 ERROR_50x = File.read("./Public/errors/50x.html")
 
 not_found do
-  NOT_FOUND
+  NOT_FOUND.sub('{{path}}', request.path_info)
 end
 
 error do
-  ERROR_50x # env['sinatra.error'].name
+  ERROR_50x.sub('{{path}}', request.path_info) # env['sinatra.error'].name
 end
 
 
