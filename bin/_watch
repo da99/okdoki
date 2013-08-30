@@ -101,6 +101,10 @@ then
 
 fi # === Server/ files
 
+if [[ "$FILE" =~ ".css"  || "$FILE" =~ "$0" || "$FILE" =~ "mustache.rb" ]]
+then
+  is_done="true"
+fi
 
 if [[ -z "$is_done" ]]
 then
