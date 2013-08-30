@@ -13,13 +13,21 @@
     <link href="/Bot/all/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/" id="Go_Home">Go Back Home</a></div>
-    {{/logged_in?}}{{^bots}}    <div id="Empty">
+    {{/logged_in?}}    <div id="Sidebar">      <div id="Me_Intro">        <div class="the_life_of">A menu of...</div>
+        <h3 class="name">bots.</h3>
+      </div>
+      <div class="box">
+        <h3>How to use your Okdoki bots:</h3>
+        <div class="content"><p>Here you can turn off/on various bots. Once you are done, go back <a href="/">home</a> to start using them.</p></div>
+      </div>
+    </div>
+    {{^bots}}    <div id="Empty">
       No bots have been created yet. Please come back in
       a few hours.
     </div>
-    {{/bots}}{{#bots}}    <div class="bot">      <div class="name"><a href="{{href}}">{{screen_name}}</a></div>
-    </div>
-    {{/bots}}
+    {{/bots}}    <div id="bot_list">{{#bots}}      <div class="bot">        <div class="name"><a href="{{href}}">{{screen_name}}</a></div>
+      </div>
+      {{/bots}}</div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
       <div class="success msg"></div>

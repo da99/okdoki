@@ -3,11 +3,33 @@ title 'The Menu for Bots'
 
 
 section :main do
+
   mustache 'logged_in?' do
     div.Nav_Bar! {
       a.Go_Home!('Go Back Home', :href=>'/')
     }
   end
+
+div.Sidebar! {
+
+  div.Me_Intro! {
+    div.the_life_of "A menu of..."
+    h3.name "bots."
+  }
+
+  div.box {
+    h3 "How to use your Okdoki bots:"
+    div.content {
+      red_cloth %^
+        Here you can turn off/on various bots.
+        Once you are done, go back "home":/ to
+        start using them.
+      ^.split.join(" ")
+    }
+  }
+
+} # === Sidebar!
+
 
   mustache '^bots' do
     div.Empty! %^
@@ -16,13 +38,15 @@ section :main do
     ^
   end # === ^bots
 
-  mustache :bots do
-    div.bot {
-      div.name {
-        a("{{screen_name}}", :href=>"{{href}}")
+  div.bot_list! do
+    mustache :bots do
+      div.bot {
+        div.name {
+          a("{{screen_name}}", :href=>"{{href}}")
+        }
       }
-    }
-  end # === :bots
+    end # === :bots
+  end
 
 end # === section :main
 

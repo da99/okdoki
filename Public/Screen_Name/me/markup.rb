@@ -102,7 +102,7 @@ section :main do
       }
     }
 
-  }
+  } # === Sidebar!
 
 end # === section :content
 
