@@ -1,22 +1,19 @@
+
+
+
 get "/" do
   if logged_in?
-    opts = { user: nil, Bots: {Own: [], Use: []} }
-
-    html 'Customer/lifes', {
-      :title        => "My Okdoki",
-      :bots         => user.bots,
-      :use_bots     => user.bot_uses,
-      :screen_names => user.screen_names(:to_public)
+    html 'Screen_Name/me', {
+      :intro       => "The bots of",
+      :screen_name => user.to_public,
+      :bot_uses    => user.bot_uses(:to_public),
+      :is_owner    => logged_in?
     }
   else
-    return html 'App/top_slash', {
+    html 'App/top_slash', {
       title: 'OkDoki.com',
       YEAR: Time.now.year
     }
   end
 end # === get /
-
-get "/unauthenticated" do
-  "Not logged in"
-end
 

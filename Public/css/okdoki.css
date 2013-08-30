@@ -7,6 +7,10 @@ body {
   background-color: #f2f2f2;
   font-family: 'Ubuntu', 'Ubuntu Beta', UbuntuBeta, Ubuntu, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, proxima-nova, 'Helvetica Neue', Arial, sans-serif;
 }
+p {
+  margin: 0.5em 0;
+  padding: 0;
+}
 ul {
   margin-top: 0;
   margin-bottom: 0;

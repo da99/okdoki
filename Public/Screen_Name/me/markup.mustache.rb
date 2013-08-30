@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{title}}</title>
+    <title>{{intro}} {{screen_name.screen_name}}</title>
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
@@ -10,7 +10,6 @@
     <link href="/css/vanilla.reset.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/okdoki.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/applets/Bot_Create/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/Screen_Name/me/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div id="Me">      <div class="box">
@@ -18,26 +17,25 @@
         <div class="content">[placeholder]</div>
       </div>
     </div>
-    <div id="Sidebar">      <div id="Me_Intro">        <div class="the_life_of">The life of...</div>
+    <div id="Sidebar">      <div id="Me_Intro">        <div class="the_life_of">{{intro}}...</div>
         <h3 class="name">{{screen_name.screen_name}}</h3>
       </div>
       <div class="box">
-        <h3>~ ~ ~</h3>
-        <div class="content">* * *</div>
-      </div>
-      <div id="Options">
-        <h2>Options for Eggheads</h2>
-        {{^bot}}        <div class="box" id="New_Bot">          <div class="setting"><a class="on" href="#show">Show</a></div>
-          <h3>Create a Bot</h3>
-          <div class="content">            <form action="/Bot" id="Bot_Create" method="POST">              <div class="fields">                <div class="field sub_sn">
-                  <label for="NEW_BOT_SCREEN_NAME">Screen Name:</label>
-<input id="NEW_BOT_SCREEN_NAME" name="sub_sn" type="text" /></div>
-              </div>
-              <div class="buttons"><input name="as_this_life" type="hidden" value="{{screen_name.screen_name}}" /><button class="submit">Create</button></div>
-            </form>
-          </div>
+        <h3>How to use your Okdoki bots:</h3>
+        <div class="content">
+          <p>
+          To turn off your current bots, go to: <a href="/settings">/settings</a>
+        </p>
+          <p>
+          To find more bots to play with: <a href="/bots">/bots</a>
+        </p>
+          <p>
+        The first 5 minutes of learning how to use a bot
+        are tough. After that, it should be easy to be productive
+        and have fun. Hopefully at the same time.
+        </p>
         </div>
-        {{/bot}}</div>
+      </div>
     </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
@@ -72,7 +70,6 @@
     <script src="/js/Form.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Screen_Name.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Customer.js?{{file_stamp}}" type="text/javascript"></script>
-    <script src="/applets/Bot_Create/script.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/Screen_Name/me/script.js?{{file_stamp}}" type="text/javascript"></script>
   </body>
 </html>

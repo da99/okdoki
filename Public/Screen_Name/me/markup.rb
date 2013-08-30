@@ -5,8 +5,7 @@ def folder(f)
   }
 end
 
-title '{{title}}'
-applet("Bot_Create")
+title '{{intro}} {{screen_name.screen_name}}'
 
 section :js_templates do
 
@@ -83,18 +82,29 @@ section :main do
   div.Sidebar! {
 
     div.Me_Intro! {
-      div.the_life_of "The life of..."
+      div.the_life_of "{{intro}}..."
       h3.name "{{screen_name.screen_name}}"
     }
 
     div.box {
-      h3 "~ ~ ~"
-      div.content "* * *"
-    }
+      h3 "How to use your Okdoki bots:"
+      div.content {
+        p! %^
+          To turn off your current bots, go to: <a href="/settings">/settings</a>
+        ^
 
-    div.Options! {
-      h2 "Options for Eggheads"
-      section :Bot_Create
+        p! %^
+          To find more bots to play with: <a href="/bots">/bots</a>
+        ^
+
+        p %^
+        The first 5 minutes of learning how to use a bot
+        are tough. After that, it should be easy to be productive
+        and have fun. Hopefully at the same time.
+        ^
+
+
+      }
     }
 
   }

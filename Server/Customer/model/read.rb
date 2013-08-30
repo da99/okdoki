@@ -6,9 +6,16 @@ class Customer
       new TABLE.limit(1)[id: id]
     end # === def
 
-    def read_by_screen_name name
-      sn = Screen_Name.read_by_screen_name(name)
-      Customer.read_by_id(sn.data[:owner_id])
+    def read_by_screen_name raw_sn
+      sn = Screen_Name.canonize(raw_sn)
+      new(DB[
+        %^
+          SELECT id, created_at
+          FROM customer
+          WHERE id IN ( SELECT owner_id FROM screen_name WHERE screen_name = :sn LIMIT 1)
+          LIMIT 1
+        ^, :sn=>sn
+      ].first)
     end # === def
 
 

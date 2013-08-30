@@ -32,12 +32,12 @@ module Ok
       end
 
       def user
-        @customer ||= begin
-                        sn = session['screen_name']
-                        !!sn && Customer.read_by_screen_name(sn)
-                      rescue Customer::Not_Found => e
-                        nil
-                      end
+        @screen_name ||= begin
+                           sn = session['screen_name']
+                           !!sn && Screen_Name.read_by_screen_name(sn)
+                         rescue Screen_Name::Not_Found => e
+                           nil
+                         end
       end
 
       def sign_in c

@@ -13,8 +13,7 @@ class Screen_Name
     end
 
     def read_by_screen_name raw_sn
-      r = TABLE.limit(1)[:screen_name=>Screen_Name.canonize(raw_sn)]
-      new r, "Screen name not found: #{raw_sn}"
+      new TABLE[:screen_name=>Screen_Name.canonize(raw_sn)], "Screen name not found: #{raw_sn}"
     end
 
     def read_by_customer c
