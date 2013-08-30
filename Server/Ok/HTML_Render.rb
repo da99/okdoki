@@ -2,6 +2,8 @@
 require "./Server/Ok/Escape_All"
 require "mustache"
 
+FILE_STAMP = Time.now.to_i
+
 helpers do
 
   def html view_name, o
@@ -17,7 +19,7 @@ helpers do
     }
 
     o[:_csrf] = csrf_token
-    o[:file_stamp] = (@file_stamp ||= Time.now.to_i)
+    o[:file_stamp] = FILE_STAMP
 
     Mustache.render(Fake_Mustache::CACHE[file], o)
   end

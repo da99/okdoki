@@ -64,9 +64,9 @@ end # === section :templates
 
 section :main do
 
-  # //- ===========================================================
-  # //- ===========================================================
-  # //- ===========================================================
+  # ===========================================================
+  # ===========================================================
+  # ===========================================================
   div.Me! do
 
     div.box {
@@ -89,21 +89,13 @@ section :main do
     div.box {
       h3 "How to use your Okdoki bots:"
       div.content {
-        p! %^
-          To turn off your current bots, go to: <a href="/settings">/settings</a>
+        red_cloth %^
+          To turn off your current bots, go to: "/settings":/settings
         ^
 
-        p! %^
-          To find more bots to play with: <a href="/bots">/bots</a>
+        red_cloth %^
+          To find more bots to play with:  "/bots":/bots
         ^
-
-        p %^
-        The first 5 minutes of learning how to use a bot
-        are tough. After that, it should be easy to be productive
-        and have fun. Hopefully at the same time.
-        ^
-
-
       }
     }
 

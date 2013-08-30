@@ -5,6 +5,7 @@ GEM
       bacon
       colored
     Jam_Func (0.1.1)
+    RedCloth (4.2.9)
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
@@ -89,6 +90,7 @@ PLATFORMS
 DEPENDENCIES
   Bacon_Colored
   Jam_Func
+  RedCloth
   addressable
   bacon
   content-security-policy

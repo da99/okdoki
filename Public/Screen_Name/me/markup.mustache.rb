@@ -22,19 +22,7 @@
       </div>
       <div class="box">
         <h3>How to use your Okdoki bots:</h3>
-        <div class="content">
-          <p>
-          To turn off your current bots, go to: <a href="/settings">/settings</a>
-        </p>
-          <p>
-          To find more bots to play with: <a href="/bots">/bots</a>
-        </p>
-          <p>
-        The first 5 minutes of learning how to use a bot
-        are tough. After that, it should be easy to be productive
-        and have fun. Hopefully at the same time.
-        </p>
-        </div>
+        <div class="content"><p>To turn off your current bots, go to: <a href="/settings">/settings</a></p><p>To find more bots to play with:  <a href="/bots">/bots</a></p></div>
       </div>
     </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>

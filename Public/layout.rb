@@ -1,9 +1,19 @@
-
+require 'RedCloth'
 
 module Dot_Why
   class Template
 
     def_sections :scripts, :styles, :js_templates
+
+    def red_cloth *args
+      str = args.last.strip
+      if args.size == 2
+        tag = args.first
+        text! RedCloth.new("<#{tag}>#{str}</#{tag}>").to_html
+      else
+        text! RedCloth.new(str).to_html
+      end
+    end
 
     def as_this_life_menu
       select(name:"as_this_life") {
