@@ -244,6 +244,14 @@ h1 {
   padding: 10px 5px 10px 10px;
   margin: 0 auto;
 }
+#Empty {
+  background: #fff;
+  padding: 1em;
+  margin: 1em;
+  border-radius: 0.3em;
+  font-size: 130%;
+  color: #444;
+}
 #Options div.setting {
   float: right;
   padding: 0;

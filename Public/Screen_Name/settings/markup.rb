@@ -8,12 +8,12 @@ section :main do
   }
 
   mustache '^bots' do
-    div.empty {
-      red_cloth %^
+    red_cloth %^
+    <div id="Empty">
       You have not chosen any bots to use.
       Go chose some bots from the list: "/bots":/bots
-      ^
-    }
+    </div>
+    ^
   end # === ^bots
 
 end # === section :main

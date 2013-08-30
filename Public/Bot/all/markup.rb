@@ -10,12 +10,10 @@ section :main do
   end
 
   mustache '^bots' do
-    div.empty {
-      red_cloth %^
+    div.Empty! %^
       No bots have been created yet. Please come back in
       a few hours.
-      ^
-    }
+    ^
   end # === ^bots
 
 end # === section :main

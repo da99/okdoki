@@ -13,8 +13,10 @@
     <link href="/Bot/all/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/" id="Go_Home">Go Back Home</a></div>
-    {{/logged_in?}}{{^bots}}    <div class="empty"><p>No bots have been created yet. Please come back in<br />
-      a few hours.</p></div>
+    {{/logged_in?}}{{^bots}}    <div id="Empty">
+      No bots have been created yet. Please come back in
+      a few hours.
+    </div>
     {{/bots}}
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
