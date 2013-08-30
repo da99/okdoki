@@ -22,6 +22,14 @@ get "/settings" do
 
   html "Screen_Name/settings", {
     :msg => 'hello',
-    :user => user.to_public
+    :user => user.to_public,
+    :bots => []
   }
 end # === get /settings
+
+
+get "/bots" do
+  html "Bot/all", {
+    :bots => []
+  }
+end # === get /bots

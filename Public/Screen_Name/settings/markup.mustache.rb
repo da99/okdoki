@@ -12,8 +12,10 @@
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/Screen_Name/settings/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
-  <body>
-    <p>{{msg}}</p>
+  <body>    <div id="Nav_Bar"><a href="/" id="Go_Home">Go Back Home</a></div>
+    {{^bots}}    <div class="empty"><p>You have not chosen any bots to use.<br />
+      Go chose some bots from the list: <a href="/bots">/bots</a></p></div>
+    {{/bots}}
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
       <div class="success msg"></div>
