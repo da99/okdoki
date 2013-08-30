@@ -68,15 +68,15 @@ then
   bin/compile_stylus "$FILE"
 fi
 
-if [[ "$FILE" =~ "Public/" && ( ! "$FILE" =~ "layout.rb" ) && "$FILE" =~ ".rb"  && ! "$FILE" =~ "mustache." ]]
+if [[ "$FILE" =~ "Public/" && ( ! "$FILE" =~ "layout" ) && "$FILE" =~ ".rb"  && ! "$FILE" =~ "mustache." ]]
 then
   is_done="true"
   $yellow "=== Please wait... compiling..."
   if [[ "$FILE" =~ "applets" ]]
   then
-    bin/compile_html all
+    $green "$(bin/compile_html all)"
   else
-    bin/compile_html $FILE
+    $green "$(bin/compile_html $FILE)"
   fi
   restart_server
 fi
