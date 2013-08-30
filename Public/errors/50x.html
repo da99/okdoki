@@ -1,24 +1,18 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Error: This site is unavailable</title>
-    <style type="text/css">
-body {
-  background: #fafafa;
-  color: #EB57A3;
-  font-family: Ubuntu, Helvetica, Segoe, serif;
-}
-h2 { color: #5a5a5a; }
-div.intro { color: #6b6b6b; }
-    </style>
+    <title>Error: Page is unavailable</title>
+    <link href="/errors/style.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>
-  <h1>Don't panic</h1>
-  <h2>The site is unavailable.</h2>
-    <div class="intro">
-Someone is fixing it. Try again later.
-    </div>
+  <h1>Don't Panic.</h1>
+  <h2><script>document.writeln(window.location.pathname)</script></h2>
+  <div class="intro">
+    There was an unexpected error.<br />The programmer will fix it later this week... hopefully.
+  </div>
   </body>
 </html>
+
 <!--
 
 LeVar Burton on Why "Reading Rainbow"

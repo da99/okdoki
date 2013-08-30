@@ -9,7 +9,14 @@ body {
 h2 { color: #5a5a5a; }
 
 div { color: #616161; }
-div.intro { color: #6b6b6b; }
+div.intro {
+  color: #6b6b6b;
+  background: #fff;
+  border-radius: 5px;
+  max-width: 400px;
+  padding: 1em 0.5em 1.5em 0.5em;
+  margin: 0 auto;
+}
 
 a:link { padding: 2px 5px; }
 a:hover {

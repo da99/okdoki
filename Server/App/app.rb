@@ -37,9 +37,14 @@ require './Server/Ok/model'
 }
 
 NOT_FOUND = File.read("./Public/errors/404.html")
+ERROR_50x = File.read("./Public/errors/50x.html")
 
 not_found do
   NOT_FOUND
+end
+
+error do
+  ERROR_50x # env['sinatra.error'].name
 end
 
 
