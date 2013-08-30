@@ -1,0 +1,18 @@
+
+body {
+  background: #fafafa url('/errors/bg2.png');
+  color: #EB57A3;
+  font-family: Ubuntu, Helvetica, Segoe, serif;
+  text-align: center;
+}
+
+h2 { color: #5a5a5a; }
+
+div { color: #616161; }
+div.intro { color: #6b6b6b; }
+
+a:link { padding: 2px 5px; }
+a:hover {
+  background: #EB57A3;
+  color: #fff;
+}

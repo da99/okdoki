@@ -36,8 +36,11 @@ require './Server/Ok/model'
   require "./Server/#{w}/routes"
 }
 
+NOT_FOUND = File.read("./Public/errors/404.html")
 
-
+not_found do
+  NOT_FOUND
+end
 
 
 
