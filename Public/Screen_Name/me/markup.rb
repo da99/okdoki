@@ -93,11 +93,7 @@ section :main do
       h3 "How to use your Okdoki bots:"
       div.content {
         red_cloth %^
-          To turn off/on bots, go to: "/settings":/settings
-        ^
-
-        red_cloth %^
-          To find more bots to play with:  "/bots":/bots
+          To turn off/on bots, go to: "/bots":/bots
         ^
       }
     }

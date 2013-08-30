@@ -30,11 +30,13 @@ a:visited:hover {
   color: #fff;
   background: #966e7f;
 }
+a:link.on {
+  margin: 0 5px 0 0;
+}
 a:link.on,
 a:link.off,
 a:link.show_more {
   border-radius: 3px;
-  margin: 0 4px 0 0;
 }
 a:link.on:hover {
   background: #59ad38;
@@ -42,17 +44,17 @@ a:link.on:hover {
 a:link.off:hover {
   background: #ff8f00;
 }
-span.on a:link.on,
-span.off a:link.off {
+a:link.on_active,
+a:link.off_active {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
   cursor: default;
 }
-span.on a:link.on {
+a:link.on_active {
   background: #59ad38;
 }
-span.off a:link.off {
+a:link.off_active {
   background: #ff8f00;
 }
 h2 {

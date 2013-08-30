@@ -23,7 +23,7 @@
       </div>
       <div class="box">
         <h3>How to use your Okdoki bots:</h3>
-        <div class="content"><p>To turn off/on bots, go to: <a href="/settings">/settings</a></p><p>To find more bots to play with:  <a href="/bots">/bots</a></p></div>
+        <div class="content"><p>To turn off/on bots, go to: <a href="/bots">/bots</a></p></div>
       </div>
     </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>

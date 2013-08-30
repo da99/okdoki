@@ -41,8 +41,10 @@ div.Sidebar! {
   div.bot_list! do
     mustache :bots do
       div.bot {
-        div.name {
-          a("{{screen_name}}", :href=>"{{href}}")
+        div.header {
+          a.on.on_active('on', :href=>"#on")
+          a.off.off_active('off', :href=>"#off")
+          a.name("{{screen_name}}", :href=>"{{href}}")
         }
       }
     end # === :bots

@@ -66,9 +66,13 @@ body {
 }
 div.bot {
   background: #fff;
-  padding: 0.1em 0.5em 0.5em 0.5em;
+  padding: 0.3em 0.5em 0.5em 0.5em;
   margin: 0.5em;
   border-radius: 0.3em;
+}
+div.bot div.header a.name {
+  display: inline-block;
+  margin: 0 0 0 5px;
 }
 #bot_list {
   float: left;

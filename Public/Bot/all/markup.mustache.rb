@@ -25,7 +25,7 @@
       No bots have been created yet. Please come back in
       a few hours.
     </div>
-    {{/bots}}    <div id="bot_list">{{#bots}}      <div class="bot">        <div class="name"><a href="{{href}}">{{screen_name}}</a></div>
+    {{/bots}}    <div id="bot_list">{{#bots}}      <div class="bot">        <div class="header"><a class="on on_active" href="#on">on</a><a class="off off_active" href="#off">off</a><a class="name" href="{{href}}">{{screen_name}}</a></div>
       </div>
       {{/bots}}</div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>

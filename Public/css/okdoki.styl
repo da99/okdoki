@@ -49,22 +49,23 @@ a:visited:hover
   // border-color: #966e7f
 
 a:link
+  &.on
+    margin: 0 5px 0 0
   &.on, &.off, &.show_more
     border-radius: 3px
-    margin: 0 4px 0 0
   &.on:hover
     background: $green
   &.off:hover
     background: $orange
-  span.on &.on,
-  span.off &.off
+  &.on_active,
+  &.off_active
     color: #fff
     text-decoration: none
     font-weight: bold
     cursor: default
-  span.on &.on
+  &.on_active
     background: $green
-  span.off &.off
+  &.off_active
     background: $orange
 
 h2

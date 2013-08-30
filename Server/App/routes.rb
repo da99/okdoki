@@ -17,16 +17,6 @@ get "/" do
   end
 end # === get /
 
-get "/settings" do
-  return redirect(to('/'), 302) unless logged_in?
-
-  html "Screen_Name/settings", {
-    :msg => 'hello',
-    :user => user.to_public,
-    :bots => []
-  }
-end # === get /settings
-
 
 get "/bots" do
   html "Bot/all", {
@@ -38,3 +28,18 @@ get "/bots" do
     ^].all)
   }
 end # === get /bots
+
+
+__END__
+
+
+get "/settings" do
+  return redirect(to('/'), 302) unless logged_in?
+
+  html "Screen_Name/settings", {
+    :msg => 'hello',
+    :user => user.to_public,
+    :bots => []
+  }
+end # === get /settings
+
