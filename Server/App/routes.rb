@@ -17,3 +17,11 @@ get "/" do
   end
 end # === get /
 
+get "/settings" do
+  return redirect(to('/'), 302) unless logged_in?
+
+  html "Screen_Name/settings", {
+    :msg => 'hello',
+    :user => user.to_public
+  }
+end # === get /settings
