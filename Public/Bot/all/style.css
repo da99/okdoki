@@ -74,6 +74,13 @@ div.bot div.header a.name {
   display: inline-block;
   margin: 0 0 0 5px;
 }
+div.bot div.loading {
+  background-position: 13px 3px;
+}
+div.bot div.loading a.on,
+div.bot div.loading a.off {
+  visibility: hidden;
+}
 #bot_list {
   float: left;
 }
