@@ -11,7 +11,6 @@ function func() {
   return _.partial.apply(_, arguments);
 }
 
-
 function show_option(e) {
   var parent = $(this).parents('div.box');
   parent.find('div.content').show();

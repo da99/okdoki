@@ -1,5 +1,9 @@
 "use strict";
 
+function do_nothing (){
+  log('Doing nothing', arguments);
+}
+
 function log_length(se, orig) {
   var e = $(se);
   if (!e.length)
@@ -58,7 +62,6 @@ function on_click_if_any(se, func) {
 }
 
 function on_click(selector, func) {
-
   var e = log_length(selector);
 
   e.click(function (ev) {
