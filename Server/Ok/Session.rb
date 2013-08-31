@@ -23,7 +23,8 @@ module Ok
         return @app.call env
       end
 
-      [401, {'Content-Type': 'application/json'}, MultiJson.dump({:success=>false, :msg=>"You have to re-login."})]
+      content = MultiJson.dump({:success=>false, :msg=>"You have to re-login."})
+      [401, {'Content-Type' => 'application/json'}, content]
     end
 
     module Helpers # === Sinatra Helpers ================================
