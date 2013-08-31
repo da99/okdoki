@@ -44,17 +44,17 @@ a:link.on:hover {
 a:link.off:hover {
   background: #ff8f00;
 }
-a:link.on_active,
-a:link.off_active {
+a:link.is_on,
+a:link.is_off {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
   cursor: default;
 }
-a:link.on_active {
+a:link.is_on {
   background: #59ad38;
 }
-a:link.off_active {
+a:link.is_off {
   background: #ff8f00;
 }
 h2 {

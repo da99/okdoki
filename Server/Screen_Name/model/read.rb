@@ -78,7 +78,7 @@ class Screen_Name
     end
   end
 
-  def read_bot_menu
+  def read_bot_menu val = nil
     sql = %^
       SELECT bot.*, screen_name.screen_name, bot_use_select.is_on
       FROM (bot Left JOIN screen_name
@@ -88,7 +88,9 @@ class Screen_Name
             ON bot.id = bot_use_select.bot_id
       ORDER BY screen_name ASC
     ^
-    Bot.new DB[sql, :sn_id=>id].all
+    bots = Bot.new(DB[sql, :sn_id=>id].all)
+    return bots unless val
+    bots.map(&val)
   end
 
   def href

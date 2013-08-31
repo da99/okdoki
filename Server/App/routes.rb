@@ -20,7 +20,7 @@ end # === get /
 
 get "/bots" do
   html "Bot/all", {
-    :bots => user.read_bot_menu
+    :bots => user.read_bot_menu(:to_public)
   }
 end # === get /bots
 

@@ -34,17 +34,22 @@ module Dot_Why
       }
     end
 
-    def mustache name
-      if name.to_s['^']
-        pre = name
-        post = "/#{name.to_s.sub('^', '')}"
-      else
-        pre = "##{name}"
-        post = "/#{name}"
-      end
+    def inline_mustache raw_cond, var
+      cond = raw_cond.to_s
+      pre  = cond['^'] ? cond : "##{cond}"
+      post = cond.sub('^', '')
+
+      "{{#{pre}}}#{var}{{/#{post}}}"
+    end
+
+    def mustache raw_name
+      name = raw_name.to_s
+      pre  = name['^'] ?  name : "##{name}"
+      post = name.sub('^', '')
+
       text "{{#{pre}}}"
       yield
-      text "{{#{post}}}"
+      text "{{/#{post}}}"
     end
 
     def applet *args

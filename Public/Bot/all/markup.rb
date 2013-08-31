@@ -34,8 +34,8 @@ div.Sidebar! {
     mustache :bots do
       div.bot {
         div.header {
-          a.on.on_active('on', :href=>"#on")
-          a.off.off_active('off', :href=>"#off")
+          a('on',  :class=>"on  #{inline_mustache :is_on,   :is_on}",  :href=>"#on")
+          a('off', :class=>"off #{inline_mustache "^is_on", :is_off}", :href=>"#off")
           a.name("{{screen_name}}", :href=>"{{href}}")
         }
       }
