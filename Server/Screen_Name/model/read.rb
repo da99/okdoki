@@ -54,7 +54,7 @@ class Screen_Name
                     codes = Bot_Code.new(DB[%^
                       SELECT *
                       FROM bot_code
-                      WHERE bot_id IN ( :ids )
+                      WHERE bot_id IN :ids
                     ^, :ids=>bots.keys].all)
 
                     codes.each { |c|
