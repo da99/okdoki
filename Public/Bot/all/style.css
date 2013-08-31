@@ -70,6 +70,16 @@ div.bot {
   margin: 0.5em;
   border-radius: 0.3em;
 }
+div.bot a:hover.on,
+div.bot a:visited.on,
+div.bot a:visited:hover.on {
+  background: #59ad38;
+}
+div.bot a:hover.off,
+div.bot a:visited.off,
+div.bot a:visited:hover.off {
+  background: #ff8f00;
+}
 div.bot div.header a.name {
   display: inline-block;
   margin: 0 0 0 5px;
