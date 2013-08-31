@@ -8,21 +8,22 @@ module Ok
 
     def initialize app, options
       @app     = app
-      @options = options
+      @options = {:session_key => 'rack.session'}.merge(options)
       @skip    = @options[:skip] || []
       @guard   = @options[:guard] || []
     end
 
     def call env
-      meth = env['REQUEST_METHOD']
-      path = env['PATH_INFO']
+      meth    = env['REQUEST_METHOD']
+      path    = env['PATH_INFO']
+      session = env[@options[:session_key]]
 
       full = "#{meth}:#{path}"
-      if !@guard.include?(full) && (['HEAD', 'GET'].include?(meth) || @skip.include?(full))
+      if session['screen_name'] || !@guard.include?(full) && (['HEAD', 'GET'].include?(meth) || @skip.include?(full))
         return @app.call env
       end
 
-      [401, {}, ["Not Allowed."]]
+      [401, {'Content-Type': 'application/json'}, MultiJson.dump({:success=>false, :msg=>"You have to re-login."})]
     end
 
     module Helpers # === Sinatra Helpers ================================
@@ -95,13 +96,28 @@ if respond_to? :helpers, true
 
 
   if ENV['IS_DEV']
+    def add_padding k
+      padding = 30
+      size = (padding - k.to_s.size)
+      size = 1 if size < 1
+      " " * size
+    end
+
+    def inspect_line k, v
+      "#{k.inspect}:#{add_padding k}#{v.inspect}\n"
+    end
+
     get "/test/session" do
       pass if env['HTTP_X_REAL_IP'] != '127.0.0.1'
+
       a = "Session: \n"
-      session.each { |k, v| a  << "#{k}: #{v}\n<br />" }
-      a << "Headers:\n"
-      env.each { |k, v| a  << "#{k}: #{v}\n<br />" }
-      "<pre>" + a + "</pre>"
+      session.each { |k, v| a  << inspect_line(k, v) }
+
+      a << "\n\nHeaders:\n"
+      env.each { |k, v| a  << inspect_line(k, v) }
+
+      content_type :text
+      a
     end
   end
 
