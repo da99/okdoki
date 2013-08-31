@@ -78,6 +78,19 @@ class Screen_Name
     end
   end
 
+  def read_bot_menu
+    sql = %^
+      SELECT bot.*, screen_name.screen_name, bot_use_select.is_on
+      FROM (bot Left JOIN screen_name
+        ON bot.sn_id = screen_name.id)
+           LEFT JOIN ( SELECT bot_id, is_on FROM bot_use WHERE sn_id = :sn_id )
+            AS bot_use_select
+            ON bot.id = bot_use_select.bot_id
+      ORDER BY screen_name ASC
+    ^
+    Bot.new DB[sql, :sn_id=>id].all
+  end
+
   def href
     "/me/#{screen_name}"
   end

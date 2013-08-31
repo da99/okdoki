@@ -20,12 +20,7 @@ end # === get /
 
 get "/bots" do
   html "Bot/all", {
-    :bots => Bot.new(DB[%^
-      SELECT bot.*, screen_name.screen_name
-      FROM bot INNER JOIN screen_name
-        ON bot.sn_id = screen_name.id
-      ORDER BY screen_name ASC
-    ^].all)
+    :bots => user.read_bot_menu
   }
 end # === get /bots
 
