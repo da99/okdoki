@@ -22,7 +22,9 @@ require './Server/Ok/Escape_All'     # 1
 require './Server/Ok/CSRF'           # 2
 require './Server/Ok/JSON_Success'   # 3
 require './Server/Ok/HTML_Render'    # 4
+require './Server/Ok/Bool_Params'    # 5
 # ----------------------------------------------------
+
 
 # -- DB
 require './Server/Ok/model'

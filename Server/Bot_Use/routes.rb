@@ -4,16 +4,19 @@ require './Server/Bot_Use/model'
 # ============ CREATE ===============================================
 
 put '/Bot_Use' do
-return json(true, "test")
-  begin
-    bot = params[:bot_screen_name]
-    sn  = user.screen_name
-    o   = Bot_Use.upsert(
-      bot_screen_name: bot,
-      screen_name:     sn
-    )
 
-    json true, "You are now using, #{bot}, as #{sn}."
+  begin
+    bot = params['bot_screen_name']
+    sn  = user.screen_name
+    is_on = params['is_on']
+
+    o   = Bot_Use.upsert(bot, user.id, is_on)
+
+    if is_on
+      json true, "You are now using, #{bot}, as #{sn}."
+    else
+      json true, "You are no longer using, #{bot}, as #{sn}."
+    end
   rescue Bot_Use::Invalid => e
     json false, e.msg
   end
