@@ -64,6 +64,12 @@ div.bot
   margin: 0.5em
   border-radius: 0.3em
 
+  a:link.on,
+  a:visited.on,
+  a:link.off
+  a:visited.off
+    color: $pink
+
   a:hover.on,
   a:visited.on,
   a:visited:hover.on
@@ -73,6 +79,14 @@ div.bot
   a:visited.off,
   a:visited:hover.off
     background: $orange
+
+  a:link.is_on,
+  a:visited.is_on,
+  a:link.is_off,
+  a:visited.is_off,
+  a:hover.on,
+  a:hover.off
+    color: #fff
 
   div.header
     a.name

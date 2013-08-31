@@ -70,6 +70,12 @@ div.bot {
   margin: 0.5em;
   border-radius: 0.3em;
 }
+div.bot a:link.on,
+div.bot a:visited.on,
+div.bot a:link.off,
+div.bot a:visited.off {
+  color: #f85d95;
+}
 div.bot a:hover.on,
 div.bot a:visited.on,
 div.bot a:visited:hover.on {
@@ -79,6 +85,14 @@ div.bot a:hover.off,
 div.bot a:visited.off,
 div.bot a:visited:hover.off {
   background: #ff8f00;
+}
+div.bot a:link.is_on,
+div.bot a:visited.is_on,
+div.bot a:link.is_off,
+div.bot a:visited.is_off,
+div.bot a:hover.on,
+div.bot a:hover.off {
+  color: #fff;
 }
 div.bot div.header a.name {
   display: inline-block;
