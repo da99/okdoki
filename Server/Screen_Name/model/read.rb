@@ -42,7 +42,7 @@ class Screen_Name
                       DB[%^
                         SELECT bot.*, screen_name.screen_name as screen_name
                         FROM bot inner join screen_name
-                          ON bot.sn_id = screen_name.id
+                          ON bot.id = screen_name.id
                         WHERE bot.id IN (
                           SELECT bot_id
                           FROM bot_use
@@ -82,13 +82,14 @@ class Screen_Name
     sql = %^
       SELECT bot.*, screen_name.screen_name, bot_use_select.is_on
       FROM (bot Left JOIN screen_name
-        ON bot.sn_id = screen_name.id)
+        ON bot.id = screen_name.id)
            LEFT JOIN ( SELECT bot_id, is_on FROM bot_use WHERE sn_id = :sn_id )
             AS bot_use_select
-            ON bot.id = bot_use_select.bot_id
+            ON screen_name.id = bot_use_select.bot_id
       ORDER BY screen_name ASC
     ^
     bots = Bot.new(DB[sql, :sn_id=>id].all)
+
     return bots unless val
     bots.map(&val)
   end

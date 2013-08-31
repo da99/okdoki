@@ -1,12 +1,10 @@
 
 CREATE TABLE bot (
-  id                   serial                   NOT NULL,
-  sn_id                integer                  NOT NULL,
+  id                   integer                  PRIMARY KEY,
   created_at           timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at           timestamp with time zone,
   trashed_at           timestamp with time zone,
 
-  CONSTRAINT "bot_pkey"  PRIMARY KEY (id),
   CONSTRAINT "bot_screen_name" UNIQUE (sn_id)
 );
 

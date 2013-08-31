@@ -6,7 +6,7 @@ class Bot
     begin
       row = TABLE.
         returning.
-        insert(sn_id: sn.data[:id]).
+        insert(id: sn.data[:id]).
         first
 
       Bot.new( row, sn )
