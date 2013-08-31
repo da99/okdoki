@@ -20,6 +20,12 @@ unicorn_pid () {
 restart_server () {
 
   unicorn=/tmp/unicorn.dev.restart
+  force_start="true"
+  if [[ -f "$unicorn" ]]
+  then
+    force_start="false"
+  fi
+
   since=0
 
   if [[ -f $unicorn ]]
@@ -29,7 +35,7 @@ restart_server () {
 
   touch $unicorn
 
-  if [[ "$since" -gt "3" ]]
+  if [[ "$since" -gt "3" || "$force_start" == "true" ]]
   then
     echo "=== $since seconds: Restarting the server..."
     pkill -f "unicorn master" || true
