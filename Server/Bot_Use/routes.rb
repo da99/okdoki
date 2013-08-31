@@ -3,39 +3,35 @@ require './Server/Bot_Use/model'
 
 # ============ CREATE ===============================================
 
-post '/Bot/Use' do
-
+put '/Bot_Use' do
+return json(true, "test")
   begin
-    o = Bot_Use.create({
-      bot: params[:bot],
-      owner: params[:as_this_life]
-    })
+    bot = params[:bot_screen_name]
+    sn  = user.screen_name
+    o   = Bot_Use.upsert(
+      bot_screen_name: bot,
+      screen_name:     sn
+    )
 
-    json true, "You are now using, #{o.screen_name}, with #{use.owner}."
+    json true, "You are now using, #{bot}, as #{sn}."
   rescue Bot_Use::Invalid => e
     json false, e.msg
   end
 
 end # === post /Bot/Use
 
-post "/Bot_Use" do
-  sn = Screen_Name.read_by_screen_name(params[:screen_name], request.user)
-  o  = Bot_Use.create_by_screen_name(sn, params)
-  json true,'Created: ', model: o.to_public
-end
-
 # ============ READ =================================================
 
-get "/Bot_Use/:id" do
+# get "/Bot_Use/:id" do
 
-  begin
-    Bot_Use.read(params)
-    render 'Bot_Use/show_one', :title=> "Bot_Use ##{req.params.id}"
-  rescue Bot_Use::Not_Found =>e
-    json false, e.msg
-  end
+  # begin
+    # Bot_Use.read(params)
+    # render 'Bot_Use/show_one', :title=> "Bot_Use ##{req.params.id}"
+  # rescue Bot_Use::Not_Found =>e
+    # json false, e.msg
+  # end
 
-end # === get /Bot_Use/:id
+# end # === get /Bot_Use/:id
 
 
 # ============ UPDATE ===============================================

@@ -38,6 +38,7 @@ div.Sidebar! {
           a('off', :class=>"off #{inline_mustache "^is_on", :is_off}", :href=>"#off")
           a.name("{{screen_name}}", :href=>"{{href}}")
         }
+        input(:type=>'hidden', :name=>'screen_name', :value=>'{{screen_name}}')
       }
     end # === :bots
   end

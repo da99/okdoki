@@ -59,8 +59,12 @@ function json_then(func) {
 
 // from: http://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try 
 function to_json_result(raw_text) {
+
+  if (_.isObject(raw_text) && _.has(raw_text, 'success'))
+    return raw_text;
+
   var text  = "" + raw_text;
-  var fails = {success: false};
+  var fails = {success: false, msg: 'Unknown error occurred. Try again later.'};
   var o     = null;
   if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
                            replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').

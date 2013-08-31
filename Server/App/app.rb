@@ -32,6 +32,7 @@ require './Server/Ok/model'
   App
   Customer
   Screen_Name
+  Bot_Use
 }.map { |w|
   require "./Server/#{w}/routes"
 }
