@@ -41,7 +41,7 @@ class Bot
     @codes
   end
 
-  "id bot_id".split.each { |k|
+  "id bot_id screen_name is_on".split.each { |k|
     eval %^
       def #{k}
         data[:#{k}]
@@ -60,10 +60,10 @@ class Bot
 
   def to_public
     {
-       codes: codes(:to_public),
-       screen_name: data[:screen_name],
-       is_on: data[:is_one],
-       href:  href
+       codes:       codes(:to_public),
+       screen_name: screen_name,
+       is_on:       is_on,
+       href:        href
     }
   end
 
