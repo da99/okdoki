@@ -7,36 +7,49 @@ section :main do
 
   div.Me! do
 
-    div.box {
+    div.box.Message_Board! {
+
       h3 {
         span "Message Board"
         span.sub "(Low Priority Messages)"
       }
-      div.content "No messages so far."
-    }
+
+      div.content {
+        div.please_wait.loading {
+          span "Loading..."
+        }
+      }
+
+    } # === div Message_Board!
 
   end # === div.Me!
 
   div.Sidebar! {
+
+    div.box.New_Chit_Chat! {
+
+      h3 "Post to your message board:"
+
+      div.content {
+        form.Create_Chit_Cat!(action: '/Chit_Chat', method: 'POST') {
+          div.fields do
+            div.field.body { textarea(name: "body", maxlength: "1000") }
+          end # === div.fields
+          div.buttons {
+            button.submit "Send"
+          }
+        }
+      }
+
+    } # === New_Chit_Chat!
 
     div.Me_Intro! {
       div.the_life_of "The life of..."
       h3.name         "{{screen_name}}"
     }
 
-    div.box {
-      h3 "How to use Okdoki.com:"
-      div.content {
-        red_cloth %^
-          Write a random thought below.
-        ^
-
-        red_cloth %^
-          Find some people or publications to follow:
-          "official Okdoki lifes":/lifes
-        ^
-
-      }
+    div.box.spacer {
+      div.content ""
     }
 
   } # === Sidebar!

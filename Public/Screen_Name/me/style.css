@@ -41,6 +41,10 @@ div.col {
 #Session_Nav {
   background: #fff;
 }
+#Message_Board div.please_wait {
+  text-align: left;
+  padding-left: 40px;
+}
 div.box {
   padding: 0;
   background: #fff;
@@ -97,6 +101,10 @@ div.box div.content {
 #Sidebar div.box:last-child div.content {
   border: 0;
 }
+#Sidebar div.spacer {
+  padding: 10px;
+  border-radius: 0 0 4px 4px;
+}
 #Options {
   margin-top: 10px;
 }
@@ -107,7 +115,7 @@ div.box div.content {
   background: #000 url("/img/patterns/escheresque_ste/escheresque_ste.png") repeat -10px 0;
   background: #ffea74 url("/img/busynoise/orange_yellow.gif") repeat -10px 0;
   border-bottom: 7px solid #b0c460;
-  margin: 0;
+  margin: 10px 0 0 0;
 }
 #Me_Intro div.the_life_of,
 #Me_Intro div.what_am_i {
