@@ -2,6 +2,26 @@ class Customer
 
   class << self
 
+    def read_by_serialized raw_name
+      sql = %^
+        SELECT *
+        FROM screen_name
+        WHERE owner_id IN (
+          SELECT owner_id
+          FROM screen_name
+          WHERE screen_name = :sn
+          LIMIT 1
+        )
+      ^
+
+      name_rows = DB[sql, :sn=>Screen_Name.canonize(raw_name)]
+      return Customer.new(nil) if name_rows.empty?
+
+      c = Customer.new({:id=>name_rows.first[:owner_id]})
+      c.screen_names(name_rows)
+      c
+    end
+
     def read_by_id id
       new TABLE.limit(1)[id: id]
     end # === def
@@ -85,12 +105,20 @@ class Customer
     []
   end
 
-  def screen_names cmd = nil
-    if cmd
-      @screen_names.list.map(&cmd)
-    else
-      @screen_names
+  def screen_names var = nil
+    @screen_names ||= []
+
+    if var.is_a?(Array) && !var.empty?
+      if var.first.is_a?(Screen_Name)
+        @screen_names.concat(var)
+      else
+        @screen_names.concat Screen_Name.new(var)
+      end
     end
+
+    raise "Symbols no longer supported. Use :map" if var.is_a?(Symbol)
+
+    @screen_names
   end
 
 end # === class Customer read ===
