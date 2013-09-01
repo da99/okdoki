@@ -10,7 +10,7 @@ module Dot_Why
         div.Nav_Bar! {
           a.Log_Out!('Log-out', :href=>'/log-out')
           mustache "^is_customer_lifes" do
-            a.home('My Console', :href=>'/')
+            a.home('My Account', :href=>'/')
           end
         }
       end

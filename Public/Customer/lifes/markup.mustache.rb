@@ -13,7 +13,7 @@
     <link href="/applets/Create_Life/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/Customer/lifes/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
-  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a>{{^is_customer_lifes}}<a class="home" href="/">My Console</a>{{/is_customer_lifes}}</div>
+  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a>{{^is_customer_lifes}}<a class="home" href="/">My Account</a>{{/is_customer_lifes}}</div>
     {{/logged_in?}}    <div id="Logo"><span class="main">ok</span><span class="sub">doki</span><span class="wat_wat">: Multi-Life Chat & Publishing</span></div>
     <p>Your home page(s):</p>
     <ul>{{#screen_names}}<a href="{{href}}">{{screen_name}}</a></li>

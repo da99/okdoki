@@ -12,25 +12,23 @@
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/Screen_Name/me/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
-  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a>{{^is_customer_lifes}}<a class="home" href="/">My Console</a>{{/is_customer_lifes}}</div>
+  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a>{{^is_customer_lifes}}<a class="home" href="/">My Account</a>{{/is_customer_lifes}}</div>
     {{/logged_in?}}    <div id="Me">      <div class="box" id="Message_Board">
         <h3><span>Message Board</span><span class="sub">(Low Priority Messages)</span></h3>
         <div class="content">          <div class="please_wait loading"><span>Loading...</span></div>
         </div>
       </div>
     </div>
-    <div id="Sidebar">      <div class="box" id="New_Chit_Chat">
-        <h3>Post to your message board:</h3>
-        <div class="content">          <form action="/Chit_Chat" id="Create_Chit_Cat" method="POST">            <div class="fields">              <div class="field body"><textarea maxlength="1000" name="body"></textarea></div>
-            </div>
-            <div class="buttons"><button class="submit">Send</button></div>
-          </form>
-        </div>
-      </div>
-      <div id="Me_Intro">        <div class="the_life_of">The life of...</div>
+    <div id="Sidebar">      <div id="Me_Intro">        <div class="the_life_of">The life of...</div>
         <h3 class="name">{{screen_name}}</h3>
       </div>
-      <div class="box spacer">        <div class="content"></div>
+      <div class="box" id="New_Chit_Chat">
+        <h3>Post to your message board:</h3>
+        <div class="content">          <form action="/Chit_Chat" id="Create_Chit_Cat" method="POST">            <div class="fields">              <div class="field body"><textarea maxlength="1000" name="body"></textarea></div>
+              <div class="field buttons"><button class="submit">Send</button></div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>

@@ -26,6 +26,12 @@ section :main do
 
   div.Sidebar! {
 
+    div.Me_Intro! {
+      div.the_life_of "The life of..."
+      h3.name         "{{screen_name}}"
+    }
+
+
     div.box.New_Chit_Chat! {
 
       h3 "Post to your message board:"
@@ -40,15 +46,6 @@ section :main do
       }
 
     } # === New_Chit_Chat!
-
-    div.Me_Intro! {
-      div.the_life_of "The life of..."
-      h3.name         "{{screen_name}}"
-    }
-
-    div.box.spacer {
-      div.content ""
-    }
 
   } # === Sidebar!
 
