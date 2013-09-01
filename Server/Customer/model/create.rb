@@ -14,7 +14,7 @@ class Customer
     validate(:confirm_pass_word).required("Pass phrase confirmation is required.")
 
     new_vals[:customer] = self
-    Screen_Name.create(new_data)
+    sn = Screen_Name.create(new_data)
 
     rec = TABLE.
       returning(:id).
@@ -23,7 +23,9 @@ class Customer
         id: clean_data[:id]
       }).first
 
-    self.class.new rec
+    c = self.class.new rec
+    c.screen_names [sn]
+    c
   end # === create
 
 end # === class Customer create ===
