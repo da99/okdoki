@@ -42,8 +42,24 @@ get "/" do
   end
 end # === get /
 
-get "/@:screen_name" do
-  Ok::Escape_All.escape "The life of: #{params[:screen_name]}"
+get '/@:screen_name' do
+  sn = Screen_Name.canonize params[:screen_name]
+
+  if sn != params[:screen_name]
+    return redirect(to('/@' + sn), 302)
+  end
+
+  begin
+    life = Screen_Name.read_by_screen_name(sn)
+    html 'Screen_Name/me', {
+      :title       => "The life of #{life.screen_name}",
+      :screen_name => life.screen_name,
+      :is_owner    => logged_in? && user.is?(life)
+    }
+  rescue Screen_Name::Not_Found => e
+    pass
+  end
+
 end
 
 # =====================================================

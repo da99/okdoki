@@ -39,25 +39,6 @@ before '/:type/:screen_name' do
 
 end # === before
 
-get '/me/:screen_name' do
-  redirect(to('/'), 302) unless logged_in?
-
-  sn = params[:screen_name]
-  begin
-    life = Screen_Name.read_by_screen_name(sn)
-    html 'Screen_Name/me', {
-      :title       => "The bots of #{life.screen_name}",
-      :screen_name => life.to_public,
-      :bot         => life.bot(:to_public),
-      :bot_uses    => life.bot_uses(:to_public),
-      :is_owner    => logged_in? && user.is?(life)
-    }
-  rescue Screen_Name::Not_Found => e
-    pass
-  end
-
-end
-
 
 # =====================================================
 # Update
