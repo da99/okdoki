@@ -12,7 +12,7 @@
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/Screen_Name/me/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
-  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a></div>
+  <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a>{{^is_customer_lifes}}<a class="home" href="/">My Console</a>{{/is_customer_lifes}}</div>
     {{/logged_in?}}    <div id="Me">      <div class="box">
         <h3><span>Message Board</span><span class="sub">(Low Priority Messages)</span></h3>
         <div class="content">No messages so far.</div>
@@ -23,7 +23,7 @@
       </div>
       <div class="box">
         <h3>How to use Okdoki.com:</h3>
-        <div class="content"><p>Write a message below.</p><p>Find some people or publications to follow:<br />
+        <div class="content"><p>Write a random thought below.</p><p>Find some people or publications to follow:<br />
           <a href="/lifes">official Okdoki lifes</a></p></div>
       </div>
     </div>

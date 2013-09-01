@@ -21,6 +21,8 @@ helpers do
     o[:_csrf] = csrf_token
     o[:file_stamp] = FILE_STAMP
     o[:logged_in?] = logged_in?
+    o[:view_name]  = view_name
+    o[:is_customer_lifes] = view_name == 'Customer/lifes'
 
     Mustache.render(Fake_Mustache::CACHE[file], o)
   end

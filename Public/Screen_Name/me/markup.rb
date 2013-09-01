@@ -28,7 +28,7 @@ section :main do
       h3 "How to use Okdoki.com:"
       div.content {
         red_cloth %^
-          Write a message below.
+          Write a random thought below.
         ^
 
         red_cloth %^

@@ -2,7 +2,7 @@
 
 title '{{intro}} {{sn_all}}'
 
-# applet("Create_Life")
+applet("Create_Life")
 
 section :js_templates do
   li.screen_name {
