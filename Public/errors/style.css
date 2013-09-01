@@ -6,7 +6,8 @@ body {
   text-align: center;
 }
 
-h2 { color: #5a5a5a; }
+h1 { color: #EB57A3; padding: 0; margin: 0; }
+h2 { color: #5a5a5a; padding: 0; margin: 0 0 1em 0; }
 
 div { color: #616161; }
 div.intro {
@@ -22,4 +23,12 @@ a:link { padding: 2px 5px; }
 a:hover {
   background: #EB57A3;
   color: #fff;
+}
+
+#Main {
+  background: #fff;
+  border-radius: 0.5em;
+  padding: 1.5em;
+  max-width: 400px;
+  margin: 2em auto 0 auto;
 }
