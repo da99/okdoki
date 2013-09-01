@@ -6,7 +6,7 @@ applet("Create_Life")
 
 section :js_templates do
   li.screen_name {
-    a.name('', href:'/me/{name}')
+    a.name('', href:'{href}')
   }
 end
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{intro}} {{screen_name.screen_name}}</title>
+    <title>{{intro}} {{sn_all}}</title>
     <meta content="text/html charet=UTF-8" http-equiv="Content-Type" />
     <meta content="no-cache, max-age=0, must-revalidate, no-store, max-stale=0, post-check=0, pre-check=0" http-equiv="Cache-Control" />
     <link href="/favicon.ico" rel="shortcut icon" />
@@ -14,32 +14,39 @@
   </head>
   <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a></div>
     {{/logged_in?}}    <div id="Me">      <div class="box">
-        <h3><span>Box</span><span class="sub">(Mail)</span></h3>
-        <div class="content">[placeholder]</div>
+        <h3><span>Message Board</span><span class="sub">(Low Priority Messages)</span></h3>
+        <div class="content">No messages so far.</div>
       </div>
     </div>
     <div id="Sidebar">      <div id="Me_Intro">        <div class="the_life_of">{{intro}}...</div>
-        <h3 class="name">{{screen_name.screen_name}}</h3>
+        <h3 class="name">{{sn_all}}</h3>
       </div>
       <div class="box">
-        <h3>How to use your Okdoki bots:</h3>
-        <div class="content"><p>To turn off/on bots, go to: <a href="/bots">/bots</a></p></div>
+        <h3>How to use Okdoki.com:</h3>
+        <div class="content"><p>Write a message below.</p><p>Find some people or publications to follow:<br />
+          <a href="/lifes">official Okdoki lifes</a></p><p>Find some people or publications to follow:<br />
+          <a href="/lifes">official Okdoki lifes</a></p>
+          <p>Your home page(s):</p>
+          <ul>{{#screen_names}}<a href="{{href}}">{{screen_name}}</a></li>
+            {{/screen_names}}</ul>
+        </div>
       </div>
     </div>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
       <div class="success msg"></div>
       <div class="errors msg"></div>
-      {{#is_owner}}      <div class="msg">        <div class="meta"><span class="author"></span><a href="/me/{author_screen_name}">{author_screen_name}</a><span class="said">said:</span></div>
+      {{#is_owner}}      <div class="customer_screen_names">{{sn_all}}</div>
+      <div class="msg">        <div class="meta"><span class="author"></span><a href="{href}">{sn}</a><span class="said">said:</span></div>
         <div class="content">{body}</div>
       </div>
-      <div class="msg me_msg">        <div class="meta"><span class="author">{author_screen_name} (me)</span><span class="said">said:</span></div>
+      <div class="msg me_msg">        <div class="meta"><span class="author">{sn} (me)</span><span class="said">said:</span></div>
         <div class="content">{body}</div>
       </div>
-      <div class="msg chat_msg">        <div class="meta"><span class="author">{author_screen_name}</span><span class="said">said:</span></div>
+      <div class="msg chat_msg">        <div class="meta"><span class="author">{sn}</span><span class="said">said:</span></div>
         <div class="content">{body}</div>
       </div>
-      <div class="msg chat_msg me_chat_msg">        <div class="meta"><span class="author">{author_screen_name} (me)</span><span class="said">said:</span></div>
+      <div class="msg chat_msg me_chat_msg">        <div class="meta"><span class="author">{sn} (me)</span><span class="said">said:</span></div>
         <div class="content">{body}</div>
       </div>
       <div class="msg official chat_msg">        <div class="content">{body}</div>

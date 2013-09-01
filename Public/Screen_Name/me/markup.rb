@@ -1,25 +1,16 @@
 
-def folder(f)
-  li.folder {
-    a.open('{name}', href: "/me/{screen_name}/folder/{f.num}")
-  }
-end
-
-title '{{intro}} {{screen_name.screen_name}}'
+title '{{intro}} {{sn_all}}'
 
 section :js_templates do
 
   mustache :is_owner do
 
-    # div.customer_screen_names "{{customer_screen_names}}"
-
-
-    # folder(num: "{num}", title: "{title}")
+    div.customer_screen_names "{{sn_all}}"
 
     div.msg {
       div.meta {
         span.author
-        a("{author_screen_name}", href: "/me/{author_screen_name}")
+        a("{sn}", href: "{href}")
         span.said  "said:"
       }
       div.content "{body}"
@@ -27,7 +18,7 @@ section :js_templates do
 
     div.msg.me_msg do
       div.meta {
-        span.author "{author_screen_name} (me)"
+        span.author "{sn} (me)"
         span.said  "said:"
       }
       div.content "{body}"
@@ -35,7 +26,7 @@ section :js_templates do
 
     div.msg.chat_msg {
       div.meta {
-        span.author "{author_screen_name}"
+        span.author "{sn}"
         span.said  "said:"
       }
       div.content "{body}"
@@ -43,7 +34,7 @@ section :js_templates do
 
     div.msg.chat_msg.me_chat_msg do
       div.meta {
-        span.author "{author_screen_name} (me)"
+        span.author "{sn} (me)"
         span.said  "said:"
       }
       div.content "{body}"
@@ -74,10 +65,10 @@ section :main do
 
     div.box {
       h3 {
-        span "Box"
-        span.sub "(Mail)"
+        span "Message Board"
+        span.sub "(Low Priority Messages)"
       }
-      div.content "[placeholder]"
+      div.content "No messages so far."
     }
 
   end # === div.Me!
@@ -86,15 +77,32 @@ section :main do
 
     div.Me_Intro! {
       div.the_life_of "{{intro}}..."
-      h3.name "{{screen_name.screen_name}}"
+      h3.name "{{sn_all}}"
     }
 
     div.box {
-      h3 "How to use your Okdoki bots:"
+      h3 "How to use Okdoki.com:"
       div.content {
         red_cloth %^
-          To turn off/on bots, go to: "/bots":/bots
+          Write a message below.
         ^
+
+        red_cloth %^
+          Find some people or publications to follow:
+          "official Okdoki lifes":/lifes
+        ^
+
+        red_cloth %^
+          Find some people or publications to follow:
+          "official Okdoki lifes":/lifes
+        ^
+
+        p "Your home page(s):"
+        ul {
+          mustache :screen_names do
+            li a("{{screen_name}}", :href=>"{{href}}")
+          end
+        }
       }
     }
 

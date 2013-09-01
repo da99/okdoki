@@ -55,7 +55,7 @@ class Bot
   end
 
   def href
-    "/me/#{screen_name}"
+    "/@#{screen_name}"
   end
 
   def to_public

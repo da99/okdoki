@@ -28,9 +28,11 @@ end # === post Customer
 get "/" do
   if logged_in?
     html 'Screen_Name/me', {
-      :intro       => "The bots of",
-      :screen_name => user.screen_names.first.to_public,
-      :is_owner    => logged_in?
+      :intro        => "The Console of",
+      :default_sn   => user.screen_names.first.to_public,
+      :screen_names => user.screen_names.map(&:to_public),
+      :sn_all       => user.screen_names.map(&:screen_name).join(', '),
+      :is_owner     => logged_in?
     }
   else
     html 'App/top_slash', {
@@ -40,6 +42,9 @@ get "/" do
   end
 end # === get /
 
+get "/@:screen_name" do
+  Ok::Escape_All.escape "The life of: #{params[:screen_name]}"
+end
 
 # =====================================================
 # Update

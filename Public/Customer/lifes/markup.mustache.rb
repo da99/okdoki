@@ -47,7 +47,7 @@
     <script id="js_templates" type="text/x-okdoki">      <div class="loading msg"></div>
       <div class="success msg"></div>
       <div class="errors msg"></div>
-      <li class="screen_name"><a class="name" href="/me/{name}"></a></li>
+      <li class="screen_name"><a class="name" href="{href}"></a></li>
     </script>
     <script src="/js/vendor/all.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Common.js?{{file_stamp}}" type="text/javascript"></script>
