@@ -220,21 +220,6 @@ app.configure(function () {
   })
 
 
-  // ===========================================
-  app.use(express.csrf());
-  // ===========================================
-
-
-  // Caching:
-  app.use(function (req, resp, next) {
-    if (req.accepts('html')) {
-      resp.set("Expires", "Tue, 03 Jul 2001 06:00:00 GMT");
-      resp.set("Last-Modified", "Wed, 15 Nov 1995 04:58:08 GMT");
-      resp.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
-      resp.set("Pragma", "no-cache");
-    }
-    next();
-  });
 
   // Make sure user is not pretending to be someone else.
   app.use(function (req, resp, next) {
@@ -259,11 +244,6 @@ app.configure(function () {
 
 
   // ==============================================================
-  // The routes.
-  // ==============================================================
-  app.use(app.router)
-
-  // ==============================================================
   // Escape the data: =============================================
   // Set up default helpers, like New_Request: ====================
   // ==============================================================
@@ -271,16 +251,8 @@ app.configure(function () {
     var f = F.new(F);
     req.F = f;
 
-    f.on('not_found', function (f) {
-      resp_404(req, resp, f.data.error.message);
-    });
-
     f.on('invalid', function (f) {
       resp_invalid(req, resp, f.data.error.message);
-    });
-
-    f.on('error', function (f) {
-      resp_error(req, resp, f.data.error.message);
     });
 
     _.each("params query body cookies".split(" "), function (k, i) {
