@@ -1,7 +1,6 @@
 
 require "./tests/helpers"
 require "./Server/Ok/Escape_All"
-require "addressable/uri"
 
 describe ":clean_utf8" do
 

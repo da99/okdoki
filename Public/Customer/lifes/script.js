@@ -65,6 +65,10 @@ var Customer_Lifes = {
   in_chat_rooms : []
 };
 
+on('after success #Create_Screen_Name', function (o) {
+  window.location.href = o.data.href;
+});
+
 on('after enter chat room', function () {
   Customer_Lifes.in_chat_rooms.push(1);
 });

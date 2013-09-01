@@ -24,8 +24,7 @@ end # === post Customer
 post '/@' do
   begin
     sn   = Customer.create(:screen_name, params[:screen_name])
-    name = sn.data[:screen_name]
-    json true, "Your new life has been created: #{name}" , {screen_name: name}
+    json true, "Your new life has been created: #{sn.screen_name}" , sn.to_public
   rescue Ok::Invalid => e
     json false, e.msg
   end

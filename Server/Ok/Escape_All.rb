@@ -1,4 +1,5 @@
 
+require "addressable/uri"
 require "escape_utils"
 require "htmlentities"
 require "uri"
