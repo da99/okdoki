@@ -23,6 +23,21 @@ helpers do
     o[:logged_in?] = logged_in?
     o[:view_name]  = view_name
     o[:is_customer_lifes] = view_name == 'Customer/lifes'
+    o[:my_other_screen_names] = begin
+                                  if logged_in?
+                                    list = user.screen_names.map(&:to_public)
+                                    if view_name == 'Screen_Name/me'
+                                      sn = Screen_Name.canonize(params[:screen_name])
+                                      list.reject { |o|
+                                        o[:screen_name] == sn
+                                      }
+                                    else
+                                      list
+                                    end
+                                  else
+                                    []
+                                  end
+                                end
 
     Mustache.render(Fake_Mustache::CACHE[file], o)
   end

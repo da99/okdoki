@@ -12,6 +12,10 @@ module Dot_Why
           mustache "^is_customer_lifes" do
             a.home('My Account', :href=>'/')
           end
+
+          mustache "my_other_screen_names" do
+            a.screen_name('{{href}}', :href=>'{{href}}')
+          end
         }
       end
     end
