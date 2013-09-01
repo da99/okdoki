@@ -10,18 +10,6 @@ require './Server/Screen_Name/model'
 # =====================================================
 
 
-post '/me' do
-  pass unless logged_in?
-
-  begin
-    sn   = Screen_Name.create(user, params)
-    name = sn.data[:screen_name]
-    json true, "Your new life has been created: #{name}" , {screen_name: name}
-  rescue Ok::Invalid => e
-    json false, e.msg
-  end
-end # === post
-
 # =====================================================
 # Read
 # =====================================================

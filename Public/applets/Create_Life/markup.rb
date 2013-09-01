@@ -25,17 +25,11 @@ section :Create_Life do
 
       div.content do
 
-        form.Create_Screen_Name!(action:"/me", method:"POST") do
+        form.Create_Screen_Name!(action:"/@", method:"POST") do
           div.fields {
             div.field.screen_name {
               span.label "Screen Name:"
               input(type:"text", value:"", name:"screen_name", maxlength:"40")
-            }
-            div.field.sn_type {
-              input(type:"checkbox", name:"type_id", value:"1")
-              label("for" => "sn_type") do
-                span %^ It's for a thing: website, product, event, etc. ^
-              end
             }
           }
 

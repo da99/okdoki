@@ -21,6 +21,16 @@ post '/user' do
   end
 end # === post Customer
 
+post '/@' do
+  begin
+    sn   = Customer.create(:screen_name, params[:screen_name])
+    name = sn.data[:screen_name]
+    json true, "Your new life has been created: #{name}" , {screen_name: name}
+  rescue Ok::Invalid => e
+    json false, e.msg
+  end
+end # === post
+
 post '/Chit_Chat' do
 
   begin
@@ -38,8 +48,8 @@ end # === post /Chit_Chat
 
 get "/" do
   if logged_in?
-    html 'Screen_Name/me', {
-      :intro        => "The Console of",
+    html 'Customer/lifes', {
+      :intro        => "My Account...",
       :default_sn   => user.screen_names.first.to_public,
       :screen_names => user.screen_names.map(&:to_public),
       :sn_all       => user.screen_names.map(&:screen_name).join(', '),

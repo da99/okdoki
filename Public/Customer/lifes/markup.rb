@@ -16,31 +16,15 @@ section(:main)  {
 
   #//- ===========================================================
   div.Logo! {
+    span.wat_wat "My Account @ "
     span.main "ok"
     span.sub "doki"
-    span.wat_wat ": Multi-Life Chat & Publishing"
-  }
-
-  p "Your home page(s):"
-  ul {
-    mustache :screen_names do
-    li a("{{screen_name}}", :href=>"{{href}}")
-    end
   }
 
   # //- ===========================================================
   div.col.Interact! {
 
     section :Create_Life
-
-    div.Options! {
-      h2 "Options for Eggheads"
-      div.box {
-        div.content {
-          p %^None yet.^
-        }
-      }
-    }
 
   }
 

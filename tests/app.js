@@ -107,6 +107,8 @@ describe( 'app', function () {
   // # 18
   it 'uses no-cache middleware'
 
+  // # 19
+  it 'clears :as_this_life if invalid (ie impersonation'
 
 }); // === end desc
 

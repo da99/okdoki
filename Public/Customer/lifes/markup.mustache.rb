@@ -14,10 +14,7 @@
     <link href="/Customer/lifes/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>{{#logged_in?}}    <div id="Nav_Bar"><a href="/log-out" id="Log_Out">Log-out</a>{{^is_customer_lifes}}<a class="home" href="/">My Account</a>{{/is_customer_lifes}}</div>
-    {{/logged_in?}}    <div id="Logo"><span class="main">ok</span><span class="sub">doki</span><span class="wat_wat">: Multi-Life Chat & Publishing</span></div>
-    <p>Your home page(s):</p>
-    <ul>{{#screen_names}}<a href="{{href}}">{{screen_name}}</a></li>
-      {{/screen_names}}</ul>
+    {{/logged_in?}}    <div id="Logo"><span class="wat_wat">My Account @ </span><span class="main">ok</span><span class="sub">doki</span></div>
     <div class="col" id="Interact">      <div class="box" id="Create_Life">        <div class="mini_box my_life">
           <h3>My Life(s):</h3>
           <div class="content">            <ul class="screen_names">{{#screen_names}}
@@ -27,20 +24,10 @@
         </div>
         <div class="mini_box create_life">
           <h3>Create A New Life:</h3>
-          <div class="content">            <form action="/me" id="Create_Screen_Name" method="POST">              <div class="fields">                <div class="field screen_name"><span class="label">Screen Name:</span><input maxlength="40" name="screen_name" type="text" value="" /></div>
-                <div class="field sn_type"><input name="type_id" type="checkbox" value="1" />
-                  <label for="sn_type"><span> It&#39;s for a thing: website, product, event, etc. </span></label>
-                </div>
+          <div class="content">            <form action="/@" id="Create_Screen_Name" method="POST">              <div class="fields">                <div class="field screen_name"><span class="label">Screen Name:</span><input maxlength="40" name="screen_name" type="text" value="" /></div>
               </div>
               <div class="buttons"><button class="submit">Create</button></div>
             </form>
-          </div>
-        </div>
-      </div>
-      <div id="Options">
-        <h2>Options for Eggheads</h2>
-        <div class="box">          <div class="content">
-            <p>None yet.</p>
           </div>
         </div>
       </div>

@@ -31,7 +31,6 @@ section :main do
       h3.name         "{{screen_name}}"
     }
 
-
     div.box.New_Chit_Chat! {
 
       h3 "Post to your message board:"
