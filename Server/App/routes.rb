@@ -1,5 +1,12 @@
 
+# =====================================================
+# Create
+# =====================================================
 
+
+# =====================================================
+# Read
+# =====================================================
 
 get "/" do
   if logged_in?
@@ -18,24 +25,6 @@ get "/" do
 end # === get /
 
 
-get "/bots" do
-  l = user.read_bot_menu(:to_public)
-  html "Bot/all", {
-    :bots => l
-  }
-end # === get /bots
-
-
-__END__
-
-
-get "/settings" do
-  return redirect(to('/'), 302) unless logged_in?
-
-  html "Screen_Name/settings", {
-    :msg => 'hello',
-    :user => user.to_public,
-    :bots => []
-  }
-end # === get /settings
-
+# =====================================================
+# Update
+# =====================================================

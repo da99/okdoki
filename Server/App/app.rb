@@ -27,19 +27,14 @@ require './Server/Ok/No_Cache'       # 6
 # ----------------------------------------------------
 
 
-# -- DB
+# --- Init the DB Connection -------------------------
 require './Server/Ok/model'
 
-# --- Routes -----------------------------------------
-%w{
-  App
-  Customer
-  Screen_Name
-  Bot_Use
-}.map { |w|
-  require "./Server/#{w}/routes"
-}
+# --- The Routes -------------------------------------
+require "./Server/App/routes"
 
+
+# --- Error Handling ---------------------------------
 NOT_FOUND = File.read("./Public/errors/404.html")
 ERROR_50x = File.read("./Public/errors/50x.html")
 
@@ -50,6 +45,7 @@ end
 error do
   ERROR_50x.sub('{{path}}', request.path_info) # env['sinatra.error'].name
 end
+# ----------------------------------------------------
 
 
 
