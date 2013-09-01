@@ -5,6 +5,14 @@ module Dot_Why
 
     def_sections :scripts, :styles, :js_templates
 
+    def Nav_Bar!
+      mustache "logged_in?" do
+        div.Nav_Bar! {
+          a.Log_Out!('Log-out', :href=>'/log-out')
+        }
+      end
+    end
+
     def red_cloth *args
       str = args.last.strip
       if args.size == 2

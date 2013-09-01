@@ -1,8 +1,8 @@
 
 
-title '{{title}}'
+title '{{intro}} {{sn_all}}'
 
-applet("Create_Life")
+# applet("Create_Life")
 
 section :js_templates do
   li.screen_name {
@@ -12,11 +12,20 @@ end
 
 section(:main)  {
 
+  Nav_Bar!
+
   #//- ===========================================================
   div.Logo! {
     span.main "ok"
     span.sub "doki"
     span.wat_wat ": Multi-Life Chat & Publishing"
+  }
+
+  p "Your home page(s):"
+  ul {
+    mustache :screen_names do
+    li a("{{screen_name}}", :href=>"{{href}}")
+    end
   }
 
   # //- ===========================================================

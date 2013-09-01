@@ -10,7 +10,7 @@
     <link href="/css/vanilla.reset.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/okdoki.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/Public/Bot_Use/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Bot_Use/upsert/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <script id="CSRF" type="text/_csrf">{{_csrf}}</script>
@@ -30,6 +30,6 @@
     <script src="/js/Form.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Screen_Name.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Customer.js?{{file_stamp}}" type="text/javascript"></script>
-    <script src="/Public/Bot_Use/script.js?{{file_stamp}}" type="text/javascript"></script>
+    <script src="/Bot_Use/upsert/script.js?{{file_stamp}}" type="text/javascript"></script>
   </body>
 </html>
