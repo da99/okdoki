@@ -18,6 +18,8 @@ use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
 require './Server/Ok/Session'        # 0
+require './Server/Ok/Deserialize_User' # 0.1
+require './Server/Ok/As_This_Life'   # 0.2
 require './Server/Ok/Escape_All'     # 1
 require './Server/Ok/CSRF'           # 2
 require './Server/Ok/JSON_Success'   # 3

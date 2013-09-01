@@ -48,12 +48,7 @@ module Ok
       end
 
       def user
-        @screen_name ||= begin
-                           sn = session['screen_name']
-                           !!sn && Customer.read_by_serialized(sn)
-                         rescue Customer::Not_Found => e
-                           nil
-                         end
+        @screen_name ||= request.env['ok.user']
       end
 
       def sign_in c

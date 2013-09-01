@@ -22,7 +22,13 @@ post '/user' do
 end # === post Customer
 
 post '/Chit_Chat' do
-  json true, "testing"
+
+  begin
+    Chit_Chat.create(params)
+  rescue Chit_Chat::Invalid =>e
+    json false, e.msg
+  end
+
 end # === post /Chit_Chat
 
 
