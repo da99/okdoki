@@ -59,7 +59,7 @@ var Screen_Name = {
     return this._sn;
   },
   to_url : function (path) {
-    var url = "/me/" + this._sn;
+    var url = "/@" + this._sn;
     if (path)
       url += path;
     return url;

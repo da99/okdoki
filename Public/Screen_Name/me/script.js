@@ -1,16 +1,18 @@
 "use strict";
 
+// ================================================================
+// Load any data
+// ================================================================
 
 $(function () {
 
-  // get('/bots/for/' + Screen_Name.screen_name(), function (err, result) {
-    // if (err) {
-      // log('Error in /bots: ', err);
-      // return;
-    // }
-
-    // WWW_Applet.run_these(result.bots);
-  // });
+  post('/Chit_Chat/list', {screen_name: Template.read_content('div.screen_name')}, function (err, result) {
+    if (err) {
+      log('Error in /Chit_Chat/list: ', err, result);
+      return;
+    }
+    log(result)
+  });
 
 }); // ==== jquery on dom ready
 
@@ -20,6 +22,9 @@ $(function () {
 // ================================================================
 
 
+// Example:
+//  WWW_Applet.run_these(result.bots);
+//
 var WWW_Applet = function () { };
 
 WWW_Applet.run_these = function (list) {

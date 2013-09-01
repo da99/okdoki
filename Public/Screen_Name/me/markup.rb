@@ -1,6 +1,10 @@
 
 title '{{title}}'
 
+section :js_templates do
+  div.screen_name "{{screen_name}}"
+end
+
 section :main do
 
   Nav_Bar!

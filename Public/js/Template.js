@@ -36,6 +36,10 @@ var Template = {
     return outer_html(t);
   },
 
+  read_content : function (se) {
+    return $(this.read(se)).text();
+  },
+
   compile: function (se, data) {
     var txt = $(this.read(se));
     var me  = this;

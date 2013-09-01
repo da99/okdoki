@@ -82,6 +82,10 @@ get '/@:screen_name' do
 
 end
 
+post '/Chit_Chat/list' do
+  json false, "still testing", {sn: params[:screen_name]}
+end # === post /Chit_Chat/list
+
 # =====================================================
 # Update
 # =====================================================
