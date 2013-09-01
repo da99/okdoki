@@ -34,10 +34,8 @@ section :main do
         form.Create_Chit_Cat!(action: '/Chit_Chat', method: 'POST') {
           div.fields do
             div.field.body { textarea(name: "body", maxlength: "1000") }
+            div.field.buttons { button.submit "Send" }
           end # === div.fields
-          div.buttons {
-            button.submit "Send"
-          }
         }
       }
 

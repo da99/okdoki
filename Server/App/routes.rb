@@ -21,6 +21,11 @@ post '/user' do
   end
 end # === post Customer
 
+post '/Chit_Chat' do
+  json true, "testing"
+end # === post /Chit_Chat
+
+
 # =====================================================
 # Read
 # =====================================================
