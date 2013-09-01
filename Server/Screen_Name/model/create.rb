@@ -23,6 +23,7 @@ class Screen_Name
     # === Validate the data.
     @new_data = raw_data
     @clean_data = {}
+
     is_new_owner = !new_data[:customer].data[:id]
 
     validate(:screen_name).required
@@ -45,8 +46,6 @@ class Screen_Name
       raise e unless e.message['"screen_name_screen_name_key"']
       raise self.class::Invalid.new(self, "Screen name already taken: #{clean_data[:screen_name]}")
     end
-
-    #, 'screen_name', 'Screen name alread taken: ' + insert_data[:screen_name])
 
     me = self.class.new(new_record)
     if is_new_owner
