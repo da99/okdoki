@@ -30,6 +30,11 @@ require './Server/Ok/No_Cache'       # 6
 # --- Init the DB Connection -------------------------
 require './Server/Ok/model'
 
+# --- The Models -------------------------------------
+%w{ Customer Screen_Name }.each { |m|
+  require "./Server/#{m}/model"
+}
+
 # --- The Routes -------------------------------------
 require "./Server/App/routes"
 

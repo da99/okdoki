@@ -1,4 +1,18 @@
 
+#
+# Module: Ok::Session
+#
+#   This manages the creation/destruction of sessions.
+#   It also guards against making changes to the database
+#   without a session.
+#
+#   Guard ptions include:
+#     :skip   => Useful to guard against non-HEAD/GET actions.
+#     :guard  => Useful to guard GET actions
+#
+
+
+
 require 'sinatra/cookies'
 
 # ================ Rack Middle + DSL ===================
@@ -36,15 +50,15 @@ module Ok
       def user
         @screen_name ||= begin
                            sn = session['screen_name']
-                           !!sn && Screen_Name.read_by_screen_name(sn)
-                         rescue Screen_Name::Not_Found => e
+                           !!sn && Customer.read_by_serialized(sn)
+                         rescue Customer::Not_Found => e
                            nil
                          end
       end
 
       def sign_in c
         log_out
-        session[:screen_name] = c.screen_names.screen_names.first
+        session[:screen_name] = c.screen_names.first.screen_name
         true
       end
 
