@@ -1,3 +1,6 @@
+
+require './Server/Chit_Chat/model'
+
 class Customer
 
   class << self
@@ -121,10 +124,11 @@ class Customer
     @screen_names
   end
 
-  def read_chit_chat_list sn
-    is?(sn) ?
+  def read_chit_chat_list raw_sn
+    sn = screen_names.detect { |o| o.is?(raw_sn) }
+    sn ?
       Chit_Chat.read_inbox(sn) :
-      Chit_Chat.read_public_inbox(sn)
+      Chit_Chat.read_public_inbox(Screen_name.read_by_screen_name(raw_sn))
   end
 
   def read_private_chit_chat_list

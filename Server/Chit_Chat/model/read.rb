@@ -27,12 +27,12 @@ class Chit_Chat
                     AND from_id IN (
                             SELECT target_id
                             FROM i_know_them
-                            WHERE owner_id = ? AND is_follow = true
+                            WHERE owner_id = :sn_id AND is_follow = true
                     )
                     AND created_at > (
                     SELECT coalesce(MIN(last_read_at), timestamp '2001-09-28 01:00')
                                       FROM chit_chat_last_read
-                                      WHERE sn_id = ?
+                                      WHERE sn_id = :sn_id
                       LIMIT 1
                     )
 
@@ -40,7 +40,7 @@ class Chit_Chat
         ) AS meta
         ON chit_chat.id = meta.cc_id
         ORDER BY chit_chat.id DESC
-      ^, sn.id, sn.id].limit(111).all
+      ^, sn_id: sn.id].limit(111).all
     end
 
     def read_public_inbox sn
