@@ -36,6 +36,11 @@
       <div class="success msg"></div>
       <div class="errors msg"></div>
       <div class="screen_name">{{screen_name}}</div>
+      <div class="empty chit_chat_list">
+    No messages posted.
+    You may post up to 111 messages on your message board.
+    Old ones will be deleted to make room for new ones.
+  </div>
     </script>
     <script src="/js/vendor/all.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Common.js?{{file_stamp}}" type="text/javascript"></script>

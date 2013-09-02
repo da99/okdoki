@@ -3,6 +3,11 @@ title '{{title}}'
 
 section :js_templates do
   div.screen_name "{{screen_name}}"
+  div.empty.chit_chat_list "
+    No messages posted.
+    You may post up to 111 messages on your message board.
+    Old ones will be deleted to make room for new ones.
+  "
 end
 
 section :main do
