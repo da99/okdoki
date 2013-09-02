@@ -35,7 +35,7 @@ class Customer
 
   def initialize *args
     super
-    @screen_names = Screen_Name::List.new(self)
+    @screen_names = nil
   end
 
   # NOTE: We have to put newlines. In case of an error,

@@ -83,7 +83,10 @@ get '/@:screen_name' do
 end
 
 post '/Chit_Chat/list' do
-  json false, "still testing", {sn: params[:screen_name]}
+  msgs = user.read_chit_chat_list(params[:screen_name]).
+    map(&:to_public)
+
+  json true, "still testing", {chit_chat_list: msgs}
 end # === post /Chit_Chat/list
 
 # =====================================================

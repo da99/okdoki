@@ -14,7 +14,7 @@ class Customer
         )
       ^
 
-      name_rows = DB[sql, :sn=>Screen_Name.canonize(raw_name)]
+      name_rows = DB[sql, :sn=>Screen_Name.canonize(raw_name)].all
       return Customer.new(nil) if name_rows.empty?
 
       c = Customer.new({:id=>name_rows.first[:owner_id]})
@@ -86,7 +86,7 @@ class Customer
   end # === class self ===
 
   def is? var
-    screen_names.include? var
+    !!screen_names.detect { |sn| sn.is?(var) }
   end
 
   def too_many_bad_logins?
@@ -119,6 +119,20 @@ class Customer
     raise "Symbols no longer supported. Use :map" if var.is_a?(Symbol)
 
     @screen_names
+  end
+
+  def read_chit_chat_list sn
+    is?(sn) ?
+      Chit_Chat.read_inbox(sn) :
+      Chit_Chat.read_public_inbox(sn)
+  end
+
+  def read_private_chit_chat_list
+    sql = %^
+      SELECT *
+      FROM chit_chat
+      WHERE :tabn
+    ^
   end
 
 end # === class Customer read ===

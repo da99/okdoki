@@ -43,6 +43,19 @@ class Chit_Chat
       ^, sn.id, sn.id].limit(111).all
     end
 
+    def read_public_inbox sn
+      new DB[%^
+        SELECT *
+        FROM chit_chat
+        WHERE id IN (
+          SELECT DISTINCT chit_chat_id
+          FROM chit_chat_to
+          WHERE from_id = :sn_id AND to_id IS NULL
+          ORDER BY chit_chat.id DESC
+        )
+      ^, sn_id: sn.id].limit(111).all
+    end
+
   end # === class self ===
 
   %w{ id from_id body cc_count }.each { |n|
