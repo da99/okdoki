@@ -59,6 +59,8 @@ class Screen_Name
       return str unless str
       return str.map {|s| canonize s } if str.is_a?(Array)
 
+      str = str.screen_name if str.is_a?(Screen_Name)
+
       sn = str.strip.upcase.gsub(BEGIN_AT_OR_HASH, '').gsub(ALL_WHITE_SPACE, '-');
 
       if sn.index('@')
