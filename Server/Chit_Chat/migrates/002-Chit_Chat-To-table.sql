@@ -8,6 +8,7 @@ CREATE TABLE chit_chat_to (
   to_id             integer                  DEFAULT NULL,
   to_type           smallint                 DEFAULT NULL,
 
+  publish_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone,
   trashed_at        timestamp with time zone,
@@ -16,7 +17,7 @@ CREATE TABLE chit_chat_to (
 );
 
 
-CREATE INDEX chit_chat_to_from_to_idx  ON  chit_chat_to  ( from_id, to_id, to_type );
+CREATE INDEX chit_chat_to_from_to_idx  ON  chit_chat_to  ( from_id, to_id, to_type, publish_at );
 
 
 -- DOWN
