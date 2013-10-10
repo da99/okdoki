@@ -75,21 +75,6 @@ describe "Screen Name: create" do
 
 end # === describe
 
-describe "Screen_Name :create :bot" do
-
-  before do
-    # Bot::TABLE.delete
-    @s = O[:sn]
-    @id = @s.data[:id]
-  end
-
-  it "sets sn_id to Screen_Name id" do
-    bot = @s.create :bot
-    assert :==, @id, bot.data[:sn_id]
-  end
-
-end # === describe Bot: create ===
-
 describe "Screen_Name :create :bot_use" do
 
   it "sets :bot_id to bot.id" do
