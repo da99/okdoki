@@ -10,7 +10,6 @@ O1 = create
 S1 = O1[:sn]
 
 S2 = create[:sn]
-B2 = S2.create :bot
 
 O3 = create
 S3 = O3[:sn]

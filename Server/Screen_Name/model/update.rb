@@ -7,7 +7,6 @@ class Screen_Name
     validate :screen_name
     validate(:about).
       set_to_nil_if_empty
-    validate :type_id
     validate(:nick_name).
       set_to_nil_if_empty
 

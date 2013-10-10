@@ -36,8 +36,7 @@ class Screen_Name
     insert_data = {
        :owner_id     => is_new_owner ? 0 : new_data[:customer].data[:id],
        :screen_name  => clean_data[:screen_name],
-       :display_name => clean_data[:screen_name],
-       :type_id      => (clean_data[:type_id] || 0)
+       :display_name => clean_data[:screen_name]
     }
 
     begin
