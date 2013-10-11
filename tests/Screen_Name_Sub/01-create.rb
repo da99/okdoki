@@ -14,6 +14,12 @@ describe "Screen_Name_Sub: create" do
     @sn_2    = Screen_Name_Test.screen_name 2
   end
 
+  it "removes invalid chars" do
+    Screen_Name_Sub.create @sn_1, "m k-e"
+    row = Screen_Name_Sub::TABLE[is_sub: true, owner_id: @sn_1.data[:id], screen_name: "MK-E"]
+    row[:screen_name].should == 'MK-E'
+  end
+
   it "creates record if name is unique to user" do
     Screen_Name_Sub.create @sn_1, "mike"
     row = Screen_Name_Sub::TABLE[is_sub: true, owner_id: @sn_1.data[:id], screen_name: "MIKE"]
