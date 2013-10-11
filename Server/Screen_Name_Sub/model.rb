@@ -1,7 +1,7 @@
 
 require './Server/Ok/model'
 
-require_crutd
+require_crutd :Screen_Name_Sub
 
 class Screen_Name_Sub
 
@@ -12,8 +12,8 @@ class Screen_Name_Sub
   # Settings
   # =====================================================
 
-  Table_Name = :screen_name_sub
-  TABLE = DB[Table_Name]
+  Table_Name = Screen_Name::Table_Name
+  TABLE      = Screen_Name::TABLE
 
   # =====================================================
   # Class
