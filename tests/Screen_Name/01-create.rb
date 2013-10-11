@@ -80,15 +80,6 @@ describe "Screen Name:" do
 
   end # === describe
 
-  # describe "Screen_Name :create :bot_use" do
-
-    # it "sets :bot_id to bot.id" do
-      # u = S.create :bot_use, B2
-      # assert :==, B2.id, u.bot_id
-    # end
-
-  # end # === describe Screen_Name :create :bot_use ===
-
   # describe "Screen_Name :create :i_know_them" do
 
     # before do
@@ -111,7 +102,6 @@ describe "Screen Name:" do
     # end
 
   # end # === describe  ===
-
 
 end # === describe Screen Name
 
