@@ -17,6 +17,11 @@ def within_secs x
   }
 end
 
+def new_body
+  @i ||= 0
+  "text #{@i += 1}"
+end
+
 def should_args action, *args
   case action
   when :zero, 0
