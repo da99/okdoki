@@ -5,16 +5,19 @@ include Screen_Name::Test
 
 describe "Screen Name:" do
 
-  O  = create
-  S  = O[:sn]
+  before do
+    @owner   = create_screen_name
+    @sn      = @owner[:sn]
 
-  O1 = create
-  S1 = O1[:sn]
+    @owner_1 = create_screen_name
+    @sn_1    = @owner_1[:sn]
 
-  S2 = create[:sn]
+    @owner_2 = create_screen_name
+    @sn_2    = @owner_2[:sn]
 
-  O3 = create
-  S3 = O3[:sn]
+    @owner_3 = create_screen_name
+    @sn_3    = @owner_3[:sn]
+  end
 
   describe "Screen Name: create" do
 

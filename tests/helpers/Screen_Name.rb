@@ -13,14 +13,14 @@ class Screen_Name
       "ted_#{@i}"
     end
 
-    def create
+    def create_screen_name
       name = new_name
       c = Customer.new(data: 0)
       sn = Screen_Name.create(:screen_name=>name, :customer=>c)
       {name: name, c: c, sn: sn, id: sn.data[:id]}
     end
 
-    def find_record o
+    def find_screen_name_record o
       Screen_Name::TABLE[id: o[:sn].data[:id]]
     end
 
