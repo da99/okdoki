@@ -11,7 +11,7 @@ other="$@"
 
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name I_Know_Them Chit_Chat Permission );
+mods=( Customer Screen_Name I_Know_Them Chit_Chat Permission Last_Read_At );
 
 if [[ -z "$action" ]]
 then
