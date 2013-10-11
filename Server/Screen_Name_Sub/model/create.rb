@@ -12,7 +12,13 @@ class Screen_Name_Sub
       :display_name => name
     }
 
-    new_record = TABLE.returning.insert(insert_data).first
+    begin
+      new_record = TABLE.returning.insert(insert_data).first
+    rescue Sequel::UniqueConstraintViolation => e
+      raise e unless e.message['"screen_name_sub_unique_idx"']
+      raise self.class::Invalid.new(self, "Screen name already created: #{name}@#{sn_obj.screen_name}")
+    end
+
     self.class.new(new_record)
   end # === def create
 

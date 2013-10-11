@@ -37,6 +37,16 @@ describe "Screen_Name_Sub: create" do
     .should == 'M_2'
   end
 
+  it "raises Invalid for duplicate name for same owner" do
+    name = "M-3"
+    lambda {
+      Screen_Name_Sub.create @sn_1, "M-3"
+      Screen_Name_Sub.create @sn_1, "M-3"
+    }.should.raise(Screen_Name_Sub::Invalid).
+    message.should.
+    match(/Screen name already created: #{name}@#{@sn_1.data[:screen_name]}/)
+  end
+
 end # === describe Screen_Name_Sub: create ===
 
 
