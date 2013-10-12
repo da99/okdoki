@@ -31,14 +31,21 @@ class Customer
 
     def read_by_screen_name raw_sn
       sn = Screen_Name.canonize(raw_sn)
-      new(DB[
+      rec = DB[
         %^
           SELECT *
           FROM customer
           WHERE id IN ( SELECT owner_id FROM screen_name WHERE screen_name = :sn LIMIT 1)
           LIMIT 1
         ^, :sn=>sn
-      ].first)
+      ].first
+
+      if rec
+        new(rec)
+      else
+        Screen_Name.new(rec)
+      end
+
     end # === def
 
     def read_by_screen_name_and_pass_word screen_name, pass_word, ip
