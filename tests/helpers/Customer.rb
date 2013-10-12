@@ -20,5 +20,12 @@ module Customer_Test
     {c: c, sn: sn, pw: "this is a pass"}
   end
 
+  def find_customer n = 0
+    rec = Customer::TABLE.order_by(:id).limit(n, 1).last
+    c   = Customer.new(rec)
+    sn  = Screen_Name.new(Screen_Name::TABLE[owner_id: c.id, is_sub: false])
+    {c: c, sn: sn}
+  end
+
 end # === module Customer_Test ===
 

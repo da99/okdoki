@@ -5,8 +5,6 @@ require './Server/Customer/model'
 include Customer_Test
 
 IP = '127.0.0.1'
-OC = create_screen_name
-C  = OC[:c]
 
 describe 'read_by_id:' do
 
@@ -32,8 +30,9 @@ end # === describe read_by_id ===
 describe 'read_by_screen_name' do
 
   it 'reads customer if passed screen name as string' do
-    c = Customer.read_by_screen_name(OC[:sn])
-    assert :==, C.data[:id], c.data[:id]
+    o  = find_customer 1
+    c  = Customer.read_by_screen_name(o[:sn])
+    assert :==, o[:c].id, c.id
   end
 
 end # === describe read_by_screen_name
