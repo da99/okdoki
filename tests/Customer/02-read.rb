@@ -162,15 +162,14 @@ describe "Customer :screen_names" do
   end
 
   it "gets latest ids after multiple :create :screen_name, NAME" do
-    names = [@sn.screen_name.upcase]
+    ids = [@sn.id]
     4.times do |i|
       n = new_name
-      names << n.upcase
-      @c.create :screen_name, n
+      ids.push @c.create(:screen_name, n).id
     end
 
-    ids = Screen_Name::TABLE.select(:id).where(screen_name: names).map { |r| r[:id] }
-    ids.should.equal @c.screen_names.map(&:id)
+    @c.screen_names.map(&:id).sort
+    .should.equal ids.sort
   end
 
   it "gets latest names after multiple :create :screen_name, NAME" do
@@ -183,7 +182,8 @@ describe "Customer :screen_names" do
       c.create :screen_name, n
     end
 
-    assert :equal, names, c.screen_names.map(&:screen_name)
+    c.screen_names.map(&:screen_name)
+    .should.equal names
   end
 
 end # === describe Customer :screen_names ===

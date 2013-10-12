@@ -4,7 +4,9 @@ class Customer
   def create new_vals, *args
 
     if new_vals == :screen_name
-      return Screen_Name.create :screen_name=>args.first, :customer=>self
+      sn = Screen_Name.create :screen_name=>args.first, :customer=>self
+      screen_names [sn]
+      return sn
     end
 
     @new_data = new_vals
@@ -25,6 +27,7 @@ class Customer
 
     c = self.class.new rec
     c.screen_names [sn]
+
     c
   end # === create
 
