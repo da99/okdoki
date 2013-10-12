@@ -2,7 +2,7 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
-include Customer::Test
+include Customer_Test
 
 PASS_WORD="this_is_my pass word"
 
@@ -73,12 +73,12 @@ describe 'create:' do
   end
 
   it 'saves screen_name to Customer object' do
-    o = create
-    assert :==, o[:c].screen_names.names, [o[:sn].upcase]
+    o = create_screen_name
+    assert :==, o[:c].screen_names.map(&:screen_name), [o[:sn].screen_name.upcase]
   end
 
   it 'saves Customer id to Customer object' do
-    o = create
+    o = create_screen_name
 
     # Has the customer id been saved?
     assert :is_a, Numeric, o[:c].data[:id]

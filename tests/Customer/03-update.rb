@@ -2,9 +2,9 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
-include Customer::Test
+include Customer_Test
 
-OC = create
+OC = create_screen_name
 C  = OC[:c]
 
 describe 'update:' do

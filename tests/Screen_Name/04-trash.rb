@@ -1,14 +1,14 @@
 require './tests/helpers'
-include Screen_Name::Test
+include Screen_Name_Test
 
 describe "Screen_Name" do
 
   describe 'trash' do
 
     it "it updates screen-name's :trashed_at to now @ UTC" do
-      o = create
+      o = create_screen_name
       o[:sn].trash
-      updated = find_record(o)
+      updated = find_screen_name_record(o)
       updated[:trashed_at].should.be within_secs(3)
     end # === it
 
@@ -17,10 +17,10 @@ describe "Screen_Name" do
   describe 'untrash' do
 
     it "it updates screen-name's :trashed_at to nil" do
-      o = create
+      o = create_screen_name
       o[:sn].trash
       o[:sn].untrash
-      new_sn = find_record(o)
+      new_sn = find_screen_name_record(o)
       new_sn[:trashed_at].should.equal nil
     end # === it
 

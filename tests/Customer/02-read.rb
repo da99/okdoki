@@ -2,15 +2,15 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
-include Customer::Test
+include Customer_Test
 
-OC = create
+OC = create_screen_name
 C  = OC[:c]
 
 describe 'read_by_id:' do
 
   it 'reads Customer from DB using customer id' do
-    o  = create
+    o  = create_screen_name
     id = o[:c].data[:id]
     c  = Customer.read_by_id(id)
 
@@ -18,7 +18,7 @@ describe 'read_by_id:' do
   end
 
   it 'fills up screen name list' do
-    o  = create
+    o  = create_screen_name
     sn = o[:sn].upcase
     c  = Customer.read_by_id(o[:c].data[:id])
 
@@ -158,7 +158,7 @@ end # === describe :read_by_screen_name_and_pass_word
 describe "Customer :screen_names" do
 
   it "gets latest ids after multiple :create :screen_name, NAME" do
-    o = create
+    o = create_screen_name
     c = o[:c]
     names = [o[:sn].upcase]
     4.times do |i|
@@ -172,7 +172,7 @@ describe "Customer :screen_names" do
   end
 
   it "gets latest names after multiple :create :screen_name, NAME" do
-    o = create
+    o = create_screen_name
     c = o[:c]
     names = [o[:sn].upcase]
     4.times do |i|
@@ -189,7 +189,7 @@ end # === describe Customer :screen_names ===
 describe ":href" do
 
   it "returns Customer href of first screen name" do
-    o = create
+    o = create_screen_name
     c = o[:c]
     s = o[:sn]
 

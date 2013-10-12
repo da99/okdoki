@@ -2,8 +2,8 @@
 require './tests/helpers'
 require './Server/Customer/model'
 
-include Customer::Test
-OC = create
+include Customer_Test
+OC = create_screen_name
 C  = OC[:c]
 
 describe 'trash' do
