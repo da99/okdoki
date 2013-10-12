@@ -23,7 +23,8 @@ module Customer_Test
   end
 
   def find_customer n = 0
-    rec = Customer::TABLE.order_by(:id).limit(n + 1, 1).last
+    rec = Customer::TABLE.order_by(:id).limit(1, n).last
+
     c   = Customer.new(rec)
     sn  = Screen_Name.new(Screen_Name::TABLE[owner_id: c.id, is_sub: false])
     {c: c, sn: sn, pw: PSWD}
