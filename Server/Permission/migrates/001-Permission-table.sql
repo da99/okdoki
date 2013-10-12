@@ -8,7 +8,7 @@ CREATE TABLE permission (
   to_id          integer      NOT NULL
 );
 
-CREATE UNIQUE INDEX permission_unique_idx ON permission (author_id, pub_type_id, pub_id, reader_id);
+CREATE UNIQUE INDEX permission_unique_idx ON permission (from_id, pub_type_id, pub_id, to_id);
 
 -- DOWN
 
