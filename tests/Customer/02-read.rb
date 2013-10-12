@@ -9,7 +9,7 @@ IP = '127.0.0.1'
 describe 'read_by_id:' do
 
   it 'reads Customer from DB using customer id' do
-    o  = create_customer
+    o  = find_customer 1
     id = o[:c].id
     c  = Customer.read_by_id(id)
 
@@ -47,11 +47,13 @@ describe 'read_by_screen_name_and_pass_word' do
     Customer::Log_In_By_IP::TABLE.
       where(ip: IP).
       update(bad_log_in_count: 0)
+
+    @c = find_customer
   end
 
   it 'reads customer if passed a hash with: screen_name, correct pass_word' do
-    c = Customer.read_by_screen_name_and_pass_word(OC[:sn], OC[:pw], IP)
-    assert :==, C.data[:id], c.data[:id]
+    c = Customer.read_by_screen_name_and_pass_word(@c[:sn], @c[:pw], IP)
+    assert :==, @c[:c].id, c.id
   end
 
   it 'raises Customer::Wrong_Pass_Word if passed a hash with: screen_name, incorrect pass_phrase' do

@@ -33,7 +33,7 @@ class Customer
       sn = Screen_Name.canonize(raw_sn)
       new(DB[
         %^
-          SELECT id, created_at
+          SELECT *
           FROM customer
           WHERE id IN ( SELECT owner_id FROM screen_name WHERE screen_name = :sn LIMIT 1)
           LIMIT 1
