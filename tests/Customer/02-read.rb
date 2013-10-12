@@ -4,25 +4,18 @@ require './Server/Customer/model'
 
 include Customer_Test
 
+IP = '127.0.0.1'
 OC = create_screen_name
 C  = OC[:c]
 
 describe 'read_by_id:' do
 
   it 'reads Customer from DB using customer id' do
-    o  = create_screen_name
-    id = o[:c].data[:id]
+    o  = create_customer
+    id = o[:c].id
     c  = Customer.read_by_id(id)
 
     assert :==, id, c.data[:id]
-  end
-
-  it 'fills up screen name list' do
-    o  = create_screen_name
-    sn = o[:sn].upcase
-    c  = Customer.read_by_id(o[:c].data[:id])
-
-    assert :==, [sn], c.screen_names.names
   end
 
   it 'raises Customer::Not_Found' do
@@ -160,7 +153,7 @@ describe "Customer :screen_names" do
   it "gets latest ids after multiple :create :screen_name, NAME" do
     o = create_screen_name
     c = o[:c]
-    names = [o[:sn].upcase]
+    names = [o[:sn].screen_name.upcase]
     4.times do |i|
       n = new_name
       names << n.upcase
@@ -174,14 +167,14 @@ describe "Customer :screen_names" do
   it "gets latest names after multiple :create :screen_name, NAME" do
     o = create_screen_name
     c = o[:c]
-    names = [o[:sn].upcase]
+    names = [o[:sn].screen_name.upcase]
     4.times do |i|
       n = new_name
       names << n.upcase
       c.create :screen_name, n
     end
 
-    assert :equal, names, c.screen_names.names
+    assert :equal, names, c.screen_names.map(&:screen_name)
   end
 
 end # === describe Customer :screen_names ===
@@ -193,7 +186,7 @@ describe ":href" do
     c = o[:c]
     s = o[:sn]
 
-    c.href.should == "/me/#{s.upcase}"
+    c.href.should == "/@#{s.screen_name.upcase}"
   end
 
 end # === describe :href ===

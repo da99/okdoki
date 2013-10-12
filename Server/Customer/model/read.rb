@@ -41,7 +41,6 @@ class Customer
       ].first)
     end # === def
 
-
     def read_by_screen_name_and_pass_word screen_name, pass_word, ip
 
       # === Check if too many bad attempts by ip address.
