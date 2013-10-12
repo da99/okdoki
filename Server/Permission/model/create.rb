@@ -9,6 +9,10 @@ class Permission
       :to_id       => to.id
     }
 
+    if from.is?(to)
+      raise Invalid.new(self, "Permission can't be set for same person: #{from.screen_name}, #{to.screen_name}")
+    end
+
     begin
       row = TABLE.returning.insert(insert_data)
     rescue Sequel::UniqueConstraintViolation=>e

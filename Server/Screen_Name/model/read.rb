@@ -94,6 +94,11 @@ class Screen_Name
     bots.map(&val)
   end
 
+  def is? o
+    return true if data[:screen_name] == Screen_Name.canonize(o)
+    o.is_a?(Screen_Name) && owner_id == o.owner_id
+  end
+
   def href
     "/@#{screen_name}"
   end
@@ -103,6 +108,10 @@ class Screen_Name
       :screen_name => screen_name,
       :href => href
     }
+  end
+
+  def owner_id
+    data[:owner_id]
   end
 
   def screen_name
@@ -115,10 +124,6 @@ class Screen_Name
     key     = key || :screen_name_id
     new_key = key.to_s.sub('_id', '_screen_name').to_sym
     [key, new_key]
-  end
-
-  def is? raw_str
-    data[:screen_name] == Screen_Name.canonize(raw_str)
   end
 
 end # === class Screen_Name read ===

@@ -12,9 +12,9 @@ module Screen_Name_Test
     "ted_#{@i}"
   end
 
-  def create_screen_name
+  def create_screen_name customer = nil
     name = new_name
-    c = Customer.new(data: 0)
+    c = customer || Customer.new(data: 0)
     sn = Screen_Name.create(:screen_name=>name, :customer=>c)
     {name: name, c: c, sn: sn, id: sn.data[:id]}
   end
