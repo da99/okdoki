@@ -36,7 +36,7 @@ class Customer
   def initialize *args
     super
 
-    if (id || 0) > 1
+    if id
       @screen_names = Screen_Name.read_list_by_customer(self)
     end
   end
