@@ -39,15 +39,17 @@ describe "Permission: create" do
     .should == 1
   end
 
-  it "raises an error if :to_id belongs to :from_id" do
-    o  = create_screen_name
-    c  = o[:c]
+  it "raises an error if different screen names, but same owner." do
+    o   = create_screen_name
+    c   = o[:c]
     sn1 = o[:sn]
     sn2 = create_screen_name(c)[:sn]
+
     lambda {
       Permission.create sn1, sn1, sn2
-    }.should.raise(Permission::Invalid)
-    .message.should.match(/Permission can't be set for same person: #{sn1.screen_name}, #{sn2.screen_name}/)
+    }
+    .should.raise(Permission::Invalid).message
+    .should.match(/Permission can't be set for same person: #{sn1.screen_name}, #{sn2.screen_name}/)
   end
 
 end # === describe Permission: create ===

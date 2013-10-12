@@ -1,67 +1,28 @@
 
 require './tests/helpers'
 
-include Screen_Name::Test
-
-O  = create
-O[:sn].create :bot
-S  = Screen_Name.read_by_id O[:sn].data[:id]
-
-S2 = create[:sn]
-B2 = S2.create :bot
-C1 = B2.create :code, target: 'custom', code: ['<b>hello</b>', []]
-C2 = B2.create :code, target: 'custom', code: ['<b>hello</b>', []]
+include Screen_Name_Test
 
 
-S.create :bot_use, B2
 
-describe "Screen_Name :bot" do
+describe "Screen_Name :is? screen_name" do
 
-  before do
-    @s = S
+  it "returns true if screen names have the same 'data[:screen_name]'" do
+    Screen_Name_Test.screen_name(1).is?(Screen_Name_Test.screen_name 1)
+    .should == true
   end
 
-  it "returns a bot instance" do
-    assert :==, Bot, @s.bot.class
+  it "returns true if screen names have the same 'data[:owner_id]'" do
+    o   = create_screen_name
+    c   = o[:c]
+    sn1 = o[:sn]
+    sn2 = create_screen_name(c)[:sn]
+
+    sn1.is?(sn2)
+    .should == true
   end
 
-  it "returns a bot instance with :sn_id = data[:id]" do
-    assert :==, @s.data[:id], @s.bot.data[:sn_id]
-  end
-
-end # === describe
-
-describe "Screen_Name :bot_uses" do
-
-  it "returns an enumerable with Bots" do
-    l = S.bot_uses
-    l.each { |b|
-      assert :==, Bot, b.class
-    }
-  end
-
-  it "returns bots with codes" do
-    l = S.bot_uses
-    l.each { |b|
-      b.codes.size.
-        should == 2
-    }
-  end
-
-  it "does not return code from other bots" do
-    s3  = create[:sn]
-    bot = s3.create :bot
-    bot.create :code, target: 'custom', code: ['<b>hello</b>', []]
-    bot.create :code, target: 'custom', code: ['<b>hello</b>', []]
-
-    S.bot_uses.each { |b|
-      b.codes.size.
-        should == 2
-    }
-  end
-
-end # === describe Screen_Name :bot_uses ===
-
+end # === describe Screen_Name :is? screen_name ===
 
 
 
