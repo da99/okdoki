@@ -172,19 +172,6 @@ describe "Customer :screen_names" do
     .should.equal ids.sort
   end
 
-  it "gets latest names after multiple :create :screen_name, NAME" do
-    o = create_screen_name
-    c = o[:c]
-    names = [o[:sn].screen_name.upcase]
-    4.times do |i|
-      n = new_name
-      names << n.upcase
-      c.create :screen_name, n
-    end
-
-    c.screen_names.map(&:screen_name)
-    .should.equal names
-  end
 
 end # === describe Customer :screen_names ===
 
