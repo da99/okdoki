@@ -13,10 +13,8 @@ class Chit_Chat
   # =====================================================
 
   TABLE           = DB[:chit_chat]
-  TABLE_TO        = DB[:chit_chat_to]
-  TABLE_LAST_READ = DB[:chit_chat_last_read]
 
-  TYPES           = %{
+  TYPE_IDS        = %{
     chit_chat
   }
 
@@ -32,12 +30,7 @@ class Chit_Chat
   # =====================================================
 
   def initialize *args
-    if args.size == 2
-      @from = args.pop
-      super(*args)
-    else
-      super
-    end
+    super
   end
 
 

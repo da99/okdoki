@@ -3,7 +3,6 @@
 CREATE TABLE chit_chat (
   id                SERIAL PRIMARY KEY,
 
-  type              smallint                 NOT NULL,
   from_id           integer                  NOT NULL,
 
   body              text                     NOT NULL,
@@ -15,7 +14,7 @@ CREATE TABLE chit_chat (
 
 );
 
-CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( from_id, type, publish_at );
+CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( from_id, publish_at );
 
 -- DOWN
 
