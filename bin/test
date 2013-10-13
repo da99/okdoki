@@ -17,9 +17,14 @@ then
   exit 0
 fi
 
-# Bot Bot_Code Bot_Use
-mods=( Ok Screen_Name Customer Chit_Chat Permission )
-for m in ${mods[@]}
+. bin/model_list
+test_mods=( Ok )
+for m in ${test_mods[@]}
+do
+  test_mods+=( "$m" )
+done
+
+for m in ${test_mods[@]}
 do
   for f in tests/$m/*.rb
   do
