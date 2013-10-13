@@ -11,7 +11,20 @@ other="$@"
 
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name I_Know_Them Chit_Chat Permission Last_Read_At );
+temp="$(bin/model_list)"
+
+mods=()
+for m in $temp
+do
+  mods+=( "$m" )
+done
+
+rev_mods=()
+for (( idx=${#mods[@]}-1 ; idx >= 0 ; idx-- ))
+do
+  rev_mods+=( "${mods[idx]}" )
+done
+
 
 if [[ -z "$action" ]]
 then
@@ -40,13 +53,7 @@ function run_down {
   fi
 
   # === Reverse list
-  new_mods=()
-  for (( idx=${#mods[@]}-1 ; idx >= 0 ; idx-- ))
-  do
-    new_mods+=( "${mods[idx]}" )
-  done
-
-  for m in ${new_mods[@]}
+  for m in ${rev_mods[@]}
   do
     echo "=== Migrating: down $m"
     bin/migrate_down $m
