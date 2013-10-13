@@ -10,7 +10,12 @@ class Follow
         :follower_id => follower.id
       }
 
-      new TABLE.returning.insert(insert_data).first
+      begin
+        new TABLE.returning.insert(insert_data).first
+      rescue Sequel::UniqueConstraintViolation => e
+        raise e unless e.message['unique constraint "follow_unique_idx"']
+        new insert_data
+      end
     end
 
   end # === class self
