@@ -1,8 +1,14 @@
 
 
-What is Okdoki?
+Common Tasks
 -----------------
 
-This thing is so not finished. Hang up and try again later.
+    bin/model create My\_Model
+
+    bin/migrate create My\_Model table
 
 
+Okdoki.com
+----------
+
+Friendship-based activities.

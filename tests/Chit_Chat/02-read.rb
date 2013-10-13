@@ -2,7 +2,7 @@
 require './tests/helpers'
 require './Server/Chit_Chat/model'
 
-include Screen_Name::Test
+include Screen_Name_Test
 
 def days_ago days
   Sequel.lit(Ok::Model::PG::UTC_NOW_RAW + " - interval '#{days * 24} hours'")
