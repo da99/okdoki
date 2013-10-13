@@ -20,13 +20,15 @@ describe "Chit_Chat: :create sn, body" do
   it "sets :from_id to sn.id" do
     cc = Chit_Chat.create @s1, new_body
 
-    assert :==, @s1.id, cc.from_id
+    cc.from_id
+    .should == @s1.id
   end
 
   it "sets :body" do
     cc = Chit_Chat.create @s1, @body
 
-    assert :==, @body, cc.body
+    cc.body
+    .should == @body
   end
 
   it "raises Chit_Chat::Invalid if body is greater than 1000 chars" do
@@ -38,20 +40,6 @@ describe "Chit_Chat: :create sn, body" do
 
 end # === describe Chit_Chat: create ===
 
-
-describe "Chit_Chat :create w/:to" do
-
-  behaves_like :chit_chat_create
-
-  it "creates a chit_chat_to record for each to_id" do
-    cc = Chit_Chat.create @s1, {body: @body, to: [@s1.name, @s2.name]}
-    rows = Chit_Chat::TABLE_TO.where(chit_chat_id: cc.id).all
-    assert :==, 2, rows.size
-    assert :==, @s1.id, rows[0][:to_id]
-    assert :==, @s2.id, rows[1][:to_id]
-  end
-
-end # === describe Chit_Chat :create w/:to ===
 
 
 

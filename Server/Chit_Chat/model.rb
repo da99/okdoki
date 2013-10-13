@@ -1,3 +1,16 @@
+#
+#  Chit_Chat:
+#    Holds all no/low-priority conversations for a Screen_Name.
+#    They are meant to be seen by one or more people.
+#    In other words, they are semi-private.
+#
+#    Notifications from other apps are meant to go to Mail,
+#    because they are meant to be only seen *only* by the
+#    Screen_Name.
+#
+#
+#
+#
 
 require './Server/Ok/model'
 
@@ -13,10 +26,6 @@ class Chit_Chat
   # =====================================================
 
   TABLE           = DB[:chit_chat]
-
-  TYPE_IDS        = %{
-    chit_chat
-  }
 
   # =====================================================
   # Class
