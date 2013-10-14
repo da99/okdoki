@@ -2,6 +2,7 @@
 CREATE TABLE screen_name (
   id             serial   NOT NULL,
   is_sub         boolean  NOT NULL DEFAULT false,
+  privacy        smallint NOT NULL DEFAULT 2,
   owner_id       integer  NOT NULL,
   screen_name    character varying(15) NOT NULL,
   display_name   character varying(15) NOT NULL,
