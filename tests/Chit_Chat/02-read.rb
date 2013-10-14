@@ -7,6 +7,10 @@ require './Server/Chit_Chat/model'
 include Follow_Test
 include Chit_Chat_Test
 
+def pluck arr, key
+  arr.map { |a| a[key] }
+end
+
 describe "Chit_Chat: read_inbox" do
 
   before do
@@ -19,19 +23,19 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "grabs an array of Chit_Chats from people they follow" do
-    create_follow @sn1, @sn2
-    create_follow @sn1, @sn3
+    create_follow @sn2, @sn1
+    create_follow @sn3, @sn1
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn3, "msg 2"
 
     list = Chit_Chat.read_inbox @sn1
 
-    list.map(&:count_new)
+    pluck(list, :count_new)
     .should == [1, 1]
   end
 
   it "does not grab from people they don't follow" do
-    create_follow @sn1, @sn2
+    create_follow @sn2, @sn1
 
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn3, "msg 2"
@@ -43,8 +47,8 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "grabs follows in reverse :created_at" do
-    create_follow @sn1, @sn2
-    create_follow @sn1, @sn3
+    create_follow @sn2, @sn1
+    create_follow @sn3, @sn1
 
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn2, "msg 2"
@@ -57,8 +61,8 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "does not count older msgs than :last_read_at" do
-    create_follow @sn1, @sn2
-    create_follow @sn1, @sn3
+    create_follow @sn2, @sn1
+    create_follow @sn3, @sn1
 
     create_chit_chat @sn2, "msg 1 day", 1
     create_chit_chat @sn3, "msg 2 day", 2

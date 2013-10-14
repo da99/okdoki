@@ -17,7 +17,7 @@ class Chit_Chat
     end
 
     def read_inbox sn
-      sql = %^
+      old_sql = %^
         SELECT *
         FROM chit_chat INNER JOIN (
           SELECT    MAX(chit_chat_id) AS cc_id,
@@ -41,8 +41,20 @@ class Chit_Chat
         ON chit_chat.id = meta.cc_id
         ORDER BY chit_chat.id DESC
       ^
-      #, sn_id: sn.id].limit(111).all
-      []
+
+
+      recs = DB[%^
+SELECT COUNT(from_id) AS count_new
+FROM chit_chat
+WHERE from_id IN (
+  SELECT pub_id
+  FROM   follow
+  WHERE
+      pub_type_id = 1        -- replace
+  AND follower_id = :sn_id  -- replace
+)
+GROUP BY from_id
+      ^, sn_id: sn.id].limit(111).all
     end
 
     def read_public_inbox sn
