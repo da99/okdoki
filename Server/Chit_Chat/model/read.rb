@@ -19,58 +19,46 @@ class Chit_Chat
     end
 
     def read_inbox sn
-      old_sql = %^
-        SELECT *
-        FROM chit_chat INNER JOIN (
-          SELECT    MAX(chit_chat_id) AS cc_id,
-                    (COUNT(id) - 1)   AS cc_count
-          FROM      chit_chat_to
-          WHERE     to_id IS NULL
-                    AND from_id IN (
-                            SELECT target_id
-                            FROM i_know_them
-                            WHERE owner_id = :sn_id AND is_follow = true
-                    )
-                    AND created_at > (
-                    SELECT coalesce(MIN(last_read_at), timestamp '2001-09-28 01:00')
-                                      FROM chit_chat_last_read
-                                      WHERE sn_id = :sn_id
-                      LIMIT 1
-                    )
-
-          GROUP BY  from_id
-        ) AS meta
-        ON chit_chat.id = meta.cc_id
-        ORDER BY chit_chat.id DESC
+      %^
+coalesce(MIN(last_read_at), timestamp '2001-09-28 01:00')
       ^
 
 
       recs = DB[%^
-SELECT stats.*, permission
+SELECT stats.*
 FROM (
+
   -- Gather up the stats.
   -- This filters out the rows so we can then
   --   do joins or sub-queries for the follow/screen_name permissions.
-  SELECT COUNT(from_id) AS count_new, from_id, MAX(created_at) as last_post_at
+
+  SELECT
+         COUNT(chit_chat.from_id)  AS count_new,
+         chit_chat.from_id         AS from_id,
+         MAX(chit_chat.created_at) AS last_post_at
+
   FROM chit_chat
-  WHERE from_id IN (
-    SELECT pub_id
-    FROM   follow
-    WHERE
-        pub_type_id = :follow_pub_type_id -- replace
-    AND follower_id = :sn_id  -- replace
-  )
+
+    INNER JOIN follow
+    ON pub_type_id               = :follow_pub_type_id   -- replace
+       AND chit_chat.from_id     = follow.pub_id
+       AND follower_id           = :sn_id                -- replace
+       AND chit_chat.created_at >= coalesce(follow.last_read_at, follow.created_at)
+
   GROUP BY from_id
   ORDER BY last_post_at DESC
+
+
 ) AS stats
 
-   INNER JOIN screen_name
-   ON stats.from_id = screen_name.id
+    INNER JOIN screen_name
+    ON stats.from_id = screen_name.id
 
-   LEFT JOIN permission
-   ON permission.pub_type_id = :perm_pub_type_id -- replace
-      AND stats.from_id = permission.pub_id
-      AND to_id = :sn_id                     -- replace
+    LEFT JOIN permission
+    ON permission.pub_type_id    = :perm_pub_type_id -- replace
+      AND stats.from_id          = permission.pub_id
+      AND to_id                  = :sn_id            -- replace
+
 
  WHERE screen_name.privacy = :sn_world       -- replace
    OR (
