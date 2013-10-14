@@ -17,7 +17,7 @@ class Chit_Chat
     end
 
     def read_inbox sn
-      new DB[%^
+      sql = %^
         SELECT *
         FROM chit_chat INNER JOIN (
           SELECT    MAX(chit_chat_id) AS cc_id,
@@ -40,7 +40,9 @@ class Chit_Chat
         ) AS meta
         ON chit_chat.id = meta.cc_id
         ORDER BY chit_chat.id DESC
-      ^, sn_id: sn.id].limit(111).all
+      ^
+      #, sn_id: sn.id].limit(111).all
+      []
     end
 
     def read_public_inbox sn

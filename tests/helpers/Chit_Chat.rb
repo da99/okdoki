@@ -5,29 +5,36 @@ module Chit_Chat_Test
 
   include Screen_Name_Test
 
-  def days_ago days
-    Sequel.lit(Ok::Model::PG::UTC_NOW_RAW + " - interval '#{days * 24} hours'")
-  end
-
   def update_last_read_at sn, days
     rows = Chit_Chat::TABLE_LAST_READ.
       returning.
       where(sn_id: sn.id).
-      update(last_read_at: days_ago(days))
+      update(last_read_at: days_ago_in_sql(days))
     if rows.empty?
       Chit_Chat::TABLE_LAST_READ.
         returning.
-        insert(sn_id: sn.id, last_read_at: days_ago(days))
+        insert(sn_id: sn.id, last_read_at: days_ago_in_sql(days))
     end
   end
 
   def update_created_at msg, days
     Chit_Chat::TABLE.
       where(id: msg.id).
-      update(created_at: days_ago(days))
-    Chit_Chat::TABLE_TO.
-      where(chit_chat_id: msg.id).
-      update(created_at: days_ago(days))
+      update(created_at: days_ago_in_sql(days))
+  end
+
+  def create_chit_chat author, body, days_old = nil
+    c = Chit_Chat.create author, body
+
+    if days_old
+      update_created_at c, days_old
+    end
+
+    c
+  end
+
+  def delete_all_chit_chats
+    Chit_Chat::TABLE.delete
   end
 
   Owner_1 = Screen_Name_Test.create_screen_name

@@ -1,14 +1,17 @@
 
 require './tests/helpers'
+require './tests/helpers/Follow'
+require './tests/helpers/Chit_Chat'
 require './Server/Chit_Chat/model'
 
+include Follow_Test
 include Chit_Chat_Test
 
 describe "Chit_Chat: read_inbox" do
 
   before do
-    Chit_Chat::TABLE.delete
-    Follow::TABLE.delete
+    delete_all_chit_chats
+    delete_all_follows
 
     @sn1 = Chit_Chat_Test::Screen_Name_1
     @sn2 = Chit_Chat_Test::Screen_Name_2
