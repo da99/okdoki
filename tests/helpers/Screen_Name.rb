@@ -6,7 +6,8 @@ module Screen_Name_Test
   def new_name
     @i ||= begin
              r = Screen_Name::TABLE.order(:id).last
-             ((r && r[:screen_name].split('_').last.to_i) || 0) + (r[:id] || 0)
+             r ||= {:screen_name=>'0_0', :id=>0}
+             r[:screen_name].split('_').last.to_i + r[:id]
            end
     @i += 1
     "ted_#{@i}"
