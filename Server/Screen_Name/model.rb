@@ -23,9 +23,9 @@ class Screen_Name
   # Settings
   # =====================================================
 
-  World_Readable_Id   = 1
-  Private_Readable_Id = 2
-  Not_Readable_Id     = 3
+  World_Read_Id   = 1
+  Private_Read_Id = 2
+  Not_Read_Id     = 3
 
   SCREEN_NAME_KEYS    = [:screen_name_id, :publisher_id, :owner_id, :author_id, :follower_id]
   BEGIN_AT_OR_HASH    = /^(\@|\#)/

@@ -81,8 +81,8 @@ FROM (
         sn_id: sn.id,
         perm_pub_type_id: Permission::Screen_Name_Type_Id,
         follow_pub_type_id: Follow::Screen_Name_Type_Id,
-        sn_world: Screen_Name::World_Readable_Id,
-        sn_private: Screen_Name::Private_Readable_Id
+        sn_world: Screen_Name::World_Read_Id,
+        sn_private: Screen_Name::Private_Read_Id
       ].limit(111).all
     end
 

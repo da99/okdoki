@@ -20,6 +20,10 @@ describe "Chit_Chat: read_inbox" do
     @sn1 = Chit_Chat_Test::Screen_Name_1
     @sn2 = Chit_Chat_Test::Screen_Name_2
     @sn3 = Chit_Chat_Test::Screen_Name_3
+
+    @sn1.update_privacy :world
+    @sn2.update_privacy :world
+    @sn3.update_privacy :world
   end
 
   it "grabs an array of Chit_Chats from people they follow" do
@@ -42,7 +46,7 @@ describe "Chit_Chat: read_inbox" do
 
     list = Chit_Chat.read_inbox @sn1
 
-    list.map(&:count_new)
+    pluck(list, :count_new)
     .should == [1]
   end
 
@@ -56,7 +60,7 @@ describe "Chit_Chat: read_inbox" do
 
     list = Chit_Chat.read_inbox @sn1
 
-    list.map(&:count_new)
+    pluck(list, :count_new)
     .should == [1, 2]
   end
 
@@ -74,7 +78,7 @@ describe "Chit_Chat: read_inbox" do
 
     list = Chit_Chat.read_inbox @sn1
 
-    list.map(&:count_new)
+    pluck(list, :count_new)
     .should == [2, 2]
   end
 

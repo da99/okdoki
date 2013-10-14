@@ -1,6 +1,27 @@
 
 class Screen_Name
 
+  def update_privacy type
+    pid = case type
+          when :world
+            World_Read_Id
+          when :private
+            Private_Read_Id
+          when :not
+            Not_Read_Id
+          else
+            raise "Unknown val: #{type.inspect}"
+          end
+    row = TABLE.returning.
+      where(:id=>id).
+      update(:privacy=>pid).
+      first
+
+    @data.merge!(row || {})
+
+    self
+  end
+
   def update raw_data
     @new_data = raw_data
 
