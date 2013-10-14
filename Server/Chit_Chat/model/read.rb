@@ -1,4 +1,6 @@
 
+require './Server/Permission/model'
+
 class Chit_Chat
 
   attr_reader :from
@@ -44,17 +46,44 @@ class Chit_Chat
 
 
       recs = DB[%^
-SELECT COUNT(from_id) AS count_new
-FROM chit_chat
-WHERE from_id IN (
-  SELECT pub_id
-  FROM   follow
-  WHERE
-      pub_type_id = 1        -- replace
-  AND follower_id = :sn_id  -- replace
-)
-GROUP BY from_id
-      ^, sn_id: sn.id].limit(111).all
+SELECT stats.*, permission
+FROM (
+  -- Gather up the stats.
+  -- This filters out the rows so we can then
+  --   do joins or sub-queries for the follow/screen_name permissions.
+  SELECT COUNT(from_id) AS count_new, from_id
+  FROM chit_chat
+  WHERE from_id IN (
+    SELECT pub_id
+    FROM   follow
+    WHERE
+        pub_type_id = :follow_pub_type_id -- replace
+    AND follower_id = :sn_id  -- replace
+  )
+  GROUP BY from_id
+) AS stats
+
+   INNER JOIN screen_name
+   ON stats.from_id = screen_name.id
+
+   LEFT JOIN permission
+   ON permission.pub_type_id = :perm_pub_type_id -- replace
+      AND stats.from_id = permission.pub_id
+      AND to_id = :sn_id                     -- replace
+
+ WHERE screen_name.privacy = :sn_world       -- replace
+   OR (
+     screen_name.privacy = :sn_private       -- replace
+     AND permission.to_id = :sn_world        -- replace
+   )
+
+      ^,
+        sn_id: sn.id,
+        perm_pub_type_id: Permission::Screen_Name_Type_Id,
+        follow_pub_type_id: Follow::Screen_Name_Type_Id,
+        sn_world: Screen_Name::World_Readable_Id,
+        sn_private: Screen_Name::Private_Readable_Id
+      ].limit(111).all
     end
 
     def read_public_inbox sn
