@@ -51,7 +51,7 @@ FROM (
   -- Gather up the stats.
   -- This filters out the rows so we can then
   --   do joins or sub-queries for the follow/screen_name permissions.
-  SELECT COUNT(from_id) AS count_new, from_id
+  SELECT COUNT(from_id) AS count_new, from_id, MAX(created_at) as last_post_at
   FROM chit_chat
   WHERE from_id IN (
     SELECT pub_id
@@ -61,6 +61,7 @@ FROM (
     AND follower_id = :sn_id  -- replace
   )
   GROUP BY from_id
+  ORDER BY last_post_at DESC
 ) AS stats
 
    INNER JOIN screen_name
