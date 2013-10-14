@@ -1,4 +1,6 @@
 
+require "./Server/Follow/model"
+
 module Follow_Test
 
   def create_follow from, to
