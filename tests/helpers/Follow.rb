@@ -4,7 +4,7 @@ require "./Server/Follow/model"
 module Follow_Test
 
   def create_follow consumer, pub
-    Follow.create pub, consumer
+    Follow.create consumer, pub
   end
 
   def delete_all_follows

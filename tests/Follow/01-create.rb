@@ -12,7 +12,7 @@ describe "Follow: create" do
   end
 
   it "sets :pub_type_id when passed a Screen_Name" do
-    Follow.create @sn1, @sn2
+    Follow.create @sn2, @sn1
 
     rec = Follow::TABLE[:pub_type_id => 1, :pub_id=>@sn1.id, :follower_id=>@sn2.id]
 
@@ -21,8 +21,8 @@ describe "Follow: create" do
 
   it "raises ignores duplicates" do
     lambda {
-      Follow.create @sn1, @sn2
-      Follow.create @sn1, @sn2
+      Follow.create @sn2, @sn1
+      Follow.create @sn2, @sn1
     }.should.not.raise
 
     records = Follow::TABLE.where(:pub_type_id => 1, :pub_id=>@sn1.id, :follower_id=>@sn2.id).all
