@@ -27,8 +27,8 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "grabs an array of Chit_Chats from people they follow" do
-    create_follow @sn2, @sn1
-    create_follow @sn3, @sn1
+    create_follow @sn1, @sn2
+    create_follow @sn2, @sn3
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn3, "msg 2"
 
@@ -39,7 +39,7 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "does not grab from people they don't follow" do
-    create_follow @sn2, @sn1
+    create_follow @sn1, @sn2
 
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn3, "msg 2"
@@ -51,7 +51,7 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "does not grab messages from private screen names, no authorization" do
-    create_follow @sn2, @sn1
+    create_follow @sn1, @sn2
     create_chit_chat @sn2, "msg 1"
     update_screen_name_privacy @sn2, :private
 
@@ -60,8 +60,8 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "grabs follows in reverse :created_at" do
-    create_follow @sn2, @sn1
-    create_follow @sn3, @sn1
+    create_follow @sn1, @sn2
+    create_follow @sn1, @sn3
 
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn2, "msg 2"
@@ -74,8 +74,8 @@ describe "Chit_Chat: read_inbox" do
   end
 
   it "does not count older msgs than :last_read_at" do
-    create_follow @sn2, @sn1
-    create_follow @sn3, @sn1
+    create_follow @sn1, @sn2
+    create_follow @sn1, @sn3
 
     create_chit_chat @sn2, "msg 1 day", 1
     create_chit_chat @sn3, "msg 2 day", 2
