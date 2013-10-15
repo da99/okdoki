@@ -20,8 +20,12 @@ module Screen_Name_Test
     {name: name, c: c, sn: sn, id: sn.data[:id]}
   end
 
-  def find_screen_name_record o
+  def read_screen_name_record o
     Screen_Name::TABLE[id: o[:sn].data[:id]]
+  end
+
+  def update_screen_name_privacy sn, sym
+    sn.update_privacy sym
   end
 
   class << self

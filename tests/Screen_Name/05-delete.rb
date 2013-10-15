@@ -13,7 +13,7 @@ describe ':empty_trash' do
 
     Screen_Name.empty_trash
 
-    updated = find_screen_name_record(o)
+    updated = read_screen_name_record(o)
     updated[:id].should.equal o[:sn].data[:id]
   end # === it
 
@@ -26,7 +26,7 @@ describe ':empty_trash' do
       update(trashed_at: Sequel.lit("trashed_at - interval '72 hours'"))
 
     Screen_Name.empty_trash
-    find_screen_name_record(o).should.equal nil
+    read_screen_name_record(o).should.equal nil
   end # === it
 
 end # === describe delete

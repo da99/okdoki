@@ -21,9 +21,9 @@ describe "Chit_Chat: read_inbox" do
     @sn2 = Chit_Chat_Test::Screen_Name_2
     @sn3 = Chit_Chat_Test::Screen_Name_3
 
-    @sn1.update_privacy :world
-    @sn2.update_privacy :world
-    @sn3.update_privacy :world
+    update_screen_name_privacy @sn1, :public
+    update_screen_name_privacy @sn2, :public
+    update_screen_name_privacy @sn3, :public
   end
 
   it "grabs an array of Chit_Chats from people they follow" do
@@ -48,6 +48,15 @@ describe "Chit_Chat: read_inbox" do
 
     pluck(list, :count_new)
     .should == [1]
+  end
+
+  it "does not grab messages from private screen names, no authorization" do
+    create_follow @sn2, @sn1
+    create_chit_chat @sn2, "msg 1"
+    update_screen_name_privacy @sn2, :private
+
+    list = Chit_Chat.read_inbox @sn1
+    list.size.should == 0
   end
 
   it "grabs follows in reverse :created_at" do

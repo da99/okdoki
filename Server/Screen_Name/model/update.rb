@@ -3,11 +3,11 @@ class Screen_Name
 
   def update_privacy type
     pid = case type
-          when :world
+          when :public
             World_Read_Id
           when :private
             Private_Read_Id
-          when :not
+          when :no_one
             Not_Read_Id
           else
             raise "Unknown val: #{type.inspect}"
