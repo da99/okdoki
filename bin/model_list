@@ -5,9 +5,9 @@
 mods=(
 Customer
 Screen_Name
-Chit_Chat
 Permission
 Follow
+Chit_Chat
 )
 
 # === Create a reverse of the list.
