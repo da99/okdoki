@@ -12,3 +12,12 @@ Okdoki.com
 ----------
 
 Friendship-based activities.
+
+
+Complexity
+----------
+
+* "Consumer" -> "Multi. Producers" (inbox)
+* "Consumer" -> "Producer"         (screen name homepage)
+* One Customer, Multi. Screen Names
+
