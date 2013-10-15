@@ -17,7 +17,15 @@ Friendship-based activities.
 Complexity
 ----------
 
-* "Consumer" -> "Multi. Producers" (inbox)
-* "Consumer" -> "Producer"         (screen name homepage)
+* Authorization (aka Permission):
+  * "Consumer" -> "Multi. Producers" (inbox)
+  * "Consumer" -> "Producer"         (screen name homepage)
+
+  Temp answer: Screen name orientation, sub-queries
+
 * One Customer, Multi. Screen Names
 
+  Temp answer:
+    Unique ids, same table for SN, sub-SNs.
+    <br />
+    Different table for group based permission.
