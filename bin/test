@@ -19,7 +19,7 @@ fi
 
 . bin/model_list
 test_mods=( Ok )
-for m in ${test_mods[@]}
+for m in ${mods[@]}
 do
   test_mods+=( "$m" )
 done
