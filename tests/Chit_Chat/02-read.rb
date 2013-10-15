@@ -28,7 +28,7 @@ describe "Chit_Chat: read_inbox" do
 
   it "grabs an array of Chit_Chats from people they follow" do
     create_follow @sn1, @sn2
-    create_follow @sn2, @sn3
+    create_follow @sn1, @sn3
     create_chit_chat @sn2, "msg 1"
     create_chit_chat @sn3, "msg 2"
 
@@ -62,9 +62,10 @@ describe "Chit_Chat: read_inbox" do
   it "grabs follows in reverse :created_at" do
     create_follow @sn1, @sn2
     create_follow @sn1, @sn3
+    Follow::TABLE.update(:created_at=> days_ago_in_sql(3))
 
-    create_chit_chat @sn2, "msg 1"
-    create_chit_chat @sn2, "msg 2"
+    create_chit_chat @sn2, "msg 1", 1
+    create_chit_chat @sn2, "msg 2", 1
     create_chit_chat @sn3, "msg 3"
 
     list = Chit_Chat.read_inbox @sn1

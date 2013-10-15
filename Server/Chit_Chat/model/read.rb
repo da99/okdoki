@@ -48,7 +48,6 @@ FROM (
   GROUP BY from_id
   ORDER BY last_post_at DESC
 
-
 ) AS stats
 
     INNER JOIN screen_name
@@ -66,6 +65,8 @@ FROM (
      AND permission.to_id = :sn_world        -- replace
    )
 
+  ORDER BY stats.last_post_at DESC           -- Ordering should be re-done since
+                                             --   we are doing joins after select/where/aggregation
       ^,
         sn_id: sn.id,
         perm_pub_type_id: Permission::Screen_Name_Type_Id,
