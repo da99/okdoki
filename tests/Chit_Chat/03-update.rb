@@ -2,30 +2,20 @@
 require './tests/helpers'
 require './Server/Chit_Chat/model'
 
-include Customer::Test
+include Customer_Test
 
-O = create
-C = O[:c]
+shared :chit_chat_update_reset do
 
-N1 = new_name
-S1 = C.create :screen_name, N1
+  before do
+    # old = Sequel.lit(Ok::Model::PG::UTC_NOW_RAW + " - interval '72 hours' ")
+    Chit_Chat::TABLE_LAST_READ.update(:last_read_at=>nil)
+  end
 
-N2 = new_name
-S2 = C.create :screen_name, N2
-
-N3 = new_name
-S3 = C.create :screen_name, N3
-
-RESET  = lambda {
-  old = Sequel.lit(Ok::Model::PG::UTC_NOW_RAW + " - interval '72 hours' ")
-  Chit_Chat::TABLE_LAST_READ.update(:last_read_at=>old)
-}
+end
 
 describe "Chit_Chat.update_read Customer" do
 
-  before do
-    RESET.call
-  end
+  behaves_like :chit_chat_update_reset
 
   it "upserts :last_read for all screen name ids" do
     Chit_Chat.update_last_read C
@@ -48,9 +38,7 @@ end # === describe Chit_Chat: update ===
 
 describe "Chit_Chat.update_read Screen_Name" do
 
-  before do
-    RESET.call
-  end
+  behaves_like :chit_chat_update_reset
 
   it "upserts :last_read to UTC NOW for screen name" do
     Chit_Chat.update_last_read S1
@@ -69,5 +57,9 @@ describe "Chit_Chat.update_read Screen_Name" do
 
 
 end # === describe Chit_Chat: update ===
+
+
+
+
 
 
