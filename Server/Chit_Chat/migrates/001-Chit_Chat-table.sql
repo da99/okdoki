@@ -17,5 +17,5 @@ CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( from_id );
 -- DOWN
 
 
-DROP TABLE chit_chat;
+DROP TABLE chit_chat CASCADE;
 
