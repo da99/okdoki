@@ -8,7 +8,11 @@ class Comment
   class << self
 
     def read pub
-      rows = Comment::TABLE.where(:pub_type_id=>to_pub_type_id(pub), :pub_id=>pub.id).all
+      rows = Comment::TABLE.
+        where(:pub_type_id=>to_pub_type_id(pub), :pub_id=>pub.id).
+        order_by(Sequel.lit("created_at DESC")).
+        limit(111).
+        all
 
       new rows
     end
