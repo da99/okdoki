@@ -10,6 +10,7 @@ CREATE TABLE screen_name (
   about          text,
   created_at     timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   trashed_at     timestamp with time zone,
+
   CONSTRAINT     "screen_name_pkey" PRIMARY KEY (id)
 );
 

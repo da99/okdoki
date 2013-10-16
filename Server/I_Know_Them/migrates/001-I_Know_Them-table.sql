@@ -8,8 +8,7 @@ CREATE TABLE i_know_them (
   is_talk_able           boolean               NOT NULL   DEFAULT false,
 
   created_at             timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
-  updated_at             timestamp with time zone,
-  trashed_at             timestamp with time zone,
+  updated_at             timestamp with time zone
 
   CONSTRAINT             "i_know_them_owner" UNIQUE (owner_id, target_id)
 );
