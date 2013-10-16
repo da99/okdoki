@@ -19,6 +19,15 @@ describe "Comment: read" do
     comments.map(&:id).should == [c3.id, c2.id, c1.id]
   end
 
+  it "only reads #{Comment::Read_All_Limit} comments" do
+    (Comment::Read_All_Limit + 10).times do |i|
+      Comment.create @sn1, @cc1, "msg #{i}"
+    end
+
+    comments = Comment.read @cc1
+    comments.size.should == Comment::Read_All_Limit
+  end
+
 end # === describe Comment: read ===
 
 

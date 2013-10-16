@@ -11,7 +11,7 @@ class Comment
       rows = Comment::TABLE.
         where(:pub_type_id=>to_pub_type_id(pub), :pub_id=>pub.id).
         order_by(Sequel.lit("created_at DESC")).
-        limit(111).
+        limit(Read_All_Limit).
         all
 
       new rows

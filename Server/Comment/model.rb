@@ -16,6 +16,7 @@ class Comment
   TABLE = DB[Table_Name]
 
   Chit_Chat_Type_Id = 1
+  Read_All_Limit    = 22
 
   # =====================================================
   # Class
