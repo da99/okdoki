@@ -21,7 +21,10 @@ describe "Comment: read" do
 
   it "only reads #{Comment::Read_All_Limit} comments" do
     (Comment::Read_All_Limit + 10).times do |i|
-      Comment.create @sn1, @cc1, "msg #{i}"
+      begin
+        Comment.create @sn1, @cc1, "msg #{i}"
+      rescue Comment::Limit_Reached
+      end
     end
 
     comments = Comment.read @cc1

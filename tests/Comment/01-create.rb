@@ -16,6 +16,13 @@ describe "Comment: create" do
     row[:pub_type_id].should == Comment::Chit_Chat_Type_Id
   end
 
+  it "raises Comment::Limit_Reached if more than #{Comment::Create_Limit} comments are created" do
+    lambda {
+      Comment.create @sn1, @cc1, "msg 1"
+    }.should.raise(Comment::Limit_Reached)
+    .msg.should.match(/Comment limit reached. No more comments can be created./)
+  end
+
 end # === describe Comment: create ===
 
 

@@ -32,6 +32,18 @@ module Ok
 
   end # === class Invalid ===
 
+  class Limit_Reached < RuntimeError
+
+    attr_reader :model, :msg
+
+    def initialize o, msg
+      @model = o
+      @msg   = msg
+      super(msg)
+    end
+
+  end # === class Limit_Reached
+
   class Not_Found < RuntimeError
 
     def initialize msg = nil
@@ -100,8 +112,9 @@ module Ok
 
       def included klass
         klass.extend Model_Extend
-        klass.const_set :Not_Found, Class.new(Not_Found)
-        klass.const_set :Invalid,   Class.new(Invalid)
+        klass.const_set :Not_Found     , Class.new(Not_Found)
+        klass.const_set :Invalid       , Class.new(Invalid)
+        klass.const_set :Limit_Reached , Class.new(Limit_Reached)
       end
 
     end # === class self ===

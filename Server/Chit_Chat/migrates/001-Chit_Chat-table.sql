@@ -6,6 +6,7 @@ CREATE TABLE chit_chat (
   from_id           integer                  NOT NULL,
 
   body              text                     NOT NULL,
+  comment_count     smallint                 NOT NULL DEFAULT 0,
 
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone
