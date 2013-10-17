@@ -51,6 +51,15 @@ describe "Chit_Chat: :create sn, body" do
     ].first[:c].should == Chit_Chat::Create_Limit
   end
 
+  it "sets :oldest_deleted = true when oldest chit chat have been deleted" do
+    cc = nil
+    (Chit_Chat::Create_Limit + 1).times do |i|
+      cc = Chit_Chat.create @s1, "msg #{i}"
+    end
+
+    cc.data[:oldest_deleted].should == true
+  end
+
 end # === describe Chit_Chat: create ===
 
 

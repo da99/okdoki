@@ -36,6 +36,8 @@ class Chit_Chat
         # TABLE.where(:from_id=> sn.id).order_by(Sequel.lit("created_at DESC")).limit(1).delete
         DB["DELETE FROM #{Table_Name} WHERE id IN ( SELECT id FROM #{Table_Name} WHERE from_id = :fid ORDER BY created_at DESC LIMIT 1)", :fid=>sn.id]
         .all
+
+        row[:oldest_deleted] = true
       end
 
       Chit_Chat.new row, sn
