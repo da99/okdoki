@@ -22,19 +22,23 @@ class Chit_Chat
       count = DB["
         SELECT count(id) AS c
         FROM   #{Table_Name}
-        WHERE  from_id = #{sn.id}
-      "].first[:c]
+        WHERE  pub_id = :sn_id
+      ", :sn_id => sn.id].first[:c]
 
       row = TABLE.
         returning.
         insert(
-          from_id: sn.id,
+          pub_id: sn.id,
+          author_id: sn.id,
           body: opts[:body]
         ).first
 
       if count >= Create_Limit
-        # TABLE.where(:from_id=> sn.id).order_by(Sequel.lit("created_at DESC")).limit(1).delete
-        DB["DELETE FROM #{Table_Name} WHERE id IN ( SELECT id FROM #{Table_Name} WHERE from_id = :fid ORDER BY created_at DESC LIMIT 1)", :fid=>sn.id]
+        DB["DELETE FROM #{Table_Name} WHERE id IN
+          ( SELECT id FROM #{Table_Name}
+            WHERE pub_id = :pid
+            ORDER BY created_at DESC LIMIT 1
+          )", :pid=>sn.id]
         .all
 
         row[:oldest_deleted] = true

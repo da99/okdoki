@@ -33,29 +33,29 @@ FROM (
   --   do joins or sub-queries for the follow/screen_name permissions.
 
   SELECT
-         COUNT(chit_chat.from_id)  AS count_new,
-         chit_chat.from_id         AS from_id,
+         COUNT(chit_chat.pub_id)  AS count_new,
+         chit_chat.pub_id         AS pub_id,
          MAX(chit_chat.created_at) AS last_post_at
 
   FROM chit_chat
 
     INNER JOIN follow
     ON pub_type_id               = :follow_pub_type_id   -- replace
-       AND chit_chat.from_id     = follow.pub_id
+       AND chit_chat.pub_id      = follow.pub_id
        AND follower_id           = :sn_id                -- replace
        AND chit_chat.created_at >= coalesce(follow.last_read_at, follow.created_at)
 
-  GROUP BY from_id
+  GROUP BY chit_chat.pub_id
   ORDER BY last_post_at DESC
 
 ) AS stats
 
     INNER JOIN screen_name
-    ON stats.from_id = screen_name.id
+    ON stats.pub_id = screen_name.id
 
     LEFT JOIN permission
     ON permission.pub_type_id    = :perm_pub_type_id -- replace
-      AND stats.from_id          = permission.pub_id
+      AND stats.pub_id           = permission.pub_id
       AND to_id                  = :sn_id            -- replace
 
 
@@ -83,7 +83,7 @@ FROM (
         WHERE id IN (
           SELECT DISTINCT chit_chat_id
           FROM chit_chat_to
-          WHERE from_id = :sn_id AND to_id IS NULL
+          WHERE pub_id =  :sn_id AND to_id IS NULL
           ORDER BY chit_chat.id DESC
         )
       ^, sn_id: sn.id].limit(111).all
@@ -91,7 +91,7 @@ FROM (
 
   end # === class self ===
 
-  %w{ id from_id body cc_count }.each { |n|
+  %w{ id pub_id author_id body cc_count }.each { |n|
     eval %^
       def #{n}
         data[:#{n}]

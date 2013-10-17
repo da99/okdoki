@@ -17,11 +17,16 @@ describe "Chit_Chat: :create sn, body" do
 
   behaves_like :chit_chat_create
 
-  it "sets :from_id to sn.id" do
+  it "sets :pub_id to sn.id" do
     cc = Chit_Chat.create @s1, new_body
 
-    cc.from_id
-    .should == @s1.id
+    cc.pub_id.should == @s1.id
+  end
+
+  it "sets :author_id to sn.id" do
+    cc = Chit_Chat.create @s1, new_body
+
+    cc.author_id.should == @s1.id
   end
 
   it "sets :body" do
@@ -46,7 +51,7 @@ describe "Chit_Chat: :create sn, body" do
     DB["
       SELECT count(id) AS c
       FROM #{Chit_Chat::Table_Name}
-      WHERE from_id = :fid
+      WHERE pub_id = :fid
       ", :fid=> @s1.id
     ].first[:c].should == Chit_Chat::Create_Limit
   end

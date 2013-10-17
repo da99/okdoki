@@ -3,7 +3,8 @@
 CREATE TABLE chit_chat (
   id                SERIAL PRIMARY KEY,
 
-  from_id           integer                  NOT NULL,
+  pub_id            integer                  NOT NULL,
+  author_id         integer                  NOT NULL,
 
   body              text                     NOT NULL,
   comment_count     smallint                 NOT NULL DEFAULT 0,
@@ -13,7 +14,7 @@ CREATE TABLE chit_chat (
 
 );
 
-CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( from_id );
+CREATE INDEX chit_chat_from_idx  ON  chit_chat  ( pub_id, author_id );
 
 -- DOWN
 
