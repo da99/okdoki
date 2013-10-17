@@ -1,16 +1,20 @@
 
 require './tests/helpers'
+require './tests/helpers/Chit_Chat'
 require './Server/Comment/model'
+
+include Chit_Chat_Test
 
 describe "Comment: create" do
 
   before do
     @sn1 = Screen_Name_Test.screen_name 0
-    @cc1 = Chit_Chat.new(:id=>1000, :body=>"#{rand(1000)}")
+    @sn2 = Screen_Name_Test.screen_name 1
+    @cc1 = create_chit_chat @sn1, "msg #{Time.now.to_i}"
   end
 
   it "sets :pub_type_id = #{Comment::Chit_Chat_Type_Id} when Chit_Chat passed to it" do
-    comment = Comment.create @sn1, @cc1, "msg 1"
+    comment = Comment.create @sn2, @cc1, "msg 1"
     row     = Comment::TABLE[:id=>comment.id]
 
     row[:pub_type_id].should == Comment::Chit_Chat_Type_Id
@@ -18,7 +22,9 @@ describe "Comment: create" do
 
   it "raises Comment::Limit_Reached if more than #{Comment::Create_Limit} comments are created" do
     lambda {
-      Comment.create @sn1, @cc1, "msg 1"
+      (Comment::Create_Limit + 1).times do |i|
+        Comment.create @sn2, @cc1, "msg #{i}"
+      end
     }.should.raise(Comment::Limit_Reached)
     .msg.should.match(/Comment limit reached. No more comments can be created./)
   end
