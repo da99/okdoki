@@ -25,7 +25,10 @@ class Chit_Chat
   # Settings
   # =====================================================
 
-  TABLE           = DB[:chit_chat]
+  Create_Limit    = 44
+
+  Table_Name      = :chit_chat
+  TABLE           = DB[Table_Name]
 
   # =====================================================
   # Class

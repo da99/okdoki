@@ -38,6 +38,19 @@ describe "Chit_Chat: :create sn, body" do
     .msg.should.match(/Too many characters: 10 over the limit/)
   end
 
+  it "deletes old chit chats if more than #{Chit_Chat::Create_Limit}" do
+    (Chit_Chat::Create_Limit + 1).times do |i|
+      Chit_Chat.create @s1, "msg #{i}"
+    end
+
+    DB["
+      SELECT count(id) AS c
+      FROM #{Chit_Chat::Table_Name}
+      WHERE from_id = :fid
+      ", :fid=> @s1.id
+    ].first[:c].should == Chit_Chat::Create_Limit
+  end
+
 end # === describe Chit_Chat: create ===
 
 
