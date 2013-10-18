@@ -5,10 +5,10 @@ CREATE TABLE notify (
   body              text                     NOT NULL,
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone,
-  last_read_at      timestamp with time zone,
+  last_read_at      timestamp with time zone
 );
 
-CREATE INDEX notify_author_id_idx  ON  chit_chat  ( author_id );
+CREATE UNIQUE INDEX notify_author_id_idx  ON  chit_chat  ( author_id );
 
 -- DOWN
 
