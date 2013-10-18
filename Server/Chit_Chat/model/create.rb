@@ -34,11 +34,20 @@ class Chit_Chat
         ).first
 
       if count >= Create_Limit
-        DB["DELETE FROM #{Table_Name} WHERE id IN
-          ( SELECT id FROM #{Table_Name}
-            WHERE pub_id = :pid
-            ORDER BY created_at DESC LIMIT 1
-          )", :pid=>sn.id]
+        chit_chat_id = "
+          SELECT id FROM #{Table_Name}
+          WHERE pub_id = :pid
+          ORDER BY created_at
+          LIMIT 1
+        "
+
+        DB["
+          DELETE FROM #{Comment::Table_Name}
+          WHERE pub_type_id = :p_type AND
+                pub_id      IN ( #{chit_chat_id} );
+
+          DELETE FROM #{Table_Name} WHERE id IN ( #{chit_chat_id} );
+        ", :pid=>sn.id, :p_type=>Comment.to_pub_type_id(Chit_Chat.new({}))]
         .all
 
         row[:oldest_deleted] = true

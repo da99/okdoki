@@ -1,6 +1,7 @@
 
 require './tests/helpers'
 require './Server/Chit_Chat/model'
+require './Server/Comment/model'
 
 include Screen_Name_Test
 
@@ -43,17 +44,15 @@ describe "Chit_Chat: :create sn, body" do
     .msg.should.match(/Too many characters: 10 over the limit/)
   end
 
-  it "deletes old chit chats if more than #{Chit_Chat::Create_Limit}" do
+  it "deletes oldest chit chat if more than #{Chit_Chat::Create_Limit}" do
+    first_cc = nil
     (Chit_Chat::Create_Limit + 1).times do |i|
-      Chit_Chat.create @s1, "msg #{i}"
+      cc = Chit_Chat.create @s1, "msg #{i}"
+      first_cc ||= cc
     end
 
-    DB["
-      SELECT count(id) AS c
-      FROM #{Chit_Chat::Table_Name}
-      WHERE pub_id = :fid
-      ", :fid=> @s1.id
-    ].first[:c].should == Chit_Chat::Create_Limit
+    Chit_Chat::TABLE[:id=>first_cc.id]
+    .should == nil
   end
 
   it "sets :oldest_deleted = true when oldest chit chat have been deleted" do
@@ -63,6 +62,22 @@ describe "Chit_Chat: :create sn, body" do
     end
 
     cc.data[:oldest_deleted].should == true
+  end
+
+  it "deletes comments from deleted old chit chats" do
+
+    first_cc = nil
+    first_comment  = nil
+    (Chit_Chat::Create_Limit + 1).times do |i|
+      cc = Chit_Chat.create @s1, "msg #{i}"
+      if !first_cc
+        first_cc = cc
+        first_comment  = Comment.create @s1, first_cc, "msg 1"
+      end
+    end
+
+    Comment::TABLE[:id=>first_comment.id]
+    .should == nil
   end
 
 end # === describe Chit_Chat: create ===
