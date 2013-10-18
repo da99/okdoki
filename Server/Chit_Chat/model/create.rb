@@ -34,20 +34,26 @@ class Chit_Chat
         ).first
 
       if count >= Create_Limit
-        chit_chat_id = "
-          SELECT id FROM #{Table_Name}
-          WHERE pub_id = :pid
-          ORDER BY created_at
-          LIMIT 1
-        "
+
+
+        chit_chat_id = Chit_Chat::TABLE.
+        where(:pub_id=>sn.id).
+        order_by(:created_at).
+        limit(1).
+        first[:id]
 
         DB["
+
+          -- Delete chit chat:
+          DELETE FROM #{Table_Name}
+          WHERE id = :chit_chat_id;
+
+          -- Delete chit chat comments:
           DELETE FROM #{Comment::Table_Name}
           WHERE pub_type_id = :p_type AND
-                pub_id      IN ( #{chit_chat_id} );
+                pub_id      = :chit_chat_id;
 
-          DELETE FROM #{Table_Name} WHERE id IN ( #{chit_chat_id} );
-        ", :pid=>sn.id, :p_type=>Comment.to_pub_type_id(Chit_Chat.new({}))]
+        ", :chit_chat_id=>chit_chat_id, :p_type=>Comment.to_pub_type_id(Chit_Chat.new({}))]
         .all
 
         row[:oldest_deleted] = true
