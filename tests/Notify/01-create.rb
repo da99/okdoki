@@ -42,6 +42,16 @@ describe "Notify: create_or_update" do
     Notify::TABLE.first[:to_id].should == @sn2.id
   end
 
+  it "updates :created_at" do
+    Notify.create_or_update @sn1, @sn2, "body 1"
+    n1 = Notify::TABLE.first
+
+    Notify.create_or_update @sn1, @sn2, "body 2"
+    n2 = Notify::TABLE.first
+
+    n1[:updated_at].should.not == n2[:updated_at]
+  end
+
 end # === describe Notify: create ===
 
 
