@@ -36,7 +36,7 @@ module Screen_Name_Test
       @owners  = []
       @screen_names = []
 
-      3.times do |i|
+      4.times do |i|
         @owners << create_screen_name
         @screen_names << @owners.last[:sn]
       end
