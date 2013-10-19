@@ -28,6 +28,20 @@ describe "Notify: create_or_update" do
     Notify::TABLE.first[:body].should == msg1
   end
 
+  it "sets :from_id" do
+    msg1 = "Something #{rand 1000}"
+    Notify.create_or_update @sn1, @sn2, msg1
+
+    Notify::TABLE.first[:from_id].should == @sn1.id
+  end
+
+  it "sets :to_id" do
+    msg1 = "Something #{rand 1000}"
+    Notify.create_or_update @sn1, @sn2, msg1
+
+    Notify::TABLE.first[:to_id].should == @sn2.id
+  end
+
 end # === describe Notify: create ===
 
 
