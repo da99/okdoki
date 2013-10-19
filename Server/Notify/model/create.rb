@@ -3,13 +3,13 @@ class Notify
 
   class << self
 
-    def create_or_update author, body
+    def create_or_update from, to, body
       row = TABLE.returning.
-        where(:author_id=>author.id).
+        where(:from_id=>from.id, :to_id=>to.id).
         update(:body=>body).
         first
       if !row
-        row = TABLE.returning.insert(:author_id=>author.id, :body=>body).first
+        row = TABLE.returning.insert(:from_id=>from.id, :to_id=>to.id, :body=>body).first
       end
 
       Notify.new row

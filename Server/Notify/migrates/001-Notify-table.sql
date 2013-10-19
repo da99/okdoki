@@ -1,7 +1,8 @@
 
 CREATE TABLE notify (
   id                SERIAL PRIMARY KEY,
-  author_id         integer                  NOT NULL,
+  from_id           integer                  NOT NULL,
+  to_id             integer                  NOT NULL,
   body              text                     NOT NULL,
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at        timestamp with time zone,
