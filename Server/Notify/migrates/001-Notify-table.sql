@@ -9,7 +9,7 @@ CREATE TABLE notify (
   last_read_at      timestamp with time zone
 );
 
-CREATE UNIQUE INDEX notify_author_id_idx  ON  chit_chat  ( author_id );
+CREATE UNIQUE INDEX notify_from_to_idx  ON notify ( from_id, to_id );
 
 -- DOWN
 
