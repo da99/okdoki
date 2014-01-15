@@ -5,5 +5,5 @@ set -u -e -o pipefail
 
 export RACK_ENV=production
 export BUNDLE_GEMFILE=conf/Gemfile
-export PATH="$PATH:/apps/ruby/ruby-2.0.0-p247/bin"
+export PATH="$PATH:/apps/ruby/current/bin"
 bundle "$@"
