@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+
+export RACK_ENV=production
+export BUNDLE_GEMFILE=conf/Gemfile
+export PATH="$PATH:/apps/ruby/current/bin"
+export DATABASE_URL="postgres://okdoki_user:pswd-dev4pg@localhost:5432/okdoki_db"

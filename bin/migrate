@@ -11,6 +11,7 @@ other="$@"
 
 set -u -e -o pipefail
 
+. bin/env
 . bin/model_list
 
 
