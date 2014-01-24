@@ -6,7 +6,7 @@
 #   It also guards against making changes to the database
 #   without a session.
 #
-#   Guard ptions include:
+#   Guard options include:
 #     :skip   => Useful to guard against non-HEAD/GET actions.
 #     :guard  => Useful to guard GET actions
 #

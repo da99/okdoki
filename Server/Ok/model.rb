@@ -46,6 +46,8 @@ module Ok
 
   class Not_Found < RuntimeError
 
+    attr_reader :msg
+
     def initialize msg = nil
       if !msg
         msg = "Not found."
