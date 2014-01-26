@@ -38,6 +38,7 @@ function post() {
 
 function json_then(func) {
   return function (err, results) {
+
     if (!err && typeof(results) === 'string')
       results = to_json_result(results);
 
