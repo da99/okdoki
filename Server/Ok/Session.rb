@@ -89,18 +89,20 @@ if respond_to? :helpers, true
 
     return json(false, "Pass phrase is required.") if (params[:pass_word] || "").strip.empty?
 
-    begin
+    return begin
       sign_in Customer.read_by_screen_name_and_pass_word(params[:screen_name], params[:pass_word], request.env['REMOTE_ADDR'])
-      json true, "You are now logged in to: #{request.host}"
+      json(true, "You are now logged in to: #{request.host}")
 
     rescue Screen_Name::Not_Found => e
       json(false, e.msg)
 
     rescue Customer::Invalid => e
       json(false, e.msg)
-    end
 
-    return
+    rescue Customer::Too_Many_Bad_Logins => e
+      json(false, e.msg)
+
+    end
 
   end # === post
 
