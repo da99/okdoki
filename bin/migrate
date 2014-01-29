@@ -45,7 +45,6 @@ case "$action" in
   up)
     if [[ -z "$model" ]]
     then
-      sudo -u postgres psql "$DATABASE_NAME" -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
       for m in ${mods[@]}
       do
