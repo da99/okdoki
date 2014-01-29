@@ -79,7 +79,7 @@ if respond_to? :helpers, true
   helpers Ok::Session::Helpers
 
   get "/log-out" do
-    logout
+    log_out
     redirect to("/"), 307 # --- temp redirect
   end
 
