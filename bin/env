@@ -5,4 +5,5 @@
 export RACK_ENV=production
 export BUNDLE_GEMFILE=conf/Gemfile
 export PATH="$PATH:/apps/ruby/current/bin"
-export DATABASE_URL="postgres://okdoki_user:pswd-dev4pg@localhost:5432/okdoki_db"
+export DATABASE_NAME="okdoki_db"
+export DATABASE_URL="postgres://okdoki_user:pswd-dev4pg@localhost:5432/${DATABASE_NAME}"

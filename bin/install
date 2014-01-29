@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+set -u -e -o pipefail
+
+. bin/env
+. bin/model_list
+
+echo ""
+echo "# === Installing PGCRYPTO extension."
+sudo -u postgres psql "$DATABASE_NAME" -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+
+echo ""
+
+
+

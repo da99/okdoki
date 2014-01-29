@@ -21,36 +21,6 @@ then
 fi
 
 
-function run_up {
-
-  for m in ${mods[@]}
-  do
-    echo "=== Migrating: up $m"
-    bin/migrate_up $m
-    echo ""
-  done
-
-}
-
-function run_down {
-
-  # === Ensure dev machine.
-  if [ ! -n "${IS_DEV+x}" ]
-  then
-    echo "This is not a dev machine."
-    exit 1
-  fi
-
-  # === Reverse list
-  for m in ${rev_mods[@]}
-  do
-    echo "=== Migrating: down $m"
-    bin/migrate_down $m
-    echo ""
-  done
-
-}
-
 case "$action" in
   create)
     if [[ ! "${mods[@]}" == *"$model"* ]]
@@ -72,20 +42,49 @@ case "$action" in
     bin/migrate up   "$model"
     ;;
 
-  *)
-    if [[ "$action" != "up" &&  "$action" != "down" ]]
-    then
-      echo "Unknown command: $action"
-      exit 1
-    fi
-
+  up)
     if [[ -z "$model" ]]
     then
-      run_$action
-    else
-      bin/migrate_$action $model
-    fi
+      sudo -u postgres psql "$DATABASE_NAME" -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
+      for m in ${mods[@]}
+      do
+        echo "=== Migrating: up $m"
+        bin/migrate_up $m
+        echo ""
+      done
+    else
+      bin/migrate_up $model
+    fi
+    ;;
+
+  down)
+    if [[ -z "$model" ]]
+    then
+
+      # === Ensure dev machine.
+      if [ ! -n "${IS_DEV+x}" ]
+      then
+        echo "This is not a dev machine."
+        exit 1
+      fi
+
+      # === Reverse list
+      for m in ${rev_mods[@]}
+      do
+        echo "=== Migrating: down $m"
+        bin/migrate_down $m
+        echo ""
+      done
+
+    else
+      bin/migrate_down $model
+    fi
+    ;;
+
+  *)
+    echo "Unknown command: $action"
+    exit 1
     ;;
 
 esac

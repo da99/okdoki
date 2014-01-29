@@ -4,7 +4,6 @@
 #
 load "./bin/migrate_schema"
 
-
 rec = DB.fetch("SELECT version FROM _schema WHERE name = :name",  :name=>NAME).all.first
 
 if !rec
