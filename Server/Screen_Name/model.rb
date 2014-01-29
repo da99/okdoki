@@ -93,6 +93,10 @@ class Screen_Name
     super
   end
 
+  def to_href
+    "/@#{screen_name}"
+  end
+
   def validate *args
     case args.first
     when :screen_name

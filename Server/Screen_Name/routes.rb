@@ -9,6 +9,7 @@ post '/@' do
     sn   = user.create(:screen_name, params[:screen_name])
     json true, "Your new life has been created: #{sn.screen_name}" , sn.to_public
   rescue Ok::Invalid => e
+    puts e.msg, "--"
     json false, e.msg
   end
 end # === post
