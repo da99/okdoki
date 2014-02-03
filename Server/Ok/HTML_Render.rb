@@ -18,11 +18,11 @@ helpers do
       end
     }
 
-    o[:_csrf] = csrf_token
-    o[:file_stamp] = FILE_STAMP
-    o[:logged_in?] = logged_in?
-    o[:view_name]  = view_name
-    o[:is_customer_lifes] = view_name == 'Customer/lifes'
+    o[:_csrf]                 = csrf_token
+    o[:file_stamp]            = FILE_STAMP
+    o[:logged_in?]            = logged_in?
+    o[:view_name]             = view_name
+    o[:is_customer_lifes]     = view_name == 'Customer/lifes'
     o[:my_other_screen_names] = begin
                                   if logged_in?
                                     list = user.screen_names.map(&:to_public)
