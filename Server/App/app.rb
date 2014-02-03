@@ -42,6 +42,10 @@ require "./Server/App/routes"
 require "./Server/Customer/routes"
 require "./Server/Screen_Name/routes"
 
+if ENV['IS_DEV']
+  require "./Server/Scrap/routes"
+end
+
 
 # --- Error Handling ---------------------------------
 NOT_FOUND = File.read("./Public/errors/404.html")
