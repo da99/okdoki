@@ -18,18 +18,18 @@ use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
 require './Server/Ok/Session'        # 0
-require './Server/Ok/Deserialize_User' # 0.1
-require './Server/Ok/As_This_Life'   # 0.2
+require './Server/Ok/middleware/Deserialize_User' # 0.1
+require './Server/Ok/middleware/As_This_Life'   # 0.2
 require './Server/Ok/Escape_All'     # 1
-require './Server/Ok/CSRF'           # 2
-require './Server/Ok/JSON_Success'   # 3
-require './Server/Ok/HTML_Render'    # 4
-require './Server/Ok/Bool_Params'    # 5
-require './Server/Ok/No_Cache'       # 6
+require './Server/Ok/helpers/CSRF'           # 2
+require './Server/Ok/helpers/JSON_Success'   # 3
+require './Server/Ok/helpers/HTML_Render'    # 4
+require './Server/Ok/middleware/Bool_Params'    # 5
+require './Server/Ok/middleware/No_Cache'       # 6
 # ----------------------------------------------------
 
 # --- Siantra Helpers --------------------------------
-require './Server/Ok/logic_for'
+require './Server/Ok/helpers/logic_for'
 # ----------------------------------------------------
 
 # --- Init the DB Connection -------------------------

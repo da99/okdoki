@@ -2,7 +2,7 @@ require 'sequel'
 DB = Sequel.connect(ENV['DATABASE_URL'])
 
 require './Server/Ok/Validate'
-require './Server/Ok/Helpers'
+require './Server/Ok/helpers/Helpers'
 require './Server/Ok/List'
 require './Server/Ok/PG'
 
