@@ -2,8 +2,8 @@
 require "./Server/Scrap/Me/index"
 
 helpers do
-  def ok_data
-    env['ok.data'] ||= {:body=>[]}
+  def client_data
+    env['ok.client.data'] ||= {:body=>[]}
   end
 end
 
