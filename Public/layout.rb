@@ -88,6 +88,18 @@ module Dot_Why
       end
     end
 
+    def partials_for file
+      require "./Server/#{view_name}/index"
+      Object.const_get(view_name_class_name).partials
+      .each { |f|
+        partial "./Server/#{view_name}", "#{f}/markup.rb"
+      }
+    end
+
+    def view_name_class_name
+      view_name.gsub('/', '__')
+    end
+
     def view_name
       @view_name ||= begin
                        name = main_file.sub('/markup.rb', '')

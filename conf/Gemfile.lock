@@ -94,7 +94,7 @@ DEPENDENCIES
   addressable
   bacon
   content-security-policy
-  dot_why (> 2.0.4)
+  dot_why
   escape_utils
   htmlentities
   mechanize
