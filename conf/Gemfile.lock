@@ -17,7 +17,7 @@ GEM
       rack (~> 1.4)
     domain_name (0.5.15)
       unf (>= 0.0.5, < 1.0.0)
-    dot_why (2.0.4)
+    dot_why (2.0.5)
       active_support
       erector
     erector (0.9.0)
@@ -94,7 +94,7 @@ DEPENDENCIES
   addressable
   bacon
   content-security-policy
-  dot_why
+  dot_why (> 2.0.4)
   escape_utils
   htmlentities
   mechanize
