@@ -1,5 +1,4 @@
 
-require "./Server/Scrap/Me/index"
 
 helpers do
   def client_data
@@ -8,5 +7,6 @@ helpers do
 end
 
 get "/scrap/me" do
-  Scrap__Me.new.run self
+  logic_for "Scrap/Me"
+  client_data[:body].join("<br />\n")
 end

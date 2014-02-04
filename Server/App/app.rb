@@ -8,7 +8,7 @@ ContentSecurityPolicy.configure do |csp|
   csp['img-src']     =  "*"
 end
 
-# -- Middleware & Helpers ----------------------------
+# -- Middleware --------------------------------------
 use Rack::Protection::SessionHijacking # 0
 use ContentSecurityPolicy              # 1
 use Rack::Protection::RemoteReferrer   # 2
@@ -28,6 +28,9 @@ require './Server/Ok/Bool_Params'    # 5
 require './Server/Ok/No_Cache'       # 6
 # ----------------------------------------------------
 
+# --- Siantra Helpers --------------------------------
+require './Server/Ok/logic_for'
+# ----------------------------------------------------
 
 # --- Init the DB Connection -------------------------
 require './Server/Ok/model'
