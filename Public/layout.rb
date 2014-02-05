@@ -127,11 +127,11 @@ module Dot_Why
           stylesheet 'forms'
 
           section :styles do
-            stylesheet "/#{view_name}/style"
+            stylesheet "/temp/#{view_name}/style"
           end
 
           section :scripts do
-            script "/#{view_name}/script"
+            script "/temp/#{view_name}/script"
           end
 
           section :styles

@@ -10,7 +10,7 @@
     <link href="/css/vanilla.reset.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/okdoki.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/forms.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/App/top_slash/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/temp/App/top_slash/style.css?{{file_stamp}}" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>    <div class="sidebar" id="sidebar">      <h1 class="title"><span class="main">ok</span><span class="sub">doki</span></h1>
       <div id="header">
@@ -80,7 +80,7 @@
     <script src="/js/Form.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Screen_Name.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/js/Customer.js?{{file_stamp}}" type="text/javascript"></script>
-    <script src="/App/top_slash/script.js?{{file_stamp}}" type="text/javascript"></script>
+    <script src="/temp/App/top_slash/script.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/applets/New_Session/script.js?{{file_stamp}}" type="text/javascript"></script>
     <script src="/applets/New_Customer/script.js?{{file_stamp}}" type="text/javascript"></script>
   </body>

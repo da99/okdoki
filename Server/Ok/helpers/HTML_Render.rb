@@ -8,7 +8,7 @@ helpers do
 
   def html view_name, o
     Mustache.raise_on_context_miss = true
-    file = "./Public/#{view_name}/markup.mustache.rb"
+    file = "./Server/#{view_name}/markup.mustache.rb"
     Fake_Mustache::CACHE[file] ||= File.read(file)
 
     # --- add has_? helpers
