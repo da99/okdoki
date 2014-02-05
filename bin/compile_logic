@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+set -u -e -o pipefail
+echo ""
+
+PUBLIC="Public/temp"
+
+function insert_into_public {
+  partial="Server/$1/$2/$3/$4"
+  full="$PUBLIC/$1/$2/$4"
+  if [[ -f "$partial" ]]; then
+    mkdir -p "$(dirname $full)"
+    cat "$partial" >> "$full"
+    echo "  |-- processed: $partial"
+  fi
+}
+
+function process_the_css {
+  stylus="Server/$1/$2/$l/style.styl"
+  css="${stylus/.styl/.css}"
+  all_css="$PUBLIC/$1/$2/style.css"
+
+  if [[ -f "$stylus" ]]; then
+    # --- compile into .css
+    stylus "$stylus"
+
+    # --- insert
+    # --- remove .css
+    cat "$css" >> "$all_css" && rm "$css"
+  fi
+}
+
+# ==== Now for Server/ files:
+files=$( $UP/util/files_with_ext Server/ order.txt )
+for f in $files
+do
+  group="$( basename "$(dirname "$(dirname $f)")" )"
+  name="$( basename "$(dirname $f)" )"
+  logics="$(cat $f)"
+
+  # === Reset dir in $PUBLIC/
+  mkdir -p  "$PUBLIC/$group/$name"
+  echo "" > "$PUBLIC/$group/$name/script.js"
+  echo "" > "$PUBLIC/$group/$name/style.css"
+
+  echo "|-- in $group/$name"
+  for l in $logics
+  do
+    insert_into_public "$group" "$name" "$l" "script.js"
+    process_the_css    "$group" "$name" "$l"
+  done # === each $logics
+
+done # === each $files
+
+
+
+
