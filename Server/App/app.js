@@ -3,67 +3,22 @@
 var e_e_e     = require('escape_escape_escape').Sanitize.html;
 var IS_DEV    = !!process.env.IS_DEV;
 var RELOG_MSG = "This page has expired. You will have to refresh this page.";
-var server    = null;
-var F         = require('tally_ho').Tally_Ho;
-var Render    = require('../Blade/Render').render;
 
-// ================================================================
-// ================== Events ======================================
-// ================================================================
 
 // ================================================================
 // ================== Require the Packages ========================
 // ================================================================
 
 
-var _         = require('underscore')
-, Topogo      = require('topogo').Topogo
-, River       = require('da_river').River
-;
-
-var Customer     = require('../Customer/model').Customer
-, Screen_Name    = require('../Screen_Name/model').Screen_Name
-, H              = require('../App/Helpers').H
-, OMNI           = require('../../Client/js/Screen_Name')
-;
-
-var log       = require('./base').log
-;
-
 var helmet = require('helmet');
-
-var password_hash = require('password-hash');
-
-var passport      = require('passport')
-, LocalStrategy   = require('passport-local').Strategy
-;
-
 var ensure_login = require('connect-ensure-login');
 
-var express = require('express');
 var toobusy = require('toobusy');
-var app     = module.exports.app = express();
-
-var ALLOW_UNAUTH_PATHS = [];
 
 // ================================================================
 // ================== Helpers =====================================
 // ================================================================
 
-var mtimes = exports.mtimes = require("./file_times").data;
-
-exports.allow_unauth_path = function (meth, path) {
-  ALLOW_UNAUTH_PATHS.push(meth.toUpperCase() + ':' + path.toUpperCase());
-};
-
-exports.is_allow_unauth_path = function (req) {
-  var i = ALLOW_UNAUTH_PATHS.indexOf(req.method.toUpperCase() + ':' + req.path.toUpperCase());
-  return i > -1;
-};
-
-var resp_404 = exports.resp_404 = function (req, resp, msg) {
-  return resp_error(req, resp, msg, 404, "keep");
-};
 
 var resp_error = exports.resp_error = function (req, resp, msg, stat, keep) {
   if (!keep) {
@@ -90,19 +45,7 @@ var resp_invalid = exports.resp_invalid = function (req, resp, msgs, stat) {
 // ================================================================
 
 
-var shutting_down = false;
-var tell = function () { log(' ---- '); };
-
-var app_dir = __dirname.split('/');
-app_dir.pop();
-app_dir.pop();
-app_dir = app_dir.join('/');
-
-var port    = process.env.PORT || 5555;
 var secret  = process.env.SESSION_SECRET;
-var db_conn = process.env.DATABASE_URL;
-// var ip_addr = process.env.NODE_IP_FOR_AUTH;
-
 if (!secret)
   throw new Error('No session secret set.');
 if (!db_conn)
