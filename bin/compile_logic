@@ -7,6 +7,11 @@ echo ""
 
 PUBLIC="Public/temp"
 
+if [[ ! "$@" == "" ]]; then
+  echo " !!! Not ready to handle individual files." 1>&2
+  exit 1
+fi
+
 function insert_into_public {
   partial="Server/$1/$2/$3/$4"
   full="$PUBLIC/$1/$2/$4"
