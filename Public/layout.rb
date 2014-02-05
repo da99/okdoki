@@ -109,6 +109,18 @@ module Dot_Why
                      end
     end
 
+    def on_off val, show_more
+
+      _class = (!val || val === 'off') ? 'off' : 'on'
+
+      span(:class=>"on_off #{_class}") do
+        a.on  "On",  :href=>"#on"
+        a.off "Off", :href=>"#off"
+        a.show_more("Settings", :href=>"#more_settings") if show_more
+      end
+
+    end
+
     def content
       eval_main
 
