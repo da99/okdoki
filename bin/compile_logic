@@ -18,9 +18,15 @@ function insert_into_public {
 }
 
 function process_the_css {
-  stylus="Server/$1/$2/$l/style.styl"
+  stylus="Server/$1/$2/$3/style.styl"
   css="${stylus/.styl/.css}"
   all_css="$PUBLIC/$1/$2/style.css"
+
+  if [[ -f "$css" ]]; then
+    rm_css="no"
+  else
+    rm_css="yes"
+  fi
 
   if [[ -f "$stylus" ]]; then
     # --- compile into .css
@@ -28,18 +34,24 @@ function process_the_css {
 
     # --- insert
     # --- remove .css
-    cat "$css" >> "$all_css" && rm "$css"
+    cat "$css" >> "$all_css"
+    if [[ "$rm_css" == 'yes' ]]; then
+      rm "$css"
+      echo "  -- removed: $css"
+    fi
   fi
 }
 
 # ==== Find all logics using order.txt file:
-files=$( $UP/util/files_with_ext Server/ order.txt )
+files=$( $UP/util/files_with_ext Server/ /order.txt )
 for f in $files
 do
 
   group="$( basename "$(dirname "$(dirname $f)")" )"
   name="$( basename "$(dirname $f)" )"
   logics="$(cat $f)"
+
+  echo "|-- in $group/$name"
 
   # === Reset dir in $PUBLIC/
   mkdir -p  "$PUBLIC/$group/$name"
@@ -52,7 +64,6 @@ do
   process_the_css    "$group" "$name" "."
 
   # ==== Now for sub-logic files:
-  echo "|-- in $group/$name"
   for l in $logics
   do
     insert_into_public "$group" "$name" "$l" "script.js"
