@@ -58,8 +58,14 @@ do
   echo "" > "$PUBLIC/$group/$name/script.js"
   echo "" > "$PUBLIC/$group/$name/style.css"
 
-
   # ==== Now for main Server/ files:
+  markup="Server/$group/$name/markup.rb"
+  if [[ -f "$markup" ]]; then
+    html="$PUBLIC/$group/$name/markup.html"
+    bin/bundle exec dot_why ./Public/layout.rb $markup > $html
+    echo "  |-- wrote: $html"
+  fi
+
   insert_into_public "$group" "$name" "." "script.js"
   process_the_css    "$group" "$name" "."
 
