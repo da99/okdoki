@@ -27,12 +27,6 @@ function process_the_css {
   css="${stylus/.styl/.css}"
   all_css="$PUBLIC/$1/$2/style.css"
 
-  if [[ -f "$css" ]]; then
-    rm_css="no"
-  else
-    rm_css="yes"
-  fi
-
   if [[ -f "$stylus" ]]; then
     # --- compile into .css
     stylus "$stylus"
@@ -40,10 +34,8 @@ function process_the_css {
     # --- insert
     # --- remove .css
     cat "$css" >> "$all_css"
-    if [[ "$rm_css" == 'yes' ]]; then
-      rm "$css"
-      echo "  -- removed: $css"
-    fi
+    rm "$css"
+    echo "  -- removed: $css"
   fi
 }
 
