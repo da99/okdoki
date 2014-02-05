@@ -102,7 +102,7 @@ class Customer
     data[:bad_log_in_count] > 3
   end
 
-  def href
+  def to_href
     screen_names.first.href
   end
 

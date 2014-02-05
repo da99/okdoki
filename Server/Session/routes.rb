@@ -16,8 +16,9 @@ post '/sign-in' do
   return json(false, "Pass phrase is required.") if (params[:pass_word] || "").strip.empty?
 
   begin
-    sign_in Customer.read_by_screen_name_and_pass_word(params[:screen_name], params[:pass_word], request.env['REMOTE_ADDR'])
-    json(true, "You are now logged in to: #{request.host}")
+    c = Customer.read_by_screen_name_and_pass_word(params[:screen_name], params[:pass_word], request.env['REMOTE_ADDR'])
+    sign_in c
+    json(true, "You are now logged in to: #{request.host}", :location=>c.to_href)
 
   rescue Screen_Name::Not_Found => e
     json(false, e.msg)
