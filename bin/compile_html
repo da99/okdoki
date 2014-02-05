@@ -4,6 +4,9 @@
 #
 set -u -e -o pipefail
 
+
+# === Now for Public/ files:
+
 file=$1
 shift
 
