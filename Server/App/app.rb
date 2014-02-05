@@ -17,7 +17,7 @@ use Rack::Protection::EscapedParams    # 4
 use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
-require './Server/Ok/Session'        # 0
+require './Server/Session/middleware'        # 0
 require './Server/Ok/middleware/Deserialize_User' # 0.1
 require './Server/Ok/middleware/As_This_Life'   # 0.2
 require './Server/Ok/Escape_All'     # 1
@@ -30,6 +30,7 @@ require './Server/Ok/middleware/No_Cache'       # 6
 
 # --- Siantra Helpers --------------------------------
 require './Server/Ok/helpers/logic_for'
+require './Server/Session/helpers'
 # ----------------------------------------------------
 
 # --- Init the DB Connection -------------------------
@@ -42,6 +43,7 @@ require './Server/Ok/model'
 
 # --- The Routes -------------------------------------
 require "./Server/App/top_slash/routes"
+require "./Server/Session/routes"
 require "./Server/Customer/routes"
 require "./Server/Screen_Name/routes"
 
