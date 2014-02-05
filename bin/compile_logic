@@ -32,10 +32,11 @@ function process_the_css {
   fi
 }
 
-# ==== Now for Server/ files:
+# ==== Find all logics using order.txt file:
 files=$( $UP/util/files_with_ext Server/ order.txt )
 for f in $files
 do
+
   group="$( basename "$(dirname "$(dirname $f)")" )"
   name="$( basename "$(dirname $f)" )"
   logics="$(cat $f)"
@@ -45,6 +46,12 @@ do
   echo "" > "$PUBLIC/$group/$name/script.js"
   echo "" > "$PUBLIC/$group/$name/style.css"
 
+
+  # ==== Now for main Server/ files:
+  insert_into_public "$group" "$name" "." "script.js"
+  process_the_css    "$group" "$name" "."
+
+  # ==== Now for sub-logic files:
   echo "|-- in $group/$name"
   for l in $logics
   do
