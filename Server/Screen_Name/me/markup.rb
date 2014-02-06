@@ -16,20 +16,7 @@ section :main do
 
   div.Me! do
 
-    div.box.Message_Board! {
-
-      h3 {
-        span "Message Board"
-        span.sub "(Low Priority Messages)"
-      }
-
-      div.content {
-        div.please_wait.loading {
-          span "Loading..."
-        }
-      }
-
-    } # === div Message_Board!
+    partial __FILE__, "chit_chat/markup.list.rb"
 
   end # === div.Me!
 
@@ -40,20 +27,7 @@ section :main do
       h3.name         "{{screen_name}}"
     }
 
-    div.box.New_Chit_Chat! {
-
-      h3 "Post to your message board:"
-
-      div.content {
-        form.Create_Chit_Cat!(action: '/Chit_Chat', method: 'POST') {
-          div.fields do
-            div.field.body { textarea(name: "body", maxlength: "1000") }
-            div.field.buttons { button.submit "Send" }
-          end # === div.fields
-        }
-      }
-
-    } # === New_Chit_Chat!
+    partial __FILE__, "chit_chat/markup.new.rb"
 
   } # === Sidebar!
 
