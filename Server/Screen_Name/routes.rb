@@ -21,10 +21,12 @@ end # === post
 get '/@:screen_name' do
   sn = Screen_Name.canonize params[:screen_name]
 
+  # === Standardize the username.
   if sn != params[:screen_name]
     return redirect(to('/@' + sn), 302)
   end
 
+  # === Grab/send info.
   begin
     life = Screen_Name.read_by_screen_name(sn)
     html 'Screen_Name/me', {

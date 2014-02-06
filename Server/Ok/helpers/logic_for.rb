@@ -1,21 +1,15 @@
 
-class Logic_For_Cache
-  class << self
-    def read sub_path
-      @cache ||= {}
-      @cache[sub_path] ||= begin
-                             raw = File.read("./Server/#{sub_path}/order.txt")
-                             raw.split.map(&:strip)
-                             .reject { |s| s.empty? }
-                           end
-    end
-  end # === class self ===
-end # === class Logic_For_Cache
+Cache_For_Logic_For = {}
 
 helpers do
 
   def partials_list_for sub_path
-    Logic_For_Cache.read(sub_path)
+    Cache_For_Logic_For[sub_path] ||= begin
+                                        File.read("./Server/#{sub_path}/order.txt")
+                                        .split
+                                        .map(&:strip)
+                                        .reject { |s| s.empty? }
+                                      end
   end
 
   def logic_for sub_path
