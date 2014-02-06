@@ -22,8 +22,8 @@ require './Server/Ok/middleware/Deserialize_User' # 0.1
 require './Server/Ok/middleware/As_This_Life'   # 0.2
 require './Server/Ok/Escape_All'     # 1
 require './Server/Ok/helpers/CSRF'           # 2
-require './Server/Ok/helpers/JSON_Success'   # 3
-require './Server/Ok/helpers/HTML_Render'    # 4
+require './Server/Ok/helpers/json'   # 3
+require './Server/Ok/helpers/html'    # 4
 require './Server/Ok/middleware/Bool_Params'    # 5
 require './Server/Ok/middleware/No_Cache'       # 6
 # ----------------------------------------------------
