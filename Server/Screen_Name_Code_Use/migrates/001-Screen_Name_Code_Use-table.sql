@@ -1,9 +1,9 @@
 
-CREATE TABLE bot_use (
+CREATE TABLE screen_name_code_use (
 
   id           serial    NOT NULL PRIMARY KEY,
-  bot_id       integer   NOT NULL DEFAULT 0,
-  sn_id        integer   NOT NULL,
+  app_id       integer   NOT NULL DEFAULT 0,
+  user_id      integer   NOT NULL,
 
   is_on        boolean   NOT NULL DEFAULT true,
   settings     text      NOT NULL DEFAULT '{}',
@@ -11,14 +11,14 @@ CREATE TABLE bot_use (
   created_at   timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at   timestamp with time zone,
 
-  CONSTRAINT   "bot_use_screen_name"   UNIQUE (sn_id, bot_id)
+  CONSTRAINT   "screen_name_code_use_user"   UNIQUE (app_id, user_id)
 
 );
 
 
 -- DOWN
 
-DROP TABLE IF EXISTS bot_use;
+DROP TABLE IF EXISTS screen_name_code_use;
 
 
 
