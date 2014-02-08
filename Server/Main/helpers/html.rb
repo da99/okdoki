@@ -7,8 +7,9 @@ FILE_STAMP = Time.now.to_i
 helpers do
 
   def html view_name, o
+    view_name_underscore = view_name.gsub '/', '__'
     Mustache.raise_on_context_miss = true
-    file = "./Public/temp/#{view_name}/markup.html"
+    file = "./Public/temp/#{view_name_underscore}__markup.html"
     Fake_Mustache::CACHE[file] ||= File.read(file)
 
     # --- add has_? helpers

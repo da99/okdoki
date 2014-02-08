@@ -122,6 +122,7 @@ module Dot_Why
     end
 
     def content
+      view_name_underscore = view_name.to_s.gsub('/', '__')
       eval_main
 
       rawtext "<!DOCTYPE html>"
@@ -139,11 +140,11 @@ module Dot_Why
           stylesheet 'forms'
 
           section :styles do
-            stylesheet "/temp/#{view_name}/style"
+            stylesheet "/temp/#{view_name_underscore}__style"
           end
 
           section :scripts do
-            script "/temp/#{view_name}/script"
+            script "/temp/#{view_name_underscore}__script"
           end
 
           section :styles
