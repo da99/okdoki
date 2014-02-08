@@ -6,8 +6,8 @@ section(:main) {
   div.sidebar.sidebar! {
 
     h1.title {
-      span.main "ok"
-      span.sub "doki"
+      span.main "mega"
+      span.sub "UNI"
     }
 
     div.header! {

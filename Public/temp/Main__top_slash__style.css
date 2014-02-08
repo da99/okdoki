@@ -34,7 +34,7 @@ div.intro {
 }
 h1.title {
   text-shadow: #000 0.1em 0.1em 0.1em;
-  font-family: 'Lenka';
+  font-family: 'Libertinage';
   font-weight: 400;
   font-size: 24pt;
   text-align: center;
@@ -44,15 +44,13 @@ h1.title {
 }
 h1.title span.main {
   color: #e5e5e2;
-  font-weight: bold;
-  font-style: italic;
-  padding-right: 5px;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 h1.title span.sub {
-  font-size: 20pt;
+  font-weight: bold;
   color: #f85d95;
   color: #de5787;
+  text-transform: uppercase;
 }
 span.about {
   color: #ff8f00;
