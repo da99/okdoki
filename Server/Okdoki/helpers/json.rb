@@ -19,7 +19,7 @@ helpers do
       end
     }
     content_type :json
-    MultiJson.dump Ok::Escape_All.escape(o)
+    MultiJson.dump Okdoki::Escape_All.escape(o)
   end
 
 end # === module Helper ===

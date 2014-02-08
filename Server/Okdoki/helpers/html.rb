@@ -48,7 +48,7 @@ end # === helpers
 class Mustache
   class Context
     def escapeHTML str
-      Ok::Escape_All.escape str
+      Okdoki::Escape_All.escape str
     end
   end
 end # === class Mustache
@@ -58,7 +58,7 @@ class Fake_Mustache
   CACHE = {}
 
   def escapeHTML var
-    Ok::Escape_All.escape(var.to_s)
+    Okdoki::Escape_All.escape(var.to_s)
   end
 
   def initialize raw_file, data

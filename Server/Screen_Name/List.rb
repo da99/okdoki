@@ -3,7 +3,7 @@ class Screen_Name
 
   class List # === Not called an Array to avoid confusion.
 
-    include Ok::Model::List
+    include Okdoki::Model::List
 
     def initialize var = nil
       @customer = nil

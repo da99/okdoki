@@ -18,7 +18,7 @@ require_crutd :Chit_Chat
 
 class Chit_Chat
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

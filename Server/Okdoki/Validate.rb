@@ -18,7 +18,7 @@ module Okdoki
         if new_data.has_key?(name)
           super model, name
         else
-          Ok::Validate_Empty.new(model, name)
+          Okdoki::Validate_Empty.new(model, name)
         end
       end
 

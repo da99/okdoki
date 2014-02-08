@@ -63,8 +63,8 @@ class Customer
       # === Update old attempt by screen name
       new_attempt_for_today = TABLE.
         returning.
-        where("log_in_at != ? AND id = ?", Ok::Model::PG::UTC_NOW_DATE, c.data[:id]).
-        update(log_in_at: Ok::Model::PG::UTC_NOW_DATE, bad_log_in_count: 0).
+        where("log_in_at != ? AND id = ?", Okdoki::Model::PG::UTC_NOW_DATE, c.data[:id]).
+        update(log_in_at: Okdoki::Model::PG::UTC_NOW_DATE, bad_log_in_count: 0).
         first
 
       if new_attempt_for_today

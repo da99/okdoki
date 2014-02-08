@@ -11,12 +11,12 @@ class Customer
         # === Update if old ip
         ip_row = TABLE.
           returning.
-          where(" ip = ? AND log_in_at != ? ", ip, Ok::Model::PG::UTC_NOW_DATE).
-          update(log_in_at: Ok::Model::PG::UTC_NOW_DATE).
+          where(" ip = ? AND log_in_at != ? ", ip, Okdoki::Model::PG::UTC_NOW_DATE).
+          update(log_in_at: Okdoki::Model::PG::UTC_NOW_DATE).
           first
 
         if !ip_row
-          ip_row = TABLE[:ip=>ip, :log_in_at=>Ok::Model::PG::UTC_NOW_DATE]
+          ip_row = TABLE[:ip=>ip, :log_in_at=>Okdoki::Model::PG::UTC_NOW_DATE]
 
           if !ip_row
             ip_row = TABLE.

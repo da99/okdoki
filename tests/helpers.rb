@@ -3,7 +3,7 @@ require 'Bacon_Colored'
 require './tests/helpers/Customer'
 
 def days_ago_in_sql days
-  Sequel.lit(Ok::Model::PG::UTC_NOW_RAW + " - interval '#{days * 24} hours'")
+  Sequel.lit(Okdoki::Model::PG::UTC_NOW_RAW + " - interval '#{days * 24} hours'")
 end
 
 def customer

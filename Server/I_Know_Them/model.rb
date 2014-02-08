@@ -5,7 +5,7 @@ require_crutd :I_Know_Them
 
 class I_Know_Them
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

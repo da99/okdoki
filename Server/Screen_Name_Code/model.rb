@@ -7,7 +7,7 @@ require_crutd :Screen_Name_Code
 
 class Bot_Code
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================
@@ -58,7 +58,7 @@ class Bot_Code
     case key
     when :code
       super(key).
-        set_to(MultiJson.dump Ok::Escape_All.escape(clean_data[:code]))
+        set_to(MultiJson.dump Okdoki::Escape_All.escape(clean_data[:code]))
     when :target
       super(key).
         in(Bot_Code::TYPES, "'target' must be one of these: #{Bot_Code::TYPES.join ', '}").

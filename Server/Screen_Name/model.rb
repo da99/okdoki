@@ -7,14 +7,14 @@ require_crutd :Screen_Name
 
 class Screen_Name
 
-  include Ok::Model
-  extend Ok::Model_Extend
+  include Okdoki::Model
+  extend Okdoki::Model_Extend
 
   # =====================================================
   # Errors
   # =====================================================
 
-  class Dup < Ok::Invalid
+  class Dup < Okdoki::Invalid
   end
 
   # =====================================================

@@ -1,7 +1,7 @@
 
 class Bot_Use
   class List
-    include Ok::Model::List
+    include Okdoki::Model::List
 
     attr_reader :screen_name
 

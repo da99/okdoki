@@ -5,7 +5,7 @@ require_crutd :Follow
 
 class Follow
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

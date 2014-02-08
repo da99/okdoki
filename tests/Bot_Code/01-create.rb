@@ -42,11 +42,11 @@ describe "Bot_Code: create" do
   end
 
   it "encodes code to JSON" do
-    assert :==, MultiJson.dump(Ok::Escape_All.escape ['<b>hello</b>', []]), C.code
+    assert :==, MultiJson.dump(Okdoki::Escape_All.escape ['<b>hello</b>', []]), C.code
   end
 
   it "HTML escapes code to JSON" do
-    assert :==, MultiJson.dump(Ok::Escape_All.escape ['<b>hello</b>', []]), C.code
+    assert :==, MultiJson.dump(Okdoki::Escape_All.escape ['<b>hello</b>', []]), C.code
   end
 
 end # === describe Bot_Code: create ===

@@ -129,7 +129,7 @@ describe 'read_by_screen_name_and_pass_word' do
   it 'returns Too_Many_Bad_Logins if: correct pass phrase, too many bad log-ins' do
     Customer::TABLE.
       where(id: @c.id).
-      update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
+      update(log_in_at: Okdoki::Model::PG::UTC_NOW, bad_log_in_count: 4)
 
     lambda {
       Customer.read_by_screen_name_and_pass_word @sn, @o[:pw], IP
@@ -142,7 +142,7 @@ describe 'read_by_screen_name_and_pass_word' do
     ' too many bad log-ins by IP' do
     Customer::Log_In_By_IP::TABLE.
       where(ip: IP).
-      update(log_in_at: Ok::Model::PG::UTC_NOW, bad_log_in_count: 4)
+      update(log_in_at: Okdoki::Model::PG::UTC_NOW, bad_log_in_count: 4)
 
     lambda {
       Customer.read_by_screen_name_and_pass_word @sn, @o[:pw], IP

@@ -5,7 +5,7 @@ require_crutd :Last_Read_At
 
 class Last_Read_At
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

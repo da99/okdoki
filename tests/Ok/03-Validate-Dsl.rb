@@ -3,7 +3,7 @@ require "./tests/helpers"
 require "./Server/Okdoki/model"
 
 class My_Model
-  include Ok::Model
+  include Okdoki::Model
 
   def create new_data
     @new_data = new_data

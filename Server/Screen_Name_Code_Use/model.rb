@@ -5,7 +5,7 @@ require_crutd :Bot_Use
 
 class Bot_Use
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

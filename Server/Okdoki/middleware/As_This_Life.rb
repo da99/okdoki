@@ -41,5 +41,5 @@ end # === module Okdoki ===
 
 
 if respond_to?(:use, true)
-  use Ok::As_This_Life
+  use Okdoki::As_This_Life
 end

@@ -92,7 +92,7 @@ describe( 'app', function () {
   it 'deletes all cookies up log-out'
 
   // # 14
-  it 'escapes HTML using Ok::Escape_All, not Mustache escapeHTML'
+  it 'escapes HTML using Okdoki::Escape_All, not Mustache escapeHTML'
 
 
   // # 15

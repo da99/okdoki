@@ -15,7 +15,7 @@ require "uri"
 
                           # o = {}
                           # super.keys.each do |k|
-                            # o[Ok::Escape_All.escape(k.to_s).to_sym] = Ok::Escape_All.escape(dirty[k])
+                            # o[Okdoki::Escape_All.escape(k.to_s).to_sym] doki= Okdoki::Escape_All.escape(dirty[k])
                           # end
 
                           # o

@@ -24,7 +24,7 @@ module Okdoki
 end # === module Okdoki ===
 
 if respond_to?(:use, true)
-  use Ok::Deserialize_User
+  use Okdoki::Deserialize_User
 end
 
 

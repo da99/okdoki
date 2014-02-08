@@ -5,7 +5,7 @@ require_crutd :Notify
 
 class Notify
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

@@ -24,4 +24,4 @@ module Okdoki
 
 end # === module Okdoki ===
 
-use Ok::No_Cache if respond_to?(:use, true)
+use Okdoki::No_Cache if respond_to?(:use, true)

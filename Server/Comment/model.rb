@@ -5,7 +5,7 @@ require_crutd :Comment
 
 class Comment
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

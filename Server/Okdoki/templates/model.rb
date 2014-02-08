@@ -5,7 +5,7 @@ require_crutd :MODEL
 
 class MODEL
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

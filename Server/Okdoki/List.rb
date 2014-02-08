@@ -6,7 +6,7 @@ module Okdoki
     # Example:
     #
     #    class My_List
-    #      include Ok::Model::List
+    #      include Okdoki::Model::List
     #
     #      def initialize *args
     #        do magic

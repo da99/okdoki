@@ -7,7 +7,7 @@ require_crutd :Customer
 
 class Customer
 
-  include Ok::Model
+  include Okdoki::Model
 
   # =====================================================
   # Settings
@@ -19,8 +19,8 @@ class Customer
   # =====================================================
   # Errors
   # =====================================================
-  Wrong_Pass_Word = Class.new(Ok::Invalid)
-  Too_Many_Bad_Logins = Class.new(Ok::Invalid)
+  Wrong_Pass_Word = Class.new(Okdoki::Invalid)
+  Too_Many_Bad_Logins = Class.new(Okdoki::Invalid)
 
   # =====================================================
   # Class

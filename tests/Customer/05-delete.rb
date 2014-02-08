@@ -14,7 +14,7 @@ describe 'delete_trashed' do
   it 'it does not delete Customer records less than 2 days old' do
     Customer::TABLE.
       where(id: @c.id).
-      update(trashed_at: Sequel.lit(" #{Ok::Model::PG::UTC_NOW_RAW} - interval '70 hours' "))
+      update(trashed_at: Sequel.lit(" #{Okdoki::Model::PG::UTC_NOW_RAW} - interval '70 hours' "))
 
     Customer.empty_trash
 
@@ -26,7 +26,7 @@ describe 'delete_trashed' do
   it 'it deletes Customer and Screen-Names' do
     Customer::TABLE.
       where(id: @c.id).
-      update(trashed_at: Sequel.lit(" #{Ok::Model::PG::UTC_NOW_RAW} - interval '72 hours' "))
+      update(trashed_at: Sequel.lit(" #{Okdoki::Model::PG::UTC_NOW_RAW} - interval '72 hours' "))
 
     Customer.empty_trash
 

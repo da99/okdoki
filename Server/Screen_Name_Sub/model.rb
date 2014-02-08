@@ -5,7 +5,7 @@ require_crutd :Screen_Name_Sub
 
 class Screen_Name_Sub
 
-  include Ok::Model
+  include Okdoki::Model
 
 
   # =====================================================

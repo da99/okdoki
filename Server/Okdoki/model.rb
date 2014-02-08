@@ -123,7 +123,7 @@ module Okdoki
 
     def validate name
       @spec = name
-      Ok::Validate.new(self, name)
+      Okdoki::Validate.new(self, name)
     end
 
     def initialize *args

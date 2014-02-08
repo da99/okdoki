@@ -5,7 +5,7 @@ require_crutd :Permission
 
 class Permission
 
-  include Ok::Model
+  include Okdoki::Model
 
   Screen_Name_Type_Id = 1
 

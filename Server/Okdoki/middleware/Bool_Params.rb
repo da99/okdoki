@@ -25,6 +25,6 @@ end # === module Okdoki ===
 
 if respond_to?(:use, true)
 
-  use Ok::Bool_Params
+  use Okdoki::Bool_Params
 
 end # === if sinatra dsl
