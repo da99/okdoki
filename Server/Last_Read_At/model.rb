@@ -1,5 +1,5 @@
 
-require './Server/Ok/model'
+require './Server/Main/model'
 
 require_crutd :Last_Read_At
 

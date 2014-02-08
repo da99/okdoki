@@ -1,9 +1,9 @@
 
-require './Server/Ok/model'
-require './Server/Ok/Escape_All'
+require './Server/Main/model'
+require './Server/Main/Escape_All'
 require 'multi_json'
 
-require_crutd :Bot_Code
+require_crutd :Screen_Name_Code
 
 class Bot_Code
 

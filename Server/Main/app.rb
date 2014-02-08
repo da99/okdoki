@@ -18,23 +18,23 @@ use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
 require './Server/Session/middleware'        # 0
-require './Server/Ok/middleware/Deserialize_User' # 0.1
-require './Server/Ok/middleware/As_This_Life'   # 0.2
-require './Server/Ok/Escape_All'     # 1
-require './Server/Ok/helpers/CSRF'           # 2
-require './Server/Ok/helpers/json'   # 3
-require './Server/Ok/helpers/html'    # 4
-require './Server/Ok/middleware/Bool_Params'    # 5
-require './Server/Ok/middleware/No_Cache'       # 6
+require './Server/Main/middleware/Deserialize_User' # 0.1
+require './Server/Main/middleware/As_This_Life'   # 0.2
+require './Server/Main/Escape_All'     # 1
+require './Server/Main/helpers/CSRF'           # 2
+require './Server/Main/helpers/json'   # 3
+require './Server/Main/helpers/html'    # 4
+require './Server/Main/middleware/Bool_Params'    # 5
+require './Server/Main/middleware/No_Cache'       # 6
 # ----------------------------------------------------
 
 # --- Siantra Helpers --------------------------------
-require './Server/Ok/helpers/logic_for'
+require './Server/Main/helpers/logic_for'
 require './Server/Session/helpers'
 # ----------------------------------------------------
 
 # --- Init the DB Connection -------------------------
-require './Server/Ok/model'
+require './Server/Main/model'
 
 # --- The Models -------------------------------------
 %w{ Customer Screen_Name }.each { |m|
@@ -42,7 +42,7 @@ require './Server/Ok/model'
 }
 
 # --- The Routes -------------------------------------
-require "./Server/App/top_slash/routes"
+require "./Server/Main/top_slash/routes"
 require "./Server/Session/routes"
 require "./Server/Customer/routes"
 require "./Server/Screen_Name/routes"

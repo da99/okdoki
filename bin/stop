@@ -6,7 +6,7 @@ set -e
 PORT="$PORT"
 set -u
 
-cmd="node Server/App/app.js"
+cmd="node Server/Main/app.js"
 
 if [[ -n "$PORT" ]]
 then

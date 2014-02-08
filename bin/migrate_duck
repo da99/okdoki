@@ -8,7 +8,7 @@ set -u -e -o pipefail
 # mods=( Chat Website Folder Page Follow Feature_Pack RSS_Reader );
 mods=( Customer Screen_Name Headline Bot );
 
-export DUCK_TEMPLATE=$(pwd)/Server/App/duck_template.js
+export DUCK_TEMPLATE=$(pwd)/Server/Main/duck_template.js
 bin="$(pwd)/node_modules/duck_duck_duck/bin/duck_duck_duck"
 
 

@@ -1,6 +1,6 @@
 
 require "./tests/helpers"
-require "./Server/Ok/model"
+require "./Server/Main/model"
 
 class My_Model
   include Ok::Model

@@ -33,7 +33,7 @@ exec('bin/client_files', function (err, raw_o, raw_e) {
     map[key] = parseInt(data[1]);
   }
 
-  var data_file = "Server/App/file_times.js";
+  var data_file = "Server/Main/file_times.js";
   fs.writeFile(data_file, "exports.data = " + JSON.stringify(map, null, " "), function (err) {
     if (err)
       throw err;

@@ -1,4 +1,4 @@
-require "./Server/Bot_Code/model"
+require "./Server/Screen_Name_Code/model"
 
 class Screen_Name
 
@@ -51,9 +51,9 @@ class Screen_Name
                       ^, :sn_id=>id].all
                     ).map { |b| [b.id, b] } ]
 
-                    codes = Bot_Code.new(DB[%^
+                    codes = Screen_Name_Code.new(DB[%^
                       SELECT *
-                      FROM bot_code
+                      FROM screen_name_code
                       WHERE bot_id IN :ids
                     ^, :ids=>bots.keys].all)
 

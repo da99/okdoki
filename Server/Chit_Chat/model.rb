@@ -12,7 +12,7 @@
 #
 #
 
-require './Server/Ok/model'
+require './Server/Main/model'
 
 require_crutd :Chit_Chat
 
