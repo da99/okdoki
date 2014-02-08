@@ -1,6 +1,6 @@
 
-require './Server/Main/model'
-require './Server/Main/Escape_All'
+require './Server/Okdoki/model'
+require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
 require_crutd :Screen_Name_Code

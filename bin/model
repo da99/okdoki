@@ -17,20 +17,20 @@ compile_all () {
   mkdir -p tests/$class
 
 
-  tmpl="Server/Main/templates/model.rb"
+  tmpl="Server/Okdoki/templates/model.rb"
   template model "Server/$class/model.rb"
 
-  tmpl="Server/Main/templates/model.action.rb"
+  tmpl="Server/Okdoki/templates/model.action.rb"
   template create "Server/$class/model/create.rb"
   template read   "Server/$class/model/read.rb"
   template update "Server/$class/model/update.rb"
   template trash  "Server/$class/model/trash.rb"
   template delete "Server/$class/model/delete.rb"
 
-  tmpl="Server/Main/templates/routes.rb"
+  tmpl="Server/Okdoki/templates/routes.rb"
   template route "Server/$class/routes.rb"
 
-  tmpl="Server/Main/templates/test.rb"
+  tmpl="Server/Okdoki/templates/test.rb"
   template test "tests/$class/01-create.rb"    "create"
   template test "tests/$class/02-read.rb"      "read"
   template test "tests/$class/03-update.rb"    "update"

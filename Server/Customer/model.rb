@@ -1,5 +1,5 @@
 
-require './Server/Main/model'
+require './Server/Okdoki/model'
 require './Server/Screen_Name/model'
 require './Server/Customer/Log_In_By_IP'
 

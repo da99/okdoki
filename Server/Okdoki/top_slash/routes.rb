@@ -13,7 +13,7 @@ get "/" do
       :is_owner     => logged_in?
     }
   else
-    html 'Main/top_slash', {
+    html 'Okdoki/top_slash', {
       title: 'OkDoki.com',
       YEAR: Time.now.year
     }

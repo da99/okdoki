@@ -1,10 +1,10 @@
 require 'sequel'
 DB = Sequel.connect(ENV['DATABASE_URL'])
 
-require './Server/Main/Validate'
-require './Server/Main/helpers/Helpers'
-require './Server/Main/List'
-require './Server/Main/PG'
+require './Server/Okdoki/Validate'
+require './Server/Okdoki/helpers/Helpers'
+require './Server/Okdoki/List'
+require './Server/Okdoki/PG'
 
 CRUTD_Actions = [:create, :read, :update, :trash, :delete]
 

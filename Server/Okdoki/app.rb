@@ -18,23 +18,23 @@ use Rack::Protection::RemoteReferrer   # 5
 
 # --- Order matters because they set up middelware ---
 require './Server/Session/middleware'        # 0
-require './Server/Main/middleware/Deserialize_User' # 0.1
-require './Server/Main/middleware/As_This_Life'   # 0.2
-require './Server/Main/Escape_All'     # 1
-require './Server/Main/helpers/CSRF'           # 2
-require './Server/Main/helpers/json'   # 3
-require './Server/Main/helpers/html'    # 4
-require './Server/Main/middleware/Bool_Params'    # 5
-require './Server/Main/middleware/No_Cache'       # 6
+require './Server/Okdoki/middleware/Deserialize_User' # 0.1
+require './Server/Okdoki/middleware/As_This_Life'   # 0.2
+require './Server/Okdoki/Escape_All'     # 1
+require './Server/Okdoki/helpers/CSRF'           # 2
+require './Server/Okdoki/helpers/json'   # 3
+require './Server/Okdoki/helpers/html'    # 4
+require './Server/Okdoki/middleware/Bool_Params'    # 5
+require './Server/Okdoki/middleware/No_Cache'       # 6
 # ----------------------------------------------------
 
 # --- Siantra Helpers --------------------------------
-require './Server/Main/helpers/logic_for'
+require './Server/Okdoki/helpers/logic_for'
 require './Server/Session/helpers'
 # ----------------------------------------------------
 
 # --- Init the DB Connection -------------------------
-require './Server/Main/model'
+require './Server/Okdoki/model'
 
 # --- The Models -------------------------------------
 %w{ Customer Screen_Name }.each { |m|
@@ -42,7 +42,7 @@ require './Server/Main/model'
 }
 
 # --- The Routes -------------------------------------
-require "./Server/Main/top_slash/routes"
+require "./Server/Okdoki/top_slash/routes"
 require "./Server/Session/routes"
 require "./Server/Customer/routes"
 require "./Server/Screen_Name/routes"

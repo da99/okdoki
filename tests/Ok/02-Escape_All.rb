@@ -1,6 +1,6 @@
 
 require "./tests/helpers"
-require "./Server/Main/Escape_All"
+require "./Server/Okdoki/Escape_All"
 
 describe ":clean_utf8" do
 

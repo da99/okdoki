@@ -1,5 +1,5 @@
 
-require "./Server/Main/app"
+require "./Server/Okdoki/app"
 require 'escape_utils/html/rack' # to patch Rack::Utils
 require 'escape_utils/html/cgi' # to patch CGI
 
