@@ -39,6 +39,15 @@ function process_the_css {
   fi
 }
 
+# ==== Clear all Public/temp files
+echo -e "=== Removing files in $PUBLIC\n"
+for f in $PUBLIC/*
+do
+  if [[ "$f" == *__* ]]; then
+    rm "$f"
+  fi
+done
+
 # ==== Find all logics using order.txt file:
 files=$( $UP/util/files_with_ext Server/ /order.txt )
 for f in $files
