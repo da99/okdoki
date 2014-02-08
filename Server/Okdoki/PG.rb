@@ -1,6 +1,6 @@
 
 
-module Ok
+module Okdoki
   module Model
     module PG
       UTC_NOW_RAW  = "timezone('UTC'::text, now())"
@@ -8,4 +8,4 @@ module Ok
       UTC_NOW_DATE = ::Sequel.lit("CURRENT_DATE")
     end # === module Sequel ===
   end # === module Model ===
-end # === module Ok ===
+end # === module Okdoki ===

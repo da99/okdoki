@@ -1,5 +1,5 @@
 
-module Ok
+module Okdoki
 
   class Validate
 
@@ -173,7 +173,7 @@ module Ok
 
   end # === class Validate_Empty
 
-end # === module Ok
+end # === module Okdoki
 
 
 

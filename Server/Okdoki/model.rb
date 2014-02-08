@@ -14,7 +14,7 @@ def require_crutd klass
   }
 end
 
-module Ok
+module Okdoki
 
   # =====================================================
   # Errors
@@ -168,7 +168,7 @@ module Ok
 
   end # === module Model ===
 
-end # === module Ok ===
+end # === module Okdoki ===
 
 
 

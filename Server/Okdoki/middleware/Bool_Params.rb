@@ -1,5 +1,5 @@
 
-module Ok
+module Okdoki
   class Bool_Params
 
     def initialize app, options = nil
@@ -21,7 +21,7 @@ module Ok
     end
 
   end # === class Bool_Params ===
-end # === module Ok ===
+end # === module Okdoki ===
 
 if respond_to?(:use, true)
 

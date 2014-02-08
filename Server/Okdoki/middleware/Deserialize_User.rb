@@ -1,5 +1,5 @@
 
-module Ok
+module Okdoki
   class Deserialize_User
 
     def initialize app, options = nil
@@ -21,7 +21,7 @@ module Ok
     end
 
   end # === class Deserialize_User ===
-end # === module Ok ===
+end # === module Okdoki ===
 
 if respond_to?(:use, true)
   use Ok::Deserialize_User

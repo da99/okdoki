@@ -27,7 +27,7 @@ require "uri"
 # =====================================================================
 
 
-module Ok
+module Okdoki
   module Escape_All
 
     Underscore_URI_KEY = /_(uri|url|href)$/

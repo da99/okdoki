@@ -1,5 +1,5 @@
 
-module Ok
+module Okdoki
   module Model
 
     #
@@ -46,4 +46,4 @@ module Ok
 
     end # === module Enumerable ===
   end # === module Model ===
-end # === module Ok ===
+end # === module Okdoki ===

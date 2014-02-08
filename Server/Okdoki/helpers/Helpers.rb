@@ -1,5 +1,5 @@
 
-module Ok
+module Okdoki
 
   module Helpers
 
@@ -52,4 +52,4 @@ module Ok
 
   end # === Miscel
 
-end # === module Ok
+end # === module Okdoki

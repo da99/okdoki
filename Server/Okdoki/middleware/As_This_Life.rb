@@ -5,7 +5,7 @@
 #
 #
 
-module Ok
+module Okdoki
   class As_This_Life
 
     def initialize app, options = nil
@@ -37,7 +37,7 @@ module Ok
     end
 
   end # === class As_This_Life ===
-end # === module Ok ===
+end # === module Okdoki ===
 
 
 if respond_to?(:use, true)

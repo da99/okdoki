@@ -1,5 +1,5 @@
 
-module Ok
+module Okdoki
 
   class No_Cache
 
@@ -22,6 +22,6 @@ module Ok
 
   end # === class No_Cache ===
 
-end # === module Ok ===
+end # === module Okdoki ===
 
 use Ok::No_Cache if respond_to?(:use, true)
