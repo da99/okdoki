@@ -44,6 +44,9 @@ case "$action" in
   reset)
     bin/migrate down "$model"
     bin/migrate up   "$model"
+    bin/migrate beginning_data
+    echo "=== DONE ==="
+    echi ""
     ;;
 
   up)

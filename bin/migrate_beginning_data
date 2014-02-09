@@ -8,7 +8,20 @@ require './Server/Okdoki/model'
   require "./Server/#{m}/model"
 }
 
-puts Customer.read_by_id(1)
+c = Customer.create(
+  :ip                =>'127.0.0.1',
+  :pass_word         =>'i hate this',
+  :confirm_pass_word =>'i hate this',
+  :screen_name       =>'ted_'
+)
+puts "=== Created: #{c.screen_names.first.screen_name}"
 
+c = Customer.create(
+  :ip                =>'127.0.0.1',
+  :pass_word         =>'i hate this',
+  :confirm_pass_word =>'i hate this',
+  :screen_name       =>'machine_publisher'
+)
+puts "=== Created: #{c.screen_names.first.screen_name}"
 
 
