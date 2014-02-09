@@ -3,13 +3,13 @@ class Screen_Name_Code
 
   def create bot, raw
     @new_data = raw
-    validate(:target).required
+    validate(:screen_name_id).required
     validate(:code).required
 
     begin
       row = TABLE.
         returning.
-        insert(bot_id: bot.id, target: clean_data[:target], code: clean_data[:code]).
+        insert(screen_name_id: clean_data[:screen_name_id], code: clean_data[:code]).
         first
 
       Screen_Name_Code.new(row, bot)

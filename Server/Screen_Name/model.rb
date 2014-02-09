@@ -2,6 +2,8 @@
 require './Server/Okdoki/model'
 require './Server/Screen_Name/List'
 require "./Server/I_Know_Them/model"
+require './Server/Okdoki/Escape_All'
+require 'multi_json'
 
 require_crutd :Screen_Name
 
@@ -103,6 +105,9 @@ class Screen_Name
         clean('strip', 'upcase').
         match(VALID, VALID_ENGLISH).
         not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
+    when :code
+      super(key).
+        set_to(MultiJson.dump Okdoki::Escape_All.escape(clean_data[:code]))
     when :type_id
       super(*args).
         clean('to_i').

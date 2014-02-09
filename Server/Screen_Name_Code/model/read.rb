@@ -9,6 +9,10 @@ class Screen_Name_Code
 
   end # === class self ===
 
+  def code
+    data[:code]
+  end
+
 end # === class Screen_Name_Code read ===
 
 

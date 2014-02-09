@@ -7,6 +7,7 @@ CREATE TABLE screen_name (
   screen_name    character varying(30) NOT NULL,
   display_name   character varying(30) NOT NULL,
   nick_name      character varying(30) DEFAULT NULL::character varying,
+  code           text,
   about          text,
   created_at     timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   trashed_at     timestamp with time zone,
