@@ -5,7 +5,6 @@ var latest_body = null;
 
 $(function () {
 
-
   latest = $('body.logged_in #latest');
   latest_body = latest.find('div.body');
   latest.each(function(i, ele) {

@@ -29,3 +29,12 @@ Complexity
     Unique ids, same table for SN, sub-SNs.
     <br />
     Different table for group based permission.
+
+F.A.Q.
+------
+
+* How are authorization for actions done at the model level?
+
+  The USER is obtained from the session and validations
+  are used to ensure USER is allowed to do the intended
+  action.
