@@ -29,8 +29,8 @@ class Screen_Name
   BEGIN_AT_OR_HASH    = /^(\@|\#)/
   ALL_WHITE_SPACE     = /\s+/
   VALID_CHARS         = "a-zA-Z0-9\\-\\_\\."
-  VALID               = /^[#{VALID_CHARS}]{4,15}$/i
-  VALID_ENGLISH       = "Screen name must be: 4-15 valid chars: 0-9 a-z A-Z _ - ."
+  VALID               = /^[#{VALID_CHARS}]{4,20}$/i
+  VALID_ENGLISH       = "Screen name must be: 4-20 valid chars: 0-9 a-z A-Z _ - ."
   INVALID             = /[^#{VALID_CHARS}]/
   Table_Name          = :screen_name
   TABLE               = DB[Table_Name]
@@ -41,6 +41,8 @@ class Screen_Name
     /^(ME|MINE|MY|MI|i)$/i,
     /^PET-/i,
     /^BOT-/i,
+    /^okjak/i,
+    /^okjon/i,
     /^(ONLINE|CONTACT|INFO|OFFICIAL|ABOUT|NEWS|HOME)$/i,
     /^(UNDEFINED|DEF|SEX|SEXY|XXX|TED|LARRY)$/i,
     /^[.]+-COLA$/i

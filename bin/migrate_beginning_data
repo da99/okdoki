@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+#
+#
+
+require './Server/Okdoki/model'
+
+%w{ Customer Screen_Name }.each { |m|
+  require "./Server/#{m}/model"
+}
+
+puts Customer.read_by_id(1)
+
+
+

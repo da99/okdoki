@@ -32,6 +32,10 @@ case "$action" in
     bin/migrate_create "$model" "$@"
     ;;
 
+  beginning_data)
+    bin/migrate_beginning_data
+    ;;
+
   list)
     echo "not ready"
     echo 1
