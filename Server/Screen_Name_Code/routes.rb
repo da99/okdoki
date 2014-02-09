@@ -1,29 +1,29 @@
 
-require './Server/Bot_Code/model'
+require './Server/Screen_Name_Code/model'
 
 # ============ CREATE ===============================================
 
-post "/Bot_Code" do
+post "/Screen_Name_Code" do
 
   begin
-    Bot_Code.create(params)
-  rescue Bot_Code::Invalid =>e
+    Screen_Name_Code.create(params)
+  rescue Screen_Name_Code::Invalid =>e
     json false, e.msg
   end
 
-end # === post /Bot_Code
+end # === post /Screen_Name_Code
 
 # ============ READ =================================================
 
-get "/Bot_Code/:id" do
+get "/Screen_Name_Code/:id" do
 
   begin
-    Bot_Code.read(params)
-  rescue Bot_Code::Not_Found =>e
+    Screen_Name_Code.read(params)
+  rescue Screen_Name_Code::Not_Found =>e
     json false, e.msg
   end
 
-end # === get /Bot_Code/:id
+end # === get /Screen_Name_Code/:id
 
 
 # ============ UPDATE ===============================================

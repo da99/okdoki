@@ -1,10 +1,10 @@
 
-class Bot_Code
+class Screen_Name_Code
 
   def update
   end # === def update
 
-end # === class Bot_Code update ===
+end # === class Screen_Name_Code update ===
 
 
 

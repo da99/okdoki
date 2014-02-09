@@ -5,7 +5,7 @@ require 'multi_json'
 
 require_crutd :Screen_Name_Code
 
-class Bot_Code
+class Screen_Name_Code
 
   include Okdoki::Model
 
@@ -14,7 +14,7 @@ class Bot_Code
   # Settings
   # =====================================================
 
-  Table_Name = :bot_code
+  Table_Name = :screen_name_code
   TABLE = DB[Table_Name]
   TYPES = %w{
     custom
@@ -61,14 +61,14 @@ class Bot_Code
         set_to(MultiJson.dump Okdoki::Escape_All.escape(clean_data[:code]))
     when :target
       super(key).
-        in(Bot_Code::TYPES, "'target' must be one of these: #{Bot_Code::TYPES.join ', '}").
-        set_to(Bot_Code::TYPES.index(clean_data[key]))
+        in(Screen_Name_Code::TYPES, "'target' must be one of these: #{Screen_Name_Code::TYPES.join ', '}").
+        set_to(Screen_Name_Code::TYPES.index(clean_data[key]))
     else
       super
     end
   end
 
-end # === class Bot_Code ===
+end # === class Screen_Name_Code ===
 
 
 

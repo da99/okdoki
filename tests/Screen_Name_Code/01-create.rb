@@ -1,34 +1,34 @@
 
 require './tests/helpers'
-require './Server/Bot_Code/model'
+require './Server/Screen_Name_Code/model'
 
 include Screen_Name::Test
 
 O = create
 S = O[:sn]
 B = S.create :bot
-C = Bot_Code.create B, target: 'custom', code: ['<b>hello</b>', []]
+C = Screen_Name_Code.create B, target: 'custom', code: ['<b>hello</b>', []]
 
-describe "Bot_Code: create" do
+describe "Screen_Name_Code: create" do
 
   it "raises an error if bot.id is null" do
     lambda {
-      Bot_Code.create Bot.new({}), target: 'custom', code: ['hello', []]
+      Screen_Name_Code.create Bot.new({}), target: 'custom', code: ['hello', []]
     }.should.raise(Sequel::NotNullConstraintViolation).
       message.should.match(/null value in column "bot_id"/)
   end
 
-  it "raises Bot_Code::Invalid if is dup: bot_id, target" do
+  it "raises Screen_Name_Code::Invalid if is dup: bot_id, target" do
     s = create[:sn]
     b = s.create :bot
     c = b.create :code, target: 'settings', code: ['hello', []]
     lambda {
       b.create :code, target: 'settings', code: ['hello', []]
-    }.should.raise(Bot_Code::Invalid).
+    }.should.raise(Screen_Name_Code::Invalid).
     message.should.match(/Bot code already exists for: #{s.name} settings/)
   end
 
-  it "does not raise Bot_Code::Invalid if dup: bot_id, target = custom" do
+  it "does not raise Screen_Name_Code::Invalid if dup: bot_id, target = custom" do
     s = create[:sn]
     b = s.create :bot
     c = b.create :code, target: 'custom', code: ['hello', []]
@@ -49,6 +49,6 @@ describe "Bot_Code: create" do
     assert :==, MultiJson.dump(Okdoki::Escape_All.escape ['<b>hello</b>', []]), C.code
   end
 
-end # === describe Bot_Code: create ===
+end # === describe Screen_Name_Code: create ===
 
 

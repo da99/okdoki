@@ -1,6 +1,6 @@
 
 require './tests/helpers'
-require './Server/Bot_Code/model'
+require './Server/Screen_Name_Code/model'
 
 include Screen_Name::Test
 
@@ -11,22 +11,22 @@ C = []
 C << B.create(:code, target: 'settings', code: [])
 C << B.create(:code, target: 'custom',   code: [])
 
-describe "Bot_Code: read_by_bot" do
+describe "Screen_Name_Code: read_by_bot" do
 
-  it "returns an Array of Bot_Code" do
-    arr = Bot_Code.read_all_for_bot(B)
+  it "returns an Array of Screen_Name_Code" do
+    arr = Screen_Name_Code.read_all_for_bot(B)
     arr.each { |b|
-      assert :==, Bot_Code, b.class
+      assert :==, Screen_Name_Code, b.class
     }
   end
 
   it "returns bots with :bot_id set to bot.id" do
-    arr = Bot_Code.read_all_for_bot(B)
+    arr = Screen_Name_Code.read_all_for_bot(B)
     arr.each { |b|
       assert :==, B.id, b.bot_id
     }
   end
 
-end # === describe Bot_Code: read ===
+end # === describe Screen_Name_Code: read ===
 
 
