@@ -46,7 +46,7 @@ case "$action" in
     bin/migrate up   "$model"
     bin/migrate beginning_data
     echo "=== DONE ==="
-    echi ""
+    echo ""
     ;;
 
   up)
