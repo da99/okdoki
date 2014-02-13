@@ -2,6 +2,13 @@
 #
 #
 
+ADMIN_PSWD = if ENV['IS_DEV']
+               "i hate this"
+             else
+               puts "Enter a password: "
+               STDIN.readline
+             end
+
 require './Server/Okdoki/model'
 
 %w{ Customer Screen_Name }.each { |m|
@@ -10,18 +17,17 @@ require './Server/Okdoki/model'
 
 c = Customer.create(
   :ip                =>'127.0.0.1',
-  :pass_word         =>'i hate this',
-  :confirm_pass_word =>'i hate this',
+  :pass_word         =>ADMIN_PSWD,
+  :confirm_pass_word =>ADMIN_PSWD,
   :screen_name       =>'ted_'
 )
-puts "=== Created: #{c.screen_names.first.screen_name}"
 
-c = Customer.create(
-  :ip                =>'127.0.0.1',
-  :pass_word         =>'i hate this',
-  :confirm_pass_word =>'i hate this',
-  :screen_name       =>'machine_publisher'
-)
-puts "=== Created: #{c.screen_names.first.screen_name}"
+c.create :screen_name, 'machine_publisher'
+
+puts %~
+=== Created: ===
+#{c.screen_names.map(&:screen_name).join "\n"}
+================
+~
 
 
