@@ -6,11 +6,16 @@ require './Server/Okdoki/helpers/Helpers'
 require './Server/Okdoki/List'
 require './Server/Okdoki/PG'
 
-CRUTD_Actions = [:create, :read, :update, :trash, :delete]
+CRUTD_Actions = [:create, :read, :update, :upsert, :trash, :delete]
 
 def require_crutd klass
   CRUTD_Actions.each { |action|
-    require "./Server/#{klass}/model/#{action}"
+    begin
+      file = "./Server/#{klass}/model/#{action}"
+      require file
+    rescue LoadError => e
+      raise e unless e.message["cannot load such file -- #{file}"]
+    end
   }
 end
 
