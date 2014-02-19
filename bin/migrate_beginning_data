@@ -22,7 +22,10 @@ c = Customer.create(
   :screen_name       =>"megauni"
 )
 
-c.create :screen_name, 'machine_publisher'
+sn = c.create :screen_name, 'machine_publisher'
+sn.upsert :code, 'on view profile', %~
+  ['success_msg', ['Welcome!']]
+~
 
 puts %~
 === Created: ===

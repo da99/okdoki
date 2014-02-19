@@ -1,7 +1,8 @@
 
 CREATE TABLE screen_name_code (
   screen_name_id integer PRIMARY KEY,
-  code        text      NOT NULL,
+  event_name  character varying(100)   NOT NULL,
+  code        text                     NOT NULL,
   created_at  timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at  timestamp with time zone
 );

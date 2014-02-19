@@ -65,6 +65,14 @@ class Screen_Name
     self.class.new(me.data.merge new_row)
   end # === def create
 
+  def upsert name, *args
+    case name
+    when :code
+      return Screen_Name_Code.upsert self, *args
+    else
+      raise  "Unknown option: #{name.inspect}"
+    end
+  end
 
 end # === class Screen_Name create ===
 
