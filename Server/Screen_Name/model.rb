@@ -101,10 +101,13 @@ class Screen_Name
   def validate *args
     case args.first
     when :screen_name
-      super(*args).
+      v = super(*args).
         clean('strip', 'upcase').
-        match(VALID, VALID_ENGLISH).
-        not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
+        match(VALID, VALID_ENGLISH)
+      unless ENV['ALLOW_BANNED_SCREEN_NAME'] == 'true'
+        v.not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
+      end
+      v
     when :code
       super(key).
         set_to(MultiJson.dump Okdoki::Escape_All.escape(clean_data[:code]))

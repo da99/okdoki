@@ -68,7 +68,7 @@ class Screen_Name
   def upsert name, *args
     case name
     when :code
-      return Screen_Name_Code.upsert self, *args
+      Screen_Name_Code.upsert self, *args
     else
       raise  "Unknown option: #{name.inspect}"
     end

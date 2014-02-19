@@ -44,7 +44,7 @@ case "$action" in
   reset)
     bin/migrate down "$model"
     bin/migrate up   "$model"
-    bin/migrate beginning_data
+    ALLOW_BANNED_SCREEN_NAME=true bin/migrate beginning_data
     echo "=== DONE ==="
     echo ""
     ;;
