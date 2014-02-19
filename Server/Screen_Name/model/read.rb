@@ -5,7 +5,7 @@ class Screen_Name
   class << self
 
     def read_by_id id
-      Screen_Name.new TABLE.limit(1)[:id=>id], "Screen name not found."
+      new TABLE.limit(1)[:id=>id], "Screen name not found."
     end
 
     def read_by_screen_names arr

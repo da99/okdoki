@@ -108,9 +108,6 @@ class Screen_Name
         v.not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
       end
       v
-    when :code
-      super(key).
-        set_to(MultiJson.dump Okdoki::Escape_All.escape(clean_data[:code]))
     when :type_id
       super(*args).
         clean('to_i').

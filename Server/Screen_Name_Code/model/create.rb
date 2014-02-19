@@ -4,6 +4,7 @@ class Screen_Name_Code
   def create bot, raw
     @new_data = raw
     validate(:screen_name_id).required
+    validate(:event_name_id)
     validate(:code).required
 
     begin

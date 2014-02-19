@@ -38,3 +38,15 @@ F.A.Q.
   The USER is obtained from the session and validations
   are used to ensure USER is allowed to do the intended
   action.
+
+* How do I create a :read method?
+
+        class Screen_Name
+          class << self
+            def read_by_something something
+              new TABLE.limit(1)[:something=>something], "Screen name not found."
+            end
+          end
+        end
+
+
