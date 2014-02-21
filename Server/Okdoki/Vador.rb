@@ -170,14 +170,11 @@ module Okdoki
     meths = Vador.public_instance_methods - Vador::IGNORE_METHODS
 
     meths.each { |meth|
-      case meth
-      else
-        class_eval %!
-          def #{meth} *args
-            self
-          end
-        !
-      end
+      class_eval %!
+        def #{meth} *args
+          self
+        end
+      !
     }
 
     def initialize model, name, data = {}
