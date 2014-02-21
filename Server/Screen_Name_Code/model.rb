@@ -1,5 +1,7 @@
 
 require './Server/Okdoki/model'
+require './Server/Okdoki/Escape_All'
+require 'multi_json'
 
 require_crutd :Screen_Name_Code
 
@@ -48,6 +50,19 @@ class Screen_Name_Code
     else
       raise ArgumentError, "Only 1 or 2 args allowed: #{args.inspect}"
     end
+  end
+
+  #
+  # Requires hash[:screen_name]
+  #
+  def validate_screen_name_id hash
+    sn_o  = hash[:screen_name]
+    sn_id = sn_o.id
+
+    hash[:screen_name_id] = Integer(sn_id) rescue 0
+    invalid_new("Invalid screen name: #{sn_o.screen_name}") unless hash[:screen_name_id].is_a? > 0
+
+    hash
   end
 
   def validate_code hash
