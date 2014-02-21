@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+# === Examples:
+#     template model Screen_Name "new/file.rb"
+#     template test  Screen_Name "tests/Screen_Name/new/file.rb"
+#     template test  Screen_Name "tests/Screen_Name/new/file.rb" create
+#
+set -u -e -o pipefail
+
+
+action="$1"
+shift
+
+class="$1"
+shift
+
+new_file="$1"
+shift
+
+sub_action="$@"
+tmpl="Server/Okdoki/templates/$action.rb"
+instance="$(echo $class | tr '[A-Z]' '[a-z]')"
+
+if [[ -f "$new_file" ]]
+then
+  $yellow "=== already exists: $new_file"
+else
+
+  # === Create the dir(s) if needed:
+  mkdir -p "$(dirname "$new_file")"
+
+  # === Replace template "vars":
+  sed "s/MODEL/$class/g"  "$tmpl" >> "$new_file"
+  sed "s/!model/$instance/g"           -i "$new_file"
+  sed "s/!action/$action/g"            -i "$new_file"
+
+  if [[ ! -z "$sub_action" ]]
+  then
+    sed "s/!sub_action/$sub_action/g"    -i "$new_file"
+  fi
+
+  # === Show finish message:
+  echo "=== created: $new_file"
+fi # === if file exists or not
+
+

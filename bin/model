@@ -18,49 +18,24 @@ compile_all () {
 
 
   tmpl="Server/Okdoki/templates/model.rb"
-  template model "Server/$class/model.rb"
+  bin/template model $class "Server/$class/model.rb"
 
   tmpl="Server/Okdoki/templates/model.action.rb"
-  template create "Server/$class/model/create.rb"
-  template read   "Server/$class/model/read.rb"
-  template update "Server/$class/model/update.rb"
-  template trash  "Server/$class/model/trash.rb"
-  template delete "Server/$class/model/delete.rb"
+  bin/template create $class "Server/$class/model/create.rb"
+  bin/template read   $class "Server/$class/model/read.rb"
+  bin/template update $class "Server/$class/model/update.rb"
+  bin/template trash  $class "Server/$class/model/trash.rb"
+  bin/template delete $class "Server/$class/model/delete.rb"
 
   tmpl="Server/Okdoki/templates/routes.rb"
-  template route "Server/$class/routes.rb"
+  bin/template route $class "Server/$class/routes.rb"
 
   tmpl="Server/Okdoki/templates/test.rb"
-  template test "tests/$class/01-create.rb"    "create"
-  template test "tests/$class/02-read.rb"      "read"
-  template test "tests/$class/03-update.rb"    "update"
-  template test "tests/$class/04-trash.rb"     "trash"
-  template test "tests/$class/05-delete.rb"    "delete"
-
-}
-
-template () {
-  action="$1"
-  shift
-
-  new_file="$1"
-  shift
-
-  sub_action="$@"
-
-  if [[ -f "$new_file" ]]
-  then
-    $yellow "=== already exists: $new_file"
-  else
-    sed "s/MODEL/$class/g"  "$tmpl" >> "$new_file"
-    sed "s/!model/$instance/g"           -i "$new_file"
-    sed "s/!action/$action/g"            -i "$new_file"
-    if [[ ! -z "$sub_action" ]]
-    then
-      sed "s/!sub_action/$sub_action/g"    -i "$new_file"
-    fi
-    echo "=== created: $new_file"
-  fi
+  bin/template test $class "tests/$class/01-create.rb"    "create"
+  bin/template test $class "tests/$class/02-read.rb"      "read"
+  bin/template test $class "tests/$class/03-update.rb"    "update"
+  bin/template test $class "tests/$class/04-trash.rb"     "trash"
+  bin/template test $class "tests/$class/05-delete.rb"    "delete"
 
 }
 
