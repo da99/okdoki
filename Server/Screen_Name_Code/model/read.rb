@@ -26,6 +26,10 @@ class Screen_Name_Code
 
   end # === class self ================
 
+  def id
+    data[:id]
+  end
+
   def code
     data[:code]
   end
