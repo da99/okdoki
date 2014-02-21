@@ -17,6 +17,16 @@ describe "Screen_Name_Code: update" do
       should == str
   end
 
+  it "escapes :code" do
+    r = Screen_Name_Code.create @sn, "on view profile", "[]"
+
+    code = ['a', ["\""]]
+    r.update :code=> MultiJson.dump(code)
+
+    Screen_Name_Code::TABLE.where(id: r.id).first[:code].
+      should == MultiJson.dump(Okdoki::Escape_All.escape code)
+  end
+
 end # === describe Screen_Name_Code: update ===
 
 
