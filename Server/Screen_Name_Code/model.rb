@@ -74,10 +74,11 @@ class Screen_Name_Code
   end
 
   def validate_event_name_id hash
+    key = EVENT_NAMES.key(hash[:event_name]) || hash[:event_name_id]
     Okdoki::Vador.new(self, :event_name_id, hash).
-      clean(:strip, :upcase).
+      set_to(key).
       set_to_integer.
-      match(EVENT_NAMES.keys, 'Invalid event name for code.').
+      in(EVENT_NAMES.keys, 'Invalid event name.').
       data
   end
 

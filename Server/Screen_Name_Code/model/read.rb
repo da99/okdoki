@@ -5,8 +5,12 @@ class Screen_Name_Code
 
     # === Helpers =====================
 
+    def to_event_name_id name
+      EVENT_NAMES.key(name) || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name: #{name.inspect}"))
+    end
+
     def to_event_name id
-      EVENT_NAMES[Integer id]
+      EVENT_NAMES[Integer id] || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name id: #{id.inspect}"))
     end
 
     # === READ methods ================
