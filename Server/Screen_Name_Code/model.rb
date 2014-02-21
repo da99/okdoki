@@ -69,7 +69,7 @@ class Screen_Name_Code
   end
 
   def validate_code hash
-    hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape hash[:code])
+    hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(hash[:code]))
     hash
   end
 
