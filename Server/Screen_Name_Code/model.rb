@@ -1,5 +1,6 @@
 
 require './Server/Okdoki/model'
+require './Server/Okdoki/Vador'
 require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
@@ -39,14 +40,16 @@ class Screen_Name_Code
   #   Screen_Name, data_hash
   #
   def initialize *args
-    @screen_name = nil
-    @data        = {}
     case args.size
+    when 0
+      @data        = {}
+      @screen_name = nil
     when 1
       @data = args.first
+      @screen_name = nil
     when 2
-      @screen_name = args.first
       @data = args.last
+      @screen_name = args.first
     else
       raise ArgumentError, "Only 1 or 2 args allowed: #{args.inspect}"
     end
@@ -60,7 +63,7 @@ class Screen_Name_Code
     sn_id = sn_o.id
 
     hash[:screen_name_id] = Integer(sn_id) rescue 0
-    invalid_new("Invalid screen name: #{sn_o.screen_name}") unless hash[:screen_name_id].is_a? > 0
+    invalid_new("Invalid screen name: #{sn_o.screen_name}") unless hash[:screen_name_id] > 0
 
     hash
   end

@@ -27,18 +27,18 @@ module Okdoki
 
     attr_reader :model, :name, :english_name
 
-    def initialize model, name, data
+    def initialize model, raw_name, raw_data
       @model           = model
-      @name            = name
-      @english_name    = @name.to_s.capitalize.gsub('_', ' ')
-      @clean_data      = data
-      key = if model.new_data.has_key?(name.to_s)
-              name.to_s
-            else
-              name
-            end
+      @name            = raw_name
+      str_name         = @name.to_s
+      @english_name    = str_name.capitalize.gsub('_', ' ')
+      @clean_data      = raw_data.dup
 
-      @clean_data[name]= model.new_data[key]
+      # === Force key to be a symbol:
+      if data.has_key?(str_name)
+        data[@name]= data[str_name]
+        data.delete(str_name)
+      end
     end
 
     def data
@@ -55,7 +55,7 @@ module Okdoki
     #   String.strip.empty? && Array.empty?
     #
     def required msg = nil
-      val = clean_data[name]
+      val = data[name]
       is_empty = !val || (val.kind_of?(String) && val.strip.empty?) || (val.respond_to?(:empty?) && val.empty?)
       raise invalid_new(msg || "#{english_name} is required." ) if is_empty
 
@@ -69,7 +69,7 @@ module Okdoki
     #
     # Accepts: a lambda that must return TRUE or FALSE
     def be l, msg
-      raise invalid_new(msg) unless (!! l.call(clean_data[name]))
+      raise invalid_new(msg) unless (!! l.call(data[name]))
       self
     end
 
@@ -77,11 +77,11 @@ module Okdoki
       args.each { |a|
         case a.to_s
         when 'strip'
-          clean_data[name] = (clean_data[name] || "").strip
+          data[name] = (data[name] || "").strip
         when 'upcase'
-          clean_data[name] = clean_data[name].upcase
+          data[name] = data[name].upcase
         when 'to_i'
-          clean_data[name] = clean_data[name].to_i
+          data[name] = data[name].to_i
         else
           raise "Unknown operation for :clean : #{a}"
         end
@@ -91,32 +91,32 @@ module Okdoki
     end # === def
 
     def at_most val, msg
-      raise invalid_new(msg) if clean_data[name].size > val
+      raise invalid_new(msg) if data[name].size > val
       self
     end
 
     def at_least val, msg
-      raise invalid_new(msg) if clean_data[name].size < val
+      raise invalid_new(msg) if data[name].size < val
       self
     end
 
     def set_to val, func = nil
       if func
-        (clean_data[name] = val) if func.call(clean_data[name])
+        (data[name] = val) if func.call(data[name])
       else
-        clean_data[name] = val
+        data[name] = val
       end
 
       self
     end
 
     def set_to_integer
-      clean_data[name] = Integer clean_data[name]
+      data[name] = Integer data[name]
       self
     end
 
     def equals val, msg
-      raise invalid_new(msg) if clean_data[name] != val
+      raise invalid_new(msg) if data[name] != val
       self
     end
 
@@ -136,14 +136,14 @@ module Okdoki
       end
 
       pats.each { |p|
-        raise invalid_new(msg) if clean_data[name].match(p)
+        raise invalid_new(msg) if data[name].match(p)
       }
 
       self
     end
 
     def in arr, msg = nil
-      raise invalid_new(msg) unless arr.include?(clean_data[name])
+      raise invalid_new(msg) unless arr.include?(data[name])
       self
     end
 
@@ -153,13 +153,13 @@ module Okdoki
       end
 
       pats.each { |p|
-        raise invalid_new(msg) unless clean_data[name].match(p)
+        raise invalid_new(msg) unless data[name].match(p)
       }
       self
     end
 
     def one_of_these arr, msg
-      raise invalid_new(msg) unless arr.index(clean_data[name])
+      raise invalid_new(msg) unless arr.index(data[name])
       self
     end
 
