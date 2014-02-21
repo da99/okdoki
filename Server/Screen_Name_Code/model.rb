@@ -74,7 +74,7 @@ class Screen_Name_Code
   end
 
   def validate_event_name_id hash
-    event_name_id = self.class.to_event_name_id(hash[:event_name]) rescue hash[:event_name_id]
+    event_name_id = self.class.to_event_name_id(hash[:event_name_id]) rescue hash[:event_name_id]
     Okdoki::Vador.new(self, :event_name_id, hash).
       set_to(event_name_id).
       set_to_integer.
