@@ -88,11 +88,6 @@ module Okdoki
       end
     end
 
-    def create new_data, *args
-      m = new
-      m.create new_data, *args
-    end
-
     def empty_trash
       self::TABLE.
         returning.
@@ -112,7 +107,7 @@ module Okdoki
 
   module Model
 
-    attr_reader :data, :clean_data, :new_data
+    attr_reader :data, :new_data
 
     class << self
 

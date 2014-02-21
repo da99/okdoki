@@ -1,6 +1,15 @@
 
 class Customer
 
+  class << self
+
+    def create *args
+      r = new
+      r.create *args
+    end
+
+  end # === class self ===
+
   def create new_vals, *args
 
     if new_vals == :screen_name

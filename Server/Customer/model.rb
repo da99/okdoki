@@ -8,6 +8,7 @@ require_crutd :Customer
 class Customer
 
   include Okdoki::Model
+  attr_reader :clean_data
 
   # =====================================================
   # Settings

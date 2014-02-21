@@ -11,6 +11,7 @@ class Screen_Name
 
   include Okdoki::Model
   extend Okdoki::Model_Extend
+  attr_reader :clean_data
 
   # =====================================================
   # Errors

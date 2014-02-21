@@ -1,6 +1,15 @@
 
 class Screen_Name
 
+  class << self
+
+    def create *args
+      r = new
+      r.create *args
+    end
+
+  end # === class self ===
+
   def create raw_data, *args
 
     case raw_data
@@ -54,10 +63,10 @@ class Screen_Name
 
     return me unless is_new_owner
 
-    # // ==== This is a new customer
-    # // ==== so we must use the screen name id
-    # // ==== as the owner_id because customer record
-    # // ==== has not been created.
+    # ==== This is a new customer
+    # ==== so we must use the screen name id
+    # ==== as the owner_id because customer record
+    # ==== has not been created.
     new_row = TABLE.returning.where(:id=>me.id).update(:owner_id=>me.id).first
     new_data[:customer].data[:id] = me.id
     new_data[:customer].screen_names.push me
