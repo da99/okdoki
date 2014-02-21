@@ -8,6 +8,8 @@ CREATE TABLE screen_name_code (
   updated_at  timestamp with time zone
 );
 
+CREATE UNIQUE INDEX unique_screen_name_id_to_event_name_id_idx ON screen_name_code (screen_name_id, event_name_id);
+
 -- DOWN
 
 DROP TABLE IF EXISTS screen_name_code;

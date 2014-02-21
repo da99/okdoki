@@ -21,7 +21,7 @@ describe "Screen_Name_Code: create" do
       Screen_Name_Code.create @sn, "on view profile", "[]"
     }.should.raise(Screen_Name_Code::Invalid).
     message.
-    should.match(/Event already exists:/)
+    should.match(/Code already exists for:/)
   end
 
 end # === describe Screen_Name_Code: create ===
