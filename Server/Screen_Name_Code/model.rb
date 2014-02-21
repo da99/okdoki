@@ -9,7 +9,7 @@ require_crutd :Screen_Name_Code
 class Screen_Name_Code
 
   EVENT_NAMES = {
-    1 => "on profile view"
+    1 => "ON VIEW PROFILE"
   }
 
   include Okdoki::Model
@@ -74,9 +74,9 @@ class Screen_Name_Code
   end
 
   def validate_event_name_id hash
-    key = EVENT_NAMES.key(hash[:event_name]) || hash[:event_name_id]
+    event_name_id = self.class.to_event_name_id(hash[:event_name]) rescue hash[:event_name_id]
     Okdoki::Vador.new(self, :event_name_id, hash).
-      set_to(key).
+      set_to(event_name_id).
       set_to_integer.
       in(EVENT_NAMES.keys, 'Invalid event name.').
       data

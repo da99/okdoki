@@ -6,7 +6,7 @@ class Screen_Name_Code
     # === Helpers =====================
 
     def to_event_name_id name
-      EVENT_NAMES.key(name) || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name: #{name.inspect}"))
+      EVENT_NAMES.key(name.to_s.strip.upcase) || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name: #{name.inspect}"))
     end
 
     def to_event_name id

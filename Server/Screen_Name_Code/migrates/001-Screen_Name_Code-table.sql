@@ -1,10 +1,10 @@
 
 CREATE TABLE screen_name_code (
-  id             serial   NOT NULL,
-  screen_name_id integer PRIMARY KEY,
+  id             serial   PRIMARY KEY,
+  screen_name_id integer                  NOT NULL,
   event_name_id  character varying(100)   NOT NULL,
-  code        text                     NOT NULL,
-  created_at  timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
+  code        text                        NOT NULL,
+  created_at  timestamp with time zone    NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at  timestamp with time zone
 );
 
