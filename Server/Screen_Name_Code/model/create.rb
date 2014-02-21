@@ -1,22 +1,37 @@
 
 class Screen_Name_Code
 
-  def create bot, raw
-    @new_data = raw
-    validate(:screen_name_id).required
-    validate(:event_name_id)
-    validate(:code).required
+  class << self
+
+    def create sn, event_name_id, code
+      r = new
+      r.create :screen_name => sn, :screen_name_id => sn.id, :event_name_id => event_name_id, :code => code
+    end
+
+  end # === class self ===
+
+  def create raw_data
+    data = [:screen_name_id, :event_name_id, :code].inject(raw_data) { |memo, n|
+      send :"validate_#{n}", memo
+    }
+
+    target_keys = [:screen_name_id, :event_name_id, :code]
+    data = data.keep_if { |k,v| target_keys.include?(k) }
 
     begin
       row = TABLE.
         returning.
-        insert(screen_name_id: clean_data[:screen_name_id], code: clean_data[:code]).
+        insert(data).
         first
 
-      Screen_Name_Code.new(row, bot)
+      Screen_Name_Code.new(raw_data[:screen_name], row)
     rescue Sequel::UniqueConstraintViolation => e
-      raise e unless e.message['duplicate key value violates unique constraint "screen_name_code_target_idx"']
-      raise Screen_Name_Code::Invalid.new(self, "Code already exists for: #{bot.screen_name} #{TYPES[clean_data[:target]]}")
+      if e.message['duplicate key value violates unique constraint "screen_name_code_target_idx"']
+        event_name = self.class.to_event_name(data[:event_name_id])
+        sn  = raw_data[:screen_name] && raw_data[:screen_name].screen_name
+        raise Screen_Name_Code::Invalid.new(self, "Code already exists for: #{sn} #{event_name}")
+      end
+      raise e
     end
   end # === def create
 

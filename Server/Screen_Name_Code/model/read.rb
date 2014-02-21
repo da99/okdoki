@@ -1,7 +1,15 @@
 
 class Screen_Name_Code
 
-  class << self
+  class << self # =====================
+
+    # === Helpers =====================
+
+    def to_event_name id
+      EVENT_NAMES[Integer id]
+    end
+
+    # === READ methods ================
 
     def read_all_for_bot bot
       Screen_Name_Code.new(TABLE.where(bot_id: bot.id).all)
@@ -12,7 +20,7 @@ class Screen_Name_Code
       new TABLE.limit(1)[:screen_name_id=>id, :event_name_id=>event_name_id]
     end
 
-  end # === class self ===
+  end # === class self ================
 
   def code
     data[:code]

@@ -30,6 +30,26 @@ class Screen_Name_Code
   # Instance
   # =====================================================
 
+  #
+  # Possible args:
+  #
+  #   data_hash
+  #   Screen_Name, data_hash
+  #
+  def initialize *args
+    @screen_name = nil
+    @data        = {}
+    case args.size
+    when 1
+      @data = args.first
+    when 2
+      @screen_name = args.first
+      @data = args.last
+    else
+      raise ArgumentError, "Only 1 or 2 args allowed: #{args.inspect}"
+    end
+  end
+
   def validate_code hash
     hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape hash[:code])
     hash
