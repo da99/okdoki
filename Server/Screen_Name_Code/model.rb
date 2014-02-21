@@ -6,7 +6,7 @@ require_crutd :Screen_Name_Code
 class Screen_Name_Code
 
   EVENT_NAMES = {
-    1 => "profile view"
+    1 => "on profile view"
   }
 
   include Okdoki::Model
@@ -30,23 +30,17 @@ class Screen_Name_Code
   # Instance
   # =====================================================
 
-  def validate *args
-    case args.first
+  def validate_code hash
+    hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape hash[:code])
+    hash
+  end
 
-    when :code
-      super.
-        set_to(MultiJson.dump Okdoki::Escape_All.escape(clean_data[:code]))
-
-    when :event_name_id
-      super.
-        clean('strip', 'upcase').
-        set_to(Integer clean_data[:event_name_id]).
-        match(EVENT_NAMES.keys, 'Invalid event name for code.')
-
-    else
-      super
-
-    end
+  def validate_event_name_id hash
+    Okdoki::Vador.new(self, :event_name_id, hash).
+      clean(:strip, :upcase).
+      set_to_integer.
+      match(EVENT_NAMES.keys, 'Invalid event name for code.').
+      data
   end
 
 end # === class Screen_Name_Code ===
