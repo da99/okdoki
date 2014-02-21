@@ -110,8 +110,12 @@ module Okdoki
       self
     end
 
-    def set_to_integer
-      data[name] = Integer data[name]
+    def set_to_integer msg = nil
+      data[name] = begin
+                     Integer data[name]
+                    rescue ArgumentError => e
+                      raise invalid_new(msg || "Integer required: #{data[name].inspect}")
+                    end
       self
     end
 
