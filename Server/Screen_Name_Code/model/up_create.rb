@@ -11,7 +11,7 @@ class Screen_Name_Code
         row.update(:code=>code)
         row
       rescue Screen_Name_Code::Not_Found
-        create(sn.id, event_name_id, code)
+        create(sn, event_name_id, code)
       end
     end
 
