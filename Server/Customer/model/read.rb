@@ -5,6 +5,10 @@ class Customer
 
   class << self
 
+    def read_by_serialized sn
+      Screen_Name.read_by_screen_name(sn).owner
+    end
+
     def read_by_id id
       new TABLE.limit(1)[id: id]
     end # === def
