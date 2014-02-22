@@ -20,7 +20,10 @@ class Screen_Name_Code
     end
 
     def read_by_screen_name_id_and_event_name_id id, raw_event_name_id
-      new TABLE.limit(1)[:screen_name_id=>id, :event_name_id=>raw_event_name_id]
+      new TABLE.
+        where(:screen_name_id=>id, :event_name_id=>raw_event_name_id).
+        limit(1).
+        first
     end
 
   end # === class self ================

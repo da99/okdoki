@@ -40,19 +40,12 @@ class Screen_Name_Code
   #   Screen_Name, data_hash
   #
   def initialize *args
-    case args.size
-    when 0
-      @data        = {}
-      @screen_name = nil
-    when 1
-      @data = args.first
-      @screen_name = nil
-    when 2
-      @data = args.last
-      @screen_name = args.first
-    else
-      raise ArgumentError, "Only 1 or 2 args allowed: #{args.inspect}"
-    end
+    @screen_name = if args.size == 2
+                     args.pop
+                   else
+                     nil
+                   end
+    super(*args)
   end
 
   #
