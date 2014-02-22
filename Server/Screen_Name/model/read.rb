@@ -4,6 +4,17 @@ class Screen_Name
 
   class << self
 
+    def read *args
+      case args.size
+      when 1
+        case args.first
+        when Customer
+          return read_list_by_customer args.first
+        end
+      end
+      raise "Go back and correct your args."
+    end
+
     def read_by_id id
       new TABLE.limit(1)[:id=>id], "Screen name not found."
     end

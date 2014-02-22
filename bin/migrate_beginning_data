@@ -30,7 +30,7 @@ Screen_Name_Code.create sn, 'on view profile', %~
 
 puts %~
 === Created: ===
-#{c.screen_names.map(&:screen_name).join "\n"}
+#{Screen_Name.read(c).map(&:screen_name).join "\n"}
 ================
 ~
 
