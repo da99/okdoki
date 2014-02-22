@@ -5,8 +5,8 @@ require './Server/Screen_Name_Code/model'
 describe "Screen_Name_Code: create" do
 
   before do
-    @sn = Screen_Name_Test.screen_name(1)
     Screen_Name_Code::TABLE.delete
+    @sn = Screen_Name_Test.screen_name(1)
   end
 
   it "creates a record with :screen_name_id == id of owner" do

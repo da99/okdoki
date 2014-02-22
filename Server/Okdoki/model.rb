@@ -6,7 +6,7 @@ require './Server/Okdoki/helpers/Helpers'
 require './Server/Okdoki/List'
 require './Server/Okdoki/PG'
 
-CRUTD_Actions = [:create, :read, :update, :upsert, :trash, :delete]
+CRUTD_Actions = [:create, :read, :update, :trash, :delete, :up_create]
 
 def require_crutd klass
   CRUTD_Actions.each { |action|
