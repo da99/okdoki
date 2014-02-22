@@ -3,6 +3,7 @@
 #
 skip=$1
 fast_file="$(echo tests/$1/*-$2.rb)"
+fast_dir="$(echo tests/$1)"
 
 set -e -u -o pipefail
 
@@ -13,6 +14,14 @@ if [[ -f "$fast_file" ]]; then
   exit 0
 fi
 
+if [[ -d "$fast_dir" ]]; then
+  shift
+  for d in "$fast_dir"/*
+  do
+    bin/bundle exec bacon $@ "$d"
+  done
+  exit 0
+fi
 
 if [[ "$skip" == "fast" ]]
 then
