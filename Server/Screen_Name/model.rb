@@ -104,7 +104,7 @@ class Screen_Name
     when :screen_name
       v = super(*args).
         clean('strip', 'upcase').
-        match(VALID, VALID_ENGLISH)
+        match(VALID, "Invalid: \"#{clean_data[:screen_name]}\". #{VALID_ENGLISH}")
       unless ENV['ALLOW_BANNED_SCREEN_NAME'] == 'true'
         v.not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
       end

@@ -17,7 +17,7 @@ describe 'create:' do
       ip: '000.00.00'
     }.should.raise(Screen_Name::Invalid).
     message.
-    should.match /Screen name must be: 4-15 valid chars/
+    should.match /Screen name must be: 4-\d\d valid chars/
 
   end # === it
 
@@ -31,7 +31,7 @@ describe 'create:' do
         ip: '00.000.000'
       )
     }.should.raise(Screen_Name::Invalid).
-    message.should.match /Screen name must be: 4-15 valid chars/
+    message.should.match /Screen name must be: 4-\d\d valid chars/
   end
 
   it 'checks min length of pass_word' do
