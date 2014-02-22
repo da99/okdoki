@@ -39,7 +39,22 @@ F.A.Q.
   are used to ensure USER is allowed to do the intended
   action.
 
-* How do I create a :read method on a model class?
+* How do I create a `:initialize` method on a model class?
+
+  Initialize all values other than `@data`. Then, call `super(@data)`
+  Doing it any other way increases the chance that you create
+  an instance with `@data = nil`.
+
+        def initialize *args
+          @screen_name = if args.size == 2
+                           args.pop
+                         else
+                           nil
+                         end
+          super(*args)
+        end
+
+* How do I create a `:read` method on a model class?
 
         class Screen_Name
           class << self
@@ -49,7 +64,7 @@ F.A.Q.
           end
         end
 
-* How do I create an :update method on a model class?
+* How do I create an `:update` method on a model class?
 
   Update the record, then `:merge!` w/ @data
         def update data
