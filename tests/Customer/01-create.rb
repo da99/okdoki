@@ -22,7 +22,7 @@ describe 'create:' do
   end # === it
 
   it 'checks max length of screen_name' do
-    screen_name = "12345678901234567890"
+    screen_name = "123456789012345678901234567"
     lambda {
       Customer.create(
         screen_name: screen_name,
