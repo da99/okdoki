@@ -41,7 +41,7 @@ class Screen_Name_Code
   #
   def initialize *args
     @screen_name = if args.size == 2
-                     args.pop
+                     args.shift
                    else
                      nil
                    end
