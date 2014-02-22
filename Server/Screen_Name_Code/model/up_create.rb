@@ -4,7 +4,7 @@ class Screen_Name_Code
 
   class << self
 
-    def upsert sn, raw_event_name_id, code
+    def up_create sn, raw_event_name_id, code
       begin
         row = Scree_Name_Code.read_by_screen_name_id_and_event_name_id(sn.id, event_name_id)
         row.update(:code=>code)
@@ -16,7 +16,7 @@ class Screen_Name_Code
 
   end # === class self ===
 
-end # === class Screen_Name_Code upsert ===
+end # === class Screen_Name_Code ===
 
 
 
