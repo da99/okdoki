@@ -39,7 +39,7 @@ F.A.Q.
   are used to ensure USER is allowed to do the intended
   action.
 
-* How do I create a :read method?
+* How do I create a :read method on a model class?
 
         class Screen_Name
           class << self
@@ -49,11 +49,25 @@ F.A.Q.
           end
         end
 
+* How do I create an :update method on a model class?
+
+  Update the record, then `:merge!` w/ @data
+        def update data
+          # Whatever you want.
+          # Then update @data
+          @data.merge!(
+             TABLE.returning.where(...).update(...).
+             first || {}
+          )
+        end
+
 * How do I test a file?
 
-        # --- Either one of the following:
+        # --- Either one of the following.
+        # --- They are all equivalent:
         bin/bundle exec bacon tests/MODEL/0X-action.rb
         bin/test   fast tests/MODEL/0X-action.rb
+        bin/test   MODEL action
 
         # --- or with `bin/migrate reset`:
         bin/test        tests/MODEL/0X-action.rb

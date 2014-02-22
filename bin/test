@@ -2,7 +2,15 @@
 # -*- bash -*-
 #
 skip=$1
+fast_file="$(echo tests/$1/*-$2.rb)"
+
 set -e -u -o pipefail
+
+if [[ -f "$fast_file" ]]; then
+  bin/bundle exec bacon "$fast_file"
+  exit 0
+fi
+
 
 if [[ "$skip" == "fast" ]]
 then
