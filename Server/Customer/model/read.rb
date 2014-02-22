@@ -68,7 +68,7 @@ class Customer
   end
 
   def to_href
-    Screen_Name.first.href
+    screen_names.first.href
   end
 
   def screen_names
