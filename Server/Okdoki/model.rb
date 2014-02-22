@@ -129,16 +129,11 @@ module Okdoki
       @clean_data = {}
       @new_data   = {}
 
-      if args.empty?
-        @data = {}
-      elsif
-        @data = args.first || {}
+      return @data = {} if args.empty?
+      return @data = args.first if args.first
 
-        # === record was not found
-        unless args.first
-          raise self.class::Not_Found.new(args.last || "#{self.class.english_name} not found.")
-        end
-      end
+      # === record was not found
+      raise self.class::Not_Found.new(args.last || "#{self.class.english_name} not found.")
     end
 
     def id
