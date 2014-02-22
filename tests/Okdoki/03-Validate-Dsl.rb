@@ -5,6 +5,17 @@ require "./Server/Okdoki/model"
 class My_Model
   include Okdoki::Model
 
+  class << self
+
+    def create *args
+      r = new
+      r.create *args
+    end
+
+  end # === class self ===
+
+  attr_reader :clean_data
+
   def create new_data
     @new_data = new_data
     validate(:hello).
