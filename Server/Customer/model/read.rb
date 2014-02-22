@@ -9,32 +9,13 @@ class Customer
       new TABLE.limit(1)[id: id]
     end # === def
 
-    def read_by_screen_name raw_sn
-      sn = Screen_Name.canonize(raw_sn)
-      rec = DB[
-        %^
-          SELECT *
-          FROM customer
-          WHERE id IN ( SELECT owner_id FROM screen_name WHERE screen_name = :sn LIMIT 1)
-          LIMIT 1
-        ^, :sn=>sn
-      ].first
-
-      if rec
-        new(rec)
-      else
-        Screen_Name.new(rec)
-      end
-
-    end # === def
-
     def read_by_screen_name_and_pass_word screen_name, pass_word, ip
 
       # === Check if too many bad attempts by ip address.
       ip_row = Log_In_By_IP.create_or_read_by_ip ip
 
       begin
-        c = read_by_screen_name(screen_name)
+        c = Screen_Name.read_by_screen_name(screen_name).owner
       rescue Screen_Name::Not_Found => e
         ip_row.inc_bad_log_in_count
         raise e

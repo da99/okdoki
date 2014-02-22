@@ -27,21 +27,10 @@ describe 'read_by_id:' do
 end # === describe read_by_id ===
 
 
-describe 'read_by_screen_name' do
-
-  it 'reads customer if passed screen name as string' do
-    o  = find_customer 1
-    c  = Customer.read_by_screen_name(o[:sn])
-    assert :==, o[:c].id, c.id
-  end
-
-end # === describe read_by_screen_name
-
-# Customer::Log_In_By_IP::TABLE.delete
-
 describe 'read_by_screen_name_and_pass_word' do
 
   before do
+    # Customer::Log_In_By_IP::TABLE.delete
     Customer::TABLE.
       update(bad_log_in_count: 0)
     Customer::Log_In_By_IP::TABLE.
