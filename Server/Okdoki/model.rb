@@ -174,7 +174,7 @@ module Okdoki
         @cache[args.first]
       when 2
         @cache[args.first] = args.last
-        args.first
+        args.last
       else
         raise "Too many args: #{args.inspect}"
       end
