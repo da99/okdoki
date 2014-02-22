@@ -22,7 +22,8 @@ c = Customer.create(
   :screen_name       =>"megauni"
 )
 
-sn = c.create :screen_name, 'machine_publisher'
+sn = Screen_Name.create c, 'machine_publisher'
+
 Screen_Name_Code.create sn, 'on view profile', %~
   ["success_msg", ["Welcome!"]]
 ~

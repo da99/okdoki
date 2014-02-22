@@ -11,12 +11,7 @@ class Customer
   end # === class self ===
 
   def create new_vals, *args
-
-    if new_vals == :screen_name
-      sn = Screen_Name.create :screen_name=>args.first, :customer=>self
-      screen_names [sn]
-      return sn
-    end
+    raise ":create no longer accepts #{new_vals.inspect}" if new_vals.is_a?(Symbol) 
 
     @new_data = new_vals
 

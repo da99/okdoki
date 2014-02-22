@@ -10,24 +10,19 @@ class Screen_Name
 
   end # === class self ===
 
-  def create raw_data, *args
+  #
+  # Possible args:
+  #   hash
+  #   customer, 'screen_name'
+  #
+  def create *args
+    raise ":create no longer accepts #{args.first.inspect}" if args.first.is_a?(Symbol)
 
-    case raw_data
-    when :bot
-      return( @bot = Bot.create self )
-    when :chit_chat
-      return Chit_Chat.create(self, *args)
-    when :i_know_them
-      return I_Know_Them.create(self, *args)
-    end
-
-    if raw_data == :bot_use
-      return Bot_Use.create(self, *args)
-    end
-
-    if raw_data == :i_know_them
-      return I_Know_Them.create(self, *args)
-    end
+    raw_data = if args.size == 2 && args.first.is_a?(Customer) && args.last.is_a?(String)
+                 {:customer=>args.first, :screen_name=>args.last}
+               else
+                 args.shift
+               end
 
     # === Validate the data.
     @new_data = raw_data
