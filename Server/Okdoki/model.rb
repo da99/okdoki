@@ -126,6 +126,7 @@ module Okdoki
     end
 
     def initialize *args
+      clear_cache
       @clean_data = {}
       @new_data   = {}
 
@@ -158,6 +159,25 @@ module Okdoki
         first
       @data.merge!( row ) if row
       self
+    end
+
+    def clear_cache
+      @cache = {}
+    end
+
+    def cache *args
+      @cache ||= {}
+      case args.size
+      when 0
+        raise "Not enough args."
+      when 1
+        @cache[args.first]
+      when 2
+        @cache[args.first] = args.last
+        args.first
+      else
+        raise "Too many args: #{args.inspect}"
+      end
     end
 
   end # === module Model ===

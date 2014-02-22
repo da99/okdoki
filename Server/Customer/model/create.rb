@@ -30,8 +30,6 @@ class Customer
       }).first
 
     c = self.class.new rec
-    c.screen_names [sn]
-
     c
   end # === create
 

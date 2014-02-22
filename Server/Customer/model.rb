@@ -36,10 +36,6 @@ class Customer
 
   def initialize *args
     super
-
-    if id
-      @screen_names = Screen_Name.read_list_by_customer(self)
-    end
   end
 
   # NOTE: We have to put newlines. In case of an error,

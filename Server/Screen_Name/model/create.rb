@@ -64,7 +64,7 @@ class Screen_Name
     # ==== has not been created.
     new_row = TABLE.returning.where(:id=>me.id).update(:owner_id=>me.id).first
     new_data[:customer].data[:id] = me.id
-    new_data[:customer].screen_names.push me
+    new_data[:customer].clear_cache
 
     self.class.new(me.data.merge new_row)
   end # === def create
