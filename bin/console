@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+#
+set -u -e -o pipefail
+
+
+
+bin/bundle exec irb \
+  -r ./Server/Okdoki/model                    \
+  -r ./Server/Customer/model                  \
+  -r ./Server/Screen_Name/model               \
+  -r ./Server/Screen_Name_Code/model          \
+  -r ./Server/Screen_Name_Code_Consume/model
+
+
