@@ -3,7 +3,7 @@ class Screen_Name_Code_Consume
 
   class << self
 
-    def upsert bot_sn, sn_id, raw_is_on
+    def up_create bot_sn, sn_id, raw_is_on
       is_on = !!raw_is_on
 
       update = %^
@@ -30,12 +30,11 @@ class Screen_Name_Code_Consume
       row ||= DB[insert, :bot_sn=>bot_sn, :sn_id=>sn_id, :is_on=>is_on].first
 
       Screen_Name_Code_Consume.new(row)
-    end # === def upsert
-
+    end # === def up_create
 
   end # === class self ===
 
-end # === class Screen_Name_Code_Consume update ===
+end # === class Screen_Name_Code_Consume up_create ===
 
 
 

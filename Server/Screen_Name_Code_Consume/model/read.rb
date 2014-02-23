@@ -8,6 +8,10 @@ class Screen_Name_Code_Consume
     data[:producer_id]
   end
 
+  def consumer_id
+    data[:consumer_id]
+  end
+
 end # === class Screen_Name_Code_Consume read ===
 
 
