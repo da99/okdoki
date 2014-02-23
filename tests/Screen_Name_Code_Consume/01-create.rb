@@ -2,24 +2,43 @@
 require './tests/helpers'
 require './Server/Screen_Name_Code_Consume/model'
 
-include Screen_Name::Test
-
-O1 = create
-S1 = O1[:sn]
-B1 = S1.create :bot
-
-O2 = create
-S2 = O2[:sn]
-U  = Screen_Name_Code_Consume.create S2, B1
+include Screen_Name_Test
 
 describe "Screen_Name_Code_Consume: create" do
 
-  it "creates a record with: sn_id = sn.id" do
-    assert :==, S2.id, U.data[:sn_id]
+  before do
+    Screen_Name_Code_Consume::TABLE.delete
+    @producer = Screen_Name_Test.owner(1)[:sn]
+    @consumer = Screen_Name_Test.owner(2)[:sn]
   end
 
-  it "creates a record with: bot_id = bot.id" do
-    assert :==, B1.id, U.data[:bot_id]
+  it "creates a record with: :producer_id" do
+    Screen_Name_Code_Consume.create @producer, @consumer
+    raw = Screen_Name_Code_Consume::TABLE.
+      where(:producer_id=>@producer.id, :consumer_id=>@consumer.id).
+      first
+    raw[:producer_id].should == @producer.id
+  end
+
+  it "creates a record with: :consumer_id" do
+    Screen_Name_Code_Consume.create @producer, @consumer
+    raw = Screen_Name_Code_Consume::TABLE.
+      where(:producer_id=>@producer.id, :consumer_id=>@consumer.id).
+      all
+    raw[:consumer_id].should == @consumer.id
+  end
+
+  it "raises Invalid if row already exists" do
+    lambda {
+      Screen_Name_Code_Consume.create @producer, @consumer
+      Screen_Name_Code_Consume.create @producer, @consumer
+    }.
+    should.
+    raise(Screen_Name_Code_Consume::Invalid).
+
+    message.
+    should.
+    match /Subscription already exists: #{@consumer.screen_name} -> #{@producer.screen_name}/
   end
 
 end # === describe Screen_Name_Code_Consume: create ===

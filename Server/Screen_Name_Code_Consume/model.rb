@@ -11,7 +11,7 @@ class Screen_Name_Code_Consume
   # Settings
   # =====================================================
 
-  Table_Name = self.to_s.downcase
+  Table_Name = self.to_s.downcase.to_sym
   TABLE = DB[Table_Name]
 
   # =====================================================
