@@ -7,11 +7,43 @@
 #     template test  Screen_Name "tests/Screen_Name/new/file.rb"
 #     template test  Screen_Name "tests/Screen_Name/new/file.rb" create
 #
-set -u -e -o pipefail
-
+#     template create => 01-create
+#     template read   => 02-read
+#
 
 action="$1"
 shift
+
+set -u -e -o pipefail
+
+# ====================
+if [[ -z "$@" ]]; then
+  case "$action" in 
+    create)
+      echo "01-create"
+      ;;
+    read)
+      echo "02-read"
+      ;;
+    update)
+      echo "03-update"
+      ;;
+    trash)
+      echo "04-trash"
+      ;;
+    delete)
+      echo "05-delete"
+      ;;
+    up_create)
+      echo "06-up_create"
+      ;;
+    *)
+      echo "XX-$action"
+      ;;
+  esac
+
+  exit 0
+fi # =================
 
 class="$1"
 shift
@@ -38,7 +70,7 @@ else
 
   if [[ ! -z "$sub_action" ]]
   then
-    sed "s/!sub_action/$sub_action/g"    -i "$new_file"
+    sed "s/!sub_action/$sub_action/g"  -i "$new_file"
   fi
 
   # === Show finish message:
