@@ -8,11 +8,6 @@ module Customer_Test
 
   include Screen_Name_Test
 
-  # def delete_all
-    # Customer::TABLE.delete
-    # Screen_Name::TABLE.delete
-  # end
-
   def create_customer
     sn = new_name
     c = Customer.create screen_name: sn,
