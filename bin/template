@@ -3,12 +3,19 @@
 #
 #
 # === Examples:
-#     template model Screen_Name "new/file.rb"
-#     template test  Screen_Name "tests/Screen_Name/new/file.rb"
-#     template test  Screen_Name "tests/Screen_Name/new/file.rb" create
 #
-#     template create => 01-create
-#     template read   => 02-read
+#     bin/template  model  Screen_Name
+#     bin/template  model  Screen_Name  create
+#
+#     bin/template  routes Screen_Name
+#
+#     bin/template  test   Screen_Name
+#     bin/template  test   Screen_Name  create
+#
+#     bin/template  create
+#       # => 01-create
+#     bin/template  read
+#       # => 02-read
 #
 
 action="$1"
@@ -48,12 +55,34 @@ fi # =================
 class="$1"
 shift
 
-new_file="$1"
-shift
-
 sub_action="$@"
 tmpl="Server/Okdoki/templates/$action.rb"
 instance="$(echo $class | tr '[A-Z]' '[a-z]')"
+
+case "$action" in
+  model)
+    if [[ -z "$sub_action" ]]; then
+      new_file="Server/$class/model.rb"
+    else
+      new_file="Server/$class/model/$sub_action.rb"
+      tmpl="Server/Okdoki/templates/model.action.rb"
+    fi
+    ;;
+
+  test)
+    new_file="tests/$class/$(bin/template "$sub_action").rb"
+    ;;
+
+  routes)
+    new_file="Server/$class/routes.rb"
+    ;;
+
+  *)
+    echo "Unknown command: $action" 1>&2
+    exit 1
+    ;;
+
+esac # === case "$action"
 
 if [[ -f "$new_file" ]]
 then
@@ -76,5 +105,6 @@ else
   # === Show finish message:
   echo "=== created: $new_file"
 fi # === if file exists or not
+
 
 
