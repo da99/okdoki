@@ -1,5 +1,5 @@
 
-CREATE TABLE screen_name_code_subscribe (
+CREATE TABLE screen_name_code_consume (
 
   id           serial    NOT NULL PRIMARY KEY,
   producer_id  integer   NOT NULL DEFAULT 0,
@@ -11,14 +11,14 @@ CREATE TABLE screen_name_code_subscribe (
   created_at   timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at   timestamp with time zone,
 
-  CONSTRAINT   "screen_name_code_subscribe_unique"   UNIQUE (producer_id, consumer_id)
+  CONSTRAINT   "screen_name_code_consume_unique"   UNIQUE (producer_id, consumer_id)
 
 );
 
 
 -- DOWN
 
-DROP TABLE IF EXISTS screen_name_code_subscribe;
+DROP TABLE IF EXISTS screen_name_code_consume;
 
 
 

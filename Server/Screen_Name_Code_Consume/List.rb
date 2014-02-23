@@ -1,5 +1,5 @@
 
-class Bot_Use
+class Screen_Name_Code_Consume
   class List
     include Okdoki::Model::List
 
@@ -13,10 +13,10 @@ class Bot_Use
       @list ||= begin
                   Bot.
                     table_for_non_owners(screen_name).
-                    where(id: Bot_Use.table_for_owners(screen_name).select(:bot_id)).
+                    where(id: Screen_Name_Code_Consume.table_for_owners(screen_name).select(:bot_id)).
                     all
                 end
     end
 
   end # === class List ===
-end # === class Bot_Use ===
+end # === class Screen_Name_Code_Consume ===

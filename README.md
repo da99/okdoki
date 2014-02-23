@@ -76,16 +76,6 @@ F.A.Q.
           )
         end
 
-* How do I test a file?
-
-        # --- Either one of the following.
-        # --- They are all equivalent:
-        bin/bundle exec bacon tests/MODEL/0X-action.rb
-        bin/test   fast tests/MODEL/0X-action.rb
-        bin/test   MODEL action
-
-        # --- or with `bin/migrate reset`:
-        bin/test        tests/MODEL/0X-action.rb
 
 
 

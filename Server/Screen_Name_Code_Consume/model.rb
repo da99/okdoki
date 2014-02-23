@@ -1,9 +1,9 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Bot_Use
+require_crutd :Screen_Name_Code_Consume
 
-class Bot_Use
+class Screen_Name_Code_Consume
 
   include Okdoki::Model
 
@@ -12,7 +12,7 @@ class Bot_Use
   # Settings
   # =====================================================
 
-  Table_Name = :bot_use
+  Table_Name = self.to_s.downcase
   TABLE = DB[Table_Name]
 
   # =====================================================
@@ -22,7 +22,7 @@ class Bot_Use
   class << self
 
     def table_for_owners sn
-      Bot_Use::TABLE.where(sn_id: sn.id)
+      Screen_Name_Code_Consume::TABLE.where(sn_id: sn.id)
     end
 
   end # === class self ===
@@ -43,7 +43,7 @@ class Bot_Use
     end
   end
 
-end # === class Bot_Use ===
+end # === class Screen_Name_Code_Consume ===
 
 
 

@@ -1,5 +1,5 @@
 
-class Bot_Use
+class Screen_Name_Code_Consume
 
   def create sn, bot
     @new_data = @clean_data = {
@@ -12,10 +12,10 @@ class Bot_Use
       insert(clean_data).
       first
 
-    Bot_Use.new rec, sn, bot
+    Screen_Name_Code_Consume.new rec, sn, bot
   end # === def create
 
-end # === class Bot_Use create ===
+end # === class Screen_Name_Code_Consume create ===
 
 
 
