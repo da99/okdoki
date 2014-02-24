@@ -24,7 +24,7 @@ describe "Screen_Name_Code_Consume: create" do
     Screen_Name_Code_Consume.create @producer, @consumer
     raw = Screen_Name_Code_Consume::TABLE.
       where(:producer_id=>@producer.id, :consumer_id=>@consumer.id).
-      all
+      first
     raw[:consumer_id].should == @consumer.id
   end
 

@@ -5,7 +5,7 @@ module Okdoki
 
     class << self # =====================================
 
-      def new o, name, new_data = {}
+      def new o, name, new_data
 
         # Symbol-ify the key name
         str_name = name.to_s
