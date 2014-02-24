@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
+# Examples for development:
+#
+#   bin/migrate reset
+#   bin/migrate reset MODEL
+#
 action="$1"
 shift
 
@@ -44,7 +49,9 @@ case "$action" in
   reset)
     bin/migrate down "$model"
     bin/migrate up   "$model"
-    ALLOW_BANNED_SCREEN_NAME=true bin/migrate beginning_data
+    if [[ -z "$model" ]]; then
+      ALLOW_BANNED_SCREEN_NAME=true bin/migrate beginning_data
+    fi
 
     echo "
 ===== DONE =====
