@@ -8,12 +8,18 @@ require_crutd :Screen_Name_Code
 
 class Screen_Name_Code
 
+  include Okdoki::Model
+
   EVENT_NAMES = {
     1 => "ON VIEW PROFILE"
   }
 
-  include Okdoki::Model
-
+  WHO_IDS = {
+    0 => "no one",
+    1 => "only the producer",
+    2 => "only the producer and consumer",
+    3 => "anyone"
+  }
 
   # =====================================================
   # Settings
@@ -73,6 +79,11 @@ class Screen_Name_Code
       set_to_integer.
       in(EVENT_NAMES.keys, 'Invalid event name.').
       data
+  end
+
+  def validate_who_id hash
+    hash[:who_id] = self.class.to_who_id(hash[:who_id])
+    hash
   end
 
 end # === class Screen_Name_Code ===

@@ -13,6 +13,21 @@ class Screen_Name_Code
       EVENT_NAMES[Integer id] || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name id: #{id.inspect}"))
     end
 
+    def to_who_id val
+      case val
+      when :no_one
+        0
+      when :producer
+        1
+      when :producer_and_consumer
+        2
+      when :anyone
+        3
+      else
+        raise "Invalid who_id value: #{val.inspect}"
+      end
+    end
+
     # === READ methods ================
 
     def read_all_for_bot bot
