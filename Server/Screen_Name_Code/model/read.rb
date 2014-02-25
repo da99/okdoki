@@ -14,7 +14,12 @@ class Screen_Name_Code
     end
 
     def to_who_id val
-      WHO_IDS.key(val) || raise("Invalid who_id value: #{val.inspect}")
+      begin
+        i = Integer val
+        WHO_IDS[i] && i
+      rescue TypeError, ArgumentError => e
+        WHO_IDS.key(val) || raise("Invalid who_id value: #{val.inspect}")
+      end
     end
 
     # === READ methods ================
