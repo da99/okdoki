@@ -15,10 +15,12 @@ class Screen_Name_Code
   }
 
   WHO_IDS = {
-    0 => "no one",
-    1 => "only the producer",
-    2 => "only the producer and consumer",
-    3 => "anyone"
+    0 => :no_one,
+    1 => :producer,
+    2 => :consumer,
+    2 => :producer_and_consumer,
+    3 => :anyone,
+    4 => :anyone_but_producer
   }
 
   # =====================================================

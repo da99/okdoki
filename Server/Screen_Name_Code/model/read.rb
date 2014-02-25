@@ -14,18 +14,7 @@ class Screen_Name_Code
     end
 
     def to_who_id val
-      case val
-      when :no_one
-        0
-      when :producer
-        1
-      when :producer_and_consumer
-        2
-      when :anyone
-        3
-      else
-        raise "Invalid who_id value: #{val.inspect}"
-      end
+      WHO_IDS.key(val) || raise("Invalid who_id value: #{val.inspect}")
     end
 
     # === READ methods ================
