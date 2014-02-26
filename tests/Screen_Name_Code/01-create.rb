@@ -10,15 +10,15 @@ describe "Screen_Name_Code: create" do
   end
 
   it "creates a record with :screen_name_id == id of owner" do
-    r = Screen_Name_Code.create @sn, "on view profile", :anyone, "[]"
+    r = Screen_Name_Code.create @sn, "on view profile", :is_on, "[]"
     raw = Screen_Name_Code::TABLE.where(id: r.id).all
     raw.last[:screen_name_id].should == @sn.id
   end
 
   it "raises Invalid if screen_name_id, event_name_id already exists" do
     lambda {
-      Screen_Name_Code.create @sn, "on view profile", :anyone, "[]"
-      Screen_Name_Code.create @sn, "on view profile", :anyone, "[]"
+      Screen_Name_Code.create @sn, "on view profile", :is_on, "[]"
+      Screen_Name_Code.create @sn, "on view profile", :is_on, "[]"
     }.should.raise(Screen_Name_Code::Invalid).
     message.
     should.match(/Code already exists for:/)
@@ -26,7 +26,7 @@ describe "Screen_Name_Code: create" do
 
   it "escapes :code" do
     code = '["a", ["\""]]'
-    r = Screen_Name_Code.create @sn, "on view profile", :anyone, '["a", ["\""]]'
+    r = Screen_Name_Code.create @sn, "on view profile", :is_on, '["a", ["\""]]'
     raw = Screen_Name_Code::TABLE.where(:id=>r.id).first
     raw[:code].should == MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(code))
   end

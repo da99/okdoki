@@ -5,13 +5,52 @@ class Screen_Name_Code_Consume
 
     def read producer, consumer
       sql = %~
-        " === Get ALL subscriptions
-        " === Get any where :anyone can see them.
-        " === Filter out the ones not allowed.
-              " :no_one
-              " :producer
-              " :is_on == false
-        " === Affordable Optimization.
+        SELECT *
+        FROM screen_name_code
+        WHERE
+
+          " WHERE anyone can see them
+          (
+            is_on = TRUE
+            AND
+            producer_id =  :PRODUCER_ID
+            AND
+            event_name_id  IN (:EVENT_NAME_IDs)
+          )
+
+          OR
+
+          " Where :producer can see them
+          (
+            is_on = TRUE
+            AND
+            producer_id =  :PRODUCER_ID
+            AND
+            producer_id =  :CONSUMER_ID
+            AND
+            event_name_id  IN (:EVENT_NAME_IDs)
+          )
+
+          OR
+
+          " WHERE :consumer can see them
+          (
+            is_on = TRUE
+            AND
+            producer_id = :PRODUCER_ID
+            AND
+            event_name_id  IN (:EVENT_NAME_IDs)
+            AND
+            producer_id IN (
+              SELECT producer_id
+              FROM screen_name_code_consume
+              WHERE
+                    producer_id = :producer_id
+                    AND
+                    consumer_id = :consumer_id
+              )
+          )
+
 
         SELECT producer_id
         FROM screen_name_code_consume
@@ -19,11 +58,6 @@ class Screen_Name_Code_Consume
           " === LEFT JOIN screen_name
           " === LEFT JOIN
 
-        UNION DISTINCT
-
-        SELECT *
-        FROM screen_name_code
-        WHERE screen_name_id = :producer_id AND who_id = :anyone
 
       ~
     end

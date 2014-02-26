@@ -13,12 +13,11 @@ class Screen_Name_Code
       EVENT_NAMES[Integer id] || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name id: #{id.inspect}"))
     end
 
-    def to_who_id val
-      begin
-        i = Integer val
-        WHO_IDS[i] && i
-      rescue TypeError, ArgumentError => e
-        WHO_IDS.key(val) || raise("Invalid who_id value: #{val.inspect}")
+    def to_is_on val
+      if val == :is_on || val == 'is_on'
+        true
+      else
+        false
       end
     end
 

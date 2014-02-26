@@ -3,11 +3,11 @@ class Screen_Name_Code
 
   class << self
 
-    def create sn, event_name_id, who, code
+    def create sn, event_name_id, is_on, code
       r = new
       r.create :screen_name => sn,
         :screen_name_id => sn.id,
-        :who_id => who,
+        :is_on => is_on,
         :event_name_id => event_name_id,
         :code => code
     end
@@ -15,7 +15,7 @@ class Screen_Name_Code
   end # === class self ===
 
   def create raw_data
-    target_keys = [:screen_name_id, :who_id, :event_name_id, :code]
+    target_keys = [:screen_name_id, :is_on, :event_name_id, :code]
 
     data = target_keys.inject(raw_data) { |memo, n|
       send :"validate_#{n}", memo

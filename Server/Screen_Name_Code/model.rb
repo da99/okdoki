@@ -14,15 +14,6 @@ class Screen_Name_Code
     1 => "ON VIEW PROFILE"
   }
 
-  WHO_IDS = {
-    0 => :no_one,
-    1 => :producer,
-    2 => :consumer,
-    2 => :producer_and_consumer,
-    3 => :anyone,
-    4 => :anyone_but_producer
-  }
-
   # =====================================================
   # Settings
   # =====================================================
@@ -83,8 +74,8 @@ class Screen_Name_Code
       data
   end
 
-  def validate_who_id hash
-    hash[:who_id] = self.class.to_who_id(hash[:who_id])
+  def validate_is_on hash
+    hash[:is_on] = self.class.to_is_on(hash[:is_on])
     hash
   end
 
