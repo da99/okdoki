@@ -3,61 +3,58 @@ class Screen_Name_Code_Consume
 
   class << self
 
-    def read producer, consumer
+    def read_for_consume producer, consumer
+      prod_id = producer.id
+      prod_class_id = producer.class.okdoki_id
+      cons_id = consumer.id
+      cons_class_id = consumer.class.okdoki_id
+
       sql = %~
+
+        -- FIRST: get 'subscriptions' of producer
+
         SELECT *
         FROM screen_name_code
         WHERE
-
-          " WHERE anyone can see them
-          (
-            is_on = TRUE
-            AND
-            producer_id =  :PRODUCER_ID
-            AND
-            event_name_id  IN (:EVENT_NAME_IDs)
+          is_on IS TRUE
+          AND
+          event_name_id = :EV_NAME_ID
+          AND
+          screen_name_id IN (
+            SELECT producer_id
+            FROM screen_name_code_consume
+            WHERE
+              is_on IS TRUE
+              AND
+              consumer_id = :PROD_ID
+              AND
+              consumer_class_id = :PROD_CLASS_ID
           )
+          -- IF this is content (story, product, note, etc)
+          -- check that parent SN and Customer
+          -- have this subsribed.
 
-          OR
+        UNION DISTINCT
 
-          " Where :producer can see them
-          (
-            is_on = TRUE
-            AND
-            producer_id =  :PRODUCER_ID
-            AND
-            producer_id =  :CONSUMER_ID
-            AND
-            event_name_id  IN (:EVENT_NAME_IDs)
+        -- SECOND: get 'subscriptions' of consumer
+
+        SELECT *
+        FROM screen_name_code
+        WHERE
+          is_on IS TRUE
+          AND
+          event_name_id = :EV_NAME_ID
+          AND
+          screen_name_id IN (
+            SELECT producer_id
+            FROM screen_name_code_consume
+            WHERE
+              is_on IS TRUE
+              AND
+              consumer_id = :CONS_ID
+              AND
+              consumer_class_id = :CONS_CLASS_ID
           )
-
-          OR
-
-          " WHERE :consumer can see them
-          (
-            is_on = TRUE
-            AND
-            producer_id = :PRODUCER_ID
-            AND
-            event_name_id  IN (:EVENT_NAME_IDs)
-            AND
-            producer_id IN (
-              SELECT producer_id
-              FROM screen_name_code_consume
-              WHERE
-                    producer_id = :producer_id
-                    AND
-                    consumer_id = :consumer_id
-              )
-          )
-
-
-        SELECT producer_id
-        FROM screen_name_code_consume
-        WHERE consumer_id = :consumer_id AND is_on = true
-          " === LEFT JOIN screen_name
-          " === LEFT JOIN
-
 
       ~
     end
