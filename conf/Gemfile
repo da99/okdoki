@@ -32,5 +32,6 @@ group :development do
   gem 'Bacon_Colored'
   gem 'mechanize'
   gem 'RedCloth'
+  gem 'pry'
 end
 
