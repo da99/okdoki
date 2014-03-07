@@ -15,60 +15,68 @@ module Okdoki
         SELECT ? AS class_id, id, NULL AS parent_id
         FROM :klass
         WHERE id IN ( SELECT parent_id FROM :child_klass_parent )
-      ~,
+      ~.rstrip,
 
       # === MIDDLE
       %~
         SELECT ? AS class_id, id, ? AS parent_id
         FROM :klass
         WHERE id = ( SELECT parent_id FROM :child_klass_parent )
-      ~,
+      ~.rstrip,
 
       # === BOTTOM
       %~
         SELECT ? AS class_id, id, ? AS parent_id
         FROM :klass
         WHERE id = :klass_table
-      ~
+      ~.rstrip
     ]
 
     def initialize klass, id
       @with   = []
       @sql    = []
-      @args   = []
-      @klass  = klass
+      @record  = klass
       WITH(klass, id)
     end
 
     def to_sql
       sql        = []
-      args       = []
       size       = @with.size
       last_index = size - 1
+      selects    = []
+      args       = []
       @with.each_with_index { |meta, i|
-        klass        = meta[1]
-        child_klass  = @with[i + 1] && @with[i + 1][1]
-        fkey_name    = meta[0][0]
-        parent_klass = meta[0][1]
-        id           = meta[2]
+        klass        = meta[:klass]
+        table_name   = klass.table_name.to_s
+        child_klass  = @with[i + 1] && @with[i + 1][:klass]
+        fkey_name    = meta[:fkey]
+        parent_klass = meta[:parent_klass]
+        id           = meta[:id]
+
+        args.push klass.okdoki_id
+
         template     = if i == 0
-                         args << klass.okdoki_id
-                         args << klass.table_name.to_s
-                         args << "#{child_klass.to_s}_parent"
                          SQL_Templates[0]
                        elsif i != last_index
+                         args.push meta[:fkey].to_s
                          SQL_Templates[1]
                        else
+                         args.push meta[:fkey].to_s
                          SQL_Templates[2]
                        end
-        sql << %!  #{ i != 0 ? ', ' : ''}
+
+        sql << %^
           :klass_parent AS (
             #{template}
           )
-        !.gsub(':klass', klass.table_name.to_s)
-        if child_klass
-         sql.last.gsub!(':child_klass', child_klass.table_name.to_s)
-        end
+        ^.gsub(':klass', table_name)
+
+        selects << %^
+          SELECT class_id, id
+          FROM :klass_parent
+        ^.gsub(':klass', table_name)
+
+        sql.last.gsub!(':child_klass', child_klass.table_name.to_s) if child_klass
       }
 
       sql_str = %^
@@ -76,11 +84,12 @@ module Okdoki
           #{sql.join ', '}
         ,
         :klass_parent_child_tree AS (
-          #{select.join '
+          #{selects.join '
             UNION
           '}
         )
-      ^.gsub(':klass', @klass.table_name.to_s)
+      ^.gsub(':klass', @record.class.table_name.to_s)
+      [sql_str, args]
     end
 
     # =======================================================
@@ -89,8 +98,13 @@ module Okdoki
 
     def WITH klass, id
       klass = (CTE_COLS[klass] && klass) || (CTE_COLS[klass.class] && klass.class)
-      @with.unshift [CTE_COLS[klass], klass, id]
-      parent = CTE_COLS[klass].last
+      @with.unshift({
+        :fkey         => CTE_COLS[klass][0],
+        :parent_klass => CTE_COLS[klass][1],
+        :klass        => klass,
+        :id           => id
+      })
+      parent = @with.first[:parent_klass]
       WITH(parent, :unknown) if parent
       self
     end
