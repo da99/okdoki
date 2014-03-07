@@ -1,19 +1,23 @@
 
 class Story
+  include Okdoki::Model
   class << self
     def okdoki_id
-      2
+      10
     end
   end # === class self ===
 end
 
 class Magazine
+  include Okdoki::Model
   class << self
     def okdoki_id
-      1
+      11
     end
   end # === class self ===
 end
+
+require "./Server/Okdoki/SQL_Code"
 
 class Screen_Name_Code_Consume
 

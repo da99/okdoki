@@ -88,8 +88,9 @@ module Okdoki
     # =======================================================
 
     def WITH klass, id
-      @with.unshift [CTE_COLS[args.first], klass, id]
-      parent = CTE_COLS[args.first].last
+      klass = (CTE_COLS[klass] && klass) || (CTE_COLS[klass.class] && klass.class)
+      @with.unshift [CTE_COLS[klass], klass, id]
+      parent = CTE_COLS[klass].last
       WITH(parent, :unknown) if parent
       self
     end

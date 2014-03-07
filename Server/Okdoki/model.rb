@@ -88,6 +88,21 @@ module Okdoki
       end
     end
 
+    def okdoki_id
+      case self.name
+      when Customer.name
+        1
+      when Screen_Name.name
+        2
+      else
+        raise ":okdoki_id not set for #{self}"
+      end
+    end
+
+    def table_name
+      @table_name ||= "#{self.name.downcase}"
+    end
+
     def empty_trash
       self::TABLE.
         returning.
