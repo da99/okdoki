@@ -3,10 +3,10 @@ module Okdoki
   class SQL_Code
 
     CTE_COLS = {
-      Story    => [:mag_id, Magazine].freeze,
-      Magazine => [:publisher_id, Screen_Name].freeze,
+      Story       => [:mag_id, Magazine].freeze,
+      Magazine    => [:publisher_id, Screen_Name].freeze,
       Screen_Name => [:owner_id, Customer].freeze,
-      Customer => [nil, nil].freeze
+      Customer    => [nil, nil].freeze
     }
 
     SQL_Templates = [
