@@ -17,7 +17,7 @@ class Magazine
   end # === class self ===
 end
 
-require "./Server/Okdoki/SQL_Code"
+require "./Server/Okdoki/Ancestor_Sql"
 
 class Screen_Name_Code_Consume
 

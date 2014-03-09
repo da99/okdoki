@@ -22,8 +22,8 @@ gem 'multi_json'
 gem 'unicorn'
 gem 'sequel'
 gem 'pg'
-gem 'Jam_Func'
 gem 'addressable'
+gem 'i_dig_sql'
 
 group :development do
   gem 'dot_why'
