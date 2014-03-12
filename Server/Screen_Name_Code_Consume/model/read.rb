@@ -1,24 +1,4 @@
 
-class Story
-  include Okdoki::Model
-  class << self
-    def okdoki_id
-      10
-    end
-  end # === class self ===
-end
-
-class Magazine
-  include Okdoki::Model
-  class << self
-    def okdoki_id
-      11
-    end
-  end # === class self ===
-end
-
-require "./Server/Okdoki/Ancestor_Sql"
-
 class Screen_Name_Code_Consume
 
   class << self

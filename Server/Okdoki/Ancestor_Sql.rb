@@ -45,6 +45,24 @@
 #
 # ---------------------------------------------------------
 
+class Story
+  include Okdoki::Model
+  class << self
+    def okdoki_id
+      10
+    end
+  end # === class self ===
+end
+
+class Magazine
+  include Okdoki::Model
+  class << self
+    def okdoki_id
+      11
+    end
+  end # === class self ===
+end
+
 module Okdoki
 
   class Ancestor_Sql
@@ -57,7 +75,7 @@ module Okdoki
     }
 
     def initialize rec
-      @rec = rec
+      @rec  = rec
       @tree = []
       klass = @rec.class
       begin
