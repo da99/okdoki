@@ -22,14 +22,14 @@
 #
 # SELECT ? AS class_id, id, ? AS parent_id
 # FROM :klass
-# WHERE id = ( SELECT parent_id FROM :child_klass_parent )
+# WHERE id IN ( SELECT parent_id FROM :child_klass_parent )
 #
 #
 # === bottom_cte
 #
 # SELECT ? AS class_id, id, ? AS parent_id
 # FROM :klass
-# WHERE id = :klass_table
+# WHERE id = ?
 #
 #
 # === last_cte
@@ -45,6 +45,8 @@
 #
 # ---------------------------------------------------------
 
+require 'i_dig_sql'
+require_crutd :Customer, :Screen_Name
 class Story
   include Okdoki::Model
   class << self
@@ -88,7 +90,40 @@ module Okdoki
 
     def to_sql
 
-      return @tree.inspect
+      top = @tree.first
+      bottom  = @tree.last
+
+      tree = @tree.reverse.inject([]) do |memo, curr|
+        prev = memo.last
+
+        memo << begin
+                  case curr
+                  when top
+                    q = I_Dig_Sql.new
+                    q.SELECT("? AS class_id, id, NULL AS parent_id")
+                    .FROM(curr[:klass].table_name)
+                    .WHERE("id IN (#{prev.to_sql[:sql]})")
+                    # .WHERE("id", :IN, prev)
+                  when bottom
+                    q = I_Dig_Sql.new
+                    q.SELECT("? AS class_id, id, ? AS parent_id")
+                    .FROM(curr[:klass].table_name)
+                    .WHERE("id = '#{@rec.id}'")
+                    # .WHERE("id", :'=', @rec.id)
+                  else # it's a middle
+                    q = I_Dig_Sql.new
+                    q.SELECT("? AS class_id, id, ? AS parent_id")
+                    .FROM(curr[:klass].table_name)
+                    .WHERE("id IN (#{prev.to_sql[:sql]})")
+                    # .WHERE("id", :IN, prev)
+                  end
+        end
+
+        memo
+      end # == inject
+
+      return tree
+
       size       = @with.size
       last_index = size - 1
 

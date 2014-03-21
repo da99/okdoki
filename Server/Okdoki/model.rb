@@ -5,20 +5,21 @@ require './Server/Okdoki/Validate'
 require './Server/Okdoki/helpers/Helpers'
 require './Server/Okdoki/List'
 require './Server/Okdoki/PG'
-require "./Server/Okdoki/Ancestor_Sql"
 
 
 CRUTD_Actions = [:create, :read, :update, :trash, :delete, :up_create]
 
-def require_crutd klass
-  CRUTD_Actions.each { |action|
-    begin
-      file = "./Server/#{klass}/model/#{action}"
-      require file
-    rescue LoadError => e
-      raise e unless e.message["cannot load such file -- #{file}"]
-    end
-  }
+def require_crutd *klasses
+  klasses.each do |klass|
+    CRUTD_Actions.each { |action|
+      begin
+        file = "./Server/#{klass}/model/#{action}"
+        require file
+      rescue LoadError => e
+        raise e unless e.message["cannot load such file -- #{file}"]
+      end
+    }
+  end
 end
 
 module Okdoki
@@ -201,6 +202,7 @@ module Okdoki
 
 end # === module Okdoki ===
 
+require './Server/Okdoki/Ancestor_Sql'
 
 
 
