@@ -15,14 +15,14 @@
 #
 # SELECT ? AS class_id, id, NULL AS parent_id
 # FROM :klass
-# WHERE id IN ( SELECT parent_id FROM :child_klass_parent )
+# WHERE id IN ( SELECT parent_id FROM :middle_cte )
 #
 #
 # === middle_cte
 #
 # SELECT ? AS class_id, id, ? AS parent_id
 # FROM :klass
-# WHERE id IN ( SELECT parent_id FROM :child_klass_parent )
+# WHERE id IN ( SELECT parent_id FROM :bottom_cte )
 #
 #
 # === bottom_cte
