@@ -27,9 +27,7 @@
 #
 # === bottom_cte
 #
-# SELECT ? AS class_id, id, ? AS parent_id
-# FROM :klass
-# WHERE id = ?
+# SELECT ? AS class_id, ? AS id, ? AS parent_id
 #
 #
 # === last_cte
