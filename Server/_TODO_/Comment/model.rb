@@ -15,7 +15,7 @@ class Comment
   Table_Name = :comment
   TABLE = DB[Table_Name]
 
-  Chit_Chat_Type_Id = 1
+  Chit_Chat_Class_Id = 1
 
   Read_All_Limit    = 22
   Create_Limit      = 22
@@ -26,10 +26,10 @@ class Comment
 
   class << self
 
-    def to_pub_type_id o
+    def to_pub_class_id o
       case o
       when Chit_Chat
-        Chit_Chat_Type_Id
+        Chit_Chat_Class_Id
       else
         raise "Unknown type: #{o.class}"
       end

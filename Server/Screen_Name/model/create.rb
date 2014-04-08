@@ -32,7 +32,7 @@ class Screen_Name
 
     validate(:screen_name).required
 
-    validate(:type_id)
+    validate(:class_id)
 
     validate(:read_able).
       one_of_these(['@W', '@P', '@N'], "Allowed values: @W (world) @P (private) @N (no one)")

@@ -108,7 +108,7 @@ class Screen_Name
         v.not_match(BANNED_SCREEN_NAMES, 'Screen name not allowed.')
       end
       v
-    when :type_id
+    when :class_id
       super(*args).
         clean('to_i').
         set_to(0, lambda { |v| v < 0 || v > 2 })

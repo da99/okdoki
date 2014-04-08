@@ -7,7 +7,7 @@ class Permission
 
   include Okdoki::Model
 
-  Screen_Name_Type_Id = 1
+  Screen_Name_Class_Id = 1
 
   # =====================================================
   # Settings
@@ -20,10 +20,10 @@ class Permission
 
   class << self
 
-    def to_pub_type_id o
+    def to_pub_class_id o
       case o
       when Screen_Name
-        Screen_Name_Type_Id
+        Screen_Name_Class_Id
       else
         raise "Unknown type: #{o.class}"
       end

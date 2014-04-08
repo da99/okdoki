@@ -10,12 +10,12 @@ describe "Permission: create" do
     @sn2 = Screen_Name_Test.screen_name 1
   end
 
-  it "adds a record with pub_type_id = 1 for life" do
+  it "adds a record with pub_class_id = 1 for life" do
     Permission.create @sn1, @sn1, @sn2
 
     rows = Permission::TABLE.where(
       :from_id     => @sn1.data[:id],
-      :pub_type_id => Permission::Screen_Name_Type_Id,
+      :pub_class_id => Permission::Screen_Name_Class_Id,
       :pub_id      => @sn1.data[:id],
       :to_id       => @sn2.data[:id]
     ).all
@@ -29,7 +29,7 @@ describe "Permission: create" do
 
     rows = Permission::TABLE.where(
       :from_id     => @sn1.data[:id],
-      :pub_type_id => Permission::Screen_Name_Type_Id,
+      :pub_class_id => Permission::Screen_Name_Class_Id,
       :pub_id      => @sn1.data[:id],
       :to_id       => @sn2.data[:id]
     ).all

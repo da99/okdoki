@@ -12,7 +12,7 @@ class Comment
 
     insert_data = {
       :author_id   => author.id,
-      :pub_type_id => self.class.to_pub_type_id(pub),
+      :pub_class_id => self.class.to_pub_class_id(pub),
       :pub_id      => pub.id,
       :body        => body
     }

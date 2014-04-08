@@ -50,10 +50,10 @@ class Chit_Chat
 
           -- Delete chit chat comments:
           DELETE FROM #{Comment::Table_Name}
-          WHERE pub_type_id = :p_type AND
+          WHERE pub_class_id = :p_type AND
                 pub_id      = :chit_chat_id;
 
-        ", :chit_chat_id=>chit_chat_id, :p_type=>Comment.to_pub_type_id(Chit_Chat.new({}))]
+        ", :chit_chat_id=>chit_chat_id, :p_type=>Comment.to_pub_class_id(Chit_Chat.new({}))]
         .all
 
         row[:oldest_deleted] = true

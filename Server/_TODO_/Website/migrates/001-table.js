@@ -12,7 +12,7 @@ m.migrate = function (dir, r) {
 
     var sql = 'CREATE TABLE \"' + table + "\" ( \n\
 id             serial PRIMARY KEY, \
-type_id        smallint NOT NULL,  \
+class_id        smallint NOT NULL,  \
 owner_id       int NOT NULL,       \
 title          text default null,  \
 about          text default null,  \

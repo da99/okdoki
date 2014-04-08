@@ -12,7 +12,7 @@ class Follow
   # Settings
   # =====================================================
 
-  Screen_Name_Type_Id = 1
+  Screen_Name_Class_Id = 1
 
   # =====================================================
   # Class
@@ -20,10 +20,10 @@ class Follow
 
   class << self
 
-    def to_pub_type_id o
+    def to_pub_class_id o
       case o
       when Screen_Name
-        Screen_Name_Type_Id
+        Screen_Name_Class_Id
       else
         raise "Unknown pub type: #{o.class}"
       end

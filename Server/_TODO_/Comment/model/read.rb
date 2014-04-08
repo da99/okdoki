@@ -9,7 +9,7 @@ class Comment
 
     def read pub
       rows = Comment::TABLE.
-        where(:pub_type_id=>to_pub_type_id(pub), :pub_id=>pub.id).
+        where(:pub_class_id=>to_pub_class_id(pub), :pub_id=>pub.id).
         order_by(Sequel.lit("created_at DESC")).
         limit(Read_All_Limit).
         all

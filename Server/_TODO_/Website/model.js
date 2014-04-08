@@ -12,7 +12,7 @@ var Uni  = exports.Website = function () {};
 var TABLE_NAME = Uni.TABLE_NAME = 'Website';
 var TABLE      = Uni.TABLE = Topogo.new(TABLE_NAME);
 
-Uni.TYPE_IDS = {0: "Screen Name Profile Website"};
+Uni.CLASS_IDS = {0: "Screen Name Profile Website"};
 
 Uni.require = function (target) {
   if (target.Screen_Name)
@@ -41,7 +41,7 @@ Uni.prototype.screen_name = function (sn) {
 
 
 Uni.prototype.is_update_able = function () {
-  if (this.data.type_id === 0)
+  if (this.data.class_id === 0)
     return _.contains( this.screen_name().customer().screen_name_ids(), this.data.owner_id) ||
     this.screen_name().is_update_able();
   else
@@ -67,7 +67,7 @@ var Validate_Create = Check.new('create home page', function (vc) {
       vador.sanitized('owner_id', vador.val.screen_name_id(vador.target.new_data['screen_name']));
   });
 
-  vc.define('type_id', function (vador) {
+  vc.define('class_id', function (vador) {
     vador.between(0,100); //, "Invalid website type.");
   });
 
@@ -86,7 +86,7 @@ Uni.create = function (vals, flow) {
 
   River.new(flow)
   .job('create', function (j) {
-    TABLE.create(_.pick(me.sanitized_data, 'owner_id', 'title', 'about', 'type_id'), j);
+    TABLE.create(_.pick(me.sanitized_data, 'owner_id', 'title', 'about', 'class_id'), j);
   })
   .job('read', function (j, row) {
     Uni.read( row.id, j );
@@ -116,7 +116,7 @@ Uni.read = function (q, flow) {
 Uni.read_by_screen_name = function (screen_name, flow) {
   var sn = screen_name.data.screen_name;
   var vals = {
-    type_id: 0,
+    class_id: 0,
     sn_id:  screen_name.data.id,
     sn_ids: screen_name.customer(),
     TABLES: {
@@ -132,7 +132,7 @@ Uni.read_by_screen_name = function (screen_name, flow) {
   WHERE                                                                    \n\
     @is_read_able                                                          \n\
     AND @W.owner_id = @sn_id                                               \n\
-    AND @W.type_id = @type_id                                              \n\
+    AND @W.class_id = @class_id                                              \n\
                                                                            \n\
   LIMIT 1                                                                  \n\
   ";

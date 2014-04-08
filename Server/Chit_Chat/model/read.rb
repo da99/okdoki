@@ -40,7 +40,7 @@ FROM (
   FROM chit_chat
 
     INNER JOIN follow
-    ON pub_type_id               = :follow_pub_type_id   -- replace
+    ON pub_class_id               = :follow_pub_class_id   -- replace
        AND chit_chat.pub_id      = follow.pub_id
        AND follower_id           = :sn_id                -- replace
        AND chit_chat.created_at >= coalesce(follow.last_read_at, follow.created_at)
@@ -54,7 +54,7 @@ FROM (
     ON stats.pub_id = screen_name.id
 
     LEFT JOIN permission
-    ON permission.pub_type_id    = :perm_pub_type_id -- replace
+    ON permission.pub_class_id    = :perm_pub_class_id -- replace
       AND stats.pub_id           = permission.pub_id
       AND to_id                  = :sn_id            -- replace
 
@@ -69,8 +69,8 @@ FROM (
                                              --   we are doing joins after select/where/aggregation
       ^,
         sn_id: sn.id,
-        perm_pub_type_id: Permission::Screen_Name_Type_Id,
-        follow_pub_type_id: Follow::Screen_Name_Type_Id,
+        perm_pub_class_id: Permission::Screen_Name_Class_Id,
+        follow_pub_class_id: Follow::Screen_Name_Class_Id,
         sn_world: Screen_Name::World_Read_Id,
         sn_private: Screen_Name::Private_Read_Id
       ].limit(111).all

@@ -12,11 +12,11 @@ describe "Comment: create" do
     @cc1 = create_chit_chat @sn1, "msg #{Time.now.to_i}"
   end
 
-  it "sets :pub_type_id = #{Comment::Chit_Chat_Type_Id} when Chit_Chat passed to it" do
+  it "sets :pub_class_id = #{Comment::Chit_Chat_Class_Id} when Chit_Chat passed to it" do
     comment = Comment.create @sn2, @cc1, "msg 1"
     row     = Comment::TABLE[:id=>comment.id]
 
-    row[:pub_type_id].should == Comment::Chit_Chat_Type_Id
+    row[:pub_class_id].should == Comment::Chit_Chat_Class_Id
   end
 
   it "raises Comment::Limit_Reached if more than #{Comment::Create_Limit} comments are created" do

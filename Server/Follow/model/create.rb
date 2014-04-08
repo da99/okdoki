@@ -5,7 +5,7 @@ class Follow
 
     def create follower, pub
       insert_data = {
-        :pub_type_id => to_pub_type_id(pub),
+        :pub_class_id => to_pub_class_id(pub),
         :pub_id      => pub.id,
         :follower_id => follower.id
       }
