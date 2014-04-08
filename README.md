@@ -1,4 +1,9 @@
 
+Okdoki
+----------
+
+A POL/DSL for micro-web apps to
+make for your friends and enemies.
 
 Common Tasks
 -----------------
@@ -12,14 +17,30 @@ Common Tasks
     bin/migrate create My\_Model table
 
 
-Okdoki.com
-----------
-
-Friendship-based activities.
-
-
 Complexity
 ----------
+
+* Permissions w/complex logic. Example:
+     These people in this group of mine can see it,
+     but not this group OR this one either.
+     And esp. not my ex-bfs/ex-gfs who I have
+     not talked to in the past 2 years.
+
+  This is not going to be implemented any time soon.
+  Instead, privacy will be simple for now:
+    centered around "lifes" (ie screen names) which
+    an account can have multiple.
+  Privacy is further implemented in secret messages that only
+  specified individuals can read.
+  More privacy can be created by creating a special screen name
+  meant only for a small circle of friends.
+
+  I associate complex privacy/permissions with office/producitivty,
+  not with friendship fun.
+
+  The reason for the lack of complex permissions is the cost
+  in implementing them for feeds/streams.  Right now Okdoki
+  is a simple Ruby app with a couple of functions and SQL calls.
 
 * Authorization (aka Permission):
   * "Consumer" -> "Multi. Producers" (inbox)
