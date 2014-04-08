@@ -17,9 +17,10 @@
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
 white=$(tput setaf 7)
-reset_color=$(tput sgr0)
 bold_white_on_green=$(tput bold)${white}${green_bg}
 bold_white=$(tput bold)${white}
+
+reset_color=$(tput sgr0)
 # ==============================================================
 
 skip=$1
@@ -30,6 +31,15 @@ helpers="tests/helpers.rb"
 cmd="bin/bundle exec bacon $helpers "
 
 set -e -u -o pipefail
+
+if [[ "$@" == "examples" ]]; then
+  echo "$bold_white"
+  echo "bin/test                   "
+  echo "bin/test fast              "
+  echo "bin/test Screen_Name create  # === fast implied"
+  echo "$reset_color"
+  exit 0
+fi
 
 if [[ -f "$fast_file" ]]; then
   shift
