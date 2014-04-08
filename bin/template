@@ -2,26 +2,28 @@
 # -*- bash -*-
 #
 #
-# === Examples:
-#
-#     bin/template  model  Screen_Name
-#     bin/template  model  Screen_Name  create
-#
-#     bin/template  routes Screen_Name
-#
-#     bin/template  test   Screen_Name
-#     bin/template  test   Screen_Name  create
-#
-#     bin/template  create
-#       # => 01-create
-#     bin/template  read
-#       # => 02-read
-#
 
 action="$1"
 shift
 
 set -u -e -o pipefail
+
+if [[ "$action" == "examples" ]]; then
+  echo ""
+  echo "bin/template  model  Screen_Name"
+  echo "bin/template  model  Screen_Name  create"
+  echo ""
+  echo "bin/template  routes Screen_Name"
+  echo ""
+  echo "bin/template  test   Screen_Name"
+  echo "bin/template  test   Screen_Name  create"
+  echo ""
+  echo "bin/template  create"
+  echo "  --> 01-create"
+  echo "bin/template  read"
+  echo "  --> 02-read"
+  exit 0
+fi
 
 # ====================
 if [[ -z "$@" ]]; then

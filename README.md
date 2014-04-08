@@ -3,8 +3,12 @@
 Common Tasks
 -----------------
 
-    bin/model create My\_Model
+    # === Creating model file:
+    # === Creating route files:
+    # === Create test/spec files:
+    bin/template examples
 
+    # === Create migration files:
     bin/migrate create My\_Model table
 
 
