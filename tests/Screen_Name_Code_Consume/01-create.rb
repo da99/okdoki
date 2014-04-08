@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Screen_Name_Code_Consume/model'
 
 include Screen_Name_Test

@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './tests/helpers/Chit_Chat'
 require './Server/Comment/model'
 

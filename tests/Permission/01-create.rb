@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Permission/model'
 
 include Screen_Name_Test

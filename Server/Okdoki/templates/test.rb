@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/MODEL/model'
 
 describe "MODEL: !sub_action" do

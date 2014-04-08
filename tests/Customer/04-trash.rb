@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Customer/model'
 
 include Customer_Test

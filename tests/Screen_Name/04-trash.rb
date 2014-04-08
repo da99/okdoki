@@ -1,4 +1,4 @@
-require './tests/helpers'
+
 include Screen_Name_Test
 
 describe "Screen_Name" do

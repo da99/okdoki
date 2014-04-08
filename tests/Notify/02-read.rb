@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Notify/model'
 
 describe "Notify: read_inbox" do

@@ -12,16 +12,29 @@
 # --- or with `bin/migrate reset`:
 #   bin/test   tests/MODEL/0X-action.rb
 #
+
+# ==============================================================
+# http://www.ibm.com/developerworks/aix/library/au-learningtput/
+green_bg=$(tput setb 2)
+white=$(tput setaf 7)
+reset_color=$(tput sgr0)
+bold_white_on_green=$(tput bold)${white}${green_bg}
+bold_white=$(tput bold)${white}
+# ==============================================================
+
 skip=$1
 fast_file="$(echo tests/$1/*-$2.rb)"
 fast_dir="$(echo tests/$1)"
+
+helpers="tests/helpers.rb"
+cmd="bin/bundle exec bacon $helpers "
 
 set -e -u -o pipefail
 
 if [[ -f "$fast_file" ]]; then
   shift
   shift
-  bin/bundle exec bacon $@ "$fast_file"
+  $cmd $@ "$fast_file"
   exit 0
 fi
 
@@ -29,7 +42,7 @@ if [[ -d "$fast_dir" ]]; then
   shift
   for d in "$fast_dir"/*
   do
-    bin/bundle exec bacon $@ "$d"
+    $cmd $@ "$d"
   done
   exit 0
 fi
@@ -43,10 +56,11 @@ fi
 
 if [[ ! -z "$@" ]]
 then
-  bin/bundle exec bacon "$@"
+  $cmd "$@"
   exit 0
 fi
 
+# === Run each file separately...
 . bin/model_list
 test_mods=( Ok )
 for m in ${mods[@]}
@@ -58,17 +72,10 @@ for m in ${test_mods[@]}
 do
   for f in tests/$m/*.rb
   do
-    bin/bundle exec bacon $f
+    $cmd $f
   done
 done # === mod loop
 
-
-# http://www.ibm.com/developerworks/aix/library/au-learningtput/
-green_bg=$(tput setb 2)
-white=$(tput setaf 7)
-reset_color=$(tput sgr0)
-bold_white_on_green=$(tput bold)${white}${green_bg}
-bold_white=$(tput bold)${white}
 
 
 

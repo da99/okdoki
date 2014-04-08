@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Follow/model'
 
 include Screen_Name_Test

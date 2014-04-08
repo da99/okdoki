@@ -1,4 +1,3 @@
-require './tests/helpers'
 require 'multi_json'
 
 # start_server

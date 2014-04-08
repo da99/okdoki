@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Notify/model'
 
 include Screen_Name_Test

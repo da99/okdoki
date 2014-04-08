@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 require './Server/Bot/model'
 
 describe "Bot: trash" do

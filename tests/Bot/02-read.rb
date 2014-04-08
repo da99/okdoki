@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 
 include Screen_Name::Test
 

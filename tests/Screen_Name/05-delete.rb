@@ -1,5 +1,4 @@
 
-require './tests/helpers'
 include Screen_Name_Test
 
 Screen_Name::TABLE.update(:trashed_at=>nil)
