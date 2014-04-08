@@ -11,9 +11,6 @@ class Screen_Name_Code_Consume
   # Settings
   # =====================================================
 
-  Table_Name = :screen_name_code_consume
-  TABLE = DB[Table_Name]
-
   # =====================================================
   # Class
   # =====================================================
