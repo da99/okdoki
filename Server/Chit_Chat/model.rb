@@ -34,16 +34,12 @@ class Chit_Chat
   # Class
   # =====================================================
 
-  # class << self
-  # end # === class self ===
+  class << self
+  end # === class self ===
 
   # =====================================================
   # Instance
   # =====================================================
-
-  def initialize *args
-    super
-  end
 
 
 end # === class Chit_Chat ===

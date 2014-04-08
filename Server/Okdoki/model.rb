@@ -106,6 +106,10 @@ module Okdoki
       @table_name ||= "#{self.name.downcase}"
     end
 
+    def table
+      @table ||= DB[table_name]
+    end
+
     def empty_trash
       self::TABLE.
         returning.

@@ -13,8 +13,6 @@ class Follow
   # =====================================================
 
   Screen_Name_Type_Id = 1
-  Table_Name          = :follow
-  TABLE               = DB[Table_Name]
 
   # =====================================================
   # Class

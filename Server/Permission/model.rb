@@ -13,8 +13,6 @@ class Permission
   # Settings
   # =====================================================
 
-  Table_Name = :permission
-  TABLE = DB[Table_Name]
 
   # =====================================================
   # Class
