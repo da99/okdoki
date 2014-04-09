@@ -3,6 +3,11 @@ require './Server/Okdoki/model'
 
 require_crutd :Last_Read_At
 
+#
+#  Purpose:
+#    To keep track of what the Screen_Name
+#    has read. It is used to generate feeds/streams.
+#
 class Last_Read_At
 
   include Okdoki::Model
@@ -12,15 +17,12 @@ class Last_Read_At
   # Settings
   # =====================================================
 
-  Table_Name = :last_read_at
-  TABLE = DB[Table_Name]
-
   # =====================================================
   # Class
   # =====================================================
 
-  # class << self
-  # end # === class self ===
+  class << self
+  end # === class self ===
 
   # =====================================================
   # Instance

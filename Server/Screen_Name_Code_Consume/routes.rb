@@ -3,6 +3,16 @@ require './Server/Screen_Name_Code_Consume/model'
 
 # ============ CREATE ===============================================
 
+post "/Follow" do
+
+  begin
+    Follow.create(params)
+  rescue Follow::Invalid =>e
+    json false, e.msg
+  end
+
+end # === post /Follow
+
 put '/Screen_Name_Code_Consume' do
 
   begin
@@ -25,16 +35,27 @@ end # === post /Bot/Use
 
 # ============ READ =================================================
 
-# get "/Screen_Name_Code_Consume/:id" do
+get "/Follow/:id" do
 
-  # begin
-    # Screen_Name_Code_Consume.read(params)
-    # render 'Screen_Name_Code_Consume/show_one', :title=> "Screen_Name_Code_Consume ##{req.params.id}"
-  # rescue Screen_Name_Code_Consume::Not_Found =>e
-    # json false, e.msg
-  # end
+  begin
+    Follow.read(params)
+  rescue Follow::Not_Found =>e
+    json false, e.msg
+  end
 
-# end # === get /Screen_Name_Code_Consume/:id
+end # === get /Follow/:id
+
+get "/Screen_Name_Code_Consume/:id" do
+
+  begin
+    Screen_Name_Code_Consume.read(params)
+    render 'Screen_Name_Code_Consume/show_one', :title=> "Screen_Name_Code_Consume ##{req.params.id}"
+  rescue Screen_Name_Code_Consume::Not_Found =>e
+    json false, e.msg
+  end
+
+end # === get /Screen_Name_Code_Consume/:id
+
 
 
 # ============ UPDATE ===============================================
