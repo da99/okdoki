@@ -24,7 +24,7 @@ c = Customer.create(
 
 sn = Screen_Name.create c, 'machine_publisher'
 
-Screen_Name_Code.create sn, 'on view profile', :is_on, %~
+Code.create sn, 'on view profile', :is_on, %~
   ["success_msg", ["Welcome!"]]
 ~
 

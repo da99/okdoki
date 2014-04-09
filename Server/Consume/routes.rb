@@ -3,16 +3,6 @@ require './Server/Consume/model'
 
 # ============ CREATE ===============================================
 
-post "/Follow" do
-
-  begin
-    Follow.create(params)
-  rescue Follow::Invalid =>e
-    json false, e.msg
-  end
-
-end # === post /Follow
-
 put '/Consume' do
 
   begin
@@ -34,16 +24,6 @@ put '/Consume' do
 end # === post /Bot/Use
 
 # ============ READ =================================================
-
-get "/Follow/:id" do
-
-  begin
-    Follow.read(params)
-  rescue Follow::Not_Found =>e
-    json false, e.msg
-  end
-
-end # === get /Follow/:id
 
 get "/Consume/:id" do
 

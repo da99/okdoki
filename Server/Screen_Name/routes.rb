@@ -18,11 +18,11 @@ post "/@:screen_name/code" do
 
   begin
     USER().screen_name(params[:screen_name]).upsert(:code=>params[:code])
-  rescue Screen_Name_Code::Invalid =>e
+  rescue Code::Invalid =>e
     json false, e.msg
   end
 
-end # === post /Screen_Name_Code
+end # === post /Code
 
 # =====================================================
 # Read
@@ -53,12 +53,12 @@ end # === get /@:screen_name
 get "/@:screen_name/code" do
 
   begin
-    Screen_Name_Code.read(params)
-  rescue Screen_Name_Code::Not_Found =>e
+    Code.read(params)
+  rescue Code::Not_Found =>e
     json false, e.msg
   end
 
-end # === get /Screen_Name_Code/:id
+end # === get /Code/:id
 
 
 

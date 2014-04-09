@@ -1,16 +1,16 @@
 
-class Screen_Name_Code
+class Code
 
   class << self # =====================
 
     # === Helpers =====================
 
     def to_event_name_id name
-      EVENT_NAMES.key(name.to_s.strip.upcase) || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name: #{name.inspect}"))
+      EVENT_NAMES.key(name.to_s.strip.upcase) || raise(Code::Invalid.new(new, "Unknown event name: #{name.inspect}"))
     end
 
     def to_event_name id
-      EVENT_NAMES[Integer id] || raise(Screen_Name_Code::Invalid.new(new, "Unknown event name id: #{id.inspect}"))
+      EVENT_NAMES[Integer id] || raise(Code::Invalid.new(new, "Unknown event name id: #{id.inspect}"))
     end
 
     def to_is_on val
@@ -24,7 +24,7 @@ class Screen_Name_Code
     # === READ methods ================
 
     def read_all_for_bot bot
-      Screen_Name_Code.new(TABLE.where(bot_id: bot.id).all)
+      Code.new(TABLE.where(bot_id: bot.id).all)
     end
 
     def read_by_screen_name_id_and_event_name_id id, raw_event_name_id
@@ -44,7 +44,7 @@ class Screen_Name_Code
     data[:code]
   end
 
-end # === class Screen_Name_Code read ===
+end # === class Code read ===
 
 
 

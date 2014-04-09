@@ -1,5 +1,5 @@
 
-class Screen_Name_Code
+class Code
 
   def update raw
     data = validate_code(raw)
@@ -11,7 +11,7 @@ class Screen_Name_Code
     )
   end # === def update
 
-end # === class Screen_Name_Code update ===
+end # === class Code update ===
 
 
 

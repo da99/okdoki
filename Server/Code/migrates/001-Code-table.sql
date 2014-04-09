@@ -1,5 +1,5 @@
 
-CREATE TABLE screen_name_code (
+CREATE TABLE code (
   id             serial   PRIMARY KEY,
   is_on          boolean                  NOT NULL DEFAULT false,
   screen_name_id integer                  NOT NULL,
@@ -10,10 +10,10 @@ CREATE TABLE screen_name_code (
   updated_at     timestamp with time zone
 );
 
-CREATE UNIQUE INDEX unique_screen_name_id_to_event_name_id_idx ON screen_name_code (screen_name_id, event_name_id);
+CREATE UNIQUE INDEX unique_screen_name_id_to_event_name_id_idx ON code (screen_name_id, event_name_id);
 
 -- DOWN
 
-DROP TABLE IF EXISTS screen_name_code;
+DROP TABLE IF EXISTS code CASCADE;
 
 

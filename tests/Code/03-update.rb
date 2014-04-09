@@ -1,34 +1,34 @@
 
 
-require './Server/Screen_Name_Code/model'
+require './Server/Code/model'
 
-describe "Screen_Name_Code: update" do
+describe "Code: update" do
 
   before do
     @sn = Screen_Name_Test.screen_name(1)
-    Screen_Name_Code::TABLE.delete
+    Code::TABLE.delete
   end
 
   it "updates record in database" do
     str = MultiJson.dump(['a', []])
-    r = Screen_Name_Code.create @sn, "on view profile", "[]"
+    r = Code.create @sn, "on view profile", "[]"
     r.update :code=> str
-    Screen_Name_Code::TABLE.where(id: r.id).first[:code].
+    Code::TABLE.where(id: r.id).first[:code].
       should == str
   end
 
   it "escapes :code" do
-    r = Screen_Name_Code.create @sn, "on view profile", "[]"
+    r = Code.create @sn, "on view profile", "[]"
 
     code = ['a', ["\""]]
     r.update :code=> MultiJson.dump(code)
 
-    Screen_Name_Code::TABLE.where(id: r.id).first[:code].
+    Code::TABLE.where(id: r.id).first[:code].
       should == MultiJson.dump(Okdoki::Escape_All.escape code)
   end
 
   it "updates its @data" do
-    r = Screen_Name_Code.create @sn, "on view profile", "[]"
+    r = Code.create @sn, "on view profile", "[]"
 
     code = ['a', ["\""]]
     r.update :code=> MultiJson.dump(code)
@@ -37,6 +37,6 @@ describe "Screen_Name_Code: update" do
       should == MultiJson.dump(Okdoki::Escape_All.escape code)
   end
 
-end # === describe Screen_Name_Code: update ===
+end # === describe Code: update ===
 
 

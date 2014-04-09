@@ -4,9 +4,9 @@ require './Server/Okdoki/Vador'
 require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
-require_crutd :Screen_Name_Code
+require_crutd :Code
 
-class Screen_Name_Code
+class Code
 
   include Okdoki::Model
 
@@ -18,7 +18,7 @@ class Screen_Name_Code
   # Settings
   # =====================================================
 
-  Table_Name = :screen_name_code
+  Table_Name = :code
   TABLE = DB[Table_Name]
 
   # =====================================================
@@ -79,7 +79,7 @@ class Screen_Name_Code
     hash
   end
 
-end # === class Screen_Name_Code ===
+end # === class Code ===
 
 
 

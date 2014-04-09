@@ -1,6 +1,4 @@
 
-require './Server/Okdoki/model'
-
 require_crutd :Consume
 
 class Consume
