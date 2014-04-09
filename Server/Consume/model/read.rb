@@ -1,5 +1,5 @@
 
-class Screen_Name_Code_Consume
+class Consume
 
   class << self
 
@@ -16,7 +16,7 @@ class Screen_Name_Code_Consume
     data[:consumer_id]
   end
 
-end # === class Screen_Name_Code_Consume read ===
+end # === class Consume read ===
 
 
 

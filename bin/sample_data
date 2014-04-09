@@ -13,7 +13,7 @@ end
 require "./Server/Customer/model"
 require "./Server/Screen_Name/model"
 require "./Server/Bot/model"
-require "./Server/Screen_Name_Code_Consume/model"
+require "./Server/Consume/model"
 
 
 begin

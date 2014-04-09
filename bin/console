@@ -9,7 +9,7 @@ bin/bundle exec pry \
   -r ./Server/Customer/model                  \
   -r ./Server/Screen_Name/model               \
   -r ./Server/Screen_Name_Code/model          \
-  -r ./Server/Screen_Name_Code_Consume/model  \
+  -r ./Server/Consume/model  \
   -r ./Server/Okdoki/console
 
 

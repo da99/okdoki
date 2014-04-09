@@ -1,9 +1,9 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Screen_Name_Code_Consume
+require_crutd :Consume
 
-class Screen_Name_Code_Consume
+class Consume
 
   include Okdoki::Model
 
@@ -45,7 +45,7 @@ class Screen_Name_Code_Consume
       data
   end
 
-end # === class Screen_Name_Code_Consume ===
+end # === class Consume ===
 
 
 

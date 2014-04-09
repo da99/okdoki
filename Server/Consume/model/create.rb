@@ -1,5 +1,5 @@
 
-class Screen_Name_Code_Consume
+class Consume
 
   class << self
 
@@ -24,7 +24,7 @@ class Screen_Name_Code_Consume
       insert(producer_id: data[:producer_id], consumer_id: data[:consumer_id]).
       first
     rescue Sequel::UniqueConstraintViolation => e
-      raise e unless e.message['unique constraint "screen_name_code_consume_unique"']
+      raise e unless e.message['unique constraint "consume_unique"']
       prod = raw[:producer].screen_name
       cons = raw[:consumer].screen_name
       raise self.class::Invalid.new(self, "Subscription already exists: #{cons} -> #{prod}")
@@ -34,7 +34,7 @@ class Screen_Name_Code_Consume
     self
   end # === def create
 
-end # === class Screen_Name_Code_Consume create ===
+end # === class Consume create ===
 
 
 

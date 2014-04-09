@@ -1,5 +1,5 @@
 
-class Screen_Name_Code_Consume
+class Consume
 
   class << self
 
@@ -13,7 +13,7 @@ class Screen_Name_Code_Consume
         LIMIT 1
       ^
       insert = %^
-        INSERT INTO screen_name_code_consume (bot_id, sn_id, is_on)
+        INSERT INTO consume (bot_id, sn_id, is_on)
           (SELECT id AS bot_id, :sn_id AS sn_id, :is_on AS is_on
           FROM   screen_name
           WHERE  screen_name = :bot_sn
@@ -29,12 +29,12 @@ class Screen_Name_Code_Consume
 
       row ||= DB[insert, :bot_sn=>bot_sn, :sn_id=>sn_id, :is_on=>is_on].first
 
-      Screen_Name_Code_Consume.new(row)
+      Consume.new(row)
     end # === def up_create
 
   end # === class self ===
 
-end # === class Screen_Name_Code_Consume up_create ===
+end # === class Consume up_create ===
 
 
 
