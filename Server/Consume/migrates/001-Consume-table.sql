@@ -2,7 +2,6 @@
 CREATE TABLE consume (
 
   id                serial              NOT NULL PRIMARY KEY,
-  is_on             boolean             NOT NULL DEFAULT true,
   producer_id       integer             NOT NULL,
   producer_class_id smallint            NOT NULL,
   consumer_id       integer             NOT NULL,
