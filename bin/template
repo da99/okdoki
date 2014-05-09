@@ -72,7 +72,7 @@ case "$action" in
     ;;
 
   test)
-    new_file="tests/$class/$(bin/template "$sub_action").rb"
+    new_file="specs/$class/$(bin/template "$sub_action").rb"
     ;;
 
   routes)
