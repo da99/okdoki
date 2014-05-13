@@ -17,4 +17,6 @@ bin/install_nodejs
 bin/install_nginx_conf
 bin/install_pg
 
+bin/bundle config build.nokogiri --use-system-libraries
+bin/bundle install
 
