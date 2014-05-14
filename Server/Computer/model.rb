@@ -4,9 +4,9 @@ require './Server/Okdoki/Vador'
 require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
-require_crutd :Code
+require_crutd :Computer
 
-class Code
+class Computer
 
   include Okdoki::Model
 
@@ -18,7 +18,7 @@ class Code
   # Settings
   # =====================================================
 
-  Table_Name = :code
+  Table_Name = :computer
   TABLE = DB[Table_Name]
 
   # =====================================================
@@ -79,7 +79,8 @@ class Code
     hash
   end
 
-end # === class Code ===
+end # === class Computer ===
+
 
 
 

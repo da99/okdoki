@@ -1,9 +1,9 @@
 
-CREATE TABLE code (
+CREATE TABLE computer (
 
   id             SERIAL                                    PRIMARY KEY,
 
-  class_id       smallint                 NOT NULL,
+  class_id          smallint              NOT NULL,
 
   producer_id       integer               NOT NULL,
   producer_class_id smallint              NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE code (
   created_at     timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
   updated_at     timestamp with time zone,
 
-  CONSTRAINT "code_unique_idx"
+  CONSTRAINT "computer_unique_idx"
     UNIQUE (producer_id, producer_class_id, class_id)
 
 );
@@ -25,7 +25,9 @@ CREATE TABLE code (
 -- DOWN
 
 
-DROP TABLE IF EXISTS code CASCADE;
+DROP TABLE IF EXISTS computer CASCADE;
+
+
 
 
 

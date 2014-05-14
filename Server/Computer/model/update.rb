@@ -1,5 +1,5 @@
 
-class Code
+class Computer
 
   def update raw
     data = validate_code(raw)
@@ -11,7 +11,7 @@ class Code
     )
   end # === def update
 
-end # === class Code update ===
+end # === class Computer ===
 
 
 
