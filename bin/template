@@ -67,6 +67,7 @@ tmpl="Server/Okdoki/templates/$action.rb"
 instance="$(echo $class | tr '[A-Z]' '[a-z]')"
 
 case "$action" in
+
   model)
     if [[ -z "$sub_action" ]]; then
       new_file="Server/$class/model.rb"
@@ -74,7 +75,7 @@ case "$action" in
       new_file="Server/$class/model/$sub_action.rb"
       tmpl="Server/Okdoki/templates/model.action.rb"
     fi
-    ;;
+    ;; # ===================================================
 
   migrate)
     . bin/model_list
@@ -86,20 +87,20 @@ case "$action" in
 
     bin/migrate_create "$class" "$@"
     exit 0
-    ;;
+    ;; # ===================================================
 
   spec)
     new_file="Server/$class/specs/$(bin/template "$sub_action").rb"
-    ;;
+    ;; # ===================================================
 
   routes)
     new_file="Server/$class/routes.rb"
-    ;;
+    ;; # ===================================================
 
   *)
     echo "Unknown command: $action" 1>&2
     exit 1
-    ;;
+    ;; # ===================================================
 
 esac # === case "$action"
 
