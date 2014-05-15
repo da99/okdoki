@@ -9,6 +9,9 @@ describe "Consume: create" do
     Consume::TABLE.delete
     @producer = Screen_Name_Test.owner(1)[:sn]
     @consumer = Screen_Name_Test.owner(2)[:sn]
+
+    @sn1 = Screen_Name_Test.screen_name 0
+    @sn2 = Screen_Name_Test.screen_name 1
   end
 
   it "creates a record with: :producer_id" do
@@ -38,6 +41,22 @@ describe "Consume: create" do
     message.
     should.
     match /Subscription already exists: #{@consumer.screen_name} -> #{@producer.screen_name}/
+  end
+
+  it "ignores duplicates of follows between the same consumer and publication" do
+    lambda {
+      Consume.create @sn2, :follows, @sn1
+      Consume.create @sn2, :follows, @sn1
+    }.should.not.raise
+
+    records = Consume::TABLE.where(:pub_class_id => 1, :pub_id=>@sn1.id, :follower_id=>@sn2.id).all
+
+    records.size.should == 1
+
+    rec = records.first
+    rec[:pub_class_id].should == 1
+    rec[:pub_id].should      == @sn1.id
+    rec[:follower_id].should == @sn2.id
   end
 
 end # === describe Consume: create ===

@@ -47,7 +47,7 @@ if [[ "$@" == "examples" ]]; then
 fi
 
 set +u
-fast_file="$( echo Server/$1/specs/*-$2.rb)"
+fast_file="$( echo Server/$1/specs/*-$2.rb )"
 set -u
 if [[ -f "$fast_file" ]]; then
   shift # -- file name
@@ -57,7 +57,7 @@ if [[ -f "$fast_file" ]]; then
 fi
 
 set +u
-fast_dir="$(  echo Server/$1/specs        )"
+fast_dir="$(  echo Server/$1/specs  )"
 set -u
 if [[ -d "$fast_dir" ]]; then
   shift # -- model name
