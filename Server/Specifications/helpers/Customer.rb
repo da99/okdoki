@@ -1,12 +1,9 @@
 
 require './Server/Customer/model'
-require './tests/helpers/Screen_Name'
 
 module Customer_Test
 
   PSWD = "this is a pass"
-
-  include Screen_Name_Test
 
   def create_customer
     sn = new_name
@@ -31,4 +28,3 @@ module Customer_Test
 
 end # === module Customer_Test ===
 
-Customer_Test.create_customer

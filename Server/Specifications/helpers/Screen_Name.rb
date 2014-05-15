@@ -1,7 +1,10 @@
 
 require './Server/Customer/model'
+require './Server/Specifications/helpers/Customer' unless Object.const_defined?(:Customer_Test)
 
 module Screen_Name_Test
+
+  include Customer_Test
 
   def new_name
     "ted_#{Time.now.strftime("%m%d%H%M%S%3N")}"
@@ -47,7 +50,6 @@ module Screen_Name_Test
   end # === class self
 
 end # === module Screen_Name_Test ===
-
 
 Screen_Name_Test.init
 
