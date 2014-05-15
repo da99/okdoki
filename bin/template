@@ -22,10 +22,10 @@ if [[ "$action" == "examples" ]]; then
   echo "bin/template  migrate Screen_Name"
   echo "bin/template  migrate Screen_Name  action_name"
   echo ""
-  echo "bin/template  create"
-  echo "  --> 01-create"
-  echo "bin/template  read"
-  echo "  --> 02-read"
+  echo "bin/template  create    --> 01-create"
+  echo "bin/template  read      --> 02-read"
+  echo "bin/template  up_create --> 06-up_create"
+  echo "bin/template  my_action --> XX-my_action"
   echo "==========================================="
   exit 0
 fi
