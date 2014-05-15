@@ -16,8 +16,8 @@ if [[ "$action" == "examples" ]]; then
   echo ""
   echo "bin/template  routes  Screen_Name"
   echo ""
-  echo "bin/template  test    Screen_Name"
-  echo "bin/template  test    Screen_Name  create"
+  echo "bin/template  spec    Screen_Name"
+  echo "bin/template  spec    Screen_Name  create"
   echo ""
   echo "bin/template  migrate Screen_Name"
   echo "bin/template  migrate Screen_Name  action_name"
@@ -88,8 +88,8 @@ case "$action" in
     exit 0
     ;;
 
-  test)
-    new_file="specs/$class/$(bin/template "$sub_action").rb"
+  spec)
+    new_file="Server/$class/specs/$(bin/template "$sub_action").rb"
     ;;
 
   routes)
