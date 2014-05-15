@@ -78,14 +78,14 @@ case "$action" in
 
   migrate)
     . bin/model_list
-    model=$1
-    if [[ ! "${mods[@]}" == *"$model"* ]]
+    if [[ ! "${mods[@]}" == *"$class"* ]]
     then
-      echo "$model not in list."
+      echo "$class not in list."
       exit 1
     fi
 
-    bin/migrate_create "$model" "$@"
+    bin/migrate_create "$class" "$@"
+    exit 0
     ;;
 
   test)
