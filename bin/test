@@ -5,12 +5,12 @@
 #
 # --- These are all equivalent:
 #
-#   bin/bundle exec bacon specs/MODEL/0X-action.rb
-#   bin/test   fast       specs/MODEL/0X-action.rb
+#   bin/bundle exec bacon Server/MODEL/specs/0X-action.rb
+#   bin/test   fast       Server/MODEL/specs/0X-action.rb
 #   bin/test   MODEL action
 #
 # --- or with `bin/migrate reset`:
-#   bin/test   specs/MODEL/0X-action.rb
+#   bin/test   Server/MODEL/specs/0X-action.rb
 #
 
 # ==============================================================
@@ -24,10 +24,10 @@ reset_color=$(tput sgr0)
 # ==============================================================
 
 skip=$1
-fast_file="$(echo specs/$1/*-$2.rb)"
-fast_dir="$(echo specs/$1)"
+fast_file="$( echo Server/$1/specs/*-$2.rb)"
+fast_dir="$(  echo Server/$1/specs        )"
 
-helpers="specs/helpers.rb"
+helpers="Server/Specifications/helpers.rb"
 cmd="bin/bundle exec bacon $helpers "
 
 set -e -u -o pipefail
@@ -80,7 +80,7 @@ done
 
 for m in ${test_mods[@]}
 do
-  for f in specs/$m/*.rb
+  for f in Server/$m/specs/*.rb
   do
     $cmd $f
   done
