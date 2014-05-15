@@ -6,11 +6,11 @@
 # --- These are all equivalent:
 #
 #   bin/bundle exec bacon Server/MODEL/specs/0X-action.rb
-#   bin/test   fast       Server/MODEL/specs/0X-action.rb
+#   bin/test              Server/MODEL/specs/0X-action.rb
 #   bin/test   MODEL action
 #
 # --- or with `bin/migrate reset`:
-#   bin/test   Server/MODEL/specs/0X-action.rb
+#   bin/test   reset      Server/MODEL/specs/0X-action.rb
 #
 
 # ==============================================================
@@ -23,9 +23,14 @@ bold_white=$(tput bold)${white}
 reset_color=$(tput sgr0)
 # ==============================================================
 
-skip=$1
-fast_file="$( echo Server/$1/specs/*-$2.rb)"
-fast_dir="$(  echo Server/$1/specs        )"
+if [[ "$1" == "reset" ]]; then
+  do_migrate=true
+  bin/migrate reset > /dev/null
+  shift
+else
+  do_migrate=false
+fi
+
 
 helpers="Server/Specifications/helpers.rb"
 cmd="bin/bundle exec bacon $helpers "
@@ -41,15 +46,21 @@ if [[ "$@" == "examples" ]]; then
   exit 0
 fi
 
+set +u
+fast_file="$( echo Server/$1/specs/*-$2.rb)"
+set -u
 if [[ -f "$fast_file" ]]; then
-  shift
-  shift
+  shift # -- file name
+  shift # -- action name
   $cmd $@ "$fast_file"
   exit 0
 fi
 
+set +u
+fast_dir="$(  echo Server/$1/specs        )"
+set -u
 if [[ -d "$fast_dir" ]]; then
-  shift
+  shift # -- model name
   for d in "$fast_dir"/*
   do
     $cmd $@ "$d"
@@ -57,34 +68,28 @@ if [[ -d "$fast_dir" ]]; then
   exit 0
 fi
 
-if [[ "$skip" == "fast" ]]
-then
-  shift
-else
-  bin/migrate reset > /dev/null
-fi
-
+# --- if regular test file to pass to bacon:
 if [[ ! -z "$@" ]]
 then
   $cmd "$@"
   exit 0
 fi
 
-# === Run each file separately...
+# --- Run all files:
 . bin/model_list
-test_mods=( Ok )
-for m in ${mods[@]}
-do
-  test_mods+=( "$m" )
-done
-
+test_mods=( Ok "${mods[@]}" )
+files=()
 for m in ${test_mods[@]}
 do
   for f in Server/$m/specs/*.rb
   do
-    $cmd $f
+    if [[ -f "$f" ]]; then
+      files+=("$f")
+    fi
   done
 done # === mod loop
+
+$cmd ${files[@]}
 
 
 
