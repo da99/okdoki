@@ -25,7 +25,7 @@ class File_Name
 
     def standardize raw
       clean = raw.strip.downcase
-      raise Invalid_Chars, "Invalid chars in: #{clean}" unless clean[VALID]
+      raise Invalid.new(clean, "Invalid chars in: #{clean}") unless clean[VALID]
       clean
     end
 
