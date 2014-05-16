@@ -1,5 +1,5 @@
 
-require './tests/helpers/Chit_Chat'
+require './Server/Message/specs/helpers'
 require './Server/Comment/model'
 
 include Chit_Chat_Test

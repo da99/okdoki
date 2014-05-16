@@ -1,6 +1,6 @@
 
 require 'Bacon_Colored'
-require './Server/Okdoki/specs/helpers/Customer'
+require './Server/Customer/specs/helpers'
 require 'pry'
 
 def days_ago_in_sql days

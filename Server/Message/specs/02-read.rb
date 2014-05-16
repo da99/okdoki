@@ -1,7 +1,6 @@
 
-require './tests/helpers/Follow'
-require './tests/helpers/Chit_Chat'
-require './Server/Chit_Chat/model'
+require './Server/Consume/specs/helpers'
+require './Server/Message/specs/helpers'
 
 include Follow_Test
 include Chit_Chat_Test

@@ -1,5 +1,5 @@
 
-require './tests/helpers/Screen_Name'
+require './Server/Screen_Name/specs/helpers'
 
 module Chit_Chat_Test
 

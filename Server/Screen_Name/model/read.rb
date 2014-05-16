@@ -27,6 +27,10 @@ class Screen_Name
       new TABLE[:screen_name=>Screen_Name.canonize(raw_sn)], "Screen name not found: #{raw_sn}"
     end
 
+    def read_first_by_customer customer
+      new TABLE.where(:owner_id=>customer.id).limit(1).first
+    end
+
     def read_list_by_customer c
       new TABLE.where(owner_id: c.data[:id]).all
     end

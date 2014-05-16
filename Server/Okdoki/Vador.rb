@@ -1,6 +1,18 @@
-
 module Okdoki
 
+
+  #
+  # Examples:
+  #
+  #   Okdoki::Vador.new(self, :producer_id, raw).
+  #     set_to_integer.
+  #     data
+  #
+  #
+  #   Okdoki::Vador.new(self, :consumer_id, raw).
+  #     set_to_integer.
+  #     data
+  #
   class Vador
 
     class << self # =====================================
