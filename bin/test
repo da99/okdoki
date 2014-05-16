@@ -59,12 +59,17 @@ fi
 set +u
 fast_dir="Server/$1/specs"
 set -u
+files=()
 if [[ -d "$fast_dir" ]]; then
   shift # -- model name
-  for d in "$fast_dir"/*-*.rb
+  for f in "$fast_dir"/*-*.rb
   do
-    $cmd $@ "$d"
+    files+=("$f")
   done
+
+  echo $cmd $@ ${files[@]}
+  echo ""
+  $cmd $@ ${files[@]}
   exit 0
 fi
 
@@ -90,6 +95,8 @@ do
 done # === mod loop
 
 echo $cmd ${files[@]} Server/Okdoki/specs/multi-unit/*
+echo ""
+$cmd ${files[@]} Server/Okdoki/specs/multi-unit/*
 
 
 
