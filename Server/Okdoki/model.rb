@@ -7,11 +7,11 @@ require './Server/Okdoki/List'
 require './Server/Okdoki/PG'
 
 
-CRUTD_Actions = [:create, :read, :update, :trash, :delete, :up_create]
+CRUD_Actions = [:create, :read, :update, :trash, :delete, :up_create, :read_create]
 
-def require_crutd *klasses
+def require_crud *klasses
   klasses.each do |klass|
-    CRUTD_Actions.each { |action|
+    CRUD_Actions.each { |action|
       begin
         file = "./Server/#{klass}/model/#{action}"
         require file

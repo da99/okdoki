@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :I_Know_Them
+require_crud :I_Know_Them
 
 class I_Know_Them
 

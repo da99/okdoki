@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :File_Name
+require_crud :File_Name
 
 class File_Name
 

@@ -1,5 +1,5 @@
 
-require_crutd :Consume
+require_crud :Consume
 
 class Consume
 

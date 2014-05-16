@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Permission
+require_crud :Permission
 
 class Permission
 

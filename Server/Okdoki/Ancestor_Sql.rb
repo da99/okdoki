@@ -44,7 +44,7 @@
 # ---------------------------------------------------------
 
 require 'i_dig_sql'
-require_crutd :Customer, :Screen_Name
+require_crud :Customer, :Screen_Name
 class Story
   include Okdoki::Model
   class << self

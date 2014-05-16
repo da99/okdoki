@@ -4,7 +4,7 @@ require './Server/Okdoki/Vador'
 require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
-require_crutd :Computer
+require_crud :Computer
 
 class Computer
 

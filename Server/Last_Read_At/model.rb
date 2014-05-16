@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Last_Read_At
+require_crud :Last_Read_At
 
 #
 #  Purpose:

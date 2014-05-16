@@ -14,7 +14,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Chit_Chat
+require_crud :Chit_Chat
 
 class Chit_Chat
 

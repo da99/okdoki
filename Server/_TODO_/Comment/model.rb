@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Comment
+require_crud :Comment
 
 class Comment
 

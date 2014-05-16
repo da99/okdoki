@@ -5,7 +5,7 @@ require "./Server/I_Know_Them/model"
 require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
-require_crutd :Screen_Name
+require_crud :Screen_Name
 
 class Screen_Name
 

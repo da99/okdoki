@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :MODEL
+require_crud :MODEL
 
 class MODEL
 

@@ -1,7 +1,7 @@
 
 require './Server/Okdoki/model'
 
-require_crutd :Notify
+require_crud :Notify
 
 class Notify
 
