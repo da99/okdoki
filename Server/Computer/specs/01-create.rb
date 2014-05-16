@@ -1,6 +1,6 @@
 
 
-require './Server/Code/model'
+require './Server/Consume/model'
 
 describe "Code: create" do
 

@@ -1,5 +1,5 @@
 
-require './Server/Code/model'
+require './Server/Consume/model'
 
 describe "Code: up_create" do
 

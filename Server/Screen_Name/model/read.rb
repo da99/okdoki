@@ -1,4 +1,4 @@
-require "./Server/Code/model"
+require "./Server/Consume/model"
 
 class Screen_Name
 
