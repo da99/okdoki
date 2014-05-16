@@ -12,15 +12,24 @@ class File_Name
   # Settings
   # =====================================================
 
-  Table_Name = :file_name
-  TABLE = DB[Table_Name]
+  Table_Name    = :file_name
+  TABLE         = DB[Table_Name]
+  VALID         = /\A[a-z0-9\-\_]+\Z/
+  Invalid_Chars = Class.new(StandardError)
 
   # =====================================================
   # Class
   # =====================================================
 
-  # class << self
-  # end # === class self ===
+  class << self
+
+    def standardize raw
+      clean = raw.strip.downcase
+      raise Invalid_Chars, "Invalid chars in: #{clean}" unless clean[VALID]
+      clean
+    end
+
+  end # === class self ===
 
   # =====================================================
   # Instance

@@ -9,7 +9,7 @@ describe "File_Name: read_create" do
 
   it "create a file_name record if it does not exist" do
     File_Name.read_create("Sky_Monster")
-    records = File_Name::TABLE.select(:file_name=>"sky_monster").map { |r|
+    records = File_Name::TABLE.where(:file_name=>"sky_monster").map { |r|
       r[:file_name]
     }
     records.should == ["sky_monster"]

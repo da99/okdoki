@@ -8,14 +8,6 @@ class Consume
 
   end # === class self ===
 
-  def producer_id
-    data[:producer_id]
-  end
-
-  def consumer_id
-    data[:consumer_id]
-  end
-
 end # === class Consume read ===
 
 
