@@ -1,6 +1,6 @@
 
 require './Server/Customer/model'
-require './Server/Specifications/helpers/Customer' unless Object.const_defined?(:Customer_Test)
+require './Server/Okdoki/specs/helpers/Customer' unless Object.const_defined?(:Customer_Test)
 
 module Screen_Name_Test
 
