@@ -25,6 +25,7 @@ if [[ "$action" == "examples" ]]; then
   echo "bin/template  create    --> 01-create"
   echo "bin/template  read      --> 02-read"
   echo "bin/template  up_create --> 06-up_create"
+  echo "bin/template  read_create --> 07-read_create"
   echo "bin/template  my_action --> XX-my_action"
   echo "==========================================="
   exit 0
@@ -50,6 +51,9 @@ if [[ -z "$@" ]]; then
       ;;
     up_create)
       echo "06-up_create"
+      ;;
+    read_create)
+      echo "07-read_create"
       ;;
     *)
       echo "XX-$action"

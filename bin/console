@@ -8,8 +8,7 @@ bin/bundle exec pry \
   -r ./Server/Okdoki/model                    \
   -r ./Server/Customer/model                  \
   -r ./Server/Screen_Name/model               \
-  -r ./Server/Code/model          \
-  -r ./Server/Consume/model  \
+  -r ./Server/Consume/model                   \
   -r ./Server/Okdoki/console
 
 
