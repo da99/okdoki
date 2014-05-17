@@ -3,13 +3,16 @@ CREATE TABLE computer (
 
   id                SERIAL                PRIMARY KEY,
 
-  -- generated from:
-  --   1 + MAX(file_id OF parent_id, parent_class_id, class_id)
+  -- refers to File_Name id:
+  class_id          integer               NOT NULL,
+
+  -- generated from
+  --   1 + MAX(file_id OF parent_id, parent_class_id, class_id):
   file_id           smallint              NOT NULL,
 
   owner_id          integer               NOT NULL,
 
-  title             varchar(60)           NOT NULL,
+  title             varchar(60)           DEFAULT NULL,
 
   code              text                  DEFAULT NULL,
   ss_code           text                  DEFAULT NULL,
@@ -18,7 +21,7 @@ CREATE TABLE computer (
   updated_at     timestamp with time zone,
 
   CONSTRAINT "computer_unique_idx"
-    UNIQUE (parent_id, parent_class_id, class_id, file_id)
+    UNIQUE (owner_id, class_id, file_id)
 
 );
 
