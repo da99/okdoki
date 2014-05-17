@@ -4,10 +4,8 @@ class Computer
   class << self
 
     def create owner, class_name, code
-      r = new
-      klass_id = File_Name.read_create(class_name).id
-      r.create(
-        :class_id => klass_id,
+      new.create(
+        :class_name => class_name,
         :owner_id => owner.id,
         :code     => code
       )
@@ -16,7 +14,7 @@ class Computer
   end # === class self ===
 
   def create data
-    data = validate_code(data)
+    data = validate_class_id( validate_class_name validate_code(data) )
 
     row = DB.fetch( %~
             INSERT INTO computer (file_id, owner_id, class_id, code)
