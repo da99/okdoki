@@ -3,7 +3,7 @@ class Computer
 
   def update owner, raw
     cols = [:code, :class_id]
-    data = validate_class_id(validate_code(raw)).select { |k,v|
+    data = validate_class_id(validate_class_name validate_code(raw)).select { |k,v|
       cols.include?(k)
     }
 

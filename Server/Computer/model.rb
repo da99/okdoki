@@ -40,6 +40,13 @@ class Computer
   end
 
   def validate_class_id hash
+    if hash.has_key?(:class_id)
+      hash[:class_id] = Integer(hash[:class_id])
+    end
+    hash
+  end
+
+  def validate_class_name hash
     if hash.has_key?(:class_name)
       hash[:class_id] = File_Name.read_create(hash[:class_name]).id
     end
