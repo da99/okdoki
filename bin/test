@@ -52,7 +52,8 @@ set -u
 if [[ -f "$fast_file" ]]; then
   shift # -- file name
   shift # -- action name
-  $cmd $@ "$fast_file"
+  echo $cmd "$fast_file"
+  $cmd "$fast_file"
   exit 0
 fi
 

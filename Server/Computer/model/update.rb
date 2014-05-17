@@ -1,14 +1,21 @@
 
 class Computer
 
-  def update raw
-    data = validate_code(raw)
+  def update owner, raw
+    cols = [:code, :class_id]
+    data = validate_class_id(validate_code(raw)).select { |k,v|
+      cols.include?(k)
+    }
+
     @data.merge!(
-      TABLE.returning.
+      TABLE.
+      returning.
       where(:id=>id).
-      update(:code=>data[:code]).
+      update(data).
       first || {}
     )
+
+    self
   end # === def update
 
 end # === class Computer ===

@@ -1,40 +1,47 @@
 
 
 require './Server/Consume/model'
+require './Server/Screen_Name/specs/helpers'
+require './Server/Computer/model'
+require './Server/Computer/specs/helpers'
 
-describe "Code: update" do
+describe "Code: .update" do
 
   before do
-    @sn = Screen_Name_Test.screen_name(1)
-    Code::TABLE.delete
+    Computer_Test.delete
+    @sn = Screen_Name_Test.list(0)
   end
 
   it "updates record in database" do
     str = MultiJson.dump(['a', []])
-    r = Code.create @sn, "on view profile", "[]"
-    r.update :code=> str
-    Code::TABLE.where(id: r.id).first[:code].
-      should == str
+    r = Computer.create @sn, "read-screen-name", "[]"
+    r.update @sn, :code=> str
+    Computer::TABLE.where(id: r.id)
+    .first[:code].should == str
+  end
+
+  it "updates :class_id using :class_name given" do
+    code = ['a', ["\""]]
+    r = Computer.create @sn, "VIEW-screen-name", "[]"
+    r.update @sn, :class_name=>'read-screen-name'
+    r.data[:class_id].should == File_Name.read('read-screen-name').id
   end
 
   it "escapes :code" do
-    r = Code.create @sn, "on view profile", "[]"
-
     code = ['a', ["\""]]
-    r.update :code=> MultiJson.dump(code)
+    r = Computer.create @sn, "read-screen-name", "[]"
+    r.update @sn, :code=> MultiJson.dump(code)
 
-    Code::TABLE.where(id: r.id).first[:code].
-      should == MultiJson.dump(Okdoki::Escape_All.escape code)
+    Computer::TABLE.where(id: r.id)
+    .first[:code].should == MultiJson.dump(Okdoki::Escape_All.escape code)
   end
 
   it "updates its @data" do
-    r = Code.create @sn, "on view profile", "[]"
-
     code = ['a', ["\""]]
-    r.update :code=> MultiJson.dump(code)
+    r = Computer.create @sn, "read-screen-name", "[]"
+    r.update @sn, :code=> MultiJson.dump(code)
 
-    r.data[:code].
-      should == MultiJson.dump(Okdoki::Escape_All.escape code)
+    r.data[:code].should == MultiJson.dump(Okdoki::Escape_All.escape code)
   end
 
 end # === describe Code: update ===

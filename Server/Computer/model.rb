@@ -33,7 +33,17 @@ class Computer
   # =====================================================
 
   def validate_code hash
-    hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(hash[:code]))
+    if hash.has_key?(:code)
+      hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(hash[:code]))
+    end
+    hash
+  end
+
+  def validate_class_id hash
+    if hash.has_key?(:class_name)
+      hash[:class_id] = File_Name.read_create(hash[:class_name]).id
+    end
+
     hash
   end
 
