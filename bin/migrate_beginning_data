@@ -11,7 +11,7 @@ ADMIN_PSWD = if ENV['IS_DEV']
 
 require './Server/Okdoki/model'
 
-%w{ Customer Screen_Name }.each { |m|
+%w{ Customer Screen_Name Computer }.each { |m|
   require "./Server/#{m}/model"
 }
 
@@ -24,7 +24,7 @@ c = Customer.create(
 
 sn = Screen_Name.create c, 'machine_publisher'
 
-Code.create sn, 'on view profile', %~
+Computer.create sn, 'read-screen-name', %~
   ["success_msg", ["Welcome!"]]
 ~
 
