@@ -1,33 +1,37 @@
 
+require './Server/File_Name/model'
+
 class Consume
 
   class << self
 
-    def create prod, cons
+    def create consumer, type, producer
       r = new
-      r.create :producer=>prod,
-        :consumer=>cons,
-        :producer_id=>prod.id,
-        :consumer_id=>cons.id
+      r.create(
+        :class_id   => File_Name.read(type.to_s).id,
+        :author_id => consumer.id,
+        :pub_id    => producer.id,
+        :pub_class_id => File_Name.read(producer.class.to_s).id,
+        :consumer_id => consumer.id,
+        :consumer_class_id => File_Name.read(consumer.class.to_s).id,
+      )
     end
 
   end # === class self ===
 
   def create raw
-    data = [:producer_id, :consumer_id].inject(raw) { |memo, v|
-      send "validate_#{v}", memo
-    }
+    data = raw
 
     begin
-    rec = TABLE.
-      returning.
-      insert(producer_id: data[:producer_id], consumer_id: data[:consumer_id]).
-      first
+
+      rec = TABLE.
+        returning.
+        insert(data).
+        first
+
     rescue Sequel::UniqueConstraintViolation => e
-      raise e unless e.message['unique constraint "consume_unique"']
-      prod = raw[:producer].screen_name
-      cons = raw[:consumer].screen_name
-      raise self.class::Invalid.new(self, "Subscription already exists: #{cons} -> #{prod}")
+      raise e unless e.message['unique constraint "consume_unique_idx"']
+      rec = TABLE.where(data).first
     end
 
     @data = rec

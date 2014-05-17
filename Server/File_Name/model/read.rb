@@ -16,6 +16,10 @@ class File_Name
 
   end # === class self ===
 
+  def id
+    data[:id]
+  end
+
   def file_name
     data[:file_name]
   end

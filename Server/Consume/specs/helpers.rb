@@ -3,12 +3,12 @@ require "./Server/Consume/model"
 
 module Consume_Test
 
-  def create_follow consumer, pub
-    Consume.create consumer, pub
-  end
+  class << self
 
-  def delete_all_follows
-    Consume::TABLE.delete
-  end
+    def delete
+      Consume::TABLE.delete
+    end
+
+  end # === class self
 
 end # === module Follow ===

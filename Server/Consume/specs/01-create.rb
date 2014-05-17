@@ -1,12 +1,12 @@
 
 require './Server/Consume/model'
-
-include Screen_Name_Test
+require './Server/Screen_Name/specs/helpers'
+require './Server/Consume/specs/helpers'
 
 describe "Consume: create" do
 
   before do
-    Consume::TABLE.delete
+    Consume_Test.delete
     @producer_1 = Screen_Name_Test.list 0
     @producer_2 = Screen_Name_Test.list 1
 
