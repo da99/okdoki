@@ -13,7 +13,7 @@ describe "Computer: create" do
 
   it "escapes :code" do
     code = '["a", ["\""]]'
-    r = Computer.create @sn, "read-screen-name", '["a", ["\""]]'
+    r = Computer.create @sn, "/", '["a", ["\""]]'
     raw = Computer::TABLE.where(:id=>r.id).first
     raw[:code].should == MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(code))
   end
