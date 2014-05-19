@@ -5,6 +5,7 @@ CREATE TABLE consume (
   class_id          INTEGER             NOT NULL,
 
   author_id         integer             NOT NULL,
+  is_by_computer    boolean             NOT NULL DEFAULT false,
 
   pub_id            integer             NOT NULL,
   pub_class_id      smallint            NOT NULL,

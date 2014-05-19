@@ -33,24 +33,28 @@ class Computer
   # =====================================================
 
   def validate_code hash
-    if hash.has_key?(:code)
-      hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(hash[:code]))
+    if !hash.has_key?(:code)
+      raise Invalid.new(self, "Code is required.")
     end
+    hash[:code] = MultiJson.dump(Okdoki::Escape_All.escape MultiJson.load(hash[:code]))
     hash
   end
 
-  def validate_class_id hash
-    if hash.has_key?(:class_id)
-      hash[:class_id] = Integer(hash[:class_id])
+  def validate_path hash
+    if !hash.has_key?(:path)
+      raise Invalid.new(self, "Path is required.")
     end
-    hash
-  end
+    raw = hash[:path].strip
 
-  def validate_class_name hash
-    if hash.has_key?(:class_name)
-      hash[:class_id] = File_Name.read_create(hash[:class_name]).id
+    if raw.length > 0 && raw !~ /\A[a-z0-9\_\-\/]+\*?\Z/
+      raise Invalid.new(self, "Invalid chars in path: #{raw}")
     end
 
+    if raw == "/*"
+      raise Invalid.new(self, "Not allowed, /*, because it will grab all pages.")
+    end
+
+    hash[:path] = raw
     hash
   end
 
