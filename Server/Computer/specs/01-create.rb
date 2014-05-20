@@ -30,6 +30,18 @@ describe "Computer: create" do
     raw[:path].should == '/'
   end
 
+  it "lowercases the path" do
+    r = Computer.create @sn, 'ABC/DEF/', @code
+    raw = Computer::TABLE.where(:id=>r.id).first
+    raw[:path].should == 'abc/def/'
+  end
+
+  it "removes beginning /" do
+    r = Computer.create @sn, '/ABC/DEF/', @code
+    raw = Computer::TABLE.where(:id=>r.id).first
+    raw[:path].should == 'abc/def/'
+  end
+
   it "raises Invalid for path: /*" do
     lambda {
       Computer.create @sn, '/*', @code
