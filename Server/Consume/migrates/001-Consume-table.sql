@@ -4,16 +4,13 @@ CREATE TABLE consume (
   id                serial              NOT NULL PRIMARY KEY,
   class_id          INTEGER             NOT NULL,
 
-  author_id         integer             NOT NULL,
-  is_by_computer    boolean             NOT NULL DEFAULT false,
-
+  pub_owner         integer             NOT NULL,
   pub_id            integer             NOT NULL,
   pub_class_id      smallint            NOT NULL,
 
+  consumer_owner    integer             NOT NULL,
   consumer_id       integer             NOT NULL,
   consumer_class_id smallint            NOT NULL,
-
-  settings          text                NOT NULL DEFAULT '{}',
 
   last_read_at      timestamp with time zone,
   created_at        timestamp with time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
@@ -24,7 +21,11 @@ CREATE TABLE consume (
   --   between the PUB and the CONSUMER.
   --   Therefore, the AUTHOR is irrelevent.
   CONSTRAINT   "consume_unique_idx"
-    UNIQUE (class_id, pub_id, consumer_id, pub_class_id, consumer_class_id)
+    UNIQUE (
+      class_id,
+      pub_id,       consumer_id,
+      pub_class_id, consumer_class_id
+    )
 
 );
 
