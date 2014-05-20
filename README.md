@@ -17,6 +17,21 @@ Common Tasks
     bin/migrate create My\_Model table
 
 
+Architecture
+------------
+
+* Customer and Screen Name oriented
+* No Computer generated code. Just settings and "subscriptions".
+* Limit the creation of tables as much as possible.
+  Forcing the use of Consume, you will sooner or later see a better solution.
+  Example: Banning and exceptions. When you ban a customer,
+  screen name, or customer, you still want to see their content
+  occasionally. It's easy to just create tables.
+    banning options: Ban as editor/author, ban all content,
+    ban from sending me messages
+    + 5 page exception limit
+    + (exceptions as settings)
+
 Complexity
 ----------
 

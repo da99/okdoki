@@ -4,10 +4,12 @@ CREATE TABLE consume (
   id                serial              NOT NULL PRIMARY KEY,
   class_id          INTEGER             NOT NULL,
 
+  -- Screen_Name :id
   pub_owner         integer             NOT NULL,
   pub_id            integer             NOT NULL,
   pub_class_id      smallint            NOT NULL,
 
+  -- Screen_Name :id
   consumer_owner    integer             NOT NULL,
   consumer_id       integer             NOT NULL,
   consumer_class_id smallint            NOT NULL,
