@@ -1,54 +1,68 @@
 
 require './Server/Computer/model'
+require './Server/Screen_Name/specs/helpers'
+require './Server/Computer/specs/helpers'
+
+require "json"
 
 describe "Computer: as-message-create" do
 
-  it "deletes old messages if message limit reached"
-  it "raises Invalid if body is empty"
-  it "raises Invalid if too any chars"
-  it "raises Chit_Chat::Invalid if body is greater than 1000 chars" do
+  before do
+    Computer_Test.delete_all
+
+    @sn1 = Screen_Name_Test.list 0
+    @sn2 = Screen_Name_Test.list 1
+    @code = [
+      "class",   ["okdoki message"],
+      "privacy", ["public"],
+      "body",    ["Hello 1"]
+    ]
+  end
+
+  it "deletes old messages if message limit reached" do
+    34.times { |i|
+      Computer.create @sn1, "/okdoki/messages", @code.to_json
+    }
+    Computer::TABLE.where(:owner_id=>@sn1.id).count.
+      should == 33
+  end
+
+  it "raises Invalid if body is empty" do
+    @code.pop
+    @code.push [""]
+
     lambda {
-      Chit_Chat.create @s1, ("0123456789" * 101)
-    }.should.raise(Chit_Chat::Invalid)
-    .msg.should.match(/Too many characters: 10 over the limit/)
+      Computer.create @sn1, "/okdoki/messages", @code.to_json
+    }.should.raise(Computer::Invalid).
+    message.should.match /Body is required/
   end
 
-  it "deletes oldest chit chat if more than #{Chit_Chat::Create_Limit}" do
-    first_cc = nil
-    (Chit_Chat::Create_Limit + 1).times do |i|
-      cc = Chit_Chat.create @s1, "msg #{i}"
-      first_cc ||= cc
-    end
+  it "raises Invalid if body has too many chars" do
+    @code.pop
+    @code.push [("a " * 1000)]
 
-    Chit_Chat::TABLE[:id=>first_cc.id]
-    .should == nil
+    lambda {
+      Computer.create @sn1, "/okdoki/messages", @code.to_json
+    }.should.raise(Computer::Invalid).
+    message.should.match /Too many charactors: \d\d over the limit/
   end
 
-  it "sets :oldest_deleted = true when oldest chit chat have been deleted" do
-    cc = nil
-    (Chit_Chat::Create_Limit + 1).times do |i|
-      cc = Chit_Chat.create @s1, "msg #{i}"
-    end
+  it "deletes comments from deleted old Computers" do
 
-    cc.data[:oldest_deleted].should == true
-  end
-
-  it "deletes comments from deleted old chit chats" do
-
-    first_cc = nil
-    first_comment  = nil
-    (Chit_Chat::Create_Limit + 1).times do |i|
-      cc = Chit_Chat.create @s1, "msg #{i}"
-      if !first_cc
-        first_cc = cc
-        first_comment  = Comment.create @s1, first_cc, "msg 1"
+    comment = nil
+    34.times do |i|
+      msg = Computer.create @sn1, "/okdoki/messages", @code.to_json
+      if i = 0
+        comment = Computer.create @sn2, "/#{@sn1.screen_name}/message/#{msg.id}/comments", [
+          "class", ["okdoki message comment"],
+          "body", ["my comment!"]
+        ].to_json
       end
     end
 
-    Comment::TABLE[:id=>first_comment.id]
+    Comment::TABLE[:id=>comment.id]
     .should == nil
   end
-
 
 end # === describe Computer: as-message-create ===
 
