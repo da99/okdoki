@@ -1,15 +1,54 @@
 
-require './Server/Consume/specs/helpers'
-require './Server/Message/specs/helpers'
+require './Server/Computer/model'
 
-include Follow_Test
-include Chit_Chat_Test
+module Chit_Chat_Test
 
-def pluck arr, key
-  arr.map { |a| a[key] }
-end
+  include Screen_Name_Test
 
-describe "Chit_Chat: read_inbox" do
+  def update_last_read_at sn, days
+    rows = Chit_Chat::TABLE_LAST_READ.
+      returning.
+      where(sn_id: sn.id).
+      update(last_read_at: days_ago_in_sql(days))
+    if rows.empty?
+      Chit_Chat::TABLE_LAST_READ.
+        returning.
+        insert(sn_id: sn.id, last_read_at: days_ago_in_sql(days))
+    end
+  end
+
+  def update_created_at msg, days
+    Chit_Chat::TABLE.
+      where(id: msg.id).
+      update(created_at: days_ago_in_sql(days))
+  end
+
+  def create_chit_chat author, body, days_old = nil
+    c = Chit_Chat.create author, body
+
+    if days_old
+      update_created_at c, days_old
+    end
+
+    c
+  end
+
+  def delete_all_chit_chats
+    Chit_Chat::TABLE.delete
+  end
+
+  Owner_1 = Screen_Name_Test.create_screen_name
+  Screen_Name_1 = Owner_1[:sn]
+
+  Owner_2 = Screen_Name_Test.create_screen_name
+  Screen_Name_2 = Owner_2[:sn]
+
+  Owner_3 = Screen_Name_Test.create_screen_name
+  Screen_Name_3 = Owner_3[:sn]
+
+end # === module Chit_Chat_Test ===
+
+describe "Computer: as-message-read" do
 
   before do
     delete_all_chit_chats
@@ -23,6 +62,8 @@ describe "Chit_Chat: read_inbox" do
     update_screen_name_privacy @sn2, :public
     update_screen_name_privacy @sn3, :public
   end
+
+  it "reads comment count for each message"
 
   it "grabs an array of Chit_Chats from people they follow" do
     create_follow @sn1, @sn2
@@ -90,6 +131,7 @@ describe "Chit_Chat: read_inbox" do
     .should == [2, 2]
   end
 
-end # === describe Chit_Chat: read ===
+
+end # === describe Computer: as-message-read ===
 
 
