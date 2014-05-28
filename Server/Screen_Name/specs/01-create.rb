@@ -1,6 +1,4 @@
 
-include Screen_Name_Test
-
 describe "Screen Name: create" do
 
   it "creates record if data validates" do
