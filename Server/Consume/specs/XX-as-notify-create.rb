@@ -1,9 +1,7 @@
 
-require './Server/Notify/model'
+require './Server/Consume/model'
 
-include Screen_Name_Test
-
-describe "Notify: create_or_update" do
+describe "Consume: as-notify-create" do
 
   before do
     Notify::TABLE.delete
@@ -51,6 +49,7 @@ describe "Notify: create_or_update" do
     n1[:updated_at].should.not == n2[:updated_at]
   end
 
-end # === describe Notify: create ===
+
+end # === describe Consume: as-notify-create ===
 
 

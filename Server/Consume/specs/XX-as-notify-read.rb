@@ -1,7 +1,7 @@
 
-require './Server/Notify/model'
+require './Server/Consume/model'
 
-describe "Notify: read_inbox" do
+describe "Consume: as-notify-read read_inbox" do
 
   before do
     Notify::TABLE.delete
@@ -63,6 +63,7 @@ describe "Notify: read_inbox" do
     msgs = Notify.read_inbox @sn4
     msgs.map(&:id).should == [n3.id, n2.id, n1.id]
   end
-end # === describe Notify: read ===
+
+end # === describe Consume: as-notify-read ===
 
 

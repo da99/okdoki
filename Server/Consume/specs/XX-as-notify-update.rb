@@ -1,7 +1,7 @@
 
-require './Server/Notify/model'
+require './Server/Consume/model'
 
-describe "Notify: update_last_read_at" do
+describe "Consume: as-notify-update update_last_read_at" do
 
   before do
     Notify::TABLE.delete
@@ -20,6 +20,6 @@ describe "Notify: update_last_read_at" do
     .match(/\d{4}-\d\d-\d\d \d\d:\d\d:\d\d -\d+/)
   end
 
-end # === describe Notify: update ===
+end # === describe Consume: as-notify-update ===
 
 
