@@ -5,13 +5,10 @@
 mods=(
 Customer
 Screen_Name
-Permission
 File_Name
-Consume
-Message
-Notify
-Computer
 Label
+Consume
+Computer
 )
 
 # === Create a reverse of the list.
