@@ -1,14 +1,14 @@
 
-require './Server/Permission/model'
+require './Server/Consume/model'
 
-include Screen_Name_Test
-
-describe "Permission: create" do
+describe "Consume: as-permission-create" do
 
   before do
     @sn1 = Screen_Name_Test.screen_name 0
     @sn2 = Screen_Name_Test.screen_name 1
   end
+
+  it "raises Invalid if permission has same to/from"
 
   it "adds a record with pub_class_id = 1 for life" do
     Permission.create @sn1, @sn1, @sn2
@@ -51,6 +51,7 @@ describe "Permission: create" do
     .should.match(/Permission can't be set for same person: #{sn1.screen_name}, #{sn2.screen_name}/)
   end
 
-end # === describe Permission: create ===
+
+end # === describe Consume: as-permission-create ===
 
 
