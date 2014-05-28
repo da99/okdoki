@@ -30,3 +30,13 @@ https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
 11 Remove RC4 from ssl setup
 
 12 file uploads: http://blog.detectify.com/post/86298380233/the-pitfalls-of-allowing-file-uploads-on-your-website
+
+13
+  // === from:http://blog.liftsecurity.io/post/37388272578/writing-secure-express-js-apps 
+  app.use(helmet.xframe());
+  app.use(helmet.iexss());
+  app.use(helmet.contentTypeOptions());
+  app.use(helmet.cacheControl());
+   
+
+
