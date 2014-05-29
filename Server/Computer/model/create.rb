@@ -3,10 +3,10 @@ class Computer
 
   class << self
 
-    def create owner, path, code
+    def create owner, code
       new.create(
         :owner_id => owner.id,
-        :path     => path,
+        :path     => WWW_Applet.new(code).extract_first("path").last,
         :code     => code
       )
     end

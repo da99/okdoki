@@ -13,7 +13,7 @@ describe "Computer: as-message-create" do
     @sn1 = Screen_Name_Test.list 0
     @sn2 = Screen_Name_Test.list 1
     @code = [
-      "class",   ["okdoki message"],
+      "class",   ["Okdoki/Message"],
       "privacy", ["public"],
       "body",    ["Hello 1"]
     ]
@@ -21,7 +21,7 @@ describe "Computer: as-message-create" do
 
   it "deletes old messages if message limit reached" do
     34.times { |i|
-      Computer.create @sn1, "/okdoki/messages", @code.to_json
+      Computer.create @sn1, @code.to_json
     }
     Computer::TABLE.where(:owner_id=>@sn1.id).count.
       should == 33
@@ -32,7 +32,7 @@ describe "Computer: as-message-create" do
     @code.push [""]
 
     lambda {
-      Computer.create @sn1, "/okdoki/messages", @code.to_json
+      Computer.create @sn1, @code.to_json
     }.should.raise(Computer::Invalid).
     message.should.match /Body is required/
   end
@@ -42,7 +42,7 @@ describe "Computer: as-message-create" do
     @code.push [("a " * 1000)]
 
     lambda {
-      Computer.create @sn1, "/okdoki/messages", @code.to_json
+      Computer.create @sn1, @code.to_json
     }.should.raise(Computer::Invalid).
     message.should.match /Too many charactors: \d\d over the limit/
   end
@@ -51,10 +51,11 @@ describe "Computer: as-message-create" do
 
     comment = nil
     34.times do |i|
-      msg = Computer.create @sn1, "/okdoki/messages", @code.to_json
+      msg = Computer.create @sn1, @code.to_json
       if i = 0
-        comment = Computer.create @sn2, "/#{@sn1.screen_name}/message/#{msg.id}/comments", [
-          "class", ["okdoki message comment"],
+        comment = Computer.create @sn2, [
+          "class",   ["Okdoki/Comment"],
+          "message", [msg.id.to_s],
           "body", ["my comment!"]
         ].to_json
       end

@@ -2,7 +2,7 @@
 require './Server/Okdoki/model'
 require './Server/Okdoki/Vador'
 require './Server/Okdoki/Escape_All'
-require 'multi_json'
+require 'www_applet'
 
 require_crud :Computer
 

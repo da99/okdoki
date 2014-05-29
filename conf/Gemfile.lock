@@ -85,6 +85,9 @@ GEM
       rack
       raindrops (~> 0.7)
     webrobots (0.1.1)
+    www_applet (0.1.2)
+      multi_json (~> 1.10)
+      yajl-ruby (~> 1.2)
     yajl-ruby (1.2.0)
 
 PLATFORMS
@@ -112,4 +115,5 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   unicorn
+  www_applet
   yajl-ruby

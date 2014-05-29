@@ -25,6 +25,7 @@ gem 'sequel'
 gem 'pg'
 gem 'addressable'
 gem 'i_dig_sql'
+gem 'www_applet'
 
 group :development do
   gem 'dot_why'
