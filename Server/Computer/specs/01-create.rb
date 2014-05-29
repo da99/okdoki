@@ -51,16 +51,6 @@ describe "Computer: create" do
     .message.should.match /Not allowed. \/\*/
   end
 
-  it "raises Invalid if there are more than 5 records of STRING/.../* paths created" do
-    lambda {
-      6.times do |i|
-        @code[1] = ["book/#{i}/*"]
-        Computer.create @sn, MultiJson.dump(@code)
-      end
-    }.should.raise(Computer::Invalid)
-    .message.should.match /Too many similar paths: book\/\.\.\.\/\*/
-  end
-
 end # === describe Code: create ===
 
 
