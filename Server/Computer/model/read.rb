@@ -1,6 +1,8 @@
 
 class Computer
 
+  SLASH_ENDS = /\A\/|\/\Z/
+
   class << self # =====================
 
     # === Helpers =====================
@@ -32,6 +34,36 @@ class Computer
         where(:screen_name_id=>id, :event_name_id=>raw_event_name_id).
         limit(1).
         first
+    end
+
+    def read_by_path owner, raw_path
+      path     = raw_path.downcase.gsub(SLASH_ENDS, '')
+      sn       = owner.screen_name
+      pieces   = path.split('/')
+      possible = pieces.inject([]) { |memo, v|
+        if !memo.last
+          memo.push v+'/*'
+        else
+          memo.push "#{memo.last}/#{v}/*"
+        end
+        memo
+      }.reverse
+      possible.unshift path
+      rec = DB[%^
+        SELECT path, code, ss_code, 1000 AS path_size
+        FROM #{Table_Name}
+        WHERE owner_id = :owner_id AND path = :path
+
+        UNION
+
+        SELECT path, code, ss_code, char_length("path") AS path_size
+        FROM #{Table_Name}
+        WHERE owner_id = :owner_id AND path IN :possible
+
+        ORDER BY "path_size" DESC
+      ^, :owner_id=>owner.id, :path=> path, :possible=>possible].first
+      fail Not_Found.new("#{File.join owner.screen_name, path}") unless rec
+      WWW_Applet.new(rec[:code])
     end
 
   end # === class self ================
