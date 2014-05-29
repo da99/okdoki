@@ -37,8 +37,8 @@ case "$action" in
     echo ""
     ;;
 
-  beginning_data)
-    bin/migrate_beginning_data
+  default_data)
+    bin/migrate_default_data
     ;;
 
   list)
@@ -50,7 +50,7 @@ case "$action" in
     bin/migrate down "$model"
     bin/migrate up   "$model"
     if [[ -z "$model" ]]; then
-      ALLOW_BANNED_SCREEN_NAME=true bin/migrate beginning_data
+      ALLOW_BANNED_SCREEN_NAME=true bin/migrate default_data
     fi
 
     echo "

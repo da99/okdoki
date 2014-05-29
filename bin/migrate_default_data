@@ -19,6 +19,13 @@ c = Customer.create(
   :ip                =>'127.0.0.1',
   :pass_word         =>ADMIN_PSWD,
   :confirm_pass_word =>ADMIN_PSWD,
+  :screen_name       =>"okdoki"
+)
+
+c = Customer.create(
+  :ip                =>'127.0.0.1',
+  :pass_word         =>ADMIN_PSWD,
+  :confirm_pass_word =>ADMIN_PSWD,
   :screen_name       =>"megauni"
 )
 
