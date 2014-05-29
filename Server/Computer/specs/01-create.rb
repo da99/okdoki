@@ -43,13 +43,6 @@ describe "Computer: create" do
     raw[:path].should == 'abc/def/'
   end
 
-  it "removes beginning /" do
-    @code[1] = ['/ABC/DEF/']
-    r = Computer.create @sn, MultiJson.dump(@code)
-    raw = Computer::TABLE.where(:id=>r.id).first
-    raw[:path].should == 'abc/def/'
-  end
-
   it "raises Invalid for path: /*" do
     @code[1] = ['/*']
     lambda {
@@ -61,7 +54,7 @@ describe "Computer: create" do
   it "raises Invalid if there are more than 5 records of STRING/.../* paths created" do
     lambda {
       6.times do |i|
-        @code[1] = "book/#{i}/*"
+        @code[1] = ["book/#{i}/*"]
         Computer.create @sn, MultiJson.dump(@code)
       end
     }.should.raise(Computer::Invalid)

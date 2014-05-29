@@ -1,5 +1,4 @@
 
-require './Server/Chit_Chat/model'
 
 class Customer
 

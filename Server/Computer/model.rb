@@ -44,7 +44,7 @@ class Computer
     if !hash.has_key?(:path)
       raise Invalid.new(self, "Path is required.")
     end
-    raw = hash[:path].strip
+    raw = hash[:path].strip.downcase
 
     if raw.length > 0 && raw !~ /\A[a-z0-9\_\-\/]+\*?\Z/
       raise Invalid.new(self, "Invalid chars in path: #{raw}")

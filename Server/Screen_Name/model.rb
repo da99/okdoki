@@ -1,7 +1,6 @@
 
 require './Server/Okdoki/model'
 require './Server/Screen_Name/List'
-require "./Server/I_Know_Them/model"
 require './Server/Okdoki/Escape_All'
 require 'multi_json'
 
