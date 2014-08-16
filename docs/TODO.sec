@@ -42,6 +42,8 @@ https://www.djangoproject.com/weblog/2013/aug/06/breach-and-django/
 14: Sinatra, cookies, secured apps:
    http://blog.fil.vasilak.is/blog/2014/02/08/securing-sinatra-micro-framework/?utm_source=rubyweekly&utm_medium=email
 
+15: Securerandom + rack protection:
+   https://github.com/patriciomacadden/hobbit
 
 
 
