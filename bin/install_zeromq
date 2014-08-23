@@ -1,3 +1,0 @@
-sudo apt-get install libzmq-dbg libzmq-dev 
-sudo apt-get install libtool autoconf automake uuid-dev build-essential
-sudo apt-get install zeromq

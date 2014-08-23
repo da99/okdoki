@@ -3,7 +3,20 @@
 #
 set -o pipefail
 set -e
+PORT="$PORT"
 set -u
 
-pkill --signal INT -f "node Server/App/app"
+cmd="node Server/Okdoki/app.js"
+
+if [[ -n "$PORT" ]]
+then
+  cmd="$cmd $PORT"
+fi
+
+if [[ -n "$@" ]]
+then
+  cmd="$cmd $@"
+fi
+
+pkill --signal INT -f "$cmd"
 

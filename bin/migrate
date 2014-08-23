@@ -1,56 +1,110 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-cmd="$1"
+#
+
+action="$1"
+shift
+
+model="$1"
+shift
+
+other="$@"
+
 set -u -e -o pipefail
 
-mods=( Customer Screen_Name Home_Page Contact Chat Comment Follow Label Post )
-mods=( Customer Screen_Name Home_Page Contact IM );
+. bin/env
+. bin/model_list
 
-bin="../../node_modules/duck_duck_duck/bin/duck_duck_duck"
 
-if [[ "$cmd" == "" ]]
+if [[ -z "$action" ]]
 then
-  cmd="up"
+  action="up"
 fi
 
-if [[ "$cmd" == "create" ]]
-then
 
-  if [[ ! "${mods[@]}" == *"$2"* ]]
-  then
-    echo "$2 not in list."
-    exit 1
-  fi
+# === This is the last CASE statement
+# ===   No EXIT calls should be necessary in
+# ===   each option.
+case "$action" in
 
-  cd "Server/$2"
-  $bin create $3
-  cd ../..
+  examples)
+    echo ""
+    echo "=== Examples for development:"
+    echo "bin/migrate reset"
+    echo "bin/migrate reset MODEL"
+    echo "============================="
+    echo ""
+    ;;
 
-else
+  default_data)
+    bin/migrate_default_data
+    ;;
 
-  if [[ "$cmd" == "down" ]]
-  then
-    if [ ! -n "${IS_DEV+x}" ]
-    then
-      echo "This is not a dev machine."
-      exit 1
+  list)
+    echo "not ready"
+    echo 1
+    ;;
+
+  reset)
+    bin/migrate down "$model"
+    bin/migrate up   "$model"
+    if [[ -z "$model" ]]; then
+      ALLOW_BANNED_SCREEN_NAME=true bin/migrate default_data
     fi
-  fi
 
-  if [[ ! "$cmd" == "up" ]]
-  then
-    echo "Unknown command: $cmd"
+    echo "
+===== DONE =====
+"
+    ;;
+
+  up)
+    if [[ -z "$model" ]]
+    then
+
+      for m in ${mods[@]}
+      do
+        echo "=== Migrating: up $m"
+        bin/migrate_up $m
+        echo ""
+      done
+    else
+      bin/migrate_up $model
+    fi
+    ;;
+
+  down)
+    if [[ -z "$model" ]]
+    then
+
+      # === Ensure dev machine.
+      if [ ! -n "${IS_DEV+x}" ]
+      then
+        echo "This is not a dev machine."
+        exit 1
+      fi
+
+      # === Reverse list
+      for m in ${rev_mods[@]}
+      do
+        echo "=== Migrating: down $m"
+        bin/migrate_down $m
+        echo ""
+      done
+
+    else
+      bin/migrate_down $model
+    fi
+    ;;
+
+  *)
+    echo "Unknown command: $action"
     exit 1
-  fi
+    ;;
 
-  for m in "${mods[@]}"
-  do
-    cd "Server/$m"
-    echo "$m"
-    $bin up $@
-    cd ../..
-  done
+esac
 
-fi
+# ====== The end. ======
+
+
 

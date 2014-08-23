@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# -*- bash -*-
+#
+set -u -e -o pipefail
+upload_app
+
+bin/regenerate_deploy_cache
+git checkout mu_mind -- $folder

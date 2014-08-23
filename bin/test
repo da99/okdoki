@@ -1,26 +1,111 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-set -u
-set -e
-set -o pipefail
+#   bin/test MODEL
+#
+# --- These are all equivalent:
+#
+#   bin/bundle exec bacon Server/MODEL/specs/0X-action.rb
+#   bin/test              Server/MODEL/specs/0X-action.rb
+#   bin/test   MODEL action
+#
+# --- or with `bin/migrate reset`:
+#   bin/test   reset      Server/MODEL/specs/0X-action.rb
+#
 
+# ==============================================================
 # http://www.ibm.com/developerworks/aix/library/au-learningtput/
 green_bg=$(tput setb 2)
 white=$(tput setaf 7)
-reset_color=$(tput sgr0)
 bold_white_on_green=$(tput bold)${white}${green_bg}
 bold_white=$(tput bold)${white}
 
-# echo ""
-# echo "Resetting db..."
-# bin/migrate reset
+reset_color=$(tput sgr0)
+# ==============================================================
 
+if [[ "$1" == "reset" ]]; then
+  do_migrate=true
+  bin/migrate reset > /dev/null
+  shift
+else
+  do_migrate=false
+fi
+
+
+helpers="Server/Okdoki/specs/helpers.rb"
+cmd="bin/bundle exec bacon $helpers "
+
+set -e -u -o pipefail
+
+if [[ "$@" == "examples" ]]; then
+  echo "$bold_white"
+  echo "bin/test                   "
+  echo "bin/test fast              "
+  echo "bin/test Screen_Name create  # === fast implied"
+  echo "$reset_color"
+  exit 0
+fi
+
+# Find first file in Server/$1/specs/*-$2.rb
+# Then exit.
+set +u
+fast_files="$( echo Server/$1/specs/*-$2.rb )"
+set -u
+for f in $fast_files; do
+  if [[ -f "$f" ]]; then
+    shift # -- file name
+    shift # -- action name
+    echo $cmd $f "$@"
+    $cmd $f "$@"
+    exit 0
+  fi
+done
+
+set +u
+fast_dir="Server/$1/specs"
+set -u
+files=()
+if [[ -d "$fast_dir" ]]; then
+  shift # -- model name
+  for f in "$fast_dir"/*-*.rb
+  do
+    files+=("$f")
+  done
+
+  echo $cmd $@ ${files[@]}
+  echo ""
+  $cmd $@ ${files[@]}
+  exit 0
+fi
+
+# --- if regular test file to pass to bacon:
+if [[ ! -z "$@" ]]
+then
+  $cmd "$@"
+  exit 0
+fi
+
+# --- Run all files:
+. bin/model_list
+test_mods=( Ok "${mods[@]}" )
+files=()
+for m in ${test_mods[@]}
+do
+  for f in Server/$m/specs/*-*.rb
+  do
+    if [[ -f "$f" ]]; then
+      files+=("$f")
+    fi
+  done
+done # === mod loop
+
+echo $cmd ${files[@]} Server/Okdoki/specs/multi-unit/*
 echo ""
-echo "Running nodejs/mocha tests..."
-bin/mocha
+$cmd ${files[@]} Server/Okdoki/specs/multi-unit/*
 
-# echo -e "${bold_white}   ALL TESTS ENDED   ${reset_color}"
+
+
+
 
 
 

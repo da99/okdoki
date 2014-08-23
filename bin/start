@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
 # -*- bash -*-
 #
-set -o pipefail
-set -e
+PORT="$PORT"
+set -e -u -o pipefail
 
 
-if [ -z "$PORT" ];
-then PORT="5000";
+# --- lua
+# eval "$(luarocks path)"
+# openresty/nginx/sbin/nginx -p $(pwd)/logs -c $(pwd)/conf/nginx.dev.conf
+
+# --- ruby
+if [[ -z "$PORT" ]]
+then
+  PORT=1111
 fi
 
-set -u
+export PORT=$PORT
+export RACK_ENV=production
 
-NODE_ENV=production PORT=$PORT node Server/App/app.js $PORT
+bin/bundle exec unicorn -p $PORT -E production -c conf/unicorn.rb conf/config.ru
